@@ -1,0 +1,27 @@
+
+The list of contributors you can find in the file AUTHORS.
+
+For Contributors
+~~~~~~~~~~~~~~~~
+
+If you find a bug and describe it in the bugtracker
+  https://sourceforge.net/tracker/?group_id=201199&atid=976599
+I'll be grateful.
+If you send me a patch, I'll be very grateful.
+
+Can attach the patch directly in the bugtracker or send it to me by email tim4dev@gmail.com
+
+If you are working with Git, then use
+  git send-email
+And follow these simple rules :
+"Pro Git : Commit Guidelines" http://progit.org/book/ch5-2.html
+
+
+
+For Translators
+~~~~~~~~~~~~~~~
+
+Webacula support multilingual - standard gettext (*.mo) files.
+Make copy languages/default.po and modify for your language.
+And send me the file as described above.
+

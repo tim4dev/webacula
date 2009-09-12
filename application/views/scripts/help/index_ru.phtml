@@ -1,0 +1,48 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<div align="center" style="width: 680px; margin-left: auto; margin-right: auto; text-align: left;">
+<img src="<?php echo $this->baseUrl; ?>/images/WEBacula_logo.png">
+
+	<h1 style="color : #002244;">Webacula <?php echo Zend_Registry::get('webacula_version'); ?></h1>
+	<p><strong>
+	<a href="http://webacula.sourceforge.net/" name="webacula" target="_blank">
+	Webacula</a>
+	</strong> - <strong>We</strong>b + <strong>Bacula</strong> -
+	веб-интерфейс для
+	<a href="http://www.bacula.org/" name="Bacula" target="_blank">Bacula backup system</a>.</p>
+
+	<p>&nbsp;</p>
+	<h1>Системные требования</h1>
+	<ul>
+	<li>Bacula 3.0 или выше.</li>
+	<li>Полностью поддерживаются СУБД <b>MySQL и PostgreSQL</b>. <font  style="color : #ff0000;">NEW!</font>
+	</li>
+	<li>Zend Framework версии 1.8.3</li>
+	<li>Zend Framework требует PHP 5 версии 5.2.4 или выше с установленным расширением PDO. Смотрите
+   	<a href="http://framework.zend.com/manual/ru/requirements.html" target="_blank">Приложение A. System Requirements</a> для более детальной информации.</li>
+	<li>Apache и модуль mod_rewrite.</li>
+	<li>Установленный пакет php-gd.</li>
+	<li><a href="http://docs.jquery.com/Browser_Compatibility" target="_blank">Совместимость с браузерами</a>.</li>
+	</ul>
+	<p>&nbsp;</p>
+	<h1>Условные обозначения</h1>
+	<p>
+	<font  style="background-color : #ffff00;">Желтый цвет</font> - предупреждения.
+	</p>
+	<p>
+	<font  style="background-color : #ff0000; color : #ffffff;">Красный цвет</font> - ошибки, сбои.
+	</p>
+	<p>&nbsp;</p>
+	<h1>Информация</h1>
+	<p>
+	<ul>
+	<li>БД Bacula   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></li>
+	<li>БД Webacula : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula; ?></li>
+	<li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">php info</a> (в отдельном окне)</li>
+	<li><a href="<?php echo $this->baseUrl, '/help/my-id/' ?>" target="_blank">id</a> (в отдельном окне)</li>
+	</ul>
+	</p>
+
+<?php echo $this->render('help/help_footer.phtml'); ?>
+
+<?php echo $this->render('footer.phtml'); ?>

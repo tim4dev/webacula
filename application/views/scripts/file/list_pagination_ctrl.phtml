@@ -1,0 +1,43 @@
+<!-- paginationControl -->
+
+<?php $this->translate = Zend_Registry::get('translate'); ?>
+
+<?php if ($this->pageCount): ?>
+<div align="center">
+<p>
+<?php
+    echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
+?>
+</p>
+
+<!-- Ссылка на первую страницу -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->first)),'">', $this->translate->_('First</a>'), ' &nbsp;'; ?>
+<?php endif; ?>
+
+<!-- Ссылка на предыдущую страницу -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->previous)), '">&lt; ', $this->translate->_('Previous</a>'), ' &nbsp;'; ?>
+<?php endif; ?>
+
+<!-- Нумерованные ссылки на страницы -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a href="<?php echo $this->url(array('page' => $page)), '"> ', $page; ?></a> &nbsp;
+  <?php else: ?>
+    <?php echo $page; ?> &nbsp;
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Ссылка на следующую страницу -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->next)), '">', $this->translate->_('Next &gt;'), '</a> &nbsp;'; ?>
+<?php endif; ?>
+
+<!-- Ссылка на последнюю страницу -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->last)), '">', $this->translate->_('Last</a>'); ?>
+<?php endif; ?>
+</div>
+<?php endif; ?>
+

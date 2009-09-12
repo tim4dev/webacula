@@ -1,0 +1,125 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1 align="center"><?php echo $this->escape($this->titleJob); ?></h1>
+
+<center><p>
+<a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
+<?php print $this->translate->_("Listing files"); ?>
+</a>
+<br>
+<?php if ($this->resultJob): ?>
+<a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->jobid . '/jobname/' . $this->resultJob[0]['name']; ?>">
+<?php endif; ?>
+<?php print $this->translate->_("Console Messages"); ?>
+</a>
+</p>
+</center>
+
+<?php if ($this->resultJob): ?>
+<div align="center">
+<table id="box-table-one-column">
+<colgroup>
+	<col class="col-first">
+</colgroup>
+<thead>
+</thead>
+<tbody>
+<?php foreach($this->resultJob as $line) : ?>
+<tr>
+	<td> <?php print $this->translate->_("Job Id"); ?> </td>
+	<td><?php echo $this->escape($line['jobid']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Unique Job Name"); ?> </td>
+	<td><?php echo $this->escape($line['job']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Job Name"); ?> </td>
+	<td><?php echo $this->escape($line['name']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Purged Files"); ?> </td>
+	<td><?php echo $this->Int2Char($this->escape($line['purgedfiles']));?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Job Type"); ?> </td>
+	<td><?php echo $this->DecodeJobType($this->escape($line['type'])); ?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Level"); ?> </td>
+	<td><?php echo $this->escape($line['level']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Client/Version"); ?> </td>
+	<td><?php echo $this->escape($line['clientname']);?><br>
+	<?php echo $this->escape($line['clientuname']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Status"); ?> </td>
+	<td><?php echo $this->translate->_( $this->escape($line['jobstatuslong']) ); ?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Schedule Time"); ?> </td>
+	<td><?php echo $this->escape($line['schedtime']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Start Time"); ?> </td>
+	<td><?php echo $this->escape($line['starttime']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("End Time"); ?> </td>
+	<td><?php echo $this->escape($line['endtime']);?></td>
+</tr><tr>
+	<td> <?php print $this->translate->_("Duration"); ?> </td>
+	<td><?php echo $this->escape($line['durationtime']);?></td>
+</tr><tr>
+	<td> <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
+		"/name/" . $this->escape($line['poolname']);?>"> <?php print $this->translate->_("Pool"); ?> </a>
+	</td>
+	<td>
+	<a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
+		"/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Volume"); ?>">
+		<?php echo $this->escape($line['poolname']);?></a>
+	</td>
+</tr><tr>
+	<td> <a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
+	<?php print $this->translate->_("Listing files"); ?></a>
+	</td>
+	<?php
+		if ( $this->escape($line['jobfiles']) != 0 )
+			$class = '';
+		else
+			$class = 'class="warn"';
+		echo '<td ', $class, '>', number_format($this->escape($line['jobfiles'])), '</td>';
+	?>
+</tr><tr>
+	<td> <?php print $this->translate->_("Bytes"); ?> </td>
+	<?php
+		if ( $this->escape($line['jobbytes']) != 0 )
+			$class = '';
+		else
+			$class = 'class="warn"';
+		echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
+	?>
+</tr><tr>
+	<td> <?php print $this->translate->_("Errors"); ?> </td>
+	<?php
+		if ( $this->escape($line['joberrors']) == 0 )
+			echo '<td>-</td>';
+		else
+			echo '<td class="err">' . $this->escape($line['joberrors']) . '</td>';
+	?>
+</tr><tr>
+	<td> <?php print $this->translate->_("Volume(s)"); ?> </td>
+	<td>
+		<?php
+			if ($this->resultVol)	{
+				foreach($this->resultVol as $line2)	{
+					echo $this->escape($line2['volumename']) . '<br>';
+				}
+			}
+			else
+				echo $this->translate->_("No Volumes found.");
+		?>
+	</td>
+</tr>
+<?php endforeach; ?>
+<tbody>
+</table>
+</div>
+
+<?php else: ?>
+	<div align="center"><p><b><?php print $this->translate->_("No Jobs found."); ?></b></p></div>
+<?php endif; ?>
+
+
+<?php echo $this->render('footer.phtml'); ?>

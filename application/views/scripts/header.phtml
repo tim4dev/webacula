@@ -1,0 +1,91 @@
+<?php
+header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");               // Date in the past
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");  // Always modified
+header("Cache-Control: no-cache, must-revalidate");             // HTTP/1.1
+header("Pragma: no-cache");                                     // HTTP/1.0
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />	
+	<title><?php echo $this->escape($this->title); ?></title>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/site.css" />
+	<meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed">
+
+<!-- main menu -->
+<!-- http://users.tpg.com.au/j_birch/plugins/superfish/ -->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/superfish.css" media="screen">
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/hoverIntent.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/superfish.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/jquery-ui-1.7.2.custom.css");</style>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
+
+<script type="text/javascript">
+	$j = jQuery.noConflict();
+	$j(document).ready(function() { 
+        $j('ul.sf-menu').superfish({ 
+            delay:       500,                            // second delay on mouseout 
+            animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation 
+            speed:       'fast',                         // faster animation speed 
+            autoArrows:  true,                           // disable generation of arrow mark-up 
+            dropShadows: true                            // disable drop shadows 
+        }); 
+    });
+</script>
+<!-- END main menu -->
+
+<?php echo $this->MainmenuFloat($this); ?>
+
+<!-- bottom menu -->
+<style type="text/css">
+div#bottommenu
+{
+   margin-top: 8em;
+   margin-left: 0;
+   margin-right: 0;
+   width: 100%;
+
+   text-align: center; /* align left to fix the previous IE css bug */
+
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 11px;
+   background-color:#002244;
+   color:white;
+   padding: 1px 1px;
+   clear: both;
+}
+
+.bottommenua a {
+   padding: 1px 1px;
+   background-color: #002244;
+   color: white;
+}
+
+/* наведение мышкой */
+.bottommenua a:hover{
+   background-color:#00458A;
+   color: #FFFF33;
+}
+
+</style>
+<!-- END bottom menu -->
+
+</head>
+<body>
+
+<?php echo $this->render('header_menu.phtml'); ?>
+<?php $translate = Zend_Registry::get('translate'); ?>
+
+<script type="text/javascript">
+</script>
+<noscript>
+<div style="font-weight: bold; padding: 5px; background-color: red; color: white;">
+    <?php print $translate->_("Enable JavaScript please..."); ?>
+</div>
+</noscript>

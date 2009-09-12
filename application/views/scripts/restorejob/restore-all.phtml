@@ -1,0 +1,105 @@
+<?php echo $this->render('header.phtml'); ?>
+<!-- restore-all.phtml -->
+
+<script type="text/javascript">
+$j(document).ready(function() {
+	$j('#ok1').click(function() { 
+    	$j.blockUI({ 
+        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
+        	css: { backgroundColor: '#f3fcf2' },
+        	centerX: true,
+        	centerY: true 
+        }); 
+    }); 
+});
+</script>
+
+<h1 align="center"><?php echo $this->escape($this->title), ' '; ?>
+<a href="<?php echo $this->baseUrl; ?>/job/detail/jobid/<?php echo $this->escape($this->jobid); ?>"><?php echo $this->escape($this->jobid); ?><a/></h1>
+
+<?php
+    // create array clients for Form
+    foreach($this->clients as $client) :
+	   $aclients[$this->escape($client->name)] = $this->escape($client->name);
+    endforeach;
+
+    // create array filesets for Form
+    $afilesets[''] = 'default'; // do not for translate. не переводить
+    foreach($this->filesets as $fileset) :
+	   $afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
+    endforeach;
+    $afilesets[''] = 'default';	// if empty FileSet exists in database. do not for translate
+
+    // create array storages for Form  // do not for translate. не переводить
+    $astorages[''] = 'default'; // значение не менять! используется далее в runRestoreAction()
+    foreach($this->storages as $storage) :
+	   $astorages[$this->escape($storage->name)] = $this->escape($storage->name);
+    endforeach;
+                                // do not for translate. не переводить
+    $astorages[''] = 'default';	// if empty FileSet exists in database  // значение не менять! используется далее в runRestoreAction()
+
+    // create array pools for Form
+    $apools[''] = 'default';
+    foreach($this->pools as $pool) :
+	   $apools[$this->escape($pool->name)] = $this->escape($pool->name);
+    endforeach;
+                                // do not for translate. не переводить
+    $apools[''] = 'default';	// if empty FileSet exists in database
+?>
+
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/roundcorner1.css" />
+
+<div class="roundedcornr_box_1" style="width: 680px; margin-left: auto; margin-right: auto; text-align: left;">
+   <div class="roundedcornr_top_1"><div></div></div>
+      <div class="roundedcornr_content_1">
+<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/restore-all'; ?>">
+<table border="0" cellpadding="5" cellspacing="0" align="center">
+<tr>
+    <td align="right" class="search1"><b><?php print $this->translate->_("Client"); ?></b>: </td>
+   	<td class="search1">
+       	<?php echo $this->formSelect('client', $this->client_name, null, $aclients) ?>
+    </td>
+
+    <td align="right" class="search1"><?php print $this->translate->_("Pool"); ?>: </td>
+   	<td class="search1">
+       	<?php echo $this->formSelect('pool', null, null, $apools) ?>
+    </td>
+</tr>
+<tr>
+    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?>: </td>
+    <td class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
+
+    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Fileset"); ?>: </td>
+    <td class="search1" valign="top"><?php echo $this->formSelect('fileset', null, null, $afilesets) ?></td>
+</tr>
+<tr>
+    <td align="right" class="search1" colspan="2">&nbsp;</td>
+
+    <td align="right" class="search1" valign="top">&nbsp;&nbsp;&nbsp;<?php print $this->translate->_("Storage"); ?>: </td>
+   	<td class="search1" valign="top">
+       	<?php echo $this->formSelect('storage', null, null, $astorages) ?>
+       	<br>&nbsp;
+    </td>
+</tr>
+<tr>
+    <td class="search1" colspan="2" align="center">
+            <input type="hidden" name="jobid"  id="jobid"  value="<?php echo $this->jobid; ?>">
+            <input type="hidden" name="client_name"  id="client_name"  value="<?php echo $this->client_name; ?>">
+            <input type="hidden" name="choice_form"  id="choice_form"  value="1">
+		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn') ); ?>
+        </form>
+    </td>
+    <td class="search1" colspan="2" align="center">
+        <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore'; ?>">
+            <input type="hidden" name="jobid"  id="jobid"  value="<?php echo $this->jobid; ?>">
+            <?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
+        </form>
+    </td>
+</tr>
+</table>
+</div>
+   <div class="roundedcornr_bottom_1"><div></div></div>
+</div>
+
+
+<?php echo $this->render('footer.phtml'); ?>

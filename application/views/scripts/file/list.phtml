@@ -1,0 +1,66 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1 align="center"><?php echo $this->escape($this->titleFile); ?></h1>
+
+<?php if (count($this->paginator)): ?>
+<br />
+
+<?php $decode = new MyClass_HomebrewBase64; ?>
+
+<div align="center">
+<table id="box-table-minimalist" border="0">
+<thead>
+<tr>
+     <th scope="col" colspan="4"> <?php print $this->translate->_("Attribute"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Name File"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("File Id"); ?> </th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->paginator as $line): ?>
+<tr>
+
+<?php
+	// LStat example:
+	// MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
+	list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
+		$st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
+
+	if ( $decode->homebrewBase64($st_dev) == 0 )     {
+		// OS : windows
+		echo '<td>' , date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)) , '</td><td>' ,
+			$this->convBytes($decode->homebrewBase64($st_size)) , '</td>',
+			'<td></td><td></td>';
+	}
+	else {
+		// OS : linux/unix
+		echo '<td>' , $this->permissionOctal2String(($decode->homebrewBase64($st_mode))), '</td><td>' ,
+			$decode->homebrewBase64($st_uid), " &nbsp;",  $decode->homebrewBase64($st_gid),'</td><td>',
+			date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)),'</td><td>',
+			$this->convBytes($decode->homebrewBase64($st_size)), '</td>';
+	}
+?>
+
+	<td><?php echo $this->escape($line['path'] . $line['name']);?></td>
+	<td> &nbsp; <?php echo $this->escape($line['fileid']) ?> &nbsp;</td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+
+<!-- start paginationControl -->
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'file/list_pagination_ctrl.phtml'); ?>
+<!-- end paginationControl -->
+
+<?php else: ?>
+<div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php print $this->translate->_("No Files found."); ?></strong></p>
+	</div>
+</div>
+
+<?php endif; ?>
+
+<?php echo $this->render('footer.phtml'); ?>

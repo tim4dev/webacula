@@ -1,0 +1,263 @@
+
+    Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
+    http://webacula.sourceforge.net/
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+	System Requirements
+	~~~~~~~~~~~~~~~~~~~
+
+- Bacula 3.0 or later.
+- Supported MySQL and PostgreSQL databases.
+- Zend Framework version 1.8.3
+- Zend Framework is built with object-oriented PHP 5 and requires
+  PHP 5.2.4 or later with PDO extension active. Please see the system requirements appendix for
+  more detailed information:
+  http://framework.zend.com/manual/en/requirements.html
+- Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
+- Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
+- Create separate database "webacula" for use Restore Files and Logbook features.
+- http://php.net/dom for RSS feed
+
+Run docs/check_system_requirements.php to verify.
+
+
+	Install & Setup
+	~~~~~~~~~~~~~~~
+
+- login as root
+- mkdir /var/www/webacula
+- Copy this distribution to directory /var/www/webacula
+
+- Extract the archive Zend.tar.gz which can be found in directory "library/"
+  cd library/
+  tar xvf Zend.tar.gz
+
+- The tree which should turn out as a result :
+
+/var/www/webacula/
+|-- application
+|   |-- controllers
+|   |-- models
+|   `-- views
+|-- docs
+|-- install
+|-- html
+|-- languages
+`-- library
+    |-- Other
+    |-- MyClass
+    |
+    `-- Zend (this is Zend Framework package)
+        |-- Acl
+        |-- Auth
+        |-- Cache
+        |-- Config
+       ...
+
+
+
+
+- Specify the parameters to connect to the Catalog and webacula databases in /var/www/webacula/application/config.ini
+	
+- Setup parameter
+   tmpdir = "/tmp"
+  Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
+  This directory and files in it should be available to read the Director service.	
+
+
+- Creates system group account (if not yet created) :
+	groupadd bacula
+
+- Add apache to group:
+	usermod -aG bacula apache
+
+- Next, bconsole file can be executed by Apache web server :
+  NOTE. /usr/sbin/bconsole -- binary ELF file (not a shell script!)
+
+  variant 1:
+	chown root:bacula /usr/sbin/bconsole
+	chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+
+	chown root:bacula /etc/bacula/bconsole.conf
+	chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+
+   edit application/config.ini
+       bacula.sudo = ""
+       bacula.bconsole = "/usr/sbin/bconsole"
+
+
+  variant 2:
+    edit application/config.ini
+       bacula.sudo = "/usr/bin/sudo"
+       bacula.bconsole = "/usr/sbin/bconsole"
+
+    visudo
+        # (!!! comment here !!!) Defaults requiretty
+        apache ALL=NOPASSWD: /usr/sbin/bconsole
+
+  Check :
+# su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+
+- Create configuration for Apache /etc/httpd/conf.d/webacula.conf
+  NOTE. Specific directories on your system may be different.
+
+Alias "/webacula"  "/var/www/webacula/html"
+<Directory "/var/www/webacula/html">
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Order deny,allow
+	Allow from 127.0.0.1
+	# your network
+	Allow from 192.161.150.0/255.255.255.0
+
+	AuthType Basic
+	AuthName "Webacula"
+	AuthUserFile       /etc/httpd/conf/webacula.users
+	Require valid-user
+</Directory>
+
+
+- setup mod_rewrite :
+  NOTE. Specific directories on your system may be different.
+
+----------- /etc/httpd/conf/httpd.conf
+
+LoadModule rewrite_module modules/mod_rewrite.so
+AccessFileName .htaccess
+RewriteEngine on
+# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
+# for DEBUG # RewriteLogLevel 3
+
+
+----------- /var/www/webacula/html/.htaccess
+
+php_flag magic_quotes_gpc off
+php_flag register_globals off
+RewriteEngine On
+
+# edit RewriteBase if necessary
+RewriteBase   /webacula
+RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
+
+For testing mod_rewrite change 'RewriteBase' (if necessary) in webacula/html/test_mod_rewrite/.htaccess
+And use URL like
+   http://localhost/webacula/test_mod_rewrite/
+for test mod_rewrite
+
+
+
+- increase values in /etc/php.ini :
+  memory_limit = 32M
+  max_execution_time = 300
+
+  If you will restore ("Restore Job" -> "Select Files for Restore") about 100,000 unique files set following values:
+  memory_limit = 128M
+  max_execution_time = 600
+
+- Next (NOTE. Specific commands on your system may be different) :
+/sbin/service httpd restart
+
+- Check mod_rewrite :
+apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
+rewrite_module (shared)
+
+
+
+- To show messages of the Job output, you must add a line :
+
+  catalog = all, !skipped, !saved
+
+  in bacula-dir.conf and restart Bacula Director :
+
+Messages {
+  Name = Standard
+...
+  catalog = all, !skipped, !saved
+}
+
+See also manual of Bacula "Chapter 15. Messages Resource".
+
+- Next :
+cd /etc/bacula
+./bacula stop
+./bacula start
+
+
+Delete old tmp files: wb_clean_tmp.sh script to be run by the cron.
+
+If necessary change a name and the password of the user in a files in install/ directory:
+	webacula_mysql_create_database.sh
+	webacula_postgresql_create_database.sh
+	webacula_postgresql_make_tables.sh
+
+
+Create database, tables and user :
+   cd install
+
+for MySQL:
+	./webacula_mysql_create_database.sh
+	./webacula_mysql_make_tables.sh
+
+for PostgreSQL:
+	./webacula_postgresql_create_database.sh
+	./webacula_postgresql_make_tables.sh
+
+NOTE. Database "webacula" also required for restore the jobs and files.
+
+
+
+	LogBook
+	~~~~~~~
+	Logbook - is simple electronic journal of backups. Records in logbook are insert, modify, delete manually by the operator.
+Records can contain links (usual web-links on which it is possible to click) to Bacula Jobs or links to other records of this logbook.
+In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
+See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
+Logbook stored in a separate database "webacula", now it is supported  MySQL and PostgreSQL.
+
+
+
+	Update
+	~~~~~~
+
+	If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
+
+CREATE DATABASE webacula
+	DEFAULT CHARACTER SET utf8
+   DEFAULT COLLATE utf8_general_ci;
+
+	and load data from dump again.
+
+
+
+    Restore Job (technical details)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Command like "restore all" immediately sent to the service Director.
+
+    To select individual files for restoration uses the following scheme.
+    Of DB bacula in DB webacula into temporary tables copied data for a particular JobId.
+
+Note. This process may take a long time.
+    It may be increased values in /etc/php.ini : memory_limit and max_execution_time.
+
+    Then, the files and directories are marked for restore.
+    Then, a list of files and a command to restore sent to the service Director.
+    Temporary tables in the database webacula removed.
+
+Note. Need to file containing a list of files to restore, has been available for reading for Director service.
+
+
+<eof>

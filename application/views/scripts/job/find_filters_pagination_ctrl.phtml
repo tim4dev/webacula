@@ -1,0 +1,60 @@
+<!-- paginationControl -->
+<!-- $Id: find_filters_pagination_ctrl.phtml 363 2009-07-03 17:51:18Z tim4dev $ -->
+
+<?php $this->translate = Zend_Registry::get('translate'); ?>
+
+<?php if ($this->pageCount): ?>
+<div align="center">
+<p>
+<?php
+    echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
+    $opt = array();
+    empty($this->options['date_begin']) ? true : $opt['date_begin'] = $this->options['date_begin'];
+    empty($this->options['time_begin']) ? true : $opt['time_begin'] = $this->options['time_begin'];   
+    empty($this->options['date_end'])   ? true : $opt['date_end']   = $this->options['date_end'];
+    empty($this->options['time_end'])   ? true : $opt['time_end']   = $this->options['time_end'];
+    empty($this->options['client'])     ? true : $opt['client']     = rawurlencode($this->options['client']);
+    empty($this->options['fileset'])    ? true : $opt['fileset']    = rawurlencode($this->options['fileset']);
+    empty($this->options['jlevel'])     ? true : $opt['jlevel']     = rawurlencode($this->options['jlevel']);
+    empty($this->options['jstatus'])    ? true : $opt['jstatus']    = rawurlencode($this->options['jstatus']);
+    empty($this->options['jtype'])      ? true : $opt['jtype']      = rawurlencode($this->options['jtype']);
+    empty($this->options['volname'])    ? true : $opt['volname']    = rawurlencode($this->options['volname']);
+?>
+</p>
+
+<!-- Ссылка на первую страницу -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url( array_merge(array('page' => $this->first), $opt) ),'">',
+  $this->translate->_('First</a>'), ' &nbsp;'; ?>
+<?php endif; ?>
+
+<!-- Ссылка на предыдущую страницу -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url( array_merge(array('page' => $this->previous), $opt) ),
+  '">&lt; ', $this->translate->_('Previous</a>'), ' &nbsp;'; ?>
+<?php endif; ?>
+
+<!-- Нумерованные ссылки на страницы -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a href="<?php
+        echo $this->url( array_merge(array('page' => $page), $opt) ), '"> ', $page;
+    ?></a> &nbsp;
+  <?php else: ?>
+    <?php echo $page; ?> &nbsp;
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Ссылка на следующую страницу -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url( array_merge(array('page' => $this->next), $opt) ),
+  '">', $this->translate->_('Next &gt;'), '</a> &nbsp;'; ?>
+<?php endif; ?>
+
+<!-- Ссылка на последнюю страницу -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url( array_merge(array('page' => $this->last), $opt) ),
+  '">', $this->translate->_('Last</a>'); ?>
+<?php endif; ?>
+</div>
+<?php endif; ?>

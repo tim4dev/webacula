@@ -1,0 +1,248 @@
+<?php echo $this->render('header.phtml'); ?>
+<!-- main-form.phtml -->
+
+<script type="text/javascript">
+$j(document).ready(function() {
+	$j('#ok1').click(function() { 
+    	$j.blockUI({ 
+        	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
+        	css: { backgroundColor: '#f3fcf2' },
+        	centerX: true,
+        	centerY: true 
+        }); 
+    });
+    $j('#ok').click(function() { 
+    	$j.blockUI({ 
+        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
+        	css: { backgroundColor: '#f3fcf2' },
+        	centerX: true,
+        	centerY: true 
+        }); 
+    }); 
+});
+</script>
+
+<?php
+    $translate = Zend_Registry::get('translate');
+    $config = Zend_Registry::get('config');
+    if ( isset($config->language) ) {
+        $user_language =  addslashes(trim($config->language));
+    } else {
+        $locale = new Zend_Locale(Zend_Locale::BROWSER);
+        $user_language = $locale->getLanguage(); // 'ru', 'en'...
+        //print_r($user_language); //!! for debug
+    }
+?>
+
+<?php
+if ( $user_language != 'en' ) {
+	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
+}
+?>
+
+<script type="text/javascript">
+$j(function() {	
+	$j('#date_before').datepicker({
+			changeMonth: true,
+			changeYear: true
+	});	
+	$j('#date_before').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
+});
+</script>
+
+<script type="text/javascript">
+$j(function() {
+	$j("#tabs").tabs();
+});
+</script>
+
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php
+    // create array clients for Form
+    if ( $this->clients ) {
+    	foreach($this->clients as $client) {   	
+			$aclients[$this->escape($client->name)] = $this->escape($client->name);
+    	}
+    }
+	if ( empty($aclients) ) { $aclients[] = ''; }
+	
+	// create array filesets for Form
+	if ( $this->filesets ) {
+		foreach($this->filesets as $fileset) {
+			$afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
+		}
+	}
+	if ( empty($afilesets) ) { $afilesets[] = ''; }
+?>
+
+
+<div class="restore" style="width: 560px; margin-left: auto; margin-right: auto; text-align: left;">
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs1"><?php print $this->translate->_("JobId"); ?></a></li>
+        <li><a href="#tabs2"><?php print $this->translate->_("Most recent backup"); ?></a></li>
+        <li><a href="#tabs3"><?php print $this->translate->_("Before a time"); ?></a></li>
+    </ul>
+
+
+<!--    Restore files for JobId -->
+    <div id="tabs1">
+<?php if ( !empty($this->msgNoJobId) ) : ?>
+<div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;"> 
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span> 
+		<strong><?php echo $this->msgNoJobId; ?></strong></p>
+	</div>
+</div>
+<?php endif;?>    
+    
+<p>
+<div align="center">
+<a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
+    <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
+</div></p>
+        <p>
+        <form action="<?php  echo $this->baseUrl.'/restorejob/restore-choice';?>" method="post">
+<?php echo $this->formHidden('beginr', '1', null); ?>
+<div style="text-align: left; padding: 10px;">
+    <label>
+    <b><?php print $this->translate->_("Job Id"); ?></b>
+    <?php
+        if ( $this->jobid ) {
+            $val = $this->jobid;
+        } else {
+            $val = '';
+        }
+        echo $this->formText('jobid', $val, array('size' => 16));
+    ?>
+    </label>
+</div>
+
+<div style="text-align: left; padding: 10px;">
+<?php echo $this->formRadio('choice', 'restore_all', null,
+        array('restore_all'    => $this->translate->_('Restore All files for JobId'),
+              'restore_select' => $this->translate->_('Select Files for Restore') )); ?>
+</div>
+<br>
+<div style="text-align: center; margin: 5px;">
+    <?php echo $this->formSubmit('ok1', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
+         "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    ?>
+    <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+</div>
+</form>
+        </p>
+    </div>
+<!-- END    Restore files for JobId -->
+
+
+
+<!--    Restore the most recent backup for a client -->
+    <div id="tabs2">
+    <p><b><?php print $this->translate->_("Restore the most recent backup for a client"); ?></b></p>
+    <p>
+<form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
+<table border="0" cellpadding="5" cellspacing="5" align="center">
+<tr><td>
+<?php echo $this->formHidden('most_recent_form', '1', null); ?>
+<?php echo $this->formHidden('beginrecent', '1', null); ?>
+    <label for="client_name_from">
+    <b><?php print $this->translate->_("Client"); ?></b>
+    </label>
+</td><td>    
+    <?php echo $this->formSelect('client_name_from', null, null, $aclients) ?>
+</td></tr>
+<tr><td>
+    <label for="fileset">
+    <b><?php print $translate->_("Fileset"); ?></b>
+    </label>
+</td><td>    
+    <?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
+</td></tr>
+<tr><td colspan="2">
+<p>
+	<?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
+        array('restore_recent_all'    => $this->translate->_('Restore All files'),
+              'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
+</p>              
+</td></tr>
+<tr><td>
+    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ); ?>       
+    &nbsp;&nbsp;
+</td><td>    
+    &nbsp;&nbsp;
+    <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+</td></tr>
+</table>
+</form>
+        </p>
+    </div>
+<!-- END    Restore the most recent backup for a client -->
+
+
+
+<!-- Restore backup for a client before a specified time -->
+    <div id="tabs3">
+    <p><b><?php print $this->translate->_("Restore backup for a client before a specified time"); ?></b></p>
+    <p>
+<form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
+<table border="0" cellpadding="5" cellspacing="5" align="center">
+<tr><td>
+<?php echo $this->formHidden('before_time_form', '1', null); ?>
+<?php echo $this->formHidden('beginrecent', '1', null); ?>
+    <label for="client_name_from">
+    	<b><?php print $this->translate->_("Client"); ?></b>
+    </label>
+</td><td>    
+    <?php echo $this->formSelect('client_name_from', null, null, $aclients) ?>
+</td></tr>
+<tr><td>
+    <label for="fileset">
+    	<b><?php print $translate->_("Fileset"); ?></b>
+    </label>
+</td><td>    
+    <?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
+</td></tr>
+<tr><td>
+    <b><?php print $this->translate->_("Date before"); ?></b>
+</td><td>    
+    <?php
+        echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10));
+        echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8));
+    ?>
+</td></tr>
+<tr><td>
+&nbsp;    
+</td><td>
+    <div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
+</td></tr>
+
+<tr><td colspan="2">
+	<p>
+<?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
+        array('restore_recent_all'    => $this->translate->_('Restore All files'),
+              'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
+	</p>              
+</td></tr>
+<tr><td>
+        <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn')); ?>
+    &nbsp;&nbsp;
+</td><td>    
+    &nbsp;&nbsp;
+    <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+</td></tr>
+</table>
+</form>
+        </p>
+    </div>
+<!-- END   Restore backup for a client before a specified time -->
+
+
+</div> <!-- END id="tabs" -->
+
+</div> <!-- END class="restore"" -->
+
+
+<?php echo $this->render('footer.phtml'); ?>

@@ -1,0 +1,185 @@
+<?php echo $this->render('header.phtml'); ?>
+<!-- find-filters.phtml -->
+<h1 align="center"><?php echo $this->escape($this->titleLastJobs); ?></h1>
+
+<?php $urlp = $this->baseUrl . '/job/find-filters' .
+    '/date_begin/' . $this->date_begin . '/time_begin/' . $this->time_begin .
+    '/date_end/'   . $this->date_end   . '/time_end/'   . $this->time_end .
+    '/client/' 	   . $this->client .
+    '/fileset/'    . $this->fileset .
+    '/jlevel/'     . $this->jlevel .
+    '/jstatus/'    . $this->jstatus .
+    '/jtype/'      . $this->jtype .
+    '/volname/'    . $this->volname .
+    '/pool_id/'    . $this->pool_id .
+    '/pool_name/'  . $this->pool_name;
+?>
+
+<?php if (count($this->paginator)): ?>
+
+<div align="center">
+<table id="box-table">
+<thead>
+<tr>
+     <th scope="col">&nbsp;</th>
+	 <th scope="col"> <a href="<?php echo $urlp, '/order/j.JobId">',    $this->translate->_("Job Id"); ?>   </a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.Name">',     $this->translate->_("Job Name"); ?> </a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.JobStatus">',$this->translate->_("Status"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.Level">',    $this->translate->_("Level"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.JobFiles">', $this->translate->_("Files"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.JobBytes">', $this->translate->_("Bytes"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.JobErrors">',$this->translate->_("Errors"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/c.Name">',     $this->translate->_("Client"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/p.Name">',     $this->translate->_("Pool"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.StartTime">',$this->translate->_("Start Time"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/j.EndTime">',  $this->translate->_("End Time"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/DurationTime">', $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?></a></th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->paginator as $line): ?>
+<tr>
+    <td>
+        <?php
+            if ( isset($line['poolid'], $line['poolname']) )	{
+                echo '<a href="';
+				echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
+				echo '" title="', $this->translate->_("Restore Job"), '">';
+				echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '" border="0" hspace="5">';
+				echo '</a>';
+            }
+        ?>
+    </td>
+	<td>
+		<?php
+			if ( isset($line['poolid'], $line['poolname']) )	{
+				echo '<a href="';
+				echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
+				echo '" title="', $this->translate->_("Detail Job"), '">';
+			}
+			echo $line['jobid'];
+			if ( isset($line['poolid'], $line['poolname']) )	{
+				echo '</a>';
+			}
+		?>
+	</td>
+
+	<!-- Job.Name -->
+	<td><?php echo $this->escape($line['jobname']);?></td>
+
+	<!-- Status -->
+	<?php
+		if ( $line['joberrors'] != 0 )	{
+		    if ( $line['jobstatus'] == 'T' )	{
+		        $class_td = 'class="warn"';
+		    } else {
+		        // 100% что была какая-то ошибка
+		        $class_td = 'class="err"';
+		    }
+			echo '<td ', $class_td, ' align="center"> ', $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
+		}
+		elseif	( $line['jobstatus'] == 'T' )	{
+			echo '<td align="center">OK</td>';
+		} else {
+		    // ошибок вроде нет, но что-то не в порядке
+		    if ( ($line['jobstatus'] == 'f') OR ($line['jobstatus'] == 'E') )	{
+		        // fatal error
+                $class_td = 'class="err"';
+		    } else {
+		        $class_td = 'class="warn"';
+		    }
+			echo '<td ', $class_td, ' align="center">',
+			     $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
+		}
+	?>
+
+	<td align="center"><?php echo $this->escape($line['level']);?></td>
+	<?php
+		if ( $line['jobfiles'] != 0 )
+			$class = '';
+		else
+			$class = 'class="warn"';
+		echo '<td ', $class, ' align="right">', number_format($line['jobfiles']), '</td>';
+	?>
+
+	<?php
+		if ( $line['jobbytes'] != 0 )
+			$class = '';
+		else
+			$class = 'class="warn"';
+		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
+	?>
+
+	<!-- Errors -->
+	<?php
+		if ( $line['joberrors'] == 0 )
+			echo '<td align="right">&nbsp;</td>';
+		else  {
+		    echo '<td class="err" align="right">',
+		         '<a href="',
+			     $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
+			     $this->translate->_("View Messages"), '" class="lerr">',
+			     $this->escape($line['joberrors']), '</a></td>';
+		}
+	?>	
+	
+	<td><?php echo $line['clientname'];?></td>
+
+	<td>
+		<?php
+			if ( isset($line['poolid']) && isset($line['poolname']) )	{
+				echo '<a href="';
+				echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']),
+				"/name/", $this->escape($line['poolname']);
+				echo '" title="', $this->translate->_("Detail Pool"), '">';
+			}	else 	{
+				echo "&nbsp;";
+			}
+
+			if ( isset($line['poolid']) && isset($line['poolname']) )	{
+				echo $this->escape($line['poolname']);
+				echo '</a>';
+			}	else {
+				echo '&nbsp;';
+			}
+		?>
+	</td>
+
+	<td>&nbsp;<?php echo $this->escape($line['starttime']);?>&nbsp;</td>
+	<td>&nbsp;<?php echo $this->escape($line['endtime']);?>&nbsp;</td>
+	<td align="right">&nbsp;<?php echo $this->escape($line['durationtime']);?>&nbsp;</td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+
+<!-- start paginationControl -->
+<?php
+    echo $this->paginationControl($this->paginator, 'Sliding', 'job/find_filters_pagination_ctrl.phtml',
+        array('options' => array(
+        'date_begin' => $this->date_begin,
+        'time_begin' => $this->time_begin,
+        'date_end' => $this->date_end,
+        'time_end' => $this->time_end,
+        'client' => $this->client,
+        'fileset' => $this->fileset,
+        'jlevel' => $this->jlevel,
+        'jstatus' => $this->jstatus,
+        'jtype' => $this->jtype,
+        'volname' => $this->volname
+        ))
+        );        
+?>
+<!-- end paginationControl -->
+
+<?php else: ?>
+	<div align="center"><p><b><?php print $this->translate->_("No Jobs found."); ?></b></p>
+	<p><a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
+	<?php print $this->translate->_("See List last 20 Jobs run"); ?>
+	</a></p>
+	</div>
+<?php endif; ?>
+
+<?php echo $this->render('footer.phtml'); ?>

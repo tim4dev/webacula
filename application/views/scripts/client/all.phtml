@@ -1,0 +1,33 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<div align="center">
+<table id="box-table">
+<thead>
+<tr>
+     <th scope="col"> <?php print $this->translate->_("Name"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Client Version"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Auto Prune"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Files Retention<br />days"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Jobs Retention<br />days"); ?> </th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->clients as $client) : ?>
+<tr>
+     <td><a href="<?php echo $this->baseUrl, "/client/status-client-id/id/", $this->escape($client->clientid),
+     	"/name/", $this->escape($client->name), '" title="', $this->translate->_("Client Detail"), '">',
+		$this->escape($client->name) ;?></a>
+	</td>
+
+     <td><?php echo $this->escape($client->uname);?></td>
+     <td align="center"><?php echo $this->int2Char($this->escape($client->autoprune));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client->fileretention));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client->jobretention));?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+
+<?php echo $this->render('footer.phtml'); ?>

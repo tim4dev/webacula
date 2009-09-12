@@ -1,0 +1,8 @@
+# for test mod_rewrite
+php_flag magic_quotes_gpc off
+php_flag register_globals off
+
+RewriteEngine On
+RewriteBase   /webacula/test_mod_rewrite
+RewriteRule ^testlink([^/]*).html$  index.php?testlink=$1 [L]
+

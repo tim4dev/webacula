@@ -1,0 +1,57 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php $urlp = $this->baseUrl . '/pool/all'; ?>
+
+<div align="center">
+<table id="box-table">
+<thead>
+<tr>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/Name">', $this->translate->_("Name Pool"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/LabelFormat">', $this->translate->_("Label Format"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/NumVols">', $this->translate->_("Number<br />Volumes"); ?></a></th>
+     <th scope="col"> <?php print $this->translate->_("Accept<br />Any<br />Volume"); ?> </th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/VolRetention">', $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp, '/order/MaxVolBytes">', $this->translate->_("Max<br />Volume<br />(Bytes)"); ?></a></th>
+     <th scope="col"> <?php print $this->translate->_("Auto Prune"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Auto Recycle"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Type"); ?> </th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->pools as $pool) : ?>
+<tr>
+     <td><a href="<?php echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($pool->poolid),
+		"/name/", $this->escape($pool->name), '" title="', $this->translate->_("Detail Pool"), '">',
+		$this->escape($pool->name); ?></a>
+	</td>
+
+     <td><?php echo $this->escape($pool->labelformat);?></td>
+
+     <?php
+     if ( $this->escape($pool->numvols) <= 0 )
+			echo '<td class="warn" align="right">' . $this->escape($pool->numvols) . '</td>';
+		else
+			echo '<td align="right">' . $this->escape($pool->numvols) . '</td>';
+     ?>
+
+     <td align="center"><?php echo $this->int2Char($this->escape($pool->acceptanyvolume));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($pool->volretention));?></td>
+
+     <?php
+     if ( $pool->maxvolbytes <= 0 )
+			echo '<td align="right">&nbsp;</td>';
+		else
+			echo '<td align="right">' . $this->convBytes($this->escape($pool->maxvolbytes)) . "</td>";
+     ?>
+
+     <td align="center"><?php echo $this->int2Char($this->escape($pool->autoprune));?></td>
+     <td align="center"><?php echo $this->int2Char($this->escape($pool->recycle));?></td>
+     <td align="center"><?php echo $this->escape($pool->pooltype);?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+
+<?php echo $this->render('footer.phtml'); ?>

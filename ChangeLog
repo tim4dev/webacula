@@ -1,0 +1,42 @@
+Webacula ChangeLog
+------------------
+
+=== 3.1
+	Add full PostgreSQL support (restore files, logbook, etc).
+	Rewrite drawFileTreeAction().
+	Add regress testing procedure.
+	Bugfixes.
+
+=== 3.0
+	Fixed several unexpected bugs.
+	Remove prototype.js. Use json2.js and jquery.js instead.
+	Replaced by Calendar to jQuery Datepicker widget.
+	Conversion to a standard type of language files.
+	Add parameter 'mainmenu_floating' in config.ini. A floating menu stays visible even if you scroll down a web page.
+	Add parameter 'head_title' in config.ini
+	Add RSS feed
+	Add "Restore the most recent backup for a client"
+	Add "Restore backup for a client before a specified time"
+	New parameter in config.ini : "ttl_restore_session"
+	Add exceptions handler
+	Improved design
+	Add docs/check_system_requirements.php
+	Renumbering versions. Now major version number of WeBacula will match the version number of Bacula.
+	Create branch-1.38-2.x for the older versions webacula (they are working with bacula 1.38...2.x)
+	Up to Zend Framework 1.8.3
+
+=== 1.5
+	Add Restore the most recent backup for a client
+	Add Restore backup for a client before a specified time 
+	Add full text search to LogBook
+	Fix bug (Zend/Paginator/Adapter/DbSelect.php) http://framework.zend.com/issues/browse/ZF-5620
+	Fix Logbook find by Id record
+	Add Portuguese Brazil translation by Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>
+	Fix handling languages
+
+=== 1.4 release 2008.09.29
+=== 1.1.release (Wed Mar 19 09:16:06 2008)
+=== 1.0.beta (Tue Oct 30 21:49:37 2007)
+=== 0.5.beta (Mon Sep 10 22:42:34 2007)
+
+sourceforge.net (registered 2007-07-17 22:05)

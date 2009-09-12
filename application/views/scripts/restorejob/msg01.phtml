@@ -1,0 +1,54 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<!-- msg01.phtml -->
+
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/roundcorner2.css" />
+
+<script type="text/javascript">
+$j(document).ready(function() {
+	$j('#ok1').click(function() { 
+    	$j.blockUI({ 
+        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
+        	css: { backgroundColor: '#f3fcf2' },
+        	centerX: true,
+        	centerY: true 
+        }); 
+    }); 
+});
+</script>
+
+<h1 align="center"><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
+
+<div class="roundedcornr_box_2" style="width: 450px; margin-left: auto; margin-right: auto; text-align: left;">
+   <div class="roundedcornr_top_2"><div></div></div>
+      <div class="roundedcornr_content_2">
+
+<form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post">
+<p><?php print $this->translate->_("In DB webacula found existing tmp-tables for the Restore Job with JobId"); ?>
+    <?php echo $this->jobid; ?>.</p>
+<p>
+<?php print $this->translate->_("Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."); ?>
+</p>
+<p><b><?php print $this->translate->_("Choose the action:"); ?> </b></p>
+
+<?php echo $this->formRadio('choice', 'recreate_tmp', null,
+    array(
+        'recreate_tmp'  => $this->translate->_('Recreate tmp-tables (recommended)'),
+	    'continue_tmp'  => $this->translate->_('Continue with the old tmp-tables'),
+		'goto_homepage' => $this->translate->_('Exit')
+    ));
+?>
+    <div style="text-align: center; margin: 5px;">
+		<br /><br /><?php echo $this->formSubmit('ok1', 'OK'); ?>
+	</div>
+</form>
+
+    </div>
+   <div class="roundedcornr_bottom_2"><div></div></div>
+</div>
+
+<br>
+
+
+<p>&nbsp;</p>
+<?php echo $this->render('footer.phtml'); ?>

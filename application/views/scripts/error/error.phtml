@@ -1,0 +1,32 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1 align="center">An error occurred</h1>
+
+<h2>Message :</h2>
+<p><?php echo $this->err_message; ?></p>
+
+<?php if ($this->err_custom_message) : ?>
+	<h2>Custom Message :</h2>
+	<p><?php echo $this->err_custom_message; ?></p>
+<?php endif; ?>
+
+<h2>Trace:</h2>
+<pre>
+<?php echo $this->err_trace; ?>
+</pre>
+
+<h2>System Information:</h2>
+<pre>
+Webacula    : <?php echo Zend_Registry::get('webacula_version'), "\n"; ?>
+Webacula DB : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula, "\n"; ?>
+Bacula DB   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula, "\n"; ?>
+PHP         : <?php echo phpversion(), "\n"; ?>
+</pre>
+
+<h2><?php echo $this->translate->_('What to do next?'); ?></h2>
+<p>
+Please help me improve the software you use by filing a report at 
+<a href="https://sourceforge.net/tracker/?group_id=201199&atid=976599" target="_blank">Webacula bugtracker</a>.
+Useful details include how to reproduce the error, and information (error message, trace) which is shown above, bacula version, etc.
+</p>
+
+<?php echo $this->render('footer.phtml'); ?>

@@ -1,0 +1,116 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/wblogbook.css");</style>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
+
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php
+// create array clients for Form
+foreach($this->typs as $t) :
+	$atyps[$t->typeid] = $this->translate->_($t->typedesc);
+endforeach;
+?>
+
+<div id="logbook-form">
+
+<?php if ($this->amessages): ?>
+<!-- display ERRORS -->
+<div class="ui-widget" style="width: 100%; margin-left: auto; margin-right: auto;">
+	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+		<strong>
+		<?php
+			echo '<b>', $this->translate->_("Record has not been modified. Reason :"), ' </b><br><ol>';
+			foreach ($this->amessages as $msg) {
+				echo '<li>' . $msg . '</li>';
+			}
+			echo '</ol>'; 
+		?>		
+		</strong></p>
+	</div>
+</div>	
+<?php endif; ?>
+
+<?php if ($this->wblogbook->logIsDel == 1): ?>
+<div class="ui-widget" style="width: 100%; margin-left: auto; margin-right: auto; margin-bottom: 10px;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<b><?php echo $this->translate->_("This record has been deleted.");?></b></p>
+	</div>
+</div>
+<?php endif; ?>
+
+<form name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/modify';?>" method="post">
+
+<label><?php print $this->translate->_("Log record Id "); ?></label> <?php echo $this->wblogbook->logId; ?>
+<br>
+<label><?php print $this->translate->_("Date last update record :"); ?></label>&nbsp;<?php echo $this->wblogbook->logDateLast; ?>
+<br><br>
+
+<fieldset>
+	<legend><b><?php print $this->translate->_("Select action "); ?></b></legend>
+<INPUT type="radio" checked name="act" value="update">
+    <?php print $this->translate->_("Modify this record"); ?><br>
+<INPUT type="radio" name="act" value="delete">
+    <?php print $this->translate->_("Delete this record (physically record will not be removed)"); ?><br>
+<INPUT type="radio" name="act" value="undelete">
+    <?php print $this->translate->_("Undelete this record"); ?>
+</fieldset>	
+	
+<?php echo $this->formHidden('logid', $this->wblogbook->logId, null); ?>
+<?php echo $this->formHidden('isdel', $this->wblogbook->logIsDel, null); ?>
+<?php echo $this->formHidden('hiddenModify',   $this->hiddenModify, null); ?>
+
+<br>
+<p><?php print $this->translate->_("(<b>*</b>) Field is required to process this form"); ?></p>
+
+<label for="logDateCreate"><?php print $this->translate->_("<sup>*</sup>Date create record "); ?></label>&nbsp;
+<?php echo $this->formText('logDateCreate', $this->wblogbook->logDateCreate, array('size' => 20)) ?>
+<br>
+<label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>
+<?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, null, $atyps); ?>
+<br><br>
+
+<!-- textarea -->
+<fieldset>
+	<legend><b><?php print $this->translate->_("<sup>*</sup>Text"); ?></legend>
+<?php print $this->translate->_("Allowed to use tags :"); ?> <br>
+<?php
+foreach($this->aAllowedTags as $key=>$value) {
+	echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
+		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\"> ";
+}
+?>
+
+<noscript>
+<?php
+foreach($this->aAllowedTags as $key=>$value) {
+	echo ' &lt;' . $value . '&gt;';
+}
+?>
+</noscript>
+<br>
+<?php print $this->translate->_("Allowed to use pseudo-tags :"); ?>
+<input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=')">
+<input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=')">
+<noscript>
+BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
+</noscript>
+<br>
+
+<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "90", 'rows' => "15")); ?>
+</fieldset>
+<!-- END textarea -->
+
+<br>
+<center>
+<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'prefer_btn')  ); ?>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+</center>
+</form>
+
+</div> <!-- logbook-form -->
+
+<?php echo $this->render('footer.phtml'); ?>

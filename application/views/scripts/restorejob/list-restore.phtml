@@ -1,0 +1,182 @@
+<?php echo $this->render('header.phtml'); ?>
+<!-- list-restore.phtml -->
+
+<script type="text/javascript">
+$j(document).ready(function() {
+	$j('#ok1').click(function() { 
+    	$j.blockUI({ 
+        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
+        	css: { backgroundColor: '#f3fcf2' },
+        	centerX: true,
+        	centerY: true 
+        }); 
+    }); 
+});
+</script>
+
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php if ($this->result): ?>
+
+<?php
+    // create array clients for Form
+    foreach($this->clients as $client) :
+	   $aclients[$this->escape($client->name)] = $this->escape($client->name);
+    endforeach;
+
+    // create array filesets for Form  // do not for translate. не переводить
+    $afilesets[''] = 'default'; // do not for translate. не переводить
+    foreach($this->filesets as $fileset) :
+	   $afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
+    endforeach;
+                                                        // do not for translate. не переводить
+    $afilesets[''] = 'default';	// if empty FileSet exists in database
+
+    // create array storages for Form
+                                // do not for translate. не переводить
+    $astorages[''] = 'default'; // значение не менять! используется далее в runRestoreAction()
+    foreach($this->storages as $storage) :
+	   $astorages[$this->escape($storage->name)] = $this->escape($storage->name);
+    endforeach;
+                                // do not for translate. не переводить
+    $astorages[''] = 'default';	// if empty FileSet exists in database  // значение не менять! используется далее в runRestoreAction()
+
+    // create array pools for Form // do not for translate. не переводить
+    $apools[''] = 'default';
+    foreach($this->pools as $pool) :
+	   $apools[$this->escape($pool->name)] = $this->escape($pool->name);
+    endforeach;
+                                // do not for translate. не переводить
+    $apools[''] = 'default';	// if empty FileSet exists in database
+?>
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/roundcorner1.css" />
+
+<div align="center" style="margin: 10px;">
+<?php
+    echo "<b>", $this->translate->_("Total"), ": ", $this->total_rows,
+        " ", $this->translate->_("file(s)"), ", ", $this->convBytes($this->total_size), "</b>" ; ?>
+</div>
+
+<div class="roundedcornr_box_1" style="width: 70%; margin-left: auto; margin-right: auto; text-align: left;">
+    <div class="roundedcornr_top_1"><div></div></div>
+        <div class="roundedcornr_content_1">
+
+<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/run-restore';?>">
+<table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
+<tr>
+    <td align="right" class="search1"><b><?php print $this->translate->_("Client"); ?></b>: </td>
+   	<td class="search1">
+       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, null, $aclients) ?>
+    </td>
+
+    <td align="right" class="search1"><?php print $this->translate->_("Pool"); ?>: </td>
+   	<td class="search1">
+       	<?php echo $this->formSelect('pool', null, null, $apools) ?>
+    </td>
+</tr>
+<tr>
+    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?>: </td>
+    <td class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
+
+    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Fileset"); ?>: </td>
+    <td class="search1" valign="top"><?php echo $this->formSelect('fileset', null, null, $afilesets) ?></td>
+</tr>
+<tr>
+    <td align="right" class="search1" colspan="2">&nbsp;</td>
+
+    <td align="right" class="search1" valign="top">&nbsp;&nbsp;&nbsp;<?php print $this->translate->_("Storage"); ?>: </td>
+   	<td class="search1" valign="top">
+       	<?php echo $this->formSelect('storage', null, null, $astorages) ?>
+       	<br>&nbsp;
+    </td>
+</tr>
+<tr>
+    <td class="search1" colspan="2" align="center">
+		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn') ); ?>
+        </form>
+    </td>
+    <td class="search1" colspan="2" align="center">
+        <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore';?>">
+            <?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
+        </form>
+    </td>
+</tr>
+</table>
+
+        </div>
+    <div class="roundedcornr_bottom_1"><div></div></div>
+</div>
+
+<br style="clear: both;" />
+
+<?php $decode = new MyClass_HomebrewBase64; ?>
+
+<div align="center">
+<table id="box-table-minimalist" border="0">
+<thead>
+<tr>
+     <th scope="col" colspan="4"> <?php print $this->translate->_("Attribute"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Name File"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("File Id"); ?> </th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->result as $line) : ?>
+<tr>
+<?php
+	// LStat example:
+	// MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
+	list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
+		$st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
+
+	if ( $decode->homebrewBase64($st_dev) == 0 )     {
+		// OS : windows
+		echo '<td>' , date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)) , '</td><td>' ,
+			$this->convBytes($decode->homebrewBase64($st_size)) , '</td>',
+			'<td></td><td></td>';
+	}
+	else {
+		// OS : linux/unix
+		echo '<td>' , $this->permissionOctal2String(($decode->homebrewBase64($st_mode))), '</td><td>' ,
+			$decode->homebrewBase64($st_uid), " &nbsp;",  $decode->homebrewBase64($st_gid),'</td><td>',
+			date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)),'</td><td>',
+			$this->convBytes($decode->homebrewBase64($st_size)), '</td>';
+	}
+?>
+</td>
+
+	<td><?php echo $this->escape($line['path'] . $line['name']);?>&nbsp;&nbsp;
+	<td> &nbsp; <?php echo $this->escape($line['fileid']) ?> &nbsp;</td>
+	</td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+
+<center>&nbsp;
+<?php
+// pager
+if ( $this->total_pages > 1 )   {
+
+	// Make links
+
+	for( $i = 1 ; $i <= $this->total_pages ; $i++ ) {
+		if ( $i == $this->current_page )
+			echo $i;
+		else
+			echo '<a href="' . $this->baseUrl .'/restorejob/list-restore/page/' . $i . '">' . $i . "</a>";
+
+		echo " &nbsp;\n";
+	}
+}
+?>
+</center>
+
+<?php else: ?>
+	<div align="center"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
+<?php endif; ?>
+
+<?php echo $this->render('footer.phtml'); ?>

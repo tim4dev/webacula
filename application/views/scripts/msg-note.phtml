@@ -1,0 +1,8 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<p><div class="noteclassic">
+	<?php echo $this->escape($this->msg);?>
+	<p align="center"><input type="button" value="<?php echo $this->translate->_('Back'); ?>" onClick="history.go(-1);"></p>
+</div></p>
+
+<?php echo $this->render('footer.phtml'); ?>

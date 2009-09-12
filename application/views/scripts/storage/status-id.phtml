@@ -1,0 +1,47 @@
+<?php echo $this->render('header.phtml'); ?>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/roundcorner2.css" />
+
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php
+	if ($this->result == 'NOFOUND') {
+		echo '<div align="center"><p>', $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></div>';
+	}
+ 	elseif ($this->result == 'ERR') {
+ 		echo '<div align="center"><p>', $this->translate->_("ERROR: There was a problem executing bconsole. Check permissions."), '</p></div>';
+ 	} else	{
+?>
+
+
+<div class="roundedcornr_box_2" style="width: 60%; margin-left: auto; margin-right: auto; text-align: left;">
+   <div class="roundedcornr_top_2"><div></div></div>
+      <div class="roundedcornr_content_2">
+
+    <b><?php print $this->translate->_("Director output:"); ?></b>
+
+	<?php
+    if ( $this->result )
+    {
+        echo '<pre>';
+        foreach ($this->result as $line) {
+            if ( strpos($line, 'ERR') || strpos($line, 'not found') )   {
+                echo '<div style="color: white; background-color: red;">' . $line . '</div><br>';
+            } else {
+                echo $line . '<br>';
+            }
+		}
+		echo '</pre>';
+    } else {
+        echo '<p><b>', $this->translate->_("No Storage status found."), '</b></p>';
+    }
+    ?>
+
+      </div>
+   <div class="roundedcornr_bottom_2"><div></div></div>
+</div>
+
+<?php
+ 	}
+?>
+
+<?php echo $this->render('footer.phtml'); ?>

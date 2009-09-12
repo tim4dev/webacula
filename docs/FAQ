@@ -1,0 +1,60 @@
+
+-----------------------------------------------------------------------------------
+Q. I receive a message like "/usr/sbin/bconsole: Permission denied".
+
+A. This is not a webacula (or bacula) bug.
+
+First check: /usr/sbin/bconsole -- is binary ELF file (not a shell script).
+See also INSTALL file.
+
+Next, modify your .htaccess file :
+	php_flag	display_errors on
+	RewriteEngine Off
+
+Create test.php :
+
+<?php
+
+echo '<h2>bconsole debug</h2>';
+
+//$cmd = '/usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf';
+// or
+$cmd = '/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf';
+
+exec($cmd . " <<EOF
+status dir
+@quit
+EOF",
+$command_output, $return_var);
+
+echo '<pre>command_output:<br>', print_r($command_output), '<br><br>return_var = ', $return_var, '</pre>';
+
+?>
+
+And check this : http://localhost/webacula/test.php
+See also /var/log/httpd/error_log
+
+
+
+-----------------------------------------------------------------------------------
+Q. Log book full text search not worked (MySQL).
+
+A.
+
+Backup webacula DB :
+mysqldump --skip-add-drop-table --skip-add-drop-database  -u root webacula > webacula.sql
+
+drop DB webacula and create with :
+
+CREATE DATABASE webacula
+	DEFAULT CHARACTER SET utf8
+   DEFAULT COLLATE utf8_general_ci;
+
+and load data from dump again.
+
+See also:
+
+SHOW VARIABLES LIKE 'character_set%';
+SHOW VARIABLES LIKE 'collation%';
+
+

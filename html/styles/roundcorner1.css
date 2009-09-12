@@ -1,0 +1,24 @@
+
+.roundedcornr_box_1 {
+   background: #c3d9ff;
+}
+.roundedcornr_top_1 div {
+   background: url(../images/roundedcornr1_tl.png) no-repeat top left;
+}
+.roundedcornr_top_1 {
+   background: url(../images/roundedcornr1_tr.png) no-repeat top right;
+}
+.roundedcornr_bottom_1 div {
+   background: url(../images/roundedcornr1_bl.png) no-repeat bottom left;
+}
+.roundedcornr_bottom_1 {
+   background: url(../images/roundedcornr1_br.png) no-repeat bottom right;
+}
+
+.roundedcornr_top_1 div, .roundedcornr_top_1,
+.roundedcornr_bottom_1 div, .roundedcornr_bottom_1 {
+   width: 100%;
+   height: 10px;
+   font-size: 1px;
+}
+.roundedcornr_content_1 { margin: 0 10px; }

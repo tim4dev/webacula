@@ -1,0 +1,92 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/wblogbook.css");</style>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
+
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php
+// create array type record
+foreach($this->typs as $t) :
+	$atyps[$t->typeid] = $this->translate->_( $t->typedesc );
+endforeach;
+?>
+
+<div id="logbook-form">
+
+<?php if ($this->amessages): ?>
+<!-- display ERRORS -->
+<div class="ui-widget" style="width: 100%; margin-left: auto; margin-right: auto;">
+	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+		<strong>
+		<?php
+			echo '<b>', $this->translate->_("ERROR: Record has not been added. Reason :"), ' </b><br><ol>';
+			foreach ($this->amessages as $msg) {
+				echo '<li>' . $msg . '</li>';
+			}
+			echo '</ol>'; 
+		?>		
+		</strong></p>
+	</div>
+</div>	
+<?php endif; ?>
+
+<form id="logbook" name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/add';?>" method="post">
+
+<p><?php print $this->translate->_("(<b>*</b>) Field is required to process this form"); ?></p>
+
+<label for="logDateCreate"><?php print $this->translate->_("<sup>*</sup>Date "); ?></label>&nbsp;
+<?php echo $this->formText('logDateCreate', $this->wblogbook->logDateCreate, array('size' => 20)) ?>
+<br>
+
+<?php echo $this->formHidden('logDateLast', $this->wblogbook->logDateLast, null); ?>
+<?php echo $this->formHidden('hiddenNew',   $this->hiddenNew, null); ?>
+
+<label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>&nbsp;
+<?php echo $this->formSelect('logTypeId', '10', null, $atyps); ?>
+<br><br>
+
+
+
+<!-- textarea -->
+
+<fieldset>
+	<legend><b><?php print $this->translate->_("<sup>*</sup>Text"); ?></legend>
+<?php print $this->translate->_("Allowed to use tags :"); ?> <br>
+<?php
+foreach($this->aAllowedTags as $key=>$value) {
+	echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
+		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\"> ";
+}
+?>
+
+<noscript>
+<?php
+foreach($this->aAllowedTags as $key=>$value) {
+	echo ' &lt;' . $value . '&gt;';
+}
+?>
+</noscript>
+<br>
+<?php print $this->translate->_("Allowed to use pseudo-tags :"); ?>
+<input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=')">
+<input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=')">
+<noscript>
+BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
+</noscript>
+<br>
+
+<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "100", 'rows' => "17")); ?>
+</fieldset>
+<!-- END textarea -->
+
+<br>
+<center>
+<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'prefer_btn') ); ?>
+</center>
+</form>
+
+</div> <!-- logbook-form -->
+
+<?php echo $this->render('footer.phtml'); ?>
