@@ -65,9 +65,9 @@ function my_MySQL_db_connect()
 
 function my_Sqlite_db_connect()
 {
-    // http://by.php.net/manual/en/book.sqlite3.php
+    // http://by.php.net/manual/en/book.pdo.php
     $dbname = '/tmp/webacula/sqlite/bacula.db';
-    $db = new SQLite3(dbname)
+    $db = new PDO('sqlite:'.$dbname, '', '')
       or die("[Sqlite] error connect.");
     echo "Connect [Sqlite] '$dbname' OK.\n";
     return $db;
@@ -100,11 +100,7 @@ function my_copy_table($table_name)
         foreach($row as $key => $value) {
           //echo "$key = $value\n"; // debug
           $columns = $columns . $key . ',';
-//	       if ($value == '0000-00-00 00:00:00')  {
-//	           $values  .= "NULL,";
-//	       } else {
-            $values  .= "'" .  addslashes($value) . "',";
-//          }
+          $values  .= "'" .  addslashes($value) . "',";
         }  
         $columns = rtrim($columns, ',');
         $values  = rtrim($values, ',');
@@ -114,7 +110,6 @@ function my_copy_table($table_name)
         //echo $query, "\n";
         $resOUT = $dbOUT->query($query);
         if ( !$resOUT ) die("\n\nSQL : $query\n\n");
-        //if ( !$resOUT ) echo 'Query failed: ' , pg_last_error();
         $i++;
     }
 

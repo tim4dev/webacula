@@ -110,6 +110,7 @@ my_log "Create Bacula and Webacula databases ..."
 
 cd ${BASEDIR}
 sh ./bacula_mysql_make_tables
+sh ./bacula_sqlite_make_tables
 
 cd ../install/
 

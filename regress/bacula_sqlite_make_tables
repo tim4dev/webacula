@@ -395,5 +395,7 @@ PRAGMA synchronous = NORMAL;
 
 END-OF-DATA
 
-chmod 640 ${db_name}
+# access by apache
+chmod 666 ${db_name}
+
 exit 0
