@@ -118,6 +118,7 @@ sh ./webacula_mysql_create_database.sh
 sh ./webacula_mysql_make_tables.sh
 sh ./webacula_postgresql_create_database.sh
 sh ./webacula_postgresql_make_tables.sh
+sh ./webacula_sqlite_create_database.sh
 
 cd -
 
@@ -282,5 +283,5 @@ my_log "fill webacula logbook"
 cd ${BASEDIR}
 sh ./webacula_mysql_fill_logbook
 sh ./webacula_postgresql_fill_logbook
-
+sh ./webacula_sqlite_fill_logbook
 

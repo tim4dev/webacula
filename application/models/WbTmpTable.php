@@ -307,6 +307,14 @@ class WbTmpTable extends Zend_Db_Table
 					$this->_db->quote($MD5) . ", $isMarked, $FileSize)";					
             	$this->_db->query($sql);
             	break;
+            case 'PDO_SQLITE':
+            	// http://www.sqlite.org/lang_conflict.html
+        		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
+        		$this->_db->query("INSERT ON CONFLICT IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
+           			" (FileId, PathId, FilenameId, LStat, MD5, isMarked, FileSize) " .
+					" VALUES ($FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ", " . 
+					$this->_db->quote($MD5) . ", $isMarked, $FileSize)");
+				break;
         	}
         	return TRUE; // all ok
         } catch (Zend_Exception $e) {
@@ -335,6 +343,12 @@ class WbTmpTable extends Zend_Db_Table
             		$FilenameId . " , " . $this->_db->quote($Name) . ')';
 				$this->_db->query($sql);
             	break;
+            case 'PDO_SQLITE':
+            	// http://www.sqlite.org/lang_conflict.html
+        		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
+        		$this->_db->query("INSERT ON CONFLICT IGNORE " . $this->_db->quoteIdentifier($this->tmp_filename) .
+            		" (FilenameId, Name) VALUES ($FilenameId, " . $this->_db->quote($Name) . ")");
+        		break;
            	}
         	return TRUE; // all ok
         } catch (Zend_Exception $e) {
@@ -362,6 +376,12 @@ class WbTmpTable extends Zend_Db_Table
 				$sql = 'SELECT my_clone_path(' . $this->_db->quote($this->tmp_path) . ', ' . $PathId . ' , ' . $this->_db->quote($Path) . ')';
 				$this->_db->query($sql);
 				break;
+			case 'PDO_SQLITE':
+            	// http://www.sqlite.org/lang_conflict.html
+        		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
+        		$this->_db->query("INSERT ON CONFLICT IGNORE " . $this->_db->quoteIdentifier($this->tmp_path) . " (PathId, Path) VALUES ($PathId, " .
+            		$this->_db->quote($Path) . ")");
+        		break;
         	}
         	return TRUE; // all ok
         } catch (Zend_Exception $e) {
@@ -527,9 +547,25 @@ class WbTmpTable extends Zend_Db_Table
 
    					PRIMARY KEY(FileId)
 				)");
-				$res_file = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " . 
-					$this->_db->quoteIdentifier($this->tmp_file) .
-					"  (PathId, FilenameId)");
+				$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " . 
+					$this->_db->quoteIdentifier($this->tmp_file) .	"  (PathId, FilenameId)");
+            	break;
+            case 'PDO_SQLITE':
+        		$res_file = $this->_db->query("
+    			CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_file) . " (
+   					FileId INTEGER,
+   					PathId INTEGER UNSIGNED NOT NULL,
+   					FilenameId INTEGER UNSIGNED NOT NULL,
+   					LStat VARCHAR(255) NOT NULL,
+   					MD5 VARCHAR(255),
+
+   					isMarked INTEGER  UNSIGNED DEFAULT 0,
+   					FileSize INTEGER  UNSIGNED DEFAULT 0,
+
+   					PRIMARY KEY(FileId)
+				)");
+				$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " . 
+					$this->_db->quoteIdentifier($this->tmp_file) .	"  (PathId, FilenameId)");
             	break;
         	}
 
@@ -553,9 +589,19 @@ class WbTmpTable extends Zend_Db_Table
   					Name TEXT NOT NULL,
   					PRIMARY KEY(FilenameId)
     			)");
-    			$res_file = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " . 
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " . 
 					$this->_db->quoteIdentifier($this->tmp_filename) . "  (Name)");
         		break;
+        	case 'PDO_SQLITE':
+    			$res_filename = $this->_db->query("
+    			CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_filename) . " (
+    				FilenameId INTEGER,
+  					Name TEXT DEFAULT '',
+  					PRIMARY KEY(FilenameId)
+    			)");
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " . 
+					$this->_db->quoteIdentifier($this->tmp_filename) . "  (Name)");
+    			break;
         	}
 
     		/*
@@ -585,9 +631,22 @@ class WbTmpTable extends Zend_Db_Table
 
    					PRIMARY KEY(PathId)
     			)");
-    			$res_file = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " . 
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " . 
 					$this->_db->quoteIdentifier($this->tmp_path) . "  (Path)");
         		break;
+        	case 'PDO_SQLITE':
+    			$res_path = $this->_db->query("
+    			CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_path) . " (
+    				PathId INTEGER,
+   					Path TEXT DEFAULT '',
+
+   					isMarked INTEGER  UNSIGNED DEFAULT 0,
+
+   					PRIMARY KEY(PathId)
+    			)");
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " . 
+					$this->_db->quoteIdentifier($this->tmp_path) . "  (Path)");
+    			break;
         	}
 
     		return TRUE; // all ok
@@ -646,6 +705,9 @@ class WbTmpTable extends Zend_Db_Table
         	case 'PDO_PGSQL':
 				$select->where("EXTRACT(SECOND FROM (NOW() - tmpCreate) ) > ?", $this->ttl_restore_session);
 				break;
+			case 'PDO_SQLITE':
+				$select->where("(strftime('%H:%M:%S',strftime('%s','now') - strftime('%s',tmpCreate),'unixepoch')) > ?", $this->ttl_restore_session);
+				break;
         }
 		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
     	$stmt   = $select->query();
@@ -676,6 +738,9 @@ class WbTmpTable extends Zend_Db_Table
 				break;
         	case 'PDO_PGSQL':
 				$select->where("EXTRACT(SECOND FROM (NOW() - tmpCreate) ) > ?", $this->ttl_restore_session);
+				break;
+			case 'PDO_SQLITE':
+				$select->where("(strftime('%H:%M:%S',strftime('%s','now') - strftime('%s',tmpCreate),'unixepoch')) > ?", $this->ttl_restore_session);
 				break;
         }   	
     	$select->where("tmpJobIdHash = ?", $this->jobidhash);
@@ -755,6 +820,15 @@ class WbTmpTable extends Zend_Db_Table
             		FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS f,
                 	" . $this->_db->quoteIdentifier($this->tmp_filename) . " AS n,
                 	" . $this->_db->quoteIdentifier($this->tmp_path) . " AS p
+            		WHERE
+	           		(f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1)
+            		ORDER BY Path ASC";
+				break;
+			case 'PDO_SQLITE':
+				$sql = "SELECT f.FileId, n.Name, p.Path
+            		FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS f
+                	INNER JOIN " . $this->_db->quoteIdentifier($this->tmp_filename) . " AS n
+                	INNER JOIN " . $this->_db->quoteIdentifier($this->tmp_path) . " AS p
             		WHERE
 	           		(f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1)
             		ORDER BY Path ASC";

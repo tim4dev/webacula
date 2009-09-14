@@ -7,20 +7,32 @@ if mysql -f <<END-OF-DATA
 
 USE webacula;
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
-	VALUES (ADDTIME(NOW(),'-1:10:55'), NOW(),'<h1>Header 1</h1>\r\n<h2>Header 2</h2>\r\n<h3>Header 3</h3>\r\n<pre>Preformatted text</pre>\r\n<i>Italic text</i>\r\n\r\nBACULA_JOBID=1\r\n\r\nLOGBOOK_ID=1\r\n\r\n<a href=\"http://webacula.sourceforge.net/\">External link</a>',10,0);
+
 
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
-   VALUES (ADDTIME(NOW(),'-10:30:25'),NULL,'<b>Warning</b> record (for example).\r\n\r\nSee BACULA_JOBID=1 for more details.',30,0);
+   VALUES (ADDTIME(NOW(),'-58:05:03'),NULL,'Текст по русски.',20,NULL);
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
-   VALUES (ADDTIME(NOW(),'-20:40:30'),NULL,'<b>Error</b> record (for example).\r\n\r\nSerious errors in  BACULA_JOBID=2',255,0);
+
 
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
    VALUES (ADDTIME(NOW(),'-48:15:10'),NULL,'The weather today is good ;)',20,NULL);
 
+
+
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
-   VALUES (ADDTIME(NOW(),'-58:05:03'),NULL,'Текст по русски.',20,NULL);
+   VALUES (ADDTIME(NOW(),'-20:40:30'),NULL,'<b>Error</b> record (for example).\r\n\r\nSerious errors in  BACULA_JOBID=2',255,0);
+
+
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+   VALUES (ADDTIME(NOW(),'-10:30:25'),NULL,'<b>Warning</b> record (for example).\r\n\r\nSee BACULA_JOBID=1 for more details.',30,0);
+
+
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+	VALUES (ADDTIME(NOW(),'-1:10:55'), NOW(),'<h1>Header 1</h1>\r\n<h2>Header 2</h2>\r\n<h3>Header 3</h3>\r\n<pre>Preformatted text</pre>\r\n<i>Italic text</i>\r\n\r\nBACULA_JOBID=1\r\n\r\nLOGBOOK_ID=1\r\n\r\n<a href=\"http://webacula.sourceforge.net/\">External link</a>',10,0);
+
+
 
 END-OF-DATA
 then
