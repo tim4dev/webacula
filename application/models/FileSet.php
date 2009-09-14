@@ -36,12 +36,11 @@ class FileSet extends Zend_Db_Table
    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'FileSet';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'fileset';
             break;
+        default: // including mysql, sqlite
+            $this->_name = 'FileSet';            
         }
         parent::_setupTableName();
     }

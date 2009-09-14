@@ -36,12 +36,11 @@ class Log extends Zend_Db_Table
    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'Log';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'log';
             break;
+		default: // including mysql, sqlite
+            $this->_name = 'Log';            
         }
         parent::_setupTableName();
     }

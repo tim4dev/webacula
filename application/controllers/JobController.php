@@ -157,6 +157,16 @@ class JobController extends Zend_Controller_Action
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
        			    'DurationTime' => '(EndTime - StartTime)'));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+				$select->from(array('j' => 'Job'),
+					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+					'StartTime', 'EndTime',
+					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+					'FileSetId', 'PurgedFiles', 'JobStatus',
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
+				break;               
             }
    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'c.Name'));
@@ -277,6 +287,16 @@ class JobController extends Zend_Controller_Action
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+				$select->from(array('j' => 'Job'),
+					array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+					'StartTime', 'EndTime',
+					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+					'FileSetId', 'PurgedFiles', 'JobStatus',
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
+				break;                
             }
 
 
@@ -427,6 +447,17 @@ class JobController extends Zend_Controller_Action
         		    'DurationTime' => '(EndTime - StartTime)'
     			));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+				$select->from(array('j' => 'Job'),
+					array('JobId', 'Job', 'Name', 'Level', 'ClientId',
+					'StartTime', 'EndTime', 'SchedTime',
+					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+					'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
+				));
+				break;
             }
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId',
@@ -622,6 +653,18 @@ $command_output, $return_var);
    			         'DurationTime' => '(EndTime - StartTime)'
    		        ));
             break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+				$select->from(array('j' => 'Job'),
+					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+					'sortStartTime' => 'StartTime',
+					'StartTime', 'EndTime',
+					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+					'FileSetId', 'PurgedFiles', 'JobStatus',
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
+				));
+			break;
         }
 		$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 		$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
@@ -676,15 +719,25 @@ $command_output, $return_var);
        			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
                 break;
             case 'PDO_PGSQL':
-            // PostgreSQL
-            // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
+	            // PostgreSQL
+    	        // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
                 $select->from(array('j' => 'Job'),
-    			array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime', 'EndTime',
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => '(EndTime - StartTime)'));
+    				array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+   					'StartTime', 'EndTime',
+   					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+       				'FileSetId', 'PurgedFiles', 'JobStatus',
+       				'DurationTime' => '(EndTime - StartTime)'));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+				$select->from(array('j' => 'Job'),
+					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+					'StartTime', 'EndTime',
+					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+					'FileSetId', 'PurgedFiles', 'JobStatus',
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
+                 break;
             }
 
        		$select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));

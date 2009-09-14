@@ -36,12 +36,11 @@ class Pool extends Zend_Db_Table
    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'Pool';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'pool';
             break;
+        default: // including mysql, sqlite
+        	$this->_name = 'Pool';
         }
         parent::_setupTableName();
     }
