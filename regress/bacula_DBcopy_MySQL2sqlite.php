@@ -6,11 +6,11 @@
  */
 
 $tables = array(
-    'UnsavedFiles',
-    'BaseFiles',
+    'Job',
     'JobMedia',
     'File',
-    'Job',
+    'UnsavedFiles',
+    'BaseFiles',
     'Media',
     'Client',
     'Pool',
@@ -67,8 +67,7 @@ function my_Sqlite_db_connect()
 {
     // http://by.php.net/manual/en/book.pdo.php
     $dbname = '/tmp/webacula/sqlite/bacula.db';
-    $db = new PDO('sqlite:'.$dbname, '', '')
-      or die("[Sqlite] error connect.");
+    $db = new PDO('sqlite:'.$dbname, '', '') or die("[Sqlite] error connect.");
     echo "Connect [Sqlite] '$dbname' OK.\n";
     return $db;
 }
@@ -76,7 +75,6 @@ function my_Sqlite_db_connect()
 function my_copy_table($table_name)
 {
     $dbIN  = my_MySQL_db_connect();
-    $dbOUT = my_Sqlite_db_connect();
 
     $sql   = "SELECT * FROM $table_name";
     $resIN = mysql_query($sql);
@@ -87,10 +85,11 @@ function my_copy_table($table_name)
     }
 
     if ( mysql_num_rows($resIN) == 0) {
-        echo "No rows found, exiting.\n";
+        echo "No rows in $table_name found.\n";
         return;
     }
 
+    $dbOUT = my_Sqlite_db_connect();
     $i = 0;
     while( $row = mysql_fetch_assoc($resIN) )
     {
@@ -99,17 +98,19 @@ function my_copy_table($table_name)
         //print_r($row); exit; // debug
         foreach($row as $key => $value) {
           //echo "$key = $value\n"; // debug
-          $columns = $columns . $key . ',';
-          $values  .= "'" .  addslashes($value) . "',";
+          $columns = $columns . $key . ' ,';
+          $values  .= $dbOUT->quote($value) . ' ,';
         }  
         $columns = rtrim($columns, ',');
         $values  = rtrim($values, ',');
         unset($row);
 
-        $query  = "INSERT INTO $table_name ($columns) VALUES ($values)";
+        $query  = "INSERT INTO $table_name ($columns) VALUES ($values);";
         //echo $query, "\n";
-        $resOUT = $dbOUT->query($query);
-        if ( !$resOUT ) die("\n\nSQL : $query\n\n");
+        $resOUT = $dbOUT->query($query) or die("\n\nERROR SQL : $query\n\n");
+        $resOUT->closeCursor();
+        unset($query);
+        unset($resOUT);
         $i++;
     }
 
@@ -117,7 +118,9 @@ function my_copy_table($table_name)
     if ($resIN) mysql_free_result($resIN);
     if ($dbIN) mysql_close($dbIN);
     // close Sqlite
-    $dbOUT->close();
+    unset($queryOUT);
+    unset($resOUT);
+    unset($dbOUT);
 
     echo "******* Table : '$table_name' , insert ", $i, " row(s)\n";
 }

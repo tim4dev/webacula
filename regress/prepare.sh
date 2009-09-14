@@ -219,6 +219,7 @@ run job="job-name-test-3" level=Incremental yes
 @sleep 1
 run job="job.name.test.4" level=Incremental yes
 @sleep 1
+run job="job.name.test.4" level=Incremental yes
 wait
 messages
 @output ${TMPDIR}/log/volumes.log
@@ -241,6 +242,7 @@ if mysql -f <<END-OF-DATA
 USE bacula;
 update Job set JobErrors=99 where JobId=2;
 update Job set JobErrors=9  where JobId=10;
+update Job set JobStatus='R'  where JobId=11;
 END-OF-DATA
 then
 	echo "Succeeded."
@@ -274,6 +276,7 @@ my_log "Copy DB from MySQL to PGSQL ..."
 
 cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2PGSQL.php
+php ./bacula_DBcopy_MySQL2sqlite.php
 
 my_log "fill webacula logbook"
 cd ${BASEDIR}

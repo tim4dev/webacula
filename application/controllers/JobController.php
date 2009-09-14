@@ -641,10 +641,10 @@ $command_output, $return_var);
    			         'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
    		        ));
             break;
-        case 'PDO_PGSQL':
-            // PostgreSQL
-            // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-            $select->from(array('j' => 'Job'),
+        	case 'PDO_PGSQL':
+            	// PostgreSQL
+	            // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
+    	        $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'sortStartTime' => 'StartTime',
 			        'StartTime', 'EndTime',
@@ -672,7 +672,6 @@ $command_output, $return_var);
 
 		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
 		$select->where("j.Type = 'B'");
-   		//!!!$select->group(array('j.JobId'));
    		$select->order(array("sortStartTime DESC"));
 
    		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!DEBUG!!!
