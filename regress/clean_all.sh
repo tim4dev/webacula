@@ -30,6 +30,7 @@ cd /etc/bacula
 
 echo -e "\n\n"
 
+rm -r -f /tmp/webacula/sqlite/*
 rm -r -f /tmp/webacula/*
 rmdir /tmp/webacula
 

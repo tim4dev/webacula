@@ -83,8 +83,8 @@ class MyClass_GetDataTimeline {
 				// http://sqlite.org/lang_datefunc.html
 				// %H - Hour (00 .. 23)
 				// %M - Minute (00 .. 59)
-				$select->from('Job', array(
-					'JobId', 'Name', 'StartTime', 'EndTime',
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
 					'h1' => "(strftime('%H',StartTime))",
 					'm1' => "(strftime('%M',StartTime))",
 					"h2" => "(strftime('%H',EndTime))",
@@ -157,8 +157,8 @@ class MyClass_GetDataTimeline {
 				// http://sqlite.org/lang_datefunc.html
                 // %H - Hour (00 .. 23)
                 // %M - Minute (00 .. 59)
-                $select->from('Job', array(
-	                'JobId', 'Name', 'StartTime', 'EndTime',
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                $select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
                     'h1' => "(strftime('%H',StartTime))",
                     'm1' => "(strftime('%M',StartTime))",
                     'h2' => "(strftime('%H',EndTime))",
@@ -204,8 +204,7 @@ class MyClass_GetDataTimeline {
                 // http://dev.mysql.com/doc/refman/5.0/en/date-and-time-functions.html#function_date-format
                 // %H - Hour (00..23)
                 // %i - Minutes, numeric (00..59)
-                $select->from('Job', array(
-                'JobId', 'Name', 'StartTime', 'EndTime',
+                $select->from('Job', array('JobId', 'Name', 'StartTime', 'EndTime',
 				'h1' => "DATE_FORMAT(StartTime, '%H')",
 				'm1' => "DATE_FORMAT(StartTime, '%i')",
 				'h2' => "DATE_FORMAT(EndTime, '%H')",
@@ -216,8 +215,7 @@ class MyClass_GetDataTimeline {
                 // http://www.postgresql.org/docs/8.0/static/functions-formatting.html
                 // HH24 - hour of day (00-23)
                 // MI   - minute (00-59)
-                $select->from('Job', array(
-                'JobId', 'Name', 'StartTime', 'EndTime',
+                $select->from('Job', array('JobId', 'Name', 'StartTime', 'EndTime',
 				'h1' => "to_char(StartTime, 'HH24')",
 				'm1' => "to_char(StartTime, 'MI')",
 				'h2' => "to_char(EndTime, 'HH24')",
@@ -228,8 +226,8 @@ class MyClass_GetDataTimeline {
                 // http://sqlite.org/lang_datefunc.html
                 // %H - Hour (00 .. 23)
                 // %M - Minute (00 .. 59)
-                 $select->from('Job', array(
- 	                'JobId', 'Name', 'StartTime', 'EndTime',
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                 $select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
 					'h1' => "(strftime('%H',StartTime))",
 					'm1' => "(strftime('%M',StartTime))",
 					'h2' => "(strftime('%H',EndTime))",
@@ -296,8 +294,8 @@ class MyClass_GetDataTimeline {
                 // http://sqlite.org/lang_datefunc.html
                 // %H - Hour (00 .. 23)
                 // %M - Minute (00 .. 59)
-                $select->from('Job', array(
-					'JobId', 'Name', 'StartTime', 'EndTime',
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                $select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
 					'h1' => "(strftime('%H',StartTime))",
 					'm1' => "(strftime('%M',StartTime))",
 					'h2' => "(strftime('%H',EndTime))",

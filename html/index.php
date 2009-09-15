@@ -16,7 +16,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: index.php 409 2009-09-04 06:29:05Z tim $
  */
 
 error_reporting(E_ALL|E_STRICT);
@@ -56,7 +55,7 @@ $registry->set('config_webacula', $config_webacula);
 date_default_timezone_set($config->def->timezone);
 
 // set self version
-Zend_Registry::set('webacula_version', '3.1.RC1, build 2009.09.04');
+Zend_Registry::set('webacula_version', '3.1.RC2, build 2009.09.15');
 
 // set global const
 Zend_Registry::set('UNKNOWN_VOLUME_CAPACITY', -200); // tape drive

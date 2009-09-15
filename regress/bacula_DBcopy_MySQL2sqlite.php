@@ -91,6 +91,7 @@ function my_copy_table($table_name)
 
     $dbOUT = my_Sqlite_db_connect();
     $i = 0;
+    echo "\n";
     while( $row = mysql_fetch_assoc($resIN) )
     {
         $columns = '';
@@ -105,14 +106,24 @@ function my_copy_table($table_name)
         $values  = rtrim($values, ',');
         unset($row);
 
-        $query  = "INSERT INTO $table_name ($columns) VALUES ($values);";
+        // http://by.php.net/manual/en/book.pdo.php
+        $query  = "INSERT INTO $table_name ($columns) VALUES ($values)";
         //echo $query, "\n";
-        $resOUT = $dbOUT->query($query) or die("\n\nERROR SQL : $query\n\n");
+        $resOUT = $dbOUT->query($query);
+        if (!$resOUT) {
+            echo "\n\nERROR : array([0] SQLSTATE error code, [1] Driver-specific error code, [2] Driver-specific error message)\n";
+            print_r($dbOUT->errorInfo());
+            echo "\n\n";
+            echo "SQL QUERY : $query \n\n";
+            exit;
+        }
         $resOUT->closeCursor();
         unset($query);
         unset($resOUT);
         $i++;
+        echo ".";
     }
+    echo "\n";
 
     // close MySQL
     if ($resIN) mysql_free_result($resIN);

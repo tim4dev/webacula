@@ -435,6 +435,7 @@ class JobController extends Zend_Controller_Action
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
         		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
                 ));
+                $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -446,20 +447,26 @@ class JobController extends Zend_Controller_Action
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
         		    'DurationTime' => '(EndTime - StartTime)'
     			));
+    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
 			case 'PDO_SQLITE':
 				// SQLite3 Documentation
 				// http://sqlite.org/lang_datefunc.html
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				// http://sqlite.org/pragma.html
+				//$res = $db->query('PRAGMA short_column_names=1'); // not affected
+				//$res = $db->query('PRAGMA full_column_names=0'); // not affected
 				$select->from(array('j' => 'Job'),
-					array('JobId', 'Job', 'Name', 'Level', 'ClientId',
-					'StartTime', 'EndTime', 'SchedTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-					'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
+					array('jobid'=>'JobId', 'job'=>'Job', 'name'=>'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+					'starttime'=>'StartTime', 'endtime'=>'EndTime', 'schedtime'=>'SchedTime',
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
 				));
+				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
 				break;
             }
-            $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId',
                 array('ClientName' => 'Name', 'ClientUName' => 'UName'));
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
@@ -477,12 +484,20 @@ class JobController extends Zend_Controller_Action
 
 			// list volumes
 			$select = new Zend_Db_Select($db);
-    		$select->distinct();
-    		$select->from(array('j' => 'JobMedia'),	array('MediaId'));
-	    	$select->joinInner(array('m' => 'Media'), 'j.MediaId = m.MediaId', array('VolumeName'));
-
-        	$select->where("j.JobId=$jobid");
-
+			switch ($this->db_adapter) {
+			case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$select->distinct();
+    			$select->from(array('j' => 'JobMedia'),	array('mediaid'=>'MediaId'));
+	    		$select->joinInner(array('m' => 'Media'), 'j.MediaId = m.MediaId', array('volumename'=>'VolumeName'));
+        		$select->where("j.JobId=$jobid");
+				break;
+			default: // mysql, postgresql
+				$select->distinct();
+    			$select->from(array('j' => 'JobMedia'),	array('MediaId'));
+	    		$select->joinInner(array('m' => 'Media'), 'j.MediaId = m.MediaId', array('VolumeName'));
+        		$select->where("j.JobId=$jobid");
+			}
         	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
         	$stmt = $select->query();
@@ -640,6 +655,9 @@ $command_output, $return_var);
    			         'FileSetId', 'PurgedFiles', 'JobStatus',
    			         'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
    		        ));
+   		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
+				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
+				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
             break;
         	case 'PDO_PGSQL':
             	// PostgreSQL
@@ -652,24 +670,28 @@ $command_output, $return_var);
    			         'FileSetId', 'PurgedFiles', 'JobStatus',
    			         'DurationTime' => '(EndTime - StartTime)'
    		        ));
+   		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
+				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
+				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
             break;
 			case 'PDO_SQLITE':
 				// SQLite3 Documentation
 				// http://sqlite.org/lang_datefunc.html
+				// bug http://framework.zend.com/issues/browse/ZF-884
 				$select->from(array('j' => 'Job'),
-					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'sortStartTime' => 'StartTime',
-					'StartTime', 'EndTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-					'FileSetId', 'PurgedFiles', 'JobStatus',
+					'starttime'=>'StartTime', 'endtime'=>'EndTime',
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
 				));
+				$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
+				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
+				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('jobstatuslong'=>'JobStatusLong'));
 			break;
         }
-		$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-		$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
-		$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
-
 		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
 		$select->where("j.Type = 'B'");
    		$select->order(array("sortStartTime DESC"));
@@ -730,11 +752,13 @@ $command_output, $return_var);
 			case 'PDO_SQLITE':
 				// SQLite3 Documentation
 				// http://sqlite.org/lang_datefunc.html
+				// bug http://framework.zend.com/issues/browse/ZF-884
 				$select->from(array('j' => 'Job'),
-					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-					'StartTime', 'EndTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-					'FileSetId', 'PurgedFiles', 'JobStatus',
+					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+					'starttime'=>'StartTime', 'endtime'=>'EndTime',
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
                  break;
             }

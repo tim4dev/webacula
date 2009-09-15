@@ -218,7 +218,7 @@ cd /etc/bacula
 	sudo chmod g+rw /var/lib/sqlite
 	sudo ./webacula_sqlite_create_database.sh
 	sudo chgrp apache /var/lib/sqlite/webacula.db
-	chmod g+rw /var/lib/sqlite/webacula.db
+	sudo chmod g+rw /var/lib/sqlite/webacula.db
 
 
 Примечание. БД webacula требуется для восстановления заданий и файлов.

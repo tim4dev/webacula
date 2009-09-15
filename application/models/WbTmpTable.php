@@ -310,7 +310,7 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_SQLITE':
             	// http://www.sqlite.org/lang_conflict.html
         		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
-        		$this->_db->query("INSERT ON CONFLICT IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
+        		$this->_db->query("INSERT OR IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
            			" (FileId, PathId, FilenameId, LStat, MD5, isMarked, FileSize) " .
 					" VALUES ($FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ", " . 
 					$this->_db->quote($MD5) . ", $isMarked, $FileSize)");
@@ -346,7 +346,7 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_SQLITE':
             	// http://www.sqlite.org/lang_conflict.html
         		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
-        		$this->_db->query("INSERT ON CONFLICT IGNORE " . $this->_db->quoteIdentifier($this->tmp_filename) .
+        		$this->_db->query("INSERT OR IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_filename) .
             		" (FilenameId, Name) VALUES ($FilenameId, " . $this->_db->quote($Name) . ")");
         		break;
            	}
@@ -379,7 +379,7 @@ class WbTmpTable extends Zend_Db_Table
 			case 'PDO_SQLITE':
             	// http://www.sqlite.org/lang_conflict.html
         		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
-        		$this->_db->query("INSERT ON CONFLICT IGNORE " . $this->_db->quoteIdentifier($this->tmp_path) . " (PathId, Path) VALUES ($PathId, " .
+        		$this->_db->query("INSERT OR IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_path) . " (PathId, Path) VALUES ($PathId, " .
             		$this->_db->quote($Path) . ")");
         		break;
         	}
@@ -495,18 +495,31 @@ class WbTmpTable extends Zend_Db_Table
     	$this->dropTmpTable($this->tmp_filename);
     	$this->dropTmpTable($this->tmp_path);
 
-    	// сначала создаем записи о новых таблицах !!! порядок не менять    	   
-    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
-    	   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_file) . ", " .
-    	   $this->_db->quote($this->jobidhash) . ', ' . ' NOW() )' );
-
-    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
-    	   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_filename) . ', '.
-    	   $this->_db->quote($this->jobidhash) . ', ' . ' NOW() )' );
-
-    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
-    	   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_path) . ', ' .
-    	   $this->_db->quote( $this->jobidhash) . ', ' . ' NOW() )' );
+    	// сначала создаем записи о новых таблицах !!! порядок не менять
+    	switch ($this->db_adapter) {
+       		case 'PDO_SQLITE':
+       			$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
+    	   			" (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_file) . ", " .
+    	   		$this->_db->quote($this->jobidhash) . ', ' . " datetime('now') )" );
+		    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
+    			   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_filename) . ', '.
+    	   		$this->_db->quote($this->jobidhash) . ', ' . " datetime('now') )" );
+		    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
+    			   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_path) . ', ' .
+    	   		$this->_db->quote( $this->jobidhash) . ', ' . " datetime('now') )" );    	   
+			break;
+			default: // mysql, postgresql
+				$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
+    	   			" (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_file) . ", " .
+    	   		$this->_db->quote($this->jobidhash) . ', ' . ' NOW() )' );
+		    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
+    			   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_filename) . ', '.
+    	   		$this->_db->quote($this->jobidhash) . ', ' . ' NOW() )' );
+		    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
+    			   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_path) . ', ' .
+    	   		$this->_db->quote( $this->jobidhash) . ', ' . ' NOW() )' );
+			break;
+    	}
 
     	// создаем таблицы !!! порядок не менять
     	// see also cats/make_mysql_tables.in
