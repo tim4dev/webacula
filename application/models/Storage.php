@@ -36,12 +36,11 @@ class Storage extends Zend_Db_Table
    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'Storage';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'storage';
             break;
+        default: // including mysql, sqlite
+            $this->_name = 'Storage';
         }
         parent::_setupTableName();
     }

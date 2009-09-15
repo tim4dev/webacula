@@ -832,7 +832,26 @@ $command_output, $return_var);
 		} else {
 			$jobtdate = " AND Job.JobTDate>'" . $ajob_full[0]['jobtdate'] . "'";
 		}
-		$sql = "SELECT DISTINCT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
+		switch ($this->db_adapter) {
+        	case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$sql = "SELECT DISTINCT Job.JobId as jobid, Job.JobTDate as jobtdate, Job.ClientId as clientid, " .
+					" Job.Level as level, Job.JobFiles as jobfiles, Job.JobBytes as jobbytes, " .
+					" Job.StartTime as starttime, Media.VolumeName as volumename, JobMedia.StartFile as startfile, " .
+					" Job.VolSessionId as volsessionid, Job.VolSessionTime as volsessiontime" .
+				" FROM Job,JobMedia,Media,FileSet" .
+				" WHERE Media.Enabled=1 " .
+					" $jobtdate " .
+					" $date_before" .
+					" AND Job.ClientId={$this->restoreNamespace->ClientIdFrom}" .
+					" AND JobMedia.JobId=Job.JobId" .
+					" AND JobMedia.MediaId=Media.MediaId" .
+					" AND Job.Level='I' AND JobStatus IN ('T','W') AND Type='B'" .
+					" AND Job.FileSetId=FileSet.FileSetId" .
+					" AND FileSet.FileSet='".$this->restoreNamespace->FileSet."'";
+				break;
+			default: // mysql, postgresql
+				$sql = "SELECT DISTINCT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
 					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
 				" FROM Job,JobMedia,Media,FileSet" .
 				" WHERE Media.Enabled=1 " .
@@ -844,6 +863,8 @@ $command_output, $return_var);
 					" AND Job.Level='I' AND JobStatus IN ('T','W') AND Type='B'" .
 					" AND Job.FileSetId=FileSet.FileSetId" .
 					" AND FileSet.FileSet='".$this->restoreNamespace->FileSet."'";
+				break;
+		}			
 		//echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
    		$stmt = $bacula->query($sql);
   		$ajob_inc = $stmt->fetchAll();
@@ -1293,13 +1314,27 @@ $command_output, $return_var);
 
 		$offset = self::ROW_LIMIT_FILES * ($page - 1);
         $db = $tmp_tables->getDb();
-        $sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name
-        	   FROM ' . $db->quoteIdentifier($tmp_tables->getTableNameFile()) . " AS f, " .
-               $db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
-			   $db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n
-			   WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
-  			   ORDER BY Path ASC, Name ASC
-  			   LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+        switch ($this->db_adapter) {
+        	case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name
+					FROM ' . $db->quoteIdentifier($tmp_tables->getTableNameFile()) . " AS f, " .
+               		$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
+			   		$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n
+			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
+  			   		ORDER BY Path ASC, Name ASC
+  			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+  			   	break;
+        	default: // mysql, postgresql
+        		$sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name
+					FROM ' . $db->quoteIdentifier($tmp_tables->getTableNameFile()) . " AS f, " .
+               		$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
+			   		$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n
+			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
+  			   		ORDER BY Path ASC, Name ASC
+  			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+        	break;
+        }
  		//$this->logger->log("listRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
 		$stmt = $db->query($sql);
         $this->view->result = $stmt->fetchAll();
@@ -1350,13 +1385,27 @@ $command_output, $return_var);
         // *** end pager ***
 
 		$offset = self::ROW_LIMIT_FILES * ($page - 1);
-		$db = $tmp_tables->getDb();	
-		$sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name FROM ' . 
-			$db->quoteIdentifier($tmp_tables->getTableNameFile()) . ' AS f, ' .
-			$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
-			$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n ' .
-			' WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) ' . 
-			' ORDER BY Path ASC, Name ASC LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+		$db = $tmp_tables->getDb();
+		switch ($this->db_adapter) {
+        	case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name' .
+					' FROM ' . 
+					$db->quoteIdentifier($tmp_tables->getTableNameFile()) . ' AS f, ' .
+					$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
+					$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n ' .
+					' WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) ' . 
+					' ORDER BY Path ASC, Name ASC LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+				break;
+			default:
+				$sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name FROM ' . 
+					$db->quoteIdentifier($tmp_tables->getTableNameFile()) . ' AS f, ' .
+					$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
+					$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n ' .
+					' WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) ' . 
+					' ORDER BY Path ASC, Name ASC LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+				break;
+		}	
 		$stmt = $db->query($sql);
 		//$this->logger->log("listRecentRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
 

@@ -36,12 +36,11 @@ class Volume extends Zend_Db_Table
    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'Media';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'media';
             break;
+		default: // including mysql, sqlite
+			$this->_name = 'Media';
         }
         parent::_setupTableName();
     }

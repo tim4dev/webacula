@@ -78,6 +78,18 @@ class MyClass_GetDataTimeline {
 				"h2" => "to_char(EndTime, 'HH24')",
 				'm2' => "to_char(EndTime, 'MI')"));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+				// %H - Hour (00 .. 23)
+				// %M - Minute (00 .. 59)
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
+					'h1' => "(strftime('%H',StartTime))",
+					'm1' => "(strftime('%M',StartTime))",
+					"h2" => "(strftime('%H',EndTime))",
+					'm2' => "(strftime('%M',EndTime))"));
+				break;
             }
 
     		$select->where("(StartTime >= '$date 00:00:00') AND (StartTime <= '$date 23:59:59') AND
@@ -122,11 +134,11 @@ class MyClass_GetDataTimeline {
                 // %H - Hour (00..23)
                 // %i - Minutes, numeric (00..59)
                 $select->from('Job', array(
-                'JobId', 'Name', 'StartTime', 'EndTime',
-				'h1' => "DATE_FORMAT(StartTime, '%H')",
-				'm1' => "DATE_FORMAT(StartTime, '%i')",
-				"h2" => "DATE_FORMAT(EndTime, '%H')",
-				'm2' => "DATE_FORMAT(EndTime, '%i')"));
+                	'JobId', 'Name', 'StartTime', 'EndTime',
+					'h1' => "DATE_FORMAT(StartTime, '%H')",
+					'm1' => "DATE_FORMAT(StartTime, '%i')",
+					'h2' => "DATE_FORMAT(EndTime, '%H')",
+					'm2' => "DATE_FORMAT(EndTime, '%i')"));
                 break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -134,12 +146,24 @@ class MyClass_GetDataTimeline {
                 // HH24 - hour of day (00-23)
                 // MI   - minute (00-59)
                 $select->from('Job', array(
-                'JobId', 'Name', 'StartTime', 'EndTime',
-				'h1' => "to_char(StartTime, 'HH24')",
-				'm1' => "to_char(StartTime, 'MI')",
-				"h2" => "to_char(EndTime, 'HH24')",
-				'm2' => "to_char(EndTime, 'MI')"));
+                	'JobId', 'Name', 'StartTime', 'EndTime',
+					'h1' => "to_char(StartTime, 'HH24')",
+					'm1' => "to_char(StartTime, 'MI')",
+					'h2' => "to_char(EndTime, 'HH24')",
+					'm2' => "to_char(EndTime, 'MI')"));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+				// http://sqlite.org/lang_datefunc.html
+                // %H - Hour (00 .. 23)
+                // %M - Minute (00 .. 59)
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                $select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
+                    'h1' => "(strftime('%H',StartTime))",
+                    'm1' => "(strftime('%M',StartTime))",
+                    'h2' => "(strftime('%H',EndTime))",
+                    'm2' => "(strftime('%M',EndTime))"));
+				break;                
             }
 
 
@@ -180,11 +204,10 @@ class MyClass_GetDataTimeline {
                 // http://dev.mysql.com/doc/refman/5.0/en/date-and-time-functions.html#function_date-format
                 // %H - Hour (00..23)
                 // %i - Minutes, numeric (00..59)
-                $select->from('Job', array(
-                'JobId', 'Name', 'StartTime', 'EndTime',
+                $select->from('Job', array('JobId', 'Name', 'StartTime', 'EndTime',
 				'h1' => "DATE_FORMAT(StartTime, '%H')",
 				'm1' => "DATE_FORMAT(StartTime, '%i')",
-				"h2" => "DATE_FORMAT(EndTime, '%H')",
+				'h2' => "DATE_FORMAT(EndTime, '%H')",
 				'm2' => "DATE_FORMAT(EndTime, '%i')"));
                 break;
             case 'PDO_PGSQL':
@@ -192,13 +215,23 @@ class MyClass_GetDataTimeline {
                 // http://www.postgresql.org/docs/8.0/static/functions-formatting.html
                 // HH24 - hour of day (00-23)
                 // MI   - minute (00-59)
-                $select->from('Job', array(
-                'JobId', 'Name', 'StartTime', 'EndTime',
+                $select->from('Job', array('JobId', 'Name', 'StartTime', 'EndTime',
 				'h1' => "to_char(StartTime, 'HH24')",
 				'm1' => "to_char(StartTime, 'MI')",
-				"h2" => "to_char(EndTime, 'HH24')",
+				'h2' => "to_char(EndTime, 'HH24')",
 				'm2' => "to_char(EndTime, 'MI')"));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+                // http://sqlite.org/lang_datefunc.html
+                // %H - Hour (00 .. 23)
+                // %M - Minute (00 .. 59)
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                 $select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
+					'h1' => "(strftime('%H',StartTime))",
+					'm1' => "(strftime('%M',StartTime))",
+					'h2' => "(strftime('%H',EndTime))",
+					'm2' => "(strftime('%M',EndTime))"));
             }
 
     		$select->where("(StartTime >= '$date 00:00:00') AND (StartTime <= '$date 23:59:59') AND
@@ -256,6 +289,18 @@ class MyClass_GetDataTimeline {
 				"h2" => "to_char(EndTime, 'HH24')",
 				'm2' => "to_char(EndTime, 'MI')"));
                 break;
+			case 'PDO_SQLITE':
+				// SQLite3 Documentation
+                // http://sqlite.org/lang_datefunc.html
+                // %H - Hour (00 .. 23)
+                // %M - Minute (00 .. 59)
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                $select->from('Job', array('jobid'=>'JobId', 'name'=>'Name', 'starttime'=>'StartTime', 'endtime'=>'EndTime',
+					'h1' => "(strftime('%H',StartTime))",
+					'm1' => "(strftime('%M',StartTime))",
+					'h2' => "(strftime('%H',EndTime))",
+					'm2' => "(strftime('%M',EndTime))"));
+                 break;
             }
 
     		$select->where("(StartTime < '$date 00:00:00') AND (EndTime > '$date 23:59:59')");

@@ -58,3 +58,11 @@ SHOW VARIABLES LIKE 'character_set%';
 SHOW VARIABLES LIKE 'collation%';
 
 
+
+-----------------------------------------------------------------------------------
+Sqlite:
+http://framework.zend.com/manual/en/zend.db.html#zend.db.adapter.adapter-notes.pdo-sqlite
+"If you have problems that your result sets are returned with keys of the form "tablename.columnname" when you do a join query, then you should upgrade to the current version of PHP."
+
+Upgrade PHP, example, from "Les RPM de Remi" repo : http://blog.famillecollet.com/pages/Config-en
+

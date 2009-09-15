@@ -19,7 +19,7 @@
 	~~~~~~~~~~~~~~~~~~~~
 
 - Bacula 3.0 или выше.
-- Поддерживается СУБД MySQL и PostgreSQL.
+- Полная поддержка СУБД MySQL, PostgreSQL и Sqlite.
 - Zend Framework version 1.8.3
 - Zend Framework требует PHP 5.2.4 и выше с расширением PDO. См. также:
   http://framework.zend.com/manual/en/requirements.html
@@ -211,6 +211,15 @@ cd /etc/bacula
 для PostgreSQL:
    ./webacula_postgresql_create_database.sh
    ./webacula_postgresql_make_tables.sh
+
+для Sqlite:
+   sudo mkdir /var/lib/sqlite/
+	sudo chown root.apache /var/lib/sqlite
+	sudo chmod g+rw /var/lib/sqlite
+	sudo ./webacula_sqlite_create_database.sh
+	sudo chgrp apache /var/lib/sqlite/webacula.db
+	sudo chmod g+rw /var/lib/sqlite/webacula.db
+
 
 Примечание. БД webacula требуется для восстановления заданий и файлов.
 

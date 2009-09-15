@@ -32,6 +32,7 @@ class LogController extends Zend_Controller_Action
 
 	function init()
 	{
+		$this->db_adapter = Zend_Registry::get('DB_ADAPTER');
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		Zend_Loader::loadClass('Log');
 		$this->view->translate = Zend_Registry::get('translate');
@@ -46,15 +47,22 @@ class LogController extends Zend_Controller_Action
     		$this->view->title = sprintf($this->view->translate->_("Console messages for Job %s, JobId %u"), $job_name, $job_id);
 
 			$db = Zend_Db_Table::getDefaultAdapter();
-			// make select from multiple tables
 			$select = new Zend_Db_Select($db);
-    		$select->distinct();
-    		$select->from(array('l' => 'Log'), array('LogId', 'JobId', 'LogTime' => 'Time', 'LogText'));
-
-    		$select->where("JobId='$job_id'"); // AND
-
-			$select->order(array('LogId', 'LogTime'));
-
+			switch ($this->db_adapter) {
+			case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$select->distinct();
+    			$select->from(array('l' => 'Log'), array('logid'=>'LogId', 'jobid'=>'JobId', 
+					'LogTime' => 'Time', 'logtext'=>'LogText'));
+    			$select->where("JobId='$job_id'"); // AND
+				$select->order(array('LogId', 'LogTime'));
+				break;
+			default: // mysql, postgresql
+				$select->distinct();
+    			$select->from(array('l' => 'Log'), array('LogId', 'JobId', 'LogTime' => 'Time', 'LogText'));
+    			$select->where("JobId='$job_id'"); // AND
+				$select->order(array('LogId', 'LogTime'));
+			}
 			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
     		$stmt = $select->query();

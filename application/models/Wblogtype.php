@@ -27,12 +27,11 @@ class Wblogtype extends Zend_Db_Table
 	protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'wbLogType';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'wblogtype';
             break;
+        default:  // including mysql, sqlite
+        	$this->_name = 'wbLogType';
         }
         parent::_setupTableName();
     }

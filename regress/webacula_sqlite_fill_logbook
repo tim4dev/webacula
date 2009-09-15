@@ -1,0 +1,51 @@
+#!/bin/sh
+
+db_name="/var/lib/sqlite/webacula.db"
+
+/usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+   VALUES (datetime('now', '-4 day'),NULL,'Текст по русски.',20,NULL);
+
+
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+   VALUES (datetime('now', '-2 day'),NULL,'The weather today is good ;)',20,NULL);
+
+
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+   VALUES (datetime('now', '-15 hour'),NULL,
+'<b>Error</b> record (for example).
+
+Serious errors in  BACULA_JOBID=2',255,0);
+
+
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+   VALUES (datetime('now', '-10 hour'),NULL,
+'<b>Warning</b> record (for example).
+
+See BACULA_JOBID=1 for more details.',30,0);
+
+
+
+INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+	VALUES (datetime('now', '-1 hour'), datetime('now'),
+'<h1>Header 1</h1>
+<h2>Header 2</h2>
+<h3>Header 3</h3>
+<pre>Preformatted text</pre>
+<i>Italic text</i>
+
+BACULA_JOBID=1
+
+LOGBOOK_ID=1
+
+<a href=\"http://webacula.sourceforge.net/\">External link</a>',10,0);
+
+
+
+END-OF-DATA
+
+exit 0

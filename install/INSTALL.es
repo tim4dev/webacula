@@ -23,7 +23,7 @@
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Bacula 3.0 o superior.
-- Soportados MySQL y PostgreSQL.
+- Soportados MySQL, PostgreSQL y Sqlite.
 - Zend Framework version 1.8.3
 - Zend Framework está construido usando programación orientada a objetos y requiere: 
   PHP 5.2.4 o superior con la extensión PDO(de acuerdo al motor de bases de datos seleccionado) activada . Por favor revise el apéndice "Requerimientos del Sistema" para una información mejor detallada
@@ -210,6 +210,16 @@ MySQL:
 PostgreSQL:
    ./webacula_postgresql_create_database.sh
    ./webacula_postgresql_make_tables.sh
+
+for Sqlite:
+   sudo mkdir /var/lib/sqlite/
+   sudo chown root.apache /var/lib/sqlite
+   sudo chmod g+rw /var/lib/sqlite
+   sudo ./webacula_sqlite_create_database.sh
+   sudo chgrp apache /var/lib/sqlite/webacula.db
+   sudo chmod g+rw /var/lib/sqlite/webacula.db
+
+NOTE. Database "webacula" also required for restore the jobs and files.
 
 
 

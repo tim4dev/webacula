@@ -36,12 +36,11 @@ class FileTable extends Zend_Db_Table
    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $this->_name = 'File';
-            break;
         case 'PDO_PGSQL':
             $this->_name = 'file';
             break;
+        default: // including mysql, sqlite
+            $this->_name = 'File';            
         }
         parent::_setupTableName();
     }
