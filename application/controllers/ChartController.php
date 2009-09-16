@@ -23,7 +23,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: ChartController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
 /* Zend_Controller_Action */
@@ -39,6 +38,7 @@ class ChartController extends Zend_Controller_Action
 
         $this->translate = Zend_Registry::get('translate');
 
+		Zend_Loader::loadClass('Timeline');
         // for input field validation
         Zend_Loader::loadClass('Zend_Validate');
         Zend_Loader::loadClass('Zend_Filter_Input');
@@ -91,8 +91,8 @@ class ChartController extends Zend_Controller_Action
     		return;
     	}
 
-    	$res = new MyClass_GetDataTimeline;
-    	$atime = $res->GetDataTimeline($date);
+    	$timeline = new Timeline;
+    	$atime = $timeline->GetDataTimeline($date);
     	if ( empty($atime) )	{
     		// Nothing data to graph
     		return;

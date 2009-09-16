@@ -37,10 +37,10 @@ Zend_Loader::loadClass('Zend_Json');
 Zend_Loader::loadClass('Zend_Translate');
 Zend_Loader::loadClass('Zend_Locale');
 Zend_Loader::loadClass('Zend_Exception');
+Zend_Loader::loadClass('Zend_Paginator');
 
 // load my class
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
-Zend_Loader::loadClass('MyClass_GetDataTimeline');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 
 // load configuration
@@ -55,7 +55,7 @@ $registry->set('config_webacula', $config_webacula);
 date_default_timezone_set($config->def->timezone);
 
 // set self version
-Zend_Registry::set('webacula_version', '3.1, build 2009.09.16');
+Zend_Registry::set('webacula_version', '3.2, build 2009.09.16');
 
 // set global const
 Zend_Registry::set('UNKNOWN_VOLUME_CAPACITY', -200); // tape drive
@@ -91,7 +91,6 @@ Zend_Registry::set('db_webacula', $db_webacula);
 Zend_Loader::loadClass('Media');
 Zend_Loader::loadClass('Client');
 Zend_Loader::loadClass('FileSet');
-Zend_Loader::loadClass('FileTable');
 
 // setup controller, exceptions handler
 $frontController = Zend_Controller_Front::getInstance();

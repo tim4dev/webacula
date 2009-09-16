@@ -34,45 +34,30 @@ class DirectorController extends Zend_Controller_Action
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->translate = Zend_Registry::get('translate');
+		Zend_Loader::loadClass('Director');
 	}
 
     function statusdirAction()
     {
     	$this->view->title = $this->view->translate->_("Status Director");
-
         // get status dir
-        $config = Zend_Registry::get('config');
-
-    	if ( !file_exists($config->bacula->bconsole))	{
-            $this->view->result_error = 'NOFOUND_BCONSOLE';
-            $this->render();
-            return;
-        }
-
-        $bconsolecmd = '';
-        if ( isset($config->bacula->sudo))	{
-            // run with sudo
-            $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        } else {
-            $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        }
-
-        //echo "<pre>bconsolecmd = <br>" . print_r($bconsolecmd) . "</pre>"; exit;
-
-        exec($bconsolecmd . " <<EOF
+        $director = new Director();           
+		if ( !$director->isFoundBconsole() )	{
+			$this->view->result_error = 'NOFOUND_BCONSOLE';
+   		  	$this->render();
+   		  	return;
+   	    }
+		$astatusdir = $director->execDirector(
+"<<EOF
 status dir
 @quit
-EOF",
-$command_output, $return_var);
-
-            //echo "<pre>command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
-
-            $this->view->command_output = $command_output;
-
-            // check return status of the executed command
-            if ( $return_var != 0 )	{
-                $this->view->result_error = 'ERROR_BCONSOLE';
-            }
-    	    return;
+EOF"
+		); 
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )	{
+			$this->view->result_error = $astatusdir['result_error'];
+		}
+		return;
     }
 }

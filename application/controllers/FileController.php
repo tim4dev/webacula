@@ -21,7 +21,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: FileController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 /* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
@@ -33,11 +32,10 @@ class FileController extends Zend_Controller_Action
 
 	function init()
 	{
-	    $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->translate = Zend_Registry::get('translate');
 
-		Zend_Loader::loadClass('Zend_Paginator');
+		Zend_Loader::loadClass('Files');
 		// for input field validation
         Zend_Loader::loadClass('Zend_Validate');
         Zend_Loader::loadClass('Zend_Filter_Input');
@@ -74,19 +72,9 @@ class FileController extends Zend_Controller_Action
         }
 
    		$this->view->titleFile = $this->view->translate->_("List Files for JobId") . " " . $jobid;
-		$db = Zend_Db_Table::getDefaultAdapter();
-
-   		// make select from multiple tables
-   		// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
-   		$select = new Zend_Db_Select($db);
-   		$select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat'));
-   		$select->joinLeft(array('p' => 'Path'), 'f.PathId = p.PathId' ,array('Path'));
-   		$select->joinLeft(array('n' => 'Filename'), 'f.FileNameId = n.FileNameId',array('Name'));
-		$select->where("f.JobId = $jobid");
-		$select->order(array('f.FileIndex', 'f.FileId'));
-
-		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
+   		$files = new Files();
+   		$select = $files->getListFilesByJobId($jobid);
+		//echo '<pre>',$select->__toString(),'</pre>'; exit; // for !!!debug!!!   		  		
 		$paginator = Zend_Paginator::factory($select);
 		Zend_Paginator::setDefaultScrollingStyle('Sliding');
 		$paginator->setItemCountPerPage(self::ROW_LIMIT_FILES);

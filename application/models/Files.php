@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -23,33 +23,26 @@
  *
  */
 
-class FileTable extends Zend_Db_Table
+class Files
 {
-   public $db_adapter;
+   public $db;
 
-   public function __construct($config = array())
+   public function __construct()
    {
-       $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-       parent::__construct($config);
+       $this->db = Zend_Db_Table::getDefaultAdapter();      
    }
 
-   protected function _setupTableName()
-    {
-        switch ($this->db_adapter) {
-        case 'PDO_PGSQL':
-            $this->_name = 'file';
-            break;
-        default: // including mysql, sqlite
-            $this->_name = 'File';            
-        }
-        parent::_setupTableName();
-    }
-
-    protected function _setupPrimaryKey()
-    {
-        $this->_primary = 'fileid';
-        parent::_setupPrimaryKey();
-    }
+	public function getListFilesByJobId($jobid)
+	{
+		// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
+   		$select = new Zend_Db_Select($this->db);
+   		$select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat'));
+   		$select->joinLeft(array('p' => 'Path'), 'f.PathId = p.PathId' ,array('Path'));
+   		$select->joinLeft(array('n' => 'Filename'), 'f.FileNameId = n.FileNameId',array('Name'));
+		$select->where("f.JobId = ?", $jobid);
+		$select->order(array('f.FileIndex', 'f.FileId'));
+		return $select; 		
+	}
 
 
 }

@@ -60,11 +60,8 @@ class Job extends Zend_Db_Table
     function GetLastJobs()
     {
     	$db = Zend_Registry::get('db_bacula');
-    	// make select from multiple tables
     	$select = new Zend_Db_Select($db);
-
     	$select->distinct();
-
     	$last1day = date('Y-m-d H:i:s', time() - 86400); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 1 DAY
 
         switch ($this->db_adapter) {
@@ -538,42 +535,30 @@ EOF', $command_output, $return_var);
 	 */
     function getListJobs()
     {
-    	$config = Zend_Registry::get('config');
-
-    	// check access to bconsole
-    	if ( !file_exists($config->bacula->bconsole))	{
-    		$aresult[] = 'ERROR: bconsole not found.';
+    	$director = new Director();
+    	// check access to bconsole           
+		if ( !$director->isFoundBconsole() )	{
+			$aresult[] = 'ERROR: bconsole not found.';
     		return $aresult;
-    	}
-
-    	$bconsolecmd = '';
-        if ( isset($config->bacula->sudo))	{
-            // run with sudo
-            $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        } else {
-            $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        }
-
-    	// run bconsole
-    	exec($bconsolecmd . ' <<EOF
+   	    }
+		$astatusdir = $director->execDirector(
+"<<EOF
 run
 .
 @quit
-EOF', $command_output, $return_var);
-
-    	//echo "<pre>"; print_r($command_output); echo "</pre>"; // !!! DEBUG !!!
-
-    	// check return status of the executed command
-    	if ( $return_var != 0 )	{
+EOF"
+		); 
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )	{
 			$aresult[] = 'ERROR';
-			$aresult[] = 'Command: <br>' . $bconsolecmd . '<br> output:<b>';
-			foreach ($command_output as $line) {
+			$aresult[] = 'bconsole output:<b>';
+			foreach ($astatusdir['command_output'] as $line) {
 				$aresult[] = $line;
 			}
 			$aresult[] = '</b>';
     		return $aresult;
-    	}
-    	
+		}
+
     	// parsing Director's output. Example :
     	/*
 The defined Job resources are:
@@ -586,7 +571,7 @@ Select Job resource (1-3):
     	$str_end = 'Select Job resource'; // признак конца списка
     	$start = 0;
     	$aresult = array();
-    	foreach ($command_output as $line) {
+    	foreach ($astatusdir['command_output'] as $line) {
 			if ( strlen($line) == 0 )
 				continue;
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -27,7 +27,8 @@
  */
 
 
-class MyClass_GetDataTimeline {
+class Timeline 
+{
 
     public $db_adapter;
 
@@ -304,9 +305,7 @@ class MyClass_GetDataTimeline {
             }
 
     		$select->where("(StartTime < '$date 00:00:00') AND (EndTime > '$date 23:59:59')");
-
 			$select->order('JobId');
-
 			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
     		$stmt = $select->query();
@@ -327,7 +326,6 @@ class MyClass_GetDataTimeline {
 			$select->reset();
 			unset($select);
 			unset($stmt);
-
 			//echo '<pre>'; print_r($atime); echo '</pre>'; exit(); // debud !!!
 
 			// return

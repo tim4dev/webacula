@@ -28,12 +28,13 @@ class JobController extends Zend_Controller_Action
 
 	function init()
 	{
-		Zend_Loader::loadClass('Zend_Paginator');
 	    $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->translate = Zend_Registry::get('translate');
-		// load model
+		// load models
 		Zend_Loader::loadClass('Job');
+		Zend_Loader::loadClass('Timeline');
+		Zend_Loader::loadClass('Director');
 	}
 
 
@@ -550,8 +551,8 @@ class JobController extends Zend_Controller_Action
 		}
 
     	$this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
-   		$res = new MyClass_GetDataTimeline;
-   		$this->view->atime = $res->GetDataTimeline($datetimeline);
+   		$timeline = new Timeline;
+   		$this->view->atime = $timeline->GetDataTimeline($datetimeline);
    		$this->view->result = $datetimeline;
    		
    		// вызвать ChartController -> timelineAction() для проверки, что он сможет рисовать
@@ -571,43 +572,29 @@ class JobController extends Zend_Controller_Action
             $jobname = trim( $this->_request->getParam('jobname') );
             $this->view->jobname = $jobname;
             // запускаем задание
-            $config = Zend_Registry::get('config');
-
-    	    if ( !file_exists($config->bacula->bconsole))	{
-    		  $this->view->result_error = 'NOFOUND_BCONSOLE';
-    		  $this->render();
-    		  return;
+			$director = new Director();           
+    	    if ( !$director->isFoundBconsole() )	{
+				$this->view->result_error = 'NOFOUND_BCONSOLE';
+    		  	$this->render();
+    		  	return;
     	    }
-
-    	    $bconsolecmd = '';
-            if ( isset($config->bacula->sudo))	{
-                // run with sudo
-                $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            } else {
-                $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            }
-
-            exec($bconsolecmd . " <<EOF
+			$astatusdir = $director->execDirector(
+" <<EOF
 run job=\"$jobname\" yes
 .
-@sleep 10
+@sleep 3
 status dir
 @quit
-EOF",
-$command_output, $return_var);
-
-            //echo '<pre>command_output:<br>' . var_dump($command_output) . '<br><br>return_var = ' . var_dump($return_var) . '</pre>'; exit;
-
-            $this->view->command_output = $command_output;
-
-            // check return status of the executed command
-            if ( $return_var != 0 )	{
-                $this->view->result_error = 'ERROR_BCONSOLE';
-            }
-
-    	    // показываем вывод Director
-    	    echo $this->renderScript('/job/run-job-output.phtml');// _redirect('/job/run-job-output');
-    	    return;
+EOF"		
+			); 
+        	$this->view->command_output = $astatusdir['command_output'];
+	        // check return status of the executed command
+    	    if ( $astatusdir['return_var'] != 0 )	{
+				$this->view->result_error = $astatusdir['result_error'];
+			}
+	   	    // показываем вывод Director
+   		    echo $this->renderScript('/job/run-job-output.phtml');
+   	    	return;
     	}
     	// get data from model
     	$jobs = new Job();
