@@ -55,7 +55,7 @@ $registry->set('config_webacula', $config_webacula);
 date_default_timezone_set($config->def->timezone);
 
 // set self version
-Zend_Registry::set('webacula_version', '3.1.RC2, build 2009.09.15');
+Zend_Registry::set('webacula_version', '3.1, build 2009.09.16');
 
 // set global const
 Zend_Registry::set('UNKNOWN_VOLUME_CAPACITY', -200); // tape drive
