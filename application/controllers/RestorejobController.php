@@ -1179,13 +1179,13 @@ $command_output, $return_var);
     	    $phpNative = Zend_Json::decode($encodedValue);
 	        $path  = $phpNative['path'];
 	        $jobidhash = $phpNative['jobidhash'];
-    	    //$this->logger->log("markDirAction()  $path  $jobidhash", Zend_Log::INFO); // !!! debug
+			//$this->logger->log("markDirAction() input value:\n$path\n$jobidhash\n", Zend_Log::INFO); // !!! debug
 	        // производим действия в БД
 			$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
 	        $res = $tmp_tables->markDir($path, 1); // isMarked = 1
     	    if ( $res ) {
     		    // $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs, %s files affected)"), $res['path'], $res['dirs'], $res['files']);
-    		    $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'] + $res['dirs'], $res['files']);
+    		    $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files'] + $res['dirs']);
     		} else {
     	    	$aout['msg'] =  $this->view->translate->_('internal program error !');
     		}
@@ -1196,6 +1196,7 @@ $command_output, $return_var);
         	$aout['total_files'] = $atotal['total_files'];
         	$aout['path']        = $path;
         	$aout['allok']    	 = 1; // действия успешны
+			//$this->logger->log("markDirAction() return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO); // !!! debug        	
 	        // Преобразование для возвращения клиенту
     	    $json = Zend_Json::encode($aout);
         	// возвращаем данные в javascript

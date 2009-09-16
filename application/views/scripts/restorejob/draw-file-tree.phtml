@@ -98,7 +98,6 @@ function failResults(response){
 
 // directories handle
 function markDir(elm, vpath){
-    // wait
     var renderDiv = document.getElementById('responseResults');
     renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: please wait...")); ?><br />&nbsp;';
     var data = {path: vpath, jobidhash: '<?php echo $this->jobidhash; ?>'};

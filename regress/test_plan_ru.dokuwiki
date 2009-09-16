@@ -1,6 +1,6 @@
 ======Тестирование Webacula ======
 
- --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/08/09 18:52//
+ --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/09/16 19:00//
 
 ====== Запуск postgresql ======
 
@@ -58,12 +58,12 @@ http://localhost/webacula/statistics/listjobtotals
 |    3 |     7 | 11,327 | job name test 2 |
 |    3 |     9 | 11,801 | job-name-test-3 |
 |    3 | 1,343 | 21,905 | job.name.test.1 |
-|    1 |     7 | 16,626 | job.name.test.4 |
+|    2 |    14 | 33,252 | job.name.test.4 |
 +------+-------+--------+-----------------+
 +------+-------+--------+
 | Jobs | Files | Bytes  |
 +------+-------+--------+
-|   10 | 1,366 | 61,659 |
+|   11 | 1,373 | 78,285 |
 +------+-------+--------+
 </code>
 
@@ -74,32 +74,35 @@ http://localhost/webacula/director/statusdir
 Scheduled Jobs:
 Level          Type     Pri  Scheduled          Name               Volume
 ===================================================================================
-Incremental    Backup    10  19-Ав-2009 04:10 job.name.test.1    pool.file.7d.0002
-Incremental    Backup    10  19-Ав-2009 04:10 job name test 2    pool.file.7d.0002
-Incremental    Backup    10  19-Ав-2009 04:10 job-name-test-3    pool.file.7d.0002
+Incremental    Backup    10  17-Се-2009 04:10 job.name.test.1    pool.file.7d.0002
+Incremental    Backup    10  17-Се-2009 04:10 job name test 2    pool.file.7d.0002
+Incremental    Backup    10  17-Се-2009 04:10 job-name-test-3    pool.file.7d.0002
 ====
 
 Running Jobs:
-Console connected at 18-Ав-2009 11:29
+Console connected at 16-Се-2009 09:48
 No Jobs running.
 ====
 
 Terminated Jobs:
  JobId  Level    Files      Bytes   Status   Finished        Name
 ====================================================================
-     1  Full      1,338    17.31 K  OK       18-Ав-2009 10:55 job.name.test.1
-     2  Full          3    7.212 K  OK       18-Ав-2009 10:55 job_name_test_2
-     3  Full          5    6.747 K  OK       18-Ав-2009 10:55 job-name-test-3
-     4  Incr          2    1.448 K  OK       18-Ав-2009 10:57 job.name.test.1
-     5  Diff          2    1.937 K  OK       18-Ав-2009 10:57 job_name_test_2
-     6  Incr          2    2.405 K  OK       18-Ав-2009 10:58 job-name-test-3
-     7  Diff          3    3.141 K  OK       18-Ав-2009 11:00 job.name.test.1
-     8  Incr          2    2.178 K  OK       18-Ав-2009 11:00 job_name_test_2
-     9  Incr          2    2.649 K  OK       18-Ав-2009 11:00 job-name-test-3
-    10  Full          7    16.62 K  OK       18-Ав-2009 11:00 job.name.test.4
+     2  Full          3    7.212 K  OK       16-Се-2009 09:39 job_name_test_2
+     3  Full          5    6.747 K  OK       16-Се-2009 09:39 job-name-test-3
+     4  Incr          2    1.448 K  OK       16-Се-2009 09:41 job.name.test.1
+     5  Diff          2    1.937 K  OK       16-Се-2009 09:41 job_name_test_2
+     6  Incr          2    2.405 K  OK       16-Се-2009 09:41 job-name-test-3
+     7  Diff          3    3.141 K  OK       16-Се-2009 09:44 job.name.test.1
+     8  Incr          2    2.178 K  OK       16-Се-2009 09:44 job_name_test_2
+     9  Incr          2    2.649 K  OK       16-Се-2009 09:44 job-name-test-3
+    10  Full          7    16.62 K  OK       16-Се-2009 09:44 job.name.test.4
+    11  Full          7    16.62 K  OK       16-Се-2009 09:44 job.name.test.4
 
 ====
 </code>
+
+<note>Задание JobId=11 должно присутствовать в "Информация из БД Каталога : Выполняющиеся Задания".
+(сделано искусственно SQL запросом)</note>
 
 Сравнить эти данные с ''Задание --> Завершенные'' [[http://localhost/webacula/job/terminated|Завершенные Задания]] 
 
@@ -148,15 +151,15 @@ grep -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
 Найти
   * Закладка **Id Задания** Ввести Id = 4
-  * Закладка **Время, Клиент ...**. Задать "Уровень" = Дифференциальное. **__Результат__** Id: 5, 7, 12
+  * Закладка **Время, Клиент ...**. Задать "Уровень" = Дифференциальное. **__Результат__** Id: 5, 7, 13
   * Закладка **Имя тома** ''pool.file.7d.0001'' **__Результат__** Id 1
-  * Закладка **Список последних 20 запущенных Заданий** **Результат** - все задания id 1--13.
+  * Закладка **Список последних 20 запущенных Заданий** **Результат** - все задания id 1--14.
   * Закладка **Имя файла** Ввести <code>0 Файл'.txt</code> **__Результат__** Id 1
 
 
 ==== График ====
 
-Указать текущую дату. Получить график по всем Заданиям Id 1--13
+Указать текущую дату. Получить график по всем Заданиям Id 1--14
 
 ==== Подробности ====
 
@@ -211,6 +214,10 @@ find /tmp/webacula/restore/tmp/webacula/test/1/0\ Каталог\'tmp/ -type d |
 
 Вывод директора:
 <code>
+Building directory tree for JobId(s) 1 ...  +++++++++++++++++++++++++++++++++++++++++++++++++
+1,332 files inserted into the tree and marked for extraction.
+Bootstrap records written to /tmp/webacula/tmp/main.dir.restore.1.bsr
+
 The job will require the following
    Volume(s)                 Storage(s)                SD Device(s)
 ===========================================================================
@@ -245,7 +252,7 @@ The job will require the following
 1338
 
 Последнее действие: отмечено дерево каталогов /tmp/
-(6 каталогов, 1338 файлов затронуто)
+(1344 каталогов и файлов затронуто)
 
 </code>
 
@@ -267,7 +274,7 @@ The job will require the following
 1337
 
 Последнее действие: отмечено дерево каталогов /tmp/webacula/test/1/0 Каталог'tmp/
-(5 каталогов, 1337 файлов затронуто)
+(1342 каталогов и файлов затронуто)
 </code>
 
 Пройти по ссылкам вверх вниз, выделение каталога должно сохраниться. См. также суммарную информацию для восстановления.
@@ -349,6 +356,7 @@ Using Catalog "MyCatalog"
 +-------+-------+----------+----------+---------------------+-------------------+
 You have selected the following JobIds: 1,7
 ...
+1,340 files selected to be restored.
 </code>
 
 Фактически 1334 файлов + 6 подкаталогов (включая родительский) 
@@ -396,8 +404,8 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 
 На экране **Вы выбрали следующие JobId** проверить : 
 <code>
-1 F
-7 D
+1  F
+7  D
 </code>
 
 Выбрать все дерево
@@ -409,7 +417,7 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 1340
 
 Последнее действие: отмечено дерево каталогов /tmp/
-(6 каталогов, 1340 файлов затронуто)
+(1346 каталогов и файлов затронуто)
 </code>
 
 
@@ -477,7 +485,7 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 
 По дефолту "Набор файлов" = ''file.set.test.1''
 
-Сначала проверить восстановление всех файлов.
+Сначала проверить восстановление всех файлов. Обратить внимание на **before=** 
 <code>
 
 restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1" 
@@ -517,12 +525,13 @@ Id Задания   Уровень
 7            D
 </code>
 
-На ледующем экране отметить все дерево каталогов ''tmp''
+На следующем экране отметить все дерево каталогов ''tmp''
 <code>
-Последнее действие: отмечено дерево каталогов 6 (1340 dirs and files affected)
+Последнее действие: отмечено дерево каталогов /tmp/
+(1346 каталогов и файлов затронуто)
 </code>
 
-Обратить внимание на командную строку запуска Директора (слово **before**) 
+Обратить внимание на командную строку запуска Директора - **before=** и **file=** 
 
 <code>
 restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1"  
@@ -550,6 +559,7 @@ Id Задания   Уровень
 9            I
 </code>
 
+Нажать "Отменить".
 
 ====== Заключение ======
 

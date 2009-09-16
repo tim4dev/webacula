@@ -203,6 +203,7 @@ class WbTmpTable extends Zend_Db_Table
      */
     function markDir($path, $label)
     {
+		//$this->logger->log("markDir() input value:\n$path\n$label\n", Zend_Log::DEBUG);// !!! debug
         // проверка $label
         if ( !is_numeric($label) ) {
             return null;
@@ -249,6 +250,7 @@ class WbTmpTable extends Zend_Db_Table
     	unset($query);
     	unset($stmt);
 
+		//$this->logger->log("markDir() output values:\n$path\n$affected_files\n$affected_dirs\n", Zend_Log::DEBUG);// !!! debug
         return array('path' => $path, 'files' => $affected_files, 'dirs' => $affected_dirs);
     }
 
