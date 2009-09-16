@@ -1,11 +1,12 @@
 Webacula ChangeLog
 ------------------
 
-=== 3.1
+=== 3.1 release (2009-09-16)
 	Add full PostgreSQL support (restore files, logbook, etc).
+   Add full Sqlite support (restore files, logbook, etc).
 	Rewrite drawFileTreeAction().
-	Add regress testing procedure.
-	Bugfixes.
+	Add regress testing procedures.
+	More bugfixes.
 
 === 3.0
 	Fixed several unexpected bugs.
