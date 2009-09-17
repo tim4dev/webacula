@@ -132,6 +132,7 @@ class RestorejobController extends Zend_Controller_Action
         Zend_Loader::loadClass('Client');
         $clients = new Client();
   	    $this->view->clients = $clients->fetchAll();
+  	    Zend_Loader::loadClass('FileSet');
   	    $filesets = new FileSet();
     	$this->view->filesets = $filesets->fetchAll();
     	
@@ -279,7 +280,7 @@ class RestorejobController extends Zend_Controller_Action
 		if ( $choice_form == 1 )  {
             // форма выбора client, where, storage уже заполнена
             // check access to bconsole
-
+			Zend_Loader::loadClass('Director');
 			$director = new Director();
 			if ( !$director->isFoundBconsole() )	{
     		  $this->view->result_error = 'NOFOUND_BCONSOLE';
@@ -377,15 +378,7 @@ EOF"
             // форма выбора client, where уже заполнена
             $this->restoreNamespace->ClientNameTo   = addslashes( $this->_request->getParam('client_to_restore', '') );
 			$path_to_restore     = $this->_request->getParam('path_to_restore', '');           
-		
-			$bconsolecmd = '';
-        	if ( isset($config->bacula->sudo))	{
-        		// run with sudo
-            	$bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        	} else {
-        		$bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        	}
-        
+		       
 			if ( empty($this->restoreNamespace->DateBefore) ) {
         		$cmd_date_before = ' current ';
         	} else {

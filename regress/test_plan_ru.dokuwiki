@@ -49,7 +49,7 @@ sudo /sbin/service httpd start
 
 ===== Общая статистика по Заданиям =====
 
-http://localhost/webacula/statistics/listjobtotals
+http://localhost/webacula/director/listjobtotals
 
 <code>
 +------+-------+--------+-----------------+
@@ -259,7 +259,8 @@ The job will require the following
 Снять выделение.
 
 Перейти в каталог по ссылкам
-  /tmp/webacula/test/1/
+  /tmp/webacula/test/1/0 Каталог'tmp/1 Каталог'tmp/
+
 
 Выбрать один из файлов. Снять выделение.
 

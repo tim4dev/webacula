@@ -191,8 +191,10 @@ class JobController extends Zend_Controller_Action
     {
     	$this->view->title = $this->view->translate->_("Search Jobs");
     	// get data for form
+    	Zend_Loader::loadClass('Client');
     	$clients = new Client();
     	$this->view->clients = $clients->fetchAll();
+    	Zend_Loader::loadClass('FileSet');
     	$filesets = new FileSet();
     	$this->view->filesets = $filesets->fetchAll();
     }

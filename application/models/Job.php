@@ -351,6 +351,7 @@ EOF', $command_output, $return_var);
 	 */
 	function getFreeVolumeCapacity($name)
 	{
+		Zend_Loader::loadClass('Media');
 		$table = new Media();
 		$where  = $table->getAdapter()->quoteInto('VolumeName = ?', trim($name));
 		$row = $table->fetchRow($where);
