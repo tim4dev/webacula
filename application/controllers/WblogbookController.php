@@ -21,7 +21,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: WblogbookController.php 398 2009-08-13 23:07:32Z tim4dev $
  */
 
 /* Zend_Controller_Action */

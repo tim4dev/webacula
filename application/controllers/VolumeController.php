@@ -21,7 +21,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: VolumeController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
 /* Zend_Controller_Action */
@@ -33,7 +32,9 @@ class VolumeController extends Zend_Controller_Action
 	function init()
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
-		Zend_Loader::loadClass('Volume'); // load model
+		// load model
+		Zend_Loader::loadClass('Volume'); 
+		Zend_Loader::loadClass('Media');
 		$this->view->translate = Zend_Registry::get('translate');
 	}
 
@@ -45,22 +46,8 @@ class VolumeController extends Zend_Controller_Action
     	$this->view->volname = $volname;
     	if ( $volname )	{
     		$this->view->title = $this->view->translate->_("Volume") . " " . $volname;
-			$db = Zend_Db_Table::getDefaultAdapter();
-    		// make select from multiple tables
-    		// Колонка Enabled появилась только в версии 2.0.0
-    		$select = new Zend_Db_Select($db);
-    		$select->from('Media',
-	    		array('MediaId', 'PoolId', 'StorageId',
-				'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
-				'InChanger', 'MediaType', 'FirstWritten', 'LastWritten'
-			));
-			$select->where('VolumeName = ?', $volname);
-			$select->order($order);
-
-			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; // for !!!debug!!!
-
-    		$stmt = $select->query();
-			$this->view->result = $stmt->fetchAll();
+    		$volume = new Volume();
+			$this->view->result = $volume->getByName($volname, $order);			
     	}
     	else
     		$this->view->result = null;
@@ -78,27 +65,13 @@ class VolumeController extends Zend_Controller_Action
     	$this->view->pool_name = $pool_name;
     	if ( $pool_id  )	{
     		$this->view->title = $this->view->translate->_("Pool") . " " . $pool_name;
-			$db = Zend_Db_Table::getDefaultAdapter();
-    		// make select from multiple tables
-    		// Колонка Media.Enabled появилась только в версии 2.0.0
-    		$select = new Zend_Db_Select($db);
-    		$select->from('Media',
-	    		array('MediaId', 'PoolId', 'StorageId',
-				'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
-				'InChanger', 'MediaType',
-				'FirstWritten',	'LastWritten'
-			));
-			$select->where('PoolId = ?', $pool_id);
-			$select->order($order);
-
-			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; // for !!!debug!!!
-
-    		$stmt = $select->query();
-			$this->view->result = $stmt->fetchAll();
+    		$media = new Media();
+			$this->view->result = $media->getById($pool_id, $order);    		
     	}
     	else
     		$this->view->result = null;
     }
+
 
     /**
      * Volumes with errors/problems

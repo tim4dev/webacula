@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -21,7 +21,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: StorageController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
 require_once 'Zend/Controller/Action.php';
@@ -32,9 +31,10 @@ class StorageController extends Zend_Controller_Action
 	function init()
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
+		$this->view->translate = Zend_Registry::get('translate');
 		// load model
 		Zend_Loader::loadClass('Storage');
-		$this->view->translate = Zend_Registry::get('translate');
+		Zend_Loader::loadClass('Director');
 	}
 
     function storageAction()
@@ -45,6 +45,7 @@ class StorageController extends Zend_Controller_Action
     	$this->view->storages = $storages->fetchAll();
     }
 
+
     function statusIdAction()
     {
     	$storage_id   = intval( $this->_request->getParam('id') );
@@ -52,41 +53,30 @@ class StorageController extends Zend_Controller_Action
 
     	if ( !empty($storage_id)  )	{
     	    $this->view->title = sprintf($this->view->translate->_("Storage %s status"), $storage_name);
-
-	    	$config = Zend_Registry::get('config');
-
-	    	// check access to bconsole
-
-    		if ( !file_exists($config->bacula->bconsole))	{
-    			$this->view->result = 'NOFOUND';
-    			return;
-    		}
-
-    		$bconsolecmd = '';
-            if ( isset($config->bacula->sudo))	{
-                // run with sudo
-                $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            } else {
-                $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            }
-            $command_output = '';
-            $return_var = 0;
-exec($bconsolecmd . " <<EOF
-status storage=$storage_name
+			$director = new Director();           
+			if ( !$director->isFoundBconsole() )	{
+				$this->view->result_error = 'NOFOUND_BCONSOLE';
+   		  		$this->render();
+   		  		return;
+   	    	}
+			$astatusdir = $director->execDirector(
+" <<EOF
+status storage=\"$storage_name\"
 quit
-EOF", $command_output, $return_var);
-
-			// check return status of the executed command
-    		if ( $return_var != 0 )	{
-    			$this->view->result = 'ERR';
-    			return;
-    		}
-
-    		$this->view->result = $command_output;
+EOF"
+			);
+			$this->view->command_output = $astatusdir['command_output'];		
+	        // check return status of the executed command
+    	    if ( $astatusdir['return_var'] != 0 )	{
+				$this->view->result_error = $astatusdir['result_error'];
+				$this->render();
+				return;
+			}
     	}
     	else
-    		$this->view->result = null;
+    		$this->view->command_output = null;
     }
+
 
 
     function actMountAction()
@@ -98,41 +88,29 @@ EOF", $command_output, $return_var);
 
     	if ( !empty($action) &&  !empty($storage_name) )	{
     	    $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . " " . $action;
-
-	    	$config = Zend_Registry::get('config');
-
-	    	// check access to bconsole
-    		if ( !file_exists($config->bacula->bconsole))	{
-    			$this->view->result = 'NOFOUND';
-    			return;
-    		}
-
-    		$bconsolecmd = '';
-            if ( isset($config->bacula->sudo))	{
-                // run with sudo
-                $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            } else {
-                $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            }
-            $command_output = '';
-            $return_var = 0;
-
-exec($bconsolecmd . " <<EOF
+			$director = new Director();           
+			if ( !$director->isFoundBconsole() )	{
+				$this->view->result_error = 'NOFOUND_BCONSOLE';
+   		  		$this->render();
+   		  		return;
+   	    	}		
+			$astatusdir = $director->execDirector(
+" <<EOF
 $action storage=\"$storage_name\"
 .
 quit
-EOF", $command_output, $return_var);
-
-			// check return status of the executed command
-    		if ( $return_var != 0 )	{
-    			$this->view->result = 'ERR';
-    			return;
-    		}
-
-    		$this->view->result = $command_output;
+EOF"
+			);
+			$this->view->command_output = $astatusdir['command_output'];		
+	        // check return status of the executed command
+    	    if ( $astatusdir['return_var'] != 0 )	{
+				$this->view->result_error = $astatusdir['result_error'];
+				$this->render();
+				return;
+			}
     	}
     	else
-    		$this->view->result = null;
+    		$this->view->command_output = null;
     }
 
 }

@@ -53,5 +53,22 @@ class Client extends Zend_Db_Table
         parent::_setupPrimaryKey();
     }
 
+    /**
+      * Get Client name
+      *
+      * @return Client name, or "" if not exist
+      * @param integer $jobid
+      */
+    function getClientName($jobid)
+    {
+        $select = new Zend_Db_Select($this->db);
+        $select->from(array('j' => 'Job'), array('JobId', 'ClientId'));
+   		$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('c.Name'));
+		$select->where("j.JobId = ?", $jobid);
+		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        $res  = $stmt->fetchAll();
+        return $res[0]['name'];
+    }
 
 }

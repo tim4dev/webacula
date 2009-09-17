@@ -4,10 +4,10 @@
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php
-	if ($this->result == 'NOFOUND') {
+	if ($this->result_error == 'NOFOUND_BCONSOLE') {		
 		echo '<div align="center"><p>', $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></div>';
 	}
- 	elseif ($this->result == 'ERR') {
+ 	elseif ($this->result_error == 'ERROR_BCONSOLE') { 		
  		echo '<div align="center"><p>', $this->translate->_("ERROR: There was a problem executing bconsole. Check permissions."), '</p></div>';
  	} else	{
 ?>
@@ -20,10 +20,10 @@
     <b><?php print $this->translate->_("Director output:"); ?></b>
 
 	<?php
-    if ( $this->result )
+    if ( $this->command_output )
     {
         echo '<pre>';
-        foreach ($this->result as $line) {
+        foreach ($this->command_output as $line) {
             if ( strpos($line, 'ERR') || strpos($line, 'not found') )   {
                 echo '<div style="color: white; background-color: red;">' . $line . '</div><br>';
             } else {

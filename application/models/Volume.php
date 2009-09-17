@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -25,13 +25,16 @@
 
 class Volume extends Zend_Db_Table
 {
-   public $db_adapter;
+	public $db;
+	public $db_adapter;
 
-   public function __construct($config = array())
-   {
-       $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-       parent::__construct($config);
-   }
+	public function __construct($config = array())
+	{
+   		$this->db         = Zend_Registry::get('db_bacula');
+		$this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+		parent::__construct($config);
+	}
+
 
    protected function _setupTableName()
     {
@@ -73,6 +76,23 @@ class Volume extends Zend_Db_Table
 		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
     	$result = $select->query();
 		return $result;
+    }
+    
+    
+    function getByName($volname, $order)
+    {
+   		// Колонка Enabled появилась только в версии 2.0.0
+   		$select = new Zend_Db_Select($this->db);
+    	$select->from('Media',
+	    	array('MediaId', 'PoolId', 'StorageId',
+			'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
+			'InChanger', 'MediaType', 'FirstWritten', 'LastWritten'
+		));
+		$select->where('VolumeName = ?', $volname);
+		$select->order($order);
+		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; // for !!!debug!!!
+    	$stmt = $select->query();
+		return $stmt->fetchAll();
     }
 
 }

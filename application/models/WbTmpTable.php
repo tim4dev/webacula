@@ -27,6 +27,12 @@
 
 class WbTmpTable extends Zend_Db_Table
 {
+	// for pager
+	const ROW_LIMIT_FILES = 500;
+	// for names of tmp tables (для формирования имен временных таблиц)
+	const _PREFIX = '_'; // только в нижнем регистре
+	const _PREFIX_RECENT = '_recent_'; // для восстановления типа Restore recent backup. только в нижнем регистре
+	
 	public $db_adapter;
 
 	protected $jobidhash;
@@ -849,6 +855,231 @@ class WbTmpTable extends Zend_Db_Table
 
         return $ares;
     }
+
+
+
+	/**
+	 * Clone Bacula tables : File, Filename, Path to webacula DB
+	 *
+	 * @return TRUE if ok
+	 */
+	function cloneBaculaToTmp($jobid)
+	{
+		$bacula = Zend_Registry::get('db_bacula');
+		// create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path	
+		if ( !$this->createTmpTables() ) {
+			// view exception from WbTmpTable.php->createTmpTables()
+			return FALSE;
+		}	
+
+		$decode = new MyClass_HomebrewBase64;
+
+		//********************** clone File + Path **********************
+
+        // in order to reduce the number insert's for to copy a table Path
+		// для минимизации insert'ов при копировании таблицы Path
+        $old_pathid = 0;
+        $apath = array();
+
+        $stmt = $bacula->query(
+            "SELECT
+	           f.FileId, f.PathId, f.FilenameId, f.LStat, f.MD5,
+	           n.FilenameId, n.Name,
+	           p.PathId, p.Path
+            FROM File AS f
+                INNER JOIN Filename AS n ON n.FilenameId = f.FilenameId
+                INNER JOIN Path AS p     ON p.PathId = f.PathId
+            WHERE
+	           f.JobId = $jobid
+            ORDER BY
+	           p.PathId ASC");
+
+        while ($line = $stmt->fetch()) {
+            // file size writing in a separate filed to then it was easier to calculate the total
+            // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
+            // LStat example: MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
+            list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
+                $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
+			$file_size = $decode->homebrewBase64($st_size);
+			// Sorting through filed PathId should take INSERTs quickly
+			// за счет сортировки по PathId вставка должна проходить быстро
+			if ( !$this->insertRowFile($line['fileid'], $line['pathid'], $line['filenameid'], $line['lstat'], $line['md5'], 0, $file_size) ) {
+				// show exception from WbTmpTable.php->insertRowFile()
+				return FALSE;
+			}
+
+            if ( empty($line['name']) )	{
+                // if it is a directory and there are data LStat, - immediately write
+                // если это каталог и есть данные LStat,- сразу пишем
+				if ( !$this->insertRowPath($line['pathid'], $line['path']) ) {
+					// show exception from WbTmpTable.php->insertRowPath()
+					return FALSE;
+				}
+				$old_pathid = $line['pathid'];
+			} else {
+                if ( $old_pathid != $line['pathid'] )	{
+				    $key = $line['path'];
+					$apath[$key]['pathid']    = $line['pathid'];
+					$old_pathid = $line['pathid'];
+				}
+			}
+        }
+
+        // write on the path without information LStat
+        // пишем пути без информации об LStat
+		foreach($apath as $key=>$val)	{
+            if ( !$this->insertRowPath($val['pathid'], $key) ) {
+				// show exception from WbTmpTable.php->insertRowPath()
+				return FALSE;
+			}
+		}
+        unset($stmt);
+
+
+        //**************************** clone Filename (fastest) ****************************
+		/**
+		 * Все имена полей, приведенные в списке предложения SELECT, должны присутствовать и во фразе GROUP BY -
+		 * за исключением случаев, когда имя столбца используется в итоговой функции.
+		 * Обратное правило не является справедливым - во фразе GROUP BY могут быть имена столбцов, отсутствующие в
+		 * списке предложения SELECT.
+		 * Если совместно с GROUP BY используется предложение WHERE, то оно обрабатывается первым,
+		 * а группированию подвергаются только те строки, которые удовлетворяют условию поиска.
+ 		*/
+        $stmt = $bacula->query(
+            "SELECT
+	           f.FileId, f.FilenameId,
+	           n.FilenameId, n.Name
+            FROM File AS f
+                INNER JOIN Filename AS n ON n.FilenameId = f.FilenameId
+            WHERE
+	           f.JobId = $jobid");
+
+        while ($line = $stmt->fetch()) {
+            if ( !$this->insertRowFilename($line['filenameid'], $line['name']) ) {
+				// show exception from WbTmpTable.php->insertRowFilename()
+				return FALSE;
+			}
+        }
+        unset($stmt);
+
+        // end transaction
+        // после успешного клонирования устанавливаем признак
+        $this->setCloneOk();
+        return TRUE;
+	}
+
+
+	/**
+	 * Clone Bacula tables : File, Filename, Path to webacula DB
+	 * for Restore Recent Backup
+	 *
+	 * @return TRUE if ok
+	 */
+	function cloneRecentBaculaToTmp($jobidhash, $sjobids)
+	{
+		$bacula = Zend_Registry::get('db_bacula');
+		// create temporary tables: File, Filename, Path
+		// создаем временные таблицы File, Filename, Path
+		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);	
+		$this->createTmpTables();	
+
+		$decode = new MyClass_HomebrewBase64;
+
+		//********************** clone File, Filename, Path **********************
+        // in order to reduce the number insert's for to copy a table Path
+		// для минимизации insert'ов при копировании таблицы Path
+        $old_pathid = 0;
+        $apath = array();
+		// dird/ua_restore.c :: build_directory_tree
+        $sql = "SELECT Path.Path, File.FileId, File.PathId, File.FilenameId, File.LStat, File.MD5, Filename.Name" .
+        		" FROM (" .
+        			" SELECT max(FileId) as FileId, PathId, FilenameId" .
+        			" FROM (" .
+        				" SELECT FileId, PathId, FilenameId" .
+        				" FROM File" .
+        				" WHERE JobId IN ( $sjobids )" .
+        				" ORDER BY JobId DESC" .
+        			" ) AS F" .
+        			" GROUP BY PathId, FilenameId )" .
+        		" AS Temp" .
+        		" JOIN Filename ON (Filename.FilenameId = Temp.FilenameId)" .
+        		" JOIN Path ON (Path.PathId = Temp.PathId)" .
+        		" JOIN File ON (File.FileId = Temp.FileId)" .
+        		" WHERE File.FileIndex > 0" .
+        		" ORDER BY JobId, FileIndex ASC";
+
+		$stmt = $bacula->query($sql);
+
+        while ($line = $stmt->fetch()) {
+            // file size writing in a separate filed to then it was easier to calculate the total size
+            // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
+            // LStat example: MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
+            list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
+                $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
+			$file_size = $decode->homebrewBase64($st_size);
+			// Sorting through filed PathId should take INSERTs quickly
+			// за счет сортировки по PathId вставка должна проходить быстро
+			$this->insertRowFile($line['fileid'], $line['pathid'], $line['filenameid'], $line['lstat'], $line['md5'], 0, $file_size);
+			$this->insertRowFilename($line['filenameid'], $line['name']);
+
+            if ( empty($line['name']) )	{
+                // if it is a directory and there are data LStat, - immediately write
+                // если это каталог и есть данные LStat,- сразу пишем
+				$this->insertRowPath($line['pathid'], $line['path']);
+				$old_pathid = $line['pathid'];
+			} else {
+                if ( $old_pathid != $line['pathid'] )	{
+				    $key = $line['path'];
+					$apath[$key]['pathid']    = $line['pathid'];
+					$old_pathid = $line['pathid'];
+				}
+			}
+        }
+        // write on the path without information LStat
+        // пишем пути без информации об LStat
+		foreach($apath as $key=>$val)	{
+            $this->insertRowPath($val['pathid'], $key);
+		}
+        unset($stmt);
+        // end transaction
+        // после успешного клонирования устанавливаем признак
+        $this->setCloneOk();
+        return TRUE;
+	}
+
+
+
+	/**
+     * Для показа plain-списка файлов перед запуском задания на восстановление
+     *
+     */
+	function getListToRestore($offset)
+	{
+		switch ($this->db_adapter) {
+        	case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name
+					FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . " AS f, " .
+               		$this->_db->quoteIdentifier($this->getTableNamePath()) . ' AS p, ' .
+			   		$this->_db->quoteIdentifier($this->getTableNameFilename()) . ' AS n
+			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
+  			   		ORDER BY Path ASC, Name ASC
+  			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+  			   	break;
+        	default: // mysql, postgresql
+        		$sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name
+					FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . " AS f, " .
+               		$this->_db->quoteIdentifier($this->getTableNamePath()) . ' AS p, ' .
+			   		$this->_db->quoteIdentifier($this->getTableNameFilename()) . ' AS n
+			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
+  			   		ORDER BY Path ASC, Name ASC
+  			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+        	break;
+        }
+ 		//$this->logger->log("listRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
+		$stmt = $this->_db->query($sql);
+        return $stmt->fetchAll();
+	}
 
 
 

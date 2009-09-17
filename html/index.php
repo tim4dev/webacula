@@ -55,7 +55,7 @@ $registry->set('config_webacula', $config_webacula);
 date_default_timezone_set($config->def->timezone);
 
 // set self version
-Zend_Registry::set('webacula_version', '3.2, build 2009.09.16');
+Zend_Registry::set('webacula_version', '3.2, build 2009.09.17');
 
 // set global const
 Zend_Registry::set('UNKNOWN_VOLUME_CAPACITY', -200); // tape drive
@@ -87,10 +87,6 @@ $params = $config_webacula->db->config->toArray();
 $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB::AUTO_QUOTE_IDENTIFIERS => FALSE);
 $db_webacula = Zend_Db::factory($config_webacula->db->adapter, $params);
 Zend_Registry::set('db_webacula', $db_webacula);
-
-Zend_Loader::loadClass('Media');
-Zend_Loader::loadClass('Client');
-Zend_Loader::loadClass('FileSet');
 
 // setup controller, exceptions handler
 $frontController = Zend_Controller_Front::getInstance();

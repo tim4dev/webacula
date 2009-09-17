@@ -55,6 +55,28 @@ class Job extends Zend_Db_Table
 
 
 	/**
+	 * If there JobId exist in the database Bacula ...
+	 * Существует ли JobId в БД Bacula
+	 *
+	 * @return TRUE if exist
+	 * @param integer $jobid
+	 */
+	function isJobIdExists($jobid)
+	{
+   		$select = new Zend_Db_Select($this->db);
+    	$select->from('Job', 'JobId');
+    	$select->where("JobId = ?", $jobid);
+    	$select->limit(1);
+    	$res = $this->db->fetchOne($select);	
+		if ( $res )	{
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+
+	/**
 	 * Get data about last terminated Jobs (executed in last 24 hours)
 	 * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
 	 *
@@ -1010,5 +1032,126 @@ Select Job resource (1-3):
    		$stmt = $select->query();
 		return $stmt->fetchAll();
 	}
+	
+	
+	
+	function getJobBeforeDate($date_before, $client_id_from, $file_set)
+	{
+		/* Поиск JobId последнего Full бэкапа для заданных Client, Fileset, Date
+		 * cats/sql_cmds.c :: uar_last_full 
+		 */
+		$ajob_all = array();
+		
+		$sql =  "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
+					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
+				" FROM Client,Job,JobMedia,Media,FileSet WHERE Client.ClientId=$client_id_from" .
+					" AND Job.ClientId=$client_id_from" .
+					" $date_before".
+					" AND Level='F' AND JobStatus IN ('T','W') AND Type='B'" .
+					" AND JobMedia.JobId=Job.JobId" .
+					" AND Media.Enabled=1" .
+					" AND JobMedia.MediaId=Media.MediaId" .
+					" AND Job.FileSetId=FileSet.FileSetId" .
+					" AND FileSet.FileSet='".$file_set."'" .
+				" ORDER BY Job.JobTDate DESC" .
+				" LIMIT 1";
+		//var_dump($sql); exit; // for !!!debug!!!
+		$stmt = $this->db->query($sql);
+		$ajob_full = $stmt->fetchAll();
+		unset($stmt);
+		//var_dump($ajob_full); exit; // for !!!debug!!!
+		
+		if ( !$ajob_full ) {
+			return; 
+		}
+		$ajob_all[] = $ajob_full[0]['jobid'];
+		/* Поиск свежего Differential бэкапа, после Full бэкапа, если есть
+		 * cats/sql_cmds.c :: uar_dif
+		 */
+		$sql = "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
+					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
+				" FROM Job,JobMedia,Media,FileSet" .
+				" WHERE Job.JobTDate>'".$ajob_full[0]['jobtdate']."'" .
+					" $date_before" .
+					" AND Job.ClientId=$client_id_from" .
+					" AND JobMedia.JobId=Job.JobId" .
+					" AND Media.Enabled=1" .
+					" AND JobMedia.MediaId=Media.MediaId" .
+					" AND Job.Level='D' AND JobStatus IN ('T','W') AND Type='B'" .
+					" AND Job.FileSetId=FileSet.FileSetId" .
+					" AND FileSet.FileSet='".$file_set."'" .
+					" ORDER BY Job.JobTDate DESC" .
+					" LIMIT 1";
+		//var_dump($sql); exit; // for !!!debug!!!
+		$stmt = $this->db->query($sql);
+		$ajob_diff = $stmt->fetchAll();
+		unset($stmt);
+		//var_dump($ajob_diff); exit; // for !!!debug!!!
+		
+		if ( $ajob_diff ) {
+			$ajob_all[] .= $ajob_diff[0]['jobid'];
+		} 
+		/* Поиск свежих Incremental бэкапов, после Full или Differential бэкапов, если есть
+		 * cats/sql_cmds.c :: uar_inc
+		 */
+		if ( !empty($ajob_diff[0]['jobtdate']) ) {
+			$jobtdate = " AND Job.JobTDate>'" . $ajob_diff[0]['jobtdate'] . "'";
+		} else {
+			$jobtdate = " AND Job.JobTDate>'" . $ajob_full[0]['jobtdate'] . "'";
+		}
+		switch ($this->db_adapter) {
+        	case 'PDO_SQLITE':
+				// bug http://framework.zend.com/issues/browse/ZF-884
+				$sql = "SELECT DISTINCT Job.JobId as jobid, Job.JobTDate as jobtdate, Job.ClientId as clientid, " .
+					" Job.Level as level, Job.JobFiles as jobfiles, Job.JobBytes as jobbytes, " .
+					" Job.StartTime as starttime, Media.VolumeName as volumename, JobMedia.StartFile as startfile, " .
+					" Job.VolSessionId as volsessionid, Job.VolSessionTime as volsessiontime" .
+				" FROM Job,JobMedia,Media,FileSet" .
+				" WHERE Media.Enabled=1 " .
+					" $jobtdate " .
+					" $date_before" .
+					" AND Job.ClientId=$client_id_from" .
+					" AND JobMedia.JobId=Job.JobId" .
+					" AND JobMedia.MediaId=Media.MediaId" .
+					" AND Job.Level='I' AND JobStatus IN ('T','W') AND Type='B'" .
+					" AND Job.FileSetId=FileSet.FileSetId" .
+					" AND FileSet.FileSet='".$file_set."'";
+				break;
+			default: // mysql, postgresql
+				$sql = "SELECT DISTINCT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
+					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
+				" FROM Job,JobMedia,Media,FileSet" .
+				" WHERE Media.Enabled=1 " .
+					" $jobtdate " .
+					" $date_before" .
+					" AND Job.ClientId=$client_id_from" .
+					" AND JobMedia.JobId=Job.JobId" .
+					" AND JobMedia.MediaId=Media.MediaId" .
+					" AND Job.Level='I' AND JobStatus IN ('T','W') AND Type='B'" .
+					" AND Job.FileSetId=FileSet.FileSetId" .
+					" AND FileSet.FileSet='".$file_set."'";
+				break;
+		}			
+		//echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+   		$stmt = $this->db->query($sql);
+  		$ajob_inc = $stmt->fetchAll();
+		unset($stmt);
+		//var_dump($ajob_inc); exit; // for !!!debug!!!
+		
+		// формируем хэш из jobids
+		if ( empty($ajob_diff) ) {
+   			$hash = '' . $ajob_full[0]['jobid'];
+		} else {
+   			$hash = '' . $ajob_full[0]['jobid'] . $ajob_diff[0]['jobid'];
+		}
+   		foreach ($ajob_inc as $line) {
+   			$hash = $hash . $line['jobid'];
+   			$ajob_all[] = $line['jobid'];
+		}
+		return(array('ajob_full' => $ajob_full, 'ajob_diff' => $ajob_diff, 'ajob_inc' => $ajob_inc, 
+			'ajob_all' => $ajob_all, 'hash' => $hash));	
+	}
+	
+	
 
 }

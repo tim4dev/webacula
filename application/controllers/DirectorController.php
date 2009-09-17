@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -22,7 +22,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: DirectorController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 /* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
@@ -60,4 +59,34 @@ EOF"
 		}
 		return;
     }
+    
+    
+    
+    function listjobtotalsAction()
+    {
+    	$this->view->title = $this->view->translate->_("List of Job Totals");
+        $director = new Director();           
+		if ( !$director->isFoundBconsole() )	{
+			$this->view->result_error = 'NOFOUND_BCONSOLE';
+   		  	$this->render();
+   		  	return;
+   	    }
+		$astatusdir = $director->execDirector(
+" <<EOF
+list jobtotals
+@quit
+EOF"
+		);
+		//echo "<pre>command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
+		$this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )	{
+			$this->view->result_error = $astatusdir['result_error'];
+		}
+		return;
+    }    
+    
+    
+    
+    
 }

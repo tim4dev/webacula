@@ -140,119 +140,12 @@ class RestorejobController extends Zend_Controller_Action
     	$this->render();
     }
 
-
-	/**
-	 * Clone Bacula tables : File, Filename, Path to webacula DB
-	 *
-	 * @return TRUE if ok
-	 */
 	function cloneBaculaTables($jobidhash)
 	{
 		/* извлекаем данные о jobid из сессии */
 		$jobid = $this->restoreNamespace->JobId;
-			
-		//$bacula = Zend_Db_Table::getDefaultAdapter();
-		$bacula = Zend_Registry::get('db_bacula');
-		// create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);	
-		if ( !$tmp_tables->createTmpTables() ) {
-			// view exception from WbTmpTable.php->createTmpTables()
-			return;
-		}	
-
-		$decode = new MyClass_HomebrewBase64;
-
-		//********************** clone File + Path **********************
-
-        // in order to reduce the number insert's for to copy a table Path
-		// для минимизации insert'ов при копировании таблицы Path
-        $old_pathid = 0;
-        $apath = array();
-
-        $stmt = $bacula->query(
-            "SELECT
-	           f.FileId, f.PathId, f.FilenameId, f.LStat, f.MD5,
-	           n.FilenameId, n.Name,
-	           p.PathId, p.Path
-            FROM File AS f
-                INNER JOIN Filename AS n ON n.FilenameId = f.FilenameId
-                INNER JOIN Path AS p     ON p.PathId = f.PathId
-            WHERE
-	           f.JobId = $jobid
-            ORDER BY
-	           p.PathId ASC");
-
-        while ($line = $stmt->fetch()) {
-            // file size writing in a separate filed to then it was easier to calculate the total
-            // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
-            // LStat example: MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
-            list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
-                $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
-			$file_size = $decode->homebrewBase64($st_size);
-			// Sorting through filed PathId should take INSERTs quickly
-			// за счет сортировки по PathId вставка должна проходить быстро
-			if ( !$tmp_tables->insertRowFile($line['fileid'], $line['pathid'], $line['filenameid'], $line['lstat'], $line['md5'], 0, $file_size) ) {
-				// show exception from WbTmpTable.php->insertRowFile()
-				return;
-			}
-
-            if ( empty($line['name']) )	{
-                // if it is a directory and there are data LStat, - immediately write
-                // если это каталог и есть данные LStat,- сразу пишем
-				if ( !$tmp_tables->insertRowPath($line['pathid'], $line['path']) ) {
-					// show exception from WbTmpTable.php->insertRowPath()
-					return;
-				}
-				$old_pathid = $line['pathid'];
-			} else {
-                if ( $old_pathid != $line['pathid'] )	{
-				    $key = $line['path'];
-					$apath[$key]['pathid']    = $line['pathid'];
-					$old_pathid = $line['pathid'];
-				}
-			}
-        }
-
-        // write on the path without information LStat
-        // пишем пути без информации об LStat
-		foreach($apath as $key=>$val)	{
-            if ( !$tmp_tables->insertRowPath($val['pathid'], $key) ) {
-				// show exception from WbTmpTable.php->insertRowPath()
-				return;
-			}
-		}
-        unset($stmt);
-
-
-        //**************************** clone Filename (fastest) ****************************
-/**
- * Все имена полей, приведенные в списке предложения SELECT, должны присутствовать и во фразе GROUP BY -
- * за исключением случаев, когда имя столбца используется в итоговой функции.
- * Обратное правило не является справедливым - во фразе GROUP BY могут быть имена столбцов, отсутствующие в
- * списке предложения SELECT.
- * Если совместно с GROUP BY используется предложение WHERE, то оно обрабатывается первым,
- * а группированию подвергаются только те строки, которые удовлетворяют условию поиска.
- */
-        $stmt = $bacula->query(
-            "SELECT
-	           f.FileId, f.FilenameId,
-	           n.FilenameId, n.Name
-            FROM File AS f
-                INNER JOIN Filename AS n ON n.FilenameId = f.FilenameId
-            WHERE
-	           f.JobId = $jobid");
-
-        while ($line = $stmt->fetch()) {
-            if ( !$tmp_tables->insertRowFilename($line['filenameid'], $line['name']) ) {
-				// show exception from WbTmpTable.php->insertRowFilename()
-				return;
-			}
-        }
-        unset($stmt);
-
-        // end transaction
-        // после успешного клонирования устанавливаем признак
-        $tmp_tables->setCloneOk();
+		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+		$tmp_tables->cloneBaculaToTmp($jobid);
 	}
 
 
@@ -265,76 +158,11 @@ class RestorejobController extends Zend_Controller_Action
 	function cloneRecentBaculaTables($jobidhash)
 	{
 		/* извлекаем данные обо всех jobids из сессии */
-		$sjobids = implode(",", $this->restoreNamespace->aJobId); // для SQL запроса ниже
-			
-		$bacula = Zend_Db_Table::getDefaultAdapter();
-		// create temporary tables: File, Filename, Path
-		// создаем временные таблицы File, Filename, Path
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);	
-		$tmp_tables->createTmpTables();	
-
-		$decode = new MyClass_HomebrewBase64;
-
-		//********************** clone File, Filename, Path **********************
-        // in order to reduce the number insert's for to copy a table Path
-		// для минимизации insert'ов при копировании таблицы Path
-        $old_pathid = 0;
-        $apath = array();
-		// dird/ua_restore.c :: build_directory_tree
-        $sql = "SELECT Path.Path, File.FileId, File.PathId, File.FilenameId, File.LStat, File.MD5, Filename.Name" .
-        		" FROM (" .
-        			" SELECT max(FileId) as FileId, PathId, FilenameId" .
-        			" FROM (" .
-        				" SELECT FileId, PathId, FilenameId" .
-        				" FROM File" .
-        				" WHERE JobId IN ( $sjobids )" .
-        				" ORDER BY JobId DESC" .
-        			" ) AS F" .
-        			" GROUP BY PathId, FilenameId )" .
-        		" AS Temp" .
-        		" JOIN Filename ON (Filename.FilenameId = Temp.FilenameId)" .
-        		" JOIN Path ON (Path.PathId = Temp.PathId)" .
-        		" JOIN File ON (File.FileId = Temp.FileId)" .
-        		" WHERE File.FileIndex > 0" .
-        		" ORDER BY JobId, FileIndex ASC";
-
-		$stmt = $bacula->query($sql);
-
-        while ($line = $stmt->fetch()) {
-            // file size writing in a separate filed to then it was easier to calculate the total size
-            // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
-            // LStat example: MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
-            list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
-                $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
-			$file_size = $decode->homebrewBase64($st_size);
-			// Sorting through filed PathId should take INSERTs quickly
-			// за счет сортировки по PathId вставка должна проходить быстро
-			$tmp_tables->insertRowFile($line['fileid'], $line['pathid'], $line['filenameid'], $line['lstat'], $line['md5'], 0, $file_size);
-			$tmp_tables->insertRowFilename($line['filenameid'], $line['name']);
-
-            if ( empty($line['name']) )	{
-                // if it is a directory and there are data LStat, - immediately write
-                // если это каталог и есть данные LStat,- сразу пишем
-				$tmp_tables->insertRowPath($line['pathid'], $line['path']);
-				$old_pathid = $line['pathid'];
-			} else {
-                if ( $old_pathid != $line['pathid'] )	{
-				    $key = $line['path'];
-					$apath[$key]['pathid']    = $line['pathid'];
-					$old_pathid = $line['pathid'];
-				}
-			}
-        }
-        // write on the path without information LStat
-        // пишем пути без информации об LStat
-		foreach($apath as $key=>$val)	{
-            $tmp_tables->insertRowPath($val['pathid'], $key);
-		}
-        unset($stmt);
-        // end transaction
-        // после успешного клонирования устанавливаем признак
-        $tmp_tables->setCloneOk();
+		$sjobids = implode(",", $this->restoreNamespace->aJobId);
+		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+		$tmp_tables->cloneRecentBaculaToTmp($jobidhash, $sjobids);
 	}
+
 
 
 	/**
@@ -402,6 +230,10 @@ class RestorejobController extends Zend_Controller_Action
 	 */
 	function restoreAllAction()
 	{
+		Zend_Loader::loadClass('Job');
+		$job = new Job();
+		Zend_Loader::loadClass('Client');
+		$client = new Client();
         $jobid  = intval( $this->_request->getParam('jobid', 0) );
         /* запоминаем "левый" jobid в сессии, чтобы не было ошибок при завершении restore */
     	$jobidhash = md5('fake_jobid');  			
@@ -414,20 +246,18 @@ class RestorejobController extends Zend_Controller_Action
 		$choice_form = intval( $this->_request->getParam('choice_form', 0) );
 
 		// существует ли такое jobid
-		if ( !$this->isJobIdExists($jobid) ) {
+		if ( !$job->isJobIdExists($jobid) ) {
 			// выдача сообщения, что такого joid не существует
 			$this->view->title = $this->view->translate->_("Restore Job");
     		$this->view->jobid = intval( $this->_request->getParam('jobid', null) );
 			$this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."), $jobid);
 			
 			// get data for form
-            Zend_Loader::loadClass('Client');
             Zend_Loader::loadClass('Storage');
             Zend_Loader::loadClass('Pool');
             Zend_Loader::loadClass('FileSet');
 
-            $clients = new Client();
-    	    $this->view->clients = $clients->fetchAll();
+    	    $this->view->clients = $client->fetchAll();
 
     	    $storages = new Storage();
     	    $this->view->storages = $storages->fetchAll();
@@ -442,7 +272,7 @@ class RestorejobController extends Zend_Controller_Action
 			return;
 		}
 
-		$client_name = $this->getClientName($jobid);
+		$client_name = $client->getClientName($jobid);
         $this->view->client_name = $client_name;
 
 		// *************************** run restore ************************************************
@@ -450,21 +280,13 @@ class RestorejobController extends Zend_Controller_Action
             // форма выбора client, where, storage уже заполнена
             // check access to bconsole
 
-            $config = Zend_Registry::get('config');
-    	    if ( !file_exists($config->bacula->bconsole))	{
+			$director = new Director();
+			if ( !$director->isFoundBconsole() )	{
     		  $this->view->result_error = 'NOFOUND_BCONSOLE';
     		  $this->render();
     		  return;
-    	    }
-
-    	    $bconsolecmd = '';
-            if ( isset($config->bacula->sudo))	{
-                // run with sudo
-                $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            } else {
-                $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-            }
-
+	   	    }
+		
             $client_restore = addslashes( $this->_request->getParam('client', '') );
             $client_backup  = addslashes( $this->_request->getParam('client_name', '') );
             $where   = addslashes( $this->_request->getParam('where', null) );
@@ -489,44 +311,33 @@ class RestorejobController extends Zend_Controller_Action
            if ( !empty($storage) ) $cmd .= ' storage="' . $storage . '"';
            if ( !empty($pool) ) $cmd .= ' pool="' . $pool . '"';
            if ( !empty($fileset) ) $cmd .= ' fileset="' . $fileset . '"';
-
            $cmd .= ' all done yes';
 
-           //echo $cmd; exit;// !!! debug
-           $command_output = '';
-           $return_var = 0;
-           exec($bconsolecmd . " <<EOF
+		   $astatusdir = $director->execDirector(
+" <<EOF
 $cmd_mount
 $cmd_sleep
 $cmd
-@sleep 10
+@sleep 3
 status dir
 @quit
-EOF",
-$command_output, $return_var);
+EOF"
+			);
 
-            //Zend_Debug::dump($command_output, $label='3 command_output', $echo=true);
-            //Zend_Debug::dump($return_var, $label='3 return_var', $echo=true);
-            //echo "<pre>3 command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
-
-            $this->view->command_output = $command_output;
-
-            // check return status of the executed command
-            if ( $return_var != 0 )	{
-                $this->view->result_error = 'ERROR_BCONSOLE';
-            }
-
+			$this->view->command_output = $astatusdir['command_output'];
+        	// check return status of the executed command
+        	if ( $astatusdir['return_var'] != 0 )	{
+				$this->view->result_error = $astatusdir['result_error'];
+			}
             $this->renderScript('restorejob/run-restore.phtml');
 
 		} else {
 		    // get data for form
-            Zend_Loader::loadClass('Client');
             Zend_Loader::loadClass('Storage');
             Zend_Loader::loadClass('Pool');
             Zend_Loader::loadClass('FileSet');
 
-            $clients = new Client();
-    	    $this->view->clients = $clients->fetchAll();
+    	    $this->view->clients = $client->fetchAll();
 
     	    $storages = new Storage();
     	    $this->view->storages = $storages->fetchAll();
@@ -542,23 +353,24 @@ $command_output, $return_var);
 	}
 
 
+
 	function restoreRecentAllAction()
 	{
+		Zend_Loader::loadClass('Director');
 		// http://www.bacula.org/en/rel-manual/Restore_Command.html#SECTION002240000000000000000
 		/* запоминаем "левый" jobid в сессии, чтобы не было ошибок при завершении restore */
     	$this->restoreNamespace->JobHash = md5('fake_jobid');  			
-		
 		$this->view->title = $this->view->translate->_("Restore All files");
 		
 		// начало отрисовки? т.е. форма выбора client, where уже заполнена?
 		$choice_form = intval( $this->_request->getParam('choice_form', 0) );
 		
-		$config = Zend_Registry::get('config');
-		if ( !file_exists($config->bacula->bconsole))	{
-    		$this->view->result_error = 'NOFOUND_BCONSOLE';
-    		$this->render();
-    		return;
-    	}
+		$director = new Director();
+		if ( !$director->isFoundBconsole() )	{
+    	  $this->view->result_error = 'NOFOUND_BCONSOLE';
+    	  $this->render();
+    	  return;
+	   	}
     	
     	// *************************** run restore ************************************************
 		if ( $choice_form == 1 )  {
@@ -598,24 +410,22 @@ $command_output, $return_var);
         		   $client_to_restore . $path_to_restore .
             	   ' fileset="' . $this->restoreNamespace->FileSet . '"' .	$cmd_date_before;
 	        $cmd .= ' select all done yes';
-			//echo "<pre>bconsolecmd = $bconsolecmd<br>cmd = $cmd"; exit; // !!!debug!!!
-			$command_output = '';
-    	    $return_var = 0;
-        	exec($bconsolecmd . " <<EOF
+
+			$astatusdir = $director->execDirector(
+" <<EOF
 $cmd
-@sleep 10
+@sleep 3
 status dir
 @quit
-EOF",
-$command_output, $return_var);
-
-    	        $this->view->command_output = $command_output;
-
-        	    // check return status of the executed command
-            	if ( $return_var != 0 )	{
-	                $this->view->result_error = 'ERROR_BCONSOLE';
-    	        }
-        	    $this->renderScript('restorejob/run-restore.phtml');
+EOF"
+			);
+			$this->view->command_output = $astatusdir['command_output'];
+        	// check return status of the executed command
+        	if ( $astatusdir['return_var'] != 0 )	{
+				$this->view->result_error = $astatusdir['result_error'];
+			}
+       	    $this->renderScript('restorejob/run-restore.phtml');
+       	    
 		} else {
 			// для отрисовки формы выбора client, where
 			$this->view->client_from_restore = $this->restoreNamespace->ClientNameFrom;
@@ -630,79 +440,30 @@ $command_output, $return_var);
 	}
 
 
-	/**
-	 * If there JobId exist in the database Bacula ...
-	 * Существует ли JobId в БД Bacula
-	 *
-	 * @return TRUE if exist
-	 * @param integer $jobid
-	 */
-	function isJobIdExists($jobid)
-	{
-		$db = Zend_Db_Table::getDefaultAdapter();
-   		$select = new Zend_Db_Select($db);
-    	$select->from('Job', 'JobId');
-    	$select->where("JobId = ?", $jobid);
-    	$select->limit(1);
-    	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-    	$stmt = $select->query();
-		$res  = $stmt->fetchAll();
-
-		if ( empty($res[0]['jobid']) )	{
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
-
-    /**
-      * Get Client name
-      *
-      * @return Client name, or "" if not exist
-      * @param integer $jobid
-      */
-    function getClientName($jobid)
-    {
-        $db = Zend_Db_Table::getDefaultAdapter();
-        $select = new Zend_Db_Select($db);
-
-        //select Client.Name from Client, Job where Client.ClientId=Job.ClientId and Job.JobId=10298;
-        $select->from(array('j' => 'Job'), array('JobId', 'ClientId'));
-
-   		$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('c.Name'));
-		$select->where("j.JobId = ?", $jobid);
-
-        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-        $stmt = $select->query();
-        $res  = $stmt->fetchAll();
-
-        return $res[0]['name'];
-    }
-
-
 
 	function selectFilesAction()
-	{		
+	{
+		Zend_Loader::loadClass('Job');
+		$job = new Job();		
+		Zend_Loader::loadClass('Client');
+		$client = new Client();
 		// начало отрисовки дерева каталогов ?
 		$beginr = intval( $this->_request->getParam('beginr', 0) );
 		if ( $beginr == 1 ) {    	 
 			/* Начало отрисовки дерева каталогов */
 			// существует ли такое jobid
-			if ( !$this->isJobIdExists($this->restoreNamespace->JobId) ) {
+			if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) {
 				// выдача сообщения, что такого jobid не существует
 				$this->view->title = $this->view->translate->_("Restore Job");
     			$this->view->jobid = $this->restoreNamespace->JobId;
 				$this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."), 
 										$this->restoreNamespace->JobId);						
 				// get data for form
-            	Zend_Loader::loadClass('Client');
             	Zend_Loader::loadClass('Storage');
             	Zend_Loader::loadClass('Pool');
             	Zend_Loader::loadClass('FileSet');
 
-            	$clients = new Client();
-    	    	$this->view->clients = $clients->fetchAll();
+    	    	$this->view->clients = $client->fetchAll();
 
     	    	$storages = new Storage();
     	    	$this->view->storages = $storages->fetchAll();
@@ -716,7 +477,7 @@ $command_output, $return_var);
 				echo $this->renderScript('restorejob/main-form.phtml');
 				return;
 			}
-			$this->restoreNamespace->ClientNameFrom = $this->getClientName($this->restoreNamespace->JobId);		
+			$this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);		
 			// tmp таблицы существуют ?
 			$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);								
 			if ( !$tmp_tables->isAllTmpTablesExists() )	{ 
@@ -753,7 +514,7 @@ $command_output, $return_var);
 	function selectBackupsBeforeDateAction() 
 	{
 		// поиск ClientId
-		$bacula = Zend_Db_Table::getDefaultAdapter();
+		$bacula = Zend_Registry::get('db_bacula');
 		$select = new Zend_Db_Select($bacula);
     	$select->from('Client');
     	$select->where("Name = ?", $this->restoreNamespace->ClientNameFrom);
@@ -764,132 +525,30 @@ $command_output, $return_var);
 		$this->restoreNamespace->ClientIdFrom = $line['clientid'];
 		unset($stmt);
 		unset($select);
-		/* Поиск JobId последнего Full бэкапа для заданных Client, Fileset, Date
-		 * cats/sql_cmds.c :: uar_last_full 
-		 */
-		$ajob_all = array();
+		
 		if ( !empty($this->restoreNamespace->DateBefore) ) {
 			$date_before = " AND Job.StartTime<'".$this->restoreNamespace->DateBefore."'";
 		} else {
 			$date_before = '';
 		}
-		$sql =  "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
-					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
-				" FROM Client,Job,JobMedia,Media,FileSet WHERE Client.ClientId={$this->restoreNamespace->ClientIdFrom}" .
-					" AND Job.ClientId={$this->restoreNamespace->ClientIdFrom}" .
-					" $date_before".
-					" AND Level='F' AND JobStatus IN ('T','W') AND Type='B'" .
-					" AND JobMedia.JobId=Job.JobId" .
-					" AND Media.Enabled=1" .
-					" AND JobMedia.MediaId=Media.MediaId" .
-					" AND Job.FileSetId=FileSet.FileSetId" .
-					" AND FileSet.FileSet='".$this->restoreNamespace->FileSet."'" .
-				" ORDER BY Job.JobTDate DESC" .
-				" LIMIT 1";
-		//var_dump($sql); exit; // for !!!debug!!!
-		$stmt = $bacula->query($sql);
-		$ajob_full = $stmt->fetchAll();
-		unset($stmt);
-		//var_dump($ajob_full); exit; // for !!!debug!!!
-		
-		if ( !$ajob_full ) {
+		Zend_Loader::loadClass('Job');
+		$job = new Job();
+		$ajobs = $job->getJobBeforeDate($date_before, $this->restoreNamespace->ClientIdFrom, $this->restoreNamespace->FileSet);
+		if ( !$ajobs ) {
 			// сообщение, что не найден Full backup: No Full backup before 2009-05-20 15:19:49 found.
 			$this->view->msg = sprintf($this->view->translate->_("No Full backup before %s found."), $this->restoreNamespace->DateBefore);
 			echo $this->renderScript('msg-note.phtml');
 			return; 
 		}
-		$ajob_all[] = $ajob_full[0]['jobid'];
-		/* Поиск свежего Differential бэкапа, после Full бэкапа, если есть
-		 * cats/sql_cmds.c :: uar_dif
-		 */
-		$sql = "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
-					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
-				" FROM Job,JobMedia,Media,FileSet" .
-				" WHERE Job.JobTDate>'".$ajob_full[0]['jobtdate']."'" .
-					" $date_before" .
-					" AND Job.ClientId={$this->restoreNamespace->ClientIdFrom}" .
-					" AND JobMedia.JobId=Job.JobId" .
-					" AND Media.Enabled=1" .
-					" AND JobMedia.MediaId=Media.MediaId" .
-					" AND Job.Level='D' AND JobStatus IN ('T','W') AND Type='B'" .
-					" AND Job.FileSetId=FileSet.FileSetId" .
-					" AND FileSet.FileSet='".$this->restoreNamespace->FileSet."'" .
-					" ORDER BY Job.JobTDate DESC" .
-					" LIMIT 1";
-		//var_dump($sql); exit; // for !!!debug!!!
-		$stmt = $bacula->query($sql);
-		$ajob_diff = $stmt->fetchAll();
-		unset($stmt);
-		//var_dump($ajob_diff); exit; // for !!!debug!!!
-		
-		if ( $ajob_diff ) {
-			$ajob_all[] .= $ajob_diff[0]['jobid'];
-		} 
-		/* Поиск свежих Incremental бэкапов, после Full или Differential бэкапов, если есть
-		 * cats/sql_cmds.c :: uar_inc
-		 */
-		if ( !empty($ajob_diff[0]['jobtdate']) ) {
-			$jobtdate = " AND Job.JobTDate>'" . $ajob_diff[0]['jobtdate'] . "'";
-		} else {
-			$jobtdate = " AND Job.JobTDate>'" . $ajob_full[0]['jobtdate'] . "'";
-		}
-		switch ($this->db_adapter) {
-        	case 'PDO_SQLITE':
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$sql = "SELECT DISTINCT Job.JobId as jobid, Job.JobTDate as jobtdate, Job.ClientId as clientid, " .
-					" Job.Level as level, Job.JobFiles as jobfiles, Job.JobBytes as jobbytes, " .
-					" Job.StartTime as starttime, Media.VolumeName as volumename, JobMedia.StartFile as startfile, " .
-					" Job.VolSessionId as volsessionid, Job.VolSessionTime as volsessiontime" .
-				" FROM Job,JobMedia,Media,FileSet" .
-				" WHERE Media.Enabled=1 " .
-					" $jobtdate " .
-					" $date_before" .
-					" AND Job.ClientId={$this->restoreNamespace->ClientIdFrom}" .
-					" AND JobMedia.JobId=Job.JobId" .
-					" AND JobMedia.MediaId=Media.MediaId" .
-					" AND Job.Level='I' AND JobStatus IN ('T','W') AND Type='B'" .
-					" AND Job.FileSetId=FileSet.FileSetId" .
-					" AND FileSet.FileSet='".$this->restoreNamespace->FileSet."'";
-				break;
-			default: // mysql, postgresql
-				$sql = "SELECT DISTINCT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
-					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
-				" FROM Job,JobMedia,Media,FileSet" .
-				" WHERE Media.Enabled=1 " .
-					" $jobtdate " .
-					" $date_before" .
-					" AND Job.ClientId={$this->restoreNamespace->ClientIdFrom}" .
-					" AND JobMedia.JobId=Job.JobId" .
-					" AND JobMedia.MediaId=Media.MediaId" .
-					" AND Job.Level='I' AND JobStatus IN ('T','W') AND Type='B'" .
-					" AND Job.FileSetId=FileSet.FileSetId" .
-					" AND FileSet.FileSet='".$this->restoreNamespace->FileSet."'";
-				break;
-		}			
-		//echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-   		$stmt = $bacula->query($sql);
-  		$ajob_inc = $stmt->fetchAll();
-		unset($stmt);
-		//var_dump($ajob_inc); exit; // for !!!debug!!!
 
-		// формируем хэш из jobids
-		if ( empty($ajob_diff) ) {
-   			$str = '' . $ajob_full[0]['jobid'];
-		} else {
-   			$str = '' . $ajob_full[0]['jobid'] . $ajob_diff[0]['jobid'];
-		}
-   		foreach ($ajob_inc as $line) {
-   			$str = $str . $line['jobid'];
-   			$ajob_all[] = $line['jobid'];
-		}
    		/* запоминаем данные о jobids в сессии */
-	    	$this->restoreNamespace->JobHash = md5($str); 			
-   		$this->restoreNamespace->aJobId  = $ajob_all;
+    	$this->restoreNamespace->JobHash = md5($ajobs['hash']); 			
+   		$this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
 	
-		$this->view->ajob_full = $ajob_full;
-		$this->view->ajob_diff = $ajob_diff;
-		$this->view->ajob_inc  = $ajob_inc;
-		$this->view->ajob_all  = $ajob_all;
+		$this->view->ajob_full = $ajobs['ajob_full'];
+		$this->view->ajob_diff = $ajobs['ajob_diff'];
+		$this->view->ajob_inc  = $ajobs['ajob_inc'];
+		$this->view->ajob_all  = $ajobs['ajob_all'];
 		$this->view->title = $this->view->translate->_("You have selected the following JobIds");
 		$this->view->beginrecent = 1;
 		$this->render(); 
@@ -1315,31 +974,8 @@ $command_output, $return_var);
         // *** end pager ***
 
 		$offset = self::ROW_LIMIT_FILES * ($page - 1);
-        $db = $tmp_tables->getDb();
-        switch ($this->db_adapter) {
-        	case 'PDO_SQLITE':
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name
-					FROM ' . $db->quoteIdentifier($tmp_tables->getTableNameFile()) . " AS f, " .
-               		$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
-			   		$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n
-			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
-  			   		ORDER BY Path ASC, Name ASC
-  			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
-  			   	break;
-        	default: // mysql, postgresql
-        		$sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name
-					FROM ' . $db->quoteIdentifier($tmp_tables->getTableNameFile()) . " AS f, " .
-               		$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
-			   		$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n
-			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
-  			   		ORDER BY Path ASC, Name ASC
-  			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
-        	break;
-        }
- 		//$this->logger->log("listRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
-		$stmt = $db->query($sql);
-        $this->view->result = $stmt->fetchAll();
+		$this->view->result = $tmp_tables->getListToRestore($offset);		       
+        
         // get data for form
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('Storage');
@@ -1387,31 +1023,8 @@ $command_output, $return_var);
         // *** end pager ***
 
 		$offset = self::ROW_LIMIT_FILES * ($page - 1);
-		$db = $tmp_tables->getDb();
-		switch ($this->db_adapter) {
-        	case 'PDO_SQLITE':
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name' .
-					' FROM ' . 
-					$db->quoteIdentifier($tmp_tables->getTableNameFile()) . ' AS f, ' .
-					$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
-					$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n ' .
-					' WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) ' . 
-					' ORDER BY Path ASC, Name ASC LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
-				break;
-			default:
-				$sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name FROM ' . 
-					$db->quoteIdentifier($tmp_tables->getTableNameFile()) . ' AS f, ' .
-					$db->quoteIdentifier($tmp_tables->getTableNamePath()) . ' AS p, ' .
-					$db->quoteIdentifier($tmp_tables->getTableNameFilename()) . ' AS n ' .
-					' WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) ' . 
-					' ORDER BY Path ASC, Name ASC LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
-				break;
-		}	
-		$stmt = $db->query($sql);
-		//$this->logger->log("listRecentRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
-
-        $this->view->result = $stmt->fetchAll();
+		$this->view->result = $tmp_tables->getListToRestore($offset);
+        
         // get data for form
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('Storage');
@@ -1439,6 +1052,8 @@ $command_output, $return_var);
      */
     function runRestoreAction()
     {
+    	Zend_Loader::loadClass('Job');
+		$job = new Job();
         $client_name_to = addslashes( $this->_request->getParam('client_name_to', null));       
         $where   = addslashes( $this->_request->getParam('where', null));
         $storage = addslashes( $this->_request->getParam('storage', null));
@@ -1457,25 +1072,19 @@ $command_output, $return_var);
             $cmd_sleep = '';
         }
 
-        if ( !$this->isJobIdExists($this->restoreNamespace->JobId) ) return;
+        if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) return;
         // получаем каталог куда можно писать файл
         $config = Zend_Registry::get('config');
         $tmpdir = $config->tmpdir;
 
         // check access to bconsole
-    	if ( !file_exists($config->bacula->bconsole))	{
-    		$this->view->result_error = 'NOFOUND_BCONSOLE';
-    		$this->render();
-    		return;
-    	}
-
-    	$bconsolecmd = '';
-        if ( isset($config->bacula->sudo))	{
-            // run with sudo
-            $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        } else {
-            $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        }
+        Zend_Loader::loadClass('Director');
+        $director = new Director();           
+		if ( !$director->isFoundBconsole() )	{
+			$this->view->result_error = 'NOFOUND_BCONSOLE';
+   		  	$this->render();
+   		  	return;
+   	    }
 
         // export to a text file (экспорт в текстовый файл)
 		$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
@@ -1501,23 +1110,22 @@ $command_output, $return_var);
             $cmd .= ' yes';
 
             //echo $cmd; exit;// !!! debug
-            $command_output = '';
-            $return_var = 0;
-            exec($bconsolecmd . " <<EOF
+            $astatusdir = $director->execDirector(
+" <<EOF
 $cmd_mount
 $cmd_sleep
 $cmd
-@sleep 10
+@sleep 3
 status dir
 @quit
-EOF",
-$command_output, $return_var);
+EOF"
+			);
+			$this->view->command_output = $astatusdir['command_output'];
+        	// check return status of the executed command
+        	if ( $astatusdir['return_var'] != 0 )	{
+				$this->view->result_error = $astatusdir['result_error'];
+			}
             //echo "<pre>3 command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
-            $this->view->command_output = $command_output;
-            // check return status of the executed command
-            if ( $return_var != 0 )	{
-                $this->view->result_error = 'ERROR_BCONSOLE';
-            }
 
         }   else {
             // выдать сообщение
@@ -1530,25 +1138,17 @@ $command_output, $return_var);
 	function runRestoreRecentAction()
 	{
 		// http://www.bacula.org/en/rel-manual/Restore_Command.html#SECTION002240000000000000000	
-		$this->view->title = $this->view->translate->_("Restore the most recent backup (or before a specified time) for a client");	
-		$config = Zend_Registry::get('config');
-		if ( !file_exists($config->bacula->bconsole))	{
-    		$this->view->result_error = 'NOFOUND_BCONSOLE';
-    		$this->render();
-    		return;
-    	}
-   	
+		$this->view->title = $this->view->translate->_("Restore the most recent backup (or before a specified time) for a client");
+		Zend_Loader::loadClass('Director');	
+		$director = new Director();           
+		if ( !$director->isFoundBconsole() )	{
+			$this->view->result_error = 'NOFOUND_BCONSOLE';
+   		  	$this->render();
+   		  	return;
+   	    }
         $this->restoreNamespace->ClientNameTo   = addslashes( $this->_request->getParam('client_name_to', '') );
 		$path_to_restore = $this->_request->getParam('path_to_restore', '');           
-		
-		$bconsolecmd = '';
-       	if ( isset($config->bacula->sudo))	{
-       		// run with sudo
-           	$bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-       	} else {
-       		$bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-       	}
-       	
+		       	
        	// export to a text file (экспорт в текстовый файл)
        	// получаем каталог куда можно писать файл
         $config = Zend_Registry::get('config');
@@ -1581,23 +1181,23 @@ $command_output, $return_var);
            	   ' file=<"' . $list . '" ';
         $cmd .= ' done yes';
 		//var_dump($cmd); exit; // !!!debug!!!
-		$command_output = '';
-   	    $return_var = 0;
-       	exec($bconsolecmd . " <<EOF
+		$astatusdir = $director->execDirector(
+" <<EOF
 $cmd
-@sleep 10
+@sleep 3
 status dir
 @quit
-EOF",
-$command_output, $return_var);
+EOF"
+		);
 
-		$this->view->command_output = $command_output;
-   	    // check return status of the executed command
-       	if ( $return_var != 0 )	{
-			$this->view->result_error = 'ERROR_BCONSOLE';
-    	    }
+		$this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )	{
+			$this->view->result_error = $astatusdir['result_error'];
+		}
 		$this->renderScript('restorejob/run-restore.phtml');
 	}
+
 	
 
     /**
