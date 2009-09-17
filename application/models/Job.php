@@ -857,7 +857,7 @@ Select Job resource (1-3):
 			unset($stmt);
 
 			// list volumes
-			$select = new Zend_Db_Select($db);
+			$select = new Zend_Db_Select($this->db);
 			switch ($this->db_adapter) {
 			case 'PDO_SQLITE':
 				// bug http://framework.zend.com/issues/browse/ZF-884

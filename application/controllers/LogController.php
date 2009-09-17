@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -21,7 +21,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: LogController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
 /* Zend_Controller_Action */
@@ -32,10 +31,9 @@ class LogController extends Zend_Controller_Action
 
 	function init()
 	{
-		$this->db_adapter = Zend_Registry::get('DB_ADAPTER');
 		$this->view->baseUrl = $this->_request->getBaseUrl();
-		Zend_Loader::loadClass('Log');
 		$this->view->translate = Zend_Registry::get('translate');
+		Zend_Loader::loadClass('Log');
 	}
 
     function viewLogIdAction()
@@ -46,28 +44,8 @@ class LogController extends Zend_Controller_Action
     	if ( !empty($job_id)  )	{
     		$this->view->title = sprintf($this->view->translate->_("Console messages for Job %s, JobId %u"), $job_name, $job_id);
 
-			$db = Zend_Db_Table::getDefaultAdapter();
-			$select = new Zend_Db_Select($db);
-			switch ($this->db_adapter) {
-			case 'PDO_SQLITE':
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$select->distinct();
-    			$select->from(array('l' => 'Log'), array('logid'=>'LogId', 'jobid'=>'JobId', 
-					'LogTime' => 'Time', 'logtext'=>'LogText'));
-    			$select->where("JobId='$job_id'"); // AND
-				$select->order(array('LogId', 'LogTime'));
-				break;
-			default: // mysql, postgresql
-				$select->distinct();
-    			$select->from(array('l' => 'Log'), array('LogId', 'JobId', 'LogTime' => 'Time', 'LogText'));
-    			$select->where("JobId='$job_id'"); // AND
-				$select->order(array('LogId', 'LogTime'));
-			}
-			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-    		$stmt = $select->query();
-			$this->view->result = $stmt->fetchAll();
-
+			$log = new Log();
+			$this->view->result = $log->getById($job_id);
     	}
     	else
     		$this->view->result = null;

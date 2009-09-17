@@ -48,23 +48,7 @@ class WbTmpTable extends Zend_Db_Table
 	protected $logger; // for debug
 	
 	
-	function my_debug($msg)
-	{
-		echo "$msg<br>";
-		echo '<hr>model/WbTmpTable()</hr><hr>';
-		echo '<br><h1>debug_backtrace</h1>';
-		$backtrace = debug_backtrace();
-		foreach ($backtrace as $line) {
-			echo 'file : ', $line['file'], "<br>";
-			echo 'line : ', $line['line'], "<br>";
-			echo 'function : ', $line['function'], "<br>";
-			echo 'class : ', $line['class'], "<br>";
-			echo '---------<br>';
-		}
-	  	//var_dump(debug_backtrace());
-	  	echo '<br><h3>--- end debug_backtrace</h3>';
-	  	exit;
-	}
+
 
 	/**
 	 * @param string $prefix для формирования имен tmp таблиц
@@ -867,4 +851,23 @@ class WbTmpTable extends Zend_Db_Table
     }
 
 
+
+	function my_debug($msg)
+	{
+		echo "$msg<br>";
+		echo '<hr>model/WbTmpTable()</hr><hr>';
+		echo '<br><h1>debug_backtrace</h1>';
+		$backtrace = debug_backtrace();
+		foreach ($backtrace as $line) {
+			echo 'file : ', $line['file'], "<br>";
+			echo 'line : ', $line['line'], "<br>";
+			echo 'function : ', $line['function'], "<br>";
+			echo 'class : ', $line['class'], "<br>";
+			echo '---------<br>';
+		}
+	  	//var_dump(debug_backtrace());
+	  	echo '<br><h3>--- end debug_backtrace</h3>';
+	  	exit;
+	}
+	
 }

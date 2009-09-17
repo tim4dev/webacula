@@ -25,13 +25,15 @@
 
 class Pool extends Zend_Db_Table
 {
-   public $db_adapter;
+	public $db;
+	public $db_adapter;
 
-   public function __construct($config = array())
-   {
-       $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-       parent::__construct($config);
-   }
+	public function __construct($config = array())
+   	{
+		$this->db         = Zend_Registry::get('db_bacula');
+       	$this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+       	parent::__construct($config);
+   	}
 
    protected function _setupTableName()
     {

@@ -151,7 +151,8 @@ class RestorejobController extends Zend_Controller_Action
 		/* извлекаем данные о jobid из сессии */
 		$jobid = $this->restoreNamespace->JobId;
 			
-		$bacula = Zend_Db_Table::getDefaultAdapter();
+		//$bacula = Zend_Db_Table::getDefaultAdapter();
+		$bacula = Zend_Registry::get('db_bacula');
 		// create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path
 		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);	
 		if ( !$tmp_tables->createTmpTables() ) {

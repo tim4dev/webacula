@@ -33,8 +33,8 @@ class PoolController extends Zend_Controller_Action
 	function init()
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
-		Zend_Loader::loadClass('Pool');
 		$this->view->translate = Zend_Registry::get('translate');
+		Zend_Loader::loadClass('Pool');
 	}
 
     function allAction()
