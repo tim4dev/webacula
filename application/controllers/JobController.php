@@ -120,108 +120,11 @@ class JobController extends Zend_Controller_Action
    		$jtype		 = addslashes(trim( $this->_request->getParam('jtype') ));
    		$volname	 = addslashes(trim( $this->_request->getParam('volname') ));
    		$orderp      = addslashes(trim($this->_request->getParam('order', '')));
-   		if ( $orderp ) {
-   		    $order = array($orderp . ' ASC', 'JobId');
-   		} else {
-   		    $order = array('JobId');
-   		}
 
-   		//echo "<pre>begin: $date_begin $time_begin\nend: $date_end $time_end\nclient: $client\nfileset: $fileset\n" .
-   		//		"level: $jlevel\nstatus: $jstatus\ntype: $jtype\nvol name: $volname"; // DEBUG
-
-   		if ( isset($date_begin, $time_begin, $date_end, $time_end, $client, $fileset) )	{
-
-   			$db = Zend_Registry::get('db_bacula');
-   			// make select from multiple tables
-   			$select = new Zend_Db_Select($db);
-
-   			// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
-
-   			switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-            	//$select->distinct();
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-   				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			    'FileSetId', 'PurgedFiles', 'JobStatus',
-       			    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
-                break;
-            case 'PDO_PGSQL':
-                // PostgreSQL
-                // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				    'StartTime', 'EndTime',
-   				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			    'FileSetId', 'PurgedFiles', 'JobStatus',
-       			    'DurationTime' => '(EndTime - StartTime)'));
-                break;
-			case 'PDO_SQLITE':
-				// SQLite3 Documentation
-				// http://sqlite.org/lang_datefunc.html
-				$select->from(array('j' => 'Job'),
-					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-					'StartTime', 'EndTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-					'FileSetId', 'PurgedFiles', 'JobStatus',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-				break;               
-            }
-   			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
-   			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'c.Name'));
-
-			$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'p.Name'));
-			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
-
-
-			$select->where( "('" . $date_begin . ' ' . $time_begin . "' <= j.StartTime) AND (j.StartTime <= '" . 
-				$date_end . ' ' . $time_end . "')" );
-
-			if (  $fileset != "" )	{
-				$select->where("f.FileSet='$fileset'"); // AND
-			}
-			// Full, Incremental, Differential
-			if ( $jlevel != "")	{
-				$select->where("j.Level='$jlevel'"); // AND
-			}
-
-			if ( $client != "" )	{
-				$select->where("c.Name='$client'"); // AND
-			}
-
-			// JobStatus
-			switch ($jstatus) {
-			case "R":
-				// Running
-   				$select->where("j.JobStatus='$jstatus'");
-   				break;
-			case "T":
-				// Terminated normally
-   				$select->where("j.JobStatus='$jstatus'");
-   				break;
-    		case "t":
-				// Terminated in Error
-   				$select->where("j.JobStatus  IN ('E', 'e', 'f')");
-   				break;
-   			case "A":
-				// Canceled by the user
-   				$select->where("j.JobStatus='$jstatus'");
-   				break;
-   			case "W":
-				// Waiting
-   				$select->where("j.JobStatus IN ('F', 'S', 'm', 'M', 's', 'j', 'c', 'd', 't', 'p')");
-   				break;
-			}
-
-			// Backup, Restore, Verify
-			if ( $jtype != "")	{
-				$select->where("j.Type='$jtype'"); // AND
-			}
-
-			$select->order($order);
-   		}
+   		$job = new Job();
+   		$select = $job->getSelectFilteredJob($date_begin, $time_begin, $date_end, $time_end,
+								$client, $fileset, $jlevel, $jstatus, $jtype, $volname,
+								$orderp);
 
    		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
@@ -252,72 +155,12 @@ class JobController extends Zend_Controller_Action
      */
     function findJobIdAction()
     {
-    	$this->view->titleLastJobs = $this->view->translate->_("List Jobs by JobId");
+    	$this->view->titleLastJobs = $this->view->translate->_("List Jobs by JobId") .
+    			' : ' . $this->_request->getParam('jobid');
     	$this->view->title = $this->view->translate->_("List Jobs by JobId");
-
     	$jobid = intval(trim( $this->_request->getParam('jobid') ));
-
-   		//echo "<pre>$jobid"; // DEBUG
-
-   		if ( isset($jobid) )	{
-   			$this->view->titleLastJobs .= ' : ' . $jobid;
-
-   			$db = Zend_Db_Table::getDefaultAdapter();
-   			// make select from multiple tables
-   			$select = new Zend_Db_Select($db);
-
-   			$select->distinct();
-
-   			switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-                    'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
-                break;
-            case 'PDO_PGSQL':
-                // PostgreSQL
-                // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime', 'EndTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-                    'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => '(EndTime - StartTime)'));
-                break;
-			case 'PDO_SQLITE':
-				// SQLite3 Documentation
-				// http://sqlite.org/lang_datefunc.html
-				$select->from(array('j' => 'Job'),
-					array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-					'StartTime', 'EndTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-					'FileSetId', 'PurgedFiles', 'JobStatus',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
-				break;                
-            }
-
-
-   			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
-   			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-
-			$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
-
-			$select->where("j.JobId = '$jobid'");
-
-   			$select->order(array("StartTime", "JobId"));
-
-   		}
-
-   		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-   		$stmt = $select->query();
-		$this->view->resultLastJobs = $stmt->fetchAll();
-
+		$job = new Job();
+   		$this->view->resultLastJobs = $job->getByJobId($jobid);
 		echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -329,62 +172,12 @@ class JobController extends Zend_Controller_Action
      */
     function findVolumeNameAction()
     {
-    	$this->view->titleLastJobs = $this->view->translate->_("List Jobs by Volume Name");
+    	$this->view->titleLastJobs = $this->view->translate->_("List Jobs by Volume Name") .
+    		' : ' . $this->_request->getParam('volname');
     	$this->view->title = $this->view->translate->_("List Jobs by Volume Name");
-
     	$volname = addslashes(trim( $this->_request->getParam('volname') ));
-
-   		//echo "<pre>$volname"; // DEBUG
-
-   		if ( isset($volname) )	{
-   			$this->view->titleLastJobs .= ' : ' . $volname;
-
-   			$db = Zend_Db_Table::getDefaultAdapter();
-   			// make select from multiple tables
-   			$select = new Zend_Db_Select($db);
-
-   			$select->distinct();
-
-   			switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $select->from(array('j' => 'Job'),
-    			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
-                break;
-            case 'PDO_PGSQL':
-            // PostgreSQL
-            // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-                $select->from(array('j' => 'Job'),
-    			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime', 'EndTime',
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => '(EndTime - StartTime)' ));
-                break;
-            }
-            $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
-            $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-            $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-            $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
-
-            $select->joinLeft(array('o' => 'JobMedia'), 'j.JobId = o.JobId', array('JobId'));
-            $select->joinLeft(array('m' => 'Media'), 'm.MediaId = o.MediaId', array('MediaId'));
-
-			$select->where("m.VolumeName = '$volname'");
-
-   			$select->order(array("StartTime", "j.JobId"));
-
-   		}
-
-   		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-   		$stmt = $select->query();
-		$this->view->resultLastJobs = $stmt->fetchAll();
-
+		$job = new Job();
+		$this->view->resultLastJobs = $job->getByVolumeName($volname);
 		echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -412,102 +205,13 @@ class JobController extends Zend_Controller_Action
     function detailAction()
     {
     	//http://localhost/webacula/job/detail/jobid/4436
+    	$this->view->titleJob = $this->view->translate->_("Detail JobId") . " " . $this->_request->getParam('jobid');
     	$jobid = intval(trim( $this->_request->getParam('jobid') ));
-
-    	if ( $jobid )	{
-    		$this->view->titleJob = $this->view->translate->_("Detail JobId") . " " . $jobid;
-    		$this->view->jobid = $jobid;
-
-    		$db = Zend_Db_Table::getDefaultAdapter();
-
-    		// make select from multiple tables
-    		$select = new Zend_Db_Select($db);
-
-    		$select->distinct();
-
-    		switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Job', 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-    			    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-    			    'SchedTime' => "DATE_FORMAT(j.SchedTime,   '%y-%b-%d %H:%i')",
-    			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-        		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
-                ));
-                $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
-                break;
-            case 'PDO_PGSQL':
-                // PostgreSQL
-                // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Job', 'Name', 'Level', 'ClientId',
-                    'StartTime', 'EndTime', 'SchedTime',
-    			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-        		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => '(EndTime - StartTime)'
-    			));
-    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
-                break;
-			case 'PDO_SQLITE':
-				// SQLite3 Documentation
-				// http://sqlite.org/lang_datefunc.html
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				// http://sqlite.org/pragma.html
-				//$res = $db->query('PRAGMA short_column_names=1'); // not affected
-				//$res = $db->query('PRAGMA full_column_names=0'); // not affected
-				$select->from(array('j' => 'Job'),
-					array('jobid'=>'JobId', 'job'=>'Job', 'name'=>'Name', 'level'=>'Level', 'clientid'=>'ClientId',
-					'starttime'=>'StartTime', 'endtime'=>'EndTime', 'schedtime'=>'SchedTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
-					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
-					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
-				));
-				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
-				break;
-            }
-            $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId',
-                array('ClientName' => 'Name', 'ClientUName' => 'UName'));
-            $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-            $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
-        	$select->where("j.JobId = $jobid");
-
-    		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-    		$stmt = $select->query();
-			$this->view->resultJob = $stmt->fetchAll();
-
-			$select->reset();
-			unset($select);
-			unset($stmt);
-
-			// list volumes
-			$select = new Zend_Db_Select($db);
-			switch ($this->db_adapter) {
-			case 'PDO_SQLITE':
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$select->distinct();
-    			$select->from(array('j' => 'JobMedia'),	array('mediaid'=>'MediaId'));
-	    		$select->joinInner(array('m' => 'Media'), 'j.MediaId = m.MediaId', array('volumename'=>'VolumeName'));
-        		$select->where("j.JobId=$jobid");
-				break;
-			default: // mysql, postgresql
-				$select->distinct();
-    			$select->from(array('j' => 'JobMedia'),	array('MediaId'));
-	    		$select->joinInner(array('m' => 'Media'), 'j.MediaId = m.MediaId', array('VolumeName'));
-        		$select->where("j.JobId=$jobid");
-			}
-        	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-        	$stmt = $select->query();
-			$this->view->resultVol = $stmt->fetchAll();
-
-			$select->reset();
-			unset($select);
-			unset($stmt);
-    	}
+    	$this->view->jobid = $jobid;
+    	$job = new Job();
+    	$adetail = $job->getDetailByJobId($jobid);
+		$this->view->resultJob = $adetail['job'];
+		$this->view->resultVol = $adetail['volume'];
     }
 
 
@@ -612,82 +316,14 @@ EOF"
     	$numjob = intval(trim( $this->_request->getParam('numjob', 20) ));
     	$num_max = 200;
 
-    	if ( $numjob <= 0 ) {
-    	    $numjob = 20;
-    	}
-
-    	if ( $numjob > $num_max ) {
-    	    $numjob = $num_max;
-    	}
-
-   		//echo "<pre>num = $numjob"; exit; // DEBUG !!!
+    	if ( $numjob <= 0 ) { $numjob = 20;	}
+    	if ( $numjob > $num_max ) { $numjob = $num_max;	}
 
 	    $this->view->titleLastJobs = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
 	    $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
 
-		$db = Zend_Db_Table::getDefaultAdapter();
-		// make select from multiple tables
-		$select = new Zend_Db_Select($db);
-
-		$select->distinct();
-		$select->limit($numjob);
-
-		switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $select->from(array('j' => 'Job'),
-                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'sortStartTime' => 'StartTime',
-			        'StartTime', 'EndTime',
-			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-   			         'FileSetId', 'PurgedFiles', 'JobStatus',
-   			         'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
-   		        ));
-   		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
-				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
-            break;
-        	case 'PDO_PGSQL':
-            	// PostgreSQL
-	            // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-    	        $select->from(array('j' => 'Job'),
-                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'sortStartTime' => 'StartTime',
-			        'StartTime', 'EndTime',
-			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-   			         'FileSetId', 'PurgedFiles', 'JobStatus',
-   			         'DurationTime' => '(EndTime - StartTime)'
-   		        ));
-   		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
-				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
-            break;
-			case 'PDO_SQLITE':
-				// SQLite3 Documentation
-				// http://sqlite.org/lang_datefunc.html
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$select->from(array('j' => 'Job'),
-					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
-					'sortStartTime' => 'StartTime',
-					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
-					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
-					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
-				));
-				$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
-				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('jobstatuslong'=>'JobStatusLong'));
-			break;
-        }
-		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
-		$select->where("j.Type = 'B'");
-   		$select->order(array("sortStartTime DESC"));
-
-   		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!DEBUG!!!
-
-   		$stmt = $select->query();
-		$this->view->resultLastJobs = $stmt->fetchAll();
-
+		$job = new Job();
+		$this->view->resultLastJobs = $job->getLastJobRun($numjob);
 		echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -699,81 +335,11 @@ EOF"
     function findFileNameAction()
     {
         $limit = 30;
-    	$this->view->title = "";
-
     	$namefile = addslashes( $this->_request->getParam('namefile') ); // имя файла м.б. с лидирующими и концевыми пробелами
     	$client   = addslashes(trim( $this->_request->getParam('client_nf') ));
-
-   		//echo "<pre>$namefile"; // DEBUG
-
-   		if ( isset($namefile, $client) )	{
-   			$this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
-
-   			$db = Zend_Db_Table::getDefaultAdapter();
-   			// make select from multiple tables
-   			$select = new Zend_Db_Select($db);
-
-   			$select->distinct();
-   			$select->limit($limit);
-
-   			switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $select->from(array('j' => 'Job'),
-    			array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
-                break;
-            case 'PDO_PGSQL':
-	            // PostgreSQL
-    	        // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-                $select->from(array('j' => 'Job'),
-    				array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   					'StartTime', 'EndTime',
-   					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       				'FileSetId', 'PurgedFiles', 'JobStatus',
-       				'DurationTime' => '(EndTime - StartTime)'));
-                break;
-			case 'PDO_SQLITE':
-				// SQLite3 Documentation
-				// http://sqlite.org/lang_datefunc.html
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				$select->from(array('j' => 'Job'),
-					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
-					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
-					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
-					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-                 break;
-            }
-
-       		$select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
-       		$select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
-       		$select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
-
-   			$select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
-   			$select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
-
-			$select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('PoolName' => 'Pool.Name'));
-			$select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('FileSet' => 'FileSet.FileSet'));
-
-			if ( $client != "" )	{
-				$select->where("Client.Name='$client'"); // AND
-			}
-
-			$select->where("Filename.Name = '$namefile'");
-
-   			$select->order(array("StartTime"));
-
-   		}
-
-   		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-   		$stmt = $select->query();
-		$this->view->result = $stmt->fetchAll();
+		$this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
+		$job = new Job();
+		$this->view->result = $job->getByFileName($namefile, $client, $limit);
     }
 
 

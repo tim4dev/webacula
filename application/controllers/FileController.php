@@ -73,7 +73,7 @@ class FileController extends Zend_Controller_Action
 
    		$this->view->titleFile = $this->view->translate->_("List Files for JobId") . " " . $jobid;
    		$files = new Files();
-   		$select = $files->getListFilesByJobId($jobid);
+   		$select = $files->getSelectFilesByJobId($jobid);
 		//echo '<pre>',$select->__toString(),'</pre>'; exit; // for !!!debug!!!   		  		
 		$paginator = Zend_Paginator::factory($select);
 		Zend_Paginator::setDefaultScrollingStyle('Sliding');

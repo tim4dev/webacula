@@ -32,7 +32,7 @@ class Files
        $this->db = Zend_Db_Table::getDefaultAdapter();      
    }
 
-	public function getListFilesByJobId($jobid)
+	public function getSelectFilesByJobId($jobid)
 	{
 		// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
    		$select = new Zend_Db_Select($this->db);
