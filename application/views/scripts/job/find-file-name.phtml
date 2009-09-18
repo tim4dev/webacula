@@ -1,8 +1,3 @@
-<?php
-    echo $this->render('header.phtml');
-    $translate = Zend_Registry::get('translate');
-?>
-
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php if ($this->result): ?>
@@ -147,5 +142,3 @@
 <?php else: ?>
 	<div align="center"><p><b><?php print $translate->_("No Files found."); ?></b></p></div>
 <?php endif; ?>
-
-<?php echo $this->render('footer.phtml'); ?>

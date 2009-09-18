@@ -12,9 +12,8 @@
     }
 ?>
 <?php if ( $this->printable == 0): ?>
-	<?php echo $this->render('header.phtml'); ?>
 	<!-- wblogbook/index.phtml full -->
-	<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/wblogbook.css");</style>
+	<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
 	<?php
 		if ( $user_language != 'en' ) {
 		echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
@@ -296,7 +295,6 @@
 
 
 <?php if ( $this->printable == 0) : ?>
-	<?php echo $this->render('footer.phtml'); ?>
 <?php else: ?>
 	<?php echo $this->render('footer_printable.phtml'); ?>
 <?php endif; ?>

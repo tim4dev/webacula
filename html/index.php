@@ -18,6 +18,9 @@
  *
  */
 
+define('WEBACULA_VERSION', '3.2, build 2009.09.18');
+
+define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);
 
 // PATH_SEPARATOR  ":"
@@ -38,6 +41,7 @@ Zend_Loader::loadClass('Zend_Translate');
 Zend_Loader::loadClass('Zend_Locale');
 Zend_Loader::loadClass('Zend_Exception');
 Zend_Loader::loadClass('Zend_Paginator');
+Zend_Loader::loadClass('Zend_Layout');
 
 // load my class
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
@@ -46,6 +50,7 @@ Zend_Loader::loadClass('MyClass_GaugeTime');
 // load configuration
 $config = new Zend_Config_Ini('../application/config.ini', 'general');
 $config_webacula = new Zend_Config_Ini('../application/config.ini', 'webacula');
+$config_layout   = new Zend_Config_Ini('../application/config.ini', 'layout');
 
 $registry = Zend_Registry::getInstance();
 // assign the $config object to the registry so that it can be retrieved elsewhere in the application
@@ -55,7 +60,7 @@ $registry->set('config_webacula', $config_webacula);
 date_default_timezone_set($config->def->timezone);
 
 // set self version
-Zend_Registry::set('webacula_version', '3.2, build 2009.09.17');
+Zend_Registry::set('webacula_version', WEBACULA_VERSION);
 
 // set global const
 Zend_Registry::set('UNKNOWN_VOLUME_CAPACITY', -200); // tape drive
@@ -127,6 +132,11 @@ if ( $translate->isTranslated('Desktop', false, $user_locale) ) {
 
 // assign the $translate object to the registry so that it can be retrieved elsewhere in the application
 $registry->set('translate', $translate);
+
+Zend_Layout::startMvc(array(
+    'layoutPath' => '../application/layouts/' . $config_layout->path,
+    'layout' => 'main'
+));
 
 try {
 	$db = Zend_Db_Table::getDefaultAdapter();

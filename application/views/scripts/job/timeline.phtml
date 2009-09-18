@@ -1,6 +1,4 @@
 <?php
-    echo $this->render('header.phtml');
-
     $config = Zend_Registry::get('config');
     if ( isset($config->language) ) {
         $user_language =  addslashes(trim($config->language));
@@ -11,7 +9,7 @@
     }
 ?>
 
-<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/jquery-ui-1.7.2.custom.css");</style>
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.7.2.custom.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 
 <?php
@@ -107,5 +105,3 @@ if ($this->atime) : ?>
 <?php endif; ?>
 
 </div>
-
-<?php echo $this->render('footer.phtml'); ?>

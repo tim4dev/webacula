@@ -4,16 +4,16 @@
    margin-right: 15px;
 }
 .roundedcornr_top_2 div {
-   background: url(../images/roundedcornr2_tl.png) no-repeat top left;
+   background: url(images/roundedcornr2_tl.png) no-repeat top left;
 }
 .roundedcornr_top_2 {
-   background: url(../images/roundedcornr2_tr.png) no-repeat top right;
+   background: url(images/roundedcornr2_tr.png) no-repeat top right;
 }
 .roundedcornr_bottom_2 div {
-   background: url(../images/roundedcornr2_bl.png) no-repeat bottom left;
+   background: url(images/roundedcornr2_bl.png) no-repeat bottom left;
 }
 .roundedcornr_bottom_2 {
-   background: url(../images/roundedcornr2_br.png) no-repeat bottom right;
+   background: url(images/roundedcornr2_br.png) no-repeat bottom right;
 }
 
 .roundedcornr_top_2 div, .roundedcornr_top_2,

@@ -1,4 +1,3 @@
-<?php echo $this->render('header.phtml'); ?>
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php $urlp = $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($this->pool_id) . "/name/" . $this->escape($this->pool_name); ?>
@@ -57,5 +56,3 @@
 </tbody>
 </table>
 </div>
-
-<?php echo $this->render('footer.phtml'); ?>
