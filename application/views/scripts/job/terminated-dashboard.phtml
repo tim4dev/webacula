@@ -1,11 +1,11 @@
 <!-- job/terminated-dashboard.phtml -->
 <h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/job/terminated" id="dashboard">
-		<?php echo $this->escape($this->titleLastJobs); ?>
+		<?php echo $this->escape($this->title); ?>
 	</a>
 </h1>
 
-<?php if ($this->resultLastJobs): ?>
+<?php if ($this->result): ?>
 
 <table id="box-table-dashboard">
 <thead>
@@ -21,7 +21,7 @@
 </tr>
 </thead>
 <tbody>
-<?php foreach($this->resultLastJobs as $line) : ?>
+<?php foreach($this->result as $line) : ?>
 <tr>
     <td>
         <?php
@@ -121,8 +121,6 @@
 	<div class="ui-state-highlight ui-corner-all"> 
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
-		<p><a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
-		<?php print $this->translate->_("See List last 20 Jobs run"); ?></a></p>
 	</div>
 </div>
 <?php endif; ?>

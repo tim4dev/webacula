@@ -6,7 +6,8 @@
 if mysql -f <<END-OF-DATA
 
 USE webacula;
-
+SET NAMES utf8;
+SET CHARACTER SET utf8;
 
 
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)

@@ -5,7 +5,7 @@
 
 if /usr/bin/psql  -f - -d webacula <<END-OF-DATA
 
-
+SET NAMES 'UTF8';
 
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
    VALUES ((NOW() - time '23:15:10'),NULL,'Текст по русски.',20,NULL);

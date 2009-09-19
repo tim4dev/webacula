@@ -47,8 +47,7 @@ class JobController extends Zend_Controller_Action
     	$this->view->titleLastJobs = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
 		// get data from model
     	$jobs = new Job();
-    	$ret = $jobs->GetLastJobs();
-    	$this->view->resultLastJobs = $ret->fetchAll();
+    	$this->view->resultLastJobs = $jobs->GetLastJobs();
     }
 
 
@@ -62,8 +61,7 @@ class JobController extends Zend_Controller_Action
     	$this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
 		// get data from model
     	$jobs = new Job();
-    	$ret = $jobs->GetRunningJobs();
-    	$this->view->resultRunningJobs = $ret->fetchAll();
+    	$this->view->resultRunningJobs = $jobs->GetRunningJobs();
     	// получаем информацию от Директора
     	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
 		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
@@ -78,11 +76,10 @@ class JobController extends Zend_Controller_Action
     	$this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
 		// get data from model
     	$jobs = new Job();
-    	$ret = $jobs->GetRunningJobs();
-    	$this->view->resultRunningJobs = $ret->fetchAll();
+    	$this->view->resultRunningJobs = $jobs->GetRunningJobs();
     	// получаем информацию от Директора
     	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
-		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();		
     }
 
 
@@ -101,8 +98,7 @@ class JobController extends Zend_Controller_Action
 
     	// get data from model
     	$jobs = new Job();
-    	$aret = $jobs->GetNextJobs();
-		$this->view->resultNextJobs = $aret;
+		$this->view->resultNextJobs = $jobs->GetNextJobs();
     }
     
     	/**
@@ -120,8 +116,7 @@ class JobController extends Zend_Controller_Action
 
     	// get data from model
     	$jobs = new Job();
-    	$aret = $jobs->GetNextJobs();
-		$this->view->resultNextJobs = $aret;
+		$this->view->resultNextJobs = $jobs->GetNextJobs();
     }
 
 
@@ -260,8 +255,7 @@ class JobController extends Zend_Controller_Action
 		$this->view->titleProblemJobs = $this->view->translate->_("Jobs with errors (last 7 days)");
 		// get data from model
     	$jobs = new Job();
-    	$ret = $jobs->GetProblemJobs();
-    	$this->view->resultProblemJobs = $ret->fetchAll();
+    	$this->view->resultProblemJobs = $jobs->GetProblemJobs();
     }
     
         /**
@@ -274,8 +268,7 @@ class JobController extends Zend_Controller_Action
 		$this->view->titleProblemJobs = $this->view->translate->_("Jobs with errors (last 7 days)");
 		// get data from model
     	$jobs = new Job();
-    	$ret = $jobs->GetProblemJobs();
-    	$this->view->resultProblemJobs = $ret->fetchAll();
+    	$this->view->resultProblemJobs = $jobs->GetProblemJobs();
     }
 
 
@@ -308,9 +301,7 @@ class JobController extends Zend_Controller_Action
    		$timeline = new Timeline;
    		$this->view->atime = $timeline->GetDataTimeline($datetimeline);
    		$this->view->result = $datetimeline;
-   		
    		// вызвать ChartController -> timelineAction() для проверки, что он сможет рисовать
-
     }
 
 
@@ -365,15 +356,13 @@ EOF"
     {
     	$numjob = intval(trim( $this->_request->getParam('numjob', 20) ));
     	$num_max = 200;
-
     	if ( $numjob <= 0 ) { $numjob = 20;	}
     	if ( $numjob > $num_max ) { $numjob = $num_max;	}
 
 	    $this->view->titleLastJobs = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
 	    $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
-
 		$job = new Job();
-		$this->view->resultLastJobs = $job->getLastJobRun($numjob);
+		$this->view->resultLastJobs = $job->getLastJobRun($numjob);	
 		echo $this->renderScript('job/terminated.phtml');
     }
     
@@ -384,9 +373,9 @@ EOF"
     function terminatedDashboardAction()
     {
     	$this->_helper->viewRenderer->setResponseSegment('job_terminated');
-	    $this->view->titleLastJobs = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
+	    $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
 		$job = new Job();
-		$this->view->resultLastJobs = $job->GetLastJobs();
+		$this->view->result = $job->GetLastJobs();
     }
 
 

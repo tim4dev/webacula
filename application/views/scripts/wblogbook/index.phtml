@@ -11,14 +11,13 @@
         //print_r($user_language); //!! for debug
     }
 ?>
-<?php if ( $this->printable == 0): ?>
-	<!-- wblogbook/index.phtml full -->
-	<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
-	<?php
-		if ( $user_language != 'en' ) {
-		echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
-	}
-	?>
+<!-- wblogbook/index.phtml -->
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
+<?php
+	if ( $user_language != 'en' ) {
+	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
+}
+?>
 
 	<script type="text/javascript">
 	$j(function() {
@@ -41,11 +40,6 @@
 	 	$j("#date_end").datepicker(  'option', {dateFormat: $j.datepicker.ISO_8601} );
 	});
 	</script>
-
-<?php else: ?>
-	<?php echo $this->render('header_printable.phtml'); ?>
-	<!-- wblogbook/index.phtml printable version  -->
-<?php endif; ?>
 
 <script type="text/javascript">
 <!--
@@ -95,108 +89,89 @@
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
+<div style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px;">
+<form method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/add">
+	<input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>">
+</form>
+</div>
 
-<?php if ( $this->printable == 0) : ?>
+<div class="filter-form" style="width: 600px; margin-left: auto; margin-right: auto; text-align: left; margin-top: 40px; margin-bottom: 50px;">
+<div id="tabs">
+<ul>
+	<li><a href="#tabs1"><?php print $this->translate->_("Filter by date"); ?></a></li>
+    <li><a href="#tabs2"><?php print $this->translate->_("Filter by Id"); ?></a></li>
+    <li><a href="#tabs3"><?php print $this->translate->_("Text Search"); ?></a></li>
+</ul>	
 
-	<div style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px;">
-	<form method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/add">
-		<input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>">
-	</form>
-	</div>
-
-
-	<div class="filter-form" style="width: 600px; margin-left: auto; margin-right: auto; text-align: left; margin-top: 40px; margin-bottom: 50px;">
-	<div id="tabs">
-	<ul>
-        <li><a href="#tabs1"><?php print $this->translate->_("Filter by date"); ?></a></li>
-        <li><a href="#tabs2"><?php print $this->translate->_("Filter by Id"); ?></a></li>
-        <li><a href="#tabs3"><?php print $this->translate->_("Text Search"); ?></a></li>
-    </ul>	
-
-	<!-- filter by date -->
-	<div id="tabs1">
-	<form name="filter_by_date" id="filter_by_date" method="POST"  action="<?php echo $this->baseUrl ?>/wblogbook/filterbydate">
-		<?php print $this->translate->_("Date range : from"); ?>
-		<?php echo $this->formText('date_begin', $this->escape($this->date_begin), array('size' => 10));?>
-		&nbsp;&nbsp;<?php print $this->translate->_("&nbsp; to"); ?>
-		<?php echo $this->formText('date_end', $this->escape($this->date_end), array('size' => 10)) ?>
-    	&nbsp;&nbsp;&nbsp;
-		<?php echo $this->formHidden('printable_by_date', '0', null); ?>
-		<?php echo $this->formHidden('sortorder_by_date', 'DESC', null); ?>
-		<br>
-		<?php echo $this->formSubmit('filter1', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>	
-	</form>
-	</div>
-
-	<!-- filter by id -->
-	<div id="tabs2">
-	<form name="filter_by_id" id="filter_by_id" method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/filterbyid/">
-		<?php print $this->translate->_("Id range : from"); ?>
-		<?php echo $this->formText('id_begin', $this->escape($this->id_begin), array('size' => 5, 'maxlength' => 15)); ?>
-		&nbsp;
-		<?php print $this->translate->_("&nbsp; to"); ?>
-		<?php echo $this->formText('id_end', $this->escape($this->id_end), array('size' => 5, 'maxlength' => 15)); ?>
-		&nbsp;
-		<?php echo $this->formHidden('printable_by_id', '0', null); ?>
-		<?php echo $this->formHidden('sortorder_by_id', 'DESC', null); ?>
-		<br>
-		<?php echo $this->formSubmit('filter2', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>
-	</form>
-	</div>
-
-	<!-- full text search -->
-	<div id="tabs3">
-	<form name="filter_by_text" id="search_text" method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/searchtext/">
-		<?php print $this->translate->_("Text"); ?>
-		<?php echo $this->formText('id_text', $this->escape($this->id_text), array('size' => 50, 'maxlength' => 250)); ?>
-		&nbsp;
-		<?php echo $this->formHidden('printable_by_text', '0', null); ?>
-		<?php echo $this->formHidden('sortorder_by_text', 'ASC', null); ?>
-		<?php echo $this->formSubmit('filter3', $this->translate->_('Search') ); ?>
-	</form>
-	</div>
-
-	<img src="<?php echo $this->baseUrl; ?>/images/printer1.png"
-        alt="<?php print $this->translate->_("View a printable version"); ?>"
-        title="<?php print $this->translate->_("View a printable version"); ?>" align="absmiddle" border="0" height="16" hspace="1" vspace="1" width="16">
-	<input type="checkbox" name="printable" value="printable" onchange="triggerPrintable()">
-	<?php print $this->translate->_("View a printable version"); ?>
+<!-- filter by date -->
+<div id="tabs1">
+<form name="filter_by_date" id="filter_by_date" method="POST"  action="<?php echo $this->baseUrl ?>/wblogbook/filterbydate">
+	<?php print $this->translate->_("Date range : from"); ?>
+	<?php echo $this->formText('date_begin', $this->escape($this->date_begin), array('size' => 10));?>
+	&nbsp;&nbsp;<?php print $this->translate->_("&nbsp; to"); ?>
+	<?php echo $this->formText('date_end', $this->escape($this->date_end), array('size' => 10)) ?>
+   	&nbsp;&nbsp;&nbsp;
+	<?php echo $this->formHidden('printable_by_date', '0', null); ?>
+	<?php echo $this->formHidden('sortorder_by_date', 'DESC', null); ?>
 	<br>
-	<img src="<?php echo $this->baseUrl; ?>/images/1x1.png"
-        alt="<?php print $this->translate->_("To sort in ascending/descending order"); ?>"
-        title="<?php print $this->translate->_("To sort in ascending/descending order"); ?>" align="absmiddle" border="0" height="16" hspace="1" vspace="1" width="16">
-	<input type="checkbox" name="sortorder" value="sortorder" onchange="triggerSortOrder()">
-	<?php print $this->translate->_("Sort in ascending order"); ?>
+	<?php echo $this->formSubmit('filter1', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>	
+</form>
+</div>
 
-	</div> <!-- END id="tabs" -->
-	</div> <!-- END class="filter-form"" -->
+<!-- filter by id -->
+<div id="tabs2">
+<form name="filter_by_id" id="filter_by_id" method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/filterbyid/">
+	<?php print $this->translate->_("Id range : from"); ?>
+	<?php echo $this->formText('id_begin', $this->escape($this->id_begin), array('size' => 5, 'maxlength' => 15)); ?>
+	&nbsp;
+	<?php print $this->translate->_("&nbsp; to"); ?>
+	<?php echo $this->formText('id_end', $this->escape($this->id_end), array('size' => 5, 'maxlength' => 15)); ?>
+	&nbsp;
+	<?php echo $this->formHidden('printable_by_id', '0', null); ?>
+	<?php echo $this->formHidden('sortorder_by_id', 'DESC', null); ?>
+	<br>
+	<?php echo $this->formSubmit('filter2', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>
+</form>
+</div>
 
-<?php else: ?>
-	<!-- printable version -->
-	<div align="center"><p><?php print $this->translate->_("Printable version."); ?>
-	<?php echo $this->translate->_("Current date :"), ' ', date('Y-m-d H:i', time()) ;?></p></div>
-<?php endif; ?>
+<!-- full text search -->
+<div id="tabs3">
+<form name="filter_by_text" id="search_text" method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/searchtext/">
+	<?php print $this->translate->_("Text"); ?>
+	<?php echo $this->formText('id_text', $this->escape($this->id_text), array('size' => 50, 'maxlength' => 250)); ?>
+	&nbsp;
+	<?php echo $this->formHidden('printable_by_text', '0', null); ?>
+	<?php echo $this->formHidden('sortorder_by_text', 'ASC', null); ?>
+	<?php echo $this->formSubmit('filter3', $this->translate->_('Search') ); ?>
+</form>
+</div>
 
+<img src="<?php echo $this->baseUrl; ?>/images/printer1.png"
+       alt="<?php print $this->translate->_("View a printable version"); ?>"
+       title="<?php print $this->translate->_("View a printable version"); ?>" align="absmiddle" border="0" height="16" hspace="1" vspace="1" width="16">
+<input type="checkbox" name="printable" value="printable" onchange="triggerPrintable()">
+<?php print $this->translate->_("View a printable version"); ?>
+<br>
+<img src="<?php echo $this->baseUrl; ?>/images/1x1.png"
+       alt="<?php print $this->translate->_("To sort in ascending/descending order"); ?>"
+       title="<?php print $this->translate->_("To sort in ascending/descending order"); ?>" align="absmiddle" border="0" height="16" hspace="1" vspace="1" width="16">
+<input type="checkbox" name="sortorder" value="sortorder" onchange="triggerSortOrder()">
+<?php print $this->translate->_("Sort in ascending order"); ?>
+
+</div> <!-- END id="tabs" -->
+</div> <!-- END class="filter-form"" -->
 
 <?php if ($this->result): ?>
 
 <div align="center">
-<?php
-	if ( $this->printable == 0)	{
-		echo '<table id="box-table-wblogbook" border="0"  width="90%">';
-	} else {
-		echo '<table border="1" align="center" width="100%">';
-	}
-?>
+<table id="box-table-wblogbook" border="0"  width="90%">
 <thead>
 <tr>
      <th scope="col" width="15%"> <?php print $this->translate->_("Date"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Text"); ?> </th>
      <th scope="col" width="5%"> <?php print $this->translate->_("Type"); ?> </th>
 
-<?php if ( $this->printable == 0) : ?>
-     <th scope="col" width="5%"> <?php print $this->translate->_("Last modified"); ?> </th>
-<?php endif; ?>
+	<th scope="col" width="5%"> <?php print $this->translate->_("Last modified"); ?> </th>
      <th scope="col" width="3%"> Id </th>
 </tr>
 </thead>
@@ -236,12 +211,10 @@
 
 			echo '<br><br>';
 
-			if ( $this->printable == 0) {
-				echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
-				    $this->formHidden('logid', $line['logid'], null),
-				    $this->formSubmit('modify', $this->translate->_('Modify Entry') ),
-				    '</form><br>';
-			}
+			echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
+			    $this->formHidden('logid', $line['logid'], null),
+			    $this->formSubmit('modify', $this->translate->_('Modify Entry') ),
+			    '</form><br>';
 		?>
 	</td>
 
@@ -262,7 +235,6 @@
 		}
 	?>
 
-<?php if ( $this->printable == 0) : ?>
 	<td valign="top" align="center">
 		<?php
 		if ( isset($line['logdatelast']) )	{
@@ -272,7 +244,6 @@
 			}
 		?>
 	</td>
-<?php endif; ?>
 
 	<td valign="top" align="center">
 		<?php echo $line['logid']; ?>
@@ -290,11 +261,4 @@
 		<strong><?php print $this->translate->_("No records found."); ?></strong></p>
 	</div>
 </div>
-<?php endif; ?>
-
-
-
-<?php if ( $this->printable == 0) : ?>
-<?php else: ?>
-	<?php echo $this->render('footer_printable.phtml'); ?>
 <?php endif; ?>

@@ -158,11 +158,10 @@ class Job extends Zend_Db_Table
         $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
         $select->where("j.EndTime > ?", $last1day);
         $select->order(array("StartTime", "JobId"));
-
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-    	$result = $select->query();
-		return $result;
+		$stmt = $select->query();
+		return $stmt->fetchAll();
+		
     }
 
 
@@ -229,13 +228,10 @@ class Job extends Zend_Db_Table
 			$select->where("j.StartTime > datetime('now','-7 days')");
 			break;
         }
-
     	$select->order(array("StartTime", "JobId"));
-
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-    	$result = $select->query();
-		return $result;
+		$stmt = $select->query();
+		return $stmt->fetchAll();
     }
 
 
@@ -541,9 +537,8 @@ EOF', $command_output, $return_var);
     	$select->order(array("StartTime", "JobId"));
 
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
-    	$result = $select->query();    	
-		return $result;
+		$stmt = $select->query();
+		return $stmt->fetchAll();
     }
 
 
@@ -752,16 +747,11 @@ Select Job resource (1-3):
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
 				break;                
             }
-
-
    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
-
 			$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
 			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
-
 			$select->where("j.JobId = '$jobid'");
-
    			$select->order(array("StartTime", "JobId"));
 			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 

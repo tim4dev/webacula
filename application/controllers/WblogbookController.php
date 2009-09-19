@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -114,8 +114,6 @@ class WblogbookController extends Zend_Controller_Action
     	if ($ret)	{
     	   $this->view->result = $ret->fetchAll();
     	}
-
-  		$this->view->printable = 0;
     }
 
 	/**
@@ -148,14 +146,14 @@ class WblogbookController extends Zend_Controller_Action
     	   $this->view->result = $ret->fetchAll();
     	}
 
-    	$v1 = $this->_request->getParam('printable_by_date');
-    	if ( empty($v1) )
+    	$printable = $this->_request->getParam('printable_by_date');
+    	if ( empty($printable) )
     	{
-    		$this->view->printable = 0;
+    		echo $this->renderScript('wblogbook/index.phtml');
     	} else {
-    		$this->view->printable = 1;
-    	}
-    	echo $this->renderScript('wblogbook/index.phtml');
+    		$this->_helper->layout->setLayout('printable');
+    		echo $this->renderScript('wblogbook/index-printable.phtml');
+    	}    	
     }
 
     /**
@@ -186,15 +184,14 @@ class WblogbookController extends Zend_Controller_Action
     		$this->view->result = $ret->fetchAll();
     	}
 
-    	$v2 = $this->_request->getParam('printable_by_id');
-    	if ( empty($v2) )
+    	$printable = $this->_request->getParam('printable_by_id');
+    	if ( empty($printable) )
     	{
-    		$this->view->printable = 0;
+    		echo $this->renderScript('wblogbook/index.phtml');
     	} else {
-    		$this->view->printable = 1;
+    		$this->_helper->layout->setLayout('printable');
+    		echo $this->renderScript('wblogbook/index-printable.phtml');
     	}
-
-    	echo $this->renderScript('wblogbook/index.phtml');
     }
 
 
@@ -222,14 +219,13 @@ class WblogbookController extends Zend_Controller_Action
 			}
 		}
 
-    	$v2 = $this->_request->getParam('printable_by_text');
-    	if ( empty($v2) )	{
-    		$this->view->printable = 0;
+    	$printable = $this->_request->getParam('printable_by_text');
+    	if ( empty($printable) )	{
+    		echo $this->renderScript('wblogbook/index.phtml');
     	} else {
-    		$this->view->printable = 1;
+    		$this->_helper->layout->setLayout('printable');
+    		echo $this->renderScript('wblogbook/index-printable.phtml');
     	}
-
-    	echo $this->renderScript('wblogbook/index.phtml');
     }
 
 
