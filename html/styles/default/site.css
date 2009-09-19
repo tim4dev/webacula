@@ -1,14 +1,12 @@
 
 h1 {
-    font-size:1.4em;
+    font-size:1.3em;
     font-family: sans-serif;
 }
 
 #content {
      margin: 0 auto;
 }
-
-
 
 table.t1 { border-bottom: 1px solid #7EBFFF; border-left: 1px solid #7EBFFF }
 
@@ -302,7 +300,7 @@ span.mark{
 
 #box-table .linkerr
 {
-    color:#FFFF77;
+   color:#FFFF77;
 }
 
 
@@ -387,4 +385,71 @@ span.mark{
 {
    color:white;
    background: #FF5050;
+}
+
+
+
+/* dashboard
+----------------------------------------------------------------------------------*/
+
+h1.dashboard {
+    font-size:95%;
+    font-family: sans-serif;
+}
+
+a#dashboard {
+  text-decoration: none;
+}
+a#dashboard:hover {
+  text-decoration: underline;
+}
+
+#box-table-dashboard
+{
+   font-family: "Lucida Sans Unicode", Sans-Serif;
+   font-size: 10px;
+   margin-top: 0px;
+   margin-bottom: 20px;
+   text-align: left;
+   border-collapse: collapse;
+}
+#box-table-dashboard th
+{
+   font-size: 10px;
+   font-weight: normal;
+   padding: 4px;
+   background: #b9c9fe;
+   border-top: 4px solid #aabcfe;
+   border-bottom: 1px solid #fff;
+   color: #039;
+}
+#box-table-dashboard td
+{
+   padding: 4px;
+   background: #e8edff;
+   border-bottom: 1px solid #fff;
+   color: #669;
+   border-top: 1px solid transparent;
+}
+#box-table-dashboard tr:hover td
+{
+   background: #d0dafd;
+   color: #339;
+}
+
+#box-table-dashboard .warn
+{
+   background: #FAFF63;
+}
+
+#box-table-dashboard .err
+{
+   color:white;
+   background: #FF5050;
+}
+
+#box-table-dashboard .linkerr
+{
+  text-decoration: underline;
+  color:#FFFF77;
 }

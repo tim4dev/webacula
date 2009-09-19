@@ -42,102 +42,20 @@ class IndexController extends Zend_Controller_Action
 
     function indexAction()
     {
+		$this->_helper->layout->setLayout('dashboard');  
+		
     	$config = Zend_Registry::get('config');
     	if ( empty($config->head_title) ) {
     		$this->view->title = "webacula Main Page";
     	} else {
     		$this->view->title = $config->head_title;
-    	}
-    	
-    	$db = Zend_Db_Table::getDefaultAdapter();
+    	}   	
 
-    	// *** get info about jobs ***
-    	$this->view->titleProblemJobs = $this->view->translate->_("Jobs with errors (last 7 days)");
-		// get data from model
-    	$jobs = new Job();
-    	$ret = $jobs->GetProblemJobs();
-    	$this->view->resultProblemJobs = $ret->fetchAll();
-    	unset($ret);
-    	unset($jobs);
-
-    	// *** get info about volumes ***
-    	$this->view->titleProblemVolumes = $this->view->translate->_("Volumes with errors");
-		// get data from model
-    	$vols = new Volume();
-    	$ret = $vols->GetProblemVolumes();
-    	$this->view->resultProblemVolumes = $ret->fetchAll();
-    	unset($ret);
-    	unset($vols);
-
-    	$this->view->titleNextJobs = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
-    	// get static const
-    	$this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
-    	$this->view->new_volume = Zend_Registry::get('NEW_VOLUME');
-    	$this->view->err_volume = Zend_Registry::get('ERR_VOLUME');
-		// get data from model
-    	$jobs = new Job();
-    	$aret = $jobs->GetNextJobs();
-    	$this->view->resultNextJobs = $aret;
-    	unset($aret);
-    	unset($jobs);
-
-    	$this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
-		// get data from model
-    	$jobs = new Job();
-    	$ret = $jobs->GetRunningJobs();
-    	$this->view->resultRunningJobs = $ret->fetchAll();
-    	unset($ret);
-    	unset($jobs);
-
-    	// get data from Director
-    	$jobs = new Job();
-    	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
-		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
-		unset($jobs);
-
-	    $this->view->titleLastJobs = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
-		// get data from model
-    	$jobs = new Job();
-    	$ret = $jobs->GetLastJobs();
-    	$this->view->resultLastJobs = $ret->fetchAll();
-    	unset($ret);
-    	unset($jobs);
-
-
-    	// *** get statistics ***
-/*
-    	// total clients
-    	$select = new Zend_Db_Select($db);
-	   	$select->from('Client', array('total_client' => new Zend_Db_Expr(" COUNT(ClientId)") ));
-		$this->view->total_client = $db->fetchOne($select);
-
-		// total media
-    	$select = new Zend_Db_Select($db);
-	   	$select->from('Media', array('total_media' => new Zend_Db_Expr(" COUNT(MediaId)") ));
-		$this->view->total_media = $db->fetchOne($select);
-
-		// total pool
-    	$select = new Zend_Db_Select($db);
-	   	$select->from('Pool', array('total_pool' => new Zend_Db_Expr(" COUNT(PoolId)") ));
-		$this->view->total_pool = $db->fetchOne($select);
-
-		// total jobs
-    	$select = new Zend_Db_Select($db);
-	   	$select->from('Job', array('total_job' => new Zend_Db_Expr(" COUNT(JobId)") ));
-		$this->view->total_job = $db->fetchOne($select);
-
-		// total bytes stored
-    	$select = new Zend_Db_Select($db);
-	   	$select->from('Media', array('total_byte' => new Zend_Db_Expr(" SUM(VolBytes)") ));
-		$this->view->total_byte = $db->fetchOne($select);
-
-		// job with errors (last 7 days)
-		$last7day = date('Y-m-d H:i:s', time() - 604800); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 7 DAY
-    	$select = new Zend_Db_Select($db);
-	   	$select->from('Job', array('total_job_error' => new Zend_Db_Expr(" COUNT(JobErrors)") ));
-	   	$select->where('((JobErrors > 0) OR (JobStatus IN ("E","e", "f")))');
-	   	$select->where("EndTime > ?", $last7day);
-		$this->view->total_job_error = $db->fetchOne($select);
-*/
+        // actionToStack($action, $controller, $module, $params);
+        $this->_helper->actionStack('problem-dashboard', 'job');
+		$this->_helper->actionStack('problem-dashboard', 'volume');
+		$this->_helper->actionStack('next-dashboard', 'job');
+		$this->_helper->actionStack('running-dashboard', 'job');
+		$this->_helper->actionStack('terminated-dashboard', 'job');
     }
 }

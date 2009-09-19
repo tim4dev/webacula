@@ -1,9 +1,12 @@
-<!-- volume/problem.phtml --> 
-<h1 align="center"><?php echo $this->escape($this->titleProblemVolumes); ?></h1>
-
+<!-- volume/problem-dashboard.phtml -->
+<h1 class="dashboard">
+	<a href="<?php echo $this->baseUrl;?>/volume/problem" id="dashboard">
+		<?php echo $this->escape($this->titleProblemVolumes); ?>
+	</a>
+</h1>
+ 
 <?php if ($this->resultProblemVolumes): ?>
-<div align="center">
-<table id="box-table">
+<table id="box-table-dashboard">
 <thead>
 <tr>
 	<th scope="col"> <?php print $this->translate->_("Volume Name"); ?> </th>
@@ -13,8 +16,6 @@
 	<th scope="col"> <?php print $this->translate->_("Volume Jobs"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Volume<br />Retention<br />(days)"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Media<br />Type"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("First<br />Written"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Last<br />Written"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Autochanger<br />Slot<br />number"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Can Recycle<br />Volume"); ?> </th>
 </tr>
@@ -47,19 +48,16 @@
 
 	<td align="center"><?php echo $this->ConvSecondsToDays($this->escape($line['volretention']));?></td>
 	<td><?php echo $this->escape($line['mediatype']);?></td>
-	<td><?php echo $this->escape($line['firstwritten']);?></td>
-	<td><?php echo $this->escape($line['lastwritten']);?></td>
 	<td align="right"><?php echo $this->escape($line['slot']);?></td>
 	<td align="right"><?php echo $this->Int2Char($this->escape($line['recycle']));?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
 
 <?php else: ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+	<div class="ui-state-highlight ui-corner-all"> 
 		<p><span class="ui-icon ui-icon-circle-check" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : All Volumes are OK.");?></strong></p>
 	</div>

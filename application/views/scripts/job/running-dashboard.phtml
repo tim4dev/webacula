@@ -1,5 +1,9 @@
-<!-- job/running.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleDirRunningJobs); ?></h1>
+<!-- job/running-dashboard.phtml -->
+<h1 class="dashboard">
+	<a href="<?php echo $this->baseUrl;?>/job/running" id="dashboard">
+		<?php echo $this->escape($this->titleDirRunningJobs); ?>
+	</a>
+</h1>
 
 <?php if ($this->resultDirRunningJobs): ?>
 <?php
@@ -17,11 +21,10 @@
  	} else	{
 ?>
 
-<div align="center">
-<table id="box-table">
+<table id="box-table-dashboard">
 <thead>
 <tr>
-	 <th scope="col"> <?php print $this->translate->_("Job Id");   ?> </th>
+	 <th scope="col"> <?php print $this->translate->_("Id");   ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level");    ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status");   ?> </th>
@@ -38,15 +41,14 @@
 <?php endforeach; ?>
 <tbody>
 </table>
-</div>
 
 <?php
 }
 ?>
 
 <?php else : ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+	<div class="ui-state-highlight ui-corner-all"> 
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></strong></p>
 	</div>
@@ -58,23 +60,25 @@
 
 
 
-<h1 align="center"><?php echo $this->escape($this->titleRunningJobs); ?></h1>
+
+<h1 class="dashboard">
+	<a href="<?php echo $this->baseUrl;?>/job/running" id="dashboard">
+		<?php echo $this->escape($this->titleRunningJobs); ?>
+	</a>
+</h1>
 
 <?php if ($this->resultRunningJobs): ?>
 
-<div align="center">
-<table id="box-table">
+<table id="box-table-dashboard">
 <thead>
 <tr>
-	 <th scope="col"> <?php print $this->translate->_("Job Id"); 	 ?> </th>
+	 <th scope="col"> <?php print $this->translate->_("Id"); 	 ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); 	 ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level");    ?> </th>
      <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Client");   ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Pool"); 	 ?> </th>
      <th scope="col"> <?php print $this->translate->_("Start Time"); ?><br /> <?php print $this->translate->_("yy-mm-dd"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -104,24 +108,15 @@
 	?>
 	
 	<td ><?php echo $this->escape($line['clientname']);?></td>
-
-	<td><a href="<?php echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']),
-		"/name/", $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Pool"); ?>">
-		<?php echo $this->escape($line['poolname']);?></a>
-	</td>
-
 	<td><?php echo $this->escape($line['starttime']);?></td>
-	<td align="right"><?php echo $this->escape($line['durationtime']);?></td>
-
 </tr>
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
 
 <?php else: ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+	<div class="ui-state-highlight ui-corner-all"> 
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></strong></p>
 	</div>

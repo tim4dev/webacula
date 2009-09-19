@@ -68,6 +68,22 @@ class JobController extends Zend_Controller_Action
     	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
 		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
     }
+    
+    /**
+     * Running Jobs
+     */
+    function runningDashboardAction()
+    {
+    	$this->_helper->viewRenderer->setResponseSegment('job_running');
+    	$this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
+		// get data from model
+    	$jobs = new Job();
+    	$ret = $jobs->GetRunningJobs();
+    	$this->view->resultRunningJobs = $ret->fetchAll();
+    	// получаем информацию от Директора
+    	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
+		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+    }
 
 
 
@@ -78,7 +94,25 @@ class JobController extends Zend_Controller_Action
     function nextAction()
     {
     	$this->view->titleNextJobs = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
+    	// get static const
+    	$this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
+    	$this->view->new_volume = Zend_Registry::get('NEW_VOLUME');
+    	$this->view->err_volume = Zend_Registry::get('ERR_VOLUME');
 
+    	// get data from model
+    	$jobs = new Job();
+    	$aret = $jobs->GetNextJobs();
+		$this->view->resultNextJobs = $aret;
+    }
+    
+    	/**
+	 * Scheduled Jobs (at 24 hours forward)
+	 *
+	 */
+    function nextDashboardAction()
+    {
+    	$this->_helper->viewRenderer->setResponseSegment('job_next');
+    	$this->view->titleNextJobs = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
     	// get static const
     	$this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
     	$this->view->new_volume = Zend_Registry::get('NEW_VOLUME');
@@ -229,6 +263,20 @@ class JobController extends Zend_Controller_Action
     	$ret = $jobs->GetProblemJobs();
     	$this->view->resultProblemJobs = $ret->fetchAll();
     }
+    
+        /**
+     * Jobs with errors/problems (last 14 days)
+     *
+     */
+    function problemDashboardAction()
+    {
+    	$this->_helper->viewRenderer->setResponseSegment('job_problem');
+		$this->view->titleProblemJobs = $this->view->translate->_("Jobs with errors (last 7 days)");
+		// get data from model
+    	$jobs = new Job();
+    	$ret = $jobs->GetProblemJobs();
+    	$this->view->resultProblemJobs = $ret->fetchAll();
+    }
 
 
     /**
@@ -327,6 +375,18 @@ EOF"
 		$job = new Job();
 		$this->view->resultLastJobs = $job->getLastJobRun($numjob);
 		echo $this->renderScript('job/terminated.phtml');
+    }
+    
+    /**
+     * List last NN Jobs run
+     * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
+     */
+    function terminatedDashboardAction()
+    {
+    	$this->_helper->viewRenderer->setResponseSegment('job_terminated');
+	    $this->view->titleLastJobs = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
+		$job = new Job();
+		$this->view->resultLastJobs = $job->GetLastJobs();
     }
 
 

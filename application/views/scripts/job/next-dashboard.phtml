@@ -1,5 +1,9 @@
-<!-- job/next.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleNextJobs); ?></h1>
+<!-- job/next-dashboard.phtml --> 
+<h1 class="dashboard">
+	<a href="<?php echo $this->baseUrl;?>/job/next" id="dashboard">
+		<?php echo $this->escape($this->titleNextJobs); ?>
+	</a>
+</h1>
 
 <?php if ($this->resultNextJobs): ?>
 <?php
@@ -90,8 +94,8 @@
 ?>
 
 <?php else : ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+	<div class="ui-state-highlight ui-corner-all""> 
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No Scheduled Jobs found."); ?></strong></p>
 	</div>

@@ -8,6 +8,7 @@ header("Pragma: no-cache");                                     // HTTP/1.0
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<meta http-equiv="refresh" content="300">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />	
 	<title><?php echo $this->escape($this->title); ?></title>
@@ -120,7 +121,7 @@ div#bottommenu
 </ul>
 <br style="clear: both;" />
 
-<div style="margin: 10px;">&nbsp;</div>
+<div style="margin: 3px;">&nbsp;</div>
 
 <script type="text/javascript">
 </script>
@@ -130,10 +131,22 @@ div#bottommenu
 </div>
 </noscript>
 
+<!-- layout content -->
+<table align="left" width="100%" border="0" cellspacing="3" cellpadding="3">
+<tr valign="top">
+<td bgcolor="#EEEEEE">
+	<?php echo $this->layout()->job_running; ?>
+</td><td bgcolor="#EEEEEE">
+	<?php echo $this->layout()->job_next; ?>
+</td></tr><tr valign="top"><td bgcolor="#EEEEEE">
+	<?php echo $this->layout()->job_problem; ?>
+	<?php echo $this->layout()->volume_problem; ?>
+</td><td bgcolor="#EEEEEE">
+	<?php echo $this->layout()->job_terminated; ?>
+</td></tr>
+</table>	
 
-
-<?php echo $this->layout()->content ?>
-
+<?php //echo $this->layout()->content ?>
 
 <!-- footer menu -->
 <div id="center_for_ie2">

@@ -1,23 +1,23 @@
-<!-- job/problem.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleProblemJobs); ?></h1>
+<!-- job/problem-dashboard.phtml -->
+<h1 class="dashboard">
+	<a href="<?php echo $this->baseUrl;?>/job/problem" id="dashboard">
+		<?php echo $this->escape($this->titleProblemJobs); ?>
+	</a>
+</h1>
 
 <?php if ($this->resultProblemJobs): ?>
 
-<table id="box-table">
+<table id="box-table-dashboard">
 <thead>
 <tr>
-	 <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
+	 <th scope="col"> <?php print $this->translate->_("Id"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Client"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Pool"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -91,41 +91,15 @@
 		}
 	?>	
 	
-	<td><?php echo $line['clientname'];?></td>
-
-	<td>
-		<?php
-			if ( isset($line['poolid']) && isset($line['poolname']) )	{
-				echo '<a href="';
-				echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']) .
-				"/name/", $this->escape($line['poolname']);
-				echo '" title="', $this->translate->_("Detail Volume"), '">';
-			}	else 	{
-				echo "&nbsp;";
-			}
-
-			if ( isset($line['poolid']) && isset($line['poolname']) )	{
-				echo $this->escape($line['poolname']);
-				echo '</a>';
-			}	else {
-				echo '&nbsp;';
-			}
-		?>
-	</td>
-
-	<td><?php echo $this->escape($line['starttime']);?></td>
 	<td><?php echo $this->escape($line['endtime']);?></td>
-	<td align="right"><?php echo $this->escape($line['durationtime']);?></td>
-
 </tr>
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
 
 <?php else: ?>
-<div class="ui-widget" style="width: 40%; margin-left: 1px;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+	<div class="ui-state-highlight ui-corner-all""> 
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
 	</div>
