@@ -409,7 +409,7 @@ a#dashboard:hover {
    font-family: "Lucida Sans Unicode", Sans-Serif;
    font-size: 10px;
    margin-top: 0px;
-   margin-bottom: 20px;
+   margin-bottom: 10px;
    text-align: left;
    border-collapse: collapse;
 }
@@ -417,7 +417,7 @@ a#dashboard:hover {
 {
    font-size: 10px;
    font-weight: normal;
-   padding: 4px;
+   padding: 2px;
    background: #b9c9fe;
    border-top: 4px solid #aabcfe;
    border-bottom: 1px solid #fff;
@@ -425,7 +425,7 @@ a#dashboard:hover {
 }
 #box-table-dashboard td
 {
-   padding: 4px;
+   padding: 2px;
    background: #e8edff;
    border-bottom: 1px solid #fff;
    color: #669;
