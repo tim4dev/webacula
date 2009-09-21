@@ -55,7 +55,7 @@ $j(function() {
 // check GD lib (php-gd)
 if ( extension_loaded('gd') ) {
 	if ( $this->result )	{
-		// show image
+		// show image				
 		echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" />';
 	} else	{
 	    // не прошел валидацию; вывод причин этого

@@ -7,17 +7,17 @@
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
-	 <th scope="col"> <?php print $translate->_("Job Id"); ?> </th>
-	 <th scope="col"> <?php print $translate->_("Name File"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Job Name"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Status"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Level"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Client"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Pool"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Start Time"); ?></th>
-     <th scope="col"> <?php print $translate->_("Files"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $translate->_("Errors"); ?> </th>
+	 <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
+	 <th scope="col"> <?php print $this->translate->_("Name File"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Client"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Pool"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Start Time"); ?></th>
+     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -28,9 +28,9 @@
             if ( isset($line['poolid'], $line['poolname']) )	{
                 echo '<a href="',
 				    $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']),
-				    '" title="', $translate->_("Restore Job") , '">',
+				    '" title="', $this->translate->_("Restore Job") , '">',
 				    '<img src="', $this->baseUrl .'/images/restore.png" alt="',
-				    $translate->_("Restore Job"), '" border="0" hspace="5"></a>';
+				    $this->translate->_("Restore Job"), '" border="0" hspace="5"></a>';
             }
         ?>
     </td>
@@ -39,7 +39,7 @@
 			if ( isset($line['poolid'], $line['poolname']) )	{
 				echo '<a href="',
 				    $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']),
-				    '" title="', $translate->_("Detail Job"), '">';
+				    '" title="', $this->translate->_("Detail Job"), '">';
 			}
 			echo $line['jobid'];
 			if ( isset($line['poolid'], $line['poolname']) )	{
@@ -64,7 +64,7 @@
 		        // 100% что была какая-то ошибка
 		        $class_td = 'class="err"';
 		    }
-			echo '<td ', $class_td, ' align="center"> ', $translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
+			echo '<td ', $class_td, ' align="center"> ', $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
 		}
 		elseif	( $line['jobstatus'] == 'T' )	{
 			echo '<td align="center">OK</td>';
@@ -76,7 +76,7 @@
 		    } else {
 		        $class_td = 'class="warn"';
 		    }
-			echo '<td ', $class_td, ' align="center">', $translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
+			echo '<td ', $class_td, ' align="center">', $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
 		}
 	?>
 
@@ -89,7 +89,7 @@
 				echo '<a href="',
 				    $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']),
 				    "/name/", $this->escape($line['poolname']),
-				    '" title="', $translate->_("Detail Pool"), '">';
+				    '" title="', $this->translate->_("Detail Pool"), '">';
 			}	else 	{
 				echo "&nbsp;";
 			}
@@ -129,7 +129,7 @@
 		    echo '<td class="err" align="right">';
 		    echo '<a href="';
 			echo $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']),
-			     '" title="', $translate->_("View Messages"), '" class="lerr">';
+			     '" title="', $this->translate->_("View Messages"), '" class="lerr">';
 			echo $this->escape($line['joberrors']), '</a></td>';
 		}
 	?>
@@ -140,5 +140,5 @@
 </div>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $translate->_("No Files found."); ?></b></p></div>
+	<div align="center"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
 <?php endif; ?>

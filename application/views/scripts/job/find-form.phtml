@@ -50,44 +50,44 @@ $j(function() {
 <?php
 
 // create array clients for Form
-$aclients[''] = $translate->_('ANY');
+$aclients[''] = $this->translate->_('ANY');
 foreach($this->clients as $client) :
 	$aclients[$this->escape($client->name)] = $this->escape($client->name);
 endforeach;
-$aclients[''] = $translate->_('ANY');	// if empty client exists in database
+$aclients[''] = $this->translate->_('ANY');	// if empty client exists in database
 
 // create array filesets for Form
-$afilesets[''] = $translate->_('ANY');
+$afilesets[''] = $this->translate->_('ANY');
 foreach($this->filesets as $fileset) :
 	$afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
 endforeach;
-$afilesets[''] = $translate->_('ANY');	// if empty FileSet exists in database
+$afilesets[''] = $this->translate->_('ANY');	// if empty FileSet exists in database
 
 // create array levels for Form
 $alevels = array(
-    "" =>  $translate->_("ANY"),
-    "F" => $translate->_("Full level"),
-    "I" => $translate->_("Incremental level"),
-    "D" => $translate->_("Differential level")
+    "" =>  $this->translate->_("ANY"),
+    "F" => $this->translate->_("Full level"),
+    "I" => $this->translate->_("Incremental level"),
+    "D" => $this->translate->_("Differential level")
 );
 
 // create array JobStatus for Form
 $astatus = array(
-    ""  => $translate->_("ANY"),
-    "R" => $translate->_("Running"),
-    "T" => $translate->_("Completed successfully"),
-    "E" => $translate->_("Terminated with errors"),
-	"A" => $translate->_("Canceled by user"),
-	"W" => $translate->_("Waiting anything")
+    ""  => $this->translate->_("ANY"),
+    "R" => $this->translate->_("Running"),
+    "T" => $this->translate->_("Completed successfully"),
+    "E" => $this->translate->_("Terminated with errors"),
+	"A" => $this->translate->_("Canceled by user"),
+	"W" => $this->translate->_("Waiting anything")
 );
 
 // create array Job Type for Form
 $atype = array(
-    "" => $translate->_("ANY"),
-    "B" => $translate->_("Backup type"),
-    "R" => $translate->_("Restore type"),
-    "V" => $translate->_("Verify type"),
-    "D" => $translate->_("Admin Job type")
+    "" => $this->translate->_("ANY"),
+    "B" => $this->translate->_("Backup type"),
+    "R" => $this->translate->_("Restore type"),
+    "V" => $this->translate->_("Verify type"),
+    "D" => $this->translate->_("Admin Job type")
 );
 
 ?>
@@ -97,53 +97,53 @@ $atype = array(
 <div id="accordion" style="text-align: left;">
 
 <!-- // find by JobId -->
-<h3><a href="#"><?php print $translate->_("Job Id"); ?></a></h3>
+<h3><a href="#"><?php print $this->translate->_("Job Id"); ?></a></h3>
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-job-id';?>" method="post">
-	<b><?php print $translate->_("Job Id"); ?></b> <?php echo $this->formText('jobid', "", array('size' => 10)) ?>
+	<b><?php print $this->translate->_("Job Id"); ?></b> <?php echo $this->formText('jobid', "", array('size' => 10)) ?>
 	<br>
 	<br>
-	<?php echo $this->formSubmit('ok1', $translate->_('Search') ); ?>
+	<?php echo $this->formSubmit('ok1', $this->translate->_('Search') ); ?>
 </form>
 </div>
 
 <!-- // find by many filters -->
-<h3><a href="#"><?php print $translate->_("Time, Client, Fileset, Level, Status, Type"); ?></a></h3>
+<h3><a href="#"><?php print $this->translate->_("Time, Client, Fileset, Level, Status, Type"); ?></a></h3>
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-filters';?>" method="post">
 <table border="0" cellpadding="5" cellspacing="5" align="center">
 <tr><td>
-	<b><?php print $translate->_("Time of start of the Jobs with"); ?></b>
-	<br><div style="font-size:70%;"><?php print $translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
+	<b><?php print $this->translate->_("Time of start of the Jobs with"); ?></b>
+	<br><div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
 </td><td>	
 	<?php echo $this->formText('date_begin', date('Y-m-d', time()-86400), array('size' => 10, 'maxlength' => 10)) ?>
 	<?php echo $this->formText('time_begin', date('H:i:s', time()-86400), array('size' => 8, 'maxlength' => 8 )) ?>
-	&nbsp;&nbsp;<b><?php print $translate->_("up to"); ?></b>&nbsp;
+	&nbsp;&nbsp;<b><?php print $this->translate->_("up to"); ?></b>&nbsp;
 	<?php echo $this->formText('date_end', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10)) ?>
 	<?php echo $this->formText('time_end', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8)) ?>
 </td></tr><tr><td style="text-align: right;">	
-	<b><?php print $translate->_("Client"); ?></b>
+	<b><?php print $this->translate->_("Client"); ?></b>
 </td><td>	 
 	<?php echo $this->formSelect('client', null, null, $aclients) ?>
 </td></tr><tr><td style="text-align: right;">	
-   	<b><?php print $translate->_("Fileset"); ?></b>
+   	<b><?php print $this->translate->_("Fileset"); ?></b>
 </td><td>   	 
    	<?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
 </td></tr><tr><td style="text-align: right;">
-	<b><?php print $translate->_("Level"); ?></b>
+	<b><?php print $this->translate->_("Level"); ?></b>
 </td><td>	 
 	<?php echo $this->formSelect('jlevel', null, null, $alevels) ?>
 </td></tr><tr><td style="text-align: right;">	
-	<b><?php print $translate->_("Status"); ?></b>
+	<b><?php print $this->translate->_("Status"); ?></b>
 </td><td>	 
 	<?php echo $this->formSelect('jstatus', null, null, $astatus) ?>
 </td></tr><tr><td style="text-align: right;">
-	<b><?php print $translate->_("Type"); ?></b>
+	<b><?php print $this->translate->_("Type"); ?></b>
 </td><td>	 
   	<?php echo $this->formSelect('jtype', null, null, $atype) ?>
 </td></tr><tr><td colspan="2">    
 	<br>
-   	<?php echo $this->formSubmit('ok2', $translate->_('Search') ); ?>
+   	<?php echo $this->formSubmit('ok2', $this->translate->_('Search') ); ?>
 </td></tr>   	
 </table>   	
 </form>
@@ -151,46 +151,46 @@ $atype = array(
 
 
 <!-- // find by Volume Name -->
-<h3><a href="#"><?php print $translate->_("Volume Name"); ?></a></h3>
+<h3><a href="#"><?php print $this->translate->_("Volume Name"); ?></a></h3>
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-volume-name';?>" method="post">
-	<b><?php print $translate->_("Volume Name"); ?></b>
+	<b><?php print $this->translate->_("Volume Name"); ?></b>
    	<?php echo $this->formText('volname', "", array('size' => 40)) ?>
    	<br>
-   	<?php echo $this->formSubmit('ok3', $translate->_('Search') ); ?>
+   	<?php echo $this->formSubmit('ok3', $this->translate->_('Search') ); ?>
 </form>   	
 </div>
 
 
 <!-- // List last 20 Jobs run -->
-<h3><a href="#"><?php echo $translate->_("List last"), ' ', $translate->_("Jobs run"); ?></a></h3>
+<h3><a href="#"><?php echo $this->translate->_("List last"), ' ', $this->translate->_("Jobs run"); ?></a></h3>
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/list-last-jobs-run';?>" method="post">
-	<b><?php print $translate->_("List last"); ?></b>
-   	<?php echo $this->formText('numjob', "20", array('size' => 5)) ?> <b><?php print $translate->_("Jobs run"); ?></b>
+	<b><?php print $this->translate->_("List last"); ?></b>
+   	<?php echo $this->formText('numjob', "20", array('size' => 5)) ?> <b><?php print $this->translate->_("Jobs run"); ?></b>
    	<br>
    	<br>
-   	<?php echo $this->formSubmit('ok4', $translate->_('Search') ); ?>
+   	<?php echo $this->formSubmit('ok4', $this->translate->_('Search') ); ?>
 </form>
 </div>
 
 
 <!-- // List Jobs where a given File is saved -->
-<h3><a href="#"><?php print $translate->_("File Name"); ?></a></h3>
+<h3><a href="#"><?php print $this->translate->_("File Name"); ?></a></h3>
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-file-name';?>" method="post">
 <table border="0" cellpadding="5" cellspacing="5" align="center">
 <tr><td>
-   	<b><?php print $translate->_("Enter Filename (no path)"); ?></b>
+   	<b><?php print $this->translate->_("Enter Filename (no path)"); ?></b>
 </td><td>   	 
    	<?php echo $this->formText('namefile', "", array('size' => 40)) ?>
 </td></tr><tr><td style="text-align: right;">
-	<b><?php print $translate->_("Client"); ?></b>
+	<b><?php print $this->translate->_("Client"); ?></b>
 </td><td>	
 	<?php echo $this->formSelect('client_nf', null, null, $aclients) ?>
 </td></tr><td colspan="2">	
 	<br>
-	<?php echo $this->formSubmit('ok5', $translate->_('Search') ); ?>
+	<?php echo $this->formSubmit('ok5', $this->translate->_('Search') ); ?>
 </td></tr>   	
 </table>	  	
 </form>

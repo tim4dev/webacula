@@ -58,6 +58,12 @@ class ChartController extends Zend_Controller_Action
             '*'  => 'StringTrim'
         );
         $this->input = new Zend_Filter_Input($filters, $validators);
+        // for debug !!!
+        /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
+		Zend_Loader::loadClass('Zend_Log');
+        $writer = new Zend_Log_Writer_Stream('/tmp/timeline.log');
+		$this->logger = new Zend_Log($writer);
+		$this->logger->log("debug on", Zend_Log::INFO);*/
 	}
 
 
@@ -77,7 +83,6 @@ class ChartController extends Zend_Controller_Action
     		throw new Zend_Exception($this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'));
 			return;
 		}
-
 		$this->input->setData( array('datetimeline' => $this->_request->getParam('datetimeline')) );
         if ( $this->input->isValid() ) {
             $date = $this->input->getEscaped('datetimeline');
@@ -104,7 +109,8 @@ class ChartController extends Zend_Controller_Action
 		putenv('GDFONTPATH='. $config->gdfontpath);
 		$fontname = $config->fontname;
 		$fontsize = $config->fontsize;
-
+		//$this->logger->log("timelineAction() : $date\n$fontname\n$fontsize\n", Zend_Log::INFO); // !!! debug
+		
 		// calculate values
 		$height_bar = ceil($fontsize * 2);  // высота одной полосы графика
 		$space_bar  = ceil($height_bar * 0.7);  // расстояние м/д полосами
@@ -291,10 +297,12 @@ class ChartController extends Zend_Controller_Action
         $this->getResponse()->setHeader('Content-Type', 'image/png');
 		// Output a PNG image to either the browser or a file :
 		// bool imagepng ( resource image [, string filename [, int quality [, int filters]]] )
-		ImagePng($img);
+		$res = imagepng($img);
+		//$this->logger->log("timelineAction() : $res", Zend_Log::INFO); // !!! debug
+		//imagepng($img, '/tmp/timeline.png'); // !!! debug
 
 		// Destroy an image resource
-		ImageDestroy($img);
+		if ($res) imagedestroy($img);
 	}
 
 
