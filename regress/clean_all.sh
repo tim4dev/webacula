@@ -1,7 +1,4 @@
 #!/bin/bash
-#
-# $Id: clean_all.sh 403 2009-08-14 22:50:28Z tim4dev $
-#
 
 if [ "$UID" -ne 0 ]
 then

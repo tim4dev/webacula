@@ -386,8 +386,8 @@ EOF"
     function findFileNameAction()
     {
         $limit = 30;
-    	$namefile = addslashes( $this->_request->getParam('namefile') ); // имя файла м.б. с лидирующими и концевыми пробелами
-    	$client   = addslashes(trim( $this->_request->getParam('client_nf') ));
+    	$namefile = $this->_request->getParam('namefile'); // имя файла м.б. с лидирующими и концевыми пробелами
+    	$client   = trim( $this->_request->getParam('client_nf') );
 		$this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
 		$job = new Job();
 		$this->view->result = $job->getByFileName($namefile, $client, $limit);

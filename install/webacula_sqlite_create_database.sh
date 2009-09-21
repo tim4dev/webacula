@@ -2,7 +2,12 @@
 
 db_name="/var/lib/sqlite/webacula.db"
 
-/usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
+if [ $# -eq 1 ]
+then
+   db_name="${1}"
+fi
+
+/usr/bin/sqlite3 ${db_name} <<END-OF-DATA
 
 CREATE TABLE wbLogBook (
 	logId		INTEGER,

@@ -739,11 +739,13 @@ Select Job resource (1-3):
 			case 'PDO_SQLITE':
 				// SQLite3 Documentation
 				// http://sqlite.org/lang_datefunc.html
+				// workaround of bug http://framework.zend.com/issues/browse/ZF-884
 				$select->from(array('j' => 'Job'),
-					array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-					'StartTime', 'EndTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-					'FileSetId', 'PurgedFiles', 'JobStatus',
+					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+					'starttime'=>'StartTime', 'endtime'=>'EndTime',
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
 				break;                
             }
@@ -781,19 +783,29 @@ Select Job resource (1-3):
             case 'PDO_PGSQL':
             // PostgreSQL
             // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
-                $select->from(array('j' => 'Job'),
-    			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime', 'EndTime',
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => '(EndTime - StartTime)' ));
+            	$select->from(array('j' => 'Job'),
+					array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+                    'StartTime', 'EndTime',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'DurationTime' => '(EndTime - StartTime)' ));
                 break;
+            case 'PDO_SQLITE':
+				// workaround of bug http://framework.zend.com/issues/browse/ZF-884
+				$select->from(array('j' => 'Job'),
+					array('jobid'=>'JobId', 'job'=>'Job', 'JobName'=>'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+					'starttime'=>'StartTime', 'endtime'=>'EndTime', 'schedtime'=>'SchedTime',
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
+				));
+				break;
             }
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
-
             $select->joinLeft(array('o' => 'JobMedia'), 'j.JobId = o.JobId', array('JobId'));
             $select->joinLeft(array('m' => 'Media'), 'm.MediaId = o.MediaId', array('MediaId'));
 
@@ -973,11 +985,18 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
     			array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+   					'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
+   					'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+   					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+       				'FileSetId', 'PurgedFiles', 'JobStatus',
+       				'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+       			$select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
+       			$select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+       			$select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
+   				$select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
+   				$select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
+				$select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('PoolName' => 'Pool.Name'));
+				$select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('FileSet' => 'FileSet.FileSet'));
                 break;
             case 'PDO_PGSQL':
 	            // PostgreSQL
@@ -988,11 +1007,18 @@ Select Job resource (1-3):
    					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
        				'FileSetId', 'PurgedFiles', 'JobStatus',
        				'DurationTime' => '(EndTime - StartTime)'));
+       			$select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
+       			$select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+       			$select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
+   				$select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
+   				$select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
+				$select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('PoolName' => 'Pool.Name'));
+				$select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('FileSet' => 'FileSet.FileSet'));
                 break;
 			case 'PDO_SQLITE':
 				// SQLite3 Documentation
 				// http://sqlite.org/lang_datefunc.html
-				// bug http://framework.zend.com/issues/browse/ZF-884
+				// workaround of bug http://framework.zend.com/issues/browse/ZF-884
 				$select->from(array('j' => 'Job'),
 					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime',
@@ -1000,23 +1026,20 @@ Select Job resource (1-3):
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-                 break;
+				$select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
+       			$select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+       			$select->joinLeft('Path', 'File.PathId = Path.PathId', array('path' => 'Path.Path'));
+   				$select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('jobstatuslong' => 'Status.JobStatusLong'));
+   				$select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('clientname' => 'Client.Name'));
+				$select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('poolname' => 'Pool.Name'));
+				$select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('fileset' => 'FileSet.FileSet'));
+                break;
             }
 
-       		$select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
-       		$select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
-       		$select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
-
-   			$select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
-   			$select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
-
-			$select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('PoolName' => 'Pool.Name'));
-			$select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('FileSet' => 'FileSet.FileSet'));
-
 			if ( $client != "" )	{
-				$select->where("Client.Name='$client'"); // AND
+				$select->where($this->db->quoteInto("Client.Name = ?", $client));
 			}
-			$select->where("Filename.Name = '$namefile'");
+			$select->where($this->db->quoteInto("Filename.Name = ?", $namefile));
    			$select->order(array("StartTime"));
 			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
    		}

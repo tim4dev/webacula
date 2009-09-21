@@ -1,6 +1,6 @@
 ======Тестирование Webacula ======
 
- --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/09/16 19:00//
+ --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/09/21 20:00//
 
 ====== Запуск postgresql ======
 
@@ -128,7 +128,7 @@ Terminated Jobs:
 
 и убедиться по логу что они выполенены успешно:
 <code>
-grep -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
+grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
 
   Job:                    job.name.test.1.2009-07-10_10.14.01_59
@@ -160,6 +160,9 @@ grep -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 ==== График ====
 
 Указать текущую дату. Получить график по всем Заданиям Id 1--14
+
+Если график не отрисовывается, то проверить создается ли картинка, например:
+http://localhost/webacula/chart/timeline/datetimeline/2009-09-21
 
 ==== Подробности ====
 
@@ -290,9 +293,9 @@ The job will require the following
 Нажать кнопку "Восстановить Задание". Пагинатор должен показать 3-и страницы с файлами.
 
 Проверить проход по страницам:
-  * Страница 1 : Id файла 1337 .. 398 
-  * Страница 2 : Id файла 219 .. 578
-  * Страница 3 : Id файла 852 .. 1306
+  * Страница 1 : Id файла 1340 .. 401 
+  * Страница 2 : Id файла 222 .. 581
+  * Страница 3 : Id файла 855 .. 1309
 
 
 Запустить задание на восстановление.
@@ -311,7 +314,7 @@ find /tmp/webacula/restore/tmp/webacula/test/1/0\ Каталог\'tmp/ -type d |
 
 Проверить лог
 <code>
-grep -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
+grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
   Job:                    restore.files.2009-08-09_21.01.37_33
   Termination:            Restore OK -- warning file count mismatch
@@ -384,8 +387,8 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 
 
 
-Проверить лог
-  /tmp/webacula/log/bacula.log
+Проверить лог ''/tmp/webacula/log/bacula.log''
+  grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
 
 Очистить каталог восстановления
@@ -425,9 +428,9 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 На экране **Список файлов для восстановления** пагинатор должен показать 3-и страницы с файлами. 
 
 Проверить проход по страницам:
-  * Страница 1 : Id файла 1355 .. 359 
-  * Страница 2 : Id файла 280 .. 602
-  * Страница 3 : Id файла 806 .. 1306
+  * Страница 1 : Id файла 1355 .. 362 
+  * Страница 2 : Id файла 283 .. 605
+  * Страница 3 : Id файла 809 .. 1309
 
 Запустить восстановление.
 
@@ -446,7 +449,7 @@ restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1"
 
 Проверить лог
 <code>
-grep -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
+grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
   Job:                    restore.files.2009-08-09_21.10.37_41
   Termination:            Restore OK -- warning file count mismatch
@@ -465,12 +468,6 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 6
 
 </code>
-
-
-
-Проверить лог
-  /tmp/webacula/log/bacula.log
-
 
 Очистить каталог восстановления
   rm -f -r /tmp/webacula/restore/*
@@ -509,6 +506,10 @@ You have selected the following JobIds: 1,7
 
 </code>
 
+Проверить лог ''/tmp/webacula/log/bacula.log''
+  grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
+
+
 Очистить каталог для восстановления и логи.
 <code>
 rm -f /tmp/webacula/log/bacula.log
@@ -545,7 +546,22 @@ restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1"
 </code>
 
 Проверить, что все восстановлено по аналогии с другими тестами.
+
+  grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
+
 Файлов 1334, каталогов 6.
+
+<code>
+# Восстановлено
+
+find /tmp/webacula/restore/tmp/webacula/test/1/ -type f | wc -l
+1334
+
+find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
+6
+
+</code>
+
 
 
 **Выбрать "Набор файлов" = file_set_test_3**

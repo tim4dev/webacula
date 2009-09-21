@@ -113,6 +113,17 @@ class WbTmpTable extends Zend_Db_Table
 		$this->logger->log("debug on", Zend_Log::INFO);*/
     }
 
+   protected function _setupTableName()
+    {
+		$this->_name = 'wbtmptablelist';
+        parent::_setupTableName();
+    }
+
+    protected function _setupPrimaryKey()
+    {
+        $this->_primary = 'tmpId';
+        parent::_setupPrimaryKey();
+    }
 
     function getDb()
     {
@@ -684,12 +695,13 @@ class WbTmpTable extends Zend_Db_Table
      *
      */
     function dropTmpTable($name)
-    {   	    	
+    {   	    	   	
     	// сначала удаляем саму временную таблицу
-    	$this->_db->query("DROP TABLE IF EXISTS " . $this->_db->quoteIdentifier($name));
+    	$this->_db->query("DROP TABLE IF EXISTS " . $this->_db->quoteIdentifier($name));   	     	
     	// удаляем записи о временной таблице
 		$where = $this->getAdapter()->quoteInto('tmpName = ?', $name);
 		$this->delete($where);
+		
     }
 
     /**

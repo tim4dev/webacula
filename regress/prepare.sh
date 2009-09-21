@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 # Prepare Bacula environment and run simple backups
-# $Id: prepare.sh 403 2009-08-14 22:50:28Z tim4dev $
 #
 
 if [ "$UID" -ne 0 ]
@@ -118,7 +117,8 @@ sh ./webacula_mysql_create_database.sh
 sh ./webacula_mysql_make_tables.sh
 sh ./webacula_postgresql_create_database.sh
 sh ./webacula_postgresql_make_tables.sh
-sh ./webacula_sqlite_create_database.sh
+sh ./webacula_sqlite_create_database.sh "/tmp/webacula/sqlite/webacula.db"
+chmod a+rwx /tmp/webacula/sqlite
 
 cd -
 
@@ -274,14 +274,23 @@ sh ./bacula_postgresql_grant_privileges
 
 
 my_log "Copy DB from MySQL to PGSQL ..."
-
 cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2PGSQL.php
+
+my_log "Copy DB from MySQL to Sqlite ..."
+cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2sqlite.php
 
-my_log "fill webacula logbook"
+my_log "MySQL : fill webacula logbook"
 cd ${BASEDIR}
 sh ./webacula_mysql_fill_logbook
+
+my_log "PostgreSQL : fill webacula logbook"
+cd ${BASEDIR}
 sh ./webacula_postgresql_fill_logbook
+
+my_log "Sqlite : fill webacula logbook"
+cd ${BASEDIR}
 sh ./webacula_sqlite_fill_logbook
+
 

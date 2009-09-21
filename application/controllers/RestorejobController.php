@@ -750,6 +750,7 @@ EOF"
      */
     public function markFileAction()
     {		    		
+    	$this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getPost('data', '');
         if ( $encodedValue ) {
 	        // 	Получение значения
@@ -790,6 +791,7 @@ EOF"
      */
 	public function unmarkFileAction()
     {	
+    	$this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
 	        // Получение значения
@@ -826,6 +828,7 @@ EOF"
      */
     public function markDirAction()
     {		
+    	$this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getPost('data', '');
         if ( $encodedValue ) {
 	        // Получение значения
@@ -869,6 +872,7 @@ EOF"
      */
     public function unmarkDirAction()
     {	
+    	$this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getPost('data', '');
         if ( $encodedValue ) {
 	        // Получение значения

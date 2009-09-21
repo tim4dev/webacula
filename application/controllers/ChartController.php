@@ -35,6 +35,8 @@ class ChartController extends Zend_Controller_Action
 	{
 		// Disable view script autorendering
         $this->_helper->viewRenderer->setNoRender();
+        // disable layouts
+        $this->_helper->layout->disableLayout();
 
         $this->translate = Zend_Registry::get('translate');
 
@@ -297,7 +299,7 @@ class ChartController extends Zend_Controller_Action
         $this->getResponse()->setHeader('Content-Type', 'image/png');
 		// Output a PNG image to either the browser or a file :
 		// bool imagepng ( resource image [, string filename [, int quality [, int filters]]] )
-		$res = imagepng($img);
+		$res = imagepng($img, null, 7);
 		//$this->logger->log("timelineAction() : $res", Zend_Log::INFO); // !!! debug
 		//imagepng($img, '/tmp/timeline.png'); // !!! debug
 

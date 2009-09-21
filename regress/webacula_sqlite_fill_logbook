@@ -1,6 +1,6 @@
 #!/bin/sh
 
-db_name="/var/lib/sqlite/webacula.db"
+db_name="/tmp/webacula/sqlite/webacula.db"
 
 /usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
 
