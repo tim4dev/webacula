@@ -138,7 +138,7 @@ my_log "Create dir tree ..."
 
 # Usage : <dir> <max files>
 cd ${BASEDIR}
-php ./create_dir_tree.php "${TMPDIR}/test/1" 1000
+php ./create_dir_tree.php "${TMPDIR}/test/1" 3000
 dd if=/dev/zero of="${TMPDIR}/test/2/file21.dat"  bs=1024 count=1000
 dd if=/dev/zero of="${TMPDIR}/test/2/file22.dat"  bs=1024 count=500
 dd if=/dev/zero of="${TMPDIR}/test/3/file31.dat"  bs=1024 count=300

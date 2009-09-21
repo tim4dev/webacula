@@ -10,7 +10,7 @@ if ($argc != 3)
 
 define("BASE_PATH",  $argv[1]);
 define("MAX_FILES",  $argv[2]);
-define("MAX_DIRS",    3);
+define("MAX_DIRS",    5);
 define("MAX_LEVEL",   2);
 
 define("PERMISSION_DIR",  0777);
@@ -51,7 +51,7 @@ function my_write_file($path)
         $namefile = $path_full . '/' . $count_fil . SUFFIX_NAME_FILE;
         if ( !file_exists($namefile) ) {
             $f = fopen($namefile , 'w');
-            fwrite($f, 'test1');
+            fwrite($f, 'test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1');
             fclose($f);
             $count_fil++;
         }
