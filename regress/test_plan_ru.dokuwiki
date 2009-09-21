@@ -1,6 +1,6 @@
 ======Тестирование Webacula ======
 
- --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/09/21 20:01//
+ --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/09/21 20:02//
 
 ====== Запуск postgresql ======
 
@@ -57,14 +57,14 @@ http://localhost/webacula/director/listjobtotals
 +------+-------+--------+-----------------+
 |    3 |     7 | 11,327 | job name test 2 |
 |    3 |     9 | 11,801 | job-name-test-3 |
-|    3 | 1,343 | 21,905 | job.name.test.1 |
+|    3 | 3,613 | 62,189 | job.name.test.1 |
 |    2 |    14 | 33,252 | job.name.test.4 |
 +------+-------+--------+-----------------+
-+------+-------+--------+
-| Jobs | Files | Bytes  |
-+------+-------+--------+
-|   11 | 1,373 | 78,285 |
-+------+-------+--------+
++------+-------+---------+
+| Jobs | Files | Bytes   |
++------+-------+---------+
+|   11 | 3,643 | 118,569 |
++------+-------+---------+
 </code>
 
 
@@ -74,44 +74,44 @@ http://localhost/webacula/director/statusdir
 Scheduled Jobs:
 Level          Type     Pri  Scheduled          Name               Volume
 ===================================================================================
-Incremental    Backup    10  17-Се-2009 04:10 job.name.test.1    pool.file.7d.0002
-Incremental    Backup    10  17-Се-2009 04:10 job name test 2    pool.file.7d.0002
-Incremental    Backup    10  17-Се-2009 04:10 job-name-test-3    pool.file.7d.0002
+Incremental    Backup    10  22-Се-2009 04:10 job.name.test.1    pool.file.7d.0005
+Incremental    Backup    10  22-Се-2009 04:10 job name test 2    pool.file.7d.0005
+Incremental    Backup    10  22-Се-2009 04:10 job-name-test-3    pool.file.7d.0005
 ====
 
 Running Jobs:
-Console connected at 16-Се-2009 09:48
+Console connected at 21-Се-2009 20:23
 No Jobs running.
 ====
 
 Terminated Jobs:
  JobId  Level    Files      Bytes   Status   Finished        Name
 ====================================================================
-     2  Full          3    7.212 K  OK       16-Се-2009 09:39 job_name_test_2
-     3  Full          5    6.747 K  OK       16-Се-2009 09:39 job-name-test-3
-     4  Incr          2    1.448 K  OK       16-Се-2009 09:41 job.name.test.1
-     5  Diff          2    1.937 K  OK       16-Се-2009 09:41 job_name_test_2
-     6  Incr          2    2.405 K  OK       16-Се-2009 09:41 job-name-test-3
-     7  Diff          3    3.141 K  OK       16-Се-2009 09:44 job.name.test.1
-     8  Incr          2    2.178 K  OK       16-Се-2009 09:44 job_name_test_2
-     9  Incr          2    2.649 K  OK       16-Се-2009 09:44 job-name-test-3
-    10  Full          7    16.62 K  OK       16-Се-2009 09:44 job.name.test.4
-    11  Full          7    16.62 K  OK       16-Се-2009 09:44 job.name.test.4
-
-====
+     1  Full      3,608    57.60 K  OK       21-Се-2009 19:21 job.name.test.1
+     3  Full          5    6.747 K  OK       21-Се-2009 19:21 job-name-test-3
+     4  Incr          2    1.448 K  OK       21-Се-2009 19:23 job.name.test.1
+     5  Diff          2    1.937 K  OK       21-Се-2009 19:23 job_name_test_2
+     6  Incr          2    2.405 K  OK       21-Се-2009 19:24 job-name-test-3
+     7  Diff          3    3.141 K  OK       21-Се-2009 19:26 job.name.test.1
+     8  Incr          2    2.178 K  OK       21-Се-2009 19:26 job_name_test_2
+     9  Incr          2    2.649 K  OK       21-Се-2009 19:26 job-name-test-3
+    10  Full          7    16.62 K  OK       21-Се-2009 19:26 job.name.test.4
+    11  Full          7    16.62 K  OK       21-Се-2009 19:26 job.name.test.4
 </code>
 
 <note>Задание JobId=11 должно присутствовать в "Информация из БД Каталога : Выполняющиеся Задания".
 (сделано искусственно SQL запросом)</note>
 
-Сравнить эти данные с ''Задание --> Завершенные'' [[http://localhost/webacula/job/terminated|Завершенные Задания]] 
-
-и ''Задание --> Очередные'' [[http://localhost/webacula/job/next|Запланированные Задания]]
-
 <note>"Ошибки" в заданиях Id = 2, 10 созданы искусственно SQL запросом.</note>
+
+Сравнить эти данные с ''Задание --> Завершенные'' [[http://localhost/webacula/job/terminated|Завершенные Задания]] : 1--10
+
+и ''Задание --> Очередные'' [[http://localhost/webacula/job/next|Запланированные Задания]] - 3 шт.
+
 
 
 ===== Задания =====
+
 
 ==== Запуск ====
 ''Задание --> Запустить''
@@ -143,6 +143,8 @@ grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
   rm -f /tmp/webacula/log/bacula.log
 
 
+
+
 ==== Поиск ====
 
 [[http://localhost/webacula/job/find-form|job/find-form]]
@@ -157,12 +159,15 @@ grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
   * Закладка **Имя файла** Ввести <code>0 Файл'.txt</code> **__Результат__** Id 1
 
 
+
 ==== График ====
 
 Указать текущую дату. Получить график по всем Заданиям Id 1--14
 
 Если график не отрисовывается, то проверить создается ли картинка, например:
 http://localhost/webacula/chart/timeline/datetimeline/2009-09-21
+
+
 
 ==== Подробности ====
 
@@ -176,11 +181,13 @@ http://localhost/webacula/chart/timeline/datetimeline/2009-09-21
 
 Проверить остальные ссылки.
 
+
+
+
 ===== Восстановление =====
 
-
-
 Проверить ссылку "''Просмотреть последние 20 запущенных Заданий''"
+
 
 
 ==== Id задания :: все файлы ====
@@ -193,32 +200,24 @@ http://localhost/webacula/chart/timeline/datetimeline/2009-09-21
 
 "Восстановление всех файлов для" Id 1
 
-Фактически 1332 файлов + 5 подкаталогов (включая родительский)
+Фактически 3600 файлов + 7 подкаталогов (включая родительский)
 
 **__Результат__**:
 <code>
-Исходный файлов
+# Восстановлены
 
-find /tmp/webacula/test/1/0\ Каталог\'tmp/ -type f | wc -l
-1332
-
-find /tmp/webacula/test/1/0\ Каталог\'tmp/ -type d | wc -l
-5
-
-
-Восстановлены
 find /tmp/webacula/restore/tmp/webacula/test/1/0\ Каталог\'tmp/ -type f | wc -l
-1332
+3600
 
 find /tmp/webacula/restore/tmp/webacula/test/1/0\ Каталог\'tmp/ -type d | wc -l
-5
+7
 
 </code>
 
 Вывод директора:
 <code>
 Building directory tree for JobId(s) 1 ...  +++++++++++++++++++++++++++++++++++++++++++++++++
-1,332 files inserted into the tree and marked for extraction.
+3,600 files inserted into the tree and marked for extraction.
 Bootstrap records written to /tmp/webacula/tmp/main.dir.restore.1.bsr
 
 The job will require the following
@@ -227,9 +226,12 @@ The job will require the following
 
    pool.file.7d.0001         storage.file.1            dev.file.storage.1
    pool.file.7d.0002         storage.file.1            dev.file.storage.1
+   pool.file.7d.0003         storage.file.1            dev.file.storage.1
+   pool.file.7d.0004         storage.file.1            dev.file.storage.1
+   pool.file.7d.0005         storage.file.1            dev.file.storage.1
 
 
-1,338 files selected to be restored.
+3,608 files selected to be restored.
 </code>
 
 Очистить каталог восстановления
@@ -250,13 +252,12 @@ The job will require the following
 <code>
 Для восстановления
 Размер:
-95 KB
-Файлов:
-1338
+571 KB
+Количество:
+3608
 
 Последнее действие: отмечено дерево каталогов /tmp/
-(1344 каталогов и файлов затронуто)
-
+(3616 каталогов и файлов затронуто)
 </code>
 
 Снять выделение.
@@ -273,12 +274,12 @@ The job will require the following
 <code>
 Для восстановления
 Размер:
-91 KB
-Файлов:
-1337
+567 KB
+Количество:
+3607
 
 Последнее действие: отмечено дерево каталогов /tmp/webacula/test/1/0 Каталог'tmp/
-(1342 каталогов и файлов затронуто)
+(3614 каталогов и файлов затронуто)
 </code>
 
 Пройти по ссылкам вверх вниз, выделение каталога должно сохраниться. См. также суммарную информацию для восстановления.
@@ -290,26 +291,20 @@ The job will require the following
 /tmp/webacula/test/1/
 </code>
 
-Нажать кнопку "Восстановить Задание". Пагинатор должен показать 3-и страницы с файлами.
+Нажать кнопку "Восстановить Задание". Пагинатор должен показать 8-мь страниц с файлами.
 
-Проверить проход по страницам:
-  * Страница 1 : Id файла 1340 .. 401 
-  * Страница 2 : Id файла 222 .. 581
-  * Страница 3 : Id файла 855 .. 1309
-
+Проверить проход по страницам.
 
 Запустить задание на восстановление.
 
 Проверить восстановление:
 <code>
-
-Восстановлены
+# Восстановлены
 find /tmp/webacula/restore/tmp/webacula/test/1/0\ Каталог\'tmp/ -type f | wc -l
-1332
+3600
 
 find /tmp/webacula/restore/tmp/webacula/test/1/0\ Каталог\'tmp/ -type d | wc -l
-5
-
+7
 </code>
 
 Проверить лог
@@ -320,21 +315,20 @@ grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
   Termination:            Restore OK -- warning file count mismatch
 </code>
 
-Очистить лог
+Очистить всё
   rm -f /tmp/webacula/log/bacula.log
-
-
-Очистить каталог восстановления
   rm -f -r /tmp/webacula/restore/*
 
 
 
-"Выбрать файлы для восстановления" Id 10
+"Выбрать файлы для восстановления" ''Id 10''
 
 Каталог ''tmp'' (и нижележащие) будет показан без атрибутов. 
 
 Сменить каталог на ''/tmp/webacula/test/''. Каталог ''2'' будет показан с атрибутами. Зайти в этот каталог, 
 выбрать два файла. Нажать ''Восстановить задание'', увидеть два файла и затем нажать ''Отменить''.
+
+
 
 
 ==== Самый свежий бэкап :: все файлы ====
@@ -347,49 +341,54 @@ grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
 Обратить внимание на командную строку запуска Директора (слово **current**)
 <code>
-restore client="local.fd"  restoreclient="local.fd" fileset="fileset.test.1" 
-   current  select all done yes
+restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1" current  select all done yes
 
-Using Catalog "MyCatalog"
 +-------+-------+----------+----------+---------------------+-------------------+
 | JobId | Level | JobFiles | JobBytes | StartTime           | VolumeName        |
 +-------+-------+----------+----------+---------------------+-------------------+
-|     1 | F     |    1,338 |   17,316 | 2009-08-09 20:33:08 | pool.file.7d.0001 |
-|     1 | F     |    1,338 |   17,316 | 2009-08-09 20:33:08 | pool.file.7d.0002 |
-|     7 | D     |        3 |    3,141 | 2009-08-09 20:38:12 | pool.file.7d.0002 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0001 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0002 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0003 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0004 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0005 |
+|     7 | D     |        3 |    3,141 | 2009-09-21 19:26:20 | pool.file.7d.0005 |
+|    12 | I     |        8 |        0 | 2009-09-21 20:28:01 | pool.file.7d.0005 |
 +-------+-------+----------+----------+---------------------+-------------------+
-You have selected the following JobIds: 1,7
-...
-1,340 files selected to be restored.
+You have selected the following JobIds: 1,7,12
+
+
+3,602 files inserted into the tree and marked for extraction.
+
+
+The job will require the following
+   Volume(s)                 Storage(s)                SD Device(s)
+===========================================================================
+
+   pool.file.7d.0001         storage.file.1            dev.file.storage.1
+   pool.file.7d.0002         storage.file.1            dev.file.storage.1
+   pool.file.7d.0003         storage.file.1            dev.file.storage.1
+   pool.file.7d.0004         storage.file.1            dev.file.storage.1
+   pool.file.7d.0005         storage.file.1            dev.file.storage.1
+
+
+3,610 files selected to be restored.
 </code>
 
-Фактически 1334 файлов + 6 подкаталогов (включая родительский) 
+Фактически 3602 файлов + 8 подкаталогов (включая родительский) = 3610 
 
 <code>
-# Исходные файлы, каталоги
-
-find /tmp/webacula/test/1/ -type f | wc -l
-1334
-
-find /tmp/webacula/test/1/ -type d | wc -l
-6
-
-
 # Восстановлено
 
 find /tmp/webacula/restore/tmp/webacula/test/1/ -type f | wc -l
-1334
+3602
 
 find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
-6
-
+8
 </code>
 
 
-
-Проверить лог ''/tmp/webacula/log/bacula.log''
+Проверить лог
   grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
-
 
 Очистить каталог восстановления
   rm -f -r /tmp/webacula/restore/*
@@ -416,35 +415,28 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 <code>
 Для восстановления
 Размер:
-745 KB
-Файлов:
-1340
+1.2 MB
+Количество:
+3610
 
 Последнее действие: отмечено дерево каталогов /tmp/
-(1346 каталогов и файлов затронуто)
+(3618 каталогов и файлов затронуто)
 </code>
 
 
-На экране **Список файлов для восстановления** пагинатор должен показать 3-и страницы с файлами. 
+На экране **Список файлов для восстановления** пагинатор должен показать 8 страниц с файлами. 
 
-Проверить проход по страницам:
-  * Страница 1 : Id файла 1355 .. 362 
-  * Страница 2 : Id файла 283 .. 605
-  * Страница 3 : Id файла 809 .. 1309
+Проверить проход по страницам.
 
 Запустить восстановление.
 
 Обратить внимание на строку запуска Директора (опции **current** и **file=...**)
 <code>
 restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1"  
-  current  
-  file=<"/tmp/webacula_restore_70efdf2ec9b086079795c442636b55fb.tmp"
+  current file=<"/tmp/webacula_restore_70efdf2ec9b086079795c442636b55fb.tmp"
   done yes
 
-...
-
-1,340 files selected to be restored.
-  
+3,610 files selected to be restored.
 </code>
 
 Проверить лог
@@ -462,11 +454,10 @@ grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 # Восстановлено
 
 find /tmp/webacula/restore/tmp/webacula/test/1/ -type f | wc -l
-1334
+3602
 
 find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
-6
-
+8
 </code>
 
 Очистить каталог восстановления
@@ -485,28 +476,27 @@ find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
 
 Сначала проверить восстановление всех файлов. Обратить внимание на **before=** 
 <code>
-
 restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1" 
-  before="2009-08-18 12:14:21"  
-  select all done yes
+  before="2009-08-18 12:14:21" select all done yes
 
 +-------+-------+----------+----------+---------------------+-------------------+
 | JobId | Level | JobFiles | JobBytes | StartTime           | VolumeName        |
 +-------+-------+----------+----------+---------------------+-------------------+
-|     1 | F     |    1,338 |   17,316 | 2009-08-09 20:33:08 | pool.file.7d.0001 |
-|     1 | F     |    1,338 |   17,316 | 2009-08-09 20:33:08 | pool.file.7d.0002 |
-|     7 | D     |        3 |    3,141 | 2009-08-09 20:38:12 | pool.file.7d.0002 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0001 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0002 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0003 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0004 |
+|     1 | F     |    3,608 |   57,600 | 2009-09-21 19:21:16 | pool.file.7d.0005 |
+|     7 | D     |        3 |    3,141 | 2009-09-21 19:26:20 | pool.file.7d.0005 |
 +-------+-------+----------+----------+---------------------+-------------------+
 You have selected the following JobIds: 1,7
 
-1,334 files inserted into the tree and marked for extraction.
+3,602 files inserted into the tree and marked for extraction.
 
-1,340 files selected to be restored.
-...
-
+3,610 files selected to be restored.
 </code>
 
-Проверить лог ''/tmp/webacula/log/bacula.log''
+Проверить лог
   grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 
 
@@ -515,6 +505,9 @@ You have selected the following JobIds: 1,7
 rm -f /tmp/webacula/log/bacula.log
 rm -f -r /tmp/webacula/restore/*
 </code>
+
+
+
 
 ==== До указанного времени :: выбрать файлы ====
 
@@ -530,7 +523,7 @@ Id Задания   Уровень
 На следующем экране отметить все дерево каталогов ''tmp''
 <code>
 Последнее действие: отмечено дерево каталогов /tmp/
-(1346 каталогов и файлов затронуто)
+(3618 каталогов и файлов затронуто)
 </code>
 
 Обратить внимание на командную строку запуска Директора - **before=** и **file=** 
@@ -545,21 +538,16 @@ restore client="local.fd"  restoreclient="local.fd"  fileset="fileset.test.1"
   
 </code>
 
-Проверить, что все восстановлено по аналогии с другими тестами.
-
+Проверить
   grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
-
-Файлов 1334, каталогов 6.
 
 <code>
 # Восстановлено
-
 find /tmp/webacula/restore/tmp/webacula/test/1/ -type f | wc -l
-1334
+3602
 
 find /tmp/webacula/restore/tmp/webacula/test/1/ -type d | wc -l
-6
-
+8
 </code>
 
 
@@ -577,6 +565,21 @@ Id Задания   Уровень
 </code>
 
 Нажать "Отменить".
+
+
+====== PostgreSQL, Sqlite ======
+
+Запустить
+  sudo ./sync_bacula_db_from_mysql2others.sh
+  
+Исправить ''config.ini''
+
+Для Sqlite для ''db.config.dbname'' указать:
+  /tmp/webacula/sqlite/bacula.db
+  /tmp/webacula/sqlite/webacula.db
+
+Проверить только те режимы, где есть выбор файлов.
+
 
 ====== Заключение ======
 

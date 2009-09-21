@@ -121,7 +121,7 @@ function my_copy_table($table_name)
         unset($query);
         unset($resOUT);
         $i++;
-        echo ".";
+        //echo "."; // progress bar
     }
     echo "\n";
 

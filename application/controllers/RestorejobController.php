@@ -697,13 +697,27 @@ EOF"
 			if ( $curdir )	{
 				$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
 				$db = $tmp_tables->getDb();
-				$stmt = $db->query("
-					SELECT DISTINCT f.FileId, f.LStat, f.PathId, f.isMarked, n.Name, p.Path
-					FROM " . $tmp_tables->getTableNameFile() . " AS f,
-					" . $tmp_tables->getTableNameFilename()  . " AS n,
-					" . $tmp_tables->getTableNamePath() .      " AS p
-					WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND 
-					(p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+				$db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
+				switch ($this->db_adapter) {
+					case 'PDO_SQLITE':
+						$stmt = $db->query("
+							SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, f.isMarked as ismarked, n.Name as name, p.Path as path
+							FROM " . $tmp_tables->getTableNameFile() . " AS f,
+							" . $tmp_tables->getTableNameFilename()  . " AS n,
+							" . $tmp_tables->getTableNamePath() .      " AS p
+							WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND 
+							(p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+						break;
+					default: // include mysql, postgresql
+						$stmt = $db->query("
+							SELECT DISTINCT f.FileId, f.LStat, f.PathId, f.isMarked, n.Name, p.Path
+							FROM " . $tmp_tables->getTableNameFile() . " AS f,
+							" . $tmp_tables->getTableNameFilename()  . " AS n,
+							" . $tmp_tables->getTableNamePath() .      " AS p
+							WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND 
+							(p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+						break;
+				}  
 				$result = $stmt->fetchAll();
 
 				// получаем список файлов
