@@ -14,11 +14,11 @@ class ChartControllerTest extends ControllerTestCase
 	 
 	public function testTimeline()
 	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
 		$name_img = 'img_tmp.png';
 		if ( file_exists($name_img) ) {
 			unlink($name_img);	
 		}
-		print "\n".__CLASS__.'_Timeline ';
 		$this->assertTrue(function_exists("imagepng"), "(imagepng not found)");
         $this->dispatch('chart/timeline/test/1/datetimeline/' . date("Y-m-d", time()));
 		$this->assertModule('default');

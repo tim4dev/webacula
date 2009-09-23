@@ -12,9 +12,9 @@ class IndexControllerTest extends ControllerTestCase
         parent::tearDown();
 	}
 
-	public function testTestAction()
+	public function testTest()
    	{
-   		print "\n".__CLASS__.'_Test ';
+   		print "\n".__CLASS__."\t".__FUNCTION__.' ';
 		$this->assertTrue(true);
 	}
 	 
