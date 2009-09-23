@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit bootstrap="./application/bootstrap.php" 
+    colors="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="true"
+    syntaxCheck="true">
+        
+    <testsuite name="Webacula Test Suite">
+        <directory>./</directory>
+    </testsuite>
+</phpunit>
