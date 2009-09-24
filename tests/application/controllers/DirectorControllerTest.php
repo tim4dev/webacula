@@ -19,6 +19,7 @@ class DirectorControllerTest extends ControllerTestCase
         $this->assertController('director');
         $this->assertAction('listjobtotals');
         $this->assertQueryContentContains('div', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('div', '/Error/i');
         $this->assertResponseCode(200);
     }
 
@@ -31,6 +32,8 @@ class DirectorControllerTest extends ControllerTestCase
         $this->assertAction('statusdir');
 		//echo $this->response->outputBody(); // for debug !!!        
         $this->assertQueryContentContains('div', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('div', '/Error/i');
+        // http://by.php.net/manual/en/function.preg-match.php
         $this->assertQueryContentRegex('div', "/1  Full      3,608    57.60 K  OK .* job.name.test.1/");
         $this->assertQueryContentRegex('div', "/3  Full          5    6.747 K  OK .* job-name-test-3/");
         $this->assertQueryContentRegex('div', "/4  Incr          2    1.448 K  OK .* job.name.test.1/");

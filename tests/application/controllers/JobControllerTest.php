@@ -12,7 +12,7 @@ class JobControllerTest extends ControllerTestCase
         parent::tearDown();
 	}
 
-	 
+ 
 	public function testJobTerminated()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';	
@@ -72,7 +72,66 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryContentContains('td', 'job.name.test.4');
 		$this->assertQueryCount('tr', 3);
 	}
+	
+	public function testRunJobWrong()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->getRequest()
+        	 ->setParams(array("jobname" => "wrong job name"))
+        	 ->setMethod('POST');	
+        $this->dispatch('job/run-job');
+		$this->assertModule('default');
+        $this->assertController('job');
+        $this->assertAction('run-job');
+		//echo $this->response->outputBody(); // for debug !!!
+		$this->assertResponseCode(200);
+		$this->assertQueryContentContains('div', '1000 OK: main.dir');
+		$this->assertNotQueryContentRegex('div', '/Error/i');
+		$this->assertQueryContentContains('div', 'Job "wrong job name" not found');	
+	}
 
+	
+	public function testRunJob1()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->getRequest()
+        	 ->setParams(array("jobname" => "job.name.test.1"))
+        	 ->setMethod('POST');
+        $this->dispatch('job/run-job');
+		$this->assertModule('default');
+        $this->assertController('job');
+        $this->assertAction('run-job');
+        sleep(5); // подождать пока выполнится
+		//echo $this->response->outputBody();// for debug !!!
+		$this->assertResponseCode(200);
+		$this->assertQueryContentContains('div', '1000 OK: main.dir');
+		$this->assertNotQueryContentRegex('div', '/Error/i');
+		// http://by.php.net/manual/en/function.preg-match.php
+		$pattern = '/Increme.*job.name.test.1.*is running|Increme.*job.name.test.1.*has terminated|12  Incr.*0.*0.*OK.*job.name.test.1/';
+		$this->assertQueryContentRegex('div', $pattern);		
+	}
+	
+	public function testRunJob2()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->getRequest()
+        	 ->setParams(array("jobname" => "job name test 2"))
+        	 ->setMethod('POST');
+        $this->dispatch('job/run-job');
+		$this->assertModule('default');
+        $this->assertController('job');
+        $this->assertAction('run-job');
+        sleep(5); // подождать пока выполнится
+		//echo $this->response->outputBody();// for debug !!!
+		$this->assertResponseCode(200);
+		$this->assertQueryContentContains('div', '1000 OK: main.dir');
+		$this->assertNotQueryContentRegex('div', '/Error/i');
+		// http://by.php.net/manual/en/function.preg-match.php
+		$pattern = '/Differe.*job_name_test_2.*is running|Differe.*job_name_test_2.*has terminated|13  Diff.*3.*4.115 K.*OK.*job_name_test_2/';
+		$this->assertQueryContentRegex('div', $pattern);		
+	}
+
+		
 	public function testJobFindByIdWrong()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
@@ -124,7 +183,8 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
 		$this->assertQueryContentContains('td', 'job name test 2');
 		$this->assertQueryContentContains('td', 'job.name.test.1');
-		$this->assertQueryCount('tr', 3);		
+		$this->assertQueryCount('tr', 4);		
 	}
+	
 	
 }

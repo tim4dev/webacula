@@ -54,6 +54,7 @@ my_log "Check PostgreSql..."
 if test $? -ne 0; then
 	echo "Can't connect to postgresql."
 	/sbin/service postgresql start
+   sleep 5
 fi
 
 my_log "Check MySql..."
@@ -61,6 +62,7 @@ my_log "Check MySql..."
 if test $? -ne 0; then
 	echo "Can't connect to mysqld."
 	/sbin/service mysqld start
+   sleep 5
 fi
 
 

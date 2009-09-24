@@ -16,8 +16,7 @@ set_include_path(implode(PATH_SEPARATOR, $path));
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', $appRoot . '/application');
 
-//echo "APPLICATION_PATH = ",APPLICATION_PATH, "\n", 'appRoot = ',$appRoot, "\n", 'libDir = ', $libDir, "\n", var_dump($path), "\n"; exit;
-//echo "APPLICATION_PATH = ",APPLICATION_PATH, "\n", 'appRoot = ',$appRoot, "\n", 'libDir = ', $libDir, "\n"; exit;
+//echo "APPLICATION_PATH = ",APPLICATION_PATH, "\n", 'appRoot = ',$appRoot, "\n", 'libDir = ', $libDir, "\n", var_dump($path), "\n"; exit; // debug !!!
 
 require_once "Zend/Loader/Autoloader.php";
 Zend_Loader_Autoloader::getInstance();

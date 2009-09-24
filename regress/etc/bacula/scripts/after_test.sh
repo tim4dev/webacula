@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Test after"
-sleep 7;
+sleep 10;
 
 exit 0;
 

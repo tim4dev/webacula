@@ -2,12 +2,15 @@ Webacula ChangeLog
 ------------------
 
 === 3.2
-   Restructuring of source code : Move all SQL code from controllers to models.
-   Restructuring of source code : use Zend_Layout.
+    Improved design.
+    Fixed few bugs.
+    Restructuring of source code : Move all SQL code from controllers to models.
+    Restructuring of source code : use Zend_Layout. Now very easy to create new skins. 
+Important information for web designers described in file 4CONTRIBUTORS.
 
 === 3.1 release (2009-09-16)
 	Add full PostgreSQL support (restore files, logbook, etc).
-   Add full Sqlite support (restore files, logbook, etc).
+    Add full Sqlite support (restore files, logbook, etc).
 	Rewrite drawFileTreeAction().
 	Add regress testing procedures.
 	More bugfixes.

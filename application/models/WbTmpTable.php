@@ -1094,7 +1094,30 @@ class WbTmpTable extends Zend_Db_Table
 	}
 
 
-
+	public function getCountFile() {
+		// подсчет кол-ва файлов
+    	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_file);
+    	$stmt   = $this->_db->query($query);
+    	$countf = $stmt->fetchAll();
+    	return $countf[0]['num'];
+	}
+	
+	public function getCountFileName() {
+		// подсчет кол-ва 
+    	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_filename);
+    	$stmt   = $this->_db->query($query);
+    	$countf = $stmt->fetchAll();
+    	return $countf[0]['num'];
+	}
+	
+	public function getCountPath() {
+		// подсчет кол-ва 
+    	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_path);
+    	$stmt   = $this->_db->query($query);
+    	$countf = $stmt->fetchAll();
+    	return $countf[0]['num'];
+	}
+	
 	function my_debug($msg)
 	{
 		echo "$msg<br>";

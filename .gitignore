@@ -1,4 +1,6 @@
 *~
 *.tmp
+.buildpath
+.settings/
 library/Zend/
 tests/report/*

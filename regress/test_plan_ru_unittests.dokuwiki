@@ -1,145 +1,8 @@
-======Тестирование Webacula ======
+======Тестирование Webacula с помощью PHPUnit ======
 
  --- //[[tim4dev@gmail.com|Yuri Timofeev]] 2009/09/24//
 
-====== Запуск postgresql ======
-
-После инсталляции
-  /sbin/service postgresql start
-или
-  /sbin/service postgresql initdb
-
-Файл конфигурации ''/var/lib/pgsql/data/pg_hba.conf''
-  local   all         all                               trust
-  host    all         all         127.0.0.1/32          trust
-
-  /sbin/service postgresql restart
-
-  su - postgres
-
-<code>
-$ createuser
-Enter name of role to add: root
-Shall the new role be a superuser? (y/n) y
-CREATE ROLE
-
-$ createuser tim
-Shall the new role be a superuser? (y/n) y
-CREATE ROLE
-</code>
-
-
-====== Подготовка среды ======
-
-Запустить 
-<code>
-sudo /sbin/service httpd start
-</code>
-
-Запустить скрипт
-  regress/prepare.sh
-
-
-====== Тестирование ======
-
-Если будут обнаружены ошибки Bacula, то рестартовать с уровнем отладки:
-  cd /etc/bacula
-  ./bacula stop
-  ./bacula start -d100
-
-===== Общая статистика по Заданиям =====
-
-http://localhost/webacula/director/listjobtotals
-
-<code>
-+------+-------+--------+-----------------+
-| Jobs | Files | Bytes  | Job             |
-+------+-------+--------+-----------------+
-|    3 |     7 | 11,327 | job name test 2 |
-|    3 |     9 | 11,801 | job-name-test-3 |
-|    3 | 3,613 | 62,189 | job.name.test.1 |
-|    2 |    14 | 33,252 | job.name.test.4 |
-+------+-------+--------+-----------------+
-+------+-------+---------+
-| Jobs | Files | Bytes   |
-+------+-------+---------+
-|   11 | 3,643 | 118,569 |
-+------+-------+---------+
-</code>
-
-
-http://localhost/webacula/director/statusdir
-
-<code>
-Scheduled Jobs:
-Level          Type     Pri  Scheduled          Name               Volume
-===================================================================================
-Incremental    Backup    10  22-Се-2009 04:10 job.name.test.1    pool.file.7d.0005
-Incremental    Backup    10  22-Се-2009 04:10 job name test 2    pool.file.7d.0005
-Incremental    Backup    10  22-Се-2009 04:10 job-name-test-3    pool.file.7d.0005
-====
-
-Running Jobs:
-Console connected at 21-Се-2009 20:23
-No Jobs running.
-====
-
-Terminated Jobs:
- JobId  Level    Files      Bytes   Status   Finished        Name
-====================================================================
-     1  Full      3,608    57.60 K  OK       21-Се-2009 19:21 job.name.test.1
-     3  Full          5    6.747 K  OK       21-Се-2009 19:21 job-name-test-3
-     4  Incr          2    1.448 K  OK       21-Се-2009 19:23 job.name.test.1
-     5  Diff          2    1.937 K  OK       21-Се-2009 19:23 job_name_test_2
-     6  Incr          2    2.405 K  OK       21-Се-2009 19:24 job-name-test-3
-     7  Diff          3    3.141 K  OK       21-Се-2009 19:26 job.name.test.1
-     8  Incr          2    2.178 K  OK       21-Се-2009 19:26 job_name_test_2
-     9  Incr          2    2.649 K  OK       21-Се-2009 19:26 job-name-test-3
-    10  Full          7    16.62 K  OK       21-Се-2009 19:26 job.name.test.4
-    11  Full          7    16.62 K  OK       21-Се-2009 19:26 job.name.test.4
-</code>
-
-<note>Задание JobId=11 должно присутствовать в "Информация из БД Каталога : Выполняющиеся Задания".
-(сделано искусственно SQL запросом)</note>
-
-<note>"Ошибки" в заданиях Id = 2, 10 созданы искусственно SQL запросом.</note>
-
-Сравнить эти данные с ''Задание --> Завершенные'' [[http://localhost/webacula/job/terminated|Завершенные Задания]] : 1--10
-
-и ''Задание --> Очередные'' [[http://localhost/webacula/job/next|Запланированные Задания]] - 3 шт.
-
-
-
 ===== Задания =====
-
-
-==== Запуск ====
-''Задание --> Запустить''
-
-Ввести неверное имя. **__Результат__** : команда Директору пройдет, но в выводе ошибка должна 
-быть подсвечена красным.
-
-
-Запустить задания
-
-  job name test 2
-  job-name-test-3
-
-и убедиться по логу что они выполенены успешно:
-<code>
-grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
-
-
-  Job:                    job_name_test_2.2009-07-10_10.17.16_02
-  Termination:            Backup OK
-  Job:                    job-name-test-3.2009-08-09_20.43.55_28
-  Termination:            Backup OK
-</code>
-
-Удалить лог
-  rm -f /tmp/webacula/log/bacula.log
-
-
 
 
 ==== Поиск ====
@@ -149,20 +12,9 @@ grep -i -E  '( Termination:| Job:| Error:)' /tmp/webacula/log/bacula.log
 Ввести несуществующий номер задания Id = 1111, получить сообщение, что такого задания нет.
 
 Найти
-  * Закладка **Id Задания** Ввести Id = 4
-  * Закладка **Время, Клиент ...**. Задать "Уровень" = Дифференциальное. **__Результат__** Id: 5, 7, 12
   * Закладка **Имя тома** ''pool.file.7d.0001'' **__Результат__** Id 1
-  * Закладка **Список последних 20 запущенных Заданий** **Результат** - все задания id 1--13
+  * Закладка **Список последних 20 запущенных Заданий** **Результат** - все задания id 1--13.
   * Закладка **Имя файла** Ввести <code>0 Файл'.txt</code> **__Результат__** Id 1
-
-
-
-==== График ====
-
-Указать текущую дату. Получить график по всем Заданиям Id 1--13
-
-Если график не отрисовывается, то проверить создается ли картинка, например:
-http://localhost/webacula/chart/timeline/datetimeline/2009-09-21
 
 
 
@@ -588,4 +440,7 @@ mysql> show databases;
 psql webacula
 webacula=# \dt
 </code>
+
+
+
 
