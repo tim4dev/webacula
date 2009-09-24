@@ -298,7 +298,7 @@ class WblogbookController extends Zend_Controller_Action
 			Zend_Loader::loadClass('Other_ValidateDatetime');
 			$validator_datetime = new Other_ValidateDatetime();
 
-			$logDateCreate = trim($this->_request->getPost('logDateCreate'));
+			$logDateCreate = trim($this->_request->getPost('logDateCreate', date("Y-m-d H:i:s", time() ) ) );
 
 			if ( !$validator_datetime->isValid($logDateCreate) ) {
 				$this->view->amessages = array_merge($this->view->amessages, $validator_datetime->getMessages());
@@ -515,10 +515,10 @@ class WblogbookController extends Zend_Controller_Action
         $this->view->aAllowedTags = $this->aAllowedTags;
     }
 
-
-    function savetopdfAction()
+/*
+    function saveToPdfAction()
     {
-    	/*
+    	
 http://www.zfforums.com/zend-framework-components-13/mail-formats-search-14/pdf-utf8-bug-not-362.html#post1041
 ------------------------------
 tim4dev
@@ -575,7 +575,8 @@ No answer ;(
 		$page->drawText($text, 20, 20, "UTF-8");
 
 		// Save document as a new file or rewrite existing document
-		$pdf->save($fileName);*/
+		$pdf->save($fileName);
     }
-
+*/
+    
 }

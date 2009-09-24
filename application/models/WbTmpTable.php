@@ -807,9 +807,15 @@ class WbTmpTable extends Zend_Db_Table
     }
 
 
+    /*
+     * Возвращает имя файла, куда будут выгружены записи для восстановления
+     */
+    public function getFilenameToExportMarkFiles() {
+    	return "webacula_restore_" . $this->jobidhash . ".tmp";
+    }
+    
     /**
-     * Экспорт помеченных записей в текстовый файл
-     *
+     * Экспорт помеченных записей в текстовый файл (для восстановления)
      */
     function exportMarkFiles($dir)
     {

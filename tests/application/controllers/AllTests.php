@@ -15,9 +15,9 @@ class ControllersAllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Webacula Test Suite - Controllers');
         $suite->addTestSuite('IndexControllerTest');
-        //$suite->addTestSuite('DirectorControllerTest');
-        //$suite->addTestSuite('JobControllerTest');
-		//$suite->addTestSuite('ChartControllerTest');
+        /*$suite->addTestSuite('DirectorControllerTest');
+        $suite->addTestSuite('JobControllerTest');
+		$suite->addTestSuite('ChartControllerTest');*/
         return $suite;
     }
 }

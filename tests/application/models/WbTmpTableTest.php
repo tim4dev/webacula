@@ -97,6 +97,13 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	    	$ares['total_files'] . " failed");
 	}
 	
+	function testExportMarkFiles() {
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$ares = $this->WbTmpTable->exportMarkFiles('/tmp');
+		$this->assertTrue( ( $ares['result'] && ($ares['count'] == 3607) ), 'error export marked files');
+		unlink( '/tmp/'.$this->WbTmpTable->getFilenameToExportMarkFiles() ); 
+	}
+	
 	public function testUnMarkDir() {
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
 		$this->WbTmpTable->markDir("/tmp/webacula/test/1/0 Каталог'tmp/", 0);

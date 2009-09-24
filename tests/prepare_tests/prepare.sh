@@ -12,6 +12,7 @@ fi
 BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
+INSTALL_DIR="../../install/"
 
 #########################################################
 # Function
@@ -113,7 +114,7 @@ cd ${BASEDIR}
 sh ./bacula_mysql_make_tables
 sh ./bacula_sqlite_make_tables
 
-cd ../install/
+cd ${INSTALL_DIR}
 
 sh ./webacula_mysql_create_database.sh
 sh ./webacula_mysql_make_tables.sh
@@ -122,7 +123,7 @@ sh ./webacula_postgresql_make_tables.sh
 sh ./webacula_sqlite_create_database.sh "/tmp/webacula/sqlite/webacula.db"
 chmod a+rwx /tmp/webacula/sqlite
 
-cd -
+cd ${BASEDIR}
 
 
 my_log "Testing Configuration Files ..."
