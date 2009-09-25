@@ -6,73 +6,75 @@ class JobControllerTest extends ControllerTestCase
     * @access protected
     */
 	protected function tearDown()
-	{
-		$this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-	}
+   {
+      $this->resetRequest();
+      $this->resetResponse();
+      parent::tearDown();
+   }
 
- 
-	public function testJobTerminated()
-	{
-		print "\n".__METHOD__.' ';
+   public function testJobTerminated()
+   {
+      print "\n".__METHOD__.' ';
       $this->dispatch('job/terminated');
-		$this->assertModule('default');
+      $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('terminated');
-		//echo $this->response->outputBody(); // for debug !!!
-		$this->assertResponseCode(200);
-		$this->assertNotQueryContentContains('div', 'No Jobs found');
-		$this->assertQueryCountMin('tr', 11);  // 11 строк таблицы
-	}
-	
-	public function testJobRunning()
-	{
-		print "\n".__METHOD__.' ';	
-        $this->dispatch('job/running');
-		$this->assertModule('default');
-        $this->assertController('job');
-        $this->assertAction('running');
-		//echo $this->response->outputBody(); // for debug !!!
-		$this->assertResponseCode(200);
-		$this->assertQueryContentContains('div', 'Information from Director : No Running Jobs found');
-		$this->assertNotQueryContentContains('div', 'Information from DB Catalog : No Running Jobs found');
-		$this->assertQueryContentContains('td', 'job.name.test.4');
-		$this->assertQueryCount('tr', 2);
-	}
-	
-	
+      //echo $this->response->outputBody(); // for debug !!!
+      $this->assertResponseCode(200);
+      $this->assertNotQueryContentContains('div', 'No Jobs found');
+      $this->assertQueryCountMin('tr', 11);  // не менее 11-ти строк таблицы
+   }
+
+
+   public function testJobRunning()
+   {
+      print "\n".__METHOD__.' ';	
+      $this->dispatch('job/running');
+      $this->assertModule('default');
+      $this->assertController('job');
+      $this->assertAction('running');
+      //echo $this->response->outputBody(); // for debug !!!
+      $this->assertResponseCode(200);
+      $this->assertQueryContentContains('div', 'Information from Director : No Running Jobs found');
+      $this->assertNotQueryContentContains('div', 'Information from DB Catalog : No Running Jobs found');
+      $this->assertQueryContentContains('td', 'job.name.test.4');
+      $this->assertQueryCount('tr', 2);
+   }
+
+
 	public function testJobNext()
-	{	
-		print "\n".__METHOD__.' ';
-        $this->dispatch('job/next');
-		$this->assertModule('default');
-        $this->assertController('job');
-        $this->assertAction('next');
-		//echo $this->response->outputBody(); // for debug !!!
-		$this->assertResponseCode(200);
-		$this->assertNotQueryContentContains('div', 'No Scheduled Jobs found');
-		$this->assertQueryContentContains('td', 'job.name.test.1');
-		$this->assertQueryContentContains('td', 'job name test 2');
-		$this->assertQueryContentContains('td', 'job-name-test-3');
-		$this->assertQueryCount('tr', 4);
-	}
+   {	
+      print "\n".__METHOD__.' ';
+      $this->dispatch('job/next');
+      $this->assertModule('default');
+      $this->assertController('job');
+      $this->assertAction('next');
+      //echo $this->response->outputBody(); // for debug !!!
+      $this->assertResponseCode(200);
+      $this->assertNotQueryContentContains('div', 'No Scheduled Jobs found');
+      $this->assertQueryContentContains('td', 'job.name.test.1');
+      $this->assertQueryContentContains('td', 'job name test 2');
+      $this->assertQueryContentContains('td', 'job-name-test-3');
+      $this->assertQueryCount('tr', 4);
+   }
 	
-	public function testJobProblem()
-	{	
-		print "\n".__METHOD__.' ';
-        $this->dispatch('job/problem');
-		$this->assertModule('default');
-        $this->assertController('job');
-        $this->assertAction('problem');
-		//echo $this->response->outputBody(); // for debug !!!
-		$this->assertResponseCode(200);
-		$this->assertNotQueryContentContains('div', 'No Jobs found');
-		$this->assertQueryContentContains('td', 'job name test 2');
-		$this->assertQueryContentContains('td', 'job.name.test.4');
-		$this->assertQueryCount('tr', 3);
-	}
-	
+
+   public function testJobProblem()
+   {	
+      print "\n".__METHOD__.' ';
+      $this->dispatch('job/problem');
+      $this->assertModule('default');
+      $this->assertController('job');
+      $this->assertAction('problem');
+      //echo $this->response->outputBody(); // for debug !!!
+      $this->assertResponseCode(200);
+      $this->assertNotQueryContentContains('div', 'No Jobs found');
+      $this->assertQueryContentContains('td', 'job name test 2');
+      $this->assertQueryContentContains('td', 'job.name.test.4');
+      $this->assertQueryCount('tr', 3);
+   }
+
+
 	/*
 	 * run Job with incorrect JobId
 	 */
@@ -100,7 +102,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testRunJob1()
 	{
-		print "\n".__METHOD__.' ';
+		print "\n".__METHOD__.' (nonreusable) ';
 		$this->getRequest()
         	 ->setParams(array("jobname" => "job.name.test.1"))
         	 ->setMethod('POST');
@@ -124,7 +126,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testRunJob2()
 	{
-		print "\n".__METHOD__.' ';
+		print "\n".__METHOD__.' (nonreusable) ';
 		$this->getRequest()
         	 ->setParams(array("jobname" => "job name test 2"))
         	 ->setMethod('POST');
@@ -219,7 +221,6 @@ class JobControllerTest extends ControllerTestCase
 		//echo $this->response->outputBody(); // for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
-		$this->assertQueryContentContains('td', 'job name test 2');
 		$this->assertQueryContentContains('td', 'job.name.test.1');		
 	}
 	

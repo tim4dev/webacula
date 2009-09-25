@@ -155,6 +155,7 @@ my_log "Run backup 1 ..."
 
 cd "/${BACULADIR}"
 ./bacula start
+sleep 3
 
 /sbin/bconsole -c /etc/bacula/bconsole.conf<<END_OF_DATA
 @output /dev/null

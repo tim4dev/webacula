@@ -31,7 +31,7 @@ class FeedController extends Zend_Controller_Action
 
 	function init()
 	{
-	    $this->_helper->viewRenderer->setNoRender(); // disable autorendering
+	   $this->_helper->viewRenderer->setNoRender(); // disable autorendering
 		$this->baseUrl = $this->_request->getBaseUrl();
 		$this->translate = Zend_Registry::get('translate');
 		Zend_Loader::loadClass('Zend_Date');
@@ -43,6 +43,9 @@ class FeedController extends Zend_Controller_Action
 
     function feedAction()
     {
+      $test = $this->_request->getParam('test');      
+      if ( empty($test) ) $this->_helper->layout->setLayout('printable'); // not test
+      
     	$config_feed = new Zend_Config_Ini('../application/config.ini', 'feed');
 		// Массив для ленты
     	$afeed = array(
@@ -55,10 +58,9 @@ class FeedController extends Zend_Controller_Action
 	
 		// Завершенные Задания (выполненные за прошедшие 24 часа)
 		$jobs = new Job();
-    	$ret = $jobs->GetLastJobs();
-    	$result = $ret->fetchAll();
-   		foreach( $result as $item ) {
-   			// Дату необходимо привести к формату timestamp
+    	$result = $jobs->GetLastJobs();    	
+   	foreach( $result as $item ) {
+   		// Дату необходимо привести к формату timestamp
         	$date = new Zend_Date($item['starttime'], 'YYYY-MM-dd HH:mm:ss');
         	$itemTimestamp = $date->getTimestamp();
         	
@@ -102,7 +104,12 @@ class FeedController extends Zend_Controller_Action
 		// Импортируем массив в ленту
     	$feed = Zend_Feed::importArray($afeed, 'rss');   	
    		// вывод дампа ленты print "<pre>".$feed->saveXML();exit;
-    	$feed->send();
+    	if ( empty($test) ) {
+    		$feed->send();
+    	} else {
+    		print $feed->saveXML(); // for unit tests	
+    	}
+    	
     }
 
 }

@@ -1,15 +1,14 @@
 <?php
-
     $translate = Zend_Registry::get('translate');
-
+    
     $config = Zend_Registry::get('config');
     if ( isset($config->language) ) {
         $user_language =  addslashes(trim($config->language));
     } else {
         $locale = new Zend_Locale(Zend_Locale::BROWSER);
         $user_language = $locale->getLanguage(); // 'ru', 'en'...
-        //print_r($user_language); //!! for debug
-    }
+        //var_dump($user_language);exit; //!! for debug
+    }    
 ?>
 <!-- wblogbook/index.phtml -->
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>

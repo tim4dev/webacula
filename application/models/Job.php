@@ -160,8 +160,7 @@ class Job extends Zend_Db_Table
         $select->order(array("StartTime", "JobId"));
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 		$stmt = $select->query();
-		return $stmt->fetchAll();
-		
+		return $stmt->fetchAll();		
     }
 
 

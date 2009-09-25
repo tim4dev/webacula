@@ -37,11 +37,12 @@ class PoolController extends Zend_Controller_Action
 		Zend_Loader::loadClass('Pool');
 	}
 
-    function allAction()
-    {
-        $order  = addslashes(trim( $this->_request->getParam('order', 'Name') ));
-    	$this->view->title = $this->view->translate->_("Pools");
-    	$pools = new Pool();
-		$this->view->pools = $pools->fetchAll(null, $order);
-    }
+   function allAction()
+   {
+      $order  = addslashes(trim( $this->_request->getParam('order', 'Name') ));
+      $this->view->title = $this->view->translate->_("Pools");
+      $pools = new Pool();
+      $this->view->pools = $pools->fetchAll(null, $order);
+   }
+   
 }

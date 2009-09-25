@@ -8,7 +8,7 @@ fi
 
 echo -e "\n\n*** WARNING!!! All Bacula, Webacula databases and files will be erased!!!\n"
 echo -e "\n*** Press Enter to continue ...\n\n"
-read
+# read
 
 /usr/bin/psql -l
 if test $? -ne 0; then
@@ -45,9 +45,6 @@ else
 	echo "Drop MySQL databases failed."
 fi
 
-/usr/bin/psql -f - -d template1 <<END-OF-DATA
-	DROP USER wbuser;
-END-OF-DATA
 
 if /usr/bin/dropdb bacula
 then
@@ -62,6 +59,10 @@ then
 else
    echo "Drop PGSQL webacula database failed."
 fi
+
+/usr/bin/psql -f - -d template1 <<END-OF-DATA
+	DROP USER wbuser;
+END-OF-DATA
 
 rm -f /tmp/webacula_restore_*.tmp
 

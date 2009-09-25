@@ -37,16 +37,21 @@ class HelpController extends Zend_Controller_Action
 
     function indexAction()
     {
+    	$unit_test = $this->_request->getParam('test', null);
     	$this->view->title = "webacula help";
     	$config = Zend_Registry::get('config');
-        if ( isset($config->locale) ) {
+    	if ( empty($unit_test) ) {
+         if ( isset($config->locale) ) {
             $user_language =  addslashes(trim($config->locale));
-        } else {
+         } else {
             // autodetect
             $locale = new Zend_Locale(Zend_Locale::BROWSER);
             $user_language = $locale->getLanguage(); // 'ru', 'en'...
             //print_r($user_language); //!! for debug
-        }
+         }
+    	} else {
+    		$user_language = 'en'; // for unit tests
+    	}
 
         $namefile = 'help/index_' . $user_language . '.phtml';
 
