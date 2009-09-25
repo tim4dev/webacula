@@ -506,25 +506,18 @@ EOF"
 
 	function selectBackupsBeforeDateAction() 
 	{
+		Zend_Loader::loadClass('Client');
+		Zend_Loader::loadClass('Job');
 		// поиск ClientId
-		$bacula = Zend_Registry::get('db_bacula');
-		$select = new Zend_Db_Select($bacula);
-    	$select->from('Client');
-    	$select->where("Name = ?", $this->restoreNamespace->ClientNameFrom);
-    	$select->limit(1);
-	    //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-	    $stmt = $select->query();
-		$line = $stmt->fetch();
-		$this->restoreNamespace->ClientIdFrom = $line['clientid'];
-		unset($stmt);
-		unset($select);
-		
+		$client = new Client();
+		$this->restoreNamespace->ClientIdFrom = $client->getClientId($this->restoreNamespace->ClientNameFrom);
+			
 		if ( !empty($this->restoreNamespace->DateBefore) ) {
 			$date_before = " AND Job.StartTime<'".$this->restoreNamespace->DateBefore."'";
 		} else {
 			$date_before = '';
 		}
-		Zend_Loader::loadClass('Job');
+		
 		$job = new Job();
 		$ajobs = $job->getJobBeforeDate($date_before, $this->restoreNamespace->ClientIdFrom, $this->restoreNamespace->FileSet);
 		if ( !$ajobs ) {

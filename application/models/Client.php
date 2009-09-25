@@ -71,4 +71,16 @@ class Client extends Zend_Db_Table
         return $res[0]['name'];
     }
 
+    function getClientId($client_name)
+    {
+		$select = new Zend_Db_Select($this->_db);
+    	$select->from('Client');
+    	$select->where("Name = ?", $client_name);
+    	$select->limit(1);
+		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+	    $stmt = $select->query();
+		$res = $stmt->fetch();		
+		return $res['clientid'];
+    }
+    
 }

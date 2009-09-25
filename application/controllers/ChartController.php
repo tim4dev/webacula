@@ -35,8 +35,6 @@ class ChartController extends Zend_Controller_Action
 	{
 		// Disable view script autorendering
         $this->_helper->viewRenderer->setNoRender();
-        // disable layouts
-        $this->_helper->layout->disableLayout();
 
         $this->translate = Zend_Registry::get('translate');
 
@@ -76,6 +74,13 @@ class ChartController extends Zend_Controller_Action
 	 */
 	function timelineAction()
 	{
+		$test = $this->_request->getParam('test');
+		if ( empty($test) )
+		{
+			// not test : disable layouts
+        	$this->_helper->layout->disableLayout();			
+		}
+		
 		// http://localhost/webacula/chart/timeline/datetimeline/2009-06-10
 		// check GD lib (php-gd)
     	if ( !extension_loaded('gd') ) {

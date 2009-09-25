@@ -38,6 +38,7 @@ See also /var/log/httpd/error_log
 
 -----------------------------------------------------------------------------------
 Q. Log book full text search not worked (MySQL).
+   Message : SQLSTATE[HY000]: General error: 1191 Can't find FULLTEXT index matching the column list
 
 A.
 

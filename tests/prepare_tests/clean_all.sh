@@ -14,16 +14,19 @@ read
 if test $? -ne 0; then
   echo "Can't connect to postgresql."
   /sbin/service postgresql start
+   sleep 7
 fi
 
 /usr/bin/mysqlshow mysql
 if test $? -ne 0; then
 	echo "Can't connect to mysqld."
 	/sbin/service mysqld start
+   sleep 7
 fi
 
 cd /etc/bacula
 ./bacula stop
+sleep 3
 
 echo -e "\n\n"
 
@@ -60,6 +63,6 @@ else
    echo "Drop PGSQL webacula database failed."
 fi
 
-
+rm -f /tmp/webacula_restore_*.tmp
 
 

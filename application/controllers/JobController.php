@@ -134,7 +134,7 @@ class JobController extends Zend_Controller_Action
 			$date_begin  = addslashes( trim( $this->_request->getPost('date_begin') ));
 			$time_begin  = addslashes( trim( $this->_request->getPost('time_begin') ));
    			$date_end    = addslashes( trim( $this->_request->getPost('date_end') ));
-   			$time_end    = addslashes( trim( $this->_request->getPost('time_end') ));
+   			$time_end    = addslashes( trim( $this->_request->getPost('time_end') ));   			
 		} else {
 			// данные от Paginator
    			$date_begin  = date('Y-m-d', intval($this->_request->getParam('date_begin')) );

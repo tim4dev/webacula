@@ -12,6 +12,8 @@ fi
 BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
+INSTALL_DIR="../../install/"
+DELAYJ=60
 
 #########################################################
 # Function
@@ -54,6 +56,7 @@ my_log "Check PostgreSql..."
 if test $? -ne 0; then
 	echo "Can't connect to postgresql."
 	/sbin/service postgresql start
+   sleep 5
 fi
 
 my_log "Check MySql..."
@@ -61,9 +64,10 @@ my_log "Check MySql..."
 if test $? -ne 0; then
 	echo "Can't connect to mysqld."
 	/sbin/service mysqld start
+   sleep 5
 fi
 
-
+chmod a+rx /sbin/bconsole
 
 
 
@@ -111,7 +115,7 @@ cd ${BASEDIR}
 sh ./bacula_mysql_make_tables
 sh ./bacula_sqlite_make_tables
 
-cd ../install/
+cd ${INSTALL_DIR}
 
 sh ./webacula_mysql_create_database.sh
 sh ./webacula_mysql_make_tables.sh
@@ -120,7 +124,7 @@ sh ./webacula_postgresql_make_tables.sh
 sh ./webacula_sqlite_create_database.sh "/tmp/webacula/sqlite/webacula.db"
 chmod a+rwx /tmp/webacula/sqlite
 
-cd -
+cd ${BASEDIR}
 
 
 my_log "Testing Configuration Files ..."
@@ -169,8 +173,8 @@ END_OF_DATA
 
 my_check_log "${TMPDIR}/log/01.log" "backup 1"
 
-echo "Wait 2 min..."
-sleep 130
+echo "Wait ${DELAYJ} sec..."
+sleep ${DELAYJ}
 
 
 my_log "Run backup 2 ..."
@@ -197,8 +201,8 @@ END_OF_DATA
 
 my_check_log "${TMPDIR}/log/02.log" "backup 2"
 
-echo "Wait 2 min..."
-sleep 130
+echo "Wait ${DELAYJ} sec..."
+sleep ${DELAYJ}
 
 
 my_log "Run backup 3 ..."

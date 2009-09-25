@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Test before"
-sleep 7;
+sleep 10;
 
 exit 0;
 

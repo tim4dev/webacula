@@ -807,9 +807,15 @@ class WbTmpTable extends Zend_Db_Table
     }
 
 
+    /*
+     * Возвращает имя файла, куда будут выгружены записи для восстановления
+     */
+    public function getFilenameToExportMarkFiles() {
+    	return "webacula_restore_" . $this->jobidhash . ".tmp";
+    }
+    
     /**
-     * Экспорт помеченных записей в текстовый файл
-     *
+     * Экспорт помеченных записей в текстовый файл (для восстановления)
      */
     function exportMarkFiles($dir)
     {
@@ -1094,7 +1100,30 @@ class WbTmpTable extends Zend_Db_Table
 	}
 
 
-
+	public function getCountFile() {
+		// подсчет кол-ва файлов
+    	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_file);
+    	$stmt   = $this->_db->query($query);
+    	$countf = $stmt->fetchAll();
+    	return $countf[0]['num'];
+	}
+	
+	public function getCountFileName() {
+		// подсчет кол-ва 
+    	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_filename);
+    	$stmt   = $this->_db->query($query);
+    	$countf = $stmt->fetchAll();
+    	return $countf[0]['num'];
+	}
+	
+	public function getCountPath() {
+		// подсчет кол-ва 
+    	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_path);
+    	$stmt   = $this->_db->query($query);
+    	$countf = $stmt->fetchAll();
+    	return $countf[0]['num'];
+	}
+	
 	function my_debug($msg)
 	{
 		echo "$msg<br>";
