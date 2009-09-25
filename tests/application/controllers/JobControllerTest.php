@@ -16,19 +16,16 @@ class JobControllerTest extends ControllerTestCase
 	public function testJobTerminated()
 	{
 		print "\n".__METHOD__.' ';
-        $this->dispatch('job/terminated');
+      $this->dispatch('job/terminated');
 		$this->assertModule('default');
-        $this->assertController('job');
-        $this->assertAction('terminated');
+      $this->assertController('job');
+      $this->assertAction('terminated');
 		//echo $this->response->outputBody(); // for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
-		$this->assertQueryCount('tr', 11);  // 11 строк таблицы
+		$this->assertQueryCountMin('tr', 11);  // 11 строк таблицы
 	}
 	
-	/*
-	 * @group groupone
-	 */
 	public function testJobRunning()
 	{
 		print "\n".__METHOD__.' ';	
@@ -97,8 +94,9 @@ class JobControllerTest extends ControllerTestCase
 	}
 
 	
-	/*
+	/**
 	 * run job.name.test.1
+	 * @group nonreusable
 	 */
 	public function testRunJob1()
 	{
@@ -120,8 +118,9 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryContentRegex('div', $pattern);		
 	}
 	
-	/*
+	/**
 	 * run 'job name test 2'
+	 * @group nonreusable
 	 */
 	public function testRunJob2()
 	{

@@ -132,7 +132,7 @@ try {
 require_once 'Zend/Application.php';
 require_once 'ControllerTestCase.php';
 
-
+/*
 $front = Zend_Controller_Front::getInstance();
 $front->throwExceptions(true);
 $front->setParam('noViewRenderer', true);
@@ -148,5 +148,5 @@ $dispatcher->setParams($front->getParams());
 $dispatcher->setResponse($front->getResponse());
 
 $router->route($front->getRequest());
-
+*/
 

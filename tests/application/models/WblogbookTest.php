@@ -30,6 +30,9 @@ class WblogbookTest extends PHPUnit_Framework_TestCase {
 		// empty
 	}
 
+	/**
+	 * @group logbook
+	 */
 	public function testIndex() {
 		print "\n".__METHOD__.' ';
 		$ret = $this->logbook->IndexLogBook(null, null, null);
@@ -37,6 +40,9 @@ class WblogbookTest extends PHPUnit_Framework_TestCase {
 		$this->assertGreaterThan(3, sizeof($result), 'error select logbook');
 	}
 	
+	/**
+	 * @group logbook
+	 */
 	public function testAddRecord() {
 		print "\n".__METHOD__.' ';
 		$data = array(
@@ -48,6 +54,9 @@ class WblogbookTest extends PHPUnit_Framework_TestCase {
       $this->assertGreaterThan(3, $id, 'error insert record to logbook');
 	}
 	
+	/**
+	 * @group logbook
+	 */
 	public function testUpdateRecord() {
 		print "\n".__METHOD__.' ';
       $data = array(

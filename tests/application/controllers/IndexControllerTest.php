@@ -12,6 +12,9 @@ class IndexControllerTest extends ControllerTestCase
         parent::tearDown();
 	}
 
+	/**
+	 * @group test-test
+	 */
 	public function testTest()
    	{
    		print "\n".__METHOD__.' ';

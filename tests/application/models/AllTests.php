@@ -12,7 +12,7 @@ class ModelsAllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Webacula Test Suite - Models');
-        //$suite->addTestSuite('WbTmpTableTest');
+        $suite->addTestSuite('WbTmpTableTest');
         $suite->addTestSuite('WblogbookTest');
         return $suite;
     }

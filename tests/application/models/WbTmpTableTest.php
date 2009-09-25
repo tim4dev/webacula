@@ -55,6 +55,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		// empty
 	}
 	
+	/**
+	 * @group restore
+	 */
 	public function testCloneBaculaToTmp() {
 		print "\n".__METHOD__.' ';
 		// собственно клонирование
@@ -68,6 +71,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($res == 8, __FUNCTION__." failed (count paths = $res)");
 	}
 	
+	/**
+    * @group restore
+    */
 	public function testMarkFile() {
 		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markFile(100);
@@ -78,6 +84,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
     		$ares['total_files'] . " failed");
 	}
 	
+	/**
+    * @group restore
+    */
 	public function testUnmarkFile() {
 		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->unmarkFile(100);
@@ -88,6 +97,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
     		$ares['total_files'] . " failed");
 	}
 
+	/**
+    * @group restore
+    */
 	public function testMarkDir() {
 		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markDir("/tmp/webacula/test/1/0 Каталог'tmp/", 1);
@@ -97,6 +109,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	    	$ares['total_files'] . " failed");
 	}
 	
+	/**
+    * @group restore
+    */
 	function testExportMarkFiles() {
 		print "\n".__METHOD__.' ';
 		$ares = $this->WbTmpTable->exportMarkFiles('/tmp');
@@ -104,6 +119,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		unlink( '/tmp/'.$this->WbTmpTable->getFilenameToExportMarkFiles() ); 
 	}
 	
+	/**
+    * @group restore
+    */
 	public function testUnMarkDir() {
 		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markDir("/tmp/webacula/test/1/0 Каталог'tmp/", 0);
@@ -113,6 +131,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	    	$ares['total_files'] . " failed");
 	}
 	
+	/**
+    * @group restore
+    */
 	public function testCloneRecentBaculaToTmp() {
 		print "\n".__METHOD__.' ';
 		// запоминаем данные в сессии
@@ -152,6 +173,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse( $this->WbTmpTableRecent->isAllTmpTablesExists(), __FUNCTION__." temporary tables not deleted");
 	}
 	
+	/**
+    * @group restore
+    */
 	public function testCloneBeforeDateBaculaToTmp() {
 		print "\n".__METHOD__.' ';
 		// запоминаем данные в сессии
@@ -193,8 +217,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse( $this->WbTmpTableRecent->isAllTmpTablesExists(), __FUNCTION__." temporary tables not deleted");
 	}
 	
-	/*
+	/**
 	 * ВАЖНО: этот тест должен быть самым последним !!!
+	 * @group restore
 	 */
 	public function testDeleteAllTmpTables() {
 		print "\n".__METHOD__.' ';
