@@ -73,6 +73,9 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryCount('tr', 3);
 	}
 	
+	/*
+	 * run Job with incorrect JobId
+	 */
 	public function testRunJobWrong()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
@@ -91,6 +94,9 @@ class JobControllerTest extends ControllerTestCase
 	}
 
 	
+	/*
+	 * run job.name.test.1
+	 */
 	public function testRunJob1()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
@@ -111,6 +117,9 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryContentRegex('div', $pattern);		
 	}
 	
+	/*
+	 * run 'job name test 2'
+	 */
 	public function testRunJob2()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
@@ -131,7 +140,9 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryContentRegex('div', $pattern);		
 	}
 
-		
+	/*
+	 * find Job by incorrect Id
+	 */
 	public function testJobFindByIdWrong()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
@@ -163,6 +174,9 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryCount('tr', 2);		
 	}
 	
+	/*
+	 * find Jobs with Level = Diff
+	 */
 	public function testJobFindByFilters()
 	{
 		print "\n".__CLASS__."\t".__FUNCTION__.' ';
@@ -174,10 +188,10 @@ class JobControllerTest extends ControllerTestCase
 				"time_end"   => date('H:i:s', time())
 		));
 		$this->request->setMethod('POST');	
-        $this->dispatch('job/find-filters');
+      $this->dispatch('job/find-filters');
 		$this->assertModule('default');
-        $this->assertController('job');
-        $this->assertAction('find-filters');
+      $this->assertController('job');
+      $this->assertAction('find-filters');
 		//echo $this->response->outputBody(); exit; // for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -186,5 +200,75 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryCount('tr', 4);		
 	}
 	
+   /*
+	 * find Jobs with Volume name
+	 */
+	public function testJobFindByVolumeName()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->request->setPost(array(
+				"volname" => "pool.file.7d.0001"
+		));
+		$this->request->setMethod('POST');	
+      $this->dispatch('job/find-volume-name');
+		$this->assertModule('default');
+      $this->assertController('job');
+      $this->assertAction('find-volume-name');
+		//echo $this->response->outputBody(); // for debug !!!
+		$this->assertResponseCode(200);
+		$this->assertNotQueryContentContains('div', 'No Jobs found');
+		$this->assertQueryContentContains('td', 'job name test 2');
+		$this->assertQueryContentContains('td', 'job.name.test.1');		
+	}
+	
+   /*
+	 * find last NN Jobs
+	 */
+	public function testFindLastJobs()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->request->setPost(array(
+				"numjob" => 5
+		));
+		$this->request->setMethod('POST');	
+      $this->dispatch('job/list-last-jobs-run');
+		$this->assertModule('default');
+      $this->assertController('job');
+      $this->assertAction('list-last-jobs-run');
+		//echo $this->response->outputBody(); // for debug !!!
+		$this->assertResponseCode(200);
+		$this->assertNotQueryContentContains('div', 'No Jobs found');
+		$this->assertQueryCount('tr', 6);
+		$this->assertQueryContentContains('td', 'job name test 2');
+		$this->assertQueryContentContains('td', 'job.name.test.1');		
+	}
+	
+	public function testJobFindByFileName()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->request->setPost(array(
+				"namefile" => "0 Файл'.txt"
+		));
+		$this->request->setMethod('POST');	
+    $this->dispatch('job/find-file-name');
+		$this->assertModule('default');
+    $this->assertController('job');
+    $this->assertAction('find-file-name');
+		$this->assertResponseCode(200);
+		$this->assertNotQueryContentContains('div', 'No Jobs found');
+		$this->assertQueryContentContains('td', 'job.name.test.1');
+		$this->assertQueryCount('tr', 2);
+	}
+	
+	public function testDetailJob()
+	{
+		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		$this->dispatch('job/detail/jobid/2');
+		$this->assertController('job');
+		$this->assertAction('detail');
+		$this->assertResponseCode(200);
+		$this->assertNotQueryContentContains('div', 'No Jobs found');
+		$this->assertQueryContentContains('td', 'job name test 2');
+	}
 	
 }

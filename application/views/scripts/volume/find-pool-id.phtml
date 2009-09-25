@@ -2,6 +2,8 @@
 
 <?php $urlp = $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($this->pool_id) . "/name/" . $this->escape($this->pool_name); ?>
 
+<?php if ($this->result): ?>
+
 <div align="center">
 <table id="box-table">
 <thead>
@@ -56,3 +58,7 @@
 </tbody>
 </table>
 </div>
+
+<?php else: ?>
+	<div align="center"><p><b><?php print $this->translate->_("No Volumes found."); ?></b></p></div>
+<?php endif; ?>

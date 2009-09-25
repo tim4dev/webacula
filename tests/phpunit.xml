@@ -10,9 +10,8 @@
     <testsuite name="Webacula Test Suite">
         <directory>./</directory>
     </testsuite>
-
+-->
 	<logging>
 		<log type="coverage-html" target="./report" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70"/>
-	</logging>
--->	
+	</logging>	
 </phpunit>

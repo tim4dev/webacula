@@ -13,6 +13,7 @@ BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
 INSTALL_DIR="../../install/"
+DELAYJ=60
 
 #########################################################
 # Function
@@ -172,8 +173,8 @@ END_OF_DATA
 
 my_check_log "${TMPDIR}/log/01.log" "backup 1"
 
-echo "Wait 2 min..."
-sleep 130
+echo "Wait ${DELAYJ} sec..."
+sleep ${DELAYJ}
 
 
 my_log "Run backup 2 ..."
@@ -200,8 +201,8 @@ END_OF_DATA
 
 my_check_log "${TMPDIR}/log/02.log" "backup 2"
 
-echo "Wait 2 min..."
-sleep 130
+echo "Wait ${DELAYJ} sec..."
+sleep ${DELAYJ}
 
 
 my_log "Run backup 3 ..."

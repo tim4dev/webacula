@@ -63,6 +63,6 @@ else
    echo "Drop PGSQL webacula database failed."
 fi
 
-
+rm -f /tmp/webacula_restore_*.tmp
 
 

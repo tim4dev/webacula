@@ -1,6 +1,6 @@
 <?php
 
-class OtherControllerTests extends ControllerTestCase
+class OtherControllerTest extends ControllerTestCase
 {
 	
 	protected $locales = array ('de', 'en', 'fr', 'pt_BR', 'ru');
