@@ -15,7 +15,7 @@ class JobControllerTest extends ControllerTestCase
  
 	public function testJobTerminated()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';	
+		print "\n".__METHOD__.' ';
         $this->dispatch('job/terminated');
 		$this->assertModule('default');
         $this->assertController('job');
@@ -26,9 +26,12 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertQueryCount('tr', 11);  // 11 строк таблицы
 	}
 	
+	/*
+	 * @group groupone
+	 */
 	public function testJobRunning()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';	
+		print "\n".__METHOD__.' ';	
         $this->dispatch('job/running');
 		$this->assertModule('default');
         $this->assertController('job');
@@ -44,7 +47,7 @@ class JobControllerTest extends ControllerTestCase
 	
 	public function testJobNext()
 	{	
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
         $this->dispatch('job/next');
 		$this->assertModule('default');
         $this->assertController('job');
@@ -60,7 +63,7 @@ class JobControllerTest extends ControllerTestCase
 	
 	public function testJobProblem()
 	{	
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
         $this->dispatch('job/problem');
 		$this->assertModule('default');
         $this->assertController('job');
@@ -78,7 +81,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testRunJobWrong()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->getRequest()
         	 ->setParams(array("jobname" => "wrong job name"))
         	 ->setMethod('POST');	
@@ -99,7 +102,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testRunJob1()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->getRequest()
         	 ->setParams(array("jobname" => "job.name.test.1"))
         	 ->setMethod('POST');
@@ -122,7 +125,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testRunJob2()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->getRequest()
         	 ->setParams(array("jobname" => "job name test 2"))
         	 ->setMethod('POST');
@@ -145,7 +148,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testJobFindByIdWrong()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->getRequest()
         	 ->setParams(array("jobid" => "1111"))
         	 ->setMethod('POST');	
@@ -159,7 +162,7 @@ class JobControllerTest extends ControllerTestCase
 
 	public function testJobFindById()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->getRequest()
         	 ->setParams(array("jobid" => "4"))
         	 ->setMethod('POST');	
@@ -179,7 +182,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testJobFindByFilters()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->request->setPost(array(
 				"jlevel" => "D", 
 				"date_begin" => date('Y-m-d', time()-86400),
@@ -205,7 +208,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testJobFindByVolumeName()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->request->setPost(array(
 				"volname" => "pool.file.7d.0001"
 		));
@@ -226,7 +229,7 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testFindLastJobs()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->request->setPost(array(
 				"numjob" => 5
 		));
@@ -245,7 +248,7 @@ class JobControllerTest extends ControllerTestCase
 	
 	public function testJobFindByFileName()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->request->setPost(array(
 				"namefile" => "0 Файл'.txt"
 		));
@@ -262,7 +265,7 @@ class JobControllerTest extends ControllerTestCase
 	
 	public function testDetailJob()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->dispatch('job/detail/jobid/2');
 		$this->assertController('job');
 		$this->assertAction('detail');

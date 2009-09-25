@@ -15,17 +15,20 @@ class ControllersAllTests
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
 
+    /*
+     * @group test-1
+     */
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Webacula Test Suite - Controllers');
         $suite->addTestSuite('IndexControllerTest');
-        $suite->addTestSuite('DirectorControllerTest');
-        $suite->addTestSuite('JobControllerTest');
-        $suite->addTestSuite('VolumeControllerTest');
-        $suite->addTestSuite('FileControllerTest');
-        $suite->addTestSuite('LogControllerTest');
-		  $suite->addTestSuite('ChartControllerTest');
-        $suite->addTestSuite('OtherControllerTest');
+//        $suite->addTestSuite('DirectorControllerTest');
+//        $suite->addTestSuite('JobControllerTest');
+//        $suite->addTestSuite('VolumeControllerTest');
+//        $suite->addTestSuite('FileControllerTest');
+//        $suite->addTestSuite('LogControllerTest');
+//		$suite->addTestSuite('ChartControllerTest');
+//        $suite->addTestSuite('OtherControllerTest');
         return $suite;
     }
 }

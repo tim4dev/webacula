@@ -14,7 +14,7 @@ class VolumeControllerTest extends ControllerTestCase
 
 	public function testFindPoolById()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->dispatch('volume/find-pool-id/id/2/name/pool.file.7d');
 		$this->assertController('volume');
 		$this->assertAction('find-pool-id');

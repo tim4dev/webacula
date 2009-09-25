@@ -14,7 +14,7 @@ class LogControllerTest extends ControllerTestCase
 
 	public function testViewConsoleLog()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->dispatch('log/view-log-id/jobid/2/jobname/job name test 2');
 		$this->assertController('log');
 		$this->assertAction('view-log-id');

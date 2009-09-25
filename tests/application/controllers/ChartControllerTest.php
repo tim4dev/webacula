@@ -14,7 +14,7 @@ class ChartControllerTest extends ControllerTestCase
 	 
 	public function testTimeline()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$name_img = 'img_tmp.png';
 		if ( file_exists($name_img) ) {
 			unlink($name_img);	

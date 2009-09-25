@@ -56,7 +56,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testCloneBaculaToTmp() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		// собственно клонирование
 		$this->WbTmpTable->cloneBaculaToTmp($this->jobid);
 		// проверяем кол-во
@@ -69,7 +69,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testMarkFile() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markFile(100);
 		$this->WbTmpTable->markFile(101);
 		// получаем суммарную статистику
@@ -79,7 +79,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testUnmarkFile() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->unmarkFile(100);
 		$this->WbTmpTable->unmarkFile(101);
 		// получаем суммарную статистику
@@ -89,7 +89,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testMarkDir() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markDir("/tmp/webacula/test/1/0 Каталог'tmp/", 1);
 		// получаем суммарную статистику
     	$ares = $this->WbTmpTable->getTotalSummaryMark();
@@ -98,14 +98,14 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	function testExportMarkFiles() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$ares = $this->WbTmpTable->exportMarkFiles('/tmp');
 		$this->assertTrue( ( $ares['result'] && ($ares['count'] == 3607) ), 'error export marked files');
 		unlink( '/tmp/'.$this->WbTmpTable->getFilenameToExportMarkFiles() ); 
 	}
 	
 	public function testUnMarkDir() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markDir("/tmp/webacula/test/1/0 Каталог'tmp/", 0);
 		// получаем суммарную статистику
     	$ares = $this->WbTmpTable->getTotalSummaryMark();
@@ -114,7 +114,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testCloneRecentBaculaToTmp() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		// запоминаем данные в сессии
 		$this->restoreNamespace->typeRestore = 'restore_recent';
 		$this->restoreNamespace->JobId = null;
@@ -153,7 +153,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testCloneBeforeDateBaculaToTmp() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		// запоминаем данные в сессии
 		$this->restoreNamespace->typeRestore = 'restore_recent';
 		$this->restoreNamespace->JobId = null;
@@ -197,7 +197,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	 * ВАЖНО: этот тест должен быть самым последним !!!
 	 */
 	public function testDeleteAllTmpTables() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid));
 		$this->WbTmpTable->deleteAllTmpTables();
 		$this->assertTrue(TRUE);

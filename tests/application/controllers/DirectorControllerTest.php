@@ -13,7 +13,7 @@ class DirectorControllerTest extends ControllerTestCase
  
 	public function testDirectorListjobtotals()
     {   
-    	print "\n".__CLASS__."\t".__FUNCTION__.' ';
+    	print "\n".__METHOD__.' ';
         $this->dispatch('/director/listjobtotals');
 		$this->assertModule('default');
         $this->assertController('director');
@@ -25,7 +25,7 @@ class DirectorControllerTest extends ControllerTestCase
 
 	public function testDirectorStatusdir()
 	{
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';	
+		print "\n".__METHOD__.' ';	
         $this->dispatch('director/statusdir');
 		$this->assertModule('default');
         $this->assertController('director');

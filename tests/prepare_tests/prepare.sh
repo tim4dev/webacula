@@ -67,7 +67,7 @@ if test $? -ne 0; then
    sleep 5
 fi
 
-
+chmod a+rx /sbin/bconsole
 
 
 

@@ -31,14 +31,14 @@ class WblogbookTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testIndex() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$ret = $this->logbook->IndexLogBook(null, null, null);
 		$result = $ret->fetchAll();
 		$this->assertGreaterThan(3, sizeof($result), 'error select logbook');
 	}
 	
 	public function testAddRecord() {
-		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
 		$data = array(
          'logDateCreate' => date("Y-m-d H:i:s", time() ),
          'logTxt'    => 'PHPUnit test testAddRecord',
@@ -49,7 +49,7 @@ class WblogbookTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testUpdateRecord() {
-      print "\n".__CLASS__."\t".__FUNCTION__.' ';
+		print "\n".__METHOD__.' ';
       $data = array(
          'logDateCreate' => date('Y-m-d H:i:s', time()-300),
          'logDateLast'   => date('Y-m-d H:i:s', time()),

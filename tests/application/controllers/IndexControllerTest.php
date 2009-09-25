@@ -14,7 +14,7 @@ class IndexControllerTest extends ControllerTestCase
 
 	public function testTest()
    	{
-   		print "\n".__CLASS__."\t".__FUNCTION__.' ';
+   		print "\n".__METHOD__.' ';
 		$this->assertTrue(true);
 	}
 	 
