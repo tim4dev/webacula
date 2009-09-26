@@ -13,6 +13,8 @@ require_once dirname ( __FILE__ ) . '/FeedControllerTest.php';
 require_once dirname ( __FILE__ ) . '/WblogbookControllerTest.php';
 require_once dirname ( __FILE__ ) . '/HelpControllerTest.php';
 require_once dirname ( __FILE__ ) . '/OtherControllerTest.php';
+require_once dirname ( __FILE__ ) . '/ErrorControllerTest.php';
+require_once dirname ( __FILE__ ) . '/RestoreControllerTest.php';
 
 class ControllersAllTests {
 
@@ -36,6 +38,8 @@ class ControllersAllTests {
 		$suite->addTestSuite ( 'WblogbookControllerTest' );
 		$suite->addTestSuite ( 'HelpControllerTest' );
 		$suite->addTestSuite ( 'OtherControllerTest' );
+		$suite->addTestSuite ( 'ErrorControllerTest' );
+		$suite->addTestSuite ( 'RestoreControllerTest' );
 		return $suite;
 	}
 }

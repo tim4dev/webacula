@@ -2,49 +2,53 @@
 
 <script type="text/javascript">
 $j(document).ready(function() {
-	$j('#ok1').click(function() { 
-    	$j.blockUI({ 
+	$j('#ok1').click(function() {
+    	$j.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
-        	centerY: true 
-        }); 
+        	centerY: true
+        });
     });
-    $j('#ok').click(function() { 
-    	$j.blockUI({ 
+    $j('#ok').click(function() {
+    	$j.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
-        	centerY: true 
-        }); 
-    }); 
+        	centerY: true
+        });
+    });
 });
 </script>
 
 <?php
     $translate = Zend_Registry::get('translate');
     $config = Zend_Registry::get('config');
-    if ( isset($config->language) ) {
-        $user_language =  addslashes(trim($config->language));
-    } else {
+    if ( empty($this->unit_test) ) {
+      if ( isset($config->language) ) {
+         $user_language =  addslashes(trim($config->language));
+      } else {
         $locale = new Zend_Locale(Zend_Locale::BROWSER);
         $user_language = $locale->getLanguage(); // 'ru', 'en'...
         //print_r($user_language); //!! for debug
+      }
+    } else {
+    	$user_language = 'en'; // for tests
     }
 ?>
 
 <?php
 if ( $user_language != 'en' ) {
-	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
+	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';
 }
 ?>
 
 <script type="text/javascript">
-$j(function() {	
+$j(function() {
 	$j('#date_before').datepicker({
 			changeMonth: true,
 			changeYear: true
-	});	
+	});
 	$j('#date_before').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
 });
 </script>
@@ -60,12 +64,12 @@ $j(function() {
 <?php
     // create array clients for Form
     if ( $this->clients ) {
-    	foreach($this->clients as $client) {   	
+    	foreach($this->clients as $client) {
 			$aclients[$this->escape($client->name)] = $this->escape($client->name);
     	}
     }
 	if ( empty($aclients) ) { $aclients[] = ''; }
-	
+
 	// create array filesets for Form
 	if ( $this->filesets ) {
 		foreach($this->filesets as $fileset) {
@@ -90,13 +94,13 @@ $j(function() {
     <div id="tabs1">
 <?php if ( !empty($this->msgNoJobId) ) : ?>
 <div class="ui-widget">
-	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;"> 
-		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span> 
+	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php echo $this->msgNoJobId; ?></strong></p>
 	</div>
 </div>
-<?php endif;?>    
-    
+<?php endif;?>
+
 <p>
 <div align="center">
 <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
@@ -150,14 +154,14 @@ $j(function() {
     <label for="client_name_from">
     <b><?php print $this->translate->_("Client"); ?></b>
     </label>
-</td><td>    
+</td><td>
     <?php echo $this->formSelect('client_name_from', null, null, $aclients) ?>
 </td></tr>
 <tr><td>
     <label for="fileset">
     <b><?php print $translate->_("Fileset"); ?></b>
     </label>
-</td><td>    
+</td><td>
     <?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
 </td></tr>
 <tr><td colspan="2">
@@ -165,12 +169,12 @@ $j(function() {
 	<?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
         array('restore_recent_all'    => $this->translate->_('Restore All files'),
               'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
-</p>              
+</p>
 </td></tr>
 <tr><td>
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ); ?>       
+    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ); ?>
     &nbsp;&nbsp;
-</td><td>    
+</td><td>
     &nbsp;&nbsp;
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
 </td></tr>
@@ -194,26 +198,26 @@ $j(function() {
     <label for="client_name_from">
     	<b><?php print $this->translate->_("Client"); ?></b>
     </label>
-</td><td>    
+</td><td>
     <?php echo $this->formSelect('client_name_from', null, null, $aclients) ?>
 </td></tr>
 <tr><td>
     <label for="fileset">
     	<b><?php print $translate->_("Fileset"); ?></b>
     </label>
-</td><td>    
+</td><td>
     <?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
 </td></tr>
 <tr><td>
     <b><?php print $this->translate->_("Date before"); ?></b>
-</td><td>    
+</td><td>
     <?php
         echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10));
         echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8));
     ?>
 </td></tr>
 <tr><td>
-&nbsp;    
+&nbsp;
 </td><td>
     <div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
 </td></tr>
@@ -223,12 +227,12 @@ $j(function() {
 <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
         array('restore_recent_all'    => $this->translate->_('Restore All files'),
               'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
-	</p>              
+	</p>
 </td></tr>
 <tr><td>
         <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn')); ?>
     &nbsp;&nbsp;
-</td><td>    
+</td><td>
     &nbsp;&nbsp;
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
 </td></tr>

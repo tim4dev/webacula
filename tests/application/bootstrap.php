@@ -77,7 +77,7 @@ Zend_Registry::set('db_webacula', $db_webacula);
 $frontController = Zend_Controller_Front::getInstance();
 $frontController->setControllerDirectory($appRoot . '/application/controllers');
 if ( $config->debug == 1 ) {
-	$frontController->throwExceptions(true);	
+	$frontController->throwExceptions(true);
 } else {
 	$frontController->throwExceptions(false);
 }
