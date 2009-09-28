@@ -774,11 +774,12 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
     			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-   				'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-       			'FileSetId', 'PurgedFiles', 'JobStatus',
-       			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
+                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
+                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+           			'FileSetId', 'PurgedFiles', 'JobStatus',
+           			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
+    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
             case 'PDO_PGSQL':
             // PostgreSQL
@@ -789,6 +790,7 @@ Select Job resource (1-3):
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)' ));
+				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
             case 'PDO_SQLITE':
 				// workaround of bug http://framework.zend.com/issues/browse/ZF-884
@@ -800,9 +802,9 @@ Select Job resource (1-3):
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
 				));
+				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
 				break;
             }
-            $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');

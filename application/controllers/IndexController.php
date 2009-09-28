@@ -42,15 +42,18 @@ class IndexController extends Zend_Controller_Action
 
     function indexAction()
     {
-		$this->_helper->layout->setLayout('dashboard');  
-		
-    	$config = Zend_Registry::get('config');
-    	if ( empty($config->head_title) ) {
-    		$this->view->title = "webacula Main Page";
-    	} else {
-    		$this->view->title = $config->head_title;
-    	}   	
+        $unit_test = $this->_request->getParam('test', null);
+        if ( empty($unit_test)) {
+            // not test
+            $this->_helper->layout->setLayout('dashboard');
+        }
 
+        $config = Zend_Registry::get('config');
+        if ( empty($config->head_title) ) {
+            $this->view->title = "webacula Main Page";
+        } else {
+            $this->view->title = $config->head_title;
+        }
         // actionToStack($action, $controller, $module, $params);
         $this->_helper->actionStack('problem-dashboard', 'job');
 		$this->_helper->actionStack('problem-dashboard', 'volume');
