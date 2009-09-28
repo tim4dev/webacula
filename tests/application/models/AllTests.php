@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/WbTmpTableTest.php';
 require_once dirname(__FILE__) . '/WblogbookTest.php';
+require_once dirname(__FILE__) . '/WblogtypeTest.php';
 
 class ModelsAllTests
 {
@@ -14,6 +15,7 @@ class ModelsAllTests
         $suite = new PHPUnit_Framework_TestSuite('Webacula Test Suite - Models');
         $suite->addTestSuite('WbTmpTableTest');
         $suite->addTestSuite('WblogbookTest');
+        $suite->addTestSuite('WblogtypeTest');
         return $suite;
     }
 }

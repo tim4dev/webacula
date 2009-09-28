@@ -12,7 +12,27 @@ fi
 
 echo -e "\n\n*** WARNING!!! Postgresql, Sqlite  Bacula database will be dropped!!!\n"
 echo -e "\n*** Press Enter to continue ...\n\n"
-read
+# read
+
+
+#########################################################
+# Function
+#
+my_log() {
+   echo -e "\n\n***********************************************************\n"
+   echo "${1}"
+   echo -e "***********************************************************\n\n"
+}
+
+
+
+
+
+
+
+#########################################################
+# Main program
+#
 
 
 /usr/bin/psql -l
@@ -67,4 +87,7 @@ php ./bacula_DBcopy_MySQL2PGSQL.php
 my_log "Copy DB from MySQL to Sqlite ..."
 cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2sqlite.php
+
+chmod -R a+rwx /tmp/webacula/sqlite
+
 

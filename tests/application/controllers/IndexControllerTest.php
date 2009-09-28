@@ -27,7 +27,7 @@ class IndexControllerTest extends ControllerTestCase
    public function testIndex() {
       print "\n".__METHOD__.' ';
       $this->dispatch('index/index/test/1');
-      //echo $this->response->outputBody(); // for debug !!!
+      //echo $this->response->outputBody();exit; // for debug !!!
       $this->assertResponseCode(200);
       $this->assertQueryContentContains('h1', 'Terminated Jobs');
       $this->assertQueryContentContains('h1', 'Scheduled Jobs');

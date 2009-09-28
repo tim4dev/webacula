@@ -2,6 +2,9 @@
 
 class JobControllerTest extends ControllerTestCase
 {
+    
+    const DELAY_AFTER_JOB = 15;
+    
    /**
     * @access protected
     */
@@ -110,7 +113,7 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
-        sleep(5); // подождать пока выполнится
+        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
 		//echo $this->response->outputBody();// for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertQueryContentContains('div', '1000 OK: main.dir');
@@ -134,7 +137,7 @@ class JobControllerTest extends ControllerTestCase
 		$this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
-        sleep(5); // подождать пока выполнится
+        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
 		//echo $this->response->outputBody();// for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertQueryContentContains('div', '1000 OK: main.dir');
@@ -183,25 +186,25 @@ class JobControllerTest extends ControllerTestCase
 	 */
 	public function testJobFindByFilters()
 	{
-		print "\n".__METHOD__.' ';
+        print "\n".__METHOD__.' ';
 		$this->request->setPost(array(
-				"jlevel" => "D", 
-				"date_begin" => date('Y-m-d', time()-86400),
-				"time_begin" => date('H:i:s', time()-86400),
-				"date_end"   => date('Y-m-d', time()),
-				"time_end"   => date('H:i:s', time())
+			"jlevel" => "D", 
+			"date_begin" => date('Y-m-d', time()-86400),
+			"time_begin" => date('H:i:s', time()-86400),
+			"date_end"   => date('Y-m-d', time()),
+			"time_end"   => date('H:i:s', time())
 		));
 		$this->request->setMethod('POST');	
-      $this->dispatch('job/find-filters');
-		$this->assertModule('default');
-      $this->assertController('job');
-      $this->assertAction('find-filters');
+        $this->dispatch('job/find-filters');
+        $this->assertModule('default');
+        $this->assertController('job');
+        $this->assertAction('find-filters');
 		//echo $this->response->outputBody(); exit; // for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
 		$this->assertQueryContentContains('td', 'job name test 2');
 		$this->assertQueryContentContains('td', 'job.name.test.1');
-		$this->assertQueryCount('tr', 4);		
+		$this->assertQueryCountMin('tr', 3);		
 	}
 	
    /*
@@ -214,10 +217,10 @@ class JobControllerTest extends ControllerTestCase
 				"volname" => "pool.file.7d.0001"
 		));
 		$this->request->setMethod('POST');	
-      $this->dispatch('job/find-volume-name');
+        $this->dispatch('job/find-volume-name');
 		$this->assertModule('default');
-      $this->assertController('job');
-      $this->assertAction('find-volume-name');
+        $this->assertController('job');
+        $this->assertAction('find-volume-name');
 		//echo $this->response->outputBody(); // for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -233,11 +236,11 @@ class JobControllerTest extends ControllerTestCase
 		$this->request->setPost(array(
 				"numjob" => 5
 		));
-		$this->request->setMethod('POST');	
-      $this->dispatch('job/list-last-jobs-run');
+        $this->request->setMethod('POST');	
+        $this->dispatch('job/list-last-jobs-run');
 		$this->assertModule('default');
-      $this->assertController('job');
-      $this->assertAction('list-last-jobs-run');
+        $this->assertController('job');
+        $this->assertAction('list-last-jobs-run');
 		//echo $this->response->outputBody(); // for debug !!!
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -252,11 +255,11 @@ class JobControllerTest extends ControllerTestCase
 		$this->request->setPost(array(
 				"namefile" => "0 Файл'.txt"
 		));
-		$this->request->setMethod('POST');	
-    $this->dispatch('job/find-file-name');
+        $this->request->setMethod('POST');	
+        $this->dispatch('job/find-file-name');
 		$this->assertModule('default');
-    $this->assertController('job');
-    $this->assertAction('find-file-name');
+        $this->assertController('job');
+        $this->assertAction('find-file-name');
 		$this->assertResponseCode(200);
 		$this->assertNotQueryContentContains('div', 'No Jobs found');
 		$this->assertQueryContentContains('td', 'job.name.test.1');
