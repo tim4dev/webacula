@@ -25,30 +25,30 @@
 - Bacula 3.0 o superior.
 - Soportados MySQL, PostgreSQL y Sqlite.
 - Zend Framework version 1.8.3
-- Zend Framework est· construido usando programaciÛn orientada a objetos y requiere: 
-  PHP 5.2.4 o superior con la extensiÛn PDO(de acuerdo al motor de bases de datos seleccionado) activada . Por favor revise el apÈndice "Requerimientos del Sistema" para una informaciÛn mejor detallada
-  informaciÛn m·s detallada:
+- Zend Framework est√° construido usando programaci√≥n orientada a objetos y requiere: 
+  PHP 5.2.4 o superior con la extensi√≥n PDO(de acuerdo al motor de bases de datos seleccionado) activada . Por favor revise el ap√©ndice "Requerimientos del Sistema" para una informaci√≥n mejor detallada
+  informaci√≥n m√°s detallada:
   http://framework.zend.com/manual/en/requirements.html
-- Apache con el mÛdulo mod_rewrite o servidor web equivalente. Por ejemplo, nginx con ngx_http_rewrite_module.
-- MÛdulo  GD (php-gd package) de PHP. GD es una librerÌa de cÛdigo abierto que permite la creaciÛn din·mica de im·genes por los programadores.
+- Apache con el m√≥dulo mod_rewrite o servidor web equivalente. Por ejemplo, nginx con ngx_http_rewrite_module.
+- M√≥dulo  GD (php-gd package) de PHP. GD es una librer√≠a de c√≥digo abierto que permite la creaci√≥n din√°mica de im√°genes por los programadores.
 - Gestor de Bases de Datos MySQL, PostgreSQL para poder usar las funcionalidades: Restaurar Ficheros y Libro de Logs.
 - http://php.net/dom para subscripciones RSS
 
-Ejecute el script install/check_system_requirements.php antes de continuar lo que le permitir· comprobar los requerimientos.
+Ejecute el script install/check_system_requirements.php antes de continuar lo que le permitir√° comprobar los requerimientos.
 
 
-	InstalaciÛn & ConfiguraciÛn
+	Instalaci√≥n & Configuraci√≥n
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Inicie sesiÛn como "root"
+- Inicie sesi√≥n como "root"
 - Haga un directorio mkdir /var/www/webacula
-- Copie la distribuciÛn descargada al directorio previamente creado /var/www/webacula
+- Copie la distribuci√≥n descargada al directorio previamente creado /var/www/webacula
 
 - Extraiga el archivo Zend.tar.gz que puede ser encontrado en el directorio "library/" o descargado desde Internet
   cd library/
   tar xvf Zend.tar.gz
 
-- El ·rbol de directorios debe quedar como sigue:
+- El √°rbol de directorios debe quedar como sigue:
 
 /var/www/webacula/
 |-- application
@@ -71,12 +71,12 @@ Ejecute el script install/check_system_requirements.php antes de continuar lo qu
        ...
 
 
-- Configure los par·metros de conexiÛn a la Base de Datos del Cat·logo, webacula /var/www/webacula/application/config.ini
+- Configure los par√°metros de conexi√≥n a la Base de Datos del Cat√°logo, webacula /var/www/webacula/application/config.ini
 	
-- Configure los par·metros
+- Configure los par√°metros
    tmpdir = "/tmp"
-  En el directorio "tmpdir" ser· almacenado el fichero que contiene la lista de archivos a restaurar. Tanto 
-  el fichero como el directorio deben poder ser leÌdos por el servicio Director
+  En el directorio "tmpdir" ser√° almacenado el fichero que contiene la lista de archivos a restaurar. Tanto 
+  el fichero como el directorio deben poder ser le√≠dos por el servicio Director
 
 - Cree un nuevo grupo (en caso de que no haya sido creado con anterioridad) :
 	groupadd bacula
@@ -111,8 +111,8 @@ Ejecute el script install/check_system_requirements.php antes de continuar lo qu
   Compruebe los cambios realizados :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
-- Cree un fichero para Bacula en la configuraciÛn de Apache /etc/httpd/conf.d/webacula.conf
-  NOTA. La organizaciÛn de directorios puede ser diferente en su servidor.
+- Cree un fichero para Bacula en la configuraci√≥n de Apache /etc/httpd/conf.d/webacula.conf
+  NOTA. La organizaci√≥n de directorios puede ser diferente en su servidor.
 
 Alias "/webacula"  "/var/www/webacula/html"
 <Directory "/var/www/webacula/html">
@@ -131,7 +131,7 @@ Alias "/webacula"  "/var/www/webacula/html"
 
 
 - Configure el mod_rewrite :
-  NOTA. La organizaciÛn de directorios puede ser diferente en su servidor.
+  NOTA. La organizaci√≥n de directorios puede ser diferente en su servidor.
 
 ----------- /etc/httpd/conf/httpd.conf
 
@@ -159,22 +159,22 @@ for test mod_rewrite
 
 
 
-- Incremente los valores de los par·metros siguientes en el fichero de configuraciÛn /etc/php.ini :
+- Incremente los valores de los par√°metros siguientes en el fichero de configuraci√≥n /etc/php.ini :
   memory_limit = 32M
   max_execution_time = 300
 
-  Si va a restaurar ("Restore Job" -> "Select Files for Restore") alrededor de 100,000 ficheros establezca la siguiente configuraciÛn:
+  Si va a restaurar ("Restore Job" -> "Select Files for Restore") alrededor de 100,000 ficheros establezca la siguiente configuraci√≥n:
   memory_limit = 128M
   max_execution_time = 600
 
-- Lo prÛximo (NOTA. Algunos comandos pueden ser diferentes en su sistema) :
+- Lo pr√≥ximo (NOTA. Algunos comandos pueden ser diferentes en su sistema) :
 /sbin/service httpd restart
 
-- Chequee que el mÛdulo "mod_rewrite" y su configuraciÛn estÈn correctas :
+- Chequee que el m√≥dulo "mod_rewrite" y su configuraci√≥n est√©n correctas :
 apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
 rewrite_module (shared)
 
-- Para mostrar mensajes de salida de los trabajos se debe adicionar est· lÌnea:
+- Para mostrar mensajes de salida de los trabajos se debe adicionar est√° l√≠nea:
   catalog = all, !skipped, !saved
 
   en el fichero bacula-dir.conf y reiniciar el demonio pertinente :
@@ -185,16 +185,16 @@ Messages {
   catalog = all, !skipped, !saved
 }
 
-Consulte el "CapÌtulo 15. Messages Resource" en el Manual de Bacula
+Consulte el "Cap√≠tulo 15. Messages Resource" en el Manual de Bacula
 
-- Seguidamente ejecute las siguientes Ûrdenes:
+- Seguidamente ejecute las siguientes √≥rdenes:
 cd /etc/bacula
 ./bacula stop
 ./bacula start
 
 Elimine los ficheros temporales no necesarios: el script wb_clean_tmp.sh puede ser ejecutado mediante un cron.
 
-Si es necesario cambie el usuario y contraseÒa en el fichero
+Si es necesario cambie el usuario y contrase√±a en el fichero
 	install/
 		webacula_mysql_create_database.sh
 		webacula_postgresql_create_database.sh
@@ -225,10 +225,10 @@ NOTE. Database "webacula" also required for restore the jobs and files.
 
 	Libro de Logs (LogBook)
 	~~~~~~~
-	Libro de Logs es un simple calendario electrÛnico de copias de seguridad. Son almacenadas entradas relacionadas con acciones de insertar, modificar, eliminar ejecutadas de forma manual por el operador.
-Los registros pueden contener vÌnculos (usualmente vÌnculos web en los que sea posible clickear) a los trabajos de Bacula o a otros registros.
+	Libro de Logs es un simple calendario electr√≥nico de copias de seguridad. Son almacenadas entradas relacionadas con acciones de insertar, modificar, eliminar ejecutadas de forma manual por el operador.
+Los registros pueden contener v√≠nculos (usualmente v√≠nculos web en los que sea posible clickear) a los trabajos de Bacula o a otros registros.
 Algunos de los registros almacenados pueden ser, por ejemplo, fallas del equipamiento, situaciones sobrenaturales, etc.
-Observe los pantallazos en el Sitio Web de Webacula (http://webacula.sourceforge.net/) para mejor informaciÛn.
+Observe los pantallazos en el Sitio Web de Webacula (http://webacula.sourceforge.net/) para mejor informaci√≥n.
 Libro de Logs(Logbook) almacena los registros en una Base de Datos separada y, MySQL, PostgreSQL es soportado.
 
 
@@ -245,7 +245,7 @@ CREATE DATABASE webacula
 
 
 
-    Trabajos de RecuperaciÛn (detalles tÈcnicos)
+    Trabajos de Recuperaci√≥n (detalles t√©cnicos)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Comandos como "restore all" son enviados inmediatamente al servicio Director.
 
@@ -259,6 +259,6 @@ Nota. Este trabajo puede tomar un tiempo excesivo.
     Luego, un listado de ficheros y/o carpetas y un comando son enviados al servicio Director.
     Remover las tablas temporales de la BD webacula.
 
-Nota. Se necesita un fichero que contenga una lista de ficheros a restaurar el cual debe ser leÌdo por el servicio Director.
+Nota. Se necesita un fichero que contenga una lista de ficheros a restaurar el cual debe ser le√≠do por el servicio Director.
 
 <eof>
