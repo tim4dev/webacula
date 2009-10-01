@@ -15,7 +15,7 @@
 	<li>Bacula 3.0 или выше.</li>
 	<li>Полностью поддерживаются СУБД <b>MySQL, PostgreSQL и Sqlite</b>. <font  style="color : #ff0000;">NEW!</font>
 	</li>
-	<li>Zend Framework версии 1.8.3</li>
+	<li>Zend Framework версии 1.8.3 или выше</li>
 	<li>Zend Framework требует PHP 5 версии 5.2.4 или выше с установленным расширением PDO. Смотрите
    	<a href="http://framework.zend.com/manual/ru/requirements.html" target="_blank">Приложение A. System Requirements</a> для более детальной информации.</li>
 	<li>Apache и модуль mod_rewrite.</li>
@@ -36,6 +36,7 @@
 	<ul>
 	<li>БД Bacula   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></li>
 	<li>БД Webacula : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula; ?></li>
+	<li>Zend Framework : <?php echo $this->zend_version; ?></li>
 	<li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">php info</a> (в отдельном окне)</li>
 	<li><a href="<?php echo $this->baseUrl, '/help/my-id/' ?>" target="_blank">id</a> (в отдельном окне)</li>
 	</ul>

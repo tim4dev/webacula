@@ -59,6 +59,8 @@ class HelpController extends Zend_Controller_Action
             $namefile = 'help/index_en.phtml'; // default language
         }
         
+        Zend_Loader::loadClass('Zend_Version');   
+        $this->view->zend_version = Zend_Version::VERSION;
         $this->view->db_adapter_bacula   = Zend_Registry::get('DB_ADAPTER');       
 	    $db = Zend_Registry::get('db_bacula');
 	    $this->view->db_server_version_bacula = $db->getServerVersion();
