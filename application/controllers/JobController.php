@@ -66,7 +66,7 @@ class JobController extends Zend_Controller_Action
     	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
 		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
     }
-    
+
     /**
      * Running Jobs
      */
@@ -79,7 +79,7 @@ class JobController extends Zend_Controller_Action
     	$this->view->resultRunningJobs = $jobs->GetRunningJobs();
     	// получаем информацию от Директора
     	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
-		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();		
+		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
     }
 
 
@@ -100,7 +100,7 @@ class JobController extends Zend_Controller_Action
     	$jobs = new Job();
 		$this->view->resultNextJobs = $jobs->GetNextJobs();
     }
-    
+
     	/**
 	 * Scheduled Jobs (at 24 hours forward)
 	 *
@@ -134,7 +134,7 @@ class JobController extends Zend_Controller_Action
 			$date_begin  = addslashes( trim( $this->_request->getPost('date_begin') ));
 			$time_begin  = addslashes( trim( $this->_request->getPost('time_begin') ));
    			$date_end    = addslashes( trim( $this->_request->getPost('date_end') ));
-   			$time_end    = addslashes( trim( $this->_request->getPost('time_end') ));   			
+   			$time_end    = addslashes( trim( $this->_request->getPost('time_end') ));
 		} else {
 			// данные от Paginator
    			$date_begin  = date('Y-m-d', intval($this->_request->getParam('date_begin')) );
@@ -167,7 +167,7 @@ class JobController extends Zend_Controller_Action
    		$this->view->jstatus    = $jstatus;
    		$this->view->jtype      = $jtype;
    		$this->view->volname    = $volname;
-   		
+
    		$paginator = Zend_Paginator::factory($select);
 		Zend_Paginator::setDefaultScrollingStyle('Sliding');
 		$paginator->setItemCountPerPage(self::ROW_LIMIT_JOBS);
@@ -257,7 +257,7 @@ class JobController extends Zend_Controller_Action
     	$jobs = new Job();
     	$this->view->resultProblemJobs = $jobs->GetProblemJobs();
     }
-    
+
         /**
      * Jobs with errors/problems (last 14 days)
      *
@@ -288,7 +288,7 @@ class JobController extends Zend_Controller_Action
             $this->view->result = null;
             return;
 		}
-		
+
 		if ( !extension_loaded('gd') ) {
 		  	// No GD lib (php-gd) found
     		$this->view->result = null;
@@ -317,7 +317,7 @@ class JobController extends Zend_Controller_Action
             $jobname = trim( $this->_request->getParam('jobname') );
             $this->view->jobname = $jobname;
             // запускаем задание
-			$director = new Director();           
+			$director = new Director();
     	    if ( !$director->isFoundBconsole() )	{
 				$this->view->result_error = 'NOFOUND_BCONSOLE';
     		  	$this->render();
@@ -330,8 +330,8 @@ run job=\"$jobname\" yes
 @sleep 3
 status dir
 @quit
-EOF"		
-			); 
+EOF"
+			);
         	$this->view->command_output = $astatusdir['command_output'];
 	        // check return status of the executed command
     	    if ( $astatusdir['return_var'] != 0 )	{
@@ -362,10 +362,10 @@ EOF"
 	    $this->view->titleLastJobs = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
 	    $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
 		$job = new Job();
-		$this->view->resultLastJobs = $job->getLastJobRun($numjob);	
+		$this->view->resultLastJobs = $job->getLastJobRun($numjob);
 		echo $this->renderScript('job/terminated.phtml');
     }
-    
+
     /**
      * List last NN Jobs run
      * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html

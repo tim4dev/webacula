@@ -51,7 +51,7 @@ $j(document).ready(function() {
 
 <form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post">
     <div style="text-align: center; padding: 10px;">
-        <?php print $this->translate->_("<b>Enter Job Name</b> :"); ?>
+        <b><?php print $this->translate->_("Job Name"); ?></b> :
         <?php echo $this->formSelect('jobname', null, null, $ajobs) ?>
     </div>
     <br>
