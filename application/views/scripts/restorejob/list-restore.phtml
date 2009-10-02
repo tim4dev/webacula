@@ -2,14 +2,14 @@
 
 <script type="text/javascript">
 $j(document).ready(function() {
-	$j('#ok1').click(function() { 
-    	$j.blockUI({ 
+	$j('#ok1').click(function() {
+    	$j.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
-        	centerY: true 
-        }); 
-    }); 
+        	centerY: true
+        });
+    });
 });
 </script>
 
@@ -50,23 +50,19 @@ $j(document).ready(function() {
 ?>
 
 
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/roundcorner1.css" />
-
 <div align="center" style="margin: 10px;">
 <?php
     echo "<b>", $this->translate->_("Total"), ": ", $this->total_rows,
         " ", $this->translate->_("file(s)"), ", ", $this->convBytes($this->total_size), "</b>" ; ?>
 </div>
 
-<div class="roundedcornr_box_1" style="width: 70%; margin-left: auto; margin-right: auto; text-align: left;">
-    <div class="roundedcornr_top_1"><div></div></div>
-        <div class="roundedcornr_content_1">
+<div class="roundcorner1" style="width: 60%;">
 
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/run-restore';?>">
 <table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
 <tr>
     <td align="right" class="search1"><b><?php print $this->translate->_("Client"); ?></b>: </td>
-   	<td class="search1">
+   	<td class="search1" align="left">
        	<?php echo $this->formSelect('client_name_to', $this->client_name_to, null, $aclients) ?>
     </td>
 
@@ -77,7 +73,7 @@ $j(document).ready(function() {
 </tr>
 <tr>
     <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?>: </td>
-    <td class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
+    <td class="search1" align="left" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
 
     <td align="right" class="search1" valign="top"><?php print $this->translate->_("Fileset"); ?>: </td>
     <td class="search1" valign="top"><?php echo $this->formSelect('fileset', null, null, $afilesets) ?></td>
@@ -104,8 +100,6 @@ $j(document).ready(function() {
 </tr>
 </table>
 
-        </div>
-    <div class="roundedcornr_bottom_1"><div></div></div>
 </div>
 
 <br style="clear: both;" />
@@ -153,6 +147,7 @@ $j(document).ready(function() {
 <?php endforeach; ?>
 </tbody>
 </table>
+
 </div>
 
 <center>&nbsp;

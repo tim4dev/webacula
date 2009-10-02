@@ -1,14 +1,12 @@
 <!-- job/statusdir.phtml -->
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/roundcorner2.css" />
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
-
 
 <?php if ( $this->result_error ): ?>
 	<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-		<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;"> 
-			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span> 
+		<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
 			<strong>
-	<?php    	
+	<?php
         switch ( $this->result_error )
         {
             case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
@@ -32,10 +30,8 @@
 	</div>
 <?php else: ?>
 	<!-- ***************** all OK ******************* -->
-	<div class="roundedcornr_box_2" style="width: 70%; margin-left: auto; margin-right: auto; text-align: left;">
-		<div class="roundedcornr_top_2"><div></div></div>
-			<div class="roundedcornr_content_2">
-	    <b><?php print $this->translate->_("Director output:"); ?></b>
+	<div class="roundcorner2" style="width: 75%;">
+	<b><?php print $this->translate->_("Director output:"); ?></b>
 	<?php
     if ( $this->command_output )
     {
@@ -51,15 +47,5 @@
     }
     ?>
 
-    <p>&nbsp;</p>
-    <div align="center">
-    <form action="<?php  echo $this->baseUrl;?>" method="post">
-    <?php echo $this->formSubmit('ok1', $this->translate->_('View Desktop') ); ?>
-    </form></div>
-
-			</div>
-		<div class="roundedcornr_bottom_2"><div></div></div>
 	</div>
 <?php endif; ?>
-
-<p>&nbsp;</p>

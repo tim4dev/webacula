@@ -1,40 +1,36 @@
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/roundcorner2.css" />
-
 <h1 align="center"><?php echo $this->escape($this->title . ' ' . $this->jobname); ?></h1>
 
-<?php
-    if ( $this->result_error )
-    {
+<?php if ( $this->result_error ): ?>
+    <div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+        <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+            <strong>
+    <?php
         switch ( $this->result_error )
         {
             case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
-                $msg = $translate->_('ERROR: There was a problem executing bconsole.');
+                $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
                 break;
             case 'NOFOUND_BCONSOLE': // bconsole не найден
-                $msg = $translate->_('ERROR: bconsole not found.');
+                $msg = $this->translate->_('ERROR: bconsole not found.');
                 break;
             default: $msg = '';
         }
-        echo '<font color="red"><div align="center"><p>' . $msg . '</p></div></font>';
-        echo '<font color="red">';
+        echo $msg;
         if ( $this->command_output )
         {
             foreach ($this->command_output as $line) {
-			 echo $line . '<br>';
-		  }
+             echo '<br>', $line, '<br>';
+          }
         }
-		echo '</font>';
-    } else {
-        // ***************** все OK *******************
-?>
-
-
-<div class="roundedcornr_box_2" style="width: 60%; margin-left: auto; margin-right: auto; text-align: left;">
-   <div class="roundedcornr_top_2"><div></div></div>
-      <div class="roundedcornr_content_2">
-
+    ?>
+            </strong></p>
+        </div>
+    </div>
+<?php else: ?>
+<!-- ***************** all OK ******************* -->
+<div class="roundcorner2" style="width: 75%;">
     <b><?php print $this->translate->_("Director output:"); ?></b>
-
 	<?php
     if ( $this->command_output )
     {
@@ -57,12 +53,5 @@
     <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs') ); ?>
     </form></div>
 
-      </div>
-   <div class="roundedcornr_bottom_2"><div></div></div>
 </div>
-
-<?php
-    }
-?>
-
-<p>&nbsp;</p>
+<?php endif; ?>

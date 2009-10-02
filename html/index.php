@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.2.1, build 2009.10.01');
+define('WEBACULA_VERSION', '3.2.1, build 2009.10.02');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);
@@ -97,7 +97,7 @@ Zend_Registry::set('db_webacula', $db_webacula);
 $frontController = Zend_Controller_Front::getInstance();
 $frontController->setControllerDirectory('../application/controllers');
 if ( $config->debug == 1 ) {
-	$frontController->throwExceptions(true);	
+	$frontController->throwExceptions(true);
 } else {
 	$frontController->throwExceptions(false);
 }

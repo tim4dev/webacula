@@ -2,18 +2,17 @@
 
 <script type="text/javascript">
 $j(document).ready(function() {
-	$j('#ok1').click(function() { 
-    	$j.blockUI({ 
+	$j('#ok1').click(function() {
+    	$j.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
-        	centerY: true 
-        }); 
-    }); 
+        	centerY: true
+        });
+    });
 });
 </script>
 
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/roundcorner2.css" />
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/json2.js"></script>
 
 <script type="text/javascript">
@@ -28,17 +27,17 @@ function markFile(elm, vfileid){
 	//console.log('markFile : ' + dataStr); // for debug firebug
 	if ( elm.checked == true  ) {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-file";
-  		$j.post(url, 
-  			{ data: dataStr }, 
-  			renderMark, 
+  		$j.post(url,
+  			{ data: dataStr },
+  			renderMark,
   			"text"
   		);
 		elm.checked = true;
 	}	else {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-file";
-		$j.post(url, 
-  			{ data: dataStr }, 
-  			renderUnMark, 
+		$j.post(url,
+  			{ data: dataStr },
+  			renderUnMark,
   			"text"
   		);
 		elm.checked = false;
@@ -68,7 +67,7 @@ function renderMark(response){
 	    // summary for restore
     	renderSummaryStat(data.total_size, data.total_files);
     }	else {
-    	var response = { responseText : 'mark file : ' }; 
+    	var response = { responseText : 'mark file : ' };
     	failResults(response);
     }
 }
@@ -82,7 +81,7 @@ function renderUnMark(response){
 	    // summary for restore
     	renderSummaryStat(data.total_size, data.total_files);
     }	else {
-    	var response = { responseText : 'unmark file : ' }; 
+    	var response = { responseText : 'unmark file : ' };
     	failResults(response);
     }
 }
@@ -103,17 +102,17 @@ function markDir(elm, vpath){
     //console.log(dataStr);
 	if ( elm.checked == true  ) {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-dir";
-  		$j.post(url, 
-  			{ data: dataStr }, 
-  			renderDirMark, 
+  		$j.post(url,
+  			{ data: dataStr },
+  			renderDirMark,
   			"text"
   		);
 		elm.checked = true;
 	}	else {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-dir";
-		$j.post(url, 
-  			{ data: dataStr }, 
-  			renderDirUnMark, 
+		$j.post(url,
+  			{ data: dataStr },
+  			renderDirUnMark,
   			"text"
   		);
 		elm.checked = false;
@@ -124,7 +123,7 @@ function markDir(elm, vpath){
 			'Error requesting page ' + settings.url);
 	});
 }
- 
+
 function renderDirMark(response){
 	var data = JSON.parse(response);
 	var renderDiv = document.getElementById('responseResults');
@@ -134,7 +133,7 @@ function renderDirMark(response){
 	    // summary for restore
     	renderSummaryStat(data.total_size, data.total_files);
 	} 	else {
-    	var response = { responseText : 'mark dir : ' }; 
+    	var response = { responseText : 'mark dir : ' };
     	failDirResults(response);
     }
 }
@@ -148,7 +147,7 @@ function renderDirUnMark(response){
 	    // summary for restore
     	renderSummaryStat(data.total_size, data.total_files);
 	}  	else {
-    	var response = { responseText : 'unmark dir : ' }; 
+    	var response = { responseText : 'unmark dir : ' };
     	failDirResults(response);
     }
 }
@@ -168,24 +167,24 @@ function failDirResults(response){
 <div align="center">
 <table border="0" cellpadding="0" cellspacing="0" align="center">
 <tr><td valign="top">
-<form method="POST" action="<?php 
+<form method="POST" action="<?php
 if ($this->type_restore == 'restore_recent') {
 	echo $this->baseUrl .'/restorejob/list-recent-restore';
 } else {
 	echo $this->baseUrl .'/restorejob/list-restore';
-} 
+}
 ?>">
 			<?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job') . '...', array('class' => 'prefer_btn')); ?>
 </form>
 </td>
 <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 <td valign="top">
-<form method="POST" action="<?php 
+<form method="POST" action="<?php
 if ($this->type_restore == 'restore_recent') {
 	echo $this->baseUrl .'/restorejob/cancel-restore-recent';
 } else {
 	echo $this->baseUrl .'/restorejob/cancel-restore';
-} 
+}
 ?>">
 			<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
 </form>
@@ -198,14 +197,10 @@ if ($this->type_restore == 'restore_recent') {
 
 
 <!-- Summary for restore -->
-<div class="roundedcornr_box_2" style="width: 150px; margin-left: 0; text-align: left; float: left;">
-   <div class="roundedcornr_top_2"><div></div></div>
-      <div class="roundedcornr_content_2">
+<div class="roundcorner2" style="width: 150px; margin-top: 0; margin-left: 0; margin-right: 10px; text-align: left; float: left; background: #FAF294;">
 <b><?php print $this->translate->_("For restore"); ?></b><br />
 <?php print $this->translate->_("Size:"); ?> <div id="totalSize"><?php echo $this->convBytes($this->total_size); ?></div>
 <?php print $this->translate->_("Count:"); ?> <div id="totalFiles"><?php echo $this->total_files; ?></div>
-      </div>
-   <div class="roundedcornr_bottom_2"><div></div></div>
 </div>
 <!-- END Summary for restore -->
 

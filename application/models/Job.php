@@ -42,8 +42,8 @@ class Job extends Zend_Db_Table
             $this->_name = 'job';
             break;
 		default: // including mysql, sqlite
-			$this->_name = 'Job'; 
-        }       
+			$this->_name = 'Job';
+        }
         parent::_setupTableName();
     }
 
@@ -67,7 +67,7 @@ class Job extends Zend_Db_Table
     	$select->from('Job', 'JobId');
     	$select->where("JobId = ?", $jobid);
     	$select->limit(1);
-    	$res = $this->db->fetchOne($select);	
+    	$res = $this->db->fetchOne($select);
 		if ( $res )	{
 			return TRUE;
 		} else {
@@ -95,7 +95,7 @@ class Job extends Zend_Db_Table
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
-                ));        	
+                ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
         	break;
             case 'PDO_PGSQL':
@@ -120,7 +120,7 @@ class Job extends Zend_Db_Table
 				$select->from(array('j' => 'Job'),
 					array('jobid'=>'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
@@ -142,7 +142,7 @@ class Job extends Zend_Db_Table
 			f 	Fatal error
 			D 	Verify Differences
 			A 	Canceled by the user
-			
+
 			F 	Waiting on the File daemon
 			S 	Waiting on the Storage daemon
 			m 	Waiting for a new Volume to be mounted
@@ -160,7 +160,7 @@ class Job extends Zend_Db_Table
         $select->order(array("StartTime", "JobId"));
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 		$stmt = $select->query();
-		return $stmt->fetchAll();		
+		return $stmt->fetchAll();
     }
 
 
@@ -215,7 +215,7 @@ class Job extends Zend_Db_Table
 			$select->from(array('j' => 'Job'),
 				array('jobid'=>'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 				'starttime' => "j.StartTime", 'endtime'   => "j.EndTime",
-				'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+				'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 				'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 				'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 				'DurationTime' => "(strftime('%H:%M:%S',strftime('%s','now') - strftime('%s',StartTime),'unixepoch'))"
@@ -448,8 +448,8 @@ EOF', $command_output, $return_var);
 					// неверно пропарсилось или в имени Job есть пробелы
 					// see also bug#2797123 https://sourceforge.net/tracker/index.php?func=detail&aid=2797123&group_id=201199&atid=976599
 					$aresult[$i]['parseok'] = false;
-				}			
-				list($level, $type, $pri, $sched_date, $sched_time, $name, $vol) = preg_split("/[\s]+/", $line, 7);												
+				}
+				list($level, $type, $pri, $sched_date, $sched_time, $name, $vol) = preg_split("/[\s]+/", $line, 7);
 			} elseif ( $start == 1 ) {
 			    // пропуск строк
 			    --$omit_count;
@@ -516,9 +516,9 @@ EOF', $command_output, $return_var);
 			//$res = $db->query('PRAGMA short_column_names=1'); // not affected
 			//$res = $db->query('PRAGMA full_column_names=0'); // not affected
 			$select->from(array('j' => 'Job'),
-				array('jobid' => 'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId', 
+				array('jobid' => 'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 				'starttime'=>'StartTime', 'endtime'=>'EndTime',
-				'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+				'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 				'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 				'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 				'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
@@ -548,7 +548,7 @@ EOF', $command_output, $return_var);
     function getListJobs()
     {
     	$director = new Director();
-    	// check access to bconsole           
+    	// check access to bconsole
 		if ( !$director->isFoundBconsole() )	{
 			$aresult[] = 'ERROR: bconsole not found.';
     		return $aresult;
@@ -559,7 +559,7 @@ run
 .
 @quit
 EOF"
-		); 
+		);
         // check return status of the executed command
         if ( $astatusdir['return_var'] != 0 )	{
 			$aresult[] = 'ERROR';
@@ -589,7 +589,9 @@ Select Job resource (1-3):
 
 			if ( ($start == 0) && (!(strpos($line, $strs) === FALSE)) )  {
 				$start = 1;
-				$aresult[]  = $line;
+				// parsing
+				list($number, $name_job) = preg_split("/:+/", $line, 2);
+				if ( !empty($name_job))	$aresult[]  = trim($name_job);
 				continue;
 			}
 
@@ -597,9 +599,12 @@ Select Job resource (1-3):
 			if ( ($start == 1) && ( !(strpos($line, $str_end) === FALSE) ) )
 				break;
 
-			if ( $start == 1 ) 
-				$aresult[]  = $line;
-			else															
+			if ( $start == 1 ) {
+			    // parsing
+                list($number, $name_job) = preg_split("/:+/", $line, 2);
+                if ( !empty($name_job)) $aresult[]  = trim($name_job);
+			}
+			else
 				continue;
 		}
     	return $aresult;
@@ -644,7 +649,7 @@ Select Job resource (1-3):
 					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
 					'FileSetId', 'PurgedFiles', 'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-				break;               
+				break;
             }
    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'c.Name'));
@@ -653,7 +658,7 @@ Select Job resource (1-3):
 			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
 
 
-			$select->where( "('" . $date_begin . ' ' . $time_begin . "' <= j.StartTime) AND (j.StartTime <= '" . 
+			$select->where( "('" . $date_begin . ' ' . $time_begin . "' <= j.StartTime) AND (j.StartTime <= '" .
 				$date_end . ' ' . $time_end . "')" );
 
 			if (  $fileset != "" )	{
@@ -702,7 +707,7 @@ Select Job resource (1-3):
    			} else {
    		    	$order = array('JobId');
    			}
-   		
+
 			$select->order($order);
 			return $select;
    		}
@@ -711,7 +716,7 @@ Select Job resource (1-3):
 
 	function getByJobId($jobid)
 	{
-		if ( isset($jobid) )	{  			
+		if ( isset($jobid) )	{
    			$select = new Zend_Db_Select($this->db);
    			$select->distinct();
 
@@ -742,11 +747,11 @@ Select Job resource (1-3):
 				$select->from(array('j' => 'Job'),
 					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
-				break;                
+				break;
             }
    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
@@ -796,7 +801,7 @@ Select Job resource (1-3):
 				$select->from(array('j' => 'Job'),
 					array('jobid'=>'JobId', 'job'=>'Job', 'JobName'=>'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime', 'schedtime'=>'SchedTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
@@ -817,11 +822,11 @@ Select Job resource (1-3):
 			return $stmt->fetchAll();
    		}
 	}
-	
-	
+
+
 	function getDetailByJobId($jobid)
 	{
-    	if ( isset($jobid) )	{   		
+    	if ( isset($jobid) )	{
     		$select = new Zend_Db_Select($this->db);
     		$select->distinct();
 
@@ -860,7 +865,7 @@ Select Job resource (1-3):
 				$select->from(array('j' => 'Job'),
 					array('jobid'=>'JobId', 'job'=>'Job', 'name'=>'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime', 'schedtime'=>'SchedTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
@@ -907,7 +912,7 @@ Select Job resource (1-3):
 			unset($select);
 			unset($stmt);
 			return $aresult;
-    	}		
+    	}
 	}
 
 
@@ -955,7 +960,7 @@ Select Job resource (1-3):
 					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'sortStartTime' => 'StartTime',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
@@ -1023,7 +1028,7 @@ Select Job resource (1-3):
 				$select->from(array('j' => 'Job'),
 					array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles', 
+					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
@@ -1047,16 +1052,16 @@ Select Job resource (1-3):
    		$stmt = $select->query();
 		return $stmt->fetchAll();
 	}
-	
-	
-	
+
+
+
 	function getJobBeforeDate($date_before, $client_id_from, $file_set)
 	{
 		/* Поиск JobId последнего Full бэкапа для заданных Client, Fileset, Date
-		 * cats/sql_cmds.c :: uar_last_full 
+		 * cats/sql_cmds.c :: uar_last_full
 		 */
 		$ajob_all = array();
-		
+
 		$sql =  "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
 					" Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
 				" FROM Client,Job,JobMedia,Media,FileSet WHERE Client.ClientId=$client_id_from" .
@@ -1075,9 +1080,9 @@ Select Job resource (1-3):
 		$ajob_full = $stmt->fetchAll();
 		unset($stmt);
 		//var_dump($ajob_full); exit; // for !!!debug!!!
-		
+
 		if ( !$ajob_full ) {
-			return; 
+			return;
 		}
 		$ajob_all[] = $ajob_full[0]['jobid'];
 		/* Поиск свежего Differential бэкапа, после Full бэкапа, если есть
@@ -1102,10 +1107,10 @@ Select Job resource (1-3):
 		$ajob_diff = $stmt->fetchAll();
 		unset($stmt);
 		//var_dump($ajob_diff); exit; // for !!!debug!!!
-		
+
 		if ( $ajob_diff ) {
 			$ajob_all[] .= $ajob_diff[0]['jobid'];
-		} 
+		}
 		/* Поиск свежих Incremental бэкапов, после Full или Differential бэкапов, если есть
 		 * cats/sql_cmds.c :: uar_inc
 		 */
@@ -1146,13 +1151,13 @@ Select Job resource (1-3):
 					" AND Job.FileSetId=FileSet.FileSetId" .
 					" AND FileSet.FileSet='".$file_set."'";
 				break;
-		}			
+		}
 		//echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
    		$stmt = $this->db->query($sql);
   		$ajob_inc = $stmt->fetchAll();
 		unset($stmt);
 		//var_dump($ajob_inc); exit; // for !!!debug!!!
-		
+
 		// формируем хэш из jobids
 		if ( empty($ajob_diff) ) {
    			$hash = '' . $ajob_full[0]['jobid'];
@@ -1163,10 +1168,10 @@ Select Job resource (1-3):
    			$hash = $hash . $line['jobid'];
    			$ajob_all[] = $line['jobid'];
 		}
-		return(array('ajob_full' => $ajob_full, 'ajob_diff' => $ajob_diff, 'ajob_inc' => $ajob_inc, 
-			'ajob_all' => $ajob_all, 'hash' => $hash));	
+		return(array('ajob_full' => $ajob_full, 'ajob_diff' => $ajob_diff, 'ajob_inc' => $ajob_inc,
+			'ajob_all' => $ajob_all, 'hash' => $hash));
 	}
-	
-	
+
+
 
 }

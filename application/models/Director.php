@@ -26,7 +26,7 @@
 class Director
 {
 
-	public $config;	
+	public $config;
 	public $sudo;
 	public $bconsole;
 	public $bconsolecmd;
@@ -45,7 +45,7 @@ class Director
         } else {
             $cmd = $this->bconsole . ' ' . $this->bconsolecmd;
         }
-        $this->bconsolecmd = $cmd;      
+        $this->bconsolecmd = $cmd;
 	}
 
 
@@ -53,15 +53,15 @@ class Director
 	{
 		$command_output = '';
 		$return_var = 0;
-		$result_error = '';		
+		$result_error = '';
         exec($this->bconsolecmd . ' ' . $cmd, $command_output, $return_var);
         // check return status of the executed command
         if ( $return_var != 0 )	{
 			$result_error = 'ERROR_BCONSOLE';
 		}
 		return(array('command_output' => $command_output, 'result_error' => $result_error, 'return_var' => $return_var));
-	}    	    
-	
+	}
+
 	public function isFoundBconsole()
 	{
 		if ( file_exists($this->bconsole))	{

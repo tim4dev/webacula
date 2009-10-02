@@ -1,44 +1,19 @@
-<?php $translate = Zend_Registry::get('translate'); ?>
-
 <script type="text/javascript">
 $j(document).ready(function() {
-	$j('#ok1').click(function() { 
-    	$j.blockUI({ 
+	$j('#ok1').click(function() {
+    	$j.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
-        	centerY: true 
-        }); 
-    }); 
+        	centerY: true
+        });
+    });
 });
 </script>
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/roundcorner1.css" />
-
-<div class="roundedcornr_box_1" style="width: 600px; margin-left: auto; margin-right: auto; text-align: left;">
-   <div class="roundedcornr_top_1"><div></div></div>
-      <div class="roundedcornr_content_1">
-
-<form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post">
-<fieldset>
-    <div style="text-align: center; padding: 10px;">
-        <?php print $translate->_("<b>Enter Job Name</b> (listed below) :"); ?>
-    <?php echo $this->formText('jobname', '', array('size' => 50)); ?>
-    </div>
-    <br>
-
-    <div style="text-align: center; margin: 5px;">
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>&nbsp;&nbsp;&nbsp;
-    <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
-    </div>
-</fieldset>
-</form>
-
-
-<br />
-<?php print $translate->_("Director output:"); ?>
+<div class="roundcorner1">
 
 <?php
     if ( $this->result_error )
@@ -46,10 +21,10 @@ $j(document).ready(function() {
         switch ( $this->result_error )
         {
             case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
-                $msg = $translate->_('ERROR: There was a problem executing bconsole.');
+                $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
                 break;
             case 'NOFOUND_BCONSOLE': // bconsole не найден
-                $msg = $translate->_('ERROR: bconsole not found.');
+                $msg = $this->translate->_('ERROR: bconsole not found.');
                 break;
             default: $msg = '';
         }
@@ -58,31 +33,31 @@ $j(document).ready(function() {
         if ( $this->command_output )
         {
             foreach ($this->command_output as $line) {
-			 echo $line . '<br>';
-		  }
+             echo $line . '<br>';
+          }
         }
-		echo '</font>';
+        echo '</font>';
     }
     // ***************** все OK *******************
+
     if ( $this->result )
     {
-        echo '<pre>';
         foreach ($this->result as $line) {
-            if ( strpos($line, 'ERR') )   {
-                echo '<div style="color: white; background-color: red;">' . $line . '</div><br>';
-            } else {
-                echo $line . '<br>';
-            }
+            $ajobs[$line] = $line;
         }
-		echo '</pre>';
     }
 
 ?>
 
-    <p>&nbsp;</p>
+<form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post">
+    <div style="text-align: center; padding: 10px;">
+        <?php print $this->translate->_("<b>Enter Job Name</b> :"); ?>
+        <?php echo $this->formSelect('jobname', null, null, $ajobs) ?>
+    </div>
+    <br>
+    <div style="text-align: center; margin: 5px;">
+    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>&nbsp;&nbsp;&nbsp;
+    </div>
+</form>
 
-      </div>
-   <div class="roundedcornr_bottom_1"><div></div></div>
 </div>
-
-<br>
