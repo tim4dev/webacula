@@ -62,7 +62,6 @@ class RestorejobController extends Zend_Controller_Action
 	const ROW_LIMIT_FILES = 500;
 	// for names of tmp tables (для формирования имен временных таблиц)
 	const _PREFIX = '_'; // только в нижнем регистре
-	const _PREFIX_RECENT = '_recent_'; // для восстановления типа Restore recent backup. только в нижнем регистре
 
 	public $db_adapter;
 

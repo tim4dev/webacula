@@ -31,8 +31,7 @@ class WbTmpTable extends Zend_Db_Table
 	const ROW_LIMIT_FILES = 500;
 	// for names of tmp tables (для формирования имен временных таблиц)
 	const _PREFIX = '_'; // только в нижнем регистре
-	const _PREFIX_RECENT = '_recent_'; // для восстановления типа Restore recent backup. только в нижнем регистре
-	
+
 	public $db_adapter;
 
 	protected $jobidhash;
@@ -46,14 +45,14 @@ class WbTmpTable extends Zend_Db_Table
 	protected $tmp_filename;
 	protected $tmp_path;
 	protected $num_tmp_tables = 3; // count of tmp tables (кол-во временных таблиц)
-	
+
 	// для хранения данных для Restore
-	protected $restoreNamespace; 
+	protected $restoreNamespace;
 	const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
-	
+
 	protected $logger; // for debug
-	
-	
+
+
 
 
 	/**
@@ -62,33 +61,33 @@ class WbTmpTable extends Zend_Db_Table
 	 */
 	public function __construct($prefix, $jobidhash)
     {
-    	$this->db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');   	    	
+    	$this->db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
     	$this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
     	$this->jobidhash = $jobidhash;
     	// формируем имена временных таблиц
    		$this->tmp_file     = $prefix . 'file_'     . $this->jobidhash;
    		$this->tmp_filename = $prefix . 'filename_' . $this->jobidhash;
    		$this->tmp_path     = $prefix . 'path_'     . $this->jobidhash;
-    	
+
 		$config['db']      = Zend_Registry::get('db_webacula'); // database
 		$config['name']    = $this->_name; 		// name table
 		$config['primary'] = $this->_primary;   // primary key
 		$config['sequence']= true;
-		
+
         // получаем ttl_restore_session
-        $config_ini = Zend_Registry::get('config');       
+        $config_ini = Zend_Registry::get('config');
         if ( empty($config_ini->ttl_restore_session) || intval($config_ini->ttl_restore_session) < 300) {
         	$this->ttl_restore_session = 3900;
         } else {
         	$this->ttl_restore_session = intval($config_ini->ttl_restore_session);
         }
-        
+
 		parent::__construct($config);
-		
+
 		// setup no default adapter
 		$this->_db = Zend_Db_Table::getAdapter('db_webacula');
 		switch ($this->db_adapter) {
-            case 'PDO_MYSQL':    	
+            case 'PDO_MYSQL':
 				$this->_db->query('SET NAMES utf8');
 				$this->_db->query('SET CHARACTER SET utf8');
 		        break;
@@ -97,13 +96,13 @@ class WbTmpTable extends Zend_Db_Table
                 break;
     	}
     	/* сессия на восстановление существует ? */
-    	if ( !isset($this->restoreNamespace->typeRestore ) ) {    				
+    	if ( !isset($this->restoreNamespace->typeRestore ) ) {
     		// если хэш не существует, то сессия протухла или ошибка в программе
-    		// удаляем старые tmp-таблицы   		    		   		
+    		// удаляем старые tmp-таблицы
     		$this->dropOldTmpTables();
     		// бросаем исключение
     		throw new Zend_Exception("Session of Restore backup is expired. See also <b>ttl_restore_session</b> in your config.ini.".
-    								" This is not a bug in the program."); 
+    								" This is not a bug in the program.");
     	}
     	// for debug !!!
         /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
@@ -263,7 +262,7 @@ class WbTmpTable extends Zend_Db_Table
     function getFileName($fileid)
     {
     	$stmt = $this->_db->query('SELECT f.FileId, n.Name FROM ' . $this->_db->quoteIdentifier($this->tmp_file) . ' AS f, ' .
-  			$this->_db->quoteIdentifier($this->tmp_filename) . 
+  			$this->_db->quoteIdentifier($this->tmp_filename) .
 			' AS n WHERE (f.FilenameId = n.FilenameId) AND (f.FileId = ' . $fileid . ') LIMIT 1');
 		$res  = $stmt->fetchAll();
 		return $res[0]['name'];
@@ -297,7 +296,7 @@ class WbTmpTable extends Zend_Db_Table
         		// INSERT IGNORE - workaround of duplicate key
         		$this->_db->query("INSERT DELAYED INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
            			" (FileId, PathId, FilenameId, LStat, MD5, isMarked, FileSize) " .
-					" VALUES ($FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ", " . 
+					" VALUES ($FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ", " .
 					$this->_db->quote($MD5) . ", $isMarked, $FileSize)");
 			break;
 			case 'PDO_PGSQL':
@@ -306,8 +305,8 @@ class WbTmpTable extends Zend_Db_Table
 				 * see also file:///usr/share/doc/postgresql-8.3.7/html/rules-update.html
 				 */
 				$sql = 'SELECT my_clone_file(' . $this->_db->quote($this->tmp_file) . ' , ' .
-					" $FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ' , ' . 
-					$this->_db->quote($MD5) . ", $isMarked, $FileSize)";					
+					" $FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ' , ' .
+					$this->_db->quote($MD5) . ", $isMarked, $FileSize)";
             	$this->_db->query($sql);
             	break;
             case 'PDO_SQLITE':
@@ -315,7 +314,7 @@ class WbTmpTable extends Zend_Db_Table
         		// INSERT ON CONFLICT IGNORE - workaround of duplicate key
         		$this->_db->query("INSERT OR IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
            			" (FileId, PathId, FilenameId, LStat, MD5, isMarked, FileSize) " .
-					" VALUES ($FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ", " . 
+					" VALUES ($FileId, $PathId, $FilenameId, " . $this->_db->quote($LStat) . ", " .
 					$this->_db->quote($MD5) . ", $isMarked, $FileSize)");
 				break;
         	}
@@ -323,7 +322,7 @@ class WbTmpTable extends Zend_Db_Table
         } catch (Zend_Exception $e) {
     		echo "<br><br><br>WbTmpTable.php -> insertRowFile()<br>Caught exception: " . get_class($e) . "<br>"; echo "Message: " . $e->getMessage() . "<br>";
     		return FALSE;
-		}	
+		}
     }
 
     /**
@@ -334,7 +333,7 @@ class WbTmpTable extends Zend_Db_Table
     	try {
     		switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
-        		// INSERT IGNORE - workaround of duplicate key 
+        		// INSERT IGNORE - workaround of duplicate key
         		$this->_db->query("INSERT IGNORE INTO " . $this->_db->quoteIdentifier($this->tmp_filename) .
             		" (FilenameId, Name) VALUES ($FilenameId, " . $this->_db->quote($Name) . ")");
             	break;
@@ -404,13 +403,13 @@ class WbTmpTable extends Zend_Db_Table
     function isTmpTableExists($name)
     {
     	try {
-   			$sql = "SELECT 1 FROM $name WHERE TRUE";  		
-			$this->_db->query($sql);						
- 			return TRUE; // таблица существует 			
+   			$sql = "SELECT 1 FROM $name WHERE TRUE";
+			$this->_db->query($sql);
+ 			return TRUE; // таблица существует
 		} catch (Zend_Exception $e) {
     		//echo "Caught exception: " . get_class($e) . "<br>"; echo "Message: " . $e->getMessage() . "\n"; // !!! debug !!!
     		return FALSE; // таблицы не существует
-		}		
+		}
     }
 
 
@@ -420,11 +419,11 @@ class WbTmpTable extends Zend_Db_Table
      *
      */
     function isAllTmpTablesExists()
-    {   	
+    {
     	if ($this->isTmpTableExists($this->tmp_file) &&
     		$this->isTmpTableExists($this->tmp_filename) &&
     		$this->isTmpTableExists($this->tmp_path))
-    	{   		
+    	{
     	    if ( !$this->isCloneOk() )   {
                 // есть какие-то таблицы, но до конца не скопированные, поэтому их нужно удалить
                 $this->deleteAllTmpTables();
@@ -456,11 +455,11 @@ class WbTmpTable extends Zend_Db_Table
      * Проверка поля wbTmpTable.tmpIsCloneOk
      *
      */
-    function isCloneOk()    {   	
+    function isCloneOk()    {
         $select = new Zend_Db_Select($this->_db);
     	$select->from($this->_name, array('isCloneOk' => new Zend_Db_Expr(" COUNT(tmpIsCloneOk)") ));
 	    $select->where('tmpName IN (' . $this->_db->quote($this->tmp_file) . ' , ' . $this->_db->quote($this->tmp_filename) . ' , ' .
-	    	$this->_db->quote($this->tmp_path) . ')' );   		        
+	    	$this->_db->quote($this->tmp_path) . ')' );
 	    $select->where("tmpIsCloneOk > 0");
 		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $isCloneOk = $this->_db->fetchOne($select);
@@ -509,7 +508,7 @@ class WbTmpTable extends Zend_Db_Table
     	   		$this->_db->quote($this->jobidhash) . ', ' . " datetime('now') )" );
 		    	$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
     			   " (tmpName, tmpJobIdHash, tmpCreate) VALUES (" . $this->_db->quote($this->tmp_path) . ', ' .
-    	   		$this->_db->quote( $this->jobidhash) . ', ' . " datetime('now') )" );    	   
+    	   		$this->_db->quote( $this->jobidhash) . ', ' . " datetime('now') )" );
 			break;
 			default: // mysql, postgresql
 				$this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
@@ -530,7 +529,7 @@ class WbTmpTable extends Zend_Db_Table
     	try {
     		/*
     		 * File
-    		 */ 
+    		 */
     		// добавлены дополнительные поля : isMarked, FileSize
 			switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
@@ -563,7 +562,7 @@ class WbTmpTable extends Zend_Db_Table
 
    					PRIMARY KEY(FileId)
 				)");
-				$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " . 
+				$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " .
 					$this->_db->quoteIdentifier($this->tmp_file) .	"  (PathId, FilenameId)");
             	break;
             case 'PDO_SQLITE':
@@ -580,14 +579,14 @@ class WbTmpTable extends Zend_Db_Table
 
    					PRIMARY KEY(FileId)
 				)");
-				$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " . 
+				$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_file . '_pfidx1') . " ON " .
 					$this->_db->quoteIdentifier($this->tmp_file) .	"  (PathId, FilenameId)");
             	break;
         	}
 
     		/*
     		 * Filename
-    		 */ 
+    		 */
     		switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
     			$res_filename = $this->_db->query("
@@ -605,7 +604,7 @@ class WbTmpTable extends Zend_Db_Table
   					Name TEXT NOT NULL,
   					PRIMARY KEY(FilenameId)
     			)");
-    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " . 
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " .
 					$this->_db->quoteIdentifier($this->tmp_filename) . "  (Name)");
         		break;
         	case 'PDO_SQLITE':
@@ -615,14 +614,14 @@ class WbTmpTable extends Zend_Db_Table
   					Name TEXT DEFAULT '',
   					PRIMARY KEY(FilenameId)
     			)");
-    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " . 
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_filename . '_nameidx1') . " ON " .
 					$this->_db->quoteIdentifier($this->tmp_filename) . "  (Name)");
     			break;
         	}
 
     		/*
     		 * Path
-    		 */ 
+    		 */
     		// добавлены дополнительные поля : isMarked
     		switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
@@ -647,7 +646,7 @@ class WbTmpTable extends Zend_Db_Table
 
    					PRIMARY KEY(PathId)
     			)");
-    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " . 
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " .
 					$this->_db->quoteIdentifier($this->tmp_path) . "  (Path)");
         		break;
         	case 'PDO_SQLITE':
@@ -660,13 +659,13 @@ class WbTmpTable extends Zend_Db_Table
 
    					PRIMARY KEY(PathId)
     			)");
-    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " . 
+    			$res = $this->_db->query("CREATE INDEX " . $this->_db->quoteIdentifier($this->tmp_path . '_pathidx1') . " ON " .
 					$this->_db->quoteIdentifier($this->tmp_path) . "  (Path)");
     			break;
         	}
 
     		return TRUE; // all ok
-    		
+
     	} catch (Zend_Exception $e) {
     		echo "<br><br><br>WbTmpTable.php -> createTmpTables()<br>Caught exception: " . get_class($e) . "<br>"; echo "Message: " . $e->getMessage() . "<br>";
     		// удаляем таблицы
@@ -695,13 +694,13 @@ class WbTmpTable extends Zend_Db_Table
      *
      */
     function dropTmpTable($name)
-    {   	    	   	
+    {
     	// сначала удаляем саму временную таблицу
-    	$this->_db->query("DROP TABLE IF EXISTS " . $this->_db->quoteIdentifier($name));   	     	
+    	$this->_db->query("DROP TABLE IF EXISTS " . $this->_db->quoteIdentifier($name));
     	// удаляем записи о временной таблице
 		$where = $this->getAdapter()->quoteInto('tmpName = ?', $name);
 		$this->delete($where);
-		
+
     }
 
     /**
@@ -748,7 +747,7 @@ class WbTmpTable extends Zend_Db_Table
     	$select = new Zend_Db_Select($this->_db);
     	$select = $this->_db->select();
     	$select->from($this->_name, array('total_rows' => new Zend_Db_Expr(" COUNT(tmpId)") ));
-    	
+
     	switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
 				$select->where("(NOW() - tmpCreate) > ?", $this->ttl_restore_session);
@@ -759,7 +758,7 @@ class WbTmpTable extends Zend_Db_Table
 			case 'PDO_SQLITE':
 				$select->where("(strftime('%H:%M:%S',strftime('%s','now') - strftime('%s',tmpCreate),'unixepoch')) > ?", $this->ttl_restore_session);
 				break;
-        }   	
+        }
     	$select->where("tmpJobIdHash = ?", $this->jobidhash);
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
@@ -779,7 +778,7 @@ class WbTmpTable extends Zend_Db_Table
      *
      */
     public function getTotalSummaryMark()
-    {    	
+    {
         // подсчет кол-ва файлов и каталогов
         $select = new Zend_Db_Select($this->_db);
     	$select->from($this->tmp_file, array('total_files' => new Zend_Db_Expr(" COUNT(FileId)") ));
@@ -813,7 +812,7 @@ class WbTmpTable extends Zend_Db_Table
     public function getFilenameToExportMarkFiles() {
     	return "webacula_restore_" . $this->jobidhash . ".tmp";
     }
-    
+
     /**
      * Экспорт помеченных записей в текстовый файл (для восстановления)
      */
@@ -856,7 +855,7 @@ class WbTmpTable extends Zend_Db_Table
 	           		(f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1)
             		ORDER BY Path ASC";
 				break;
-        }        
+        }
         $stmt = $this->_db->query($sql);
 
 		$i = 0;
@@ -884,11 +883,11 @@ class WbTmpTable extends Zend_Db_Table
 	function cloneBaculaToTmp($jobid)
 	{
 		$bacula = Zend_Registry::get('db_bacula');
-		// create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path	
+		// create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path
 		if ( !$this->createTmpTables() ) {
 			// view exception from WbTmpTable.php->createTmpTables()
 			return FALSE;
-		}	
+		}
 
 		$decode = new MyClass_HomebrewBase64;
 
@@ -998,8 +997,8 @@ class WbTmpTable extends Zend_Db_Table
 		$bacula = Zend_Registry::get('db_bacula');
 		// create temporary tables: File, Filename, Path
 		// создаем временные таблицы File, Filename, Path
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);	
-		$this->createTmpTables();	
+		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+		$this->createTmpTables();
 
 		$decode = new MyClass_HomebrewBase64;
 
@@ -1080,7 +1079,7 @@ class WbTmpTable extends Zend_Db_Table
 					FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . " AS f, " .
                		$this->_db->quoteIdentifier($this->getTableNamePath()) . ' AS p, ' .
 			   		$this->_db->quoteIdentifier($this->getTableNameFilename()) . ' AS n
-			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
+			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId)
   			   		ORDER BY Path ASC, Name ASC
   			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
   			   	break;
@@ -1089,7 +1088,7 @@ class WbTmpTable extends Zend_Db_Table
 					FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . " AS f, " .
                		$this->_db->quoteIdentifier($this->getTableNamePath()) . ' AS p, ' .
 			   		$this->_db->quoteIdentifier($this->getTableNameFilename()) . ' AS n
-			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId) 
+			   		WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId)
   			   		ORDER BY Path ASC, Name ASC
   			   		LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
         	break;
@@ -1107,23 +1106,23 @@ class WbTmpTable extends Zend_Db_Table
     	$countf = $stmt->fetchAll();
     	return $countf[0]['num'];
 	}
-	
+
 	public function getCountFileName() {
-		// подсчет кол-ва 
+		// подсчет кол-ва
     	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_filename);
     	$stmt   = $this->_db->query($query);
     	$countf = $stmt->fetchAll();
     	return $countf[0]['num'];
 	}
-	
+
 	public function getCountPath() {
-		// подсчет кол-ва 
+		// подсчет кол-ва
     	$query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_path);
     	$stmt   = $this->_db->query($query);
     	$countf = $stmt->fetchAll();
     	return $countf[0]['num'];
 	}
-	
+
 	function my_debug($msg)
 	{
 		echo "$msg<br>";
@@ -1141,5 +1140,5 @@ class WbTmpTable extends Zend_Db_Table
 	  	echo '<br><h3>--- end debug_backtrace</h3>';
 	  	exit;
 	}
-	
+
 }
