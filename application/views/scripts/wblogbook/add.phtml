@@ -1,5 +1,11 @@
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
+<script type="text/javascript">
+  // round corners
+  $j(function(){
+      $j('div.roundcorner-wlb').corner();
+  });
+</script>
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
@@ -9,6 +15,8 @@ foreach($this->typs as $t) :
 	$atyps[$t->typeid] = $this->translate->_( $t->typedesc );
 endforeach;
 ?>
+
+<div class="roundcorner-wlb">
 
 <div id="logbook-form">
 
@@ -23,11 +31,11 @@ endforeach;
 			foreach ($this->amessages as $msg) {
 				echo '<li>' . $msg . '</li>';
 			}
-			echo '</ol>'; 
-		?>		
+			echo '</ol>';
+		?>
 		</strong></p>
 	</div>
-</div>	
+</div>
 <?php endif; ?>
 
 <form id="logbook" name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/add';?>" method="post">
@@ -44,7 +52,6 @@ endforeach;
 <label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>&nbsp;
 <?php echo $this->formSelect('logTypeId', '10', null, $atyps); ?>
 <br><br>
-
 
 
 <!-- textarea -->
@@ -75,7 +82,7 @@ BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
 </noscript>
 <br>
 
-<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "100", 'rows' => "17")); ?>
+<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "80", 'rows' => "10")); ?>
 </fieldset>
 <!-- END textarea -->
 
@@ -86,3 +93,4 @@ BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
 </form>
 
 </div> <!-- logbook-form -->
+</div>

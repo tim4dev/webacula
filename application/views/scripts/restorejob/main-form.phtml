@@ -21,8 +21,17 @@ $j(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+  // select
+  $j(function(){
+      $j('select').each(function() {
+          var t = $j(this).selectmenu({maxHeight: 200});
+          eval(t);
+      });
+  });
+</script>
+
 <?php
-    $translate = Zend_Registry::get('translate');
     $config = Zend_Registry::get('config');
     if ( empty($this->unit_test) ) {
       if ( isset($config->language) ) {
@@ -105,7 +114,7 @@ $j(function() {
 <div align="center">
 <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
     <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
-</div></p>
+</div>
         <p>
         <form action="<?php  echo $this->baseUrl.'/restorejob/restore-choice';?>" method="post">
 <?php echo $this->formHidden('beginr', '1', null); ?>
@@ -136,7 +145,6 @@ $j(function() {
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
 </div>
 </form>
-        </p>
     </div>
 <!-- END    Restore files for JobId -->
 
@@ -151,18 +159,18 @@ $j(function() {
 <tr><td>
 <?php echo $this->formHidden('most_recent_form', '1', null); ?>
 <?php echo $this->formHidden('beginrecent', '1', null); ?>
-    <label for="client_name_from">
+    <label for="client_name_from" class="ui-select">
     <b><?php print $this->translate->_("Client"); ?></b>
     </label>
 </td><td>
-    <?php echo $this->formSelect('client_name_from', null, null, $aclients) ?>
+    <?php echo $this->formSelect('client_name_from', null, array('class' => 'ui-select'), $aclients) ?>
 </td></tr>
 <tr><td>
-    <label for="fileset">
-    <b><?php print $translate->_("Fileset"); ?></b>
+    <label for="fileset" class="ui-select">
+    <b><?php print $this->translate->_("Fileset"); ?></b>
     </label>
 </td><td>
-    <?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
+    <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select'), $afilesets) ?>
 </td></tr>
 <tr><td colspan="2">
 <p>
@@ -172,7 +180,7 @@ $j(function() {
 </p>
 </td></tr>
 <tr><td>
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ); ?>
+    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
     &nbsp;&nbsp;
 </td><td>
     &nbsp;&nbsp;
@@ -180,7 +188,6 @@ $j(function() {
 </td></tr>
 </table>
 </form>
-        </p>
     </div>
 <!-- END    Restore the most recent backup for a client -->
 
@@ -195,18 +202,18 @@ $j(function() {
 <tr><td>
 <?php echo $this->formHidden('before_time_form', '1', null); ?>
 <?php echo $this->formHidden('beginrecent', '1', null); ?>
-    <label for="client_name_from">
+    <label for="client_name_from" class="ui-select">
     	<b><?php print $this->translate->_("Client"); ?></b>
     </label>
 </td><td>
-    <?php echo $this->formSelect('client_name_from', null, null, $aclients) ?>
+    <?php echo $this->formSelect('client_name_from', null, array('class' => 'ui-select'), $aclients) ?>
 </td></tr>
 <tr><td>
-    <label for="fileset">
-    	<b><?php print $translate->_("Fileset"); ?></b>
+    <label for="fileset" class="ui-select">
+    	<b><?php print $this->translate->_("Fileset"); ?></b>
     </label>
 </td><td>
-    <?php echo $this->formSelect('fileset', null, null, $afilesets) ?>
+    <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select'), $afilesets) ?>
 </td></tr>
 <tr><td>
     <b><?php print $this->translate->_("Date before"); ?></b>
@@ -230,7 +237,7 @@ $j(function() {
 	</p>
 </td></tr>
 <tr><td>
-        <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn')); ?>
+        <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
     &nbsp;&nbsp;
 </td><td>
     &nbsp;&nbsp;

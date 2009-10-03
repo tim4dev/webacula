@@ -2,14 +2,14 @@
 
 <script type="text/javascript">
 $j(document).ready(function() {
-	$j('#ok').click(function() { 
-    	$j.blockUI({ 
+	$j('#ok').click(function() {
+    	$j.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
-        	centerY: true 
-        }); 
-    }); 
+        	centerY: true
+        });
+    });
 });
 </script>
 
@@ -20,17 +20,16 @@ $j(document).ready(function() {
 <tr><td>
 <form action="<?php  echo $this->baseUrl.'/restorejob/select-recent-files';?>" method="post">
 	<input type="hidden" name="beginrecent"  id="beginrecent"  value="<?php echo $this->beginrecent; ?>">
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn')); ?>
+    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
 </form>
 </td>
 <td> </td>
-<td>   
+<td>
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore-recent'; ?>">
 	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
 </form>
 </td></tr></table>
 </div>
-<br>
 
 <?php if ($this->ajob_full): ?>
 

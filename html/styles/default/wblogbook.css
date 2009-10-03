@@ -87,3 +87,15 @@ label {
    padding-bottom: 7px;
    font-weight: bold;
 }
+
+div.roundcorner-wlb {
+    width: 700px;
+    padding: 20px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #000;
+    background: #BFFFE7;
+}

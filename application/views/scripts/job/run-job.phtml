@@ -10,10 +10,20 @@ $j(document).ready(function() {
     });
 });
 </script>
+<script type="text/javascript">
+  //select
+  $j(function(){
+      //$j('select#jobname').selectmenu({maxHeight: 200});
+      $j('select').each(function() {
+          var t = $j(this).selectmenu({maxHeight: 200});
+	          eval(t);
+	  });
+  });
+</script>
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
-<div class="roundcorner1">
+<div class="roundcorner1" style="width: 360px; text-align: left;">
 
 <?php
     if ( $this->result_error )
@@ -50,13 +60,10 @@ $j(document).ready(function() {
 ?>
 
 <form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post">
-    <div style="text-align: center; padding: 10px;">
-        <b><?php print $this->translate->_("Job Name"); ?></b> :
-        <?php echo $this->formSelect('jobname', null, null, $ajobs) ?>
-    </div>
-    <br>
-    <div style="text-align: center; margin: 5px;">
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>&nbsp;&nbsp;&nbsp;
+    <label for="jobname" class="ui-select"><b><?php print $this->translate->_("Job Name"); ?></b> :</label>
+    <?php echo $this->formSelect('jobname', null, array('class' => 'ui-select'), $ajobs) ?>
+    <div style="text-align: center; margin-left: auto; margin-right: auto;">
+       <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>&nbsp;&nbsp;&nbsp;
     </div>
 </form>
 

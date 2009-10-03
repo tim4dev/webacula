@@ -140,6 +140,8 @@ td.mono1 {
    color:#000; 
    border:outset 2px #FFbf4e; 
    font-weight : bold;
+   margin-top: 20px;
+   margin-bottom: 15px;
 }
 
 /* HTML and CSS Table Border Style Wizard: http://www.somacon.com/p141.php
@@ -477,3 +479,8 @@ div.roundcorner2 {
     color: #000;
     background: #FFFFB4;
 }
+
+/*fieldset.ui-select { border: 0;  margin: 3px 3px 3px 3px; font-family: Trebuchet, Verdana, Arial;}*/
+select.ui-select, .ui-select-menu { float: left; margin-bottom: 40px; margin-top: 10px; font-family: Trebuchet, Verdana, Arial;}
+select.ui-select { width: 100%; font-family: Trebuchet, Verdana, Arial;}
+

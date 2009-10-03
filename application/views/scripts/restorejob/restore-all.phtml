@@ -13,6 +13,16 @@ $j(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+  // select
+  $j(function(){
+      $j('select').each(function() {
+          var t = $j(this).selectmenu({maxHeight: 200});
+          eval(t);
+      });
+  });
+</script>
+
 <h1 align="center"><?php echo $this->escape($this->title), ' '; ?>
 <a href="<?php echo $this->baseUrl; ?>/job/detail/jobid/<?php echo $this->escape($this->jobid); ?>"><?php echo $this->escape($this->jobid); ?><a/></h1>
 
@@ -49,32 +59,41 @@ $j(document).ready(function() {
 <div class="roundcorner1" style="width: 60%;">
 
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/restore-all'; ?>">
-<table border="0" cellpadding="5" cellspacing="0" align="center">
+<table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
 <tr>
-    <td align="right" class="search1"><b><?php print $this->translate->_("Client"); ?></b>: </td>
+    <td align="right" class="search1">
+        <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b>:</label>
+    </td>
    	<td class="search1" align="left">
-       	<?php echo $this->formSelect('client', $this->client_name, null, $aclients) ?>
+       	<?php echo $this->formSelect('client', $this->client_name, array('class' => 'ui-select'), $aclients) ?>
     </td>
 
-    <td align="right" class="search1"><?php print $this->translate->_("Pool"); ?>: </td>
-   	<td class="search1">
-       	<?php echo $this->formSelect('pool', null, null, $apools) ?>
+    <td align="right" class="search1">
+        <label for="pool" class="ui-select"><?php print $this->translate->_("Pool"); ?>:</label>
+    </td>
+   	<td align="left" class="search1">
+       	<?php echo $this->formSelect('pool', null, array('class' => 'ui-select', 'style' => 'width: 200px;'), $apools) ?>
     </td>
 </tr>
 <tr>
     <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?>: </td>
-    <td class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
+    <td align="left" class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
 
-    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Fileset"); ?>: </td>
-    <td class="search1" valign="top"><?php echo $this->formSelect('fileset', null, null, $afilesets) ?></td>
+    <td align="right" class="search1">
+        <label for="fileset" class="ui-select"><?php print $this->translate->_("Fileset"); ?>:</label>
+    </td>
+    <td align="left" class="search1">
+        <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 200px;'), $afilesets) ?>
+    </td>
 </tr>
 <tr>
     <td align="right" class="search1" colspan="2">&nbsp;</td>
 
-    <td align="right" class="search1" valign="top">&nbsp;&nbsp;&nbsp;<?php print $this->translate->_("Storage"); ?>: </td>
-   	<td class="search1" valign="top">
-       	<?php echo $this->formSelect('storage', null, null, $astorages) ?>
-       	<br>&nbsp;
+    <td align="right" class="search1">
+        <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?>:</label>
+     </td>
+   	<td align="left" class="search1">
+       	<?php echo $this->formSelect('storage', null, array('class' => 'ui-select', 'style' => 'width: 200px;'), $astorages) ?>
     </td>
 </tr>
 <tr>

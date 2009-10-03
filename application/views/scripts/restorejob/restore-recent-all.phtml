@@ -13,6 +13,16 @@ $j(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+  // select
+  $j(function(){
+      $j('select').each(function() {
+          var t = $j(this).selectmenu({maxHeight: 200});
+          eval(t);
+      });
+  });
+</script>
+
 <h1 align="center"><?php echo $this->escape($this->title), ' ', $this->client_from_restore, ', ', $this->fileset_restore; ?></h1>
 
 <?php
@@ -22,14 +32,17 @@ $j(document).ready(function() {
     }
 ?>
 
-<div class="roundcorner1" style="width: 580px;">
+<div class="roundcorner1" style="width: 540px;">
 
 <div style="text-align: left; padding: 10px; border-width: 1px;">
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/restore-recent-all'; ?>">
    <p><b><?php print $this->translate->_("Where to Restore"); ?> :</b></p>
-   <?php print $this->translate->_("Client"); ?>&nbsp;:&nbsp;
-   <?php echo $this->formSelect('client_to_restore', $this->client_name, null, $aclients) ?>&nbsp;&nbsp;<br>
-   <?php print $this->translate->_("Path"); ?> : <?php echo $this->formText('path_to_restore', '', array('size' => 50)) ?>
+   <label for="client" class="ui-select"><?php print $this->translate->_("Client"); ?></label>
+   <?php echo $this->formSelect('client_to_restore', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 50%;'), $aclients) ?>&nbsp;&nbsp;<br>
+   <label for="path">
+        <?php print $this->translate->_("Path"); ?> :
+    </label>
+    <?php echo $this->formText('path_to_restore', '', array('size' => 50)) ?>
 
 	<input type="hidden" name="client_from_restore" id="client_from_restore" value="<?php echo $this->client_from_restore; ?>">
 	<input type="hidden" name="fileset_restore"     id="fileset_restore"     value="<?php echo $this->fileset_restore; ?>">
@@ -37,10 +50,10 @@ $j(document).ready(function() {
     <input type="hidden" name="choice_form" id="choice_form"  value="1">
 
 	<span onclick="progressbar()">&nbsp;</span>
-<table border="0" align="center" cellpadding="10px" cellspacing="10px">
+<table border="0" align="center" style="margin-top: 20px;" cellpadding="15">
 	<tr>
 <td>
-    <?php echo $this->formSubmit('ok', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn') );	?>
+    <?php echo $this->formSubmit('ok', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') );	?>
 </form>
 </td><td>
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore-recent'; ?>">

@@ -1,5 +1,11 @@
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
+<script type="text/javascript">
+  // round corners
+  $j(function(){
+      $j('div.roundcorner-wlb').corner();
+  });
+</script>
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
@@ -9,6 +15,8 @@ foreach($this->typs as $t) :
 	$atyps[$t->typeid] = $this->translate->_($t->typedesc);
 endforeach;
 ?>
+
+<div class="roundcorner-wlb">
 
 <div id="logbook-form">
 
@@ -23,16 +31,16 @@ endforeach;
 			foreach ($this->amessages as $msg) {
 				echo '<li>' . $msg . '</li>';
 			}
-			echo '</ol>'; 
-		?>		
+			echo '</ol>';
+		?>
 		</strong></p>
 	</div>
-</div>	
+</div>
 <?php endif; ?>
 
 <?php if ($this->wblogbook->logIsDel == 1): ?>
 <div class="ui-widget" style="width: 100%; margin-left: auto; margin-right: auto; margin-bottom: 10px;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<b><?php echo $this->translate->_("This record has been deleted.");?></b></p>
 	</div>
@@ -54,8 +62,8 @@ endforeach;
     <?php print $this->translate->_("Delete this record (physically record will not be removed)"); ?><br>
 <INPUT type="radio" name="act" value="undelete">
     <?php print $this->translate->_("Undelete this record"); ?>
-</fieldset>	
-	
+</fieldset>
+
 <?php echo $this->formHidden('logid', $this->wblogbook->logId, null); ?>
 <?php echo $this->formHidden('isdel', $this->wblogbook->logIsDel, null); ?>
 <?php echo $this->formHidden('hiddenModify',   $this->hiddenModify, null); ?>
@@ -97,7 +105,7 @@ BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
 </noscript>
 <br>
 
-<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "90", 'rows' => "15")); ?>
+<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "80", 'rows' => "10")); ?>
 </fieldset>
 <!-- END textarea -->
 
@@ -110,3 +118,4 @@ BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
 </form>
 
 </div> <!-- logbook-form -->
+</div>

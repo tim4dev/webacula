@@ -13,6 +13,16 @@ $j(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+  // select
+  $j(function(){
+      $j('select').each(function() {
+          var t = $j(this).selectmenu({maxHeight: 200});
+          eval(t);
+      });
+  });
+</script>
+
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php if ($this->result): ?>
@@ -35,8 +45,9 @@ $j(document).ready(function() {
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/run-restore-recent';?>">
 <table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
 <tr>
-    <td align="left" colspan="2" class="search1"><b><?php print $this->translate->_("Client"); ?></b>:
-       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, null, $aclients) ?>
+    <td align="left" colspan="2" class="search1">
+        <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b>:</label>
+       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 50%;'), $aclients) ?>
     </td>
 </tr>
 <tr>
@@ -48,7 +59,7 @@ $j(document).ready(function() {
 </tr>
 <tr>
     <td class="search1" align="center">
-		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn') ); ?>
+		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
         </form>
     </td>
     <td class="search1" align="center">
@@ -63,8 +74,6 @@ $j(document).ready(function() {
 
 <br style="clear: both;" />
 
-
-<p>&nbsp;</p>
 
 <?php $decode = new MyClass_HomebrewBase64; ?>
 
