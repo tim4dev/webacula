@@ -7,7 +7,7 @@ Summary(ru):	Веб интерфейс для Bacula backup system
 Group:			Applications/Internet
 License:			GPLv3
 URL:				http://webacula.sourceforge.net/
-Source0:       http://downloads.sourceforge.net/project/webacula/webacula/webacula-%{version}.tar.gz
+Source0:       http://downloads.sourceforge.net/project/%{name}/%{name}-%{version}.tar.gz
 Source1:			webacula.conf
 Source2:			config.ini
 Source3:       webacula_clean_tmp_files
