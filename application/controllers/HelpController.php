@@ -33,6 +33,7 @@ class HelpController extends Zend_Controller_Action
 	{
 	    $this->_helper->viewRenderer->setNoRender(); // disable autorendering
 		$this->view->baseUrl = $this->_request->getBaseUrl();
+		$this->view->translate = Zend_Registry::get('translate');
 	}
 
     function indexAction()
