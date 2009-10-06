@@ -5,6 +5,7 @@
 # ./runtest.sh --exclude-group nonreusable,restore,logbook
 # ./runtest.sh --group test-test
 # ./runtest.sh --filter testJobFindByVolumeName
+# phpunit --group test1 --stop-on-failure AllTests.php
 #
 #############################################################
 

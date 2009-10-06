@@ -32,25 +32,31 @@ class MyClass_Validate_BaculaJobId implements Zend_Validate_Interface
 {
     protected $_messages = array();
 
-    /**
-     * See ZF API documentation
-     * Returns true if and only if $value meets the validation requirements
-     * If $value fails validation, then this method returns false, and $messages will contain an array
-     * of messages that explain why the validation failed.
-     */
-    public function isValid($value)
+    public function __construct()
+    {
+        Zend_Loader::loadClass('Job');
+    }
+    
+    public function isValid($logTxt)
     {
         $this->_messages = array();
+        $pattern1 = "/BACULA_JOBID=[\w]+([\s]+|$)/";
+        $num1 = preg_match_all($pattern1, $logTxt, $matches);
+        if ($num1) {
+            // match BACULA_JOBID
+            $pattern2 = "/BACULA_JOBID=/";
+            foreach ($matches[0] as $value) {                   
+                $ids = preg_split($pattern2, $value);                    
+                $id = trim($ids[1]);
 
-        Zend_Loader::loadClass('Job');
-    	$jobs = new Job();
-    	$value = $jobs->getAdapter()->quote($value);
-		$ret = $jobs->fetchRow("JobId = $value", null);
-
-		if ( !$ret) {
-			$this->_messages[] = "JobId $value is not found in Bacula database";
-			return false;
-		}
+                $jobs = new Job();
+                $ret= $jobs->getByJobId($id);
+                if ( !$ret) {
+                    $this->_messages[] = "JobId $id is not found in Bacula database";
+                    return false;
+                }
+            }
+        }           
 		return true;
     }
 

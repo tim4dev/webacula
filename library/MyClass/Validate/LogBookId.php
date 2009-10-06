@@ -33,45 +33,39 @@ class MyClass_Validate_LogBookId implements Zend_Validate_Interface
 {
     protected $_messages = array();
 
-    /**
-     * See ZF API documentation
-     * Returns true if and only if $value meets the validation requirements
-     * If $value fails validation, then this method returns false, and $messages will contain an array
-     * of messages that explain why the validation failed.
-     */
-    public function isValid($value)
+    public function __construct()
+    {
+        Zend_Loader::loadClass('Wblogbook');
+    }
+    
+    public function isValid($logTxt)
     {
         $this->_messages = array();
+        $pattern1 = "/LOGBOOK_ID=[\w]+([\s]+|$)/";
+        $num1 = preg_match_all($pattern1, $logTxt, $matches);
+        if ($num1) {
+            // match LOGBOOK_ID
+            $pattern2 = "/LOGBOOK_ID=/";
+            foreach ($matches[0] as $value) {                   
+                $ids = preg_split($pattern2, $value);                    
+                $id = trim($ids[1]);
 
-        Zend_Loader::loadClass('Wblogbook');
-    	$ids = new Wblogbook();
-    	$value = $ids->getAdapter()->quote($value);
-		$ret = $ids->fetchRow("logId = $value", null);
-
-		if ( !$ret) {
-			$this->_messages[] = "Logbook Id $value is not found";
-			return false;
-		}
-		return true;
+                $jobs = new Job();
+                $ret= $jobs->getByJobId($id);
+                if ( !$ret) {
+                    $this->_messages[] = "Logbook $id is not found in Webacula database";
+                    return false;
+                }
+            }
+        }           
+        return true;
     }
 
-    /**
-     * See ZF API documentation
-     * Returns an array of messages that explain why a previous isValid() call returned false.
-     * If isValid() was never called or if the most recent isValid() call returned true, then this method returns an empty array.
-     *
-     */
     public function getMessages()
     {
         return $this->_messages;
     }
 
-    /**
-     * See ZF API documentation
-     * Returns an array of errors that explain why a previous isValid() call returned false.
-     * If isValid() was never called or if the most recent isValid() call returned true, then this method returns an empty array.
-     *
-     */
     public function getErrors()
     {
         return $this->_messages;

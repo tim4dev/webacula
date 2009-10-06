@@ -41,6 +41,7 @@ class WblogbookController extends Zend_Controller_Action
 		// load model
 		Zend_Loader::loadClass('Wblogbook');
 		// load validators
+		Zend_Loader::loadClass('MyClass_Validate_Datetime');
 		Zend_Loader::loadClass('MyClass_Validate_BaculaJobId');
 		Zend_Loader::loadClass('MyClass_Validate_LogBookId');
 		Zend_Loader::loadClass('Zend_Validate_Digits');
@@ -296,8 +297,7 @@ class WblogbookController extends Zend_Controller_Action
     		// validate
 
     		// ********************* validate datetime
-			Zend_Loader::loadClass('Other_ValidateDatetime');
-			$validator_datetime = new Other_ValidateDatetime();
+			$validator_datetime = new MyClass_Validate_Datetime();
 
 			$logDateCreate = trim($this->_request->getPost('logDateCreate', date("Y-m-d H:i:s", time() ) ) );
 
@@ -320,7 +320,19 @@ class WblogbookController extends Zend_Controller_Action
 			if ( !$validator_nonempty->isValid($logTxt) ) {
 				$this->view->amessages = array_merge($this->view->amessages, $validator_nonempty->getMessages());
 			}
-
+			
+        	// *** validate pseudo tag BACULA_JOBID
+            $validator_baculajobid = new MyClass_Validate_BaculaJobId();
+            if ( !$validator_baculajobid->isValid( $logTxt ) ) {
+                $this->view->amessages = array_merge($this->view->amessages, $validator_baculajobid->getMessages());
+            }
+            
+    	    // *** validate pseudo tag LOGBOOK_ID
+            $validator_logbookid = new MyClass_Validate_LogbookId();
+            if ( !$validator_logbookid->isValid( $logTxt ) ) {
+                $this->view->amessages = array_merge($this->view->amessages, $validator_logbookid->getMessages());
+            }
+            			
 			// ********************* final
 			// add record into database
 			if ( empty($this->view->amessages))	{
@@ -373,8 +385,7 @@ class WblogbookController extends Zend_Controller_Action
     		$logid = trim($this->_request->getPost('logid'));
 
     		// ********************* validate datetime
-			Zend_Loader::loadClass('Other_ValidateDatetime');
-			$validator_datetime = new Other_ValidateDatetime();
+    		$validator_datetime = new MyClass_Validate_Datetime();
 
 			$logDateCreate = trim($this->_request->getPost('logDateCreate'));
 
@@ -396,6 +407,18 @@ class WblogbookController extends Zend_Controller_Action
 			if ( !$validator_nonempty->isValid($logTxt) ) {
 				$this->view->amessages = array_merge($this->view->amessages, $validator_nonempty->getMessages());
 			}
+			
+    	    // *** validate pseudo tag BACULA_JOBID
+            $validator_baculajobid = new MyClass_Validate_BaculaJobId();
+            if ( !$validator_baculajobid->isValid( $logTxt ) ) {
+                $this->view->amessages = array_merge($this->view->amessages, $validator_baculajobid->getMessages());
+            }
+            
+        	// *** validate pseudo tag LOGBOOK_ID
+            $validator_logbookid = new MyClass_Validate_LogbookId();
+            if ( !$validator_logbookid->isValid( $logTxt ) ) {
+                $this->view->amessages = array_merge($this->view->amessages, $validator_logbookid->getMessages());
+            }
 
 			// ********************* final
 			// update record into database
