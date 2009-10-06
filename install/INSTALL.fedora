@@ -20,58 +20,14 @@
 	System Requirements
 	~~~~~~~~~~~~~~~~~~~
 
-- Bacula 3.0 or later.
-- Full supported MySQL, PostgreSQL and Sqlite databases.
-- Zend Framework version 1.8.3
-- Zend Framework is built with object-oriented PHP 5 and requires
-  PHP 5.2.4 or later with PDO extension active. Please see the system requirements appendix for
-  more detailed information:
-  http://framework.zend.com/manual/en/requirements.html
-- Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
-- Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
-- Create separate database "webacula" for use Restore Files and Logbook features.
-- http://php.net/dom for RSS feed
-
-Run docs/check_system_requirements.php to verify.
+See INSTALL file.
 
 
 	Install & Setup
 	~~~~~~~~~~~~~~~
 
-- login as root
-- mkdir /var/www/webacula
-- Copy this distribution to directory /var/www/webacula
-
-- Extract the archive Zend.tar.gz which can be found in directory "library/"
-  cd library/
-  tar xvf Zend.tar.gz
-
-- The tree which should turn out as a result :
-
-/var/www/webacula/
-|-- application
-|   |-- controllers
-|   |-- models
-|   `-- views
-|-- docs
-|-- install
-|-- html
-|-- languages
-`-- library
-    |-- Other
-    |-- MyClass
-    |
-    `-- Zend (this is Zend Framework package)
-        |-- Acl
-        |-- Auth
-        |-- Cache
-        |-- Config
-       ...
-
-
-
-
-- Specify the parameters to connect to the Catalog and webacula databases in /var/www/webacula/application/config.ini
+After install rpm package specify the parameters to connect to the Catalog
+and Webacula databases in /etc/webacula/config.ini
 	
 - Setup parameter
    tmpdir = "/tmp"
@@ -95,13 +51,13 @@ IMPORTANT! This directory and files in it should be available to read the Direct
 	chown root:bacula /etc/bacula/bconsole.conf
 	chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
 
-   edit application/config.ini
+   edit config.ini
        bacula.sudo = ""
        bacula.bconsole = "/usr/sbin/bconsole"
 
 
   variant 2:
-    edit application/config.ini
+    edit config.ini
        bacula.sudo = "/usr/bin/sudo"
        bacula.bconsole = "/usr/sbin/bconsole"
 
@@ -112,48 +68,12 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   Check :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
-- Create configuration for Apache /etc/httpd/conf.d/webacula.conf
-  NOTE. Specific directories on your system may be different.
-
-Alias "/webacula"  "/var/www/webacula/html"
-<Directory "/var/www/webacula/html">
-	Options Indexes FollowSymLinks
-	AllowOverride All
-	Order deny,allow
-	Allow from 127.0.0.1
-	# your network
-	Allow from 192.161.150.0/255.255.255.0
-
-	AuthType Basic
-	AuthName "Webacula"
-	AuthUserFile       /etc/httpd/conf/webacula.users
-	Require valid-user
-</Directory>
-
-
-- setup mod_rewrite :
-  NOTE. Specific directories on your system may be different.
-
------------ /etc/httpd/conf/httpd.conf
-
-LoadModule rewrite_module modules/mod_rewrite.so
-AccessFileName .htaccess
-RewriteEngine on
-# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
-# for DEBUG # RewriteLogLevel 3
-
-
------------ /var/www/webacula/html/.htaccess
-
-php_flag magic_quotes_gpc off
-php_flag register_globals off
-RewriteEngine On
-
-# edit RewriteBase if necessary
+ Change (if necessary) file
+----- /usr/share/webacula/html/.htaccess
 RewriteBase   /webacula
-RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
 
-For testing mod_rewrite change 'RewriteBase' (if necessary) in webacula/html/test_mod_rewrite/.htaccess
+
+For testing mod_rewrite change 'RewriteBase' (if necessary) in /usr/share/webacula/html/test_mod_rewrite/.htaccess
 And use URL like
    http://localhost/webacula/test_mod_rewrite/
 for test mod_rewrite
@@ -236,20 +156,6 @@ Records can contain links (usual web-links on which it is possible to click) to 
 In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
 See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
 Logbook stored in a separate database "webacula", now it is supported  MySQL and PostgreSQL.
-
-
-
-	Update
-	~~~~~~
-
-	If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
-
-CREATE DATABASE webacula
-	DEFAULT CHARACTER SET utf8
-   DEFAULT COLLATE utf8_general_ci;
-
-	and load data from dump again.
-
 
 
     Restore Job (technical details)

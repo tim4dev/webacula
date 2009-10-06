@@ -75,8 +75,8 @@ Ejecute el script install/check_system_requirements.php antes de continuar lo qu
 	
 - Configure los parámetros
    tmpdir = "/tmp"
-  En el directorio "tmpdir" será almacenado el fichero que contiene la lista de archivos a restaurar. Tanto 
-  el fichero como el directorio deben poder ser leídos por el servicio Director
+  En el directorio "tmpdir" será almacenado el fichero que contiene la lista de archivos a restaurar. 
+IMPORTANT! Tanto el fichero como el directorio deben poder ser leídos por el servicio Director
 
 - Cree un nuevo grupo (en caso de que no haya sido creado con anterioridad) :
 	groupadd bacula
@@ -261,4 +261,3 @@ Nota. Este trabajo puede tomar un tiempo excesivo.
 
 Nota. Se necesita un fichero que contenga una lista de ficheros a restaurar el cual debe ser leído por el servicio Director.
 
-<eof>

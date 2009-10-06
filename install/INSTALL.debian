@@ -78,7 +78,7 @@ Run docs/check_system_requirements.php to verify.
 - Setup parameter
    tmpdir = "/tmp"
   Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
-  This directory and files in it should be available to read the Director service.
+IMPORTANT! This directory and files in it should be available to read the Director service.
   
 
 - Creates system group account (if not yet created) :
@@ -255,4 +255,3 @@ Logbook stored in a separate database "webacula", now it is supported  MySQL and
 	Please see the "Restore Job" chapter of file INSTALL in this directory.
 
 
-<eof>
