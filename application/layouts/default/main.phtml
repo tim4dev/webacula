@@ -90,43 +90,41 @@ div#bottommenu
 </head>
 <body>
 
-<?php $translate = Zend_Registry::get('translate'); ?>
-
 <ul id="main-menu" class="sf-menu">
-   	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $translate->_("Desktop"); ?></a>
+   	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
        	<ul>
-           	<li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $translate->_("Job Totals"); ?></a></li>
+           	<li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
 		</ul>
 	</li>
-    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $translate->_("Director"); ?></a></li>
-    <li class="current"><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $translate->_("Job"); ?></a>
+    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></li>
+    <li class="current"><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Job"); ?></a>
 		<ul>
-        	<li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $translate->_("Terminated"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/job/running"><?php print $translate->_("Running"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/job/next"><?php print $translate->_("Next"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $translate->_("Problem"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $translate->_("Run"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $translate->_("Search"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $translate->_("Timeline"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $translate->_("Restore"); ?></a></li>
+        	<li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Terminated"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a></li>
 		</ul>
 	</li>
-    <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $translate->_("Pool/Volume"); ?></a>
+    <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Pool/Volume"); ?></a>
     	<ul>
-        	<li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $translate->_("Overview"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $translate->_("Problem"); ?></a></li>
+        	<li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a></li>
 		</ul>
 	</li>
-    <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $translate->_("Client"); ?></a>
+    <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a>
     </li>
-    <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $translate->_("Storage"); ?></a>
+    <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a>
     </li>
-    <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $translate->_("Logbook"); ?></a>
+    <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
     	<ul>
-        	<li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $translate->_("RSS"); ?></a></li>
+        	<li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
         </ul>
     </li>
-    <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $translate->_("Help"); ?></a>
+    <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a>
     </li>
 </ul>
 <br style="clear: both;" />
@@ -137,7 +135,7 @@ div#bottommenu
 </script>
 <noscript>
 <div style="font-weight: bold; padding: 5px; background-color: red; color: white;">
-    <?php print $translate->_("Enable JavaScript please..."); ?>
+    <?php print $this->translate->_("Enable JavaScript please..."); ?>
 </div>
 </noscript>
 
@@ -150,24 +148,24 @@ div#bottommenu
 <div id="center_for_ie2">
 <div id="bottommenu">
     <div class="bottommenua">
-<b><a href="<?php echo $this->baseUrl;?>"><?php print $translate->_("Desktop"); ?></a></b>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $translate->_("Director"); ?></a></b>&nbsp;|&nbsp;
-<b><?php print $translate->_("Job"); ?> : </b>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/last"><?php print $translate->_("Last"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/running"><?php print $translate->_("Running Jobs"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/next"><?php print $translate->_("Next"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $translate->_("Problem"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $translate->_("Run Job"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $translate->_("Search"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $translate->_("Timeline"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $translate->_("Restore"); ?></a>&nbsp;|&nbsp;
-<b><?php print $translate->_("Pool/Volume"); ?> : </b>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $translate->_("Overview"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $translate->_("Problem"); ?></a>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $translate->_("Client"); ?></a></b>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $translate->_("Storage"); ?></a></b>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $translate->_("Logbook"); ?></a></b>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/help/"><?php print $translate->_("Help"); ?></a></b>
+<b><a href="<?php echo $this->baseUrl;?>"><?php print $this->translate->_("Desktop"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></b>&nbsp;|&nbsp;
+<b><?php print $this->translate->_("Job"); ?> : </b>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/last"><?php print $this->translate->_("Last"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running Jobs"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run Job"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a>&nbsp;|&nbsp;
+<b><?php print $this->translate->_("Pool/Volume"); ?> : </b>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a></b>
     </div>
 </div>
 </div> <!-- end of ieCenter div -->

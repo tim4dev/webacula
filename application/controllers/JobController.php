@@ -79,7 +79,7 @@ class JobController extends Zend_Controller_Action
     	$this->view->resultRunningJobs = $jobs->GetRunningJobs();
     	// получаем информацию от Директора
     	$this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
-		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+		$this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();		
     }
 
 

@@ -5,11 +5,11 @@
 <?php
 	if ($this->resultDirRunningJobs[0] == 'NOFOUND') {
 		echo '<font color="red"><div align="center"><p>',
-		      $translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></div></font>';
+		      $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></div></font>';
 	}
  	elseif ($this->resultDirRunningJobs[0] == 'ERROR') {
  		echo '<font color="red"><div align="center"><p>',
- 		     $translate->_("ERROR: There was a problem executing bconsole. See below."), '</p></div>';
+ 		     $this->translate->_("ERROR: There was a problem executing bconsole. See below."), '</p></div>';
  		foreach ($this->resultDirRunningJobs as $line) {
 			echo $line, '<br>';
 		}
