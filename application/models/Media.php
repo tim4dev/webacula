@@ -52,12 +52,71 @@ class Media extends Zend_Db_Table
         $this->_primary = 'mediaid';
         parent::_setupPrimaryKey();
     }
-
+    
+    /**
+     * Get info Volumes with Status of media: Disabled, Error
+     *
+     */
+    function GetProblemVolumes()
+    {
+        $db = Zend_Registry::get('db_bacula');
+        // make select from multiple tables
+        $select = new Zend_Db_Select($db);
+        $select->distinct();
+        $select->from('Media',
+            array("MediaId", 'PoolId', 'StorageId',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
+            'InChanger', 'MediaType', 'FirstWritten', 'LastWritten'
+            ));
+        $select->where("VolStatus IN ('Error', 'Disabled')");
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $result = $select->query();
+        return $result;
+    }
+    
+    
+    function getByName($volname, $order)
+    {
+        $select = new Zend_Db_Select($this->db);
+        $select->from('Media',
+            array('MediaId', 'PoolId', 'StorageId',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
+            'InChanger', 'MediaType', 'FirstWritten', 'LastWritten'
+        ));
+        $select->where('VolumeName = ?', $volname);
+        $select->order($order);
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
+    }
+    
+    function detail($media_id)
+    {
+        $select = new Zend_Db_Select($this->db);
+        $select->from('Media',
+            array('MediaId', 'PoolId', 'StorageId',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
+            'InChanger', 'MediaType',
+            'FirstWritten', 'LastWritten',
+            'MediaType', 'LabelDate', 'VolFiles', 'VolBlocks', 'VolMounts',
+            'VolParts', 'VolErrors', 'VolWrites', 'VolCapacityBytes', 'Enabled',
+            'ActionOnPurge', 'VolUseDuration', 'MaxVolJobs', 'MaxVolFiles',
+            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock', 'RecycleCount', 'InitialWrite',
+            'Comment'            
+        ));
+        $select->where('MediaId = ?', $media_id);
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();   
+    }    
 
 	function getById($pool_id, $order)
 	{
-   		// Колонка Media.Enabled появилась только в версии 2.0.0
    		$select = new Zend_Db_Select($this->db);
+   		/*
+   		 *  VolStatus ENUM('Full', 'Archive', 'Append', 'Recycle', 'Purged',
+         *      'Read-Only', 'Disabled', 'Error', 'Busy', 'Used', 'Cleaning') NOT NULL
+   		 */
    		$select->from('Media',
     		array('MediaId', 'PoolId', 'StorageId',
 			'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',

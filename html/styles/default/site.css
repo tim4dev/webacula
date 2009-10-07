@@ -373,6 +373,7 @@ span.mark{
    background: #d0dafd;
    border-right: 1px solid transparent;
    border-left: 1px solid transparent;
+   width: 10em;
 }
 #box-table-one-column tr:hover td
 {

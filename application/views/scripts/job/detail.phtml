@@ -103,7 +103,8 @@
 		<?php
 			if ($this->resultVol)	{
 				foreach($this->resultVol as $line2)	{
-					echo $this->escape($line2['volumename']) . '<br>';
+                    echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '">',
+                        $this->escape($line2['volumename']), '</a><br>';
 				}
 			}
 			else

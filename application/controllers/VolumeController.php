@@ -33,7 +33,6 @@ class VolumeController extends Zend_Controller_Action
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		// load model
-		Zend_Loader::loadClass('Volume'); 
 		Zend_Loader::loadClass('Media');
 		$this->view->translate = Zend_Registry::get('translate');
 	}
@@ -46,8 +45,8 @@ class VolumeController extends Zend_Controller_Action
     	$this->view->volname = $volname;
     	if ( $volname )	{
     		$this->view->title = $this->view->translate->_("Volume") . " " . $volname;
-    		$volume = new Volume();
-			$this->view->result = $volume->getByName($volname, $order);			
+    		$media = new Media();
+			$this->view->result = $media->getByName($volname, $order);			
     	}
     	else
     		$this->view->result = null;
@@ -72,24 +71,21 @@ class VolumeController extends Zend_Controller_Action
     		$this->view->result = null;
     }
 
-
     /**
      * Volumes with errors/problems
-     *
      */
     function problemAction()
     {
 		$this->view->titleProblemVolumes = $this->view->translate->_("Volumes with errors");
 		$order = addslashes(trim( $this->_request->getParam('order', 'VolumeName') ));
 		// get data from model
-    	$vols = new Volume();
-    	$ret = $vols->GetProblemVolumes();
+    	$media = new Media();
+    	$ret = $media->GetProblemVolumes();
     	$this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
     }
     
-        /**
+    /**
      * Volumes with errors/problems
-     *
      */
     function problemDashboardAction()
     {
@@ -97,9 +93,26 @@ class VolumeController extends Zend_Controller_Action
 		$this->view->titleProblemVolumes = $this->view->translate->_("Volumes with errors");
 		$order = addslashes(trim( $this->_request->getParam('order', 'VolumeName') ));
 		// get data from model
-    	$vols = new Volume();
-    	$ret = $vols->GetProblemVolumes();
+    	$media = new Media();
+    	$ret = $media->GetProblemVolumes();
     	$this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
     }
 
+    /*
+     * Volume detail info
+     */
+    function detailAction()
+    {
+        // http://localhost/webacula/volume/detail/mediaid/2/
+        $media_id = intval( $this->_request->getParam('mediaid') );
+        if ( $media_id  )    {
+            $this->view->title = $this->view->translate->_("Volume") . " " . $media_id;
+            $media = new Media();
+            $this->view->result = $media->detail($media_id);            
+        }
+        else
+            $this->view->result = null;
+    }    
+    
+    
 }

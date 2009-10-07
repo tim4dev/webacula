@@ -38,7 +38,6 @@ class FeedController extends Zend_Controller_Action
 		Zend_Loader::loadClass('Zend_Feed');
 		// my classes
 		Zend_Loader::loadClass('Job');
-		Zend_Loader::loadClass('Volume');
 	}
 
     function feedAction()
@@ -87,8 +86,8 @@ class FeedController extends Zend_Controller_Action
    		}
    		
    		// Get info Volumes with Status of media: Disabled, Error
-    	$vols = new Volume();
-    	$ret = $vols->GetProblemVolumes();
+    	$media = new Media();
+    	$ret = $media->GetProblemVolumes();
     	$result = $ret->fetchAll();	    	
 		foreach( $result as $item ) {
 			$content = '<pre><b>'. $this->translate->_("Volume Name") . ' : </b>' . $item['volumename'] . '<br>' .

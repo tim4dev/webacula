@@ -1,0 +1,168 @@
+<!-- volume/detail.phtml -->
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php if ($this->result): ?>
+<div align="center">
+<table id="box-table-one-column">
+<colgroup><col class="col-first"></colgroup>
+<colgroup><col style="width: 20em;"></colgroup>
+<colgroup><col class="col-first"></colgroup>
+<colgroup><col style="width: 20em;"></colgroup>
+<thead>
+</thead>
+<tbody>
+<?php foreach($this->result as $line) : ?>
+<tr>
+	<td> <?php print $this->translate->_("MediaId"); ?> </td>
+	<td><?php echo $this->escape($line['mediaid']);?></td>
+	
+	<td><?php print $this->translate->_("Label Date"); ?> </td>
+    <td><?php echo $this->escape($line['labeldate']);?></td>
+</tr><tr>
+<tr>
+    <td><b><?php print $this->translate->_("Volume Name"); ?></b></td>
+    <td><?php echo $this->escape($line['volumename']);?></td>
+    
+    <td><?php print $this->translate->_("Files"); ?> </td>
+    <td><?php echo $this->escape($line['volfiles']);?></td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Status"); ?> </td>
+    <td><?php echo $this->escape($line['volstatus']);?></td>
+    
+    <td><?php print $this->translate->_("Blocks"); ?> </td>
+    <td><?php echo $this->escape($line['volblocks']);?></td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Bytes"); ?> </td>
+    <td><?php echo $this->ConvBytes( $this->escape($line['volbytes']) );?></td>
+    
+    <td><?php print $this->translate->_("Mounts"); ?> </td>
+    <td><?php echo $this->escape($line['volmounts']);?></td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Max Bytes"); ?> </td>
+    <td><?php echo $this->ConvBytes( $this->escape($line['maxvolbytes']) );?></td>
+    
+    <td><?php print $this->translate->_("Errors"); ?> </td>
+    <?php
+        if ( $this->escape($line['volerrors']) == 0 )
+            echo '<td></td>';
+        else
+            echo '<td class="err">' . $this->escape($line['volerrors']) . '</td>';
+    ?>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Jobs"); ?> </td>
+    <td><?php echo $this->escape($line['voljobs']);?></td>
+    
+    <td><?php print $this->translate->_("Writes"); ?> </td>
+    <td><?php echo $this->escape($line['volwrites']);?></td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Retention"); ?> </td>
+    <td><?php echo $this->ConvSecondsToDays( $this->escape($line['volretention']) ), 
+        " (",$this->translate->_("days"), ")";?>
+    </td>
+    
+    <td><?php print $this->translate->_("Capacity Bytes"); ?> </td>
+    <td><?php echo $this->ConvBytes( $this->escape($line['volcapacitybytes']) );?></td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Recycle"); ?> </td>
+    <td><?php echo $this->Int2Char( $this->escape($line['recycle']) );?></td>
+    
+    <td><?php print $this->translate->_("Enabled"); ?> </td>
+    <?php
+        if ( $this->escape($line['enabled']) == 0 )
+            echo '<td class="err">'.$this->translate->_("disabled").'</td>';
+        else
+            echo '<td>+</td>';
+    ?>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Autochanger<br />Slot<br />number"); ?> </td>
+    <td>
+        <?php
+            if ( $this->escape($line['slot']) != 0) {
+                echo $this->escape($line['slot']);
+            } else {
+                echo '&nbsp;';
+            }
+        ?>
+    </td>
+    
+    <td><?php print $this->translate->_("Max Volume Jobs"); ?> </td>
+    <td><?php
+            if ( $this->escape($line['maxvoljobs']) != 0) {
+                echo $this->escape($line['maxvoljobs']);
+            } else {
+                echo '&nbsp;';
+            }
+        ?>
+    </td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("In Changer"); ?> </td>
+    <td><?php echo $this->Int2Char( $this->escape($line['inchanger']) );?></td>
+    
+    <td><?php print $this->translate->_("Max Volume Files"); ?> </td>
+    <td><?php
+            if ( $this->escape($line['maxvolfiles']) != 0) {
+                echo $this->escape($line['maxvolfiles']);
+            } else {
+                echo '&nbsp;';
+            }
+        ?>
+    </td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Media Type"); ?> </td>
+    <td><?php echo $this->escape($line['mediatype']);?></td>
+    
+    <td><?php print $this->translate->_("Read Time"); ?> </td>
+    <td><?php
+            if ( $this->escape($line['volreadtime']) != 0) {
+                echo $this->escape($line['volreadtime']);
+            } else {
+                echo '&nbsp;';
+            }
+        ?>
+    </td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("First Written"); ?> </td>
+    <td><?php echo $this->escape($line['firstwritten']);?></td>
+    
+    <td><?php print $this->translate->_("Write Time"); ?> </td>
+    <td><?php
+            if ( $this->escape($line['volwritetime']) != 0) {
+                echo $this->escape($line['volwritetime']);
+            } else {
+                echo '&nbsp;';
+            }
+        ?>
+    </td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Last Written"); ?> </td>
+    <td><?php echo $this->escape($line['lastwritten']);?></td>
+    
+    <td><?php print $this->translate->_("Recycle Count"); ?> </td>
+    <td><?php echo $this->escape($line['recyclecount']);?></td>
+</tr><tr>
+<tr>
+    <td><?php print $this->translate->_("Media Type"); ?> </td>
+    <td><?php echo $this->escape($line['mediatype']);?></td>
+    
+    <td><?php print $this->translate->_("Comment"); ?> </td>
+    <td><?php echo $this->escape($line['comment']);?></td>
+</tr>
+<?php endforeach; ?>
+<tbody>
+</table>
+</div>
+
+<?php else: ?>
+	<div align="center"><p><b><?php print $this->translate->_("No Volumes found."); ?></b></p></div>
+<?php endif; ?>

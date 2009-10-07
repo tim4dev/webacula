@@ -35,8 +35,6 @@ class IndexController extends Zend_Controller_Action
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		// load model
 		Zend_Loader::loadClass('Job');
-		Zend_Loader::loadClass('Volume');
-
 		$this->view->translate = Zend_Registry::get('translate');
 	}
 
