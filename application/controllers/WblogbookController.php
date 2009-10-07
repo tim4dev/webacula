@@ -34,6 +34,7 @@ class WblogbookController extends Zend_Controller_Action
 	protected $aAllowedTags = array('pre','b', 'h1', 'h2', 'h3', 'p', 'i', 'em', 'u', 'br', 'code', 'del', 'sub',
 		'sup', 'tt', 'a');
 	protected $aAllowedAttrs = array('href');
+	protected $config_webacula;
 
 	function init()
 	{
@@ -48,6 +49,8 @@ class WblogbookController extends Zend_Controller_Action
 		Zend_Loader::loadClass('Zend_Validate_NotEmpty');
 
 		$this->view->translate = Zend_Registry::get('translate');
+		Zend_Loader::loadClass('MyClass_SendEmail');
+		$this->config_webacula = Zend_Registry::get('config_webacula');
 	}
 
 	/**
@@ -139,8 +142,8 @@ class WblogbookController extends Zend_Controller_Action
     	$ret = $logs->IndexLogBook($date_begin, $date_end, $sort_order);
     	if ($ret)	{
     	   $this->view->result = $ret->fetchAll();
-    	}    	
-    	$printable = $this->_request->getParam('printable_by_date');    	
+    	}
+    	$printable = $this->_request->getParam('printable_by_date');
     	if ( empty($printable) )
     	{
     		// not printable
@@ -149,13 +152,13 @@ class WblogbookController extends Zend_Controller_Action
     		// printable
     		if ( !empty($unit_test) ) {
     			// for unit tests
-				$this->view->unit_test = 1;    			
+				$this->view->unit_test = 1;
     		} else {
     			// not tests
     			$this->_helper->layout->setLayout('printable');
     		}
     		echo $this->renderScript('wblogbook/index-printable.phtml');
-    	}    	
+    	}
     }
 
     /**
@@ -231,22 +234,6 @@ class WblogbookController extends Zend_Controller_Action
     }
 
 
-    function mySendEmail($body, $subj)
-    {
-		$config = Zend_Registry::get('config_webacula');
-
-		// send email
-        Zend_Loader::loadClass('Zend_Mail');
-        $mail = new Zend_Mail('utf-8');
-        $mail->addHeader('X-MailGenerator', 'webacula');
-        $mail->setBodyText($body, 'UTF-8');
-        $mail->setFrom($config->email->from, 'Webacula Logbook');
-        $mail->addTo($config->email->to_admin, 'Bacula admin');
-        $mail->setSubject($subj);
-        $mail->send();
-    }
-
-
     /**
 	 * LogBook Add New Record
 	 */
@@ -273,7 +260,10 @@ class WblogbookController extends Zend_Controller_Action
 
 		$rows_affected = $logbook->insert($data);
 		if ( $rows_affected ) {
-		    $this->mySendEmail(
+		    $email = new MyClass_SendEmail();
+		    $email->mySendEmail(
+		        $this->config_webacula->email->from,
+		        $this->config_webacula->email->to_admin,
 		        $this->view->translate->_('Create record :') . " " . $data['logDateCreate'] . "\n" .
 		        $this->view->translate->_('Type record :')   . " " . $data['logTypeId'] . "\n" .
 		        $this->view->translate->_("Text :")          ."\n-------\n" . $data['logTxt'] . "\n-------\n\n" ,
@@ -320,19 +310,19 @@ class WblogbookController extends Zend_Controller_Action
 			if ( !$validator_nonempty->isValid($logTxt) ) {
 				$this->view->amessages = array_merge($this->view->amessages, $validator_nonempty->getMessages());
 			}
-			
+
         	// *** validate pseudo tag BACULA_JOBID
             $validator_baculajobid = new MyClass_Validate_BaculaJobId();
             if ( !$validator_baculajobid->isValid( $logTxt ) ) {
                 $this->view->amessages = array_merge($this->view->amessages, $validator_baculajobid->getMessages());
             }
-            
+
     	    // *** validate pseudo tag LOGBOOK_ID
             $validator_logbookid = new MyClass_Validate_LogbookId();
             if ( !$validator_logbookid->isValid( $logTxt ) ) {
                 $this->view->amessages = array_merge($this->view->amessages, $validator_logbookid->getMessages());
             }
-            			
+
 			// ********************* final
 			// add record into database
 			if ( empty($this->view->amessages))	{
@@ -355,7 +345,7 @@ class WblogbookController extends Zend_Controller_Action
     	Zend_Loader::loadClass('Wblogtype');
 
     	// get data from wbLogType
-    	$typs = new Wblogtype();   	    	
+    	$typs = new Wblogtype();
     	$this->view->typs = $typs->fetchAll();
         // common fileds
         $this->view->wblogbook->logDateLast = null;
@@ -376,7 +366,6 @@ class WblogbookController extends Zend_Controller_Action
     	$this->view->title = $this->view->translate->_("Logbook: modify record");
     	$this->view->wblogbook = new Wblogbook();
     	$this->view->amessages = array();
-
 
     	// ****************************** UPDATE record **********************************
     	if ( $this->_request->isPost() && $this->_request->getPost('hiddenModify') &&
@@ -407,13 +396,13 @@ class WblogbookController extends Zend_Controller_Action
 			if ( !$validator_nonempty->isValid($logTxt) ) {
 				$this->view->amessages = array_merge($this->view->amessages, $validator_nonempty->getMessages());
 			}
-			
+
     	    // *** validate pseudo tag BACULA_JOBID
             $validator_baculajobid = new MyClass_Validate_BaculaJobId();
             if ( !$validator_baculajobid->isValid( $logTxt ) ) {
                 $this->view->amessages = array_merge($this->view->amessages, $validator_baculajobid->getMessages());
             }
-            
+
         	// *** validate pseudo tag LOGBOOK_ID
             $validator_logbookid = new MyClass_Validate_LogbookId();
             if ( !$validator_logbookid->isValid( $logTxt ) ) {
@@ -439,14 +428,16 @@ class WblogbookController extends Zend_Controller_Action
 
 				// send email
 				if ( $res ) {
-                    $this->mySendEmail(
+				    $email = new MyClass_SendEmail();
+                    $email->mySendEmail(
+                        $this->config_webacula->email->from,
+                        $this->config_webacula->email->to_admin,
                         $this->view->translate->_('Create record :') . ' ' . $data['logDateCreate'] . "\n" .
                         $this->view->translate->_('Update record :') . ' ' . $data['logDateLast'] . "\n" .
                         $this->view->translate->_('Type record :')   . ' ' . $data['logTypeId'] . "\n" .
                         $this->view->translate->_("Text :") . "\n-------\n" . $data['logTxt'] . "\n-------\n\n" ,
                         $this->view->translate->_('Webacula Logbook Update record') );
 				}
-
     			$this->_redirect('/wblogbook/index');
     			return;
 			}
@@ -473,7 +464,10 @@ class WblogbookController extends Zend_Controller_Action
 
             // send email
             if ( $res ) {
-                $this->mySendEmail(
+                $email = new MyClass_SendEmail();
+                $email->mySendEmail(
+                    $this->config_webacula->email->from,
+                    $this->config_webacula->email->to_admin,
                     $this->view->translate->_("LogId record :") ." " . $logid . "\n",
                     $this->view->translate->_('Webacula Logbook Delete record') );
 			}
@@ -497,7 +491,10 @@ class WblogbookController extends Zend_Controller_Action
 			$res = $table->update($data, $where);
 			// send email
             if ( $res ) {
-                $this->mySendEmail(
+                $email = new MyClass_SendEmail();
+                $email->mySendEmail(
+                    $this->config_webacula->email->from,
+                    $this->config_webacula->email->to_admin,
                     $this->view->translate->_("LogId record :") . " " . $logid . "\n",
                     $this->view->translate->_('Webacula Logbook UnDelete record') );
 			}
@@ -542,7 +539,7 @@ class WblogbookController extends Zend_Controller_Action
 /*
     function saveToPdfAction()
     {
-    	
+
 http://www.zfforums.com/zend-framework-components-13/mail-formats-search-14/pdf-utf8-bug-not-362.html#post1041
 ------------------------------
 tim4dev
@@ -602,5 +599,5 @@ No answer ;(
 		$pdf->save($fileName);
     }
 */
-    
+
 }

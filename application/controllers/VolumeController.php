@@ -29,13 +29,18 @@ require_once 'Zend/Controller/Action.php';
 class VolumeController extends Zend_Controller_Action
 {
 
+    protected $config_webacula;
+
 	function init()
 	{
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		// load model
 		Zend_Loader::loadClass('Media');
 		Zend_Loader::loadClass('Pool');
+
 		$this->view->translate = Zend_Registry::get('translate');
+		Zend_Loader::loadClass('MyClass_SendEmail');
+        $this->config_webacula = Zend_Registry::get('config_webacula');
 	}
 
     function findNameAction()
@@ -47,7 +52,7 @@ class VolumeController extends Zend_Controller_Action
     	if ( $volname )	{
     		$this->view->title = $this->view->translate->_("Volume") . " " . $volname;
     		$media = new Media();
-			$this->view->result = $media->getByName($volname, $order);			
+			$this->view->result = $media->getByName($volname, $order);
     	}
     	else
     		$this->view->result = null;
@@ -66,7 +71,7 @@ class VolumeController extends Zend_Controller_Action
     	if ( $pool_id  )	{
     		$this->view->title = $this->view->translate->_("Pool") . " " . $pool_name;
     		$media = new Media();
-			$this->view->result = $media->getById($pool_id, $order);    		
+			$this->view->result = $media->getById($pool_id, $order);
     	}
     	else
     		$this->view->result = null;
@@ -84,7 +89,7 @@ class VolumeController extends Zend_Controller_Action
     	$ret = $media->GetProblemVolumes();
     	$this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
     }
-    
+
     /**
      * Volumes with errors/problems
      */
@@ -111,18 +116,48 @@ class VolumeController extends Zend_Controller_Action
             $media = new Media();
             $this->view->result = $media->detail($media_id);
             $pools = new Pool();
-            $this->view->pools = $pools->fetchAll();            
+            $this->view->pools = $pools->fetchAll();
         }
         else
             $this->view->result = null;
-    }    
+    }
 
     function updateAction()
     {
-        // !!! code here
-        $media_id = intval( $this->_request->getPost('mediaid') );
+        // ****************************** UPDATE record **********************************
+        $media_id    = intval( $this->_request->getPost('mediaid') );
+        $volume_name = trim( $this->_request->getPost('volumename') );
+        if ($media_id) {
+            // update record into database
+            $table = new Media();
+            $data = array(
+                'poolid'        => trim( $this->_request->getPost('poolid') ),
+                'volstatus'     => trim( $this->_request->getPost('volstatus') ),
+                'volretention'  => trim( $this->_request->getPost('volretention') ),
+                'recycle'       => trim( $this->_request->getPost('recycle') ),
+                'slot'          => trim( $this->_request->getPost('slot') ),
+                'inchanger'     => trim( $this->_request->getPost('inchanger') ),
+                'maxvoljobs'    => trim( $this->_request->getPost('maxvoljobs') ),
+                'maxvolfiles'   => trim( $this->_request->getPost('maxvolfiles') ),
+                'comment'       => trim( $this->_request->getPost('comment') )
+            );
+
+            $where = $table->getAdapter()->quoteInto('MediaId = ?', $media_id);
+            $res = $table->update($data, $where);
+
+            // send email
+            if ( $res ) {
+                $email = new MyClass_SendEmail();
+                $email->mySendEmail(
+                    $this->config_webacula->email->from,
+                    $this->config_webacula->email->to_admin,
+                    $this->view->translate->_('Media Id') . ': ' . $media_id . "\n" .
+                    $this->view->translate->_('Volume Name') . ': ' . $volume_name . "\n\n",
+                    $this->view->translate->_('Webacula : Updated Volume parameters') );
+            }
+        }
         $this->_redirect("/volume/detail/mediaid/$media_id");
         return;
     }
-    
+
 }

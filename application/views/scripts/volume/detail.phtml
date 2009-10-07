@@ -15,7 +15,7 @@ $j(document).ready(function() {
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
-<?php 
+<?php
 // Volume Status
 $astatus = array(
     "Append"    => $this->translate->_("Append"),
@@ -34,6 +34,16 @@ $astatus = array(
 foreach($this->pools as $pool) {
     $apool[$this->escape($pool->poolid)] = $this->escape($pool->name);
 }
+// Recycle Flag
+$arecucle = array(
+    '0' => "-",
+    '1' => "+"
+);
+// InChanger Flag
+$ainchanger = array(
+    '0' => "-",
+    '1' => "+"
+);
 ?>
 
 <?php if ($this->result): ?>
@@ -42,12 +52,12 @@ foreach($this->pools as $pool) {
 <form action="<?php  echo $this->baseUrl.'/volume/update/';?>" method="post">
 
 <!-- container -->
-<table border="0" cellspacing="20" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 <tr valign="top">
 <td>
 <!-- part 1 -->
 
-<table id="box-table-one-column">
+<table id="box-table-one-column" style="margin-left:1em; margin-right:1em;">
     <colgroup><col class="col-first"></colgroup>
     <colgroup><col style="width: 20em;"></colgroup>
     <thead>
@@ -55,6 +65,7 @@ foreach($this->pools as $pool) {
 <tbody>
 <?php foreach($this->result as $line) : ?>
     <?php echo $this->formHidden('mediaid', $this->escape($line['mediaid']), null); ?>
+    <?php echo $this->formHidden('volumename', $this->escape($line['volumename']), null); ?>
 <tr>
     <td> <?php print $this->translate->_("Media Id"); ?> </td>
     <td><?php echo $this->escape($line['mediaid']);?></td>
@@ -72,7 +83,7 @@ foreach($this->pools as $pool) {
 <tr>
     <td><?php print $this->translate->_("Status"); ?> </td>
     <td>
-    <?php echo $this->formSelect('jtype', $this->escape($line['volstatus']), null, $astatus); ?>
+    <?php echo $this->formSelect('volstatus', $this->escape($line['volstatus']), null, $astatus); ?>
     </td>
 </tr><tr>
 <tr>
@@ -90,29 +101,21 @@ foreach($this->pools as $pool) {
 <tr>
     <td><?php echo $this->translate->_("Retention")," (",$this->translate->_("days"), ")"; ?> </td>
     <td>
-    <?php echo $this->formText('volretention', $this->ConvSecondsToDays( $this->escape($line['volretention']) ), 
+    <?php echo $this->formText('volretention', $this->ConvSecondsToDays( $this->escape($line['volretention']) ),
         array('size' => 5)) ?>
     </td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Recycle"); ?> </td>
-    <td><?php echo $this->Int2Char( $this->escape($line['recycle']) );?></td>
+    <td><?php echo $this->formSelect('recycle', $this->escape($line['recycle']), null, $arecucle); ?></td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Autochanger<br />Slot<br />number"); ?> </td>
-    <td>
-        <?php
-            if ( $this->escape($line['slot']) != 0) {
-                echo $this->escape($line['slot']);
-            } else {
-                echo '&nbsp;';
-            }
-        ?>
-    </td>
+    <td><?php echo $this->formText('slot', $this->escape($line['slot']), array('size' => 5)) ?></td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("In Changer"); ?> </td>
-    <td><?php echo $this->Int2Char( $this->escape($line['inchanger']) );?></td>
+    <td><?php echo $this->formSelect('inchanger', $this->escape($line['inchanger']), null, $ainchanger); ?></td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Media Type"); ?> </td>
@@ -125,12 +128,7 @@ foreach($this->pools as $pool) {
 <tr>
     <td><?php print $this->translate->_("Last Written"); ?> </td>
     <td><?php echo $this->escape($line['lastwritten']);?></td>
-</tr><tr>
-<tr>
-    <td><?php print $this->translate->_("Media Type"); ?> </td>
-    <td><?php echo $this->escape($line['mediatype']);?></td>
 </tr>
-<?php endforeach; ?>
 <tbody>
 </table>
 
@@ -138,13 +136,12 @@ foreach($this->pools as $pool) {
 <td>
 <!-- part 2 -->
 
-<table id="box-table-one-column">
+<table id="box-table-one-column" style="margin-left:1em; margin-right:1em;">
     <colgroup><col class="col-first"></colgroup>
     <colgroup><col style="width: 20em;"></colgroup>
     <thead>
     </thead>
 <tbody>
-<?php foreach($this->result as $line) : ?>
 <tr>
     <td><?php print $this->translate->_("Label Date"); ?> </td>
     <td><?php echo $this->escape($line['labeldate']);?></td>
@@ -189,25 +186,11 @@ foreach($this->pools as $pool) {
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Max Volume Jobs"); ?> </td>
-    <td><?php
-            if ( $this->escape($line['maxvoljobs']) != 0) {
-                echo $this->escape($line['maxvoljobs']);
-            } else {
-                echo '&nbsp;';
-            }
-        ?>
-    </td>
+    <td><?php echo $this->formText('maxvoljobs', $this->escape($line['maxvoljobs']), array('size' => 9)) ?> </td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Max Volume Files"); ?> </td>
-    <td><?php
-            if ( $this->escape($line['maxvolfiles']) != 0) {
-                echo $this->escape($line['maxvolfiles']);
-            } else {
-                echo '&nbsp;';
-            }
-        ?>
-    </td>
+    <td><?php echo $this->formText('maxvolfiles', $this->escape($line['maxvolfiles']), array('size' => 9)) ?> </td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Read Time"); ?> </td>
@@ -237,7 +220,7 @@ foreach($this->pools as $pool) {
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Comment"); ?> </td>
-    <td><?php echo $this->escape($line['comment']);?></td>
+    <td><?php echo $this->formTextarea('comment', $this->escape($line['comment']), array('cols' => "25", 'rows' => "2")); ?></td>
 </tr>
 <?php endforeach; ?>
 <tbody>
@@ -248,7 +231,7 @@ foreach($this->pools as $pool) {
 
 <tr>
 <td colspan="2" align="center">
-<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'prefer_btn')  ); ?>
+<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form')); ?>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
 </td>

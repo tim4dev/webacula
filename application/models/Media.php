@@ -42,7 +42,7 @@ class Media extends Zend_Db_Table
             $this->_name = 'media';
             break;
         default: // including mysql, sqlite
-            $this->_name = 'Media';            
+            $this->_name = 'Media';
         }
         parent::_setupTableName();
     }
@@ -52,7 +52,7 @@ class Media extends Zend_Db_Table
         $this->_primary = 'mediaid';
         parent::_setupPrimaryKey();
     }
-    
+
     /**
      * Get info Volumes with Status of media: Disabled, Error
      *
@@ -73,8 +73,8 @@ class Media extends Zend_Db_Table
         $result = $select->query();
         return $result;
     }
-    
-    
+
+
     function getByName($volname, $order)
     {
         $select = new Zend_Db_Select($this->db);
@@ -89,26 +89,26 @@ class Media extends Zend_Db_Table
         $stmt = $select->query();
         return $stmt->fetchAll();
     }
-    
+
     function detail($media_id)
     {
         $select = new Zend_Db_Select($this->db);
         $select->from('Media',
             array('MediaId', 'PoolId', 'StorageId',
-            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
-            'InChanger', 'MediaType',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention',
+            'Recycle', 'Slot', 'InChanger', 'MediaType',
             'FirstWritten', 'LastWritten',
-            'MediaType', 'LabelDate', 'VolFiles', 'VolBlocks', 'VolMounts',
+            'LabelDate', 'VolFiles', 'VolBlocks', 'VolMounts',
             'VolParts', 'VolErrors', 'VolWrites', 'VolCapacityBytes', 'Enabled',
             'ActionOnPurge', 'VolUseDuration', 'MaxVolJobs', 'MaxVolFiles',
-            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock', 'RecycleCount', 'InitialWrite',
-            'Comment'            
+            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock',
+            'RecycleCount', 'InitialWrite','Comment'
         ));
         $select->where('MediaId = ?', $media_id);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
         $stmt = $select->query();
-        return $stmt->fetchAll();   
-    }    
+        return $stmt->fetchAll();
+    }
 
 	function getById($pool_id, $order)
 	{
@@ -127,7 +127,7 @@ class Media extends Zend_Db_Table
 		$select->order($order);
 		//$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
    		$stmt = $select->query();
-		return $stmt->fetchAll();	
+		return $stmt->fetchAll();
 	}
 
 
