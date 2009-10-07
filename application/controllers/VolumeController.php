@@ -34,6 +34,7 @@ class VolumeController extends Zend_Controller_Action
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		// load model
 		Zend_Loader::loadClass('Media');
+		Zend_Loader::loadClass('Pool');
 		$this->view->translate = Zend_Registry::get('translate');
 	}
 
@@ -106,13 +107,22 @@ class VolumeController extends Zend_Controller_Action
         // http://localhost/webacula/volume/detail/mediaid/2/
         $media_id = intval( $this->_request->getParam('mediaid') );
         if ( $media_id  )    {
-            $this->view->title = $this->view->translate->_("Volume") . " " . $media_id;
+            $this->view->title = $this->view->translate->_("Detail Volume") . " " . $media_id;
             $media = new Media();
-            $this->view->result = $media->detail($media_id);            
+            $this->view->result = $media->detail($media_id);
+            $pools = new Pool();
+            $this->view->pools = $pools->fetchAll();            
         }
         else
             $this->view->result = null;
     }    
-    
+
+    function updateAction()
+    {
+        // !!! code here
+        $media_id = intval( $this->_request->getPost('mediaid') );
+        $this->_redirect("/volume/detail/mediaid/$media_id");
+        return;
+    }
     
 }

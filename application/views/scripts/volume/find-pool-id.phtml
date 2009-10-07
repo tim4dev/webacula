@@ -25,7 +25,8 @@
 <?php foreach($this->result as $line) : ?>
 <tr>
 	<td>
-	<a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']).'">'; ?>
+	<a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']).
+        '" title="', $this->translate->_("Detail Volume"), '">'; ?>
 	   <?php echo $this->escape($line['volumename']);?>
 	</a>
 	</td>
