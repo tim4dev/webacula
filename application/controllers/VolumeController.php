@@ -125,15 +125,16 @@ class VolumeController extends Zend_Controller_Action
     function updateAction()
     {
         // ****************************** UPDATE record **********************************
-        $media_id    = intval( $this->_request->getPost('mediaid') );
+        $media_id    = trim( $this->_request->getPost('mediaid') );
+        $pool_id     = trim( $this->_request->getPost('poolid') );
         $volume_name = trim( $this->_request->getPost('volumename') );
-        if ($media_id) {
+        if ( !empty($media_id) && !empty($pool_id) ) {
             // update record into database
             $table = new Media();
             $data = array(
-                'poolid'        => trim( $this->_request->getPost('poolid') ),
+                'poolid'        => $pool_id,
                 'volstatus'     => trim( $this->_request->getPost('volstatus') ),
-                'volretention'  => trim( $this->_request->getPost('volretention') ),
+                'volretention'  => (int)trim( $this->_request->getPost('volretention') ) * 86400,
                 'recycle'       => trim( $this->_request->getPost('recycle') ),
                 'slot'          => trim( $this->_request->getPost('slot') ),
                 'inchanger'     => trim( $this->_request->getPost('inchanger') ),
