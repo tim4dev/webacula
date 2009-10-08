@@ -1,5 +1,5 @@
 Name:          webacula
-Version:       3.2.2
+Version:       3.3.0
 Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
@@ -48,7 +48,16 @@ Supported languages: English, French, German, Portuguese Brazil, Russian.
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
-%{__cp} -pr ./* $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/application
+%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/html
+%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/languages
+%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/library
+%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install/scripts
+%{__cp} -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}/application
+%{__cp} -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}/htmli
+%{__cp} -pr ./languages   $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
+%{__cp} -pr ./library     $RPM_BUILD_ROOT%{_datadir}/%{name}/library
+%{__cp} -pr ./install/scripts     $RPM_BUILD_ROOT%{_datadir}/%{name}/install/scripts
 %{__cp} %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
 %{__cp} %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
 %{__cp} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files
@@ -72,7 +81,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Oct 06 2009 Yuri Timofeev <tim4dev@gmail.com> 3.2.2-1
-- Create INSTALL.fedora
-* Wed Sep 30 2009 Yuri Timofeev <tim4dev@gmail.com> 3.2.1-1
+* Thu Oct 08 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-1
 - Initial Spec file creation for Fedora

@@ -56,12 +56,14 @@ webacula-${VERSION}/.git
 webacula-${VERSION}/.gitignore
 webacula-${VERSION}/.project
 webacula-${VERSION}/application/config.ini
-webacula-${VERSION}/install/webacula_clean_tmp_files
+webacula-${VERSION}/install/scripts/webacula_clean_tmp_files
 webacula-${VERSION}/install/.htaccess
+webacula-${VERSION}/install/scripts/.htaccess
 webacula-${VERSION}/docs/.htaccess
 webacula-${VERSION}/application/.htaccess
 webacula-${VERSION}/languages/.htaccess
 webacula-${VERSION}/html/.htaccess
+webacula-${VERSION}/html/test_mod_rewrite/.htaccess
 " > ${F_EXCLUDE}
 
 tar zcvpf "${RPM_SOURCES}/webacula-${VERSION}.tar.gz"  --exclude-from ${F_EXCLUDE}  "webacula-${VERSION}"
@@ -74,7 +76,7 @@ rm -f -r "${RPM_TMP}/webacula-${VERSION}"
 echo -e "\ncopy files...\n"
 cd ${ROOT_DIR}
 cp -p -f "${SRC_DIR}/application/config.ini" "${RPM_SOURCES}/"
-cp -p -f "${SRC_DIR}/install/webacula_clean_tmp_files" "${RPM_SOURCES}/"
+cp -p -f "${SRC_DIR}/install/scripts/webacula_clean_tmp_files" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.conf" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.spec" "${RPM_SPECS}/"
 
@@ -97,11 +99,11 @@ cd ${RPM_RPMS}/noarch
 pwd
 ls -la 
 
-echo -e "\n\n*** Next :\n
+echo -e "\n\n*****\n***** Next instruction :\n
 cd ${RPM_RPMS}/noarch
 rpmlint <rpm>\n
 cd ${RPM_ROOT}/SRPMS
-mock -r (fedora-11-i386, epel-5-i386) rebuild <src rpm>\n
+mock -r fedora-11-i386 rebuild <src rpm>\n
 see files in
 /var/lib/mock
 and add sign

@@ -1,6 +1,9 @@
 Webacula ChangeLog
 ------------------
 
+=== 3.3
+    Pools, Volumes operations.
+
 === 3.2
     Improved design.
     Fixed few bugs.
@@ -10,7 +13,7 @@ Important information for web designers described in file 4CONTRIBUTORS.
 
 === 3.1 release (2009-09-16)
 	Add full PostgreSQL support (restore files, logbook, etc).
-    Add full Sqlite support (restore files, logbook, etc).
+   Add full Sqlite support (restore files, logbook, etc).
 	Rewrite drawFileTreeAction().
 	Add regress testing procedures.
 	More bugfixes.
