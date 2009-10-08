@@ -9,6 +9,25 @@
 #
 #############################################################
 
+SRC_DIR=".."
+F_INDEX_PHP="${SRC_DIR}/html/index.php"
+F_README="${SRC_DIR}/README"
+
+VERSION=`grep -e "^.*define('WEBACULA_VERSION.*$" ${F_INDEX_PHP} | awk -F "'" '{print($4)}'`
+VER_README=`grep -e "^Version:" ${F_README} | awk '{print($2)}'`
+
+if [ ${VERSION} == ${VER_README} ]
+   then
+      echo "OK. Versions correct."
+   else
+      echo -e "\nVersions not match. Correct this (file/version) :\n"
+      echo -e "$F_INDEX_PHP\t${VERSION}"
+      echo -e "${F_README}\t${VER_README}"
+      echo -e "\n"
+      exit 10
+fi
+
+
 cd prepare_tests
 sudo ./clean_all.sh
 sudo ./prepare.sh
