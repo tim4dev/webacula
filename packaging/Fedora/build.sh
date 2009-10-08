@@ -61,6 +61,7 @@ webacula-${VERSION}/install/.htaccess
 webacula-${VERSION}/docs/.htaccess
 webacula-${VERSION}/application/.htaccess
 webacula-${VERSION}/languages/.htaccess
+webacula-${VERSION}/html/.htaccess
 " > ${F_EXCLUDE}
 
 tar zcvpf "${RPM_SOURCES}/webacula-${VERSION}.tar.gz"  --exclude-from ${F_EXCLUDE}  "webacula-${VERSION}"

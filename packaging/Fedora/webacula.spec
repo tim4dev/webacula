@@ -61,9 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc 4CONTRIBUTORS 4CONTRIBUTORS.ru AUTHORS COPYING README UPDATE
-%doc docs/FAQ
-%doc install/INSTALL install/INSTALL.ru install/INSTALL.es install/INSTALL.fedora
+%doc 4CONTRIBUTORS 4CONTRIBUTORS.ru AUTHORS COPYING README UPDATE ChangeLog
+%doc docs/
+%doc install/
 %{_datadir}/%{name}/
 %{_sysconfdir}/cron.daily/webacula_clean_tmp_files
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/webacula.conf
