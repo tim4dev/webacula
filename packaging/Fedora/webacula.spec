@@ -48,16 +48,16 @@ Supported languages: English, French, German, Portuguese Brazil, Russian.
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/application
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/html
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/languages
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/library
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install/scripts
-%{__cp} -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}/application
-%{__cp} -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}/htmli
-%{__cp} -pr ./languages   $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
-%{__cp} -pr ./library     $RPM_BUILD_ROOT%{_datadir}/%{name}/library
-%{__cp} -pr ./install/scripts     $RPM_BUILD_ROOT%{_datadir}/%{name}/install/scripts
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/application
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/html
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/library
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/install
+%{__cp} -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{__cp} -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{__cp} -pr ./languages   $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{__cp} -pr ./library     $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{__cp} -pr ./install     $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{__cp} %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
 %{__cp} %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
 %{__cp} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files
@@ -72,7 +72,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc 4CONTRIBUTORS 4CONTRIBUTORS.ru AUTHORS COPYING README UPDATE ChangeLog
 %doc docs/
-%doc install/
 %{_datadir}/%{name}/
 %{_sysconfdir}/cron.daily/webacula_clean_tmp_files
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/webacula.conf

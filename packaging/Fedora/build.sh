@@ -41,42 +41,46 @@ fi
 
 
 cd ${SRC_DIR}
-git archive master --prefix="webacula-${VERSION}/" | gzip > "${RPM_TMP}/webacula-${VERSION}.tar.gz"
+mkdir -p "${RPM_TMP}/webacula-${VERSION}"
+
+echo "library/Zend
+library/runme
+library/Zend*.tar.gz
+packaging
+tests
+.settings
+.git
+.gitignore
+.project
+application/config.ini
+install/webacula_clean_tmp_files
+install/.htaccess
+docs/.htaccess
+application/.htaccess
+languages/.htaccess
+html/.htaccess
+html/test_mod_rewrite/.htaccess
+" > "${RPM_TMP}/${F_EXCLUDE}"
+
+echo "create tarball..."
+
+rsync -a --exclude-from="${RPM_TMP}/${F_EXCLUDE}"  . "${RPM_TMP}/webacula-${VERSION}"
+
+rm -f "${RPM_TMP}/${F_EXCLUDE}"
 
 cd ${RPM_TMP}
-tar xf "webacula-${VERSION}.tar.gz"
+tar zcvpf "${RPM_SOURCES}/webacula-${VERSION}.tar.gz"  "webacula-${VERSION}"
 
-echo "webacula-${VERSION}/library/Zend
-webacula-${VERSION}/library/runme
-webacula-${VERSION}/library/Zend*.tar.gz
-webacula-${VERSION}/packaging
-webacula-${VERSION}/tests
-webacula-${VERSION}/.settings
-webacula-${VERSION}/.git
-webacula-${VERSION}/.gitignore
-webacula-${VERSION}/.project
-webacula-${VERSION}/application/config.ini
-webacula-${VERSION}/install/scripts/webacula_clean_tmp_files
-webacula-${VERSION}/install/.htaccess
-webacula-${VERSION}/install/scripts/.htaccess
-webacula-${VERSION}/docs/.htaccess
-webacula-${VERSION}/application/.htaccess
-webacula-${VERSION}/languages/.htaccess
-webacula-${VERSION}/html/.htaccess
-webacula-${VERSION}/html/test_mod_rewrite/.htaccess
-" > ${F_EXCLUDE}
-
-tar zcvpf "${RPM_SOURCES}/webacula-${VERSION}.tar.gz"  --exclude-from ${F_EXCLUDE}  "webacula-${VERSION}"
 
 echo -e "\nclean all\n"
 rm -f "${RPM_TMP}/webacula-${VERSION}.tar.gz"
-rm -f "${F_EXCLUDE}"
 rm -f -r "${RPM_TMP}/webacula-${VERSION}"
+
 
 echo -e "\ncopy files...\n"
 cd ${ROOT_DIR}
 cp -p -f "${SRC_DIR}/application/config.ini" "${RPM_SOURCES}/"
-cp -p -f "${SRC_DIR}/install/scripts/webacula_clean_tmp_files" "${RPM_SOURCES}/"
+cp -p -f "${SRC_DIR}/install/webacula_clean_tmp_files" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.conf" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.spec" "${RPM_SPECS}/"
 
@@ -85,12 +89,14 @@ echo -e "\n"
 cd ${RPM_SPECS}
 pwd
 ls -la 
-echo -e "\nPress Enter to rpmlint ...\n"
+echo -e "\nPress Enter to rpmlint ..."
 read
+
 rpmlint ${SPEC}
 
-echo -e "\nPress Enter to rpmbuild ...\n"
+echo -e "\nPress Enter to rpmbuild ..."
 read
+
 rpmbuild -ba ${SPEC}
 
 echo -e "\n"
@@ -99,14 +105,27 @@ cd ${RPM_RPMS}/noarch
 pwd
 ls -la 
 
-echo -e "\n\n*****\n***** Next instruction :\n
-cd ${RPM_RPMS}/noarch
-rpmlint <rpm>\n
-cd ${RPM_ROOT}/SRPMS
-mock -r fedora-11-i386 rebuild <src rpm>\n
+echo -e "\nPress Enter to rpmlint ..."
+read
+
+rpmlint "${RPM_RPMS}/noarch/webacula-${VERSION}*.rpm"
+
+
+
+
+echo -e "\n\n\n**************************************************************"
+echo -e "***** Next instruction :\n
+
+Install rpm and testing.
+rpm -ihv ${RPM_RPMS}/noarch/webacula-${VERSION}*.rpm\n
+
+mock -r fedora-11-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-${VERSION}*.src.rpm\n
 see files in
-/var/lib/mock
-and add sign
+
+cd /var/lib/mock/fedora-11-i386/result/
+
+Add sign
+
 rpm --addsign *.rpm
 \n"
 
