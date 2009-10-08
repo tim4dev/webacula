@@ -1,23 +1,6 @@
 
-    Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
-    http://webacula.sourceforge.net/
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-
    INSTALL.debian Copyright 2008 Samuel Rios Carvalho <nhawkbr@gmail.com>
+   Change by Yuri Timofeev.
 
 
 	System Requirements
@@ -119,9 +102,16 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   ln -s /etc/apache2/sites-available/webacula /etc/apache2/sites-enabled/webacula
   NOTE. Specific directories on your system may be different.
 
+
+LoadModule rewrite_module modules/mod_rewrite.so
+AccessFileName .htaccess
+# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
+# for DEBUG # RewriteLogLevel 3
+
 Alias "/webacula"  "/var/www/webacula/html"
 <Directory "/var/www/webacula/html">
-	Options Indexes FollowSymLinks
+   RewriteEngine on
+	Options FollowSymLinks
 	AllowOverride All
 	Order deny,allow
 	Allow from 127.0.0.1
@@ -137,14 +127,6 @@ Alias "/webacula"  "/var/www/webacula/html"
 
 - setup mod_rewrite :
   NOTE. Specific directories on your system may be different.
-
------------ /etc/apache2/sites-enabled/000-default
-
-LoadModule rewrite_module modules/mod_rewrite.so
-AccessFileName .htaccess
-RewriteEngine on
-# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
-# for DEBUG # RewriteLogLevel 3
 
 
 ----------- /var/www/webacula/html/.htaccess

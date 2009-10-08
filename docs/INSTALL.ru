@@ -1,20 +1,4 @@
 
-    Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
-    http://webacula.sourceforge.net/
-
-    Webacula - это свободная программа; вы можете повторно распространять её и/или модифицировать
-    её в соответствии со Стандартной Общественной Лицензей GNU, опубликованной
-    Фондом Свободного ПО; либо версии 3, либо (по вашему выбору) любой более поздней версии.
-
-    Webacula распространяется в надежде, что она будет полезной, но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ;
-    даже без подразумеваемых гарантий КОММЕРЧЕСКОЙ ЦЕННОСТИ или ПРИГОДНОСТИ ДЛЯ КОНКРЕТНОЙ
-    ЦЕЛИ. Для получения подробных сведений смотрите Стандартную Общественную Лицензию GNU.
-
-    Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе с этой
-    программой; если нет,смотрите <http://www.gnu.org/licenses/>.
-
-
-
 	Системные требования
 	~~~~~~~~~~~~~~~~~~~~
 
@@ -67,7 +51,6 @@
 
 
 
-
 - Укажите параметры подключения к БД Каталога и webacula в /var/www/webacula/application/config.ini
 
 - Настройте параметр
@@ -112,9 +95,15 @@
 - Содержимое файла /etc/httpd/conf.d/webacula.conf
   Примечание. Конкретные каталоги на вашей системе могут быть другими.
 
+LoadModule rewrite_module modules/mod_rewrite.so
+AccessFileName .htaccess
+# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
+# for DEBUG # RewriteLogLevel 3
+
 Alias "/webacula"  "/var/www/webacula/html"
 <Directory "/var/www/webacula/html">
-	Options Indexes FollowSymLinks
+   RewriteEngine on
+	Options FollowSymLinks
 	AllowOverride All
 	Order deny,allow
 	Allow from 127.0.0.1
@@ -130,15 +119,6 @@ Alias "/webacula"  "/var/www/webacula/html"
 
 - Настройка mod_rewrite.
   Примечание. Конкретные каталоги на вашей системе могут быть другими.
-
------------ /etc/httpd/conf/httpd.conf
-
-LoadModule rewrite_module modules/mod_rewrite.so
-AccessFileName .htaccess
-RewriteEngine on
-# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
-# for DEBUG # RewriteLogLevel 3
-
 
 ----------- /var/www/webacula/html/.htaccess
 
@@ -238,6 +218,10 @@ cd /etc/bacula
 	Обновления
 	~~~~~~~~~~
 
+	Скачайте свежий архив.
+   Сохраните в надежном месте ваш "config.ini", удалите каталог "webacula", распакуйте архив,
+	затем запустите "library/runme" и замените "config.ini".
+
    Если нужно (например, не работает полнотекстовой поиск) сохраните данные с помощью mysqldump, удалите БД webacula и пересоздайте командой :
 
 CREATE DATABASE webacula 
@@ -263,7 +247,7 @@ CREATE DATABASE webacula
     Затем список файлов и команда на восстановление отсылаются к сервису Director.
     Временные таблицы в БД webacula удаляются.
 
-Примечание. Требуется, чтобы файл, содержащий список файлов для восстановления, был доступен сервису Director
+ВАЖНО. Требуется, чтобы файл, содержащий список файлов для восстановления, был доступен сервису Director
     по чтению.
 
 

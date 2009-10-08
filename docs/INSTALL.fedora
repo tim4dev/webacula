@@ -1,22 +1,4 @@
 
-    Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
-    http://webacula.sourceforge.net/
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-
 	System Requirements
 	~~~~~~~~~~~~~~~~~~~
 
@@ -68,15 +50,9 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   Check :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
- Change (if necessary) file
------ /usr/share/webacula/html/.htaccess
-RewriteBase   /webacula
 
-
-For testing mod_rewrite change 'RewriteBase' (if necessary) in /usr/share/webacula/html/test_mod_rewrite/.htaccess
-And use URL like
+For testing mod_rewrite follow URL:
    http://localhost/webacula/test_mod_rewrite/
-for test mod_rewrite
 
 
 
@@ -90,11 +66,6 @@ for test mod_rewrite
 
 - Next (NOTE. Specific commands on your system may be different) :
 /sbin/service httpd restart
-
-- Check mod_rewrite :
-apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
-rewrite_module (shared)
-
 
 
 - To show messages of the Job output, you must add a line :
@@ -145,33 +116,16 @@ for Sqlite:
 	sudo chmod g+rw /var/lib/sqlite/webacula.db
 
 
-NOTE. Database "webacula" also required for restore the jobs and files.
+IMPORTANT. Database "webacula" required for select to restore the jobs and files.
 
 
 
 	LogBook
 	~~~~~~~
-	Logbook - is simple electronic journal of backups. Records in logbook are insert, modify, delete manually by the operator.
-Records can contain links (usual web-links on which it is possible to click) to Bacula Jobs or links to other records of this logbook.
-In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
-See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
-Logbook stored in a separate database "webacula", now it is supported  MySQL and PostgreSQL.
+   See INSTALL file.
 
 
-    Restore Job (technical details)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Command like "restore all" immediately sent to the service Director.
-
-    To select individual files for restoration uses the following scheme.
-    Of DB bacula in DB webacula into temporary tables copied data for a particular JobId.
-
-Note. This process may take a long time.
-    It may be increased values in /etc/php.ini : memory_limit and max_execution_time.
-
-    Then, the files and directories are marked for restore.
-    Then, a list of files and a command to restore sent to the service Director.
-    Temporary tables in the database webacula removed.
-
-Note. Need to file containing a list of files to restore, has been available for reading for Director service.
-
+   Restore Job (technical details)
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   See INSTALL file.
 

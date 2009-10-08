@@ -1,22 +1,4 @@
 
-    Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
-    http://webacula.sourceforge.net/
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-
 	System Requirements
 	~~~~~~~~~~~~~~~~~~~
 
@@ -115,9 +97,15 @@ IMPORTANT! This directory and files in it should be available to read the Direct
 - Create configuration for Apache /etc/httpd/conf.d/webacula.conf
   NOTE. Specific directories on your system may be different.
 
+LoadModule rewrite_module modules/mod_rewrite.so
+AccessFileName .htaccess
+# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
+# for DEBUG # RewriteLogLevel 3
+
 Alias "/webacula"  "/var/www/webacula/html"
 <Directory "/var/www/webacula/html">
-	Options Indexes FollowSymLinks
+   RewriteEngine on
+	Options FollowSymLinks
 	AllowOverride All
 	Order deny,allow
 	Allow from 127.0.0.1
@@ -133,14 +121,6 @@ Alias "/webacula"  "/var/www/webacula/html"
 
 - setup mod_rewrite :
   NOTE. Specific directories on your system may be different.
-
------------ /etc/httpd/conf/httpd.conf
-
-LoadModule rewrite_module modules/mod_rewrite.so
-AccessFileName .htaccess
-RewriteEngine on
-# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
-# for DEBUG # RewriteLogLevel 3
 
 
 ----------- /var/www/webacula/html/.htaccess
@@ -242,6 +222,10 @@ Logbook stored in a separate database "webacula", now it is supported  MySQL and
 	Update
 	~~~~~~
 
+   Download latest tarball.
+   Save in safe place your "config.ini", remove directory "webacula", extract tarball,
+	run "library/runme" and replace "config.ini".
+
 	If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
 
 CREATE DATABASE webacula
@@ -266,6 +250,6 @@ Note. This process may take a long time.
     Then, a list of files and a command to restore sent to the service Director.
     Temporary tables in the database webacula removed.
 
-Note. Need to file containing a list of files to restore, has been available for reading for Director service.
+IMPORTANT. Need to file containing a list of files to restore, has been available for reading for Director service.
 
 

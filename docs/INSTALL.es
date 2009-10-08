@@ -1,22 +1,6 @@
 
-    Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
-    http://webacula.sourceforge.net/
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 	INSTALL.es Copyright 2009	Reynier Perez Mira <rperezm@uci.cu>
+	Change by Yuri Timofeev.
 
 
 	Requerimientos del Sistema
@@ -114,9 +98,16 @@ IMPORTANT! Tanto el fichero como el directorio deben poder ser leídos por el se
 - Cree un fichero para Bacula en la configuración de Apache /etc/httpd/conf.d/webacula.conf
   NOTA. La organización de directorios puede ser diferente en su servidor.
 
+
+LoadModule rewrite_module modules/mod_rewrite.so
+AccessFileName .htaccess
+# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
+# for DEBUG # RewriteLogLevel 3
+
 Alias "/webacula"  "/var/www/webacula/html"
 <Directory "/var/www/webacula/html">
-	Options Indexes FollowSymLinks
+   RewriteEngine on
+	Options FollowSymLinks
 	AllowOverride All
 	Order deny,allow
 	Allow from 127.0.0.1
@@ -132,14 +123,6 @@ Alias "/webacula"  "/var/www/webacula/html"
 
 - Configure el mod_rewrite :
   NOTA. La organización de directorios puede ser diferente en su servidor.
-
------------ /etc/httpd/conf/httpd.conf
-
-LoadModule rewrite_module modules/mod_rewrite.so
-AccessFileName .htaccess
-RewriteEngine on
-# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
-# for DEBUG # RewriteLogLevel 3
 
 
 ----------- /var/www/webacula/html/.htaccess
@@ -235,6 +218,10 @@ Libro de Logs(Logbook) almacena los registros en una Base de Datos separada y, M
 	Actualizaciones
 	~~~~~~~~~~~~~~~~
 
+   Download latest tarball.
+   Save in safe place your "config.ini", remove directory "webacula", extract tarball,
+   run "library/runme" and replace "config.ini".
+
 	Si es necesario( la funcionalidad "full text search" no funciona) ejecute mysqldump, elimine la Base de Datos webacula y creela con:
 
 CREATE DATABASE webacula
@@ -259,5 +246,5 @@ Nota. Este trabajo puede tomar un tiempo excesivo.
     Luego, un listado de ficheros y/o carpetas y un comando son enviados al servicio Director.
     Remover las tablas temporales de la BD webacula.
 
-Nota. Se necesita un fichero que contenga una lista de ficheros a restaurar el cual debe ser leído por el servicio Director.
+IMPORTANT. Se necesita un fichero que contenga una lista de ficheros a restaurar el cual debe ser leído por el servicio Director.
 
