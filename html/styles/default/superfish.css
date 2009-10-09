@@ -24,6 +24,8 @@
 .sf-menu li {
 	float:			left;
 	position:		relative;
+	font-family: arial, verdana, sans-serif;
+    font-size: 13px;
 }
 .sf-menu a {
 	display:		block;

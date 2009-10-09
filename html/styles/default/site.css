@@ -210,7 +210,7 @@ span.mark{
 /* notes, warnings, etc
 ------------------------------------------------------*/
 
-.noteclassic, .noteimportant, .notewarning, .notetip {
+.noteclassic {
   margin: 2em;
   margin-left: auto;
   margin-right: auto;
@@ -226,30 +226,7 @@ span.mark{
   -moz-border-radius: 20px;
   -khtml-border-radius: 20px;
   border-radius: 20px;
-}
- 
-.noteclassic {
-  /*border: 1px solid #99D;*/
   background-color: #eef;
-  background-image: url(images/note.png);
-}
- 
-.noteimportant {
-  /*border: 1px solid #ff0;*/
-  background-color: #ffc;
-  background-image: url(images/important.png);
-}
- 
-.notewarning {
-  /*border: 1px solid #d99;*/
-  background-color: #fdd;
-  background-image: url(images/warning.png);
-}
- 
-.notetip {
-  /*border: 1px solid #9d9;*/
-  background-color: #dfd;
-  background-image: url(images/tip.png);
 }
 
 
@@ -398,6 +375,11 @@ span.mark{
 h1.dashboard {
     font-size:95%;
     font-family: sans-serif;
+}
+
+p.dashboard {
+  font-family: arial, verdana, sans-serif;
+  font-size: 12px;
 }
 
 a#dashboard {
