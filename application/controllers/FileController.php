@@ -24,63 +24,48 @@
  */
 /* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
-
 class FileController extends Zend_Controller_Action
 {
-	// for pager
-	const ROW_LIMIT_FILES = 500;
+    // for pager
+    const ROW_LIMIT_FILES = 500;
 
-	function init()
-	{
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->translate = Zend_Registry::get('translate');
-
-		Zend_Loader::loadClass('Files');
-		// for input field validation
+    function init ()
+    {
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+        Zend_Loader::loadClass('Files');
+        // for input field validation
         Zend_Loader::loadClass('Zend_Validate');
         Zend_Loader::loadClass('Zend_Filter_Input');
         Zend_Loader::loadClass('Zend_Validate_StringLength');
         Zend_Loader::loadClass('Zend_Validate_NotEmpty');
         Zend_Loader::loadClass('Zend_Validate_Digits');
-        $validators = array(
-            '*' => array(
-                new Zend_Validate_StringLength(1, 255),
-                'Digits'
-            ),
-            'jobid'=> array(
-                'NotEmpty'
-            )
-        );
-        $filters = array(
-            '*'  => 'StringTrim'
-        );
+        $validators = array('*' => array(new Zend_Validate_StringLength(1, 255) , 'Digits') , 'jobid' => array('NotEmpty'));
+        $filters = array('*' => 'StringTrim');
         $this->input = new Zend_Filter_Input($filters, $validators);
-	}
+    }
 
-
-    function listAction()
+    function listAction ()
     {
-    	// http://localhost/webacula/file/list/jobid/2234/page/1
-        $this->input->setData( array('jobid' => $this->_request->getParam('jobid'),
-                    'page' => $this->_request->getParam('page', 1)) );
-        if ( $this->input->isValid() ) {
+        // http://localhost/webacula/file/list/jobid/2234/page/1
+        $this->input->setData(array('jobid' => $this->_request->getParam('jobid') , 'page' => $this->_request->getParam('page', 1)));
+        if ($this->input->isValid()) {
             $jobid = $this->input->getEscaped('jobid');
-            $page  = $this->input->getEscaped('page', 1);
+            // unused ? $page = $this->input->getEscaped('page', 1);
         } else {
             $this->view->result = null;
             return;
         }
-
-   		$this->view->titleFile = $this->view->translate->_("List Files for JobId") . " " . $jobid;
-   		$files = new Files();
-   		$select = $files->getSelectFilesByJobId($jobid);
-		//echo '<pre>',$select->__toString(),'</pre>'; exit; // for !!!debug!!!   		  		
-		$paginator = Zend_Paginator::factory($select);
-		Zend_Paginator::setDefaultScrollingStyle('Sliding');
-		$paginator->setItemCountPerPage(self::ROW_LIMIT_FILES);
-		$paginator->setCurrentPageNumber($this->_getParam('page', 1));
-		$this->view->paginator = $paginator;
-		$paginator->setView($this->view);
+        $this->view->titleFile = $this->view->translate->_("List Files for JobId") . " " . $jobid;
+        $files = new Files();
+        $select = $files->getSelectFilesByJobId($jobid);
+        //echo '<pre>',$select->__toString(),'</pre>'; exit; // for !!!debug!!!
+        $paginator = Zend_Paginator::factory($select);
+        Zend_Paginator::setDefaultScrollingStyle('Sliding');
+        $paginator->setItemCountPerPage(self::ROW_LIMIT_FILES);
+        $paginator->setCurrentPageNumber($this->_getParam('page', 1));
+        $this->view->paginator = $paginator;
+        $paginator->setView($this->view);
     }
 
 }

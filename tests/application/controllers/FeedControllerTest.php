@@ -12,6 +12,9 @@ class FeedControllerTest extends ControllerTestCase
       parent::tearDown();
 	}
 
+	/**
+	 * @group feed
+	 */
 	public function testRSS()
 	{
 		print "\n".__METHOD__.' ';
@@ -22,5 +25,5 @@ class FeedControllerTest extends ControllerTestCase
 		$this->assertResponseCode(200);
 		$this->assertQueryContentContains('title', '[CDATA[My Bacula backup server #1]]');
 	}
-	
-}	
+
+}

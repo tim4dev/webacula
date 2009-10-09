@@ -23,33 +23,29 @@
  *
  */
 
-/* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
 class LogController extends Zend_Controller_Action
 {
 
-	function init()
-	{
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->translate = Zend_Registry::get('translate');
-		Zend_Loader::loadClass('Log');
-	}
-
-    function viewLogIdAction()
+    function init ()
     {
-    	// http://localhost/webacula/log/jobid/<JobId>/jobname/<JobName>
-    	$job_id   = intval( $this->_request->getParam('jobid') );
-    	$job_name = addslashes( $this->_request->getParam('jobname') );
-    	if ( !empty($job_id)  )	{
-    		$this->view->title = sprintf($this->view->translate->_("Console messages for Job %s, JobId %u"), $job_name, $job_id);
-
-			$log = new Log();
-			$this->view->result = $log->getById($job_id);
-    	}
-    	else
-    		$this->view->result = null;
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+        Zend_Loader::loadClass('Log');
     }
 
+    function viewLogIdAction ()
+    {
+        // http://localhost/webacula/log/jobid/<JobId>/jobname/<JobName>
+        $job_id = intval($this->_request->getParam('jobid'));
+        $job_name = addslashes($this->_request->getParam('jobname'));
+        if (! empty($job_id)) {
+            $this->view->title = sprintf($this->view->translate->_("Console messages for Job %s, JobId %u"), $job_name, $job_id);
+            $log = new Log();
+            $this->view->result = $log->getById($job_id);
+        } else
+            $this->view->result = null;
+    }
 
 }

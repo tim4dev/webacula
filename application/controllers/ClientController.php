@@ -22,7 +22,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: ClientController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
 /* Zend_Controller_Action */
@@ -31,20 +30,20 @@ require_once 'Zend/Controller/Action.php';
 class ClientController extends Zend_Controller_Action
 {
 
-	function init()
-	{
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		Zend_Loader::loadClass('Client');
+    function init()
+    {
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        Zend_Loader::loadClass('Client');
 
-		// for input field validation
-    	Zend_Loader::loadClass('Zend_Validate');
-    	Zend_Loader::loadClass('Zend_Filter_Input');
-    	Zend_Loader::loadClass('Zend_Validate_StringLength');
-    	Zend_Loader::loadClass('Zend_Validate_NotEmpty');
-    	Zend_Loader::loadClass('Zend_Validate_Digits');
-    	$validators = array(
+        // for input field validation
+        Zend_Loader::loadClass('Zend_Validate');
+        Zend_Loader::loadClass('Zend_Filter_Input');
+        Zend_Loader::loadClass('Zend_Validate_StringLength');
+        Zend_Loader::loadClass('Zend_Validate_NotEmpty');
+        Zend_Loader::loadClass('Zend_Validate_Digits');
+        $validators = array(
             '*' => array(
-    	       new Zend_Validate_StringLength(1, 255)
+                new Zend_Validate_StringLength(1, 255)
             ),
             'id'   => array(
                 'Digits',
@@ -65,36 +64,36 @@ class ClientController extends Zend_Controller_Action
 
     function allAction()
     {
-    	$this->view->title = $this->view->translate->_("Clients");
-    	$clients = new Client();
-    	$order  = array('ClientId', 'Name');
-		$this->view->clients = $clients->fetchAll(null, $order);
+        $this->view->title = $this->view->translate->_("Clients");
+        $clients = new Client();
+        $order  = array('ClientId', 'Name');
+        $this->view->clients = $clients->fetchAll(null, $order);
     }
 
     function statusClientIdAction()
     {
-    	// http://localhost/webacula/client/status-client-id/id/1/name/local.fd
+        // http://localhost/webacula/client/status-client-id/id/1/name/local.fd
         $this->input->setData( array('id' => $this->_getParam('id'), 'name' => $this->_getParam('name')) );
         if ( $this->input->isValid() ) {
-            $client_id   = $this->input->getEscaped('id');
+            // unused ? $client_id   = $this->input->getEscaped('id');
             $client_name = $this->input->getEscaped('name');
         } else {
             $this->view->result = 'NOVALID';
             return;
         }
+        $this->view->title = $this->view->translate->_("Client") . " " . $client_name;
+        $config = Zend_Registry::get('config');
 
-   		$this->view->title = $this->view->translate->_("Client") . " " . $client_name;
+        // check access to bconsole
 
-    	$config = Zend_Registry::get('config');
+        if ( !file_exists($config->bacula->bconsole))	{
+            $this->view->result = 'NOFOUND';
+            return;
+        }
 
-    	// check access to bconsole
-
-   		if ( !file_exists($config->bacula->bconsole))	{
-   			$this->view->result = 'NOFOUND';
-   			return;
-   		}
-
-   		$bconsolecmd = '';
+        $command_output = '';
+        $return_var = 0;
+        $bconsolecmd = '';
         if ( isset($config->bacula->sudo))	{
             // run with sudo
             $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
@@ -103,17 +102,17 @@ class ClientController extends Zend_Controller_Action
         }
 
 exec($bconsolecmd . " <<EOF
-status client=$client_name
+status client=\"$client_name\"
 quit
 EOF", $command_output, $return_var);
 
-		// check return status of the executed command
-   		if ( $return_var != 0 )	{
-   			$this->view->result = 'ERR';
-   			return;
-   		}
+        // check return status of the executed command
+        if ( $return_var != 0 )	{
+            $this->view->result = 'ERR';
+            return;
+        }
 
-   		$this->view->result = $command_output;
+        $this->view->result = $command_output;
     }
 
 

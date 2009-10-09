@@ -29,64 +29,62 @@ require_once 'Zend/Controller/Action.php';
 class DirectorController extends Zend_Controller_Action
 {
 
-	function init()
-	{
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->translate = Zend_Registry::get('translate');
-		Zend_Loader::loadClass('Director');
-	}
+    function init()
+    {
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+        Zend_Loader::loadClass('Director');
+    }
 
     function statusdirAction()
     {
-    	$this->view->title = $this->view->translate->_("Status Director");
+        $this->view->title = $this->view->translate->_("Status Director");
         // get status dir
-        $director = new Director();           
-		if ( !$director->isFoundBconsole() )	{
-			$this->view->result_error = 'NOFOUND_BCONSOLE';
-   		  	$this->render();
-   		  	return;
-   	    }
-		$astatusdir = $director->execDirector(
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )	{
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
+            return;
+        }
+        $astatusdir = $director->execDirector(
 "<<EOF
 status dir
 @quit
 EOF"
-		); 
+        );
         $this->view->command_output = $astatusdir['command_output'];
         // check return status of the executed command
         if ( $astatusdir['return_var'] != 0 )	{
-			$this->view->result_error = $astatusdir['result_error'];
-		}
-		return;
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+        return;
     }
-    
-    
-    
+
+
     function listjobtotalsAction()
     {
-    	$this->view->title = $this->view->translate->_("List of Job Totals");
-        $director = new Director();           
-		if ( !$director->isFoundBconsole() )	{
-			$this->view->result_error = 'NOFOUND_BCONSOLE';
-   		  	$this->render();
-   		  	return;
-   	    }
-		$astatusdir = $director->execDirector(
+        $this->view->title = $this->view->translate->_("List of Job Totals");
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )	{
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
+            return;
+        }
+        $astatusdir = $director->execDirector(
 " <<EOF
 list jobtotals
 @quit
 EOF"
-		);
-		//echo "<pre>command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
-		$this->view->command_output = $astatusdir['command_output'];
+        );
+        //echo "<pre>command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
+        $this->view->command_output = $astatusdir['command_output'];
         // check return status of the executed command
         if ( $astatusdir['return_var'] != 0 )	{
-			$this->view->result_error = $astatusdir['result_error'];
-		}
-		return;
-    }    
-    
-    
-    
-    
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+        return;
+    }
+
+
+
 }

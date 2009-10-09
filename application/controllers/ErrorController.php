@@ -21,7 +21,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: ErrorController.php 398 2009-08-13 23:07:32Z tim4dev $
  */
 
 /* Zend_Controller_Action */
@@ -29,43 +28,44 @@ require_once 'Zend/Controller/Action.php';
 
 class ErrorController extends Zend_Controller_Action
 {
-	function init()
-	{
-		Zend_Loader::loadClass('Wblogbook');
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->translate = Zend_Registry::get('translate');
-	}
+    function init()
+    {
+        Zend_Loader::loadClass('Wblogbook');
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+    }
 
     public function errorAction()
     {
-		$errors = $this->_getParam('error_handler');
-		$exception = $errors->exception;
+        $errors = $this->_getParam('error_handler');
+        $exception = $errors->exception;
         $this->view->err_message = $exception->getMessage();
 	    $this->view->err_trace   = $exception->getTraceAsString();
-	    
-	    Zend_Loader::loadClass('Zend_Version');   
+
+        Zend_Loader::loadClass('Zend_Version');
         $this->view->zend_version = Zend_Version::VERSION;
-	    $this->view->db_adapter_bacula   = Zend_Registry::get('DB_ADAPTER');       
-	    $db = Zend_Registry::get('db_bacula');
-	    $this->view->db_server_version_bacula = $db->getServerVersion();
-	    
-	    $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
-	    $db_webacula = Zend_Registry::get('db_webacula');
-	    $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
-	
-		switch ($errors->type) {
-			case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
-        	case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
-        		// ошибка 404 - не найден контроллер или действие
-        		$this->getResponse()
-                	 ->setRawHeader('HTTP/1.1 404 Not Found');
-	            // ... получение данных для отображения...
-	            $this->view->err_custom_message = 'Error 404. Page Not Found.';
-    	        break;
-			default:
-    	    	// ошибка приложения; выводим страницу ошибки,
-        	    // но не меняем код статуса
-            	break;
-    	}
+        $this->view->db_adapter_bacula   = Zend_Registry::get('DB_ADAPTER');
+        $db = Zend_Registry::get('db_bacula');
+        $this->view->db_server_version_bacula = $db->getServerVersion();
+
+        $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
+        $db_webacula = Zend_Registry::get('db_webacula');
+        $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
+
+        switch ($errors->type) {
+            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
+            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
+                // ошибка 404 - не найден контроллер или действие
+                $this->getResponse()
+                    ->setRawHeader('HTTP/1.1 404 Not Found');
+                //.получение данных для отображения...
+                $this->view->err_custom_message = 'Error 404. Page Not Found.';
+                break;
+            default:
+                // ошибка приложения; выводим страницу ошибки,
+                // но не меняем код статуса
+                break;
+        }
     }
+
 }

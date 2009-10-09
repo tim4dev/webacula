@@ -23,73 +23,69 @@
  *
  * $Id: HelpController.php 398 2009-08-13 23:07:32Z tim4dev $
  */
-/* Zend_Controller_Action */
+
 require_once 'Zend/Controller/Action.php';
 
 class HelpController extends Zend_Controller_Action
 {
 
-	function init()
-	{
-	    $this->_helper->viewRenderer->setNoRender(); // disable autorendering
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->translate = Zend_Registry::get('translate');
-	}
+    function init ()
+    {
+        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+    }
 
-    function indexAction()
+    function indexAction ()
     {
         // workaround
         $unit_test = $this->_request->getParam('test', null);
-        if ( empty($unit_test)) {
+        if (empty($unit_test)) {
             // not test
             $this->_helper->layout->setLayout('help');
         }
-    	$unit_test = $this->_request->getParam('test', null);
-    	$this->view->title = "webacula help";
-    	$config = Zend_Registry::get('config');
-    	if ( empty($unit_test) ) {
-         if ( isset($config->locale) ) {
-            $user_language =  addslashes(trim($config->locale));
-         } else {
-            // autodetect
-            $locale = new Zend_Locale(Zend_Locale::BROWSER);
-            $user_language = $locale->getLanguage(); // 'ru', 'en'...
+        $unit_test = $this->_request->getParam('test', null);
+        $this->view->title = "webacula help";
+        $config = Zend_Registry::get('config');
+        if (empty($unit_test)) {
+            if (isset($config->locale)) {
+                $user_language = addslashes(trim($config->locale));
+            } else {
+                // autodetect
+                $locale = new Zend_Locale(Zend_Locale::BROWSER);
+                $user_language = $locale->getLanguage(); // 'ru', 'en'...
             //print_r($user_language); //!! for debug
-         }
-    	} else {
-    		$user_language = 'en'; // for unit tests
-    	}
-
+            }
+        } else {
+            $user_language = 'en'; // for unit tests
+        }
         $namefile = 'help/index_' . $user_language . '.phtml';
-
-        if ( !file_exists("../application/views/scripts/" .$namefile) )  {
+        if (! file_exists("../application/views/scripts/" . $namefile)) {
             $namefile = 'help/index_en.phtml'; // default language
         }
-        
-        Zend_Loader::loadClass('Zend_Version');   
+        Zend_Loader::loadClass('Zend_Version');
         $this->view->zend_version = Zend_Version::VERSION;
-        $this->view->db_adapter_bacula   = Zend_Registry::get('DB_ADAPTER');       
-	    $db = Zend_Registry::get('db_bacula');
-	    $this->view->db_server_version_bacula = $db->getServerVersion();
-	    
-	    $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
-	    $db_webacula = Zend_Registry::get('db_webacula');
-	    $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
-
+        $this->view->db_adapter_bacula = Zend_Registry::get('DB_ADAPTER');
+        $db = Zend_Registry::get('db_bacula');
+        $this->view->db_server_version_bacula = $db->getServerVersion();
+        $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
+        $db_webacula = Zend_Registry::get('db_webacula');
+        $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
         echo $this->renderScript($namefile);
         return;
     }
 
-    function myPhpInfoAction()
+    function myPhpInfoAction ()
     {
         echo $this->render();
         return;
     }
 
-    function myIdAction()
+    function myIdAction ()
     {
         echo $this->render();
         return;
     }
+
 
 }

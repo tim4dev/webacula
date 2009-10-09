@@ -23,7 +23,7 @@
  *
  */
 
-/* Zend_Controller_Action */
+
 require_once 'Zend/Controller/Action.php';
 
 class WblogbookController extends Zend_Controller_Action
@@ -36,8 +36,8 @@ class WblogbookController extends Zend_Controller_Action
 	protected $aAllowedAttrs = array('href');
 	protected $config_webacula;
 
-	function init()
-	{
+    function init()
+    {
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		// load model
 		Zend_Loader::loadClass('Wblogbook');
@@ -53,26 +53,22 @@ class WblogbookController extends Zend_Controller_Action
 		$this->config_webacula = Zend_Registry::get('config_webacula');
 	}
 
-	/**
-	 * Define order
-	 * Определяет порядок сортировки
-	 *
-	 * @param string $so1
-	 * @param string $so2
-	 */
-	function defSortOrder($so1)
-	{
+    /**
+     * Define order
+     * Определяет порядок сортировки
+     *
+     * @param string $so1
+     * @param string $so2
+     */
+    function defSortOrder($so1)
+    {
+        $sort_order = 'DESC';
         if ( isset($so1) ) {
-            if ( trim($so1) == 'ASC' ) {
+            if ( trim($so1) == 'ASC' )
                 $sort_order = 'ASC';
-            } else {
-                $sort_order = 'DESC';
-            }
-   		} else {
-   		    $sort_order == 'DESC';
-   		}
-   		return $sort_order;
-	}
+        }
+        return $sort_order;
+    }
 
 	/**
 	 * Строковое описание для порядка сортировки
@@ -201,36 +197,35 @@ class WblogbookController extends Zend_Controller_Action
 
 
     /**
-	 * LogBook view action full text search
-	 *
-	 */
+     * LogBook view action full text search
+     *
+     */
     function searchtextAction()
     {
-    	$id_text = addslashes( substr( $this->_request->getParam('id_text'), 0, 250 ) );
+        $id_text = addslashes( substr( $this->_request->getParam('id_text'), 0, 250 ) );
+        // порядок сортировки
+        $sort_order     = $this->defSortOrder( trim($this->_request->getParam('sortorder_by_text')) );
+        // unused ? $str_sort_order = $this->defStrSortOrder($sort_order);
 
-    	// порядок сортировки
-      $sort_order     = $this->defSortOrder( trim($this->_request->getParam('sortorder_by_text')) );
-      $str_sort_order = $this->defStrSortOrder($sort_order);
+        $this->view->title   = $this->view->translate->_("Logbook") . ". " . $this->view->translate->_("Search text");
+        $this->view->id_text = $id_text;
 
-    	$this->view->title   = $this->view->translate->_("Logbook") . ". " . $this->view->translate->_("Search text");
-    	$this->view->id_text = $id_text;
+        // get data from model
+        if ( isset($id_text) )	{
+            $logs = new wbLogBook();
+            $ret = $logs->findLogBookByText($id_text, $sort_order);
+            if ($ret)	{
+                $this->view->result = $ret->fetchAll();
+            }
+        }
 
-		// get data from model
-		if ( isset($id_text) )	{
-	    	$logs = new wbLogBook();
-	    	$ret = $logs->findLogBookByText($id_text, $sort_order);
-	    	if ($ret)	{
-		 		$this->view->result = $ret->fetchAll();
-			}
-		}
-
-    	$printable = $this->_request->getParam('printable_by_text');
-    	if ( empty($printable) )	{
-    		echo $this->renderScript('wblogbook/index.phtml');
-    	} else {
-    		$this->_helper->layout->setLayout('printable');
-    		echo $this->renderScript('wblogbook/index-printable.phtml');
-    	}
+        $printable = $this->_request->getParam('printable_by_text');
+        if ( empty($printable) )	{
+            echo $this->renderScript('wblogbook/index.phtml');
+        } else {
+            $this->_helper->layout->setLayout('printable');
+            echo $this->renderScript('wblogbook/index-printable.phtml');
+        }
     }
 
 
@@ -536,68 +531,5 @@ class WblogbookController extends Zend_Controller_Action
         $this->view->aAllowedTags = $this->aAllowedTags;
     }
 
-/*
-    function saveToPdfAction()
-    {
-
-http://www.zfforums.com/zend-framework-components-13/mail-formats-search-14/pdf-utf8-bug-not-362.html#post1041
-------------------------------
-tim4dev
-Default Pdf & utf8 - bug or not?
-Hi,
-
-I have problems with write UTF-8 strings in russian language, for ex. "Русский язык") to PDF file - some chars are not processed.
-
-Notice: iconv() [function.iconv]: Detected an illegal character in input string in ...library/Zend/Pdf/Resource/Font.php on line 522
-
-
-A similar problem has been here:
-PDF file with UTF-8 string
-
-Therefore, ask again:
-Please, how can I generate PDF file from UTF-8 strings with national characters?
-
-thanks.
-------------------------------
-No answer ;(
-
-    	*/
-    	// http://devzone.zend.com/article/2525-Zend_Pdf-tutorial
-    	// http://www.ehow.com/how_2226138_wrap-text-zendpdf.html
-
-    	// Disable view script autorendering
-/*        $this->_helper->viewRenderer->setNoRender();
-
-    	$fileName = '/tmp/my.pdf';
-    	// Load Zend_Pdf class
-		Zend_Loader::loadClass('Zend_Pdf');
-
-		// Создание нового документа PDF
-		$pdf = new Zend_Pdf();
-
-		// Add new page
-		$page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
-		$pdf->pages[] = $page;
-
-		// Создание нового шрифта
-		// !!! ВСТРОЕННЫЕ ШРИФТЫ НЕ ПОДДЕРЖИВАЮТ русский язык !!!
-		//$config = new Zend_Config_Ini('../application/config.ini', 'timeline');
-		//$fontFile = $config->gdfontpath . "/" . $config->fontname . ".ttf";
-
-		$fontFile = '/usr/share/fonts/dejavu-lgc/DejaVuLGCSans.ttf';
-		$page->setFont(Zend_Pdf_Font::fontWithPath($fontFile), 12);
-		//$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 12);
-
-		$text = "Русский -- ü ï ë -- go here!";
-		$text = iconv("UTF-8", "UTF-8//IGNORE", $text);
-
-		// Применение шрифта и написание текста (x:points, y:points)
-		//$page->drawText("Рус These characters -- ü ï ë -- go here!", 0, 0, "UTF-8");
-		$page->drawText($text, 20, 20, "UTF-8");
-
-		// Save document as a new file or rewrite existing document
-		$pdf->save($fileName);
-    }
-*/
 
 }

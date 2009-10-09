@@ -21,21 +21,20 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: PoolController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
-/* Zend_Controller_Action */
+
 require_once 'Zend/Controller/Action.php';
 
 class PoolController extends Zend_Controller_Action
 {
 
-	function init()
-	{
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->translate = Zend_Registry::get('translate');
-		Zend_Loader::loadClass('Pool');
-	}
+    function init()
+    {
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+        Zend_Loader::loadClass('Pool');
+    }
 
    function allAction()
    {
@@ -44,5 +43,6 @@ class PoolController extends Zend_Controller_Action
       $pools = new Pool();
       $this->view->pools = $pools->fetchAll(null, $order);
    }
-   
+
+
 }

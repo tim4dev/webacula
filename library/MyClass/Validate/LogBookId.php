@@ -37,17 +37,18 @@ class MyClass_Validate_LogBookId implements Zend_Validate_Interface
     {
         Zend_Loader::loadClass('Wblogbook');
     }
-    
+
     public function isValid($logTxt)
     {
         $this->_messages = array();
-        $pattern1 = "/LOGBOOK_ID=[\w]+([\s]+|$)/";
+        $matches = null;
+        $pattern1 = '/LOGBOOK_ID=[\w]+([\s]+|$)/';
         $num1 = preg_match_all($pattern1, $logTxt, $matches);
         if ($num1) {
             // match LOGBOOK_ID
             $pattern2 = "/LOGBOOK_ID=/";
-            foreach ($matches[0] as $value) {                   
-                $ids = preg_split($pattern2, $value);                    
+            foreach ($matches[0] as $value) {
+                $ids = preg_split($pattern2, $value);
                 $id = trim($ids[1]);
 
                 $jobs = new Job();
@@ -57,7 +58,7 @@ class MyClass_Validate_LogBookId implements Zend_Validate_Interface
                     return false;
                 }
             }
-        }           
+        }
         return true;
     }
 

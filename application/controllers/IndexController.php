@@ -21,43 +21,41 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: IndexController.php 359 2009-07-01 20:28:31Z tim4dev $
  */
 
-/** Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
 class IndexController extends Zend_Controller_Action
 {
 
-	function init()
-	{
-		$this->view->baseUrl = $this->_request->getBaseUrl();
-		// load model
-		Zend_Loader::loadClass('Job');
-		$this->view->translate = Zend_Registry::get('translate');
-	}
+    function init ()
+    {
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        // load model
+        Zend_Loader::loadClass('Job');
+        $this->view->translate = Zend_Registry::get('translate');
+    }
 
-    function indexAction()
+    function indexAction ()
     {
         // workaround
         $unit_test = $this->_request->getParam('test', null);
-        if ( empty($unit_test)) {
+        if (empty($unit_test)) {
             // not test
             $this->_helper->layout->setLayout('dashboard');
         }
-
-      // actionToStack($action, $controller, $module, $params);
-      $this->_helper->actionStack('problem-dashboard', 'job');
-      $this->_helper->actionStack('problem-dashboard', 'volume');
-      $this->_helper->actionStack('next-dashboard', 'job');
-      $this->_helper->actionStack('running-dashboard', 'job');
-      $this->_helper->actionStack('terminated-dashboard', 'job');
+        // actionToStack($action, $controller, $module, $params);
+        $this->_helper->actionStack('problem-dashboard', 'job');
+        $this->_helper->actionStack('problem-dashboard', 'volume');
+        $this->_helper->actionStack('next-dashboard', 'job');
+        $this->_helper->actionStack('running-dashboard', 'job');
+        $this->_helper->actionStack('terminated-dashboard', 'job');
         $config = Zend_Registry::get('config');
-        if ( empty($config->head_title) ) {
+        if (empty($config->head_title)) {
             $this->view->titleDashboard = "webacula Main Page";
         } else {
             $this->view->titleDashboard = $config->head_title;
         }
     }
+
 }
