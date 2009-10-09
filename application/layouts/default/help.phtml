@@ -1,0 +1,200 @@
+<?php
+header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");               // Date in the past
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");  // Always modified
+header("Cache-Control: no-cache, must-revalidate");             // HTTP/1.1
+header("Pragma: no-cache");                                     // HTTP/1.0
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
+	<title><?php echo $this->escape($this->title); ?></title>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
+	<meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
+
+<!-- main menu -->
+<!-- http://users.tpg.com.au/j_birch/plugins/superfish/ -->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/superfish.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/ui.selectmenu.css" media="screen" />
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/hoverIntent.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/superfish.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.7.2.custom.css");</style>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.selectmenu.js"></script>
+
+<script type="text/javascript">
+	$j = jQuery.noConflict();
+	$j(document).ready(function() {
+        $j('ul.sf-menu').superfish({
+            delay:       500,                            // second delay on mouseout
+            animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation
+            speed:       'fast',                         // faster animation speed
+            autoArrows:  true,                           // disable generation of arrow mark-up
+            dropShadows: true                            // disable drop shadows
+        });
+    });
+</script>
+<!-- END main menu -->
+
+<?php echo $this->MainmenuFloat($this); ?>
+
+<!-- bottom menu -->
+<style type="text/css">
+div#bottommenu
+{
+   margin-top: 8em;
+   margin-left: 0;
+   margin-right: 0;
+   width: 100%;
+
+   text-align: center; /* align left to fix the previous IE css bug */
+
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 11px;
+   background-color:#002244;
+   color:white;
+   padding: 1px 1px;
+   clear: both;
+}
+
+.bottommenua a {
+   padding: 1px 1px;
+   background-color: #002244;
+   color: white;
+}
+
+/* наведение мышкой */
+.bottommenua a:hover{
+   background-color:#00458A;
+   color: #FFFF33;
+}
+
+</style>
+<!-- END bottom menu -->
+
+<script type="text/javascript">
+  // round corners
+  $j(function(){
+	  $j('div.roundcorner1').corner();
+	  $j('div.roundcorner2').corner();
+  });
+</script>
+
+</head>
+<body>
+
+<ul id="main-menu" class="sf-menu">
+   	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
+       	<ul>
+           	<li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></li>
+    <li class="current"><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Job"); ?></a>
+		<ul>
+        	<li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Terminated"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Pool/Volume"); ?></a>
+    	<ul>
+        	<li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a>
+    </li>
+    <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a>
+    </li>
+    <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
+    	<ul>
+        	<li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
+        </ul>
+    </li>
+    <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a>
+    </li>
+</ul>
+<br style="clear: both;" />
+
+<div style="margin: 10px;">&nbsp;</div>
+
+<script type="text/javascript">
+</script>
+<noscript>
+<div style="font-weight: bold; padding: 5px; background-color: red; color: white;">
+    <?php print $this->translate->_("Enable JavaScript please..."); ?>
+</div>
+</noscript>
+
+
+<div align="center" style="width: 60%; margin-left: auto; margin-right: auto; text-align: left;">
+<?php echo $this->layout()->content ?>
+
+<p>&nbsp;</p><p>&nbsp;</p>
+<hr />
+Copyright 2007, 2008, 2009 Yuri Timofeev <a href="mailto:tim4dev@gmail.com">tim4dev@gmail.com</a>
+
+<img src="<?php echo $this->baseUrl; ?>/images/gplv3-127x51.png" alt="GPL3" width="127" height="51" hspace="15" vspace="15" align="left" border="0" />
+
+<p>This program is free software: you can redistribute it and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, 
+or (at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+See the GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License along with this program.  
+If not, see <a href="http://www.gnu.org/licenses/" name="GPL3" target="_blank">http://www.gnu.org/licenses/</a>.
+</p>
+
+<p>&nbsp;</p>
+<div align="left">
+<a href="http://framework.zend.com/" target="zfwindow"><img src="<?php echo $this->baseUrl; ?>/images/PoweredBy_ZF_4LightBG.png" border="0" /></a>&nbsp;&nbsp;&nbsp;
+<a href="http://jquery.com/" target="_blank"><img src="<?php echo $this->baseUrl; ?>/images/jquery_logo.png" border="0" /></a>
+</div>
+
+</div>
+
+
+<!-- footer menu -->
+<div id="center_for_ie2">
+<div id="bottommenu">
+    <div class="bottommenua">
+<b><a href="<?php echo $this->baseUrl;?>"><?php print $this->translate->_("Desktop"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></b>&nbsp;|&nbsp;
+<b><?php print $this->translate->_("Job"); ?> : </b>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/last"><?php print $this->translate->_("Last"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running Jobs"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run Job"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a>&nbsp;|&nbsp;
+<b><?php print $this->translate->_("Pool/Volume"); ?> : </b>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a>&nbsp;
+<a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a></b>&nbsp;|&nbsp;
+<b><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a></b>
+    </div>
+</div>
+</div> <!-- end of ieCenter div -->
+
+</body>
+</html>

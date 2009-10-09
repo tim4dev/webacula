@@ -1,47 +1,29 @@
-<div align="center" style="width: 680px; margin-left: auto; margin-right: auto; text-align: left;">
+<!-- index_en.phtml -->
 <img src="<?php echo $this->baseUrl; ?>/images/Webacula_logo.png">
 
-	<h1 style="color : #002244;">v<?php echo Zend_Registry::get('webacula_version'); ?></h1>
-	<p><strong>
-	<a href="http://webacula.sourceforge.net/" name="webacula" target="_blank">
-	Webacula</a>
-	</strong> - <strong>We</strong>b + <strong>Bacula</strong> -
-	web interface of a
-	<a href="http://www.bacula.org/" name="Bacula" target="_blank">Bacula backup system</a>.</p>
+<h1 style="color : #002244;">v<?php echo Zend_Registry::get('webacula_version'); ?></h1>
+<p><strong>
+<a href="http://webacula.sourceforge.net/" name="webacula" target="_blank">
+Webacula</a>
+</strong> - <strong>We</strong>b + <strong>Bacula</strong> -
+web interface of a
+<a href="http://www.bacula.org/" name="Bacula" target="_blank">Bacula backup system</a>.</p>
 
-	<p>&nbsp;</p>
-	<h1>System Requirements</h1>
-	<ul>
-	<li>Bacula 3.0 or later.</li>
-	<li>Full supported <b>MySQL,PostgreSQL and Sqlite</b> database.  <font  style="color : #ff0000;">NEW!</font>
-	</li>
-	<li>Zend Framework version 1.8.3 or later.</li>
-	<li>Zend Framework is built with object-oriented PHP 5 and requires
-  PHP 5.2.4 or later with PDO extension active. Please see
-   	<a href="http://framework.zend.com/manual/en/requirements.html" target="_blank"> the system requirements appendix</a> for
-  	more detailed information.</li>
-	<li>Apache and mod_rewrite.</li>
-	<li>Installed php-gd package. GD is an open source code library for the dynamic creation of images.</li>
-	<li><a href="http://docs.jquery.com/Browser_Compatibility" target="_blank">Browser Compatibility</a>.</li>
-	</ul>
-	<p>&nbsp;</p>
-	<h1>Legend</h1>
-	<p>
-	<font  style="background-color : #ffff00;">Yellow color</font> - warnings.
-	</p>
-	<p>
-	<font  style="background-color : #ff0000; color : #ffffff;">Red color</font> - errors.
-	</p>
-	<p>&nbsp;</p>
-	<h1>Information</h1>
-	<p>
-	<ul>
-	<li>DB Bacula : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></li>
-	<li>DB Webacula : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula; ?></li>
-	<li>Zend Framework : <?php echo $this->zend_version; ?></li>
-	<li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">php info</a> (in separate window)</li>
-	<li><a href="<?php echo $this->baseUrl, '/help/my-id/' ?>" target="_blank">id</a> (in separate window)</li>
-	</ul>
-	</p>
-
-<?php echo $this->render('help/help_footer.phtml'); ?>
+<p>&nbsp;</p>
+<h1>Legend</h1>
+<p>
+<font  style="background-color : #ffff00;">Yellow color</font> - warnings.
+</p>
+<p>
+<font  style="background-color : #ff0000; color : #ffffff;">Red color</font> - errors.
+</p>
+<p>&nbsp;</p>
+<h1>Information</h1>
+<p>
+<ul>
+    <li>DB Bacula : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></li>
+    <li>DB Webacula : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula; ?></li>
+    <li>Zend Framework : <?php echo $this->zend_version; ?></li>
+    <li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">php info</a> (in separate window)</li>
+    <li><a href="<?php echo $this->baseUrl, '/help/my-id/' ?>" target="_blank">id</a> (in separate window)</li>
+</ul>
