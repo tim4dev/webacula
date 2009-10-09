@@ -45,10 +45,28 @@ class VolumeControllerTest extends ControllerTestCase
     public function testUpdate()
     {
         print "\n".__METHOD__.' ';
-        // add new record
+        // update record
         $this->request->setPost(array(
-            'mediaid'       => 1,   //mandatory attribute
-            'poolid'        => 2,   //mandatory attribute
+            'mediaid'       => 1,   // mandatory attribute
+            'poolid'        => 1,   // Volume moved to another Pool (old PoolId = 2)
+            'volstatus'     => 'Append',
+            'volretention'  => 365,
+            'recycle'       => 1,
+            'slot'          => 1,
+            'inchanger'     => 0,
+            'maxvoljobs'    => 99999999,
+            'maxvolfiles'   => 99999,
+            'comment'       => "\n\nLorem ipsum dolor sit amet\n"
+        ));
+        $this->request->setMethod('POST');
+        $this->dispatch('volume/update');
+        $this->assertController('volume');
+        $this->assertAction('update');
+        
+        // backtracking
+        $this->request->setPost(array(
+            'mediaid'       => 1,   // mandatory attribute
+            'poolid'        => 2,   // mandatory attribute
             'volstatus'     => 'Append',
             'volretention'  => 365,
             'recycle'       => 1,

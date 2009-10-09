@@ -129,8 +129,10 @@ class VolumeController extends Zend_Controller_Action
         $pool_id     = trim( $this->_request->getPost('poolid') );
         $volume_name = trim( $this->_request->getPost('volumename') );
         if ( !empty($media_id) && !empty($pool_id) ) {
-            // update record into database
-            $table = new Media();
+            $media = new Media();
+            // remember old value of poolid for this mediaid
+            $old_pool_id = $media->getPoolId($media_id);            
+            // update Media record
             $data = array(
                 'poolid'        => $pool_id,
                 'volstatus'     => trim( $this->_request->getPost('volstatus') ),
@@ -142,10 +144,25 @@ class VolumeController extends Zend_Controller_Action
                 'maxvolfiles'   => trim( $this->_request->getPost('maxvolfiles') ),
                 'comment'       => trim( $this->_request->getPost('comment') )
             );
+            $where = $media->getAdapter()->quoteInto('MediaId = ?', $media_id);
+            $res = $media->update($data, $where);
 
-            $where = $table->getAdapter()->quoteInto('MediaId = ?', $media_id);
-            $res = $table->update($data, $where);
-
+            // if Volume moved to another Pool
+            if ( $old_pool_id != $pool_id ) {
+                // to count Volume count on both Pools
+                $old_volume_count = $media->getVolumeCountByPool($old_pool_id);
+                $volume_count     = $media->getVolumeCountByPool($pool_id);
+                $pool = new Pool();
+                // update old Pool record
+                $data = array('numvols' => $old_volume_count);
+                $where = $pool->getAdapter()->quoteInto('PoolId = ?', $old_pool_id);
+                $res = $pool->update($data, $where);                
+                // update new Pool record
+                $data = array('numvols' => $volume_count);
+                $where = $pool->getAdapter()->quoteInto('PoolId = ?', $pool_id);
+                $res = $pool->update($data, $where);
+            }
+            
             // send email
             if ( $res ) {
                 $email = new MyClass_SendEmail();

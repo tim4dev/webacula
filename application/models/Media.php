@@ -113,10 +113,6 @@ class Media extends Zend_Db_Table
 	function getById($pool_id, $order)
 	{
    		$select = new Zend_Db_Select($this->db);
-   		/*
-   		 *  VolStatus ENUM('Full', 'Archive', 'Append', 'Recycle', 'Purged',
-         *      'Read-Only', 'Disabled', 'Error', 'Busy', 'Used', 'Cleaning') NOT NULL
-   		 */
    		$select->from('Media',
     		array('MediaId', 'PoolId', 'StorageId',
 			'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
@@ -130,5 +126,23 @@ class Media extends Zend_Db_Table
 		return $stmt->fetchAll();
 	}
 
+	public function getPoolId($media_id)
+	{
+	    $select = new Zend_Db_Select($this->db);
+        $select->from('Media', array('PoolId'));
+        $select->where('MediaId = ?', $media_id);
+        // fetch one row
+        $row = $this->_db->fetchRow($select);
+        return $row['poolid'];
+	}
+	
+    public function getVolumeCountByPool($pool_id) {
+        $select = new Zend_Db_Select($this->db);
+        $select->from('Media', array('COUNT(MediaId) as count'));
+        $select->where('PoolId = ?', $pool_id);
+        // fetch one row
+        $row = $this->_db->fetchRow($select);
+        return $row['count'];
+    }
 
 }
