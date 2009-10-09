@@ -23,22 +23,20 @@
 
 <!-- Ссылка на первую страницу -->
 <?php if (isset($this->previous)): ?>
-  <a href="<?php echo $this->url( array_merge(array('page' => $this->first), $opt) ),'">',
+  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->first), $opt) ),'">',
   $this->translate->_('First</a>'), ' &nbsp;'; ?>
 <?php endif; ?>
 
 <!-- Ссылка на предыдущую страницу -->
 <?php if (isset($this->previous)): ?>
-  <a href="<?php echo $this->url( array_merge(array('page' => $this->previous), $opt) ),
+  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->previous), $opt) ),
   '">&lt; ', $this->translate->_('Previous</a>'), ' &nbsp;'; ?>
 <?php endif; ?>
 
 <!-- Нумерованные ссылки на страницы -->
 <?php foreach ($this->pagesInRange as $page): ?>
   <?php if ($page != $this->current): ?>
-    <a href="<?php
-        echo $this->url( array_merge(array('page' => $page), $opt) ), '"> ', $page;
-    ?></a> &nbsp;
+    <a href="<?php echo $this->url( array_merge(array('page' => $page), $opt) ); ?>"> <?php echo $page;?></a> &nbsp;
   <?php else: ?>
     <?php echo $page; ?> &nbsp;
   <?php endif; ?>
@@ -46,13 +44,13 @@
 
 <!-- Ссылка на следующую страницу -->
 <?php if (isset($this->next)): ?>
-  <a href="<?php echo $this->url( array_merge(array('page' => $this->next), $opt) ),
+  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->next), $opt) ),
   '">', $this->translate->_('Next &gt;'), '</a> &nbsp;'; ?>
 <?php endif; ?>
 
 <!-- Ссылка на последнюю страницу -->
 <?php if (isset($this->next)): ?>
-  <a href="<?php echo $this->url( array_merge(array('page' => $this->last), $opt) ),
+  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->last), $opt) ),
   '">', $this->translate->_('Last</a>'); ?>
 <?php endif; ?>
 </div>

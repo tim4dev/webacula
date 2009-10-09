@@ -12,15 +12,17 @@ class HelpControllerTest extends ControllerTestCase
       parent::tearDown();
 	}
 
+	/**
+	 * @group help
+	 */
 	public function testHelp()
 	{
 		print "\n".__METHOD__.' ';
 		$this->dispatch('help/index/test/1');
 		$this->assertController('help');
 		$this->assertAction('index');
-      //echo $this->response->outputBody(); // for debug !!!
+        //echo $this->response->outputBody(); // for debug !!!
 		$this->assertResponseCode(200);
-		$this->assertQueryContentContains('body', 'Yuri Timofeev');
 	}
 	
 }	

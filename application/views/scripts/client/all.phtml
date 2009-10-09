@@ -15,9 +15,11 @@
 <tbody>
 <?php foreach($this->clients as $client) : ?>
 <tr>
-     <td><a href="<?php echo $this->baseUrl, "/client/status-client-id/id/", $this->escape($client->clientid),
-     	"/name/", $this->escape($client->name), '" title="', $this->translate->_("Client Detail"), '">',
-		$this->escape($client->name) ;?></a>
+     <td>
+        <a href="<?php echo $this->baseUrl, "/client/status-client-id/id/", $this->escape($client->clientid),
+     	  "/name/", $this->escape($client->name); ?>" title="<?php echo $this->translate->_("Client Detail");?>">
+		  <?php echo $this->escape($client->name);?>
+		</a>
 	</td>
 
      <td><?php echo $this->escape($client->uname);?></td>

@@ -40,6 +40,7 @@ class IndexController extends Zend_Controller_Action
 
     function indexAction()
     {
+        // workaround
         $unit_test = $this->_request->getParam('test', null);
         if ( empty($unit_test)) {
             // not test

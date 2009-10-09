@@ -38,6 +38,12 @@ class HelpController extends Zend_Controller_Action
 
     function indexAction()
     {
+        // workaround
+        $unit_test = $this->_request->getParam('test', null);
+        if ( empty($unit_test)) {
+            // not test
+            $this->_helper->layout->setLayout('help');
+        }
     	$unit_test = $this->_request->getParam('test', null);
     	$this->view->title = "webacula help";
     	$config = Zend_Registry::get('config');
