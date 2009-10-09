@@ -17,7 +17,7 @@
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
 	 <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>     
+     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -80,7 +80,7 @@
 	?>
 
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
-	
+
 	<?php
 		if ( $line['jobfiles'] == 0 ) {
 			$class = 'class="warn"';
@@ -110,7 +110,7 @@
 			     $this->translate->_("View Messages"), '" class="lerr">',
 			     $this->escape($line['joberrors']), '</a></td>';
 		}
-	?>	
+	?>
 </tr>
 <?php endforeach; ?>
 </tbody>
@@ -118,9 +118,9 @@
 
 <?php else: ?>
 <div class="ui-widget" style="width: 80%; margin-left: 0px;">
-	<div class="ui-state-highlight ui-corner-all"> 
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
+	<div class="ui-state-highlight ui-corner-all">
+		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<?php print $this->translate->_("No Jobs found."); ?></p>
 	</div>
 </div>
 <?php endif; ?>

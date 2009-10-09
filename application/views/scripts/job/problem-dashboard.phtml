@@ -69,7 +69,7 @@
 	?>
 
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
-	
+
 	<?php
 		$class = '';
 		if ( $line['jobfiles'] == 0 ) $class = 'class="warn"';
@@ -89,8 +89,8 @@
 			     $this->translate->_("View Messages"), '" class="linkerr">';
 			echo $this->escape($line['joberrors']), '</a></td>';
 		}
-	?>	
-	
+	?>
+
 	<td><?php echo $this->escape($line['endtime']);?></td>
 </tr>
 <?php endforeach; ?>
@@ -99,9 +99,9 @@
 
 <?php else: ?>
 <div class="ui-widget" style="width: 80%; margin-left: 0px;">
-	<div class="ui-state-highlight ui-corner-all""> 
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
+	<div class="ui-state-highlight ui-corner-all"">
+		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<?php print $this->translate->_("No Jobs found."); ?></p>
 	</div>
 </div>
 <?php endif; ?>

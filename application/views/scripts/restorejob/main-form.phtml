@@ -155,7 +155,7 @@ $j(function() {
     <p><b><?php print $this->translate->_("Restore the most recent backup for a client"); ?></b></p>
     <p>
 <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-<table border="0" cellpadding="5" cellspacing="5" align="center">
+<table border="0" cellpadding="5" cellspacing="5" align="center" width="70%">
 <tr><td>
 <?php echo $this->formHidden('most_recent_form', '1', null); ?>
 <?php echo $this->formHidden('beginrecent', '1', null); ?>
@@ -198,7 +198,7 @@ $j(function() {
     <p><b><?php print $this->translate->_("Restore backup for a client before a specified time"); ?></b></p>
     <p>
 <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-<table border="0" cellpadding="5" cellspacing="5" align="center">
+<table border="0" cellpadding="5" cellspacing="5" align="center" width="70%">
 <tr><td>
 <?php echo $this->formHidden('before_time_form', '1', null); ?>
 <?php echo $this->formHidden('beginrecent', '1', null); ?>
@@ -245,7 +245,6 @@ $j(function() {
 </td></tr>
 </table>
 </form>
-        </p>
     </div>
 <!-- END   Restore backup for a client before a specified time -->
 

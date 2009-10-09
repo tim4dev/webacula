@@ -48,9 +48,9 @@
 
 <?php else : ?>
 <div class="ui-widget" style="width: 80%; margin-left: 0px;">
-	<div class="ui-state-highlight ui-corner-all"> 
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></strong></p>
+	<div class="ui-state-highlight ui-corner-all">
+		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></p>
 	</div>
 </div>
 <?php endif; ?>
@@ -99,14 +99,14 @@
 	?>
 
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
-	
+
 	<?php
 		if ( $this->escape($line['joberrors']) == 0 )
 			echo '<td align="right">-</td>';
 		else
 			echo '<td class="err" align="right">', $this->escape($line['joberrors']), '</td>';
 	?>
-	
+
 	<td ><?php echo $this->escape($line['clientname']);?></td>
 	<td><?php echo $this->escape($line['starttime']);?></td>
 </tr>
@@ -116,9 +116,9 @@
 
 <?php else: ?>
 <div class="ui-widget" style="width: 80%; margin-left: 0px;">
-	<div class="ui-state-highlight ui-corner-all"> 
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></strong></p>
+	<div class="ui-state-highlight ui-corner-all">
+		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></p>
 	</div>
 </div>
 <?php endif; ?>

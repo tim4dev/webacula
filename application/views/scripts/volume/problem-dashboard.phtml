@@ -24,8 +24,8 @@
 <?php foreach($this->resultProblemVolumes as $line) : ?>
 <tr>
 	<td>
-	<a href="<?php echo $this->baseUrl.'/volume/detail/mediaid/'.$this->escape($line['mediaid']).
-        '" title="'.$this->translate->_("Detail Volume").'">'.$this->escape($line['volumename']);?>
+	<a href="<?php echo $this->baseUrl.'/volume/detail/mediaid/'.$this->escape($line['mediaid']);?>"
+	   title="<?php echo $this->translate->_("Detail Volume");?>"><?php echo $this->escape($line['volumename']);?>
     </a>
     </td>
 
@@ -62,8 +62,8 @@
 <?php else: ?>
 <div class="ui-widget" style="width: 80%; margin-left: 0px;">
 	<div class="ui-state-highlight ui-corner-all">
-		<p><span class="ui-icon ui-icon-circle-check" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("Information from DB Catalog : All Volumes are OK.");?></strong></p>
+		<p class="dashboard"><span class="ui-icon ui-icon-circle-check" style="float: left; margin-right: 0.3em;"></span>
+		<?php print $this->translate->_("Information from DB Catalog : All Volumes are OK.");?></p>
 	</div>
 </div>
 <?php endif; ?>

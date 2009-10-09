@@ -1,4 +1,4 @@
-<!-- job/next-dashboard.phtml --> 
+<!-- job/next-dashboard.phtml -->
 <h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/job/next" id="dashboard">
 		<?php echo $this->escape($this->titleNextJobs); ?>
@@ -28,7 +28,7 @@
 	<th scope="col"> <?php print $this->translate->_("Type"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Priority"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Scheduled"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>   
+	<th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Volume"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("% Free space<br /> on Volume"); ?> </th>
 </tr>
@@ -78,7 +78,7 @@
 		echo '<td ',$class,' align="right">',$line['volfree'] ,'</td>';
 		?>
 	<?php else : ?>
-    	<td colspan="3"><?php echo $this->escape($line['name']), ' ', 
+    	<td colspan="3"><?php echo $this->escape($line['name']), ' ',
     						$this->escape($line['vol']), ' &nbsp;&nbsp;', $this->translate->_('Unknown');?></td>
 	<?php endif; ?>
 
@@ -93,9 +93,9 @@
 
 <?php else : ?>
 <div class="ui-widget" style="width: 80%; margin-left: 0px;">
-	<div class="ui-state-highlight ui-corner-all""> 
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Scheduled Jobs found."); ?></strong></p>
+	<div class="ui-state-highlight ui-corner-all"">
+		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<?php print $this->translate->_("No Scheduled Jobs found."); ?></p>
 	</div>
 </div>
 <?php endif; ?>
