@@ -1,12 +1,12 @@
 <?php
-if ( empty($this->unit_test) ) 
-{   
+if ( empty($this->unit_test) )
+{
 	// not tests
 	header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");               // Date in the past
 	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");  // Always modified
 	header("Cache-Control: no-cache, must-revalidate");             // HTTP/1.1
 	header("Pragma: no-cache");                                     // HTTP/1.0
-}	
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -74,13 +74,6 @@ if ( empty($this->unit_test) )
 			echo $str;
 
 			echo '<br><br>';
-
-			if ( $this->printable == 0) {
-				echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
-				    $this->formHidden('logid', $line['logid'], null),
-				    $this->formSubmit('modify', $this->translate->_('Modify Entry') ),
-				    '</form><br>';
-			}
 		?>
 	</td>
 
@@ -111,7 +104,7 @@ if ( empty($this->unit_test) )
 
 <?php else: ?>
 <div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No records found."); ?></strong></p>
 	</div>

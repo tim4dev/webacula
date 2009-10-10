@@ -66,7 +66,7 @@
 	</td>
 	<td>
 	<a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
-		"/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Volume"); ?>">
+		"/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Pool"); ?>">
 		<?php echo $this->escape($line['poolname']);?></a>
 	</td>
 </tr><tr>
@@ -103,7 +103,8 @@
 		<?php
 			if ($this->resultVol)	{
 				foreach($this->resultVol as $line2)	{
-                    echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '">',
+                    echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '" ',
+                        ' title="', $this->translate->_("Detail Volume"), '">',
                         $this->escape($line2['volumename']), '</a><br>';
 				}
 			}

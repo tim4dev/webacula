@@ -106,7 +106,7 @@ $ainchanger = array(
     </td>
 </tr><tr>
 <tr>
-    <td><?php print $this->translate->_("Recycle"); ?> </td>
+    <td><?php print $this->translate->_("Recycle "); ?> </td>
     <td><?php echo $this->formSelect('recycle', $this->escape($line['recycle']), null, $arecucle); ?></td>
 </tr><tr>
 <tr>
@@ -172,14 +172,14 @@ $ainchanger = array(
     <td><?php echo $this->escape($line['volwrites']);?></td>
 </tr><tr>
 <tr>
-    <td><?php print $this->translate->_("Capacity Bytes"); ?> </td>
+    <td><?php echo $this->translate->_("Capacity"), ' ', $this->translate->_("Bytes"); ?> </td>
     <td><?php echo $this->ConvBytes( $this->escape($line['volcapacitybytes']) );?></td>
 </tr><tr>
 <tr>
     <td><?php print $this->translate->_("Enabled"); ?> </td>
     <?php
         if ( $this->escape($line['enabled']) == 0 )
-            echo '<td class="err">'.$this->translate->_("disabled").'</td>';
+            echo '<td class="err">'.$this->translate->_("Disabled").'</td>';
         else
             echo '<td>+</td>';
     ?>
