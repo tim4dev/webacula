@@ -1,11 +1,11 @@
 Name:          webacula
 Version:       3.3.0
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
 Group:      Applications/Internet
-License:    GPLv3
+License:    GPLv3+
 URL:        http://webacula.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/project/%{name}/%{name}-%{version}.tar.gz
 Source1:    webacula.conf
@@ -16,7 +16,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 
 Requires: webserver
-Requires: bacula-console >= 2.4.4
+Requires: bacula-console >= 2.4.0
 Requires: php-ZendFramework >= 1.8.3
 Requires: php >= 5.2.4
 Requires: php-pdo
@@ -80,5 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Oct 10 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-2
+- Fix #526855 "Review Request"
+
 * Thu Oct 08 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-1
 - Initial Spec file creation for Fedora
