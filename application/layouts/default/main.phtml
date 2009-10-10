@@ -28,6 +28,7 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.selectmenu.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/easyTooltip.js"></script>
 
 <script type="text/javascript">
 	$j = jQuery.noConflict();
@@ -139,7 +140,14 @@ div#bottommenu
 </div>
 </noscript>
 
-
+<script type="text/javascript">
+    $j(document).ready(function(){
+        $j("a").easyTooltip({
+            xOffset: 9,
+            yOffset: -17
+        });
+    });
+</script>
 
 <?php echo $this->layout()->content ?>
 

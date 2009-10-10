@@ -10,7 +10,7 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <head>
 	<meta http-equiv="refresh" content="300" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />	
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
 	<title><?php echo $this->escape($this->titleDashboard); ?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
 	<meta http-equiv="Pragma" content="no-cache" />
@@ -26,17 +26,18 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.7.2.custom.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/easyTooltip.js"></script>
 
 <script type="text/javascript">
 	$j = jQuery.noConflict();
-	$j(document).ready(function() { 
-        $j('ul.sf-menu').superfish({ 
-            delay:       500,                            // second delay on mouseout 
-            animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation 
-            speed:       'fast',                         // faster animation speed 
-            autoArrows:  true,                           // disable generation of arrow mark-up 
-            dropShadows: true                            // disable drop shadows 
-        }); 
+	$j(document).ready(function() {
+        $j('ul.sf-menu').superfish({
+            delay:       500,                            // second delay on mouseout
+            animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation
+            speed:       'fast',                         // faster animation speed
+            autoArrows:  true,                           // disable generation of arrow mark-up
+            dropShadows: true                            // disable drop shadows
+        });
     });
 </script>
 <!-- END main menu -->
@@ -112,7 +113,7 @@ div#bottommenu
     <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
     	<ul>
         	<li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
-        </ul>	
+        </ul>
     </li>
     <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a>
     </li>
@@ -129,6 +130,15 @@ div#bottommenu
 </div>
 </noscript>
 
+<script type="text/javascript">
+    $j(document).ready(function(){
+        $j("a").easyTooltip({
+            xOffset: 9,
+            yOffset: -17
+        });
+    });
+</script>
+
 <!-- layout content -->
 <table align="left" width="100%" border="0" cellspacing="3" cellpadding="3">
 <tr valign="top">
@@ -142,7 +152,7 @@ div#bottommenu
 </td><td bgcolor="#EEEEEE">
 	<?php echo $this->layout()->job_terminated; ?>
 </td></tr>
-</table>	
+</table>
 
 <?php //echo $this->layout()->content ?>
 
