@@ -1,6 +1,6 @@
 <?php
     $translate = Zend_Registry::get('translate');
-    
+
     $config = Zend_Registry::get('config');
     if ( isset($config->language) ) {
         $user_language =  addslashes(trim($config->language));
@@ -8,13 +8,13 @@
         $locale = new Zend_Locale(Zend_Locale::BROWSER);
         $user_language = $locale->getLanguage(); // 'ru', 'en'...
         //var_dump($user_language);exit; //!! for debug
-    }    
+    }
 ?>
 <!-- wblogbook/index.phtml -->
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
 <?php
 	if ( $user_language != 'en' ) {
-	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
+	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';
 }
 ?>
 
@@ -25,7 +25,7 @@
 	</script>
 
 	<script type="text/javascript">
-	$j(function() {	
+	$j(function() {
 		$j('#date_begin').datepicker({
 			changeMonth: true,
 			changeYear: true
@@ -100,7 +100,7 @@
 	<li><a href="#tabs1"><?php print $this->translate->_("Filter by date"); ?></a></li>
     <li><a href="#tabs2"><?php print $this->translate->_("Filter by Id"); ?></a></li>
     <li><a href="#tabs3"><?php print $this->translate->_("Text Search"); ?></a></li>
-</ul>	
+</ul>
 
 <!-- filter by date -->
 <div id="tabs1">
@@ -113,7 +113,7 @@
 	<?php echo $this->formHidden('printable_by_date', '0', null); ?>
 	<?php echo $this->formHidden('sortorder_by_date', 'DESC', null); ?>
 	<br>
-	<?php echo $this->formSubmit('filter1', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>	
+	<?php echo $this->formSubmit('filter1', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>
 </form>
 </div>
 
@@ -190,11 +190,13 @@
 			$str = $line['logtxt'];
 
 			$pattern = "(BACULA_JOBID=)([0-9]*)";
-			$replacement = "<a href=\"" . $this->baseUrl . "/job/detail/jobid/\\2\">Bacula JobId \\2</a>";
+			$replacement = "<a href=\"" . $this->baseUrl . "/job/detail/jobid/\\2\" title=\"".
+                $this->translate->_("Detail Job")."\">Bacula JobId \\2</a>";
 			$str = eregi_replace($pattern, $replacement, $str);
 
 			$pattern = "(LOGBOOK_ID=)([0-9]*)";
-			$replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
+			$replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\" title=\"".
+			     $this->translate->_("Detail Logbook")."\">Logbook Id \\2</a>";
 			$str = eregi_replace($pattern, $replacement, $str);
 
 			// each OS have different ASCII chars for linebreak:
@@ -255,7 +257,7 @@
 
 <?php else: ?>
 <div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No records found."); ?></strong></p>
 	</div>
