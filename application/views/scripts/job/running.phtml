@@ -46,7 +46,7 @@
 
 <?php else : ?>
 <div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></strong></p>
 	</div>
@@ -95,14 +95,14 @@
 	?>
 
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
-	
+
 	<?php
 		if ( $this->escape($line['joberrors']) == 0 )
-			echo '<td align="right">-</td>';
+			echo '<td align="center">-</td>';
 		else
 			echo '<td class="err" align="right">', $this->escape($line['joberrors']), '</td>';
 	?>
-	
+
 	<td ><?php echo $this->escape($line['clientname']);?></td>
 
 	<td><a href="<?php echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']),
@@ -121,7 +121,7 @@
 
 <?php else: ?>
 <div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></strong></p>
 	</div>
