@@ -54,7 +54,7 @@ tests
 .gitignore
 .project
 application/config.ini
-install/webacula_clean_tmp_files
+install/webacula_clean_tmp_files.sh
 install/.htaccess
 docs/.htaccess
 application/.htaccess
@@ -66,11 +66,13 @@ html/test_mod_rewrite/.htaccess
 echo "create tarball..."
 
 rsync -a --exclude-from="${RPM_TMP}/${F_EXCLUDE}"  . "${RPM_TMP}/webacula-${VERSION}"
+echo -e "\n*** exit=$?"
 
 rm -f "${RPM_TMP}/${F_EXCLUDE}"
 
 cd ${RPM_TMP}
 tar zcvpf "${RPM_SOURCES}/webacula-${VERSION}.tar.gz"  "webacula-${VERSION}"
+echo -e "\n*** exit=$?"
 
 
 echo -e "\nclean all\n"
@@ -81,7 +83,7 @@ rm -f -r "${RPM_TMP}/webacula-${VERSION}"
 echo -e "\ncopy files...\n"
 cd ${ROOT_DIR}
 cp -p -f "${SRC_DIR}/application/config.ini" "${RPM_SOURCES}/"
-cp -p -f "${SRC_DIR}/install/webacula_clean_tmp_files" "${RPM_SOURCES}/"
+cp -p -f "${SRC_DIR}/install/webacula_clean_tmp_files.sh" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.conf" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.spec" "${RPM_SPECS}/"
 
@@ -94,25 +96,14 @@ echo -e "\nPress Enter to rpmlint ..."
 read
 
 rpmlint ${SPEC}
-echo "exit=$?"
+echo -e "\n*** exit=$?"
 
 echo -e "\nPress Enter to rpmbuild ..."
 read
 
 rpmbuild -ba ${SPEC}
-echo "exit=$?"
+echo -e "\n*** exit=$?"
 
-echo -e "\n"
-
-cd ${RPM_RPMS}/noarch
-pwd
-ls -la 
-
-echo -e "\nPress Enter to rpmlint ..."
-read
-
-rpmlint "${RPM_RPMS}/noarch/webacula-${VERSION}*.rpm"
-echo "exit=$?"
 
 
 
@@ -120,13 +111,16 @@ echo "exit=$?"
 echo -e "\n\n\n**************************************************************"
 echo -e "***** Next instruction :\n
 
+rpmlint ${RPM_RPMS}/noarch/webacula-
+
 Install rpm and testing.
-rpm -ihv ${RPM_RPMS}/noarch/webacula-${VERSION}*.rpm\n
+rpm -ihv ${RPM_RPMS}/noarch/webacula-\n
 
-mock -r fedora-11-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-${VERSION}*.src.rpm\n
-see files in
+mock -r fedora-11-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 
-cd /var/lib/mock/fedora-11-i386/result/
+see result:
+
+ls -la /var/lib/mock/fedora-11-i386/result/
 
 Add sign
 

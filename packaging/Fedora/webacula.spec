@@ -10,7 +10,7 @@ URL:        http://webacula.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/project/%{name}/%{name}-%{version}.tar.gz
 Source1:    webacula.conf
 Source2:    config.ini
-Source3:    webacula_clean_tmp_files
+Source3:    webacula_clean_tmp_files.sh
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:  noarch
@@ -54,24 +54,24 @@ Webacula - Web Bacula - веб интерфейс для Bacula backup system.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/application
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/html
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/library
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/install
-%{__cp} -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{__cp} -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{__cp} -pr ./languages   $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{__cp} -pr ./library     $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{__cp} -pr ./install     $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{__cp} %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
-%{__cp} %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
-%{__cp} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files
-ln -s %{_sysconfdir}/%{name}/config.ini $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/application
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/html
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/library
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/install
+cp -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -pr ./languages   $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -pr ./library     $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -pr ./install     $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp %{SOURCE1}  $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
+cp %{SOURCE2}  $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
+install -p -m 755 %{SOURCE3}  $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
+ln -s %{_sysconfdir}/%{name}/config.ini  $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
 
 
 %clean
@@ -86,7 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/html
 %{_datadir}/%{name}/library
 %{_datadir}/%{name}/install
-%{_sysconfdir}/cron.daily/webacula_clean_tmp_files
+%{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/webacula.conf
 %config(noreplace) %{_sysconfdir}/%{name}/config.ini
 %lang(de) %{_datadir}/%{name}/languages/de
