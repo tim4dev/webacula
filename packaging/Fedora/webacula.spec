@@ -1,6 +1,6 @@
 Name:          webacula
 Version:       3.3.0
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
@@ -27,11 +27,21 @@ Requires: php-xml
 
 %description
 Webacula - Web Bacula - web interface of a Bacula backup system.
-Currently it can run Job, restore all files or selected files,
+Supports the run Job, restore all files or selected files,
 restore the most recent backup for a client,
 restore backup for a client before a specified time,
 mount/umount Storages, show scheduled, running and terminated Jobs and more.
 Supported languages: English, French, German, Portuguese Brazil, Russian.
+
+%description -l ru
+Webacula - Web Bacula - веб интерфейс для Bacula backup system.
+Поддерживает запуск Заданий, восстановление всех или выбранных файлов,
+восстановление самого свежего бэкапа для клиента,
+восстановление бэкапа для клиента сделанного перед указанным временем,
+монтирование/размонтирование Хранилищ, показ запланированных, 
+выполняющихся и завершенных Заданий и прочее.
+Поддерживаемые языки: английский, французский, немецкий,
+бразильский португальский, русский.
 
 
 %prep
@@ -42,7 +52,7 @@ Supported languages: English, French, German, Portuguese Brazil, Russian.
 
 
 %install
-%{__rm} -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/
@@ -61,7 +71,7 @@ Supported languages: English, French, German, Portuguese Brazil, Russian.
 %{__cp} %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
 %{__cp} %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
 %{__cp} %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files
-%{__ln_s} %{_sysconfdir}/%{name}/config.ini $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
+ln -s %{_sysconfdir}/%{name}/config.ini $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
 
 
 %clean
@@ -72,14 +82,25 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc 4CONTRIBUTORS 4CONTRIBUTORS.ru AUTHORS COPYING README UPDATE ChangeLog
 %doc docs/
-%{_datadir}/%{name}/
+%{_datadir}/%{name}/application
+%{_datadir}/%{name}/html
+%{_datadir}/%{name}/library
+%{_datadir}/%{name}/install
 %{_sysconfdir}/cron.daily/webacula_clean_tmp_files
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/webacula.conf
 %config(noreplace) %{_sysconfdir}/%{name}/config.ini
+%lang(de) %{_datadir}/%{name}/languages/de
+%lang(en) %{_datadir}/%{name}/languages/en
+%lang(fr) %{_datadir}/%{name}/languages/fr
+%lang(pt) %{_datadir}/%{name}/languages/pt
+%lang(ru) %{_datadir}/%{name}/languages/ru
 
 
 
 %changelog
+* Mon Oct 12 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-3
+- Fix #526855
+
 * Sat Oct 10 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-2
 - Fix #526855 "Review Request"
 

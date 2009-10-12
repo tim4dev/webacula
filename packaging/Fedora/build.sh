@@ -3,6 +3,7 @@
 # script for create rpm(s) packages
 #
 
+LANG=C
 
 cd ../../..
 
@@ -93,11 +94,13 @@ echo -e "\nPress Enter to rpmlint ..."
 read
 
 rpmlint ${SPEC}
+echo "exit=$?"
 
 echo -e "\nPress Enter to rpmbuild ..."
 read
 
 rpmbuild -ba ${SPEC}
+echo "exit=$?"
 
 echo -e "\n"
 
@@ -109,6 +112,7 @@ echo -e "\nPress Enter to rpmlint ..."
 read
 
 rpmlint "${RPM_RPMS}/noarch/webacula-${VERSION}*.rpm"
+echo "exit=$?"
 
 
 
