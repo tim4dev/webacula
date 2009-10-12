@@ -33,18 +33,23 @@ sudo ./clean_all.sh
 sudo ./prepare.sh
 cd ..
 
+echo -e "\n\n*******************************************************************************"
+echo "Main tests"
+echo "*******************************************************************************"
 phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
 
+echo -e "\n\n*******************************************************************************"
 echo "Prepare testing other DBMS"
+echo "*******************************************************************************"
 cd prepare_tests
 sudo ./sync_bacula_db_from_mysql2others.sh
 cd ..
 
-echo -e "\n\n***** Test Postgresql *****\n"
+echo -e "\n\n********** Test Postgresql **********\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
 
-echo -e "\n\n***** Test Sqlite *****\n"
+echo -e "\n\n********** Test Sqlite **********\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
 
