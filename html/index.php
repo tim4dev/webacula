@@ -25,7 +25,7 @@ error_reporting(E_ALL|E_STRICT);
 
 // PATH_SEPARATOR  ":"
 set_include_path('.' . PATH_SEPARATOR . '../library' . PATH_SEPARATOR . '../application/models/' .
-	PATH_SEPARATOR . get_include_path() );
+    PATH_SEPARATOR . get_include_path() );
 
 include "Zend/Loader.php";
 
@@ -118,8 +118,8 @@ if ( isset($config->locale) ) {
     $user_locale = trim($config->locale);
 } else {
     // autodetect from browser
-    $translate->setLocale('auto');
-    $user_locale = $translate->getLocale();
+    $locale = new Zend_Locale(Zend_Locale::BROWSER);
+    $user_locale = $locale->getLanguage();
 }
 
 if ( $translate->isTranslated('Desktop', false, $user_locale) ) {
@@ -139,11 +139,11 @@ Zend_Layout::startMvc(array(
 ));
 
 try {
-	$db = Zend_Db_Table::getDefaultAdapter();
-	$db->getConnection();
+    $db = Zend_Db_Table::getDefaultAdapter();
+    $db->getConnection();
 } catch (Zend_Db_Adapter_Exception $e) {
-	// возможно СУБД не запущена
-	//throw new Zend_Exception("Fatal error: Can't connect to SQL server");
+    // возможно СУБД не запущена
+    //throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
 
 // run
