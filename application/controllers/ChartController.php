@@ -36,7 +36,8 @@ class ChartController extends Zend_Controller_Action
         // Disable view script autorendering
         $this->_helper->viewRenderer->setNoRender();
 
-        $this->translate = Zend_Registry::get('translate');
+        $this->view->translate = Zend_Registry::get('translate');
+        $this->view->language  = Zend_Registry::get('language');
 
         Zend_Loader::loadClass('Timeline');
         // for input field validation
@@ -86,7 +87,7 @@ class ChartController extends Zend_Controller_Action
             // No GD lib (php-gd) found
             $this->view->result = null;
             $this->getResponse()->setHeader('Content-Type', 'text/html; charset=utf-8');
-            throw new Zend_Exception($this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'));
+            throw new Zend_Exception($this->view->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'));
             return;
         }
         $this->input->setData( array('datetimeline' => $this->_request->getParam('datetimeline')) );
@@ -209,7 +210,7 @@ class ChartController extends Zend_Controller_Action
         }
 
         // название оси X
-        @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $this->translate->_("Hours"));
+        @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $this->view->translate->_("Hours"));
         if ( empty($ares) )	{
             $ttf_font_error = 1;	// TTF font not loaded/found
             ImageString($img, 4, 5, 5, "Font " . $fontname . " not loaded/found.", $black); // do not to translate (перевод не нужен)

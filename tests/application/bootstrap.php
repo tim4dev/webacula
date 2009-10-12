@@ -84,33 +84,41 @@ if ( $config->debug == 1 ) {
 
 // translate
 //auto scan lang files may be have bug in ZF ? $translate = new Zend_Translate('gettext', '../languages', null, array('scan' => Zend_Translate::LOCALE_DIRECTORY));
-$translate = new Zend_Translate('gettext', $appRoot . '/languages/en/webacula_en.mo', 'en');
+$translate = new Zend_Translate('gettext', '../languages/en/webacula_en.mo', 'en');
 // additional languages
 // see also http://framework.zend.com/manual/en/zend.locale.appendix.html
-$translate->addTranslation($appRoot . '/languages/de/webacula_de.mo', 'de');
-$translate->addTranslation($appRoot . '/languages/fr/webacula_fr.mo', 'fr');
-$translate->addTranslation($appRoot . '/languages/ru/webacula_ru.mo', 'ru');
-$translate->addTranslation($appRoot . '/languages/pt/webacula_pt_BR.mo', 'pt_BR');
+$translate->addTranslation('../languages/en/webacula_en.mo', 'en_US');
+$translate->addTranslation('../languages/de/webacula_de.mo', 'de');
+$translate->addTranslation('../languages/fr/webacula_fr.mo', 'fr');
+$translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru');
+$translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru_RU');
+$translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
 
-// handling languages
 if ( isset($config->locale) ) {
-    $user_locale = trim($config->locale);
+    // locale is user defined
+    $locale = trim($config->locale);
 } else {
-    // autodetect from browser
-    $translate->setLocale('auto');
-    $user_locale = $translate->getLocale();
+    // autodetect locale
+    // Search order is: given Locale, HTTP Client, Server Environment, Framework Standard
+    try {
+        $locale = new Zend_Locale('auto');
+    } catch (Zend_Locale_Exception $e) {
+        $locale = new Zend_Locale('en');
+    }
 }
-
-if ( $translate->isTranslated('Desktop', false, $user_locale) ) {
+if ( $translate->isTranslated('Desktop', false, $locale) ) {
     // can be translated (есть перевод)
-    $translate->setLocale($user_locale);
+    $translate->setLocale($locale);
 } else {
     // can't translated (нет перевода)
+    // set to English by default
     $translate->setLocale('en');
+    $locale = new Zend_Locale('en');
 }
-
 // assign the $translate object to the registry so that it can be retrieved elsewhere in the application
 $registry->set('translate', $translate);
+$registry->set('locale',    $locale);
+$registry->set('language',  $locale->getLanguage());
 
 Zend_Layout::startMvc(array(
     'layoutPath' => $appRoot . '/application/layouts/' . $config_layout->path,

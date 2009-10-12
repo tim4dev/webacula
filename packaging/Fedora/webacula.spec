@@ -1,6 +1,6 @@
 Name:          webacula
-Version:       3.3.0
-Release:       3%{?dist}
+Version:       3.3.1
+Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 

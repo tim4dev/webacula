@@ -1,16 +1,4 @@
-<?php
-    $config = Zend_Registry::get('config');
-    if ( isset($config->language) ) {
-        $user_language =  addslashes(trim($config->language));
-    } else {
-        $locale = new Zend_Locale(Zend_Locale::BROWSER);
-        $user_language = $locale->getLanguage(); // 'ru', 'en'...
-        //print_r($user_language); //!! for debug
-    }
-    if ( $user_language != 'en' ) {
-	   echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';
-    }
-?>
+<script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
   // select
   $j(function(){

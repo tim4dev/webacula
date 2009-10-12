@@ -30,6 +30,7 @@ class JobController extends Zend_Controller_Action
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         $this->view->baseUrl = $this->_request->getBaseUrl();
         $this->view->translate = Zend_Registry::get('translate');
+        $this->view->language  = Zend_Registry::get('language');
         // load models
         Zend_Loader::loadClass('Job');
         Zend_Loader::loadClass('Timeline');

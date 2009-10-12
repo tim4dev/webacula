@@ -1,44 +1,27 @@
-<?php
-    $translate = Zend_Registry::get('translate');
-
-    $config = Zend_Registry::get('config');
-    if ( isset($config->language) ) {
-        $user_language =  addslashes(trim($config->language));
-    } else {
-        $locale = new Zend_Locale(Zend_Locale::BROWSER);
-        $user_language = $locale->getLanguage(); // 'ru', 'en'...
-        //var_dump($user_language);exit; //!! for debug
-    }
-?>
 <!-- wblogbook/index.phtml -->
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
-<?php
-	if ( $user_language != 'en' ) {
-	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';
-}
-?>
+<script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
+<script type="text/javascript">
+$j(function() {
+    $j("#tabs").tabs();
+});
+</script>
 
-	<script type="text/javascript">
-	$j(function() {
-		$j("#tabs").tabs();
-	});
-	</script>
-
-	<script type="text/javascript">
-	$j(function() {
-		$j('#date_begin').datepicker({
-			changeMonth: true,
-			changeYear: true
-		});
-		$j('#date_end').datepicker({
-			changeMonth: true,
-			changeYear: true
-		});
-		$j('#date_begin').datepicker('setDate', '-1m' );
-		$j('#date_begin').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
-	 	$j("#date_end").datepicker(  'option', {dateFormat: $j.datepicker.ISO_8601} );
-	});
-	</script>
+<script type="text/javascript">
+$j(function() {
+    $j('#date_begin').datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $j('#date_end').datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $j('#date_begin').datepicker('setDate', '-1m' );
+    $j('#date_begin').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
+    $j("#date_end").datepicker(  'option', {dateFormat: $j.datepicker.ISO_8601} );
+});
+</script>
 
 <script type="text/javascript">
 <!--
