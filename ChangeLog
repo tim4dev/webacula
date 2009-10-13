@@ -3,6 +3,7 @@ Webacula ChangeLog
 
 === 3.3
     Pools, Volumes operations.
+    Now the Zend Framework need to be downloaded separately, from http://framework.zend.com/
 
 === 3.2
     Improved design.
