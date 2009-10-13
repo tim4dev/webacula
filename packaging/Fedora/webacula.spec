@@ -1,13 +1,13 @@
 Name:          webacula
 Version:       3.3
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
 Group:      Applications/Internet
 License:    GPLv3+
 URL:        http://webacula.sourceforge.net/
-Source0:    http://downloads.sourceforge.net/project/%{name}/%{name}-%{version}.tar.gz
+Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:    webacula.conf
 Source2:    config.ini
 Source3:    webacula_clean_tmp_files.sh
@@ -102,11 +102,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 12 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-4
+* Tue Oct 13 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-5
+- Fix #526855. Remove Zend Framework from source.
+
+* Tue Oct 13 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-4
 - Fix #526855
 
-* Sat Oct 10 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-2
+* Mon Oct 12 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-3
+- Fix #526855
+
+* Sat Oct 10 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-2
 - Fix #526855 "Review Request"
 
-* Thu Oct 08 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-1
+* Thu Oct 08 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-1
 - Initial Spec file creation for Fedora

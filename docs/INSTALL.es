@@ -8,7 +8,7 @@
 
 - Bacula 3.0 o superior.
 - Soportados MySQL, PostgreSQL y Sqlite.
-- Zend Framework version 1.8.3
+- Zend Framework version 1.8.3 or later.
 - Zend Framework está construido usando programación orientada a objetos y requiere: 
   PHP 5.2.4 o superior con la extensión PDO(de acuerdo al motor de bases de datos seleccionado) activada . Por favor revise el apéndice "Requerimientos del Sistema" para una información mejor detallada
   información más detallada:
@@ -28,9 +28,7 @@ Ejecute el script install/check_system_requirements.php antes de continuar lo qu
 - Haga un directorio mkdir /var/www/webacula
 - Copie la distribución descargada al directorio previamente creado /var/www/webacula
 
-- Extraiga el archivo Zend.tar.gz que puede ser encontrado en el directorio "library/" o descargado desde Internet
-  cd library/
-  tar xvf Zend.tar.gz
+- Download Zend Framework from http://framework.zend.com/ and extract the contents from library/ directory.
 
 - El árbol de directorios debe quedar como sigue:
 
@@ -219,8 +217,7 @@ Libro de Logs(Logbook) almacena los registros en una Base de Datos separada y, M
 	~~~~~~~~~~~~~~~~
 
    Download latest tarball.
-   Save in safe place your "config.ini", remove directory "webacula", extract tarball,
-   run "library/runme" and replace "config.ini".
+   Save in safe place your "config.ini", remove directory "webacula", extract Webacula source code and replace "config.ini" back.
 
 	Si es necesario( la funcionalidad "full text search" no funciona) ejecute mysqldump, elimine la Base de Datos webacula y creela con:
 
