@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.3.1' . ', build 2009.10.12');
+define('WEBACULA_VERSION', '3.3' . ', build 2009.10.13');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);

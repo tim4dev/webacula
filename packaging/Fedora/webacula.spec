@@ -1,6 +1,6 @@
 Name:          webacula
-Version:       3.3.1
-Release:       1%{?dist}
+Version:       3.3
+Release:       4%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
@@ -45,6 +45,8 @@ Webacula - Web Bacula - веб интерфейс для Bacula backup system.
 
 
 %prep
+
+
 %setup -q
 
 
@@ -87,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/library
 %{_datadir}/%{name}/install
 %{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/languages
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/webacula.conf
 %config(noreplace) %{_sysconfdir}/%{name}/config.ini
 %lang(de) %{_datadir}/%{name}/languages/de
@@ -98,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Oct 12 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-3
+* Mon Oct 12 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-4
 - Fix #526855
 
 * Sat Oct 10 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3.0-2
