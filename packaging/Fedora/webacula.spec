@@ -1,6 +1,6 @@
 Name:          webacula
 Version:       3.3
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
@@ -8,9 +8,6 @@ Group:      Applications/Internet
 License:    GPLv3+
 URL:        http://webacula.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-Source1:    webacula.conf
-Source2:    config.ini
-Source3:    webacula_clean_tmp_files.sh
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:  noarch
@@ -45,9 +42,15 @@ Webacula - Web Bacula - веб интерфейс для Bacula backup system.
 
 
 %prep
-
-
 %setup -q
+rm -f ./application/.htaccess
+rm -f ./html/test_mod_rewrite/.htaccess
+rm -f ./html/.htaccess
+rm -f ./install/.htaccess
+rm -f ./languages/.htaccess
+rm -f ./application/.htaccess
+rm -f ./docs/.htaccess
+
 
 
 %build
@@ -65,15 +68,23 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/html
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/library
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/install
+
+cp ./application/config.ini  $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
+rm -f ./application/config.ini
+ln -s %{_sysconfdir}/%{name}/config.ini  $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
+
+cp ./install/webacula.conf  $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
+rm -f ./install/webacula.conf
+
+install -p -m 755 ./install/webacula_clean_tmp_files.sh \
+   $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
+rm -f ./install/webacula_clean_tmp_files.sh
+
 cp -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -pr ./languages   $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -pr ./library     $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -pr ./install     $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp %{SOURCE1}  $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
-cp %{SOURCE2}  $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
-install -p -m 755 %{SOURCE3}  $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
-ln -s %{_sysconfdir}/%{name}/config.ini  $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
 
 
 %clean
@@ -102,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 13 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-6
+- Fix #526855.
+
 * Tue Oct 13 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-5
 - Fix #526855. Remove Zend Framework from source.
 

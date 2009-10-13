@@ -53,14 +53,6 @@ tests
 .git
 .gitignore
 .project
-application/config.ini
-install/webacula_clean_tmp_files.sh
-install/.htaccess
-docs/.htaccess
-application/.htaccess
-languages/.htaccess
-html/.htaccess
-html/test_mod_rewrite/.htaccess
 " > "${RPM_TMP}/${F_EXCLUDE}"
 
 echo "create tarball..."
@@ -82,9 +74,6 @@ rm -f -r "${RPM_TMP}/webacula-${VERSION}"
 
 echo -e "\ncopy files...\n"
 cd ${ROOT_DIR}
-cp -p -f "${SRC_DIR}/application/config.ini" "${RPM_SOURCES}/"
-cp -p -f "${SRC_DIR}/install/webacula_clean_tmp_files.sh" "${RPM_SOURCES}/"
-cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.conf" "${RPM_SOURCES}/"
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.spec" "${RPM_SPECS}/"
 
 echo -e "\n"
