@@ -21,9 +21,10 @@ Zend_Loader_Autoloader::getInstance();
 /*
  * from index.php
  */
-define('WEBACULA_VERSION', '3.2, build 2009.09.21');
+define('WEBACULA_VERSION', '3.x, build for tests');
 
 // load my class
+Zend_Loader::loadClass('MyClass_ControllerAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 

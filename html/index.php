@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.3' . ', build 2009.10.13');
+define('WEBACULA_VERSION', '3.3' . ', build 2009.10.14');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);
@@ -44,6 +44,7 @@ Zend_Loader::loadClass('Zend_Paginator');
 Zend_Loader::loadClass('Zend_Layout');
 
 // load my class
+Zend_Loader::loadClass('MyClass_ControllerAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 

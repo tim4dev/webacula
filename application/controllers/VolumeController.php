@@ -25,18 +25,17 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class VolumeController extends Zend_Controller_Action
+class VolumeController extends MyClass_ControllerAction
 {
 
     protected $config_webacula;
 
     function init ()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
+        parent::init();
         // load model
         Zend_Loader::loadClass('Media');
         Zend_Loader::loadClass('Pool');
-        $this->view->translate = Zend_Registry::get('translate');
         Zend_Loader::loadClass('MyClass_SendEmail');
         $this->config_webacula = Zend_Registry::get('config_webacula');
     }

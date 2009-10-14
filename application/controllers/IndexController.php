@@ -25,16 +25,14 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class IndexController extends Zend_Controller_Action
+class IndexController extends MyClass_ControllerAction
 {
 
     function init ()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
+        parent::init();
         // load model
         Zend_Loader::loadClass('Job');
-        $this->view->translate = Zend_Registry::get('translate');
-        $this->view->language  = Zend_Registry::get('language');
     }
 
     function indexAction ()

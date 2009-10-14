@@ -23,16 +23,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
  */
-/* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
-class DirectorController extends Zend_Controller_Action
+class DirectorController extends MyClass_ControllerAction
 {
 
     function init()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->translate = Zend_Registry::get('translate');
+        parent::init();
         Zend_Loader::loadClass('Director');
     }
 

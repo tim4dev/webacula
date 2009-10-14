@@ -54,7 +54,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class RestorejobController extends Zend_Controller_Action
+class RestorejobController extends MyClass_ControllerAction
 {
     // for pager
     const ROW_LIMIT_FILES = 500;
@@ -89,18 +89,9 @@ class RestorejobController extends Zend_Controller_Action
 
     function init()
     {
-        // for debug !!!
-        /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
-        Zend_Loader::loadClass('Zend_Log');
-        $writer = new Zend_Log_Writer_Stream('/tmp/ajax.log');
-        $this->logger = new Zend_Log($writer);
-        $this->logger->log("debug on", Zend_Log::INFO);*/
-
+        parent::init();
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
-        $this->view->translate = Zend_Registry::get('translate');
-        $this->view->language  = Zend_Registry::get('language');
-
         // получаем ttl_restore_session
         $config_ini = Zend_Registry::get('config');
         if ( empty($config_ini->ttl_restore_session) || intval($config_ini->ttl_restore_session) < 300) {
@@ -108,8 +99,6 @@ class RestorejobController extends Zend_Controller_Action
         } else {
             $this->ttl_restore_session = intval($config_ini->ttl_restore_session);
         }
-
-        $this->view->baseUrl = $this->_request->getBaseUrl();
         // load model
         Zend_Loader::loadClass('WbTmpTable');
         $this->translate = Zend_Registry::get('translate');

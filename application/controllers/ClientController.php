@@ -24,15 +24,14 @@
  *
  */
 
-/* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
-class ClientController extends Zend_Controller_Action
+class ClientController extends MyClass_ControllerAction
 {
 
     function init()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
+        parent::init();
         Zend_Loader::loadClass('Client');
 
         // for input field validation
@@ -58,8 +57,6 @@ class ClientController extends Zend_Controller_Action
             'id' => 'Digits'
         );
         $this->input = new Zend_Filter_Input($filters, $validators);
-
-        $this->view->translate = Zend_Registry::get('translate');
 	}
 
     function allAction()

@@ -22,17 +22,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
  */
-/* Zend_Controller_Action */
+
 require_once 'Zend/Controller/Action.php';
-class FileController extends Zend_Controller_Action
+
+class FileController extends MyClass_ControllerAction
 {
     // for pager
     const ROW_LIMIT_FILES = 500;
 
     function init ()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->translate = Zend_Registry::get('translate');
+        parent::init();
         Zend_Loader::loadClass('Files');
         // for input field validation
         Zend_Loader::loadClass('Zend_Validate');

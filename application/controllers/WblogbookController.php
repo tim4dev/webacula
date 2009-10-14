@@ -26,7 +26,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class WblogbookController extends Zend_Controller_Action
+class WblogbookController extends MyClass_ControllerAction
 {
 
     // PRE code improperly processed in regexp in eregi_replace in index.phtml
@@ -38,7 +38,7 @@ class WblogbookController extends Zend_Controller_Action
 
     function init()
     {
-		$this->view->baseUrl = $this->_request->getBaseUrl();
+        parent::init();
 		// load model
 		Zend_Loader::loadClass('Wblogbook');
 		// load validators
@@ -47,9 +47,6 @@ class WblogbookController extends Zend_Controller_Action
 		Zend_Loader::loadClass('MyClass_Validate_LogBookId');
 		Zend_Loader::loadClass('Zend_Validate_Digits');
 		Zend_Loader::loadClass('Zend_Validate_NotEmpty');
-
-		$this->view->translate = Zend_Registry::get('translate');
-		$this->view->language  = Zend_Registry::get('language');
 		Zend_Loader::loadClass('MyClass_SendEmail');
 		$this->config_webacula = Zend_Registry::get('config_webacula');
 	}

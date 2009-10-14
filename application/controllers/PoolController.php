@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -26,13 +26,12 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class PoolController extends Zend_Controller_Action
+class PoolController extends MyClass_ControllerAction
 {
 
     function init()
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->translate = Zend_Registry::get('translate');
+        parent::init();
         Zend_Loader::loadClass('Pool');
     }
 

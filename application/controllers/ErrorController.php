@@ -26,14 +26,8 @@
 /* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
-class ErrorController extends Zend_Controller_Action
+class ErrorController extends MyClass_ControllerAction
 {
-    function init()
-    {
-        Zend_Loader::loadClass('Wblogbook');
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->translate = Zend_Registry::get('translate');
-    }
 
     public function errorAction()
     {

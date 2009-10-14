@@ -20,17 +20,15 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class JobController extends Zend_Controller_Action
+class JobController extends MyClass_ControllerAction
 {
     // for Zend Paginator
     const ROW_LIMIT_JOBS = 70;
 
     function init()
     {
+        parent::init();
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->translate = Zend_Registry::get('translate');
-        $this->view->language  = Zend_Registry::get('language');
         // load models
         Zend_Loader::loadClass('Job');
         Zend_Loader::loadClass('Timeline');

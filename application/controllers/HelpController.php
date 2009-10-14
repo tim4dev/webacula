@@ -26,15 +26,13 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class HelpController extends Zend_Controller_Action
+class HelpController extends MyClass_ControllerAction
 {
 
     function init ()
     {
+        parent::init();
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
-        $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->view->translate = Zend_Registry::get('translate');
-        $this->view->language  = Zend_Registry::get('language');
     }
 
     function indexAction ()

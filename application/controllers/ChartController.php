@@ -25,19 +25,16 @@
  *
  */
 
-/* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
-class ChartController extends Zend_Controller_Action
+class ChartController extends MyClass_ControllerAction
 {
 
     function init()
     {
+        parent::init();
         // Disable view script autorendering
         $this->_helper->viewRenderer->setNoRender();
-
-        $this->view->translate = Zend_Registry::get('translate');
-        $this->view->language  = Zend_Registry::get('language');
 
         Zend_Loader::loadClass('Timeline');
         // for input field validation
@@ -59,12 +56,6 @@ class ChartController extends Zend_Controller_Action
             '*'  => 'StringTrim'
         );
         $this->input = new Zend_Filter_Input($filters, $validators);
-        // for debug !!!
-        /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
-        Zend_Loader::loadClass('Zend_Log');
-        $writer = new Zend_Log_Writer_Stream('/tmp/timeline.log');
-        $this->logger = new Zend_Log($writer);
-        $this->logger->log("debug on", Zend_Log::INFO);*/
     }
 
 
