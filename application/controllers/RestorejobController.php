@@ -67,7 +67,6 @@ class RestorejobController extends MyClass_ControllerAction
     protected $restoreNamespace;
     const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
     protected $ttl_restore_session = 3900; // time to live session (65 min)
-    protected $logger;
 
 
     function my_debug($msg)
@@ -735,34 +734,36 @@ EOF"
      */
     public function markFileAction()
     {
-    	$this->_helper->layout->disableLayout(); // disable layouts
+        $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getPost('data', '');
         if ( $encodedValue ) {
-	        // 	Получение значения
-    	    $phpNative = Zend_Json::decode($encodedValue);
-        	$fileid = $phpNative['fileid'];
-        	$jobidhash = $phpNative['jobidhash'];
-			//$this->logger->log("markFileAction()  $fileid  $jobidhash", Zend_Log::INFO); // !!! debug
+            // Получение значения
+            $phpNative = Zend_Json::decode($encodedValue);
+            $fileid = $phpNative['fileid'];
+            $jobidhash = $phpNative['jobidhash'];
+            if ( $this->_config->debug_level >= 9 ) {
+                $this->logger->log("markFileAction()  $fileid  $jobidhash", Zend_Log::INFO);
+            }
 
-	        // производим действия в БД
-			$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
-    		$tmp_tables->markFile($fileid);
-    		$filename = $tmp_tables->getFileName($fileid);
-	    	// получаем суммарную статистику
-    	    $atotal = $tmp_tables->getTotalSummaryMark();
-	        // формируем массив для отправки назад
-    	    $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
-        	$aout['total_files'] = $atotal['total_files'];
-        	$aout['filename']    = $filename;
-        	$aout['allok']    	 = 1; // действия успешны
-	        // Преобразование для возвращения клиенту
-    	    $json = Zend_Json::encode($aout);
-    	    // возвращаем данные в javascript
-        	echo $json;
+            // производим действия в БД
+            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+            $tmp_tables->markFile($fileid);
+            $filename = $tmp_tables->getFileName($fileid);
+            // получаем суммарную статистику
+            $atotal = $tmp_tables->getTotalSummaryMark();
+            // формируем массив для отправки назад
+            $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
+            $aout['total_files'] = $atotal['total_files'];
+            $aout['filename']    = $filename;
+            $aout['allok']    	 = 1; // действия успешны
+            // Преобразование для возвращения клиенту
+            $json = Zend_Json::encode($aout);
+            // возвращаем данные в javascript
+            echo $json;
         } else {
-        	$aout['allok']    = 0;
-        	$json = Zend_Json::encode($aout);
-        	echo $json;
+            $aout['allok']    = 0;
+            $json = Zend_Json::encode($aout);
+            echo $json;
         }
     }
 
@@ -776,33 +777,35 @@ EOF"
      */
 	public function unmarkFileAction()
     {
-    	$this->_helper->layout->disableLayout(); // disable layouts
+        $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
-	        // Получение значения
-    	    $phpNative = Zend_Json::decode($encodedValue);
-        	$fileid = $phpNative['fileid'];
-        	$jobidhash = $phpNative['jobidhash'];
-        	//$this->logger->log("unmarkFileAction()  $fileid  $jobidhash", Zend_Log::INFO); // !!! debug
-	        // производим действия в БД
-			$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
-    		$tmp_tables->unmarkFile($fileid);
-    		$filename = $tmp_tables->getFileName($fileid);
-	    	// получаем суммарную статистику
-    	    $atotal = $tmp_tables->getTotalSummaryMark();
-        	// формируем массив для отправки назад
-	        $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
-    	    $aout['total_files'] = $atotal['total_files'];
-        	$aout['filename']    = $filename;
-        	$aout['allok']    	 = 1; // действия успешны
-	        // Преобразование для возвращения клиенту
-    	    $json = Zend_Json::encode($aout);
-	        // возвращаем данные в javascript
-    	    echo $json;
+            // Получение значения
+            $phpNative = Zend_Json::decode($encodedValue);
+            $fileid = $phpNative['fileid'];
+            $jobidhash = $phpNative['jobidhash'];
+            if ( $this->_config->debug_level >= 9 ) {
+                $this->logger->log("unmarkFileAction()  $fileid  $jobidhash", Zend_Log::INFO);
+            }
+            // производим действия в БД
+            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+            $tmp_tables->unmarkFile($fileid);
+            $filename = $tmp_tables->getFileName($fileid);
+            // получаем суммарную статистику
+            $atotal = $tmp_tables->getTotalSummaryMark();
+            // формируем массив для отправки назад
+            $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
+            $aout['total_files'] = $atotal['total_files'];
+            $aout['filename']    = $filename;
+            $aout['allok']    	 = 1; // действия успешны
+            // Преобразование для возвращения клиенту
+            $json = Zend_Json::encode($aout);
+            // возвращаем данные в javascript
+            echo $json;
         }  else {
-        	$aout['allok']    = 0;
-        	$json = Zend_Json::encode($aout);
-        	echo $json;
+            $aout['allok']    = 0;
+            $json = Zend_Json::encode($aout);
+            echo $json;
         }
     }
 
@@ -813,39 +816,42 @@ EOF"
      */
     public function markDirAction()
     {
-    	$this->_helper->layout->disableLayout(); // disable layouts
+        $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getPost('data', '');
         if ( $encodedValue ) {
-	        // Получение значения
-    	    $phpNative = Zend_Json::decode($encodedValue);
-	        $path  = $phpNative['path'];
-	        $jobidhash = $phpNative['jobidhash'];
-			//$this->logger->log("markDirAction() input value:\n$path\n$jobidhash\n", Zend_Log::INFO); // !!! debug
-	        // производим действия в БД
-			$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
-	        $res = $tmp_tables->markDir($path, 1); // isMarked = 1
-    	    if ( $res ) {
-    		    // $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs, %s files affected)"), $res['path'], $res['dirs'], $res['files']);
-    		    $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files'] + $res['dirs']);
-    		} else {
-    	    	$aout['msg'] =  $this->view->translate->_('internal program error !');
-    		}
-	    	// получаем суммарную статистику
-    	    $atotal = $tmp_tables->getTotalSummaryMark();
-        	// формируем массив для отправки назад
-        	$aout['total_size']  = $this->view->convBytes($atotal['total_size']);
-        	$aout['total_files'] = $atotal['total_files'];
-        	$aout['path']        = $path;
-        	$aout['allok']    	 = 1; // действия успешны
-			//$this->logger->log("markDirAction() return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO); // !!! debug
-	        // Преобразование для возвращения клиенту
-    	    $json = Zend_Json::encode($aout);
-        	// возвращаем данные в javascript
-        	echo $json;
+            // Получение значения
+            $phpNative = Zend_Json::decode($encodedValue);
+            $path  = $phpNative['path'];
+            $jobidhash = $phpNative['jobidhash'];
+            if ( $this->_config->debug_level >= 9 ) {
+                $this->logger->log("markDirAction() input value:\n$path\n$jobidhash\n", Zend_Log::INFO);
+            }
+            // производим действия в БД
+            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+            $res = $tmp_tables->markDir($path, 1); // isMarked = 1
+            if ( $res ) {
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files'] + $res['dirs']);
+            } else {
+               $aout['msg'] =  $this->view->translate->_('internal program error !');
+            }
+           // получаем суммарную статистику
+            $atotal = $tmp_tables->getTotalSummaryMark();
+            // формируем массив для отправки назад
+            $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
+            $aout['total_files'] = $atotal['total_files'];
+            $aout['path']        = $path;
+            $aout['allok']    	 = 1; // действия успешны
+            if ( $this->_config->debug_level >= 9 ) {
+                $this->logger->log("markDirAction() return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
+            }
+            // Преобразование для возвращения клиенту
+            $json = Zend_Json::encode($aout);
+            // возвращаем данные в javascript
+            echo $json;
         } else {
-        	$aout['allok']    = 0;
-        	$json = Zend_Json::encode($aout);
-        	echo $json;
+            $aout['allok']    = 0;
+            $json = Zend_Json::encode($aout);
+            echo $json;
         }
     }
 
@@ -857,37 +863,39 @@ EOF"
      */
     public function unmarkDirAction()
     {
-    	$this->_helper->layout->disableLayout(); // disable layouts
+        $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getPost('data', '');
         if ( $encodedValue ) {
-	        // Получение значения
-    	    $phpNative = Zend_Json::decode($encodedValue);
-        	$path  = $phpNative['path'];
-	        $jobidhash = $phpNative['jobidhash'];
-    	    //$this->logger->log("unmarkDirAction()  $path  $jobidhash", Zend_Log::INFO); // !!! debug
-	        // производим действия в БД
-			$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
-	        $res = $tmp_tables->markDir($path, 0); // isMarked = 0
-    	    if ( $res ) {
-    		    $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs, %s files affected)"), $res['path'], $res['dirs'], $res['files']);
-	    	} else {
-    		    $aout['msg'] =  $this->view->translate->_('internal program error !');
-	    	}
-	    	// получаем суммарную статистику
-    	    $atotal = $tmp_tables->getTotalSummaryMark();
-        	// формируем массив для отправки назад
-        	$aout['total_size']  = $this->view->convBytes($atotal['total_size']);
-        	$aout['total_files'] = $atotal['total_files'];
-	        $aout['path']        = $path;
-	        $aout['allok']       = 1; // действия успешны
-    	    // Преобразование для возвращения клиенту
-        	$json = Zend_Json::encode($aout);
-	        // возвращаем данные в javascript
-    	    echo $json;
+            // Получение значения
+            $phpNative = Zend_Json::decode($encodedValue);
+            $path  = $phpNative['path'];
+            $jobidhash = $phpNative['jobidhash'];
+            if ( $this->_config->debug_level >= 9 ) {
+                $this->logger->log("unmarkDirAction()  $path  $jobidhash", Zend_Log::INFO);
+            }
+            // производим действия в БД
+            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+            $res = $tmp_tables->markDir($path, 0); // isMarked = 0
+            if ( $res ) {
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs, %s files affected)"), $res['path'], $res['dirs'], $res['files']);
+           } else {
+                $aout['msg'] =  $this->view->translate->_('internal program error !');
+           }
+            // получаем суммарную статистику
+            $atotal = $tmp_tables->getTotalSummaryMark();
+            // формируем массив для отправки назад
+            $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
+            $aout['total_files'] = $atotal['total_files'];
+            $aout['path']        = $path;
+            $aout['allok']       = 1; // действия успешны
+            // Преобразование для возвращения клиенту
+            $json = Zend_Json::encode($aout);
+            // возвращаем данные в javascript
+            echo $json;
         } else {
-        	$aout['allok']    = 0;
-        	$json = Zend_Json::encode($aout);
-        	echo $json;
+            $aout['allok']    = 0;
+            $json = Zend_Json::encode($aout);
+            echo $json;
         }
     }
 

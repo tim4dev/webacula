@@ -54,6 +54,7 @@ $config_webacula = new Zend_Config_Ini('../application/config.ini', 'webacula');
 $config_layout   = new Zend_Config_Ini('../application/config.ini', 'layout');
 
 $registry = Zend_Registry::getInstance();
+
 // assign the $config object to the registry so that it can be retrieved elsewhere in the application
 $registry->set('config', $config);
 $registry->set('config_webacula', $config_webacula);

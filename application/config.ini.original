@@ -27,8 +27,8 @@ tmpdir = "/tmp"
 ; default = 1h, minimum = 600sec.
 ; ttl_restore_session = 3600
 
-; for debug only (default = 0)
-; debug = 1
+; for debug only (default = 0). Debug log written to '/tmp/webacula_debug.log'
+; debug_level = <0...9>
 
 ; the text, which will be placed in the header of the page
 ; head_title = "webacula :: domain.tld"
