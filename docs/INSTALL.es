@@ -30,6 +30,9 @@ Ejecute el script install/check_system_requirements.php antes de continuar lo qu
 
 - Download Zend Framework from http://framework.zend.com/ and extract the contents from library/ directory.
 
+NOTE. If you use the Zend Framework for multiple sites, then you can place it in a folder that is part of
+your PHP include path. By doing this, you will have access to the Zend Framework components in all PHP scripts.
+
 - El árbol de directorios debe quedar como sigue:
 
 /var/www/webacula/
