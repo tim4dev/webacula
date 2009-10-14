@@ -1,20 +1,20 @@
 <!-- job/next-dashboard.phtml -->
 <h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/job/next" id="dashboard">
-		<?php echo $this->escape($this->titleNextJobs); ?>
+		<?php echo $this->escape($this->title); ?>
 	</a>
 </h1>
 
-<?php if ($this->resultNextJobs): ?>
+<?php if ($this->result): ?>
 <?php
-	if ($this->resultNextJobs[0] == 'NOFOUND') {
+	if ($this->result[0] == 'NOFOUND') {
 		echo '<font color="red"><div align="center"><p>',
 		      $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></div></font>';
 	}
- 	elseif ($this->resultNextJobs[0] == 'ERROR') {
+ 	elseif ($this->result[0] == 'ERROR') {
  		echo '<font color="red"><div align="center"><p>',
  		     $this->translate->_("ERROR: There was a problem executing bconsole. See below."), '</p></div>';
- 		foreach ($this->resultNextJobs as $line) {
+ 		foreach ($this->result as $line) {
 			echo $line, '<br>';
 		}
 		echo '</font>';
@@ -34,7 +34,7 @@
 </tr>
 </thead>
 <tbody>
-<?php foreach($this->resultNextJobs as $line) : ?>
+<?php foreach($this->result as $line) : ?>
 <tr>
 	<td><?php echo $this->escape($line['level']);?></td>
 	<td><?php echo $this->escape($line['type']);?></td>

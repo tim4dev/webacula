@@ -1,7 +1,7 @@
 <!-- job/terminated.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleLastJobs); ?></h1>
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
-<?php if ($this->resultLastJobs): ?>
+<?php if ($this->result): ?>
 
 <div align="center">
 <table id="box-table">
@@ -23,7 +23,7 @@
 </tr>
 </thead>
 <tbody>
-<?php foreach($this->resultLastJobs as $line) : ?>
+<?php foreach($this->result as $line) : ?>
 <tr>
     <td>
         <?php

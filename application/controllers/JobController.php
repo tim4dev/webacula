@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
@@ -42,10 +42,10 @@ class JobController extends MyClass_ControllerAction
      */
     function terminatedAction()
     {
-        $this->view->titleLastJobs = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
+        $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         // get data from model
         $jobs = new Job();
-        $this->view->resultLastJobs = $jobs->GetLastJobs();
+        $this->view->result = $jobs->GetLastJobs();
     }
 
 
@@ -86,15 +86,14 @@ class JobController extends MyClass_ControllerAction
      */
     function nextAction()
     {
-        $this->view->titleNextJobs = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
+        $this->view->title = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
         // get static const
         $this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
         $this->view->new_volume = Zend_Registry::get('NEW_VOLUME');
         $this->view->err_volume = Zend_Registry::get('ERR_VOLUME');
-
         // get data from model
         $jobs = new Job();
-        $this->view->resultNextJobs = $jobs->GetNextJobs();
+        $this->view->result = $jobs->GetNextJobs();
     }
 
     /**
@@ -104,7 +103,7 @@ class JobController extends MyClass_ControllerAction
     function nextDashboardAction()
     {
         $this->_helper->viewRenderer->setResponseSegment('job_next');
-        $this->view->titleNextJobs = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
+        $this->view->title = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
         // get static const
         $this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
         $this->view->new_volume = Zend_Registry::get('NEW_VOLUME');
@@ -112,7 +111,7 @@ class JobController extends MyClass_ControllerAction
 
         // get data from model
         $jobs = new Job();
-        $this->view->resultNextJobs = $jobs->GetNextJobs();
+        $this->view->result = $jobs->GetNextJobs();
     }
 
     /**
@@ -121,7 +120,6 @@ class JobController extends MyClass_ControllerAction
      */
     function findFiltersAction()
     {
-        $this->view->titleLastJobs = $this->view->translate->_("List Jobs with filters");
         $this->view->title = $this->view->translate->_("List Jobs with filters");
 
         if ( $this->_request->isPost() ) {
@@ -176,12 +174,12 @@ class JobController extends MyClass_ControllerAction
      */
     function findJobIdAction()
     {
-        $this->view->titleLastJobs = $this->view->translate->_("List Jobs by JobId") .
+        $this->view->title = $this->view->translate->_("List Jobs by JobId") .
                 ' : ' . $this->_request->getParam('jobid');
         $this->view->title = $this->view->translate->_("List Jobs by JobId");
         $jobid = intval(trim( $this->_request->getParam('jobid') ));
         $job = new Job();
-        $this->view->resultLastJobs = $job->getByJobId($jobid);
+        $this->view->result = $job->getByJobId($jobid);
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -191,12 +189,12 @@ class JobController extends MyClass_ControllerAction
      */
     function findVolumeNameAction()
     {
-        $this->view->titleLastJobs = $this->view->translate->_("List Jobs by Volume Name") .
+        $this->view->title = $this->view->translate->_("List Jobs by Volume Name") .
             ' : ' . $this->_request->getParam('volname');
         $this->view->title = $this->view->translate->_("List Jobs by Volume Name");
         $volname = addslashes(trim( $this->_request->getParam('volname') ));
         $job = new Job();
-        $this->view->resultLastJobs = $job->getByVolumeName($volname);
+        $this->view->result = $job->getByVolumeName($volname);
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -335,10 +333,9 @@ EOF"
         if ( $numjob <= 0 ) { $numjob = 20;	}
         if ( $numjob > $num_max ) { $numjob = $num_max;	}
 
-        $this->view->titleLastJobs = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
         $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
         $job = new Job();
-        $this->view->resultLastJobs = $job->getLastJobRun($numjob);
+        $this->view->result = $job->getLastJobRun($numjob);
         echo $this->renderScript('job/terminated.phtml');
     }
 
