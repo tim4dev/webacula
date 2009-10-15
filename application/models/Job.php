@@ -25,24 +25,24 @@
 
 class Job extends Zend_Db_Table
 {
-	public $db;
+    public $db;
     public $db_adapter;
 
-	public function __construct($config = array())
-	{
-		$this->db         = Zend_Registry::get('db_bacula');
-	    $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-	    parent::__construct($config);
-	}
+    public function __construct($config = array())
+    {
+        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        parent::__construct($config);
+    }
 
-	protected function _setupTableName()
+    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
         case 'PDO_PGSQL':
             $this->_name = 'job';
             break;
-		default: // including mysql, sqlite
-			$this->_name = 'Job';
+        default: // including mysql, sqlite
+            $this->_name = 'Job';
         }
         parent::_setupTableName();
     }
@@ -480,64 +480,64 @@ EOF', $command_output, $return_var);
 
 
     /**
-     * Jobs with errors/problems (last 14 days)
+     * Jobs with errors/problems (last NN days)
      *
      */
-    function GetProblemJobs()
+    function GetProblemJobs($last_days)
     {
-    	$select = new Zend_Db_Select($this->db);
-    	$select->distinct();
+        $select = new Zend_Db_Select($this->db);
+        $select->distinct();
 
         switch ($this->db_adapter) {
         case 'PDO_MYSQL':
-    	   $select->from(array('j' => 'Job'),
-	           array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
-    		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-        	   'FileSetId', 'PurgedFiles', 'JobStatus',
-        	   'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
-    	   ));
-    	   $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
-    	   break;
-    	case 'PDO_PGSQL':
+            $select->from(array('j' => 'Job'),
+               array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
+            ));
+            $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
+            break;
+        case 'PDO_PGSQL':
             // PostgreSQL
             $select->from(array('j' => 'Job'),
-	           array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
-    		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-        	   'FileSetId', 'PurgedFiles', 'JobStatus',
-        	   'DurationTime' => '(EndTime - StartTime)'
-    	    	));
-    	    $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
+                array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'DurationTime' => '(EndTime - StartTime)'
+            ));
+            $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
             break;
         case 'PDO_SQLITE':
-			// SQLite3 Documentation
-			// http://sqlite.org/lang_datefunc.html
-			// bug http://framework.zend.com/issues/browse/ZF-884
-			// http://sqlite.org/pragma.html
-			//$res = $db->query('PRAGMA short_column_names=1'); // not affected
-			//$res = $db->query('PRAGMA full_column_names=0'); // not affected
-			$select->from(array('j' => 'Job'),
-				array('jobid' => 'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
-				'starttime'=>'StartTime', 'endtime'=>'EndTime',
-				'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-				'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
-				'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
-				'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
-            	));
+            // SQLite3 Documentation
+            // http://sqlite.org/lang_datefunc.html
+            // bug http://framework.zend.com/issues/browse/ZF-884
+            // http://sqlite.org/pragma.html
+            //$res = $db->query('PRAGMA short_column_names=1'); // not affected
+            //$res = $db->query('PRAGMA full_column_names=0'); // not affected
+            $select->from(array('j' => 'Job'),
+                array('jobid' => 'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+                    'starttime'=>'StartTime', 'endtime'=>'EndTime',
+                    'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
+                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+                    'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
+                    'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
+            ));
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong'=>'JobStatusLong'));
-			break;
+            break;
         }
-    	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
+        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('fileset'=>'FileSet'));
 
-    	$last7day = date('Y-m-d H:i:s', time() - 604800); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 7 DAY
+        $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
         $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e', 'f')))");
         $select->where("j.EndTime > ?", $last7day);
-    	$select->order(array("StartTime", "JobId"));
+        $select->order(array("StartTime", "JobId"));
 
-    	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-		$stmt = $select->query();
-		return $stmt->fetchAll();
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
     }
 
 

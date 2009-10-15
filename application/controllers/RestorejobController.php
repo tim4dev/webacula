@@ -905,35 +905,35 @@ EOF"
 
     function oldTmpTableAction ()
     {
-    	$this->_helper->viewRenderer->setNoRender(); // disable autorendering
-    	// в форме "Msg01" сделан выбор, что делать со старыми tmp-таблицами
-		$choice  = addslashes( $this->_request->getParam('choice', '') );
-		if ($this->restoreNamespace->typeRestore)	{
-			switch ( $choice )
-			{
-				case 'recreate_tmp': // выбор: пересоздать временные таблицы
-					$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
-					$tmp_tables->createTmpTables();
-					// перенаправление в зависимости от typeRestore
-					if ( $this->restoreNamespace->typeRestore == 'restore_recent' ) {
-						$this->cloneRecentBaculaTables($this->restoreNamespace->JobHash);
-					} else {
-						$this->cloneBaculaTables($this->restoreNamespace->JobHash);
-					}
-					$this->_forward('draw-file-tree', null, null, array('curdir'=>''));
-					break;
-				case 'continue_tmp': // работать со старыми
-					// обновить timestamp
-					$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
-					$tmp_tables->updateTimestamp();
-					// продолжить
-					$this->_forward('draw-file-tree', null, null, array('curdir'=>''));
-					break;
-				case 'goto_homepage': // на главную страницу
-					$this->_redirect('index');
-					break;
-			}
-		}
+        $this->_helper->viewRenderer->setNoRender();
+        // в форме "Msg01" сделан выбор, что делать со старыми tmp-таблицами
+        $choice  = addslashes( $this->_request->getParam('choice', '') );
+        if ($this->restoreNamespace->typeRestore)	{
+            switch ( $choice )
+            {
+                case 'recreate_tmp': // выбор: пересоздать временные таблицы
+                    $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
+                    $tmp_tables->createTmpTables();
+                    // перенаправление в зависимости от typeRestore
+                    if ( $this->restoreNamespace->typeRestore == 'restore_recent' ) {
+                        $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash);
+                    } else {
+                        $this->cloneBaculaTables($this->restoreNamespace->JobHash);
+                    }
+                    $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
+                    break;
+                case 'continue_tmp': // работать со старыми
+                    // update timestamp
+                    $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
+                    $tmp_tables->updateTimestamp();
+                    // продолжить
+                    $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
+                    break;
+                case 'goto_homepage': // на главную страницу
+                    $this->_redirect('index');
+                    break;
+            }
+        }
     }
 
 

@@ -1,7 +1,7 @@
 <!-- job/problem.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleProblemJobs); ?></h1>
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
-<?php if ($this->resultProblemJobs): ?>
+<?php if ($this->result): ?>
 
 <table id="box-table">
 <thead>
@@ -21,7 +21,7 @@
 </tr>
 </thead>
 <tbody>
-<?php foreach($this->resultProblemJobs as $line) : ?>
+<?php foreach($this->result as $line) : ?>
 <tr>
 	<td>
 		<?php

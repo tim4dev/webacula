@@ -229,15 +229,23 @@ class JobController extends MyClass_ControllerAction
         $this->view->resultVol = $adetail['volume'];
     }
 
+    public function getLastDays() {
+        $config = Zend_Registry::get('config');
+        if ( empty($config->days_to_show_jobs_with_errors) )
+            return 7;
+        return $config->days_to_show_jobs_with_errors;
+    }
+    
     /**
      * Jobs with errors/problems (last 14 days)
      */
     function problemAction()
     {
-        $this->view->titleProblemJobs = $this->view->translate->_("Jobs with errors (last 7 days)");
+        $last_days = $this->getLastDays();
+        $this->view->title = sprintf( $this->view->translate->_("Jobs with errors (last %s days)"), $last_days);
         // get data from model
         $jobs = new Job();
-        $this->view->resultProblemJobs = $jobs->GetProblemJobs();
+        $this->view->result = $jobs->GetProblemJobs($last_days);
     }
 
     /**
@@ -246,10 +254,11 @@ class JobController extends MyClass_ControllerAction
     function problemDashboardAction()
     {
         $this->_helper->viewRenderer->setResponseSegment('job_problem');
-        $this->view->titleProblemJobs = $this->view->translate->_("Jobs with errors (last 7 days)");
+        $last_days = $this->getLastDays();
+        $this->view->title = sprintf( $this->view->translate->_("Jobs with errors (last %s days)"), $last_days);
         // get data from model
         $jobs = new Job();
-        $this->view->resultProblemJobs = $jobs->GetProblemJobs();
+        $this->view->result = $jobs->GetProblemJobs($last_days);
     }
 
     /**

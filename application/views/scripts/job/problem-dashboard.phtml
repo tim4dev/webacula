@@ -1,11 +1,11 @@
 <!-- job/problem-dashboard.phtml -->
 <h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/job/problem" id="dashboard">
-		<?php echo $this->escape($this->titleProblemJobs); ?>
+		<?php echo $this->escape($this->title); ?>
 	</a>
 </h1>
 
-<?php if ($this->resultProblemJobs): ?>
+<?php if ($this->result): ?>
 
 <table id="box-table-dashboard">
 <thead>
@@ -21,7 +21,7 @@
 </tr>
 </thead>
 <tbody>
-<?php foreach($this->resultProblemJobs as $line) : ?>
+<?php foreach($this->result as $line) : ?>
 <tr>
 	<td>
 		<?php

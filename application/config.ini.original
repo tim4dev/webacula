@@ -38,6 +38,10 @@ tmpdir = "/tmp"
 ; They're animated, so they move up and down as you scroll the browser window up or down.
 ; mainmenu_floating = 1
 
+; As many days to show those Jobs that are completed with errors (default = 7)
+; Jobs with errors (last NN day(s)
+; days_to_show_jobs_with_errors = 7
+
 
 [timeline]
 gdfontpath = "/usr/share/fonts/dejavu"

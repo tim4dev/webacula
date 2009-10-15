@@ -18,13 +18,23 @@ VER_README=`grep -e "^Version:" ${F_README} | awk '{print($2)}'`
 
 if [ ${VERSION} == ${VER_README} ]
    then
-      echo "OK. Versions correct."
+      echo -e "\nOK. Versions correct."
    else
       echo -e "\nVersions not match. Correct this (file/version) :\n"
       echo -e "$F_INDEX_PHP\t${VERSION}"
       echo -e "${F_README}\t${VER_README}"
       echo -e "\n"
       exit 10
+fi
+
+echo ""
+diff -q ../application/config.ini  ../application/config.ini.original
+if [ $? == 0 ]
+   then
+      echo "OK. config.ini.original"
+   else
+      echo -e "\nMake cp ../application/config.ini ../application/config.ini.original\n\n"
+      exit 11
 fi
 
 
