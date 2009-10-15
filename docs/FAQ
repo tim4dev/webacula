@@ -34,6 +34,31 @@ echo '<pre>command_output:<br>', print_r($command_output), '<br><br>return_var =
 And check this : http://localhost/webacula/test.php
 See also /var/log/httpd/error_log
 
+When you run test.php you SHOULD get a result like below.
+If not, you do experiments with the system settings, PHP and your web-server.
+
+--------------------------------------------------------------
+bconsole debug
+
+command_output:
+Array
+(
+[0] => Connecting to Director 127.0.0.1:9101
+[1] => 1000 OK: main.dir Version: 3.0.2 (18 July 2009)
+[2] => Enter a period to cancel a command.
+[3] => status dir
+[4] => main.dir Version: 3.0.2 (18 July 2009) i686-pc-linux-gnu redhat
+[5] => Daemon started 15-Ок-2009 12:36, 13 Jobs run since started.
+[6] => Heap: heap=393,216 smbytes=154,627 max_bytes=157,314 bufs=377
+max_bufs=499
+...
+[37] => @quit
+)
+1
+return_var = 0
+
+
+
 
 
 -----------------------------------------------------------------------------------
