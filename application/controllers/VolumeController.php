@@ -88,13 +88,17 @@ class VolumeController extends MyClass_ControllerAction
      */
     function problemDashboardAction ()
     {
-        $this->_helper->viewRenderer->setResponseSegment('volume_problem');
         $this->view->titleProblemVolumes = $this->view->translate->_("Volumes with errors");
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         // get data from model
         $media = new Media();
         $ret = $media->GetProblemVolumes();
         $this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
+        if ( empty($this->view->resultProblemVolumes) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('volume_problem');
+        }
     }
 
     /*

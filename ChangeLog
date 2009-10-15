@@ -2,8 +2,10 @@ Webacula ChangeLog
 ------------------
 
 === 3.3
+    Now main page (index, "Desktop" menu) does not show a message like "Not found xyz".
     Pools, Volumes operations.
     Now the Zend Framework need to be downloaded separately, from http://framework.zend.com/
+    New ini-parameter "days_to_show_jobs_with_errors". As many days to show those Jobs that are completed with errors (default = 7).
 
 === 3.2
     Improved design.

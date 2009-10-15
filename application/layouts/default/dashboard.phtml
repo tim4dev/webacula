@@ -78,6 +78,19 @@ div#bottommenu
 </style>
 <!-- END bottom menu -->
 
+<style type="text/css">
+.float_panel
+{
+width: 48%;
+float: left;
+margin: 10px 10px 0px 0px;
+padding: 5px;
+border: 1px solid #8DA0D5;
+background-color: #F2F8FF;
+}
+.clear_both { clear: both; }
+</style>
+
 </head>
 <body>
 
@@ -139,22 +152,42 @@ div#bottommenu
     });
 </script>
 
-<!-- layout content -->
-<table align="left" width="100%" border="0" cellspacing="3" cellpadding="3">
-<tr valign="top">
-<td bgcolor="#EEEEEE">
-	<?php echo $this->layout()->job_running; ?>
-</td><td bgcolor="#EEEEEE">
-	<?php echo $this->layout()->job_next; ?>
-</td></tr><tr valign="top"><td bgcolor="#EEEEEE">
-	<?php echo $this->layout()->job_problem; ?>
-	<?php echo $this->layout()->volume_problem; ?>
-</td><td bgcolor="#EEEEEE">
-	<?php echo $this->layout()->job_terminated; ?>
-</td></tr>
-</table>
 
-<?php //echo $this->layout()->content ?>
+<?php
+// create array of  content
+$aContent = array();
+    if ( !empty($this->layout()->job_running) )
+        $aContent[] = $this->layout()->job_running;
+
+    if ( !empty($this->layout()->job_next) )
+        $aContent[] = $this->layout()->job_next;
+
+    if ( !empty($this->layout()->job_terminated) )
+        $aContent[] = $this->layout()->job_terminated;
+
+    if ( !empty($this->layout()->job_problem) )
+        $aContent[] = $this->layout()->job_problem;
+
+    if ( !empty($this->layout()->volume_problem) )
+        $aContent[] = $this->layout()->volume_problem;
+?>
+
+<!-- layout content -->
+<?php $i = 0; ?>
+<?php foreach($aContent as $content) : ?>
+    <div class="float_panel">
+        <?php 
+            echo $content;
+            $i++;
+        ?>
+    </div>
+    <?php 
+        if ( ($i % 2) === 0 ) 
+            echo '<br class="clear_both" />';
+    ?>
+<?php endforeach; ?>
+
+<br class="clear_both" />
 
 <!-- footer menu -->
 <div id="center_for_ie2">

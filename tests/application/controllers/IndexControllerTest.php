@@ -33,7 +33,7 @@ class IndexControllerTest extends ControllerTestCase
       $this->assertQueryContentContains('h1', 'Scheduled Jobs');
       $this->assertQueryContentContains('h1', 'List of Running Jobs');
       $this->assertQueryContentContains('h1', 'Jobs with errors');
-      $this->assertQueryContentContains('h1', 'Volumes with errors');
+      $this->assertNotQueryContentContains('h1', 'Volumes with errors');
    }
 
 

@@ -69,7 +69,6 @@ class JobController extends MyClass_ControllerAction
      */
     function runningDashboardAction()
     {
-        $this->_helper->viewRenderer->setResponseSegment('job_running');
         $this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
         // get data from model
         $jobs = new Job();
@@ -77,6 +76,11 @@ class JobController extends MyClass_ControllerAction
         // получаем информацию от Директора
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+        if ( empty($this->view->resultRunningJobs) && empty($this->view->resultDirRunningJobs) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('job_running');
+        }
     }
 
 
@@ -102,16 +106,19 @@ class JobController extends MyClass_ControllerAction
      */
     function nextDashboardAction()
     {
-        $this->_helper->viewRenderer->setResponseSegment('job_next');
         $this->view->title = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
         // get static const
         $this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
         $this->view->new_volume = Zend_Registry::get('NEW_VOLUME');
         $this->view->err_volume = Zend_Registry::get('ERR_VOLUME');
-
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->GetNextJobs();
+        if ( empty($this->view->result) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('job_next');
+        }
     }
 
     /**
@@ -253,12 +260,16 @@ class JobController extends MyClass_ControllerAction
      */
     function problemDashboardAction()
     {
-        $this->_helper->viewRenderer->setResponseSegment('job_problem');
         $last_days = $this->getLastDays();
         $this->view->title = sprintf( $this->view->translate->_("Jobs with errors (last %s days)"), $last_days);
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->GetProblemJobs($last_days);
+        if ( empty($this->view->result) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('job_problem');
+        }
     }
 
     /**
@@ -354,10 +365,14 @@ EOF"
      */
     function terminatedDashboardAction()
     {
-        $this->_helper->viewRenderer->setResponseSegment('job_terminated');
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         $job = new Job();
         $this->view->result = $job->GetLastJobs();
+        if ( empty($this->view->result) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('job_terminated');
+        }
     }
 
     /**
