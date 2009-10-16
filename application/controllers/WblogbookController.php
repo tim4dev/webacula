@@ -109,6 +109,7 @@ class WblogbookController extends MyClass_ControllerAction
       if ($ret)	{
          $this->view->result = $ret->fetchAll();
       }
+      $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 

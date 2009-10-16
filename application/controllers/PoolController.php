@@ -41,6 +41,7 @@ class PoolController extends MyClass_ControllerAction
       $this->view->title = $this->view->translate->_("Pools");
       $pools = new Pool();
       $this->view->pools = $pools->fetchAll(null, $order);
+      $this->view->meta_refresh = 300; // meta http-equiv="refresh"
    }
 
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *

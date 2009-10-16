@@ -46,6 +46,7 @@ class JobController extends MyClass_ControllerAction
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->GetLastJobs();
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 
@@ -62,6 +63,7 @@ class JobController extends MyClass_ControllerAction
         // получаем информацию от Директора
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
     /**
@@ -98,6 +100,7 @@ class JobController extends MyClass_ControllerAction
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->GetNextJobs();
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
     /**
@@ -253,6 +256,7 @@ class JobController extends MyClass_ControllerAction
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->GetProblemJobs($last_days);
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
     /**

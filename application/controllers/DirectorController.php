@@ -55,7 +55,7 @@ EOF"
         if ( $astatusdir['return_var'] != 0 )	{
             $this->view->result_error = $astatusdir['result_error'];
         }
-        return;
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 
@@ -74,13 +74,12 @@ list jobtotals
 @quit
 EOF"
         );
-        //echo "<pre>command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
         $this->view->command_output = $astatusdir['command_output'];
         // check return status of the executed command
         if ( $astatusdir['return_var'] != 0 )	{
             $this->view->result_error = $astatusdir['result_error'];
         }
-        return;
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 

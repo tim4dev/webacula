@@ -42,6 +42,7 @@ class StorageController extends MyClass_ControllerAction
         // get data for form
         $storages = new Storage();
         $this->view->storages = $storages->fetchAll();
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
     function statusIdAction ()
@@ -69,9 +70,11 @@ EOF");
             }
         } else
             $this->view->command_output = null;
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
-    function actMountAction ()
+
+    function actMountAction()
     {
         $action = addslashes($this->_request->getParam('act'));
         if (($action != 'mount') && ($action != 'umount'))

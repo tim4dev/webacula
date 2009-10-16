@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -68,6 +68,7 @@ class VolumeController extends MyClass_ControllerAction
             $this->view->result = $media->getById($pool_id, $order);
         } else
             $this->view->result = null;
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
     /**
@@ -81,6 +82,7 @@ class VolumeController extends MyClass_ControllerAction
         $media = new Media();
         $ret = $media->GetProblemVolumes();
         $this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
     /**

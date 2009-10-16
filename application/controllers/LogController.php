@@ -45,6 +45,7 @@ class LogController extends MyClass_ControllerAction
             $this->view->result = $log->getById($job_id);
         } else
             $this->view->result = null;
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 }

@@ -8,12 +8,12 @@ header("Pragma: no-cache");                                     // HTTP/1.0
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="refresh" content="300" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
-	<title><?php echo $this->escape($this->titleDashboard); ?></title>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
-	<meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="refresh" content="300" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
+    <title><?php echo $this->escape($this->titleDashboard); ?></title>
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
+    <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
 
@@ -176,13 +176,13 @@ $aContent = array();
 <?php $i = 0; ?>
 <?php foreach($aContent as $content) : ?>
     <div class="float_panel">
-        <?php 
+        <?php
             echo $content;
             $i++;
         ?>
     </div>
-    <?php 
-        if ( ($i % 2) === 0 ) 
+    <?php
+        if ( ($i % 2) === 0 )
             echo '<br class="clear_both" />';
     ?>
 <?php endforeach; ?>
