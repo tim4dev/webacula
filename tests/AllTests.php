@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/application/models/AllTests.php';
 
 /* какие каталоги учитывать при построении отчета */
 PHPUnit_Util_Filter::addDirectoryToWhitelist("../application");
+PHPUnit_Util_Filter::removeFileFromWhitelist("../application/views/helpers");
 //PHPUnit_Util_Filter::removeFileFromWhitelist("../library/MyClass/GaugeTime.php"); // not used
 
 class AllTests

@@ -29,25 +29,25 @@ class Zend_View_Helper_MainmenuFloat extends Zend_View_Helper_Abstract
 		$config = Zend_Registry::get('config');
     	if ( empty($config->mainmenu_floating) ) {
     		return '<!-- main menu not floating -->';
-    	} else {	
+    	} else {
     		if ( $config->mainmenu_floating == 1 ) {
 				return '
 <script language="javascript">
 var name = "ul.sf-menu";
 var menuYloc = null;
-	
+
 $j(document).ready(function(){
-	menuYloc = parseInt($j(name).css("top").substring(0,$j(name).css("top").indexOf("px")));
-	$j(window).scroll(function () { 
-		offset = menuYloc+$j(document).scrollTop()+"px";
-		$j(name).animate({top:offset},{duration:700,queue:false});
-	});
-}); 
+    menuYloc = parseInt($j(name).css("top").substring(0,$j(name).css("top").indexOf("px")));
+    $j(window).scroll(function () {
+        offset = menuYloc+$j(document).scrollTop()+"px";
+        $j(name).animate({top:offset},{duration:700,queue:false});
+    });
+});
 </script>
-'; }    		
-    		}   
+'; }
+            }
     }
-    
-    
-    
+
+
+
 }
