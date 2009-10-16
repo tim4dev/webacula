@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -33,30 +33,7 @@ class ClientController extends MyClass_ControllerAction
     {
         parent::init();
         Zend_Loader::loadClass('Client');
-
-        // for input field validation
-        Zend_Loader::loadClass('Zend_Validate');
-        Zend_Loader::loadClass('Zend_Filter_Input');
-        Zend_Loader::loadClass('Zend_Validate_StringLength');
-        Zend_Loader::loadClass('Zend_Validate_NotEmpty');
-        Zend_Loader::loadClass('Zend_Validate_Digits');
-        $validators = array(
-            '*' => array(
-                new Zend_Validate_StringLength(1, 255)
-            ),
-            'id'   => array(
-                'Digits',
-                'NotEmpty'
-            ),
-            'name' => array(
-                'NotEmpty'
-            )
-        );
-        $filters = array(
-            '*'  => 'StringTrim',
-            'id' => 'Digits'
-        );
-        $this->input = new Zend_Filter_Input($filters, $validators);
+        Zend_Loader::loadClass('Director');
 	}
 
     function allAction()
@@ -67,49 +44,30 @@ class ClientController extends MyClass_ControllerAction
         $this->view->clients = $clients->fetchAll(null, $order);
     }
 
+
     function statusClientIdAction()
     {
         // http://localhost/webacula/client/status-client-id/id/1/name/local.fd
-        $this->input->setData( array('id' => $this->_getParam('id'), 'name' => $this->_getParam('name')) );
-        if ( $this->input->isValid() ) {
-            // unused ? $client_id   = $this->input->getEscaped('id');
-            $client_name = $this->input->getEscaped('name');
-        } else {
-            $this->view->result = 'NOVALID';
-            return;
-        }
+        $client_name = $this->_getParam('name');
         $this->view->title = $this->view->translate->_("Client") . " " . $client_name;
-        $config = Zend_Registry::get('config');
-
-        // check access to bconsole
-
-        if ( !file_exists($config->bacula->bconsole))	{
-            $this->view->result = 'NOFOUND';
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )    {
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
             return;
         }
-
-        $command_output = '';
-        $return_var = 0;
-        $bconsolecmd = '';
-        if ( isset($config->bacula->sudo))	{
-            // run with sudo
-            $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        } else {
-            $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
-        }
-
-exec($bconsolecmd . " <<EOF
+        $astatusdir = $director->execDirector(
+" <<EOF
 status client=\"$client_name\"
-quit
-EOF", $command_output, $return_var);
-
+.
+@quit
+EOF"
+        );
+        $this->view->command_output = $astatusdir['command_output'];
         // check return status of the executed command
-        if ( $return_var != 0 )	{
-            $this->view->result = 'ERR';
-            return;
+        if ( $astatusdir['return_var'] != 0 )   {
+            $this->view->result_error = $astatusdir['result_error'];
         }
-
-        $this->view->result = $command_output;
     }
 
 

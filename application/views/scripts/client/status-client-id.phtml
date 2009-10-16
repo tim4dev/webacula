@@ -30,14 +30,13 @@
 <?php else: ?>
 <!-- ***************** all OK ******************* -->
 <div class="roundcorner2" style="width: 60%;">
-    <b><?php print $this->translate->_("Director output:"); ?></b>
-
-    <?php
-    if ($this->result) {
+<b><?php print $this->translate->_("Director output:"); ?></b>
+<?php
+    if ( $this->command_output )
+    {
         echo '<pre>';
-        foreach($this->result as $line) {
-            $line = trim($this->escape($line));
-            if ( strpos($line, 'rror:') )   {
+        foreach ($this->command_output as $line) {
+            if ( eregi('.*(ERR|not found|invalid).*', $line) )   {
                 echo '<div style="color: white; background-color: red;">' . $line . '</div><br>';
             } else {
                 echo $line . '<br>';
@@ -45,9 +44,6 @@
         }
         echo '</pre>';
     }
-    else    {
-	   echo '<p><b>', $this->translate->_("No Client status found."), '</b></p>';
-    }
-    ?>
+?>
 </div>
 <?php endif; ?>

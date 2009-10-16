@@ -242,7 +242,7 @@ class JobController extends MyClass_ControllerAction
             return 7;
         return $config->days_to_show_jobs_with_errors;
     }
-    
+
     /**
      * Jobs with errors/problems (last 14 days)
      */
@@ -311,7 +311,7 @@ class JobController extends MyClass_ControllerAction
         if( $this->_request->isPost() ) {
             $jobname = trim( $this->_request->getParam('jobname') );
             $this->view->jobname = $jobname;
-            // запускаем задание
+            // run Job
             $director = new Director();
             if ( !$director->isFoundBconsole() )	{
                 $this->view->result_error = 'NOFOUND_BCONSOLE';
