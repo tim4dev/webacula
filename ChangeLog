@@ -1,52 +1,55 @@
 Webacula ChangeLog
 ------------------
 
+=== 3.4
+   Add on "List of Running Jobs" the view of "joblog", so is possible to check the running session.
+
 === 3.3
-    Now main page (index, "Desktop" menu) does not show a message like "Not found xyz".
-    Pools, Volumes operations.
-    Now the Zend Framework need to be downloaded separately, from http://framework.zend.com/
-    New ini-parameter "days_to_show_jobs_with_errors". As many days to show those Jobs that are completed with errors (default = 7).
+   Now main page (index, "Desktop" menu) does not show a message like "Not found xyz".
+   Pools, Volumes operations.
+   Now the Zend Framework need to be downloaded separately, from http://framework.zend.com/
+   New ini-parameter "days_to_show_jobs_with_errors". As many days to show those Jobs that are completed with errors (default = 7).
 
 === 3.2
-    Improved design.
-    Fixed few bugs.
-    Restructuring of source code : Move all SQL code from controllers to models.
-    Restructuring of source code : use Zend_Layout. Now very easy to create new skins. 
+   Improved design.
+   Fixed few bugs.
+   Restructuring of source code : Move all SQL code from controllers to models.
+   Restructuring of source code : use Zend_Layout. Now very easy to create new skins. 
 Important information for web designers described in file 4CONTRIBUTORS.
 
 === 3.1 release (2009-09-16)
-	Add full PostgreSQL support (restore files, logbook, etc).
+   Add full PostgreSQL support (restore files, logbook, etc).
    Add full Sqlite support (restore files, logbook, etc).
-	Rewrite drawFileTreeAction().
-	Add regress testing procedures.
-	More bugfixes.
+   Rewrite drawFileTreeAction().
+   Add regress testing procedures.
+   More bugfixes.
 
 === 3.0
-	Fixed several unexpected bugs.
-	Remove prototype.js. Use json2.js and jquery.js instead.
-	Replaced by Calendar to jQuery Datepicker widget.
-	Conversion to a standard type of language files.
-	Add parameter 'mainmenu_floating' in config.ini. A floating menu stays visible even if you scroll down a web page.
-	Add parameter 'head_title' in config.ini
-	Add RSS feed
-	Add "Restore the most recent backup for a client"
-	Add "Restore backup for a client before a specified time"
-	New parameter in config.ini : "ttl_restore_session"
-	Add exceptions handler
-	Improved design
-	Add docs/check_system_requirements.php
-	Renumbering versions. Now major version number of WeBacula will match the version number of Bacula.
-	Create branch-1.38-2.x for the older versions webacula (they are working with bacula 1.38...2.x)
-	Up to Zend Framework 1.8.3
+   Fixed several unexpected bugs.
+   Remove prototype.js. Use json2.js and jquery.js instead.
+   Replaced by Calendar to jQuery Datepicker widget.
+   Conversion to a standard type of language files.
+   Add parameter 'mainmenu_floating' in config.ini. A floating menu stays visible even if you scroll down a web page.
+   Add parameter 'head_title' in config.ini
+   Add RSS feed
+   Add "Restore the most recent backup for a client"
+   Add "Restore backup for a client before a specified time"
+   New parameter in config.ini : "ttl_restore_session"
+   Add exceptions handler
+   Improved design
+   Add docs/check_system_requirements.php
+   Renumbering versions. Now major version number of WeBacula will match the version number of Bacula.
+   Create branch-1.38-2.x for the older versions webacula (they are working with bacula 1.38...2.x)
+   Up to Zend Framework 1.8.3
 
 === 1.5
-	Add Restore the most recent backup for a client
-	Add Restore backup for a client before a specified time 
-	Add full text search to LogBook
-	Fix bug (Zend/Paginator/Adapter/DbSelect.php) http://framework.zend.com/issues/browse/ZF-5620
-	Fix Logbook find by Id record
-	Add Portuguese Brazil translation by Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>
-	Fix handling languages
+   Add Restore the most recent backup for a client
+   Add Restore backup for a client before a specified time 
+   Add full text search to LogBook
+   Fix bug (Zend/Paginator/Adapter/DbSelect.php) http://framework.zend.com/issues/browse/ZF-5620
+   Fix Logbook find by Id record
+   Add Portuguese Brazil translation by Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>
+   Fix handling languages
 
 === 1.4 release 2008.09.29
 === 1.1.release (Wed Mar 19 09:16:06 2008)

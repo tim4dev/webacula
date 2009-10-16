@@ -1,6 +1,6 @@
 Name:          webacula
-Version:       3.3
-Release:       6%{?dist}
+Version:       3.4
+Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
@@ -113,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 16 2009 Yuri Timofeev <tim4dev@gmail.com> 3.4-1
+- Version 3.4
+
 * Tue Oct 13 2009 Yuri Timofeev <tim4dev@gmail.com> 3.3-6
 - Fix #526855.
 

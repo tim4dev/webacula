@@ -12,19 +12,22 @@
 SRC_DIR=".."
 F_INDEX_PHP="${SRC_DIR}/html/index.php"
 F_README="${SRC_DIR}/README"
+F_SPEC="${SRC_DIR}/packaging/Fedora/webacula.spec"
 
 VERSION=`grep -e "^.*define('WEBACULA_VERSION.*$" ${F_INDEX_PHP} | awk -F "'" '{print($4)}'`
 VER_README=`grep -e "^Version:" ${F_README} | awk '{print($2)}'`
+VER_SPEC=`grep -e "^Version:" ${F_SPEC} | awk '{print($2)}'`
 
-if [ ${VERSION} == ${VER_README} ]
+if [ ${VERSION} == ${VER_SPEC} ] && [ ${VERSION} == ${VER_README} ]
    then
       echo -e "\nOK. Versions correct."
    else
-      echo -e "\nVersions not match. Correct this (file/version) :\n"
-      echo -e "$F_INDEX_PHP\t${VERSION}"
-      echo -e "${F_README}\t${VER_README}"
-      echo -e "\n"
-      exit 10
+		echo -e "\nVersions not match. Correct this (file/version) :\n"
+		echo -e "$F_INDEX_PHP\t${VERSION}"
+		echo -e "${F_SPEC}\t${VER_SPEC}"
+		echo -e "${F_README}\t${VER_README}"
+		echo -e "\n"
+		exit 10
 fi
 
 echo ""

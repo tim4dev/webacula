@@ -30,10 +30,14 @@
 <tbody>
 <?php foreach($this->resultDirRunningJobs as $line) : ?>
 <tr>
-	<td><?php echo $this->escape($line['id']);?></td>
-	<td><?php echo $this->escape($line['level']);?></td>
-	<td><?php echo $this->escape($line['name']);?></td>
-	<td><?php echo $this->escape($line['status']);?></td>
+    <td>
+        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['id']). '/jobname/' . $this->escape($line['name']); ?>">
+            <?php echo $this->escape($line['id']);?>
+        </a>
+    </td>
+    <td><?php echo $this->escape($line['level']);?></td>
+    <td><?php echo $this->escape($line['name']);?></td>
+    <td><?php echo $this->escape($line['status']);?></td>
 </tr>
 <?php endforeach; ?>
 <tbody>
@@ -80,21 +84,23 @@
 <tbody>
 <?php foreach($this->resultRunningJobs as $line) : ?>
 <tr>
-	<td><?php echo $this->escape($line['jobid']);?></td>
+    <td>
+        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['jobid']). '/jobname/' . $this->escape($line['jobname']); ?>">
+            <?php echo $this->escape($line['jobid']);?>
+        </a>
+    </td>
+    <td><?php echo $this->escape($line['jobname']);?></td>
+    <?php
+        if ( $this->escape($line['joberrors']) != 0 )	{
+            echo '<td class="err" align="center"> ',
+                 $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
+        }
+        else
+            echo '<td align="center">',
+                 $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
+    ?>
 
-	<td><?php echo $this->escape($line['jobname']);?></td>
-
-	<?php
-		if ( $this->escape($line['joberrors']) != 0 )	{
-			echo '<td class="err" align="center"> ',
-			     $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
-		}
-		else
-			echo '<td align="center">',
-			     $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
-	?>
-
-	<td align="center"><?php echo $this->escape($line['level']);?></td>
+    <td align="center"><?php echo $this->escape($line['level']);?></td>
 
 	<?php
 		if ( $this->escape($line['joberrors']) == 0 )
