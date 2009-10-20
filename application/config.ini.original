@@ -11,7 +11,7 @@ db.config.dbname = bacula
 def.timezone = "Europe/Minsk"
 
 ; if locale undefined, webacula use autodetect
-; avaliable locales : en, de, fr, pt_BR, ru
+; avaliable locales : en, de, fr, pt_BR, ru, it
 ; locale = "en"
 
 ; see INSTALL file for details

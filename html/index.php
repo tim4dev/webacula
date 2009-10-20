@@ -121,7 +121,7 @@ $translate->addTranslation('../languages/it/webacula_it.mo', 'it');
 
 if ( isset($config->locale) ) {
     // locale is user defined
-    $locale = trim($config->locale);
+    $locale = new Zend_Locale(trim($config->locale));
 } else {
     // autodetect locale
     // Search order is: given Locale, HTTP Client, Server Environment, Framework Standard
