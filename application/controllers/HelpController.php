@@ -34,6 +34,7 @@ class HelpController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
         $this->view->baseUrl = $this->_request->getBaseUrl();
         $this->view->translate = Zend_Registry::get('translate');
+        $this->view->language  = Zend_Registry::get('language');
     }
 
     function indexAction ()
@@ -44,22 +45,8 @@ class HelpController extends Zend_Controller_Action
             // not test
             $this->_helper->layout->setLayout('help');
         }
-        $unit_test = $this->_request->getParam('test', null);
         $this->view->title = "webacula help";
-        $config = Zend_Registry::get('config');
-        if (empty($unit_test)) {
-            if (isset($config->locale)) {
-                $user_language = addslashes(trim($config->locale));
-            } else {
-                // autodetect
-                $locale = new Zend_Locale(Zend_Locale::BROWSER);
-                $user_language = $locale->getLanguage(); // 'ru', 'en'...
-            //print_r($user_language); //!! for debug
-            }
-        } else {
-            $user_language = 'en'; // for unit tests
-        }
-        $namefile = 'help/index_' . $user_language . '.phtml';
+        $namefile = 'help/index_' . $this->view->language . '.phtml';
         if (! file_exists("../application/views/scripts/" . $namefile)) {
             $namefile = 'help/index_en.phtml'; // default language
         }

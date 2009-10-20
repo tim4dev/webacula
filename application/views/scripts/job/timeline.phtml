@@ -1,25 +1,9 @@
-<?php
-    $config = Zend_Registry::get('config');
-    if ( isset($config->language) ) {
-        $user_language =  addslashes(trim($config->language));
-    } else {
-        $locale = new Zend_Locale(Zend_Locale::BROWSER);
-        $user_language = $locale->getLanguage(); // 'ru', 'en'...
-        //print_r($user_language); //!! for debug
-    }
-?>
-
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.7.2.custom.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
-
-<?php
-if ( $user_language != 'en' ) {
-	echo '<script type="text/javascript" src="' . $this->baseUrl , '/scripts/jquery-ui.datepicker-', $user_language, '.js"></script>';	
-}
-?>
+<script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 
 <script type="text/javascript">
-$j(function() {	
+$j(function() {
 	$j('#datetimeline').datepicker({
 			changeMonth: true,
 			changeYear: true
@@ -55,7 +39,7 @@ $j(function() {
 // check GD lib (php-gd)
 if ( extension_loaded('gd') ) {
 	if ( $this->result )	{
-		// show image				
+		// show image
 		echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" />';
 	} else	{
 	    // не прошел валидацию; вывод причин этого
@@ -97,11 +81,11 @@ if ($this->atime) : ?>
 	</div>
 <?php else : ?>
 <div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
 	</div>
-</div>		
+</div>
 <?php endif; ?>
 
 </div>

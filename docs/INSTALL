@@ -4,7 +4,7 @@
 
 - Bacula 3.0 or later.
 - Full supported MySQL, PostgreSQL and Sqlite databases.
-- Zend Framework version 1.8.3
+- Zend Framework version 1.8.3 or later.
 - Zend Framework is built with object-oriented PHP 5 and requires
   PHP 5.2.4 or later with PDO extension active. Please see the system requirements appendix for
   more detailed information:
@@ -24,9 +24,7 @@ Run docs/check_system_requirements.php to verify.
 - mkdir /var/www/webacula
 - Copy this distribution to directory /var/www/webacula
 
-- Extract the archive Zend.tar.gz which can be found in directory "library/"
-  cd library/
-  tar xvf Zend.tar.gz
+- Download Zend Framework from http://framework.zend.com/ and extract the contents from library/ directory.
 
 - The tree which should turn out as a result :
 
@@ -223,8 +221,7 @@ Logbook stored in a separate database "webacula", now it is supported  MySQL and
 	~~~~~~
 
    Download latest tarball.
-   Save in safe place your "config.ini", remove directory "webacula", extract tarball,
-	run "library/runme" and replace "config.ini".
+   Save in safe place your "config.ini", remove directory "webacula", extract Webacula source code and replace "config.ini" back.
 
 	If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
 

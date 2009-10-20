@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #########################################################################
-# wb_clean_tmp.sh
+# webacula_clean_tmp_files.sh
 # Delete webacula old tmp files. Script to be run by the cron.
 #
 # @package    webacula

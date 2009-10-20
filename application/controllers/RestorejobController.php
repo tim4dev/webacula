@@ -99,6 +99,7 @@ class RestorejobController extends Zend_Controller_Action
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
         $this->view->translate = Zend_Registry::get('translate');
+        $this->view->language  = Zend_Registry::get('language');
 
         // получаем ttl_restore_session
         $config_ini = Zend_Registry::get('config');

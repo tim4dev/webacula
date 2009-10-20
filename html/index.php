@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.3.0' . ', build 2009.10.12');
+define('WEBACULA_VERSION', '3.3.1' . ', build 2009.10.20');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);
@@ -108,30 +108,38 @@ if ( $config->debug == 1 ) {
 $translate = new Zend_Translate('gettext', '../languages/en/webacula_en.mo', 'en');
 // additional languages
 // see also http://framework.zend.com/manual/en/zend.locale.appendix.html
+$translate->addTranslation('../languages/en/webacula_en.mo', 'en_US');
 $translate->addTranslation('../languages/de/webacula_de.mo', 'de');
 $translate->addTranslation('../languages/fr/webacula_fr.mo', 'fr');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru');
+$translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru_RU');
 $translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
 
-// handling languages
 if ( isset($config->locale) ) {
-    $user_locale = trim($config->locale);
+    // locale is user defined
+    $locale = new Zend_Locale( trim($config->locale) );
 } else {
-    // autodetect from browser
-    $locale = new Zend_Locale(Zend_Locale::BROWSER);
-    $user_locale = $locale->getLanguage();
+    // autodetect locale
+    // Search order is: given Locale, HTTP Client, Server Environment, Framework Standard
+    try {
+        $locale = new Zend_Locale('auto');
+    } catch (Zend_Locale_Exception $e) {
+        $locale = new Zend_Locale('en');
+    }
 }
-
-if ( $translate->isTranslated('Desktop', false, $user_locale) ) {
+if ( $translate->isTranslated('Desktop', false, $locale) ) {
     // can be translated (есть перевод)
-    $translate->setLocale($user_locale);
+    $translate->setLocale($locale);
 } else {
     // can't translated (нет перевода)
+    // set to English by default
     $translate->setLocale('en');
+    $locale = new Zend_Locale('en');
 }
-
 // assign the $translate object to the registry so that it can be retrieved elsewhere in the application
 $registry->set('translate', $translate);
+$registry->set('locale',    $locale);
+$registry->set('language',  $locale->getLanguage());
 
 Zend_Layout::startMvc(array(
     'layoutPath' => '../application/layouts/' . $config_layout->path,

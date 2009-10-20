@@ -4,7 +4,7 @@
 
 - Bacula 3.0 или выше.
 - Полная поддержка СУБД MySQL, PostgreSQL и Sqlite.
-- Zend Framework version 1.8.3
+- Zend Framework version 1.8.3 или выше.
 - Zend Framework требует PHP 5.2.4 и выше с расширением PDO. См. также:
   http://framework.zend.com/manual/en/requirements.html
 - Apache и mod_rewrite, либо эквивалентный веб-сервер. Например, nginx и ngx_http_rewrite_module.
@@ -23,9 +23,7 @@
 
 - Скопировать webacula в каталог /var/www/webacula, например.
 
-- Распакуйте архив Zend.tar.gz который находится в каталоге library/
-  cd library/
-  tar xvf Zend.tar.gz
+- Скачайте Zend Framework с http://framework.zend.com/ и распакуйте содержимое из каталога library/
 
 - Дерево каталогов должно получиться таким :
 
@@ -218,9 +216,8 @@ cd /etc/bacula
 	Обновления
 	~~~~~~~~~~
 
-	Скачайте свежий архив.
-   Сохраните в надежном месте ваш "config.ini", удалите каталог "webacula", распакуйте архив,
-	затем запустите "library/runme" и замените "config.ini".
+	Скачайте свежий архив Webacula.
+   Сохраните в надежном месте ваш "config.ini", удалите старый каталог "webacula", распакуйте архив c Webacula и верните "config.ini" на место.
 
    Если нужно (например, не работает полнотекстовой поиск) сохраните данные с помощью mysqldump, удалите БД webacula и пересоздайте командой :
 

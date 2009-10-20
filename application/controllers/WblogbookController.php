@@ -49,6 +49,7 @@ class WblogbookController extends Zend_Controller_Action
 		Zend_Loader::loadClass('Zend_Validate_NotEmpty');
 
 		$this->view->translate = Zend_Registry::get('translate');
+		$this->view->language  = Zend_Registry::get('language');
 		Zend_Loader::loadClass('MyClass_SendEmail');
 		$this->config_webacula = Zend_Registry::get('config_webacula');
 	}

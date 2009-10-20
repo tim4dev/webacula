@@ -34,6 +34,7 @@ class IndexController extends Zend_Controller_Action
         // load model
         Zend_Loader::loadClass('Job');
         $this->view->translate = Zend_Registry::get('translate');
+        $this->view->language  = Zend_Registry::get('language');
     }
 
     function indexAction ()
