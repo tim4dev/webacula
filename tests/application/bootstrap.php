@@ -94,10 +94,11 @@ $translate->addTranslation('../languages/fr/webacula_fr.mo', 'fr');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru_RU');
 $translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
+$translate->addTranslation('../languages/it/webacula_it.mo', 'it');
 
 if ( isset($config->locale) ) {
     // locale is user defined
-    $locale = trim($config->locale);
+    $locale = new Zend_Locale(trim($config->locale));
 } else {
     // autodetect locale
     // Search order is: given Locale, HTTP Client, Server Environment, Framework Standard
