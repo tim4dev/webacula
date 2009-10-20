@@ -1,17 +1,18 @@
 [general]
 ; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE  
-db.adapter = PDO_SQLITE
+db.adapter = PDO_MYSQL
 db.config.host = localhost
-db.config.username =
+db.config.username = root
 db.config.password =
-db.config.dbname = "/tmp/webacula/sqlite/bacula.db"
+db.config.dbname = bacula
+; for Sqlite db.config.dbname = "/full patch/bacula.db"
 
 ; see http://www.php.net/timezones
 def.timezone = "Europe/Minsk"
 
 ; if locale undefined, webacula use autodetect
-; avaliable locales : en, de, fr, pt_BR, ru
-; locale = "en"
+; avaliable locales : en, de, fr, pt_BR, ru, it
+locale = "de"
 
 ; see INSTALL file for details
 bacula.sudo = "/usr/bin/sudo"
@@ -26,8 +27,8 @@ tmpdir = "/tmp"
 ; default = 1h, minimum = 600sec.
 ; ttl_restore_session = 3600
 
-; for debug only (default = 0)
-; debug = 1
+; for debug only (default = 0). Debug log written to '/tmp/webacula_debug.log'
+; debug_level = <0...9>
 
 ; the text, which will be placed in the header of the page
 ; head_title = "webacula :: domain.tld"
@@ -41,6 +42,7 @@ tmpdir = "/tmp"
 ; Jobs with errors (last NN day(s)
 ; days_to_show_jobs_with_errors = 7
 
+
 [timeline]
 gdfontpath = "/usr/share/fonts/dejavu"
 fontname   = "DejaVuLGCSansMono"
@@ -49,11 +51,12 @@ fontsize   = 10
 
 [webacula]
 ; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE
-db.adapter = PDO_SQLITE
+db.adapter = PDO_MYSQL
 db.config.host = localhost
-db.config.username = 
-db.config.password = 
-db.config.dbname = "/tmp/webacula/sqlite/webacula.db"
+db.config.username = wbuser
+db.config.password = "wbpass"
+db.config.dbname = webacula
+; for Sqlite db.config.dbname = "/var/lib/sqlite/webacula.db"
 
 email.to_admin = root@localhost
 email.from = webacula@localhost

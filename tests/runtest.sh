@@ -1,5 +1,8 @@
 #!/bin/sh
 #############################################################
+#
+# Main script for unit tests
+#
 # Usage:
 #
 # ./runtest.sh --exclude-group nonreusable,restore,logbook
@@ -34,7 +37,7 @@ echo ""
 diff -q ../application/config.ini  ../application/config.ini.original
 if [ $? == 0 ]
    then
-      echo "OK. config.ini.original"
+      echo "OK. config.ini"
    else
       echo -e "\nMake cp ../application/config.ini ../application/config.ini.original\n\n"
       exit 11
@@ -50,6 +53,7 @@ echo -e "\n\n*******************************************************************
 echo "Main tests"
 echo "*******************************************************************************"
 phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
+echo "ret=$?"
 
 echo -e "\n\n*******************************************************************************"
 echo "Prepare testing other DBMS"
@@ -61,10 +65,17 @@ cd ..
 echo -e "\n\n********** Test Postgresql **********\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
+echo "ret=$?"
 
 echo -e "\n\n********** Test Sqlite **********\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
+echo "ret=$?"
 
 cp -f ../application/config.ini.original  ../application/config.ini
+
+
+
+echo -e "\n\n"
+sh ./locale-test.sh
 
