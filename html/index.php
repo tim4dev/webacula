@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.4' . ', build 2009.10.16');
+define('WEBACULA_VERSION', '3.4' . ', build 2009.10.20');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);
@@ -108,6 +108,7 @@ if ( $config->debug == 1 ) {
 // translate
 //auto scan lang files may be have bug in ZF ? $translate = new Zend_Translate('gettext', '../languages', null, array('scan' => Zend_Translate::LOCALE_DIRECTORY));
 $translate = new Zend_Translate('gettext', '../languages/en/webacula_en.mo', 'en');
+/*$translate = new Zend_Translate('gettext', '../languages', null, array('scan' => Zend_Translate::LOCALE_DIRECTORY));*/
 // additional languages
 // see also http://framework.zend.com/manual/en/zend.locale.appendix.html
 $translate->addTranslation('../languages/en/webacula_en.mo', 'en_US');
@@ -116,6 +117,7 @@ $translate->addTranslation('../languages/fr/webacula_fr.mo', 'fr');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru_RU');
 $translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
+$translate->addTranslation('../languages/it/webacula_it.mo', 'it');
 
 if ( isset($config->locale) ) {
     // locale is user defined

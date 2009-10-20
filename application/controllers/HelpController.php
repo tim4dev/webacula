@@ -32,6 +32,7 @@ class HelpController extends MyClass_ControllerAction
     function init ()
     {
         parent::init();
+        $this->view->locale = Zend_Registry::get('locale');
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
     }
 

@@ -6,12 +6,14 @@ If you have made a contribution and do not find your name on this list, please s
 
 Contributors:
 
-Alexandre Boily <alexandreboily@gmail.com>				: French translation
-John Resig															: jQuery JavaScript Library
-Joel Birch															: Superfish jQuery menu widget
-Kern Sibbald <kern@sibbald.com>                       : Bacula developer
-Reynier Perez Mira <rperezm@uci.cu>							: INSTALL.es translation
-Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com> : Portuguese Brazil translation
-Sven-Hendrik Haase <sh@lutzhaase.com>                 : German translation
+Alexandre Boily <alexandreboily@gmail.com>          : French translation
+Dimitri Bellini <dimitri.bellini@gmail.com>         : Italian translation
+John Resig                                          : jQuery JavaScript Library
+Joel Birch                                          : Superfish jQuery menu widget
+Kern Sibbald <kern@sibbald.com>                     : Bacula developer
+Reynier Perez Mira <rperezm@uci.cu>                 : INSTALL.es translation
+Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>    : Portuguese Brazil translation
+Sven-Hendrik Haase <sh@lutzhaase.com>                    : German translation
 Carsten Menke <Carsten.Menke@prozesse-im-unternehmen.de> : German translation, patches
-Yuri Timofeev <tim4dev@gmail.com>                     : Webacula developer
+Yuri Timofeev <tim4dev@gmail.com>                   : Webacula developer
+
