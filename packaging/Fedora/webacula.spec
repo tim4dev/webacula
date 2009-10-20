@@ -28,7 +28,7 @@ Supports the run Job, restore all files or selected files,
 restore the most recent backup for a client,
 restore backup for a client before a specified time,
 mount/umount Storages, show scheduled, running and terminated Jobs and more.
-Supported languages: English, French, German, Portuguese Brazil, Russian.
+Supported languages: English, French, German, Italian, Portuguese Brazil, Russian.
 
 %description -l ru
 Webacula - Web Bacula - веб интерфейс для Bacula backup system.
@@ -37,7 +37,7 @@ Webacula - Web Bacula - веб интерфейс для Bacula backup system.
 восстановление бэкапа для клиента сделанного перед указанным временем,
 монтирование/размонтирование Хранилищ, показ запланированных, 
 выполняющихся и завершенных Заданий и прочее.
-Поддерживаемые языки: английский, французский, немецкий,
+Поддерживаемые языки: английский, французский, немецкий, итальянский,
 бразильский португальский, русский.
 
 
@@ -109,6 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_datadir}/%{name}/languages/fr
 %lang(pt) %{_datadir}/%{name}/languages/pt
 %lang(ru) %{_datadir}/%{name}/languages/ru
+%lang(it) %{_datadir}/%{name}/languages/it
 
 
 
