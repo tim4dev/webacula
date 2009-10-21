@@ -4,8 +4,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-10 19:54+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Yuri Timofeev <tim4dev@gmail.com>\n"
-"Language-Team: \n"
+"Last-Translator: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
+"Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,11 +31,11 @@ msgstr "Lista Totale dei Job"
 #: application/controllers/RestorejobController.php:560
 #: application/controllers/RestorejobController.php:584
 msgid "Restore Job"
-msgstr "Restore Job"
+msgstr "Ripristina Job"
 
 #: application/controllers/RestorejobController.php:234
 msgid "Restore All files for JobId"
-msgstr "Restore di tutti i file per JobId"
+msgstr "Ripristina tutti i file per JobId"
 
 #: application/controllers/RestorejobController.php:245
 #: application/controllers/RestorejobController.php:441
@@ -45,7 +45,7 @@ msgstr "JobId %u non esiste."
 
 #: application/controllers/RestorejobController.php:354
 msgid "Restore All files"
-msgstr "Restore di tutti i file"
+msgstr "Ripristina tutti i file"
 
 #: application/controllers/RestorejobController.php:514
 #, php-format
@@ -81,11 +81,11 @@ msgstr "Lista dei File da Restorare"
 
 #: application/controllers/RestorejobController.php:1055
 msgid "Restore JobId"
-msgstr "Restore JobId"
+msgstr "Ripristina JobId"
 
 #: application/controllers/RestorejobController.php:1133
 msgid "Restore the most recent backup (or before a specified time) for a client"
-msgstr "Restore del piu' recente backup (o antecedente ad una data specifica) per client"
+msgstr "Ripristino del piu' recente backup (o antecedente ad una data specifica) per client"
 
 #: application/controllers/FeedController.php:57
 msgid "Job Id"
@@ -403,7 +403,7 @@ msgstr "In Corso"
 #: application/layouts/default/help.phtml:104
 #: application/layouts/default/help.phtml:182
 msgid "Next"
-msgstr "Prossimo"
+msgstr "Successivi"
 
 #: application/layouts/default/dashboard.phtml:96
 #: application/layouts/default/dashboard.phtml:106
@@ -418,13 +418,13 @@ msgstr "Prossimo"
 #: application/layouts/default/help.phtml:183
 #: application/layouts/default/help.phtml:190
 msgid "Problem"
-msgstr "Problema"
+msgstr "Problemi"
 
 #: application/layouts/default/dashboard.phtml:97
 #: application/layouts/default/main.phtml:107
 #: application/layouts/default/help.phtml:106
 msgid "Run"
-msgstr "Eseguito"
+msgstr "Completati"
 
 #: application/layouts/default/dashboard.phtml:98
 #: application/layouts/default/dashboard.phtml:171
@@ -451,7 +451,7 @@ msgstr "Linea Temporale"
 #: application/layouts/default/help.phtml:109
 #: application/layouts/default/help.phtml:187
 msgid "Restore"
-msgstr "Restore"
+msgstr "Ripristina"
 
 #: application/layouts/default/dashboard.phtml:103
 #: application/layouts/default/dashboard.phtml:174
@@ -546,7 +546,7 @@ msgstr "Versione Client"
 
 #: application/views/scripts/client/all.phtml:10
 msgid "Auto Prune"
-msgstr "Auto Prune"
+msgstr "Auto Rimozione"
 
 #: application/views/scripts/client/all.phtml:11
 msgid "Files Retention<br />days"
@@ -633,7 +633,7 @@ msgstr "Accetta<br />Ogni<br />Volume"
 
 #: application/views/scripts/pool/all.phtml:13
 msgid "Volume<br />Retention<br />(days)"
-msgstr "Volume<br />Ritenzione<br />(giorni)"
+msgstr "Ritenzione<br />Volume<br />(giorni)"
 
 #: application/views/scripts/pool/all.phtml:14
 msgid "Max<br />Volume<br />(Bytes)"
@@ -641,7 +641,7 @@ msgstr "Max<br />Volume<br />(Bytes)"
 
 #: application/views/scripts/pool/all.phtml:16
 msgid "Auto Recycle"
-msgstr "Auto Riciclo"
+msgstr "Auto Riutilizzo"
 
 #: application/views/scripts/pool/all.phtml:17
 #: application/views/scripts/job/next-dashboard.phtml:28
@@ -854,7 +854,7 @@ msgstr "Tipo Backup"
 
 #: application/views/scripts/job/find-form.phtml:92
 msgid "Restore type"
-msgstr "Tipo Restore"
+msgstr "Tipo Ripristino"
 
 #: application/views/scripts/job/find-form.phtml:93
 msgid "Verify type"
@@ -919,7 +919,7 @@ msgstr "Dove"
 #: application/views/scripts/restorejob/restore-recent-all.phtml:56
 #: application/views/scripts/restorejob/list-recent-restore.phtml:62
 msgid "Run Restore Job"
-msgstr "Esegui Restore Job"
+msgstr "Esegui Ripristino Job"
 
 #: application/views/scripts/restorejob/restore-all.phtml:110
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:29
@@ -971,7 +971,7 @@ msgstr "ERRORE: Azione su cartella fallita !"
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:202
 msgid "For restore"
-msgstr "Per restore"
+msgstr "Per Ripristino"
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:203
 msgid "Size:"
@@ -1000,7 +1000,7 @@ msgstr "Totale"
 
 #: application/views/scripts/restorejob/restore-recent-all.phtml:39
 msgid "Where to Restore"
-msgstr "Dove Restorare"
+msgstr "Dove Ripristinare"
 
 #: application/views/scripts/restorejob/restore-recent-all.phtml:43
 #: application/views/scripts/restorejob/list-recent-restore.phtml:54
@@ -1009,11 +1009,11 @@ msgstr "Percorso"
 
 #: application/views/scripts/restorejob/msg01.phtml:21
 msgid "In DB webacula found existing tmp-tables for the Restore Job with JobId"
-msgstr "Nel DB di Webacula sono presenti tabelle temporanee per il Restore Job con JobId"
+msgstr "Nel DB di Webacula sono presenti tabelle temporanee per il Ripristino Job con JobId"
 
 #: application/views/scripts/restorejob/msg01.phtml:24
 msgid "Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."
-msgstr "Probabilmente qualcun'altro sta eseguendo il tuo lavoro sui medesimi file da restorare, oppure queste tabelle non sono ancora state rimosse dall'ultima operazione di restore per questo JobId."
+msgstr "Probabilmente qualcun'altro sta eseguendo il tuo lavoro sui medesimi file da restorare, oppure queste tabelle non sono ancora state rimosse dall'ultima operazione di ripristino per questo JobId."
 
 #: application/views/scripts/restorejob/msg01.phtml:26
 msgid "Choose the action:"
@@ -1047,7 +1047,7 @@ msgstr "Prima della data"
 #: application/views/scripts/restorejob/main-form.phtml:179
 #: application/views/scripts/restorejob/main-form.phtml:236
 msgid "Select Files for Restore"
-msgstr "Seleziona i File da Restorare"
+msgstr "Seleziona i File da Ripristinare"
 
 #: application/views/scripts/restorejob/main-form.phtml:145
 #: application/views/scripts/restorejob/main-form.phtml:187
@@ -1055,15 +1055,15 @@ msgstr "Seleziona i File da Restorare"
 #: application/views/scripts/wblogbook/modify.phtml:116
 #: application/views/scripts/volume/detail.phtml:236
 msgid "Reset Form"
-msgstr "Resetta Da"
+msgstr "Annulla"
 
 #: application/views/scripts/restorejob/main-form.phtml:155
 msgid "Restore the most recent backup for a client"
-msgstr "Restora il piu' recente Backup per un client"
+msgstr "Ripristina il piu' recente Backup per un client"
 
 #: application/views/scripts/restorejob/main-form.phtml:198
 msgid "Restore backup for a client before a specified time"
-msgstr "Restora il backup per un client prima di una specifica data"
+msgstr "Ripristina il backup per un client prima di una specifica data"
 
 #: application/views/scripts/restorejob/main-form.phtml:219
 msgid "Date before"
@@ -1106,7 +1106,7 @@ msgstr "Permesso per usare pseudo-etichette :"
 #: application/views/scripts/wblogbook/modify.phtml:114
 #: application/views/scripts/volume/detail.phtml:234
 msgid "Submit Form"
-msgstr "Sottometti maschera"
+msgstr "Conferma"
 
 #: application/views/scripts/wblogbook/index.phtml:93
 msgid "+ Add New Record"
@@ -1244,11 +1244,11 @@ msgstr "Full"
 
 #: application/views/scripts/volume/detail.phtml:23
 msgid "Recycle"
-msgstr "Recycle"
+msgstr "Riutilizzabile"
 
 #: application/views/scripts/volume/detail.phtml:24
 msgid "Purged"
-msgstr "Purged"
+msgstr "Svuotato"
 
 #: application/views/scripts/volume/detail.phtml:25
 msgid "Read-Only"
@@ -1273,7 +1273,7 @@ msgstr "Usato"
 
 #: application/views/scripts/volume/detail.phtml:30
 msgid "Cleaning"
-msgstr "Cleaning"
+msgstr "Pulizia"
 
 #: application/views/scripts/volume/detail.phtml:31
 msgid "Archive"
@@ -1365,7 +1365,7 @@ msgstr "Num. Scritture"
 
 #: application/views/scripts/volume/detail.phtml:218
 msgid "Recycle Count"
-msgstr "Contatore Reciclato"
+msgstr "Totale riutilizzo"
 
 #: application/views/scripts/volume/detail.phtml:222
 msgid "Comment"
@@ -1416,7 +1416,7 @@ msgstr "Ultimo<br />Scritto"
 #: application/views/scripts/volume/problem.phtml:19
 #: application/views/scripts/volume/find-name.phtml:19
 msgid "Can Recycle<br />Volume"
-msgstr "Posso Reciclare<br />Volume"
+msgstr "Posso Riutilizzare<br />Volume"
 
 #: application/views/scripts/volume/problem-dashboard.phtml:66
 #: application/views/scripts/volume/problem.phtml:69
