@@ -22,10 +22,10 @@
 <tbody>
 <?php foreach($this->resultProblemVolumes as $line) : ?>
 <tr>
-	<td>
-	<a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']).
-        '" title="', $this->translate->_("Detail Volume"), '">'; ?>
-       <?php echo $this->escape($line['volumename']);?>
+	<td align="left">
+	<a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']); ?> " title="<?php 
+	   echo $this->translate->_("Detail Volume"); ?>">
+	   <?php echo $this->escape($line['volumename']);?>
     </a>
     </td>
 
@@ -68,5 +68,78 @@
 		<p><span class="ui-icon ui-icon-circle-check" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : All Volumes are OK.");?></strong></p>
 	</div>
+</div>
+<?php endif; ?>
+
+<p>&nbsp;</p>
+
+
+<h1 align="center"><?php echo $this->escape($this->titleVolumesNeedReplacement); ?></h1>
+
+<?php if ($this->resultVolumesNeedReplacement): ?>
+<div align="center">
+<table id="box-table">
+<thead>
+<tr>
+    <th scope="col"> <?php print $this->translate->_("Volume Name"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Volume Status"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Volume Bytes"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Media<br />Type"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Volume Jobs"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Mounts"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Number of writes"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->resultVolumesNeedReplacement as $line) : ?>
+<tr>
+    <td align="left">
+    <a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']); ?> " title="<?php 
+       echo $this->translate->_("Detail Volume"); ?>">
+       <?php echo $this->escape($line['volumename']);?>
+    </a>
+    </td>
+
+    <?php
+        // http://www.bacula.org/developers/Catalog_Services.html
+        // Status of media: Full, Archive, Append, Recycle, Read-Only, Disabled, Error, Busy
+        if ( $this->escape($line['volstatus']) == 'Disabled' )
+            echo '<td class="warn" align="center">', $this->escape($line['volstatus']), '</td>';
+        elseif ( $this->escape($line['volstatus']) == 'Error' )
+            echo '<td class="err" align="center">', $this->escape($line['volstatus']), '</td>';
+        else
+            echo '<td align="center">', $this->escape($line['volstatus']), '</td>';
+    ?>
+    <td align="right"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
+    <td align="right"><?php echo $this->escape($line['mediatype']);?></td>
+    <?php
+        if ( ( isset($line['firstwritten'])) && ($this->escape($line['voljobs']) <= 0) )
+            echo '<td class="warn" align="right">', number_format($this->escape($line['voljobs'])), '</td>';
+        else
+            echo '<td align="right">', number_format($this->escape($line['voljobs'])), '</td>';
+    ?>
+    <td align="right"><?php echo $this->escape($line['volmounts']);?></td>
+    <td align="right"><?php echo $this->escape($line['volwrites']);?></td>
+
+    <?php
+        if ( $this->escape($line['volerrors']) == 0 )
+            echo '<td align="right"></td>';
+        else
+            echo '<td  align="right" class="err">' . $this->escape($line['volerrors']) . '</td>';
+    ?>
+
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+
+<?php else: ?>
+<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+    <div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+        <p><span class="ui-icon ui-icon-circle-check" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php print $this->translate->_("Information from DB Catalog : All Volumes are OK.");?></strong></p>
+    </div>
 </div>
 <?php endif; ?>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-15 12:50+0300\n"
+"POT-Creation-Date: 2009-10-21 10:39+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Yuri Timofeev <tim4dev@gmail.com>\n"
 "Language-Team: \n"
@@ -15,11 +15,11 @@ msgstr ""
 "X-Poedit-Basepath: /home/tim/prog/webacula\n"
 "X-Poedit-SearchPath-0: application\n"
 
-#: application/controllers/ClientController.php:64
+#: application/controllers/ClientController.php:41
 msgid "Clients"
 msgstr "Клиенты"
 
-#: application/controllers/ClientController.php:81
+#: application/controllers/ClientController.php:53
 msgid "Client"
 msgstr "Клиент"
 
@@ -32,76 +32,76 @@ msgid "in descending order"
 msgstr "в порядке убывания"
 
 #: application/controllers/WblogbookController.php:92
-#: application/controllers/WblogbookController.php:121
-#: application/controllers/WblogbookController.php:208
+#: application/controllers/WblogbookController.php:122
+#: application/controllers/WblogbookController.php:209
 msgid "Logbook"
 msgstr "Журнал"
 
 #: application/controllers/WblogbookController.php:101
-#: application/controllers/WblogbookController.php:130
+#: application/controllers/WblogbookController.php:131
 #, php-format
 msgid " %s (from %s to %s)"
 msgstr " %s (с %s по %s)"
 
-#: application/controllers/WblogbookController.php:175
+#: application/controllers/WblogbookController.php:176
 #, php-format
 msgid "Logbook by Id %s (from %u to %u)"
 msgstr "Журнал по Id %s (с %u по %u)"
 
-#: application/controllers/WblogbookController.php:208
+#: application/controllers/WblogbookController.php:209
 msgid "Search text"
 msgstr "Поиск текста"
 
-#: application/controllers/WblogbookController.php:260
-#: application/controllers/WblogbookController.php:428
+#: application/controllers/WblogbookController.php:261
+#: application/controllers/WblogbookController.php:429
 msgid "Create record :"
 msgstr "Запись создана :"
 
-#: application/controllers/WblogbookController.php:261
-#: application/controllers/WblogbookController.php:430
+#: application/controllers/WblogbookController.php:262
+#: application/controllers/WblogbookController.php:431
 msgid "Type record :"
 msgstr "Тип записи :"
 
-#: application/controllers/WblogbookController.php:262
-#: application/controllers/WblogbookController.php:431
+#: application/controllers/WblogbookController.php:263
+#: application/controllers/WblogbookController.php:432
 msgid "Text :"
 msgstr "Текст :"
 
-#: application/controllers/WblogbookController.php:263
+#: application/controllers/WblogbookController.php:264
 msgid "Webacula Logbook Add record"
 msgstr "Webacula Logbook Add record"
 
-#: application/controllers/WblogbookController.php:275
+#: application/controllers/WblogbookController.php:276
 msgid "Logbook: add new record"
 msgstr "Журнал: добавление новой записи"
 
-#: application/controllers/WblogbookController.php:359
+#: application/controllers/WblogbookController.php:360
 msgid "Logbook: modify record"
 msgstr "Журнал: изменение записи"
 
-#: application/controllers/WblogbookController.php:429
+#: application/controllers/WblogbookController.php:430
 msgid "Update record :"
 msgstr "Запись изменена :"
 
-#: application/controllers/WblogbookController.php:432
+#: application/controllers/WblogbookController.php:433
 msgid "Webacula Logbook Update record"
 msgstr "Webacula Logbook Update record"
 
-#: application/controllers/WblogbookController.php:464
-#: application/controllers/WblogbookController.php:491
+#: application/controllers/WblogbookController.php:465
+#: application/controllers/WblogbookController.php:492
 msgid "LogId record :"
 msgstr "LogId записи :"
 
-#: application/controllers/WblogbookController.php:465
+#: application/controllers/WblogbookController.php:466
 msgid "Webacula Logbook Delete record"
 msgstr "Webacula Logbook Delete record"
 
-#: application/controllers/WblogbookController.php:492
+#: application/controllers/WblogbookController.php:493
 msgid "Webacula Logbook UnDelete record"
 msgstr "Webacula Logbook UnDelete record"
 
 #: application/controllers/ChartController.php:81
-#: application/controllers/JobController.php:294
+#: application/controllers/JobController.php:298
 msgid "ERROR: The GD extension isn`t loaded. Please install php-gd package."
 msgstr "ОШИБКА: Расширение GD не установлено. Установите пакет php-gd."
 
@@ -176,77 +176,77 @@ msgstr "Восстановить самый свежий бэкап (или бэ
 msgid "Storages"
 msgstr "Хранилища"
 
-#: application/controllers/StorageController.php:52
+#: application/controllers/StorageController.php:53
 #, php-format
 msgid "Storage %s status"
 msgstr "Состояние Хранилища %s"
 
-#: application/controllers/StorageController.php:81
+#: application/controllers/StorageController.php:84
 msgid "Storage"
 msgstr "Хранилище"
 
 #: application/controllers/JobController.php:45
-#: application/controllers/JobController.php:368
+#: application/controllers/JobController.php:372
 msgid "Terminated Jobs (executed in last 24 hours)"
 msgstr "Завершенные Задания (выполненные за прошедшие 24 часа)"
 
-#: application/controllers/JobController.php:58
-#: application/controllers/JobController.php:72
+#: application/controllers/JobController.php:59
+#: application/controllers/JobController.php:74
 msgid "Information from DB Catalog : List of Running Jobs"
 msgstr "Информация из БД Каталога : Выполняющиеся Задания"
 
-#: application/controllers/JobController.php:63
-#: application/controllers/JobController.php:77
+#: application/controllers/JobController.php:64
+#: application/controllers/JobController.php:79
 msgid "Information from Director : List of Running Jobs"
 msgstr "Информация от Директора : Выполняющиеся Задания"
 
-#: application/controllers/JobController.php:93
-#: application/controllers/JobController.php:109
+#: application/controllers/JobController.php:95
+#: application/controllers/JobController.php:112
 msgid "Scheduled Jobs (at 24 hours forward)"
 msgstr "Запланированные Задания (на ближайшие 24 часа)"
 
-#: application/controllers/JobController.php:130
+#: application/controllers/JobController.php:133
 msgid "List Jobs with filters"
 msgstr "Отфильтрованный список Заданий"
 
-#: application/controllers/JobController.php:184
-#: application/controllers/JobController.php:186
+#: application/controllers/JobController.php:187
+#: application/controllers/JobController.php:189
 msgid "List Jobs by JobId"
 msgstr "Список Заданий с заданным JobId"
 
-#: application/controllers/JobController.php:199
-#: application/controllers/JobController.php:201
+#: application/controllers/JobController.php:202
+#: application/controllers/JobController.php:204
 msgid "List Jobs by Volume Name"
 msgstr "Список Заданий с заданным Именем Тома"
 
-#: application/controllers/JobController.php:214
+#: application/controllers/JobController.php:217
 msgid "Search Jobs"
 msgstr "Поиск Заданий"
 
-#: application/controllers/JobController.php:230
+#: application/controllers/JobController.php:233
 msgid "Detail JobId"
 msgstr "Подробная информация о Задании"
 
-#: application/controllers/JobController.php:252
-#: application/controllers/JobController.php:264
+#: application/controllers/JobController.php:255
+#: application/controllers/JobController.php:268
 #, php-format
 msgid "Jobs with errors (last %s days)"
 msgstr "Задания с ошибками (за последние %s дней)"
 
-#: application/controllers/JobController.php:298
+#: application/controllers/JobController.php:302
 msgid "Timeline for date"
 msgstr "График за дату"
 
-#: application/controllers/JobController.php:310
+#: application/controllers/JobController.php:314
 msgid "Run Job"
 msgstr "Запустить Задание"
 
-#: application/controllers/JobController.php:356
+#: application/controllers/JobController.php:360
 #, php-format
 msgid "List last %s Jobs run"
 msgstr "Список последних %s запущенных Заданий"
 
-#: application/controllers/JobController.php:387
+#: application/controllers/JobController.php:391
 #, php-format
 msgid "List Jobs where %s is saved (limit %s)"
 msgstr "Список Заданий где сохранен файл %s (максимум %s)"
@@ -297,7 +297,7 @@ msgid "Errors"
 msgstr "Ошибки"
 
 #: application/controllers/FeedController.php:64
-#: application/controllers/VolumeController.php:153
+#: application/controllers/VolumeController.php:157
 msgid "Volume Name"
 msgstr "Имя Тома"
 
@@ -306,8 +306,8 @@ msgid "Volume Status"
 msgstr "Состояние<br />Тома"
 
 #: application/controllers/FeedController.php:65
-#: application/controllers/VolumeController.php:78
-#: application/controllers/VolumeController.php:91
+#: application/controllers/VolumeController.php:79
+#: application/controllers/VolumeController.php:95
 msgid "Volumes with errors"
 msgstr "Сбойные Тома"
 
@@ -319,15 +319,19 @@ msgstr "Список файлов для Задания"
 msgid "Volume"
 msgstr "Том"
 
-#: application/controllers/VolumeController.php:112
+#: application/controllers/VolumeController.php:80
+msgid "List Volumes likely to need replacement from age or errors"
+msgstr "Тома, которые возможно нуждаются в замене из-за возраста и ошибок"
+
+#: application/controllers/VolumeController.php:116
 msgid "Detail Volume"
 msgstr "Подробно о Томе"
 
-#: application/controllers/VolumeController.php:153
+#: application/controllers/VolumeController.php:157
 msgid "Media Id"
 msgstr ""
 
-#: application/controllers/VolumeController.php:153
+#: application/controllers/VolumeController.php:157
 msgid "Webacula : Updated Volume parameters"
 msgstr "Webacula : параметры Тома изменены"
 
@@ -352,14 +356,14 @@ msgstr "Общая статистика по Заданиям"
 #: application/layouts/default/help.phtml:171
 #: application/layouts/default/dashboard.phtml:98
 #: application/layouts/default/dashboard.phtml:196
-#: application/layouts/default/main.phtml:95
-#: application/layouts/default/main.phtml:159
+#: application/layouts/default/main.phtml:98
+#: application/layouts/default/main.phtml:162
 msgid "Desktop"
 msgstr "Панель"
 
 #: application/layouts/default/help.phtml:90
 #: application/layouts/default/dashboard.phtml:100
-#: application/layouts/default/main.phtml:97
+#: application/layouts/default/main.phtml:100
 msgid "Job Totals"
 msgstr "Всего по Заданиям"
 
@@ -367,8 +371,8 @@ msgstr "Всего по Заданиям"
 #: application/layouts/default/help.phtml:172
 #: application/layouts/default/dashboard.phtml:103
 #: application/layouts/default/dashboard.phtml:197
-#: application/layouts/default/main.phtml:100
-#: application/layouts/default/main.phtml:160
+#: application/layouts/default/main.phtml:103
+#: application/layouts/default/main.phtml:163
 msgid "Director"
 msgstr "Директор"
 
@@ -376,20 +380,20 @@ msgstr "Директор"
 #: application/layouts/default/help.phtml:173
 #: application/layouts/default/dashboard.phtml:104
 #: application/layouts/default/dashboard.phtml:198
-#: application/layouts/default/main.phtml:101
-#: application/layouts/default/main.phtml:161
+#: application/layouts/default/main.phtml:104
+#: application/layouts/default/main.phtml:164
 msgid "Job"
 msgstr "Задание"
 
 #: application/layouts/default/help.phtml:96
 #: application/layouts/default/dashboard.phtml:106
-#: application/layouts/default/main.phtml:103
+#: application/layouts/default/main.phtml:106
 msgid "Terminated"
 msgstr "Завершенные"
 
 #: application/layouts/default/help.phtml:97
 #: application/layouts/default/dashboard.phtml:107
-#: application/layouts/default/main.phtml:104
+#: application/layouts/default/main.phtml:107
 msgid "Running"
 msgstr "Выполняющиеся"
 
@@ -397,8 +401,8 @@ msgstr "Выполняющиеся"
 #: application/layouts/default/help.phtml:176
 #: application/layouts/default/dashboard.phtml:108
 #: application/layouts/default/dashboard.phtml:201
-#: application/layouts/default/main.phtml:105
-#: application/layouts/default/main.phtml:164
+#: application/layouts/default/main.phtml:108
+#: application/layouts/default/main.phtml:167
 msgid "Next"
 msgstr "Очередные"
 
@@ -410,16 +414,16 @@ msgstr "Очередные"
 #: application/layouts/default/dashboard.phtml:119
 #: application/layouts/default/dashboard.phtml:202
 #: application/layouts/default/dashboard.phtml:209
-#: application/layouts/default/main.phtml:106
-#: application/layouts/default/main.phtml:116
-#: application/layouts/default/main.phtml:165
-#: application/layouts/default/main.phtml:172
+#: application/layouts/default/main.phtml:109
+#: application/layouts/default/main.phtml:119
+#: application/layouts/default/main.phtml:168
+#: application/layouts/default/main.phtml:175
 msgid "Problem"
 msgstr "Сбойные"
 
 #: application/layouts/default/help.phtml:100
 #: application/layouts/default/dashboard.phtml:110
-#: application/layouts/default/main.phtml:107
+#: application/layouts/default/main.phtml:110
 msgid "Run"
 msgstr "Запустить"
 
@@ -427,8 +431,8 @@ msgstr "Запустить"
 #: application/layouts/default/help.phtml:179
 #: application/layouts/default/dashboard.phtml:111
 #: application/layouts/default/dashboard.phtml:204
-#: application/layouts/default/main.phtml:108
-#: application/layouts/default/main.phtml:167
+#: application/layouts/default/main.phtml:111
+#: application/layouts/default/main.phtml:170
 #: application/views/scripts/wblogbook/index.phtml:127
 msgid "Search"
 msgstr "Поиск"
@@ -437,8 +441,8 @@ msgstr "Поиск"
 #: application/layouts/default/help.phtml:180
 #: application/layouts/default/dashboard.phtml:112
 #: application/layouts/default/dashboard.phtml:205
-#: application/layouts/default/main.phtml:109
-#: application/layouts/default/main.phtml:168
+#: application/layouts/default/main.phtml:112
+#: application/layouts/default/main.phtml:171
 msgid "Timeline"
 msgstr "График"
 
@@ -446,8 +450,8 @@ msgstr "График"
 #: application/layouts/default/help.phtml:181
 #: application/layouts/default/dashboard.phtml:113
 #: application/layouts/default/dashboard.phtml:206
-#: application/layouts/default/main.phtml:110
-#: application/layouts/default/main.phtml:169
+#: application/layouts/default/main.phtml:113
+#: application/layouts/default/main.phtml:172
 msgid "Restore"
 msgstr "Восстановить"
 
@@ -455,8 +459,8 @@ msgstr "Восстановить"
 #: application/layouts/default/help.phtml:182
 #: application/layouts/default/dashboard.phtml:116
 #: application/layouts/default/dashboard.phtml:207
-#: application/layouts/default/main.phtml:113
-#: application/layouts/default/main.phtml:170
+#: application/layouts/default/main.phtml:116
+#: application/layouts/default/main.phtml:173
 msgid "Pool/Volume"
 msgstr "Пул/Том"
 
@@ -464,14 +468,14 @@ msgstr "Пул/Том"
 #: application/layouts/default/help.phtml:183
 #: application/layouts/default/dashboard.phtml:118
 #: application/layouts/default/dashboard.phtml:208
-#: application/layouts/default/main.phtml:115
-#: application/layouts/default/main.phtml:171
+#: application/layouts/default/main.phtml:118
+#: application/layouts/default/main.phtml:174
 msgid "Overview"
 msgstr "Обзор"
 
 #: application/layouts/default/help.phtml:118
 #: application/layouts/default/dashboard.phtml:128
-#: application/layouts/default/main.phtml:125
+#: application/layouts/default/main.phtml:128
 msgid "RSS"
 msgstr "RSS"
 
@@ -479,26 +483,26 @@ msgstr "RSS"
 #: application/layouts/default/help.phtml:188
 #: application/layouts/default/dashboard.phtml:131
 #: application/layouts/default/dashboard.phtml:213
-#: application/layouts/default/main.phtml:128
-#: application/layouts/default/main.phtml:176
+#: application/layouts/default/main.phtml:131
+#: application/layouts/default/main.phtml:179
 msgid "Help"
 msgstr "Справка"
 
 #: application/layouts/default/help.phtml:132
 #: application/layouts/default/dashboard.phtml:142
-#: application/layouts/default/main.phtml:139
+#: application/layouts/default/main.phtml:142
 msgid "Enable JavaScript please..."
 msgstr "Включите, пожалуйста, JavaScript..."
 
 #: application/layouts/default/help.phtml:174
 #: application/layouts/default/dashboard.phtml:199
-#: application/layouts/default/main.phtml:162
+#: application/layouts/default/main.phtml:165
 msgid "Last"
 msgstr "Прошедшие"
 
 #: application/layouts/default/help.phtml:175
 #: application/layouts/default/dashboard.phtml:200
-#: application/layouts/default/main.phtml:163
+#: application/layouts/default/main.phtml:166
 msgid "Running Jobs"
 msgstr "Текущие"
 
@@ -719,10 +723,6 @@ msgstr "ОШИБКА: bconsole не найден."
 #: application/views/scripts/client/status-client-id.phtml:33
 msgid "Director output:"
 msgstr "Информация от Директора:"
-
-#: application/views/scripts/client/status-client-id.phtml:49
-msgid "No Client status found."
-msgstr "Состояние Клиента не определено."
 
 #: application/views/scripts/client/all.phtml:8
 msgid "Name"
@@ -1043,7 +1043,7 @@ msgstr "Показать график"
 #: application/views/scripts/job/terminated-dashboard.phtml:15
 #: application/views/scripts/job/problem-dashboard.phtml:13
 #: application/views/scripts/job/running-dashboard.phtml:27
-#: application/views/scripts/job/running-dashboard.phtml:75
+#: application/views/scripts/job/running-dashboard.phtml:79
 msgid "Id"
 msgstr "Id"
 
@@ -1109,22 +1109,22 @@ msgstr "Нет запланированных заданий."
 #: application/views/scripts/job/problem.phtml:20
 #: application/views/scripts/job/terminated.phtml:22
 #: application/views/scripts/job/find-filters.phtml:35
-#: application/views/scripts/job/running.phtml:77
+#: application/views/scripts/job/running.phtml:81
 msgid "hh-mm-ss"
 msgstr "чч-мм-сс"
 
-#: application/views/scripts/job/running-dashboard.phtml:53
-#: application/views/scripts/job/running.phtml:51
+#: application/views/scripts/job/running-dashboard.phtml:57
+#: application/views/scripts/job/running.phtml:55
 msgid "Information from Director : No Running Jobs found."
 msgstr "Информация от Директора : Выполняющихся Заданий не найдено."
 
-#: application/views/scripts/job/running-dashboard.phtml:81
-#: application/views/scripts/job/running.phtml:76
+#: application/views/scripts/job/running-dashboard.phtml:85
+#: application/views/scripts/job/running.phtml:80
 msgid "yy-mm-dd"
 msgstr "гг-мм-дд"
 
-#: application/views/scripts/job/running-dashboard.phtml:121
-#: application/views/scripts/job/running.phtml:126
+#: application/views/scripts/job/running-dashboard.phtml:127
+#: application/views/scripts/job/running.phtml:132
 msgid "Information from DB Catalog : No Running Jobs found."
 msgstr "Информация из БД Каталога : Выполняющихся Заданий не найдено."
 
@@ -1254,6 +1254,7 @@ msgid "What to do next?"
 msgstr "Что дальше?"
 
 #: application/views/scripts/volume/problem.phtml:11
+#: application/views/scripts/volume/problem.phtml:86
 #: application/views/scripts/volume/find-name.phtml:11
 #: application/views/scripts/volume/problem-dashboard.phtml:14
 #: application/views/scripts/volume/find-pool-id.phtml:13
@@ -1268,6 +1269,7 @@ msgid "Max Volume<br />Bytes"
 msgstr "Максимальная<br />емкость<br />(байт)"
 
 #: application/views/scripts/volume/problem.phtml:13
+#: application/views/scripts/volume/problem.phtml:88
 #: application/views/scripts/volume/find-name.phtml:13
 #: application/views/scripts/volume/problem-dashboard.phtml:16
 #: application/views/scripts/volume/find-pool-id.phtml:15
@@ -1275,6 +1277,7 @@ msgid "Volume Jobs"
 msgstr "Кол-во<br />Заданий"
 
 #: application/views/scripts/volume/problem.phtml:15
+#: application/views/scripts/volume/problem.phtml:87
 #: application/views/scripts/volume/find-name.phtml:15
 #: application/views/scripts/volume/problem-dashboard.phtml:18
 #: application/views/scripts/volume/find-pool-id.phtml:17
@@ -1309,9 +1312,20 @@ msgid "Can Recycle<br />Volume"
 msgstr "Возможна<br />повторная<br />переработка"
 
 #: application/views/scripts/volume/problem.phtml:69
+#: application/views/scripts/volume/problem.phtml:142
 #: application/views/scripts/volume/problem-dashboard.phtml:66
 msgid "Information from DB Catalog : All Volumes are OK."
 msgstr "Информация из БД Каталога : Все тома в порядке."
+
+#: application/views/scripts/volume/problem.phtml:89
+#: application/views/scripts/volume/detail.phtml:158
+msgid "Mounts"
+msgstr "Монтирований"
+
+#: application/views/scripts/volume/problem.phtml:90
+#: application/views/scripts/volume/detail.phtml:171
+msgid "Number of writes"
+msgstr "Кол-во операций записи"
 
 #: application/views/scripts/volume/detail.phtml:21
 msgid "Append"
@@ -1375,9 +1389,8 @@ msgid "days"
 msgstr "дн."
 
 #: application/views/scripts/volume/detail.phtml:109
-#, fuzzy
 msgid "Recycle "
-msgstr "Количество<br />повторных использований"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:117
 msgid "In Changer"
@@ -1402,14 +1415,6 @@ msgstr "Дата маркировки"
 #: application/views/scripts/volume/detail.phtml:154
 msgid "Blocks"
 msgstr "Блоков"
-
-#: application/views/scripts/volume/detail.phtml:158
-msgid "Mounts"
-msgstr "Монтирований"
-
-#: application/views/scripts/volume/detail.phtml:171
-msgid "Writes"
-msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:175
 msgid "Capacity"
@@ -1443,6 +1448,8 @@ msgstr "Количество<br />повторных использований"
 msgid "Comment"
 msgstr "Комментарий"
 
+#~ msgid "No Client status found."
+#~ msgstr "Состояние Клиента не определено."
 #~ msgid "Invalid input parameters."
 #~ msgstr "Неверны входные параметры."
 #~ msgid "ERROR: There was a problem executing bconsole. Check permissions."

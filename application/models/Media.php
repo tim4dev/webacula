@@ -25,17 +25,17 @@
 
 class Media extends Zend_Db_Table
 {
-	public $db;
+    public $db;
     public $db_adapter;
 
-	public function __construct($config = array())
-	{
-		$this->db         = Zend_Registry::get('db_bacula');
-	    $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-	    parent::__construct($config);
-	}
+    public function __construct($config = array())
+    {
+        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        parent::__construct($config);
+    }
 
-	protected function _setupTableName()
+    protected function _setupTableName()
     {
         switch ($this->db_adapter) {
         case 'PDO_PGSQL':
@@ -110,32 +110,32 @@ class Media extends Zend_Db_Table
         return $stmt->fetchAll();
     }
 
-	function getById($pool_id, $order)
-	{
-   		$select = new Zend_Db_Select($this->db);
-   		$select->from('Media',
-    		array('MediaId', 'PoolId', 'StorageId',
-			'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
-			'InChanger', 'MediaType',
-			'FirstWritten',	'LastWritten'
-		));
-		$select->where('PoolId = ?', $pool_id);
-		$select->order($order);
-		//$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
-   		$stmt = $select->query();
-		return $stmt->fetchAll();
-	}
+    function getById($pool_id, $order)
+    {
+        $select = new Zend_Db_Select($this->db);
+        $select->from('Media',
+            array('MediaId', 'PoolId', 'StorageId',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
+            'InChanger', 'MediaType',
+            'FirstWritten',	'LastWritten'
+        ));
+        $select->where('PoolId = ?', $pool_id);
+        $select->order($order);
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
+    }
 
-	public function getPoolId($media_id)
-	{
-	    $select = new Zend_Db_Select($this->db);
+    public function getPoolId($media_id)
+    {
+        $select = new Zend_Db_Select($this->db);
         $select->from('Media', array('PoolId'));
         $select->where('MediaId = ?', $media_id);
         // fetch one row
         $row = $this->_db->fetchRow($select);
         return $row['poolid'];
-	}
-	
+    }
+
     public function getVolumeCountByPool($pool_id) {
         $select = new Zend_Db_Select($this->db);
         $select->from('Media', array('COUNT(MediaId) as count'));
@@ -145,4 +145,29 @@ class Media extends Zend_Db_Table
         return $row['count'];
     }
 
+    /**
+     * List Volumes likely to need replacement from age or errors
+     * bconsole -> query -> 16
+     * @return rows
+     */
+    function getVolumesNeedReplacement()
+    {
+        $db = Zend_Registry::get('db_bacula');
+        // make select from multiple tables
+        $select = new Zend_Db_Select($db);
+        $select->from('Media',
+            array("MediaId", 'PoolId', 'StorageId',
+            'VolumeName', 'VolStatus', 'VolJobs', 'MediaType', 'VolMounts', 'VolErrors', 'VolWrites', 'VolBytes'
+            ));
+        $select->orWhere("VolErrors > 0");
+        $select->orWhere("VolStatus = 'Error'");
+        $select->orWhere("VolMounts > 50"); // Number of time media mounted
+        $select->orWhere("VolStatus = 'Disabled'");
+        $select->orWhere("VolWrites > 3999999");  // Number of writes to media
+        $select->order( array('VolStatus ASC', 'VolErrors', 'VolMounts', 'VolumeName DESC') );
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
+    }
+    
 }

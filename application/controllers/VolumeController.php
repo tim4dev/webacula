@@ -77,11 +77,13 @@ class VolumeController extends MyClass_ControllerAction
     function problemAction ()
     {
         $this->view->titleProblemVolumes = $this->view->translate->_("Volumes with errors");
+        $this->view->titleVolumesNeedReplacement = $this->view->translate->_("List Volumes likely to need replacement from age or errors");
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         // get data from model
         $media = new Media();
         $ret = $media->GetProblemVolumes();
         $this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
+        $this->view->resultVolumesNeedReplacement = $media->getVolumesNeedReplacement();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
