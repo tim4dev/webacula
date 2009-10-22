@@ -1391,9 +1391,8 @@ msgid "Recycle "
 msgstr "Automatisch wiederverwerten"
 
 #: application/views/scripts/volume/detail.phtml:117
-#, fuzzy
 msgid "In Changer"
-msgstr "Ändere Verzeichnis"
+msgstr "Im Wechsler"
 
 #: application/views/scripts/volume/detail.phtml:121
 #, fuzzy
@@ -1453,9 +1452,8 @@ msgid "Recycle Count"
 msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:222
-#, fuzzy
 msgid "Comment"
-msgstr "Client"
+msgstr "Kommentar"
 
 #~ msgid "No Client status found."
 #~ msgstr "Kein Client Status gefunden."
