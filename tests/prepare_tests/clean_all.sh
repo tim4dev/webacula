@@ -6,8 +6,8 @@ then
         exit
 fi
 
-echo -e "\n\n*** WARNING!!! All Bacula, Webacula databases and files will be erased!!!\n"
-echo -e "\n*** Press Enter to continue ...\n\n"
+#echo -e "\n\n*** WARNING!!! All Bacula, Webacula databases and files will be erased!!!\n"
+#echo -e "\n*** Press Enter to continue ...\n\n"
 # read
 
 /usr/bin/psql -l

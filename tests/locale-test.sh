@@ -3,6 +3,8 @@
 # Test for translate into several languages and display content
 #
 
+LINE1="*********************************************************************************************"
+
 ###########################################################
 # Functions
 ###########################################################
@@ -57,7 +59,7 @@ my_wget_def() {
 # Main program
 ###########################################################
 
-echo ""
+echo -e "\n\n"
 diff -q ../application/config.ini  ../application/config.ini.original
 if [ $? == 0 ]
    then
@@ -67,7 +69,9 @@ if [ $? == 0 ]
       exit 11
 fi
 
-echo -e "\n******* Testing locales and languages...\n"
+echo -e "\n\n${LINE1}"
+echo "Testing locales and languages"
+echo -e"${LINE1}\n"
 
 echo -e "\n*** Testing auto determination\n"
 

@@ -2,8 +2,6 @@
 #
 # shell script to create Bacula MySQL tables
 #
-# $Id: bacula_mysql_make_tables 403 2009-08-14 22:50:28Z tim4dev $
-#
 
 if mysql -f <<END-OF-DATA
 CREATE DATABASE bacula;

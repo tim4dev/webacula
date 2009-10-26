@@ -3,6 +3,7 @@
 BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
+LINE1="*********************************************************************************************"
 
 if [ "$UID" -ne 0 ]
 then
@@ -10,8 +11,8 @@ then
         exit
 fi
 
-echo -e "\n\n*** WARNING!!! Postgresql, Sqlite  Bacula database will be dropped!!!\n"
-echo -e "\n*** Press Enter to continue ...\n\n"
+#echo -e "\n\n*** WARNING!!! Postgresql, Sqlite  Bacula database will be dropped!!!\n"
+#echo -e "\n*** Press Enter to continue ...\n\n"
 # read
 
 
@@ -19,9 +20,9 @@ echo -e "\n*** Press Enter to continue ...\n\n"
 # Function
 #
 my_log() {
-   echo -e "\n\n***********************************************************\n"
+   echo -e "\n\n${LINE1}"
    echo "${1}"
-   echo -e "***********************************************************\n\n"
+   echo -e "${LINE1}\n\n"
 }
 
 

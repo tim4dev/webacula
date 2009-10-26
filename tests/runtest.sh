@@ -16,6 +16,7 @@ SRC_DIR=".."
 F_INDEX_PHP="${SRC_DIR}/html/index.php"
 F_README="${SRC_DIR}/README"
 F_SPEC="${SRC_DIR}/packaging/Fedora/webacula.spec"
+LINE1="*********************************************************************************************"
 
 VERSION=`grep -e "^.*define('WEBACULA_VERSION.*$" ${F_INDEX_PHP} | awk -F "'" '{print($4)}'`
 VER_README=`grep -e "^Version:" ${F_README} | awk '{print($2)}'`
@@ -49,25 +50,33 @@ sudo ./clean_all.sh
 sudo ./prepare.sh
 cd ..
 
-echo -e "\n\n*******************************************************************************"
+# Main tests
+echo -e "\n\n${LINE1}"
 echo "Main tests"
-echo "*******************************************************************************"
+echo -e "${LINE1}\n"
 phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
 echo "ret=$?"
 
-echo -e "\n\n*******************************************************************************"
+# Prepare testing other DBMS
+echo -e "\n\n${LINE1}"
 echo "Prepare testing other DBMS"
-echo "*******************************************************************************"
+echo -e "${LINE1}\n"
 cd prepare_tests
 sudo ./sync_bacula_db_from_mysql2others.sh
 cd ..
 
-echo -e "\n\n********** Test Postgresql **********\n"
+# Test Postgresql
+echo -e "\n\n${LINE1}"
+echo "Test Postgresql"
+echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
 echo "ret=$?"
 
-echo -e "\n\n********** Test Sqlite **********\n"
+# Test Sqlite
+echo -e "\n\n${LINE1}"
+echo "Test Sqlite"
+echo -e "${LINE1}\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
 echo "ret=$?"

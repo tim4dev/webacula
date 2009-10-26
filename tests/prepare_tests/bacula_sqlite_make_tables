@@ -39,7 +39,7 @@ CREATE TABLE File (
    );
 
 CREATE INDEX inx3 ON File (JobId);
-CREATE INDEX inx4 ON File (FilenameId, PathId);
+CREATE INDEX file_jpf_idx ON File (JobId, PathId, FilenameId);
 --
 -- Possibly add one or more of the following indexes
 --  if your Verifies are too slow.
