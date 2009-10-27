@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.4' . ', build 2009.10.21');
+define('WEBACULA_VERSION', '3.4' . ', build 2009.10.27');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 error_reporting(E_ALL|E_STRICT);
@@ -157,6 +157,10 @@ try {
     // возможно СУБД не запущена
     //throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
+
+// disables automatic starting of Zend_Session when using new Zend_Session_Namespace()
+Zend_Session::setOptions( array('strict' => true) );
+
 
 // run
 $frontController->dispatch();

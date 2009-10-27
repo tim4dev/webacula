@@ -27,94 +27,74 @@
 
 class WbTmpTable extends Zend_Db_Table
 {
-	// for pager
-	const ROW_LIMIT_FILES = 500;
-	// for names of tmp tables (для формирования имен временных таблиц)
-	const _PREFIX = '_'; // только в нижнем регистре
+    // for pager
+    const ROW_LIMIT_FILES = 500;
+    // for names of tmp tables (для формирования имен временных таблиц)
+    const _PREFIX = '_'; // только в нижнем регистре
 
-	public $db_adapter;
+    public $db_adapter;
 
-	protected $jobidhash;
+    protected $jobidhash;
 
-	protected $_name    = 'wbtmptablelist'; // список всех временных таблиц, имя только в нижнем регистре
-	protected $_primary = 'tmpid';
-	protected $ttl_restore_session = 3600; // time to live temp tables (1 hour)
+    protected $_name    = 'wbtmptablelist'; // список всех временных таблиц, имя только в нижнем регистре
+    protected $_primary = 'tmpid';
+    protected $ttl_restore_session = 3600; // time to live temp tables (1 hour)
 
-	// names of tmp tables (имена временных таблиц)
-	protected $tmp_file;
-	protected $tmp_filename;
-	protected $tmp_path;
-	protected $num_tmp_tables = 3; // count of tmp tables (кол-во временных таблиц)
-
-	// для хранения данных для Restore
-	protected $restoreNamespace;
-	const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
+    // names of tmp tables (имена временных таблиц)
+    protected $tmp_file;
+    protected $tmp_filename;
+    protected $tmp_path;
+    protected $num_tmp_tables = 3; // count of tmp tables (кол-во временных таблиц)
 
 	protected $logger; // for debug
 
 
 
 
-	/**
-	 * @param string $prefix для формирования имен tmp таблиц
-	 * @param string $jobidHash хэш-индекс для массива jobid
-	 */
-	public function __construct($prefix, $jobidhash)
+    /**
+     * @param string $prefix для формирования имен tmp таблиц
+     * @param string $jobidHash хэш-индекс для массива jobid
+     */
+    public function __construct($prefix, $jobidhash, $ttl_restore_session)
     {
-    	$this->db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
-    	$this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
-    	$this->jobidhash = $jobidhash;
-    	// формируем имена временных таблиц
-   		$this->tmp_file     = $prefix . 'file_'     . $this->jobidhash;
-   		$this->tmp_filename = $prefix . 'filename_' . $this->jobidhash;
-   		$this->tmp_path     = $prefix . 'path_'     . $this->jobidhash;
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
+        $this->jobidhash = $jobidhash;
+        $this->ttl_restore_session = $ttl_restore_session;
+        // формируем имена временных таблиц
+        $this->tmp_file     = $prefix . 'file_'     . $this->jobidhash;
+        $this->tmp_filename = $prefix . 'filename_' . $this->jobidhash;
+        $this->tmp_path     = $prefix . 'path_'     . $this->jobidhash;
 
-		$config['db']      = Zend_Registry::get('db_webacula'); // database
-		$config['name']    = $this->_name; 		// name table
-		$config['primary'] = $this->_primary;   // primary key
-		$config['sequence']= true;
+        $config['db']      = Zend_Registry::get('db_webacula'); // database
+        $config['name']    = $this->_name; 		// name table
+        $config['primary'] = $this->_primary;   // primary key
+        $config['sequence']= true;
 
-        // получаем ttl_restore_session
-        $config_ini = Zend_Registry::get('config');
-        if ( empty($config_ini->ttl_restore_session) || intval($config_ini->ttl_restore_session) < 300) {
-        	$this->ttl_restore_session = 3900;
-        } else {
-        	$this->ttl_restore_session = intval($config_ini->ttl_restore_session);
+        parent::__construct($config);
+
+        // setup no default adapter
+        $this->_db = Zend_Db_Table::getAdapter('db_webacula');
+        switch ($this->db_adapter) {
+            case 'PDO_MYSQL':
+                $this->_db->query('SET NAMES utf8');
+                $this->_db->query('SET CHARACTER SET utf8');
+                break;
+            case 'PDO_PGSQL':
+                $this->_db->query("SET NAMES 'UTF8'");
+                break;
         }
 
-		parent::__construct($config);
-
-		// setup no default adapter
-		$this->_db = Zend_Db_Table::getAdapter('db_webacula');
-		switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-				$this->_db->query('SET NAMES utf8');
-				$this->_db->query('SET CHARACTER SET utf8');
-		        break;
-            case 'PDO_PGSQL':
-            	$this->_db->query("SET NAMES 'UTF8'");
-                break;
-    	}
-    	/* сессия на восстановление существует ? */
-    	if ( !isset($this->restoreNamespace->typeRestore ) ) {
-    		// если хэш не существует, то сессия протухла или ошибка в программе
-    		// удаляем старые tmp-таблицы
-    		$this->dropOldTmpTables();
-    		// бросаем исключение
-    		throw new Zend_Exception("Session of Restore backup is expired. See also <b>ttl_restore_session</b> in your config.ini.".
-    								" This is not a bug in the program.");
-    	}
-    	// for debug !!!
+        // for debug !!!
         /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
-		Zend_Loader::loadClass('Zend_Log');
+        Zend_Loader::loadClass('Zend_Log');
         $writer = new Zend_Log_Writer_Stream('/tmp/ajax.log');
-		$this->logger = new Zend_Log($writer);
-		$this->logger->log("debug on", Zend_Log::INFO);*/
+        $this->logger = new Zend_Log($writer);
+        $this->logger->log("debug on", Zend_Log::INFO);*/
     }
 
-   protected function _setupTableName()
+    protected function _setupTableName()
     {
-		$this->_name = 'wbtmptablelist';
+        $this->_name = 'wbtmptablelist';
         parent::_setupTableName();
     }
 
@@ -126,12 +106,12 @@ class WbTmpTable extends Zend_Db_Table
 
     function getDb()
     {
-    	return $this->_db;
+        return $this->_db;
     }
 
     function getTableNameFile()
     {
-    	return $this->tmp_file;
+        return $this->tmp_file;
     }
 
     function getTableNameFilename()
@@ -149,16 +129,16 @@ class WbTmpTable extends Zend_Db_Table
      */
     function lockTmpTablesW()
     {
-    	switch ($this->db_adapter) {
-        	case 'PDO_MYSQL':
-        		$this->_db->query("LOCK TABLES " . $this->_db->quoteIdentifier($this->tmp_file) . ", " .
-            		$this->_db->quoteIdentifier($this->tmp_filename) . ", " .
-            		$this->_db->quoteIdentifier($this->tmp_path) . " WRITE;");
-            	break;
-			case 'PDO_PGSQL':
-				// TODO
-				break;
-    	}
+        switch ($this->db_adapter) {
+            case 'PDO_MYSQL':
+                $this->_db->query("LOCK TABLES " . $this->_db->quoteIdentifier($this->tmp_file) . ", " .
+                    $this->_db->quoteIdentifier($this->tmp_filename) . ", " .
+                    $this->_db->quoteIdentifier($this->tmp_path) . " WRITE;");
+                break;
+            case 'PDO_PGSQL':
+                // TODO
+                break;
+        }
     }
 
     /**
@@ -997,7 +977,7 @@ class WbTmpTable extends Zend_Db_Table
 		$bacula = Zend_Registry::get('db_bacula');
 		// create temporary tables: File, Filename, Path
 		// создаем временные таблицы File, Filename, Path
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash);
+		$tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
 		$this->createTmpTables();
 
 		$decode = new MyClass_HomebrewBase64;
