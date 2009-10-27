@@ -66,11 +66,8 @@ class ChartController extends MyClass_ControllerAction
      */
     function timelineAction()
     {
-        $test = $this->_request->getParam('test');
-        if ( empty($test) )
-        {
-            // not test : disable layouts
-            $this->_helper->layout->disableLayout();
+        if ($this->_helper->hasHelper('layout')) {
+            $this->_helper->layout->disableLayout(); // disable layouts
         }
         // http://localhost/webacula/chart/timeline/datetimeline/2009-06-10
         // check GD lib (php-gd)

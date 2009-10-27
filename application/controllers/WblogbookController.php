@@ -113,48 +113,48 @@ class WblogbookController extends MyClass_ControllerAction
     }
 
 
-	/**
-	 * LogBook view action with filter by Date
-	 *
-	 */
-	function filterbydateAction()
-   {
-   	$this->view->title = $this->view->translate->_("Logbook");
-		//print_r($this->_request->getParams()); exit; //debug !!!
-    	$date_begin  = trim( $this->_request->getParam('date_begin', date('Y-m-d', time()-2678400)) );
-  		$date_end    = trim( $this->_request->getParam('date_end', date('Y-m-d', time())) );
-  		$unit_test = $this->_request->getParam('test', null);
-   	// порядок сортировки
-      $sort_order     = $this->defSortOrder( trim( $this->_request->getParam('sortorder_by_date') ) );
-      $str_sort_order = $this->defStrSortOrder($sort_order);
-      // даты
-      $tmp_title = sprintf($this->view->translate->_(" %s (from %s to %s)"), $str_sort_order, $date_begin, $date_end);
- 		$this->view->title .= $tmp_title;
-  		$this->view->date_begin = $date_begin;
-  		$this->view->date_end   = $date_end;
-		// get data from model
-    	$logs = new wbLogBook();
-    	$ret = $logs->IndexLogBook($date_begin, $date_end, $sort_order);
-    	if ($ret)	{
-    	   $this->view->result = $ret->fetchAll();
-    	}
-    	$printable = $this->_request->getParam('printable_by_date');
-    	if ( empty($printable) )
-    	{
-    		// not printable
-    		echo $this->renderScript('wblogbook/index.phtml');
-    	} else {
-    		// printable
-    		if ( !empty($unit_test) ) {
-    			// for unit tests
-				$this->view->unit_test = 1;
-    		} else {
-    			// not tests
-    			$this->_helper->layout->setLayout('printable');
-    		}
-    		echo $this->renderScript('wblogbook/index-printable.phtml');
-    	}
+    /**
+     * LogBook view action with filter by Date
+     */
+    function filterbydateAction()
+    {
+        $this->view->title = $this->view->translate->_("Logbook");
+        //print_r($this->_request->getParams()); exit; //debug !!!
+        $date_begin  = trim( $this->_request->getParam('date_begin', date('Y-m-d', time()-2678400)) );
+        $date_end    = trim( $this->_request->getParam('date_end', date('Y-m-d', time())) );
+        $unit_test = $this->_request->getParam('test', null);
+        // порядок сортировки
+        $sort_order     = $this->defSortOrder( trim( $this->_request->getParam('sortorder_by_date') ) );
+        $str_sort_order = $this->defStrSortOrder($sort_order);
+        // даты
+        $tmp_title = sprintf($this->view->translate->_(" %s (from %s to %s)"), $str_sort_order, $date_begin, $date_end);
+        $this->view->title .= $tmp_title;
+        $this->view->date_begin = $date_begin;
+        $this->view->date_end   = $date_end;
+        // get data from model
+        $logs = new wbLogBook();
+        $ret = $logs->IndexLogBook($date_begin, $date_end, $sort_order);
+        if ($ret)	{
+           $this->view->result = $ret->fetchAll();
+        }
+        $printable = $this->_request->getParam('printable_by_date');
+        if ( empty($printable) )
+        {
+            // not printable
+            echo $this->renderScript('wblogbook/index.phtml');
+        } else {
+            // printable
+            if ( !empty($unit_test) ) {
+                // for unit tests
+                $this->view->unit_test = 1;
+            } else {
+                // not tests
+                $this->_helper->layout->setLayout('printable');
+            }
+            echo $this->renderScript('wblogbook/index-printable.phtml');
+        }
     }
+
 
     /**
 	 * LogBook view action with filter by logId

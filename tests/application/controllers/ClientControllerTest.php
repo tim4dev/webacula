@@ -2,6 +2,8 @@
 
 class ClientControllerTest extends ControllerTestCase
 {
+    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
+
    /**
     * @access protected
     */
@@ -34,9 +36,7 @@ class ClientControllerTest extends ControllerTestCase
       $this->assertController('client');
       $this->assertAction('status-client-id');
       //echo $this->response->outputBody(); // for debug !!!
-      $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-      $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-      $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+      $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertQueryContentContains('div', '1000 OK: main.dir');
       $this->assertNotQueryContentRegex('div', '/Error/i');

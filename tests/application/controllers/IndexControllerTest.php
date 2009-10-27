@@ -1,7 +1,7 @@
 <?php
 class IndexControllerTest extends ControllerTestCase
 {
-
+    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
     /**
      * @access protected
@@ -30,11 +30,9 @@ class IndexControllerTest extends ControllerTestCase
     public function testIndex ()
     {
         print "\n" . __METHOD__ . ' ';
-        $this->dispatch('index/index/test/1');
+        $this->dispatch('index/index');
         //echo $this->response->outputBody();exit; // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('h1', 'Terminated Jobs');
         $this->assertQueryContentContains('h1', 'Scheduled Jobs');

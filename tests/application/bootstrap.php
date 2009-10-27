@@ -140,10 +140,9 @@ Zend_Session::setOptions( array('strict' => true) );
 
 /*
  * end from index.php
- */
+ ********************************/
 
 
 /* Zend_Application */
 require_once 'Zend/Application.php';
 require_once 'ControllerTestCase.php';
-

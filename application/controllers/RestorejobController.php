@@ -885,7 +885,7 @@ EOF"
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
             if ( $this->_config->debug_level >= 9 ) {
-                $this->logger->log("markDirAction() input value:\n$path\n$jobidhash\n", Zend_Log::INFO);
+                $this->logger->log(__METHOD__." input value:\n$path\n$jobidhash\n", Zend_Log::INFO);
             }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
@@ -903,7 +903,7 @@ EOF"
             $aout['path']        = $path;
             $aout['allok']    	 = 1; // действия успешны
             if ( $this->_config->debug_level >= 9 ) {
-                $this->logger->log("markDirAction() return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
+                $this->logger->log(__METHOD__." return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
             }
             // Преобразование для возвращения клиенту
             $json = Zend_Json::encode($aout);
@@ -932,7 +932,7 @@ EOF"
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
             if ( $this->_config->debug_level >= 9 ) {
-                $this->logger->log("unmarkDirAction()  $path  $jobidhash", Zend_Log::INFO);
+                $this->logger->log(__METHOD__."  $path  $jobidhash", Zend_Log::INFO);
             }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);

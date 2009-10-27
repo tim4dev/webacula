@@ -2,14 +2,16 @@
 
 class WblogbookControllerTest extends ControllerTestCase
 {
+    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
+
    /**
     * @access protected
     */
     protected function tearDown()
     {
         $this->resetRequest();
-      $this->resetResponse();
-      parent::tearDown();
+        $this->resetResponse();
+        parent::tearDown();
     }
 
     /**
@@ -29,9 +31,7 @@ class WblogbookControllerTest extends ControllerTestCase
         $this->assertController('wblogbook');
         $this->assertAction('filterbydate');
         //echo $this->response->outputBody();exit; // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', 'Printable version');
         $this->assertQueryCountMin('tr', 5);  // не менее 3 строк таблицы

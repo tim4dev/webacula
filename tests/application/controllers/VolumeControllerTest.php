@@ -1,7 +1,7 @@
 <?php
 class VolumeControllerTest extends ControllerTestCase
 {
-
+    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
     /**
      * @access protected
@@ -24,9 +24,7 @@ class VolumeControllerTest extends ControllerTestCase
         $this->assertController('volume');
         $this->assertAction('find-pool-id');
         //echo $this->response->outputBody(); // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Volumes found');
         $this->assertQueryContentContains('td', 'pool.file.7d.0001');
@@ -44,9 +42,7 @@ class VolumeControllerTest extends ControllerTestCase
         $this->assertController('volume');
         $this->assertAction('detail');
         $this->assertResponseCode(200);
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertNotQueryContentContains('div', 'No Volumes found');
         $this->assertQueryContentContains('td', 'pool.file.7d.0001');
     }

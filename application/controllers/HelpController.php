@@ -38,10 +38,7 @@ class HelpController extends MyClass_ControllerAction
 
     function indexAction ()
     {
-        // workaround
-        $unit_test = $this->_request->getParam('test', null);
-        if (empty($unit_test)) {
-            // not test
+        if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->setLayout('help');
         }
         $this->view->title = "webacula help";

@@ -4,6 +4,7 @@ class JobControllerTest extends ControllerTestCase
 {
 
     const DELAY_AFTER_JOB = 15;
+    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
    /**
     * @access protected
@@ -23,9 +24,7 @@ class JobControllerTest extends ControllerTestCase
       $this->assertController('job');
       $this->assertAction('terminated');
       //echo $this->response->outputBody(); // for debug !!!
-      $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-      $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-      $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+      $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Jobs found');
       $this->assertQueryCountMin('tr', 11);  // не менее 11-ти строк таблицы
@@ -40,9 +39,7 @@ class JobControllerTest extends ControllerTestCase
       $this->assertController('job');
       $this->assertAction('running');
       //echo $this->response->outputBody(); // for debug !!!
-      $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-      $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-      $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+      $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertQueryContentContains('div', 'Information from Director : No Running Jobs found');
       $this->assertNotQueryContentContains('div', 'Information from DB Catalog : No Running Jobs found');
@@ -59,9 +56,7 @@ class JobControllerTest extends ControllerTestCase
       $this->assertController('job');
       $this->assertAction('next');
       //echo $this->response->outputBody(); // for debug !!!
-      $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-      $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-      $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+      $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Scheduled Jobs found');
       $this->assertQueryContentContains('td', 'job.name.test.1');
@@ -79,9 +74,7 @@ class JobControllerTest extends ControllerTestCase
       $this->assertController('job');
       $this->assertAction('problem');
       //echo $this->response->outputBody(); // for debug !!!
-      $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-      $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-      $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+      $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Jobs found');
       $this->assertQueryContentContains('td', 'job name test 2');
@@ -104,9 +97,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertController('job');
         $this->assertAction('run-job');
         //echo $this->response->outputBody(); // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('div', '/Error/i');
@@ -130,9 +121,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertAction('run-job');
         sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
         //echo $this->response->outputBody();// for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('div', '/Error/i');
@@ -157,9 +146,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertAction('run-job');
         sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
         //echo $this->response->outputBody();// for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('div', '/Error/i');
@@ -181,9 +168,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-job-id');
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', 'No Jobs found');
     }
@@ -199,9 +184,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertController('job');
         $this->assertAction('find-job-id');
         //echo $this->response->outputBody(); // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job.name.test.1');
@@ -227,9 +210,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertController('job');
         $this->assertAction('find-filters');
         //echo $this->response->outputBody(); exit; // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job name test 2');
@@ -252,9 +233,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertController('job');
         $this->assertAction('find-volume-name');
         //echo $this->response->outputBody(); // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job.name.test.1');
@@ -275,9 +254,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertController('job');
         $this->assertAction('list-last-jobs-run');
         //echo $this->response->outputBody(); // for debug !!!
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryCount('tr', 6);
@@ -296,9 +273,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-file-name');
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job.name.test.1');
@@ -311,9 +286,7 @@ class JobControllerTest extends ControllerTestCase
         $this->dispatch('job/detail/jobid/2');
         $this->assertController('job');
         $this->assertAction('detail');
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job name test 2');
