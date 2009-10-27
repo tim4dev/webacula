@@ -21,7 +21,14 @@
 define('WEBACULA_VERSION', '3.4' . ', build 2009.10.27');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
-error_reporting(E_ALL|E_STRICT);
+
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+if ( APPLICATION_ENV == 'development') {
+    ini_set('display_errors','1');
+    ini_set('display_startup_errors','1');
+    error_reporting(E_ALL|E_STRICT);
+}
 
 // PATH_SEPARATOR  ":"
 set_include_path('.' . PATH_SEPARATOR . '../library' . PATH_SEPARATOR . '../application/models/' .
