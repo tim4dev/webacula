@@ -134,29 +134,16 @@ try {
 	// возможно СУБД не запущена
 	//throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
+
+// disables automatic starting of Zend_Session when using new Zend_Session_Namespace()
+Zend_Session::setOptions( array('strict' => true) );
+
 /*
  * end from index.php
  */
 
+
 /* Zend_Application */
 require_once 'Zend/Application.php';
 require_once 'ControllerTestCase.php';
-
-/*
-$front = Zend_Controller_Front::getInstance();
-$front->throwExceptions(true);
-$front->setParam('noViewRenderer', true);
-$front->setRequest(new Zend_Controller_Request_Http());
-$front->returnResponse(true);
-
-$router = $front->getRouter();
-$router->setParams($front->getParams());
-
-$front = Zend_Controller_Front::getInstance();
-$dispatcher = $front->getDispatcher();
-$dispatcher->setParams($front->getParams());
-$dispatcher->setResponse($front->getResponse());
-
-$router->route($front->getRequest());
-*/
 

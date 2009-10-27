@@ -10,19 +10,22 @@ class DirectorControllerTest extends ControllerTestCase
 		$this->reset;
         parent::tearDown();
 	}
- 
+
 	public function testDirectorListjobtotals()
-    {   
+    {
     	print "\n".__METHOD__.' ';
         $this->dispatch('/director/listjobtotals');
 		$this->assertModule('default');
         $this->assertController('director');
         $this->assertAction('listjobtotals');
+        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
+        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
+        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
         $this->assertQueryContentContains('div', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('div', '/Error/i');
         $this->assertResponseCode(200);
     }
-	
+
    /**
     * @group use-bconsole
     */
@@ -32,7 +35,10 @@ class DirectorControllerTest extends ControllerTestCase
 		$this->assertModule ( 'default' );
 		$this->assertController ( 'director' );
 		$this->assertAction ( 'statusdir' );
-		//echo $this->response->outputBody(); // for debug !!!        
+		//echo $this->response->outputBody(); // for debug !!!
+		$this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
+        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
+        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
 		$this->assertResponseCode ( 200 );
 		$this->assertQueryContentContains ( 'div', '1000 OK: main.dir' );
 		$this->assertNotQueryContentRegex ( 'div', '/Error/i' );
@@ -49,5 +55,5 @@ class DirectorControllerTest extends ControllerTestCase
 		$this->assertQueryContentRegex ( 'div', "/11  Full.* OK .* job.name.test.4/" );
 	}
 
-	
+
 }

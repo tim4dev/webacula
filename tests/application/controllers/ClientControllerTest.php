@@ -23,7 +23,7 @@ class ClientControllerTest extends ControllerTestCase
 		$this->assertNotQueryContentContains('div', 'No Clients found');
 		$this->assertQueryContentContains('td', 'local.fd');
 	}
-	
+
 	/**
 	 * @group use-bconsole
 	 */
@@ -34,11 +34,14 @@ class ClientControllerTest extends ControllerTestCase
       $this->assertController('client');
       $this->assertAction('status-client-id');
       //echo $this->response->outputBody(); // for debug !!!
+      $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
+      $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
+      $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertQueryContentContains('div', '1000 OK: main.dir');
       $this->assertNotQueryContentRegex('div', '/Error/i');
       $this->assertQueryContentRegex('div', "/local.fd Version:.*linux/");
       $this->assertQueryContentRegex('div', "/Daemon started.*run since started/");
    }
-	
-}	
+
+}
