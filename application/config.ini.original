@@ -24,7 +24,7 @@ bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
 tmpdir = "/tmp"
 
 ; time to live data (session and temporary data tables) for restore files (sec)
-; default = 1h, minimum = 600sec.
+; default = 1h
 ; ttl_restore_session = 3600
 
 ; for debug only (default = 0). Debug log written to '/tmp/webacula_debug.log'

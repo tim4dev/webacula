@@ -35,7 +35,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$this->restoreNamespace->typeRestore = 'restore';
 		$this->restoreNamespace->JobId = $this->jobid;
 		$this->restoreNamespace->JobHash = md5($this->jobid);
-		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid));
+		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid), $this->ttl_restore_session);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$sjobids = implode(",", $this->restoreNamespace->aJobId);
 
 		// собственно клонирование
-		$this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
+		$this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
 		$this->WbTmpTableRecent->cloneRecentBaculaToTmp($this->restoreNamespace->JobHash, $sjobids);
 
 		// проверяем кол-во файлов и т.д.
@@ -201,7 +201,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$sjobids = implode(",", $this->restoreNamespace->aJobId);
 
 		// собственно клонирование
-		$this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash);
+		$this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
 		$this->WbTmpTableRecent->cloneRecentBaculaToTmp($this->restoreNamespace->JobHash, $sjobids);
 
 		// проверяем кол-во файлов и т.д.
@@ -223,7 +223,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testDeleteAllTmpTables() {
 		print "\n".__METHOD__.' ';
-		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid));
+		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid), $this->ttl_restore_session);
 		$this->WbTmpTable->deleteAllTmpTables();
 		$this->assertTrue(TRUE);
 	}

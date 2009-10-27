@@ -88,8 +88,6 @@ class VolumeControllerTest extends ControllerTestCase
         $this->dispatch('volume/update');
         $this->assertController('volume');
         $this->assertAction('update');
-        $this->assertNotQueryContentContains('table', 'Warning:'); // Zend Framework warning
-        $this->assertNotQueryContentContains('table', 'Notice:'); // Zend Framework notice
-        $this->assertNotQueryContentContains('table', 'Call Stack'); // Zend Framework
     }
+
 }
