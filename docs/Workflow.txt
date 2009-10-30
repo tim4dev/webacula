@@ -1,0 +1,42 @@
+
+Webacula workflow
+
+- Feature releases are numbered (and tagged) as 'vX.Y' and are meant to
+  contain bugfixes and enhancements, including functionality,
+  performance and usability, without unit tests.
+
+- Maintenance releases are not supported.
+
+- All bugfixes since of the last feature release fall
+  into the 'master' branch (possibly through a merge with topic 
+  branch), accumulate and testing there and release as the form 
+  of the next release candidate, which is tagged as 'rcX.Y.Z'
+  Where 'X.Y' - is number of appropriate feature release, 
+  'Z' - number of release candidate.
+
+- Files which contain the release candidates can be downloaded from 
+  the directory 'webacula/current' in Sourceforge.
+  Or get with the command:
+
+  git archive rcX.Y.Z --prefix='webacula/' | \
+    gzip > webacula-`git describe rcX.Y.Z`.tar.gz
+
+  From Sourceforge or Github:
+  git://webacula.git.sourceforge.net/gitroot/webacula/webacula
+  git://github.com/tim4dev/webacula.git
+
+- 'master' branch is used to prepare for the release candidates and
+  for next feature release.
+
+- Code, which is in the 'master' branch has been tested and is stable
+  enough for use.
+
+- Assistance will be accepted as described in the file 4CONTRIBUTORS.
+  Commits retain authorship with the command:
+  git commit --author="A U Thor <author@example.com>"
+
+- In the 'master' branch there is an object with the tag
+  'maintainer-gpg-public-key' to verify the signature tags.
+
+- 'web' - it is a separate branch for developing the website.
+
