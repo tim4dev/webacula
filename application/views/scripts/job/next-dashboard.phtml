@@ -30,7 +30,6 @@
 	<th scope="col"> <?php print $this->translate->_("Scheduled"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Volume"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("% Free space<br /> on Volume"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -52,34 +51,8 @@
 				<?php echo $this->escape($line['vol']);?></a>
 			<?php endif; ?>
 		</td>
-
-		<?php
-		$class = '';
-		switch ($line['volfree'])  {
-	    	case $this->unknown_volume_capacity:
-	        	$line['volfree'] = $this->translate->_('Unknown');
-		        break;
-		    case $this->err_volume:
-	    	    $class = 'class="err"';
-    			$line['volfree'] = $this->translate->_('Volume with Error(s)');
-	    		break;
-		    case $this->new_volume:
-    			$line['volfree'] = $this->translate->_('New Volume');
-    			break;
-    		default:
-    	    	if ( $line['volfree'] < 3 )
-                	$class = 'class="warn"';
-		        elseif ( $line['volfree'] < 7 )
-        	    	$class = 'class="warn"';
-	            else
-    	            $class = '';
-        	    break;
-		}
-		echo '<td ',$class,' align="right">',$line['volfree'] ,'</td>';
-		?>
 	<?php else : ?>
-    	<td colspan="3"><?php echo $this->escape($line['name']), ' ',
-    						$this->escape($line['vol']), ' &nbsp;&nbsp;', $this->translate->_('Unknown');?></td>
+    	<td colspan="3"><?php echo $this->escape($line['name']), ' ', $this->escape($line['vol']);?></td>
 	<?php endif; ?>
 
 </tr>

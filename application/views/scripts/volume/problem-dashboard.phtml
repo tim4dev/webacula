@@ -16,8 +16,6 @@
 	<th scope="col"> <?php print $this->translate->_("Volume Jobs"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Volume<br />Retention<br />(days)"); ?> </th>
 	<th scope="col"> <?php print $this->translate->_("Media<br />Type"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Autochanger<br />Slot<br />number"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Can Recycle<br />Volume"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -52,8 +50,6 @@
 
 	<td align="center"><?php echo $this->ConvSecondsToDays($this->escape($line['volretention']));?></td>
 	<td><?php echo $this->escape($line['mediatype']);?></td>
-	<td align="right"><?php echo $this->escape($line['slot']);?></td>
-	<td align="right"><?php echo $this->Int2Char($this->escape($line['recycle']));?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
