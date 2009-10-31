@@ -1,0 +1,107 @@
+<?php
+header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");               // Date in the past
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");  // Always modified
+header("Cache-Control: no-cache, must-revalidate");             // HTTP/1.1
+header("Pragma: no-cache");                                     // HTTP/1.0
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/wterm.jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/wterm.css" media="screen" />
+
+<style>
+    body { background: #5A5A5A;}
+</style>
+
+
+<script>
+String.prototype.reverse = function() {
+    return this.split('').reverse().join('');
+};
+</script>
+
+
+<script>
+$j = jQuery.noConflict();
+var welcome='<div style="color: #0f0;">Welcome to <b>webacula terminal.</b></div>'
+$j( document ).ready( function() {
+    $j('#wterm').wterm({
+        WIDTH:  '100%',
+        HEIGHT: '100%',
+        WELCOME_MESSAGE: welcome+'<div  style="color: #0f0;">'+
+        'All command will be send to bconsole.<br>'+
+        '<b>whelp</b> - webacula terminal help<br>'+
+        '<b>help</b> - bconsole help<br>'+
+        '<b>clear</b> - clears the screen<br></div>',
+        PS1: '*',
+        NOT_FOUND: '<div> CMD: command not found or unavailable. Type <b>whelp</b>.</div>',
+        AJAX_METHOD: 'POST',
+        HISTORY: true,
+        AJAX_PARAM: 'bcommand'
+    });
+});
+
+    var arr_cmds = {
+        'add':null,
+        'automount':null,
+        'cancel':null,
+        'create':null,
+        'disable':null,
+        'enable':null,
+        'estimate':null,
+        'help':null,
+        'label':null,
+        'list':null,
+        'llist':null,
+        'messages':null,
+        'memory':null,
+        'mount':null,
+        'restore':null,
+        'relabel':null,
+        'release':null,
+        'reload':null,
+        'run':null,
+        'status':null,
+        'setdebug':null,
+        'show':null,
+        'time':null,
+        'trace':null,
+        'unmount':null,
+        'umount':null,
+        'use':null,
+        'version':null
+    };
+    var help_str='';
+    for( var cmd in arr_cmds ) {
+        $j.register_command( cmd, 'cmd' );
+        help_str += cmd + ' ';
+    }
+    $j.register_command( 'whelp',
+        function() {
+            return welcome+'<div style="color: #fff;">Available bconsole commands:</div>'+help_str+
+                '<div style="color: #fff;">IMPORTANT ! Bacula Console commands will be written like command line style.<br>'+
+                'See Bacula documentation "Running the Console from a Shell Script" for details.</div>';
+        }
+    );
+</script>
+
+
+<title>Webacula bconsole</title>
+</head>
+
+<body>
+
+<div id='wterm'>
+</div>
+
+  </body>
+</html>
