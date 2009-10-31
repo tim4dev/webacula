@@ -28,6 +28,8 @@ require_once 'Zend/Controller/Action.php';
 class BconsoleController extends MyClass_ControllerAction
 {
 
+    protected $aNotAvailCmd = array('delete', 'prune', 'purge', 'python', 'setip', 'sqlquery', 'query', 'wait');
+
     function init()
     {
         parent::init();
@@ -48,6 +50,12 @@ class BconsoleController extends MyClass_ControllerAction
         $this->view->bcommand = $bcommand;
         if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->disableLayout(); // disable layouts
+        }
+        list($cmd) = explode(' ', $bcommand, 1);
+        if ( in_array($cmd, $this->aNotAvailCmd) ) {
+            $this->view->result_error = 'CMD_NOT_AVAIL';
+            $this->render();
+            return;
         }
         $director = new Director();
         if ( !$director->isFoundBconsole() )    {

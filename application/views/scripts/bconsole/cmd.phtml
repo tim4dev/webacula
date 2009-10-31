@@ -5,6 +5,9 @@
     <?php
         switch ( $this->result_error )
         {
+            case 'CMD_NOT_AVAIL':
+                $msg = $this->translate->_('This feature is not available.');
+                break;
             case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
                 $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
                 break;

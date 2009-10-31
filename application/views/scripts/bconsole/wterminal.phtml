@@ -38,12 +38,12 @@ $j( document ).ready( function() {
         WIDTH:  '100%',
         HEIGHT: '100%',
         WELCOME_MESSAGE: welcome+'<div  style="color: #0f0;">'+
-        'All command will be send to bconsole.<br>'+
+        'All command will be send to Bacula Console (bconsole).<br>'+
         '<b>whelp</b> - webacula terminal help<br>'+
         '<b>help</b> - bconsole help<br>'+
         '<b>clear</b> - clears the screen<br></div>',
         PS1: '*',
-        NOT_FOUND: '<div> CMD: command not found or unavailable. Type <b>whelp</b>.</div>',
+        NOT_FOUND: '<div> CMD: command not found. Type <b>whelp</b>.</div>',
         AJAX_METHOD: 'POST',
         HISTORY: true,
         AJAX_PARAM: 'bcommand'
@@ -80,14 +80,35 @@ $j( document ).ready( function() {
         'use':null,
         'version':null
     };
+
     var help_str='';
     for( var cmd in arr_cmds ) {
         $j.register_command( cmd, 'cmd' );
         help_str += cmd + ' ';
     }
+
+    var not_avail = 'For security reasons, this feature is not available.';
+    var arr_cmds_not_avail = {
+            'delete': function() { return not_avail; },
+            'prune': function() { return not_avail; },
+            'purge': function() { return not_avail; },
+            'python': function() { return not_avail; },
+            'setip': function() { return not_avail; },
+            'sqlquery': function() { return not_avail; },
+            'query': function() { return not_avail; },
+            'wait': function() { return not_avail; }
+    };
+    var help_str_not_avail='';
+    for( var cmd_not_avail in arr_cmds_not_avail ) {
+        $j.register_command( cmd_not_avail, arr_cmds_not_avail[cmd_not_avail] );
+        help_str_not_avail += cmd_not_avail + ' ';
+    }
+
     $j.register_command( 'whelp',
         function() {
-            return welcome+'<div style="color: #fff;">Available bconsole commands:</div>'+help_str+
+            return welcome+
+                '<div style="color: #fff;">Available bconsole commands:</div>'+help_str+
+                '<div style="color: #fff;">Unavailable bconsole commands:</div>'+help_str_not_avail+
                 '<div style="color: #fff;">IMPORTANT ! Bacula Console commands will be written like command line style.<br>'+
                 'See Bacula documentation "Running the Console from a Shell Script" for details.</div>';
         }
