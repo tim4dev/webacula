@@ -795,8 +795,11 @@ EOF"
      */
     function markFileAction()
     {
-        $this->_helper->layout->disableLayout(); // disable layouts
-        $encodedValue = $this->_request->getPost('data', '');
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout')) {
+            $this->_helper->layout->disableLayout(); // disable layouts
+        }
+        $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
@@ -838,7 +841,10 @@ EOF"
      */
     function unmarkFileAction()
     {
-        $this->_helper->layout->disableLayout(); // disable layouts
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout')) {
+            $this->_helper->layout->disableLayout(); // disable layouts
+        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
@@ -877,8 +883,11 @@ EOF"
      */
     function markDirAction()
     {
-        $this->_helper->layout->disableLayout(); // disable layouts
-        $encodedValue = $this->_request->getPost('data', '');
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout')) {
+            $this->_helper->layout->disableLayout(); // disable layouts
+        }
+        $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
@@ -924,8 +933,11 @@ EOF"
      */
     function unmarkDirAction()
     {
-        $this->_helper->layout->disableLayout(); // disable layouts
-        $encodedValue = $this->_request->getPost('data', '');
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout')) {
+            $this->_helper->layout->disableLayout(); // disable layouts
+        }
+        $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);

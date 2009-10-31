@@ -66,6 +66,7 @@ class ChartController extends MyClass_ControllerAction
      */
     function timelineAction()
     {
+        // workaround for unit tests 'Action Helper by name Layout not found'
         if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->disableLayout(); // disable layouts
         }
