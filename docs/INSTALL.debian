@@ -98,6 +98,8 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   Check :
 # su -l www-data -s /bin/sh -c "/usr/bin/sudo /sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
+IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). See Bacula documentation "The Console Resource" chapter for details.
+
 - Create configuration for Apache /etc/apache2/sites-available/webacula
   and create link:
   ln -s /etc/apache2/sites-available/webacula /etc/apache2/sites-enabled/webacula

@@ -96,6 +96,8 @@ IMPORTANT! Tanto el fichero como el directorio deben poder ser leídos por el se
   Compruebe los cambios realizados :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
+IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). See Bacula documentation "The Console Resource" chapter for details.
+
 - Cree un fichero para Bacula en la configuración de Apache /etc/httpd/conf.d/webacula.conf
   NOTA. La organización de directorios puede ser diferente en su servidor.
 

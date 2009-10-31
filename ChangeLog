@@ -2,6 +2,7 @@ Webacula ChangeLog
 ------------------
 
 === 3.4
+   Add web/ajax terminal to Bacula Console.
    Add on "List of Running Jobs" the view of "joblog", so is possible to check the running session.
    Add "List Volumes likely to need replacement from age or errors", like bconsole -> query -> 16
 

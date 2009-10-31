@@ -95,6 +95,8 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   Check :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
+IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). See Bacula documentation "The Console Resource" chapter for details.
+
 - Create configuration for Apache /etc/httpd/conf.d/webacula.conf
   NOTE. Specific directories on your system may be different.
 

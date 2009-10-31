@@ -92,6 +92,8 @@
   Проверка :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
+ВАЖНО! Bacula Console имеет гибкие ACLs (Access Control Lists). См. документацию Bacula раздел "The Console Resource".
+
 - Содержимое файла /etc/httpd/conf.d/webacula.conf
   Примечание. Конкретные каталоги на вашей системе могут быть другими.
 
