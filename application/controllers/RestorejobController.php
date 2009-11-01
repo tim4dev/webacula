@@ -806,7 +806,7 @@ EOF"
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
             if ( $this->_config->debug_level >= 9 ) {
-                $this->logger->log("markFileAction()  $fileid  $jobidhash", Zend_Log::INFO);
+                $this->logger->log(__METHOD__."  $fileid  $jobidhash", Zend_Log::INFO);
             }
 
             // производим действия в БД

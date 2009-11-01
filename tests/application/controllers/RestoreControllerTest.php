@@ -68,10 +68,10 @@ class RestoreControllerTest extends ControllerTestCase
 
         // mark dir ajax
         echo "\n\t* Mark dir (ajax). ";
-        $data = '{"path":"/tmp/","jobidhash":"'.$jobidhash.'"}';
+        $json = Zend_Json::encode( array('path' => '/tmp/', 'jobidhash' => $jobidhash) );
         $this->getRequest()
              ->setParams(array(
-                'data' => $data
+                'data' => $json
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/mark-dir');
@@ -85,10 +85,10 @@ class RestoreControllerTest extends ControllerTestCase
 
         // UNmark dir ajax
         echo "\n\t* Unmark dir (ajax). ";
-        $data = '{"path":"/tmp/","jobidhash":"'.$jobidhash.'"}';
+        $json = Zend_Json::encode( array('path' => '/tmp/', 'jobidhash' => $jobidhash) );
         $this->getRequest()
              ->setParams(array(
-                'data' => $data
+                'data' => $json
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/unmark-dir');
@@ -99,6 +99,92 @@ class RestoreControllerTest extends ControllerTestCase
         echo "OK. Files affected = ", $data['total_files'];
         $this->resetRequest()
              ->resetResponse();
+
+        // mark file ajax
+        echo "\n\t* Mark file (ajax). ";
+        $json = Zend_Json::encode( array('fileid' => 3612, 'jobidhash' => $jobidhash) );
+        $this->getRequest()
+             ->setParams(array(
+                'data' => $json
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/mark-file');
+        // recieve json
+        $data = Zend_Json::decode( $this->response->outputBody() );
+        if ( ($data['allok'] != 1) || ($data['total_files'] < 1) || ($data['filename'] != 'file31.dat') )
+            $this->assertTrue(FALSE, "\nMark file fail!\n");
+        echo "OK. File affected = ", $data['filename'];
+        $this->resetRequest()
+             ->resetResponse();
+
+        // Unmark file ajax
+        echo "\n\t* Unmark file (ajax). ";
+        $json = Zend_Json::encode( array('fileid' => 3612, 'jobidhash' => $jobidhash) );
+        $this->getRequest()
+             ->setParams(array(
+                'data' => $json
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/unmark-file');
+        // recieve json
+        $data = Zend_Json::decode( $this->response->outputBody() );
+        if ( ($data['allok'] != 1) || ($data['total_files'] = 0) || ($data['filename'] != 'file31.dat') )
+            $this->assertTrue(FALSE, "\nUnmark file fail!\n");
+        echo "OK. File affected = ", $data['filename'];
+        $this->resetRequest()
+             ->resetResponse();
+
+        /*
+         * Restore file
+         */
+        $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/file31.dat';
+        if (file_exists($file31_dat)) {
+            unlink($file31_dat);
+        }
+        // mark file ajax
+        echo "\n\t* Restore file: ";
+        $json = Zend_Json::encode( array('fileid' => 3612, 'jobidhash' => $jobidhash) );
+        $this->getRequest()
+             ->setParams(array(
+                'data' => $json
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/mark-file');
+        // recieve json
+        $data = Zend_Json::decode( $this->response->outputBody() );
+        if ( ($data['allok'] != 1) || ($data['total_files'] < 1) || ($data['filename'] != 'file31.dat') )
+            $this->assertTrue(FALSE, "\nMark file fail!\n");
+        $this->resetRequest()
+             ->resetResponse();
+        // goto restorejob/list-restore
+        $this->dispatch('/restorejob/list-restore');
+        $this->assertModule('default');
+        $this->assertController('restorejob');
+        $this->assertAction('list-restore');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        echo " Goto list-restore - OK. ";
+        $this->resetRequest()
+             ->resetResponse();
+        // goto /restorejob/run-restore
+        $this->dispatch('restorejob/run-restore');
+        $this->assertModule('default');
+        $this->assertController('restorejob');
+        $this->assertAction('run-restore');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('div', 'Connecting to Director');
+        $this->assertQueryContentContains('div', '@quit');
+        $this->assertNotQueryContentRegex('div', '/Error/i');
+        $this->resetRequest()
+             ->resetResponse();
+        echo " Goto run-restore - OK. Waiting to restore ... ";
+        sleep(20);
+        if ( !file_exists($file31_dat) ) {
+            $this->assertTrue(FALSE, "\nFile not restore : $file31_dat\n");
+        }
+        echo " Restore file exists - OK.\n";
+        unlink($file31_dat);
     }
 
 
