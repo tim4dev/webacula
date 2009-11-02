@@ -9,6 +9,7 @@
  * Command History.
  * Commandline Editing. 
  *
+ * Changelog : small fix by tim4dev 
  * */
 
 ( function( $ ) {
@@ -182,6 +183,7 @@
       * @desc     : Hides the prompt
       **/
       var hide = function() {
+         content.append('Please wait...');
         _prompt.hide();
       };
 
