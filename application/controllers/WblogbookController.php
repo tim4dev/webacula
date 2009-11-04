@@ -29,8 +29,8 @@ require_once 'Zend/Controller/Action.php';
 class WblogbookController extends MyClass_ControllerAction
 {
 
-    // PRE code improperly processed in regexp in eregi_replace in index.phtml
-	// код PRE неправильно обрабатывается regexp'ом в eregi_replace в index.phtml
+    // PRE code improperly processed in regexp in *_replace in index.phtml
+	// код PRE неправильно обрабатывается regexp'ом в *_replace в index.phtml
 	protected $aAllowedTags = array('pre','b', 'h1', 'h2', 'h3', 'p', 'i', 'em', 'u', 'br', 'code', 'del', 'sub',
 		'sup', 'tt', 'a');
 	protected $aAllowedAttrs = array('href');

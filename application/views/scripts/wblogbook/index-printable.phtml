@@ -54,13 +54,13 @@ if ( empty($this->unit_test) )
 		<?php
 			$str = $line['logtxt'];
 
-			$pattern = "(BACULA_JOBID=)([0-9]*)";
+			$pattern = "/(BACULA_JOBID=)([0-9]*)/i";
 			$replacement = "<a href=\"" . $this->baseUrl . "/job/detail/jobid/\\2\">Bacula JobId \\2</a>";
-			$str = eregi_replace($pattern, $replacement, $str);
+			$str = preg_replace($pattern, $replacement, $str);
 
-			$pattern = "(LOGBOOK_ID=)([0-9]*)";
+			$pattern = "/(LOGBOOK_ID=)([0-9]*)/i";
 			$replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
-			$str = eregi_replace($pattern, $replacement, $str);
+			$str = preg_replace($pattern, $replacement, $str);
 
 			// each OS have different ASCII chars for linebreak:
 			// windows = \r\n

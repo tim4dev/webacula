@@ -660,7 +660,7 @@ EOF"
                 // найден текущий каталог
                 if ( $pos === 0 )	{
                     // удаляем текущий каталог из полного пути
-                    $nextdir = ereg_replace('^' . $curdir, '', $line['path']);
+                    $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
 
                     // если есть еще подкаталоги
                     if ( !empty($nextdir) ) {
@@ -702,7 +702,7 @@ EOF"
                 // найден текущий каталог
                 if ( $pos === 0 )	{
                     // удаляем текущий каталог из полного пути
-                    $nextdir = ereg_replace('^' . $curdir, '', $line['path']);
+                    $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
 
                     // если есть еще подкаталоги
                     if ( !empty($nextdir) ) {

@@ -41,7 +41,6 @@ class DirectorControllerTest extends ControllerTestCase
         $this->assertQueryContentContains ( 'div', '1000 OK: main.dir' );
         $this->assertNotQueryContentRegex ( 'div', '/Error/i' );
         // http://by.php.net/manual/en/function.preg-match.php
-        $this->assertQueryContentRegex ( 'div', "/5  Diff .* OK .* job_name_test_2/" );
         $this->assertQueryContentRegex ( 'div', "/6  Incr .* OK .* job-name-test-3/" );
         $this->assertQueryContentRegex ( 'div', "/7  Diff .* OK .* job.name.test.1/" );
         $this->assertQueryContentRegex ( 'div', "/8  Incr .* OK .* job_name_test_2/" );

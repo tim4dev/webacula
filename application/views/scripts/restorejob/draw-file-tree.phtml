@@ -236,8 +236,9 @@ if ( !empty($this->curdir) && ($this->curdir != '/') ):
 		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
 			<input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/up.png">
 			<input type="hidden" name="curdir" id="curdir" value="<?php
-     			// получаем родительский каталог
-				$prevdir = ereg_replace('\/[^/]+\/$', '/', $this->curdir); // любые символы (кроме /) между / и / заменить на /
+     			// get parent dir (получаем родительский каталог)
+     			// любые символы (кроме /) между / и / заменить на /
+				$prevdir = preg_replace('/\/[^\/]+\/$/', '/', $this->curdir); 
 				if ( $this->curdir == $prevdir ) {
 					$prevdir = ''; // самый корень
 				}
