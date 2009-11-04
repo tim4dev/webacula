@@ -32,6 +32,7 @@ if ( APPLICATION_ENV == 'development') {
 
 // PATH_SEPARATOR  ":"
 set_include_path('.' . PATH_SEPARATOR . '../library' . PATH_SEPARATOR . '../application/models/' .
+    PATH_SEPARATOR . '../application/forms/' .
     PATH_SEPARATOR . get_include_path() );
 
 include "Zend/Loader.php";

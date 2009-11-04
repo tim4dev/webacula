@@ -1,0 +1,87 @@
+/*
+   wbjobdesc theme
+*/
+#box-table-wbjobdesc {
+   font-size: 95%;
+   font-family: "Lucida Grande", Helvetica, verdana, sans-serif;
+   background-color:#fff;
+   border-collapse: collapse;
+   width: 60%;
+   line-height: 1.2em;
+}
+#box-table-wbjobdesc caption {
+   font-size: 30px;
+   font-weight: bold;
+   color: #002084;
+   text-align: left;
+   padding: 10px 0px;
+   margin-bottom: 2px;
+   text-transform: capitalize;
+}
+#box-table-wbjobdesc thead th {
+   border-right: 2px solid #fff;
+   color:#fff;
+   text-align:center;
+   padding:2px;
+   height:25px;
+   background-color: #004080;
+}
+#box-table-wbjobdesc tfoot {
+   color:#002084;
+   padding:2px;
+   text-transform:uppercase;
+   font-size:1.2em; 
+   font-weigth: bold;
+   margin-top:6px;
+   border-top: 6px solid #004080;
+   border-bottom: 6px solid #004080;
+}
+#box-table-wbjobdesc tbody tr {
+   background-color:#fff;
+   border-bottom: 2px solid #c0c0c0;
+}
+#box-table-wbjobdesc tbody td {
+   color:#002084;
+   padding:5px;
+   text-align:left;
+}
+#box-table-wbjobdesc tbody th {
+   text-align:left;
+   padding: 2px;
+}
+#box-table-wbjobdesc tbody td a, tbody th a {
+   color:#002084;
+   text-decoration:underline;
+   font-weight:normal; 
+}
+#box-table-wbjobdesc tbody td a:hover, tbody th a:hover {
+   text-decoration:none;
+}
+
+#jobdesc-form {
+   width: 500px;
+   margin-top: 25px;
+   margin-left: auto;
+   margin-right: auto;
+}
+#jobdesc-form textarea:focus, #jobdesc-form input:focus {
+   border: 2px solid #900;
+   background-color: #FFF;
+}
+label {
+   padding-top: 7px;
+   padding-bottom: 7px;
+   font-weight: bold;
+}
+
+div.roundcorner-wlb {
+    width: 500px;
+    padding: 20px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #000;
+    background: #BFFFE7;
+}

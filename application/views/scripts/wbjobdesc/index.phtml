@@ -1,0 +1,42 @@
+<!-- wblogbook/index.phtml -->
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wbjobdesc.css");</style>
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<div style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px;">
+<form method="POST" action="<?php echo $this->baseUrl ?>/wbjobdesc/add">
+    <input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>">
+</form>
+</div>
+
+<?php if ($this->result): ?> 
+
+<div align="center">
+<table id="box-table-wbjobdesc" border="0"  width="70%">
+<thead>
+<tr>
+    <th scope="col" width="35%"> <?php print $this->translate->_("Job Name"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Job Description"); ?> </th>
+    <th scope="col" width="10%"> <?php print $this->translate->_("Retention period"); ?> </th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->result as $line) : ?>
+
+<tr>
+	<td><?= $line['name_job'] ?></td>
+	<td><?= $line['description'] ?></td>
+	<td><?= $line['retention_period'] ?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+
+<?php else: ?>
+<div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php print $this->translate->_("No records found."); ?></strong></p>
+	</div>
+</div>
+<?php endif; ?>

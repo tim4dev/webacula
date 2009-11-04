@@ -1,0 +1,13 @@
+<!-- views/scripts/wbjobdesc/add.phtml -->
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wbjobdesc.css");</style>
+<div class="roundcorner-wlb">
+<div id="jobdesc-form">
+<fieldset>
+    <legend><?php echo $this->title; ?></legend>
+<?php
+$this->form->setAction( $this->url() );
+echo $this->form;
+?>
+</fieldset>
+</div>
+</div>
