@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Script to create webacula tables
-# $Id: webacula_postgresql_make_tables.sh 405 2009-08-17 19:51:14Z tim4dev $
 #
 
 bindir="/usr/bin"
@@ -28,6 +27,7 @@ $bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
 
 GRANT all ON wbLogBook TO ${db_user};
 GRANT all ON wbLogType TO ${db_user};
+GRANT all ON wbJobDesc TO ${db_user};
 GRANT SELECT, REFERENCES ON wbVersion TO ${db_user};
 GRANT all ON wbtmptablelist TO ${db_user};
 

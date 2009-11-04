@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Script to create webacula tables
-# $Id: webacula_mysql_make_tables.sh 402 2009-08-14 22:29:40Z tim4dev $
 #
 
 bindir="/usr/bin"
@@ -27,7 +26,6 @@ CREATE INDEX wbidx1 ON wbLogBook(logDateCreate);
 CREATE FULLTEXT INDEX idxTxt ON wbLogBook(logTxt);
 
 
-
 CREATE TABLE IF NOT EXISTS wbLogType (
 	typeId	INTEGER UNSIGNED NOT NULL,
 	typeDesc TINYBLOB NOT NULL,
@@ -41,6 +39,16 @@ INSERT INTO wbLogType (typeId,typeDesc) VALUES
 	(30, 'Warning'),
 	(255, 'Error')
 ;
+
+
+/* Job descriptions */
+CREATE TABLE IF NOT EXISTS wbJobDesc (
+    desc_id  INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    name_job    CHAR(64) NOT NULL,
+    retention_period CHAR(32),
+    description     TEXT NOT NULL,
+    PRIMARY KEY(desc_id)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS wbVersion (
@@ -57,7 +65,7 @@ DROP TABLE IF EXISTS wbtmptablelist;
 
 CREATE TABLE wbtmptablelist (
         tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-    	  tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
+        tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
         tmpJobIdHash CHAR(64) NOT NULL,
         tmpCreate   TIMESTAMP NOT NULL,
         tmpIsCloneOk INTEGER DEFAULT 0,					/* is clone bacula tables OK */

@@ -34,6 +34,15 @@ INSERT INTO wbLogType (typeId,typeDesc) VALUES (20, 'OK');
 INSERT INTO wbLogType (typeId,typeDesc) VALUES (30, 'Warning');
 INSERT INTO wbLogType (typeId,typeDesc) VALUES (255, 'Error');
 
+/* Job descriptions */
+CREATE TABLE wbJobDesc (
+    desc_id     INTEGER,
+    name_job    CHAR(64) NOT NULL,
+    retention_period CHAR(32),
+    description      TEXT NOT NULL,
+    PRIMARY KEY(desc_id)
+);
+
 
 CREATE TABLE wbVersion (
    versionId INTEGER UNSIGNED NOT NULL
