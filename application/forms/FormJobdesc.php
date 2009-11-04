@@ -23,18 +23,23 @@
  *
  */
 require_once 'Zend/Form.php';
+require_once 'Zend/Form/Element/Submit.php';
 
 class FormJobdesc extends Zend_Form
 {
-	
+
 	public function init()
-    {   
+    {
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // Set the method for the display form to POST
         $this->setMethod('post');
-        $this->addElement('hidden', 'form1', array('value' => '1') );
-        $this->addElement('hidden', 'desc_id');
-        
+
+        $hidden_form1 = $this->createElement('hidden', 'form1', array('value' => '1', 'label' => '') );
+        $hidden_form1->removeDecorator('Label');
+
+        $hidden_desc_id = $this->createElement('hidden', 'desc_id');
+        $hidden_desc_id->removeDecorator('Label');
+
         $name_job = $this->createElement('text', 'name_job', array(
             'label'      => "Job Name",
             'required'   => true,
@@ -49,11 +54,11 @@ class FormJobdesc extends Zend_Form
             'textarea', 'description', array(
             'label'      => "Job Description",
             'required'   => true,
-            'cols' => 60,
+            'cols' => 50,
             'rows' => 3
         ));
         $description->addValidator('NotEmpty', false, null );
-        
+
         $retention_period = $this->createElement(
             'text', 'retention_period', array(
             'label'      => "Retention period",
@@ -62,21 +67,22 @@ class FormJobdesc extends Zend_Form
             'maxlength' => 32
         ));
         $retention_period->addValidator('StringLength', false, array(0, 32) );
-        
+
         // submit button
-        $submit = $this->createElement('submit', 'submit', array(
+        $submit = new Zend_Form_Element_Submit('submit',array(
             'class' => 'prefer_btn',
-            'ignore'   => true,
-            'label'    => 'Submit Form',
+            'label'=>'Submit Form'
         ));
-        
+
         // add elements to form
         $this->addElements( array(
+            $hidden_desc_id,
+            $hidden_form1,
             $name_job,
             $description,
             $retention_period,
             $submit
         ));
 	}
-	
+
 }

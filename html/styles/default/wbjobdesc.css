@@ -59,8 +59,8 @@
 }
 
 #jobdesc-form {
-   width: 500px;
-   margin-top: 25px;
+   width: 450px;
+   margin-top: 3px;
    margin-left: auto;
    margin-right: auto;
 }
@@ -74,9 +74,9 @@ label {
    font-weight: bold;
 }
 
-div.roundcorner-wlb {
-    width: 500px;
-    padding: 20px;
+div.roundcorner-wjd {
+    width: 450px;
+    padding: 10px;
     text-align: left;
     margin-left: auto;
     margin-right: auto;

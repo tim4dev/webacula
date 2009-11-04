@@ -1,5 +1,4 @@
 <!-- wblogbook/index.phtml -->
-<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
 $j(function() {
@@ -73,7 +72,7 @@ $j(function() {
 
 <div style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px;">
 <form method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/add">
-	<input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>">
+	<input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>" class="ui-button ui-state-default ui-corner-all">
 </form>
 </div>
 
@@ -96,7 +95,11 @@ $j(function() {
 	<?php echo $this->formHidden('printable_by_date', '0', null); ?>
 	<?php echo $this->formHidden('sortorder_by_date', 'DESC', null); ?>
 	<br>
-	<?php echo $this->formSubmit('filter1', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>
+    <?php
+        echo $this->formSubmit('filter1', $this->translate->_('Apply filter'),
+            array('style' => 'margin-top: 15px; margin-bottom: 20px;',
+            'class' => "ui-button ui-state-default ui-corner-all") );
+    ?>
 </form>
 </div>
 
@@ -112,7 +115,11 @@ $j(function() {
 	<?php echo $this->formHidden('printable_by_id', '0', null); ?>
 	<?php echo $this->formHidden('sortorder_by_id', 'DESC', null); ?>
 	<br>
-	<?php echo $this->formSubmit('filter2', $this->translate->_('Apply filter'), array('style' => 'margin-top: 15px; margin-bottom: 20px;') ); ?>
+    <?php
+        echo $this->formSubmit('filter2', $this->translate->_('Apply filter'),
+            array('style' => 'margin-top: 15px; margin-bottom: 20px;',
+                'class' => "ui-button ui-state-default ui-corner-all") );
+    ?>
 </form>
 </div>
 
@@ -124,7 +131,11 @@ $j(function() {
 	&nbsp;
 	<?php echo $this->formHidden('printable_by_text', '0', null); ?>
 	<?php echo $this->formHidden('sortorder_by_text', 'ASC', null); ?>
-	<?php echo $this->formSubmit('filter3', $this->translate->_('Search') ); ?>
+    <?php
+        echo $this->formSubmit('filter3', $this->translate->_('Search'),
+            array('style' => 'margin-top: 15px; margin-bottom: 20px;',
+                'class' => "ui-button ui-state-default ui-corner-all") );
+    ?>
 </form>
 </div>
 
@@ -171,7 +182,7 @@ $j(function() {
 	<td>
 		<?php
 			$str = $line['logtxt'];
-			
+
 			$pattern = "/(BACULA_JOBID=)([0-9]*)/i";
             $replacement = "<a href=\"" . $this->baseUrl . "/job/detail/jobid/\\2\">Bacula JobId \\2</a>";
             $str = preg_replace($pattern, $replacement, $str);

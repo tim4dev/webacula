@@ -15,6 +15,8 @@ header("Pragma: no-cache");                                     // HTTP/1.0
     <link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
     <title><?php echo $this->escape($this->title); ?></title>
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/wbjobdesc.css" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
@@ -32,6 +34,11 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.selectmenu.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/easyTooltip.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.core.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.draggable.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.resizable.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.dialog.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.bgiframe.min.js"></script>
 
 <script type="text/javascript">
 	$j = jQuery.noConflict();

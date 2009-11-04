@@ -28,7 +28,7 @@ require_once 'Zend/Controller/Action.php';
 
 class WbjobdescController extends MyClass_ControllerAction
 {
-    
+
     function init()
     {
         parent::init();
@@ -36,23 +36,22 @@ class WbjobdescController extends MyClass_ControllerAction
         Zend_Loader::loadClass('FormJobdesc');
         $this->config_webacula = Zend_Registry::get('config_webacula');
     }
-    
-    
+
+
     public function indexAction()
     {
         $this->view->title = $this->view->translate->_("Job Descriptions");
         // get data from model
         $jobdesc = new wbJobDesc();
-        $this->view->result = $jobdesc->fetchAll(null, array('name_job', 'desc_id') );        
+        $this->view->result = $jobdesc->fetchAll(null, array('name_job', 'desc_id') );
     }
 
-    
+
     public function addAction()
-    {       
+    {
         $this->view->title = $this->view->translate->_("Add Job Description");
         $form = new formJobdesc();
         if ( $this->_request->isPost() &&  ($this->_request->getParam('form1') == '1') ) {
-//        if ( $this->_request->isPost() ) {            
             if ( $form->isValid($this->_getAllParams()) ) {
                 $name_job = stripslashes( trim( $this->_request->getParam('name_job') ) );
                 $description = stripslashes( trim( $this->_request->getParam('description') ) );
@@ -72,6 +71,50 @@ class WbjobdescController extends MyClass_ControllerAction
         }
         $this->view->form = $form;
     }
-    
-    
+
+
+    public function modifyAction()
+    {
+        $this->view->title = "Modify record";
+        $form = new formJobdesc();
+        if ( $this->_request->isPost() &&  ($this->_request->getParam('form1') == '1') ) {
+            // get modified data
+            if ( $form->isValid($this->_getAllParams()) ) {
+                $desc_id  = intval( $this->_request->getParam('desc_id') );
+                $name_job = stripslashes( trim( $this->_request->getParam('name_job') ) );
+                $description = stripslashes( trim( $this->_request->getParam('description') ) );
+                $retention_period = stripslashes( trim( $this->_request->getParam('retention_period') ) );
+                $table = new wbJobDesc();
+                $data = array(
+                    'name_job' => $name_job,
+                    'description' => $description,
+                    'retention_period' => $retention_period
+                );
+                $where = $table->getAdapter()->quoteInto('desc_id = ?', $desc_id);
+                $rows_affected = $table->update($data, $where);
+                if ($rows_affected) {
+                    $this->_helper->redirector('index'); // action, controller
+                    return;
+                }
+            }
+        } else {
+            // data not from form
+            $desc_id = intval( $this->_request->getParam('desc_id') );
+            $this->view->title .= " #$desc_id";
+            if ($desc_id) {
+                // get data from table
+                $table = new wbJobDesc();
+                $row = $table->find($desc_id)->current();
+                // fill form
+                $form->populate( array(
+                    'desc_id'     => $row->desc_id,
+                    'name_job'    => $row->name_job,
+                    'description' => $row->description,
+                    'retention_period' => $row->retention_period
+                ));
+            }
+            $this->view->form = $form;
+        }
+    }
+
 }

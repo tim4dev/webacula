@@ -15,7 +15,7 @@
 <tr>
     <td align="center">
     <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/mount/name/', $this->escape($storage->name);?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
-    <img src="<?php echo $this->baseUrl, '/images/connected.png" alt="', $this->translate->_("Mount Storage"), '" border="0" hspace="5">';?></a>
+    <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5"></a>
     </td>
 
     <td>
@@ -28,7 +28,7 @@
 
 	<td align="center">
 	<a href="<?php echo $this->baseUrl, '/storage/act-mount/act/umount/name/', $this->escape($storage->name);?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
-    <img src="<?php echo $this->baseUrl, '/images/disconnected.png" alt="', $this->translate->_("Unmount Storage"), '" border="0" hspace="5">';?></a>
+    <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5"></a>
 	</td>
 
     <td align="center"><?php
