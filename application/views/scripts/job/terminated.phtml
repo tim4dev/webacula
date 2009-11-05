@@ -8,50 +8,53 @@
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
-	 <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-	 <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>     
+     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Client"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Pool"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
+     <th scope="col">&nbsp;</th>
 </tr>
 </thead>
 <tbody>
 <?php foreach($this->result as $line) : ?>
 <tr>
-    <td>
+    <td style="padding: 0px; width:24px;">
         <?php
             if ( isset($line['poolid'], $line['poolname']) )	{
+                // restore button
                 echo '<a href="';
-				echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
-				echo '" title="', $this->translate->_("Restore Job"), '">';
-				echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '" border="0" hspace="5">';
-				echo '</a>';
+                echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
+                echo '" title="', $this->translate->_("Restore Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '" border="0" hspace="2">';
+                echo '</a>';
             }
         ?>
     </td>
 	<td>
-		<?php
-			if ( isset($line['poolid'], $line['poolname']) )	{
-				echo '<a href="';
-				echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
-				echo '" title="', $this->translate->_("Detail Job"), '">';
-			}
-			echo $line['jobid'];
-			if ( isset($line['poolid'], $line['poolname']) )	{
-				echo '</a>';
-			}
-		?>
-	</td>
-
-	<!-- Job.Name -->
-	<td><?php echo $this->escape($line['jobname']);?></td>
+        <?php
+            if ( isset($line['poolid'], $line['poolname']) )    {
+                // name job
+                echo '<a href="';
+                echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
+                echo '" title="', $this->translate->_("Detail Job"), '">';
+            }
+            echo $line['jobid'];
+            if ( isset($line['poolid'], $line['poolname']) )	{
+                echo '</a>';
+            }
+        ?>
+    </td>
+    
+    <!-- Job.Name -->
+    <td><?php  echo $this->escape($line['jobname']);?>  </td>
 
 	<!-- Status -->
 	<?php
@@ -139,8 +142,23 @@
 	<td>&nbsp;<?php echo $this->escape($line['starttime']);?>&nbsp;</td>
 	<td>&nbsp;<?php echo $this->escape($line['endtime']);?>&nbsp;</td>
 	<td align="right">&nbsp;<?php echo $this->escape($line['durationtime']);?>&nbsp;</td>
+	
+    <!-- add to logbook button -->
+    <td style="padding: 0px; width:16px;"><?php
+        if ( isset($line['poolid'], $line['poolname']) )    {
+                echo '<a href="';
+                echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($line['jobname']),
+                    '/endtime/', $this->escape($line['endtime']),
+                    '/jobid/', $this->escape($line['jobid']),
+                    '/joberrors/', $this->escape($line['joberrors']);
+                echo '" title="', $this->translate->_("Written in Logbook"), '">';
+                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), '" border="0" hspace="2">';
+                echo '</a>';
+        }
+        ?>
+    </td>
 
-</tr>
+	</tr>
 <?php endforeach; ?>
 </tbody>
 </table>

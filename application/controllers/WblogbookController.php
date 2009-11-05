@@ -83,33 +83,31 @@ class WblogbookController extends MyClass_ControllerAction
         return $str_sort_order;
 	}
 
-	/**
-	 * LogBook view action without any filters
-	 *
-	 */
+    /**
+     * LogBook view action without any filters
+     *
+     */
     function indexAction()
     {
-    	$this->view->title = $this->view->translate->_("Logbook");
-    	//print_r($this->_request->getParams()); exit; //debug !!!
-    	$date_begin  = date('Y-m-d', time()-2678400);
-      $date_end    = date('Y-m-d', time());
-      // порядок сортировки
-      $sort_order = 'DESC';
-      $str_sort_order = $this->defStrSortOrder($sort_order);
-
-      // даты
-      $tmp_title = sprintf($this->view->translate->_(" %s (from %s to %s)"), $str_sort_order, $date_begin, $date_end);
-      $this->view->title .= $tmp_title;
-      $this->view->date_begin = $date_begin;
-      $this->view->date_end = $date_end;
-
-      // get data from model
-      $logs = new wbLogBook();
-      $ret = $logs->IndexLogBook($date_begin, $date_end, $sort_order);
-      if ($ret)	{
-         $this->view->result = $ret->fetchAll();
-      }
-      $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->title = $this->view->translate->_("Logbook");
+        //print_r($this->_request->getParams()); exit; //debug !!!
+        $date_begin  = date('Y-m-d', time()-2678400);
+        $date_end    = date('Y-m-d', time());
+        // порядок сортировки
+        $sort_order = 'DESC';
+        $str_sort_order = $this->defStrSortOrder($sort_order);
+        // даты
+        $tmp_title = sprintf($this->view->translate->_(" %s (from %s to %s)"), $str_sort_order, $date_begin, $date_end);
+        $this->view->title .= $tmp_title;
+        $this->view->date_begin = $date_begin;
+        $this->view->date_end = $date_end;
+        // get data from model
+        $logs = new wbLogBook();
+        $ret = $logs->IndexLogBook($date_begin, $date_end, $sort_order);
+        if ($ret)	{
+            $this->view->result = $ret->fetchAll();
+        }
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 
@@ -530,5 +528,51 @@ class WblogbookController extends MyClass_ControllerAction
         $this->view->aAllowedTags = $this->aAllowedTags;
     }
 
+    
+    /**
+     * Write record about Job to LogBook
+     */
+    function writelogbookAction()
+    {
+        $jobid    = intval($this->_request->getParam('jobid'));
+        $name_job = trim($this->_request->getParam('name_job'));
+        $endtime  = trim($this->_request->getParam('endtime'));
+        $joberrors= intval($this->_request->getParam('joberrors'));
+        
+        $this->view->title = $this->view->translate->_("Logbook: add new record");
+        $this->view->wblogbook = new Wblogbook();
+        $this->view->amessages = array();
+        
+        // setup new record
+        if ( $joberrors > 0 ) $this->view->wblogbook->logTypeId = 255; // Error
+            else $this->view->wblogbook->logTypeId = 20; // OK
+        
+        
+        // get data from table
+        Zend_Loader::loadClass('Wbjobdesc');
+        $table = new wbJobDesc();
+        $select  = $table->select()->where('name_job = ?', $name_job);
+        $row = $table->fetchRow($select);
+        if ($row) {
+            $this->view->wblogbook->logTxt = $row->description."\n".
+                $row->retention_period."\n\n".
+                $row->name_job." $endtime\n".
+                "BACULA_JOBID=$jobid\n";
+        } else 
+            $this->view->wblogbook->logTxt    = null;
+        
+        // get data from wbLogType
+        Zend_Loader::loadClass('Wblogtype');
+        $typs = new Wblogtype();
+        $this->view->typs = $typs->fetchAll();
+        // common fileds
+        $this->view->wblogbook->logDateLast = null;
+        $this->view->wblogbook->logId = null;
+        $this->view->wblogbook->logDateCreate = date('Y-m-d H:i:s', time());
+        $this->view->hiddenNew = 1;
+        $this->view->aAllowedTags = $this->aAllowedTags;
+        echo $this->renderScript('/wblogbook/add.phtml');
+    }
+    
 
 }

@@ -1,39 +1,27 @@
 <!-- wbjobdesc/index.phtml -->
 
 <script type="text/javascript">
-    $j(function(){
-        $j("#dialog").dialog({
-            autoOpen: false,
-            bgiframe: true,
-            resizable: false,
-            height:210,
-            width:400,
-            modal: true,
-            overlay: {
-                backgroundColor: '#000',
-                opacity: 0.5
-            },
-            buttons: {
-                Cancel: function() {
-                    $j(this).dialog('close');
-                },
-                '<?= $this->translate->_("Delete record") ?>': function() {
-                    alert('del');
-                    $j(this).dialog('close');
-                    //$this->baseUrl/wbjobdesc/delete/desc_id/$line['desc_id']
-                }
-            }
-        });
+// use :
+// <a href="/" id="confirm" class="confirm"> TEST2 </a>
+$j(document).ready( 
+    function() {
+    $j('a.confirm').click(function() {
+        document.location = $j(this).attr("href");
+        return false;
+    })
+    
+    $j('a.confirm').confirm({
+        msg:'<?= $this->translate->_("Are you sure?") ?>',
+        timeout:10000,
+        buttons: {
+            wrapper:'<button></button>',
+            ok:'<?= $this->translate->_("Delete") ?>',
+            cancel:'<?= $this->translate->_("Cancel") ?>',
+            separator:' '
+        }
     });
+});
 </script>
-
-<div id="dialog" title="<?= $this->translate->_("Delete record") ?>?">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 10px 0;"></span>
-        <?= $this->translate->_("These record will be permanently deleted and cannot be recovered. Are you sure?") ?>
-    </p>
-</div>
-
-
 
 
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
@@ -66,8 +54,10 @@
         <a href="<?= $this->baseUrl ?>/wbjobdesc/modify/desc_id/<?= $line['desc_id'] ?>" title="<?= $this->translate->_("Modify record") ?>">
         <img src="<?= $this->baseUrl ?>/images/document-edit.png" alt="<?= $this->translate->_("Modify record") ?>" border="0" hspace="2">
         </a>
-        <a href="#" title="<?= $this->translate->_("Delete record") ?>"><img src="<?= $this->baseUrl ?>/images/edit-delete.png" alt="<?= $this->translate->_("Delete record") ?>" border="0" hspace="2"
-            onclick="$j('#dialog').dialog('open')"></a>
+        
+        <a href="<?= $this->baseUrl ?>/wbjobdesc/delete/desc_id/<?= $line['desc_id'] ?>" id="confirm" class="confirm">
+            <img src="<?= $this->baseUrl ?>/images/edit-delete.png" alt="<?= $this->translate->_("Delete record") ?>" border="0" hspace="2">
+        </a>
     </td>
 </tr>
 <?php endforeach; ?>

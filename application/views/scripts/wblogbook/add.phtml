@@ -49,7 +49,7 @@ endforeach;
 <?php echo $this->formHidden('hiddenNew',   $this->hiddenNew, null); ?>
 
 <label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>&nbsp;
-<?php echo $this->formSelect('logTypeId', '10', null, $atyps); ?>
+<?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, null, $atyps); ?>
 <br><br>
 
 

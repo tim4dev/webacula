@@ -93,7 +93,7 @@ class WbjobdescController extends MyClass_ControllerAction
                 $where = $table->getAdapter()->quoteInto('desc_id = ?', $desc_id);
                 $rows_affected = $table->update($data, $where);
                 if ($rows_affected) {
-                    $this->_helper->redirector('index'); // action, controller
+                    $this->_helper->redirector('index');
                     return;
                 }
             }
@@ -117,4 +117,16 @@ class WbjobdescController extends MyClass_ControllerAction
         }
     }
 
+    
+    public function deleteAction()
+    {
+        $desc_id = intval($this->_request->getParam('desc_id'));
+        $table = new wbJobDesc();
+        $where = $table->getAdapter()->quoteInto('desc_id = ?', $desc_id);
+        $table->delete($where);
+        $this->_helper->redirector('index');
+    }
+
+    
+    
 }
