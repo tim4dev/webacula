@@ -547,7 +547,6 @@ class WblogbookController extends MyClass_ControllerAction
         if ( $joberrors > 0 ) $this->view->wblogbook->logTypeId = 255; // Error
             else $this->view->wblogbook->logTypeId = 20; // OK
         
-        
         // get data from table
         Zend_Loader::loadClass('Wbjobdesc');
         $table = new wbJobDesc();
@@ -556,11 +555,12 @@ class WblogbookController extends MyClass_ControllerAction
         if ($row) {
             $this->view->wblogbook->logTxt = $row->description."\n".
                 $row->retention_period."\n\n".
-                $row->name_job." $endtime\n".
+                "$name_job\n$endtime\n".
                 "BACULA_JOBID=$jobid\n";
-        } else 
-            $this->view->wblogbook->logTxt    = null;
-        
+        } else {
+            $this->view->wblogbook->logTxt = "$name_job\n$endtime\n".
+                "BACULA_JOBID=$jobid\n";
+        }
         // get data from wbLogType
         Zend_Loader::loadClass('Wblogtype');
         $typs = new Wblogtype();
