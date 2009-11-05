@@ -62,10 +62,16 @@ class WbjobdescController extends MyClass_ControllerAction
                     'description' => $description,
                     'retention_period' => $retention_period
                 );
-                $rows_affected = $table->insert($data);
-                if ($rows_affected) {
-                    $this->_helper->redirector('index'); // action, controller
-                    return;
+                
+                try {
+                    $rows_affected = $table->insert($data);
+                    if ($rows_affected) {
+                        $this->_helper->redirector('index'); // action, controller
+                        return;
+                    }
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
+                        "<br>Message: " . $e->getMessage() . "<br>";
                 }
             }
         }
@@ -91,10 +97,17 @@ class WbjobdescController extends MyClass_ControllerAction
                     'retention_period' => $retention_period
                 );
                 $where = $table->getAdapter()->quoteInto('desc_id = ?', $desc_id);
-                $rows_affected = $table->update($data, $where);
-                if ($rows_affected) {
-                    $this->_helper->redirector('index');
-                    return;
+                
+                try {
+                    $rows_affected = $table->update($data, $where);
+                    if ($rows_affected) {
+                        $this->_helper->redirector('index');
+                        return;
+                    }
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
+                        "<br>Message: " . $e->getMessage() . "<br>";
+                    $this->view->form = $form;
                 }
             }
         } else {

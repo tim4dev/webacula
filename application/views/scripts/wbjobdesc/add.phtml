@@ -7,6 +7,17 @@
 </script>
 <div class="roundcorner-wjd">
 <div id="jobdesc-form">
+
+<?php if ( !empty($this->exception) ) : ?>
+<div class="ui-widget">
+    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php echo $this->exception; ?></strong></p>
+    </div>
+</div>
+<br>
+<?php endif;?>
+
 <fieldset>
     <legend><?php echo $this->title; ?></legend>
 <?php
