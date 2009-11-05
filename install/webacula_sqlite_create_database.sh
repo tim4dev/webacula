@@ -37,11 +37,12 @@ INSERT INTO wbLogType (typeId,typeDesc) VALUES (255, 'Error');
 /* Job descriptions */
 CREATE TABLE wbJobDesc (
     desc_id     INTEGER,
-    name_job    CHAR(64) NOT NULL,
+    name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
     description      TEXT NOT NULL,
     PRIMARY KEY(desc_id)
 );
+CREATE INDEX wbidx2 ON wbJobDesc(name_job);
 
 
 CREATE TABLE wbVersion (
@@ -58,7 +59,7 @@ DROP TABLE IF EXISTS wbtmptablelist;
 
 CREATE TABLE wbtmptablelist (
         tmpId    INTEGER,
-    	  tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
+        tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
         tmpJobIdHash CHAR(64) NOT NULL,
         tmpCreate   TIMESTAMP NOT NULL,
         tmpIsCloneOk INTEGER DEFAULT 0,					/* is clone bacula tables OK */

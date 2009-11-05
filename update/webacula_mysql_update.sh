@@ -13,10 +13,11 @@ USE webacula;
 /* Job descriptions */
 CREATE TABLE IF NOT EXISTS wbJobDesc (
     desc_id  INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-    name_job    CHAR(64) NOT NULL,
+    name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
     description     TEXT NOT NULL,
-    PRIMARY KEY(desc_id)
+    PRIMARY KEY(desc_id),
+    INDEX (name_job)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM;
 
 END-OF-DATA
