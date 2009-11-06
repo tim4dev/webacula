@@ -59,6 +59,21 @@ class Wblogbook extends Zend_Db_Table
         parent::_setupPrimaryKey();
     }
 
+    public function init() {
+        $db = Zend_Db_Table::getAdapter('db_webacula');
+        $select = new Zend_Db_Select($db);
+        switch ($this->db_adapter) {
+            case 'PDO_MYSQL':       
+                $db->query('SET NAMES utf8');
+                $db->query('SET CHARACTER SET utf8');
+                break;
+            case 'PDO_PGSQL':
+                $db->query("SET NAMES 'UTF8'");
+                break;
+        }
+    }
+    
+    
 	/**
      * LogBook view
      *
@@ -81,8 +96,6 @@ class Wblogbook extends Zend_Db_Table
     	$select = new Zend_Db_Select($db);
     	switch ($this->db_adapter) {
             case 'PDO_MYSQL':    	
-				$db->query('SET NAMES utf8');
-				$db->query('SET CHARACTER SET utf8');
 				$select->distinct();
     			$select->from(array('l' => 'wbLogBook'), array('logId', 'logDateCreate', 'logDateLast', 'logTxt', 'logTypeId', 'logIsDel'));
     			$select->joinLeft(array('t' => 'wbLogType'), 'l.logTypeId = t.typeId', array('typeId', 'typeDesc'));
@@ -90,7 +103,6 @@ class Wblogbook extends Zend_Db_Table
     			$select->order(array('l.logDateCreate ' . $sort_order));
 		        break;
             case 'PDO_PGSQL':
-            	$db->query("SET NAMES 'UTF8'");
             	$select->distinct();
     			$select->from(array('l' => 'wbLogBook'), array('logId', 'logDateCreate', 'logDateLast', 'logTxt', 'logTypeId', 'logIsDel'));
     			$select->joinLeft(array('t' => 'wbLogType'), 'l.logTypeId = t.typeId', array('typeId', 'typeDesc'));
@@ -142,8 +154,6 @@ class Wblogbook extends Zend_Db_Table
     	$select = new Zend_Db_Select($db);
     	switch ($this->db_adapter) {
             case 'PDO_MYSQL':    	
-				$db->query('SET NAMES utf8');
-				$db->query('SET CHARACTER SET utf8');
 				$select->distinct();
     			$select->from(array('l' => 'wbLogBook'), array('logId', 'logDateCreate', 'logDateLast', 'logTxt', 'logTypeId', 'logIsDel'));
     			$select->joinLeft(array('t' => 'wbLogType'), 'l.logTypeId = t.typeId', array('typeId', 'typeDesc'));
@@ -151,7 +161,6 @@ class Wblogbook extends Zend_Db_Table
     			$select->order(array('l.logId ' . $sort_order));
 		        break;
             case 'PDO_PGSQL':
-            	$db->query("SET NAMES 'UTF8'");
             	$select->distinct();
     			$select->from(array('l' => 'wbLogBook'), array('logId', 'logDateCreate', 'logDateLast', 'logTxt', 'logTypeId', 'logIsDel'));
     			$select->joinLeft(array('t' => 'wbLogType'), 'l.logTypeId = t.typeId', array('typeId', 'typeDesc'));
@@ -187,17 +196,6 @@ class Wblogbook extends Zend_Db_Table
     		return;
     	}
     	$id_text = trim($id_text);
-
-    	$db = Zend_Db_Table::getAdapter('db_webacula');
-    	switch ($this->db_adapter) {
-            case 'PDO_MYSQL':    	
-				$db->query('SET NAMES utf8');
-				$db->query('SET CHARACTER SET utf8');
-		        break;
-            case 'PDO_PGSQL':
-            	$db->query("SET NAMES 'UTF8'");
-                break;
-    	}
     	// make select from multiple tables
     	$select = new Zend_Db_Select($db);
     	switch ($this->db_adapter) {
