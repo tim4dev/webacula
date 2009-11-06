@@ -555,7 +555,7 @@ class WblogbookController extends MyClass_ControllerAction
         if ($row) {
             $this->view->wblogbook->logTxt = $row->description."\n".
                 $row->retention_period."\n\n".
-                "$name_job\n$endtime\n".
+                "$name_job $endtime\n\n".
                 "BACULA_JOBID=$jobid\n";
         } else {
             $this->view->wblogbook->logTxt = "$name_job\n$endtime\n".
