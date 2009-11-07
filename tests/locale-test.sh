@@ -59,6 +59,16 @@ my_wget_def() {
 # Main program
 ###########################################################
 
+PIDH="/var/run/httpd/httpd.pid"
+
+echo "Check httpd..."
+if [ ! -e "$PIDH" ]
+then
+    echo "Can't connect to httpd."
+    /sbin/service httpd start
+    sleep 5
+fi
+
 echo -e "\n\n"
 diff -q ../application/config.ini  ../application/config.ini.original
 if [ $? == 0 ]
@@ -71,7 +81,7 @@ fi
 
 echo -e "\n\n${LINE1}"
 echo "Testing locales and languages"
-echo -e"${LINE1}\n"
+echo -e "${LINE1}\n"
 
 echo -e "\n*** Testing auto determination\n"
 
