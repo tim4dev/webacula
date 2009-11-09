@@ -53,4 +53,5 @@ class Storage extends Zend_Db_Table
         parent::_setupPrimaryKey();
     }
 
+
 }

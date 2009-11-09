@@ -29,13 +29,15 @@
  */
 class Wblogbook extends Zend_Db_Table
 {
+    public $db;
     public $db_adapter;
 
 
     public function __construct ($config = array())
     {
+        $this->db         = Zend_Registry::get('db_webacula');
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
-        $config['db'] = Zend_Registry::get('db_webacula'); // database
+        $config['db'] = $this->db;
         $config['sequence'] = true;
         parent::__construct($config);
     }
@@ -63,15 +65,13 @@ class Wblogbook extends Zend_Db_Table
 
     public function init ()
     {
-        $db = Zend_Db_Table::getAdapter('db_webacula');
-        $select = new Zend_Db_Select($db);
         switch ($this->db_adapter) {
             case 'PDO_MYSQL':
-                $db->query('SET NAMES utf8');
-                $db->query('SET CHARACTER SET utf8');
+                $this->db->query('SET NAMES utf8');
+                $this->db->query('SET CHARACTER SET utf8');
                 break;
             case 'PDO_PGSQL':
-                $db->query("SET NAMES 'UTF8'");
+                $this->db->query("SET NAMES 'UTF8'");
                 break;
         }
     }

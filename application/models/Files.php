@@ -26,23 +26,25 @@
 class Files
 {
    public $db;
+   public $db_adapter;
 
-   public function __construct()
-   {
-       $this->db = Zend_Db_Table::getDefaultAdapter();      
-   }
+    public function __construct()
+    {
+        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+    }
 
-	public function getSelectFilesByJobId($jobid)
-	{
-		// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
-   		$select = new Zend_Db_Select($this->db);
-   		$select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat'));
-   		$select->joinLeft(array('p' => 'Path'), 'f.PathId = p.PathId' ,array('Path'));
-   		$select->joinLeft(array('n' => 'Filename'), 'f.FileNameId = n.FileNameId',array('Name'));
-		$select->where("f.JobId = ?", $jobid);
-		$select->order(array('f.FileIndex', 'f.FileId'));
-		return $select; 		
-	}
+    public function getSelectFilesByJobId($jobid)
+    {
+        // !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
+        $select = new Zend_Db_Select($this->db);
+        $select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat'));
+        $select->joinLeft(array('p' => 'Path'), 'f.PathId = p.PathId' ,array('Path'));
+        $select->joinLeft(array('n' => 'Filename'), 'f.FileNameId = n.FileNameId',array('Name'));
+        $select->where("f.JobId = ?", $jobid);
+        $select->order(array('f.FileIndex', 'f.FileId'));
+        return $select;
+    }
 
 
 }

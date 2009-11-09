@@ -53,7 +53,6 @@ class Pool extends Zend_Db_Table
         parent::_setupPrimaryKey();
     }
 
-    
-    
-    
+
+
 }

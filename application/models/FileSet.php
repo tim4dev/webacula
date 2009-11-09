@@ -22,30 +22,34 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
  */
-
 class FileSet extends Zend_Db_Table
 {
-   public $db_adapter;
+    public $db;
+    public $db_adapter;
 
-   public function __construct($config = array())
-   {
-       $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-       parent::__construct($config);
-   }
 
-   protected function _setupTableName()
+    public function __construct ($config = array())
+    {
+        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        parent::__construct($config);
+    }
+
+
+    protected function _setupTableName ()
     {
         switch ($this->db_adapter) {
-        case 'PDO_PGSQL':
-            $this->_name = 'fileset';
-            break;
-        default: // including mysql, sqlite
-            $this->_name = 'FileSet';            
+            case 'PDO_PGSQL':
+                $this->_name = 'fileset';
+                break;
+            default: // including mysql, sqlite
+                $this->_name = 'FileSet';
         }
         parent::_setupTableName();
     }
 
-    protected function _setupPrimaryKey()
+
+    protected function _setupPrimaryKey ()
     {
         $this->_primary = 'filesetid';
         parent::_setupPrimaryKey();

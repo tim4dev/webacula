@@ -23,12 +23,12 @@
  * @author Yuri Timofeev <tim4dev@gmail.com>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
- 
+
 
 class Wbjobdesc extends Zend_Db_Table
 {
     public $db_adapter;
-    
+
     public function __construct($config = array())
     {
         $this->db_adapter  = Zend_Registry::get('DB_ADAPTER_WEBACULA');
@@ -36,7 +36,7 @@ class Wbjobdesc extends Zend_Db_Table
         $config['sequence']= true;
         parent::__construct($config);
     }
-    
+
     protected function _setupTableName()
     {
         switch ($this->db_adapter) {
@@ -54,12 +54,11 @@ class Wbjobdesc extends Zend_Db_Table
         $this->_primary = 'desc_id';
         parent::_setupPrimaryKey();
     }
-    
+
     public function init() {
         $db = Zend_Db_Table::getAdapter('db_webacula');
-        $select = new Zend_Db_Select($db);
         switch ($this->db_adapter) {
-            case 'PDO_MYSQL':       
+            case 'PDO_MYSQL':
                 $db->query('SET NAMES utf8');
                 $db->query('SET CHARACTER SET utf8');
                 break;
@@ -69,5 +68,5 @@ class Wbjobdesc extends Zend_Db_Table
         }
     }
 
-    
+
 }

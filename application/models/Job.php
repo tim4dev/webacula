@@ -53,7 +53,6 @@ class Job extends Zend_Db_Table
         parent::_setupPrimaryKey();
     }
 
-
 	/**
 	 * If there JobId exist in the database Bacula ...
 	 * Существует ли JobId в БД Bacula
@@ -398,8 +397,8 @@ EOF', $command_output, $return_var);
     	// check return status of the executed command
     	if ( $return_var != 0 )	{
 			$aresult[] = 'ERROR';
-			if ( isset($cmd)) {
-			    $aresult[] = 'Command: <br>' . $cmd . '<br> output:<b>';
+			if ( isset($command_output) ) {
+			    $aresult[] = 'Command: <br>' . $bconsolecmd . '<br> output:<b>';
 			} else {
 			    $aresult[] = "Command: no output.<br />Check access to<br /><b>$bconsolecmd</b>";
 			}

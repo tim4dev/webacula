@@ -25,13 +25,13 @@
 
 class Client extends Zend_Db_Table
 {
-	public $db;
-   	public $db_adapter;
+    public $db;
+    public $db_adapter;
 
-	public function __construct($config = array())
-	{
-   		$this->db         = Zend_Registry::get('db_bacula');
-    	$this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+    public function __construct($config = array())
+    {
+        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         parent::__construct($config);
     }
 
@@ -42,7 +42,7 @@ class Client extends Zend_Db_Table
             $this->_name = 'client';
             break;
         default:  // including mysql, sqlite
-            $this->_name = 'Client';            
+            $this->_name = 'Client';
         }
         parent::_setupTableName();
     }
@@ -63,9 +63,9 @@ class Client extends Zend_Db_Table
     {
         $select = new Zend_Db_Select($this->db);
         $select->from(array('j' => 'Job'), array('JobId', 'ClientId'));
-   		$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('c.Name'));
-		$select->where("j.JobId = ?", $jobid);
-		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('c.Name'));
+        $select->where("j.JobId = ?", $jobid);
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();
         $res  = $stmt->fetchAll();
         return $res[0]['name'];
@@ -73,14 +73,14 @@ class Client extends Zend_Db_Table
 
     function getClientId($client_name)
     {
-		$select = new Zend_Db_Select($this->_db);
-    	$select->from('Client');
-    	$select->where("Name = ?", $client_name);
-    	$select->limit(1);
-		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-	    $stmt = $select->query();
-		$res = $stmt->fetch();		
-		return $res['clientid'];
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('Client');
+        $select->where("Name = ?", $client_name);
+        $select->limit(1);
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        $res = $stmt->fetch();
+        return $res['clientid'];
     }
-    
+
 }

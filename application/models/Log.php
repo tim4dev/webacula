@@ -22,59 +22,58 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
  */
-
 class Log extends Zend_Db_Table
 {
-	public $db;
-	public $db_adapter;
+    public $db;
+    public $db_adapter;
 
-	public function __construct($config = array())
-   	{
-   		$this->db         = Zend_Registry::get('db_bacula');
-       	$this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-       	parent::__construct($config);
-   	}
 
-   protected function _setupTableName()
+    public function __construct ($config = array())
+    {
+        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        parent::__construct($config);
+    }
+
+
+    protected function _setupTableName ()
     {
         switch ($this->db_adapter) {
-        case 'PDO_PGSQL':
-            $this->_name = 'log';
-            break;
-		default: // including mysql, sqlite
-            $this->_name = 'Log';            
+            case 'PDO_PGSQL':
+                $this->_name = 'log';
+                break;
+            default: // including mysql, sqlite
+                $this->_name = 'Log';
         }
         parent::_setupTableName();
     }
 
-    protected function _setupPrimaryKey()
+
+    protected function _setupPrimaryKey ()
     {
         $this->_primary = 'logid';
         parent::_setupPrimaryKey();
     }
 
-	function getById($job_id)
-	{
-		$select = new Zend_Db_Select($this->db);
-		switch ($this->db_adapter) {
-		case 'PDO_SQLITE':
-			// bug http://framework.zend.com/issues/browse/ZF-884
-			$select->distinct();
-    		$select->from(array('l' => 'Log'), array('logid'=>'LogId', 'jobid'=>'JobId', 
-				'LogTime' => 'Time', 'logtext'=>'LogText'));
-    		$select->where("JobId = ?", $job_id);
-			$select->order(array('LogId', 'LogTime'));
-			break;
-		default: // mysql, postgresql
-			$select->distinct();
-    		$select->from(array('l' => 'Log'), array('LogId', 'JobId', 'LogTime' => 'Time', 'LogText'));
-    		$select->where("JobId = ?", $job_id);
-			$select->order(array('LogId', 'LogTime'));
-		}
-		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-   		$stmt = $select->query();
-		return $stmt->fetchAll();
-	}
-
-
+    function getById ($job_id)
+    {
+        $select = new Zend_Db_Select($this->db);
+        switch ($this->db_adapter) {
+            case 'PDO_SQLITE':
+                // bug http://framework.zend.com/issues/browse/ZF-884
+                $select->distinct();
+                $select->from(array('l' => 'Log'), array('logid' => 'LogId' , 'jobid' => 'JobId' , 'LogTime' => 'Time' , 'logtext' => 'LogText'));
+                $select->where("JobId = ?", $job_id);
+                $select->order(array('LogId' , 'LogTime'));
+                break;
+            default: // mysql, postgresql
+                $select->distinct();
+                $select->from(array('l' => 'Log'), array('LogId' , 'JobId' , 'LogTime' => 'Time' , 'LogText'));
+                $select->where("JobId = ?", $job_id);
+                $select->order(array('LogId' , 'LogTime'));
+        }
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
+    }
 }

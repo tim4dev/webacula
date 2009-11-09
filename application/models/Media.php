@@ -169,5 +169,5 @@ class Media extends Zend_Db_Table
         $stmt = $select->query();
         return $stmt->fetchAll();
     }
-    
+
 }
