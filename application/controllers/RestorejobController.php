@@ -216,9 +216,9 @@ class RestorejobController extends MyClass_ControllerAction
         $this->mySessionStart();
         $this->restoreNamespace->typeRestore = 'restore_recent';
         $this->restoreNamespace->ClientNameFrom = addslashes( $this->_request->getParam('client_name_from', null) );
-        $this->restoreNamespace->FileSet		= addslashes( $this->_request->getParam('fileset', null) );
-        $this->restoreNamespace->DateBefore		= addslashes( trim(
-        trim( $this->_request->getParam('date_before', null) ) . ' ' . trim( $this->_request->getParam('time_before', null) )
+        $this->restoreNamespace->FileSet        = addslashes( $this->_request->getParam('fileset', null) );
+        $this->restoreNamespace->DateBefore     = addslashes( trim(
+            trim( $this->_request->getParam('date_before', null) ) . ' ' . trim( $this->_request->getParam('time_before', null) )
             ) );
         switch ( $choice_recent ) {
             case 'restore_recent_all': // Restore All
@@ -227,6 +227,36 @@ class RestorejobController extends MyClass_ControllerAction
             case 'restore_recent_select': // Select Files to Restore
                 $this->_forward('select-backups-before-date', null, null, null);
             break;
+        }
+    }
+
+    /**
+     * 12: Select full restore to a specified JobId
+     * Manager of action depending on the user's choice
+     * Диспетчер действий в зависимости от выбора пользователя
+     *
+     */
+    public function restoreFullJobidChoiceAction()
+    {
+        // user made a choice in the form of "Restore Job" restorejob/main-form
+        // сделан выбор в форме "Restore Job" restorejob/main-form
+        $choice  = addslashes( $this->_request->getParam('choice_full_jobid', '') );
+        $jobid   = intval( $this->_request->getParam('jobid', null) );
+        // get job record
+        Zend_Loader::loadClass('Job');
+        $job = new Job();
+        $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
+        $job_row = $ajob[0];
+        // store the data in the session / запоминаем данные в сессии
+        $this->mySessionStart();
+        $this->restoreNamespace->typeRestore = 'restore_recent';
+        $this->restoreNamespace->ClientNameFrom = $job_row['clientname'];
+        $this->restoreNamespace->FileSet        = $job_row['fileset'];
+        $this->restoreNamespace->DateBefore     = $job_row['starttimeraw'];
+        switch ( $choice )  {
+            case 'restore_select_full_jobid':
+                $this->_forward('select-backups-before-date', null, null, null);
+                break;
         }
     }
 
@@ -543,7 +573,7 @@ EOF"
         $this->restoreNamespace->ClientIdFrom = $client->getClientId($this->restoreNamespace->ClientNameFrom);
 
         if ( !empty($this->restoreNamespace->DateBefore) ) {
-            $date_before = " AND Job.StartTime<'".$this->restoreNamespace->DateBefore."'";
+            $date_before = " AND Job.StartTime<='".$this->restoreNamespace->DateBefore."'";
         } else {
             $date_before = '';
         }

@@ -44,7 +44,9 @@ $j(function() {
 
 <script type="text/javascript">
 $j(function() {
-	$j("#tabs").tabs();
+    $j("#accordion").accordion({
+            autoHeight: false
+        });
 });
 </script>
 
@@ -69,18 +71,14 @@ $j(function() {
 ?>
 
 
-<div class="restore" style="width: 560px; margin-left: auto; margin-right: auto; text-align: left;">
 
-<div id="tabs">
-    <ul>
-        <li><a href="#tabs1"><?php print $this->translate->_("JobId"); ?></a></li>
-        <li><a href="#tabs2"><?php print $this->translate->_("Most recent backup"); ?></a></li>
-        <li><a href="#tabs3"><?php print $this->translate->_("Before a time"); ?></a></li>
-    </ul>
+<div style="width: 70%; margin-left: auto; margin-right: auto;">
+<div id="accordion" style="text-align: left;">
 
 
 <!--    Restore files for JobId -->
-    <div id="tabs1">
+<h3><a href="#"><?php print $this->translate->_("Restore to a specified JobId"); ?></a></h3>
+<div>
 <?php if ( !empty($this->msgNoJobId) ) : ?>
 <div class="ui-widget">
 	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
@@ -91,12 +89,11 @@ $j(function() {
 <?php endif;?>
 
 <p>
-<div align="center">
 <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
     <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
-</div>
-        <p>
-        <form action="<?php  echo $this->baseUrl.'/restorejob/restore-choice';?>" method="post">
+<p>
+
+<form action="<?php  echo $this->baseUrl.'/restorejob/restore-choice';?>" method="post">
 <?php echo $this->formHidden('beginr', '1', null); ?>
 <div style="text-align: left; padding: 10px;">
     <label>
@@ -114,8 +111,9 @@ $j(function() {
 
 <div style="text-align: left; padding: 10px;">
 <?php echo $this->formRadio('choice', 'restore_all', null,
-        array('restore_all'    => $this->translate->_('Restore All files for JobId'),
-              'restore_select' => $this->translate->_('Select Files for Restore') )); ?>
+        array('restore_all'    => $this->translate->_('Restore All files'),
+              'restore_select' => $this->translate->_('Select Files for Restore')
+ )); ?>
 </div>
 <br>
 <div style="text-align: center; margin: 5px;">
@@ -130,10 +128,62 @@ $j(function() {
 
 
 
+<!--    full restore to a specified JobId  -->
+<h3><a href="#"><?php print $this->translate->_("Full restore to a specified JobId"); ?></a></h3>
+<div>
+<?php if ( !empty($this->msgNoJobId) ) : ?>
+<div class="ui-widget">
+    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php echo $this->msgNoJobId; ?></strong></p>
+    </div>
+</div>
+<?php endif;?>
+
+<p>
+<div align="center">
+<a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
+    <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
+</div>
+        <p>
+        <form action="<?php  echo $this->baseUrl.'/restorejob/restore-full-jobid-choice';?>" method="post">
+<?php echo $this->formHidden('beginr', '1', null); ?>
+<div style="text-align: left; padding: 10px;">
+    <label>
+    <b><?php print $this->translate->_("Job Id"); ?></b>
+    <?php
+        if ( $this->jobid ) {
+            $val = $this->jobid;
+        } else {
+            $val = '';
+        }
+        echo $this->formText('jobid', $val, array('size' => 16));
+    ?>
+    </label>
+</div>
+
+<div style="text-align: left; padding: 10px;">
+<?php echo $this->formRadio('choice_full_jobid', 'restore_select_full_jobid', null,
+        array('restore_select_full_jobid' => $this->translate->_('Select Files for Restore')
+ )); ?>
+</div>
+<br>
+<div style="text-align: center; margin: 5px;">
+    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
+         "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    ?>
+    <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+</div>
+</form>
+    </div>
+<!-- END    full restore to a specified JobId -->
+
+
+
 <!--    Restore the most recent backup for a client -->
-    <div id="tabs2">
-    <p><b><?php print $this->translate->_("Restore the most recent backup for a client"); ?></b></p>
-    <p>
+<h3><a href="#"><?php print $this->translate->_("Restore the most recent backup for a client"); ?></a></h3>
+<div>
+<p>
 <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
 <table border="0" cellpadding="5" cellspacing="5" align="center" width="70%">
 <tr><td>
@@ -174,9 +224,9 @@ $j(function() {
 
 
 <!-- Restore backup for a client before a specified time -->
-    <div id="tabs3">
-    <p><b><?php print $this->translate->_("Restore backup for a client before a specified time"); ?></b></p>
-    <p>
+<h3><a href="#"><?php print $this->translate->_("Restore backup for a client before a specified time"); ?></a></h3>
+<div>
+<p>
 <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
 <table border="0" cellpadding="5" cellspacing="5" align="center" width="70%">
 <tr><td>
