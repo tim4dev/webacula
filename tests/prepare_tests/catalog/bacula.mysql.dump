@@ -1,0 +1,117 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: bacula
+-- ------------------------------------------------------
+-- Server version	5.0.84
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Dumping data for table `File`
+--
+
+LOCK TABLES `File` WRITE;
+/*!40000 ALTER TABLE `File` DISABLE KEYS */;
+INSERT INTO `File` VALUES (1,1,1,1,1,0,'A A IH/ B A A A j A A BK97DP BK97DP BK97C+ A A M','Y/wGYwWMxBODY/GRm1ACBQ'),(2,5,1,2,1,0,'A A IH/ B A A A CU A A BK97Dv BK97Dv BK97DD A A M','+Mxq8kNtH6Npt9NgScEoJA'),(3,9,1,3,1,0,'A A IH/ B A A A Bl A A BK97EQ BK97EQ BK97DH A A M','XO+OErz78cEZPm+aqbWiWQ'),(4,13,1,4,1,0,'A A IH/ B A A A G A A BK97Ce BK97Ce BK97B6 A A M','QialzkHy0dGNa7I3kte7aQ'),(5,17,1,5,1,0,'A A IH/ B A A A j A A BK97F0 BK97DP BK97F0 A A M','Y/wGYwWMxBODY/GRm1ACBQ'),(6,21,1,6,1,0,'A A IH/ B A A A CU A A BK97F0 BK97Dv BK97F0 A A M','+Mxq8kNtH6Npt9NgScEoJA'),(7,25,1,7,1,0,'A A IH/ B A A A Bl A A BK97F0 BK97EQ BK97F0 A A M','XO+OErz78cEZPm+aqbWiWQ'),(8,29,1,8,1,0,'A A IH/ B A A A G A A BK97F0 BK97Ce BK97F0 A A M','QialzkHy0dGNa7I3kte7aQ'),(9,33,1,9,1,0,'A A IH/ B A A A j A A BK97GI BK97DP BK97GI A A M','nJnu+5oJTt0w3ZFYY6pCsA'),(10,37,1,10,1,0,'A A IH/ B A A A CU A A BK97GI BK97Dv BK97GI A A M','PYg8BT1dWtAMRNOwVz+uwQ'),(11,41,1,11,1,0,'A A IH/ B A A A Bl A A BK97GI BK97EQ BK97GI A A M','z3HVA23tuFrl1tgnH9hbwA'),(12,45,1,12,1,0,'A A IH/ B A A A G A A BK97GI BK97Ce BK97GI A A M','jVl4lLjsN8Eu3gkUvZ6Z6A'),(13,2,1,1,2,0,'A A IH/ B A A A o A A BK97DV BK97DV BK97C+ A A M','qssP4BWCIXPTiZYr5dli5A'),(14,6,1,2,2,0,'A A IH/ B A A A Bi A A BK97D8 BK97D8 BK97DD A A M','HDAih25RMDXZ6+yQoiJz4w'),(15,10,1,3,2,0,'A A IH/ B A A A 1 A A BK97EY BK97EY BK97DH A A M','VrfY2+tYwknO0fLbI6CvlA'),(16,14,1,4,2,0,'A A IH/ B A A A G A A BK97Cz BK97Ce BK97Cz A A M','QialzkHy0dGNa7I3kte7aQ'),(17,18,1,5,2,0,'A A IH/ B A A A o A A BK97F0 BK97DV BK97F0 A A M','qssP4BWCIXPTiZYr5dli5A'),(18,22,1,6,2,0,'A A IH/ B A A A Bi A A BK97F0 BK97D8 BK97F0 A A M','HDAih25RMDXZ6+yQoiJz4w'),(19,26,1,7,2,0,'A A IH/ B A A A 1 A A BK97F0 BK97EY BK97F0 A A M','VrfY2+tYwknO0fLbI6CvlA'),(20,30,1,8,2,0,'A A IH/ B A A A G A A BK97F0 BK97Ce BK97F0 A A M','QialzkHy0dGNa7I3kte7aQ'),(21,34,1,9,2,0,'A A IH/ B A A A o A A BK97GI BK97DV BK97GI A A M','lpOzxAITWyq6qYvdKYe5kw'),(22,38,1,10,2,0,'A A IH/ B A A A Bi A A BK97GI BK97D8 BK97GI A A M','+AOIVz30qQXpDb5ktI0MgA'),(23,42,1,11,2,0,'A A IH/ B A A A 1 A A BK97GI BK97EY BK97GI A A M','LIkSDYNz8Wr/6xgEQSge9w'),(24,46,1,12,2,0,'A A IH/ B A A A G A A BK97GI BK97Ce BK97GI A A M','jVl4lLjsN8Eu3gkUvZ6Z6A'),(25,3,1,1,3,0,'A A IH/ B A A A o A A BK97Da BK97Da BK97C+ A A M','QUpjgS/1IFy5/gwNG5t1tw'),(26,7,1,2,3,0,'A A IH/ B A A A BA A A BK97EG BK97EG BK97DD A A M','azrz761TPAhFcUy9uby/iQ'),(27,11,1,3,3,0,'A A IH/ B A A A 6 A A BK97GI BK97Ee BK97DH A A M','3UCXg8RHZ0DVe/m05YP7BA'),(28,15,1,4,3,0,'A A IH/ B A A A G A A BK97C5 BK97Ce BK97C5 A A M','QialzkHy0dGNa7I3kte7aQ'),(29,19,1,5,3,0,'A A IH/ B A A A o A A BK97F0 BK97Da BK97F0 A A M','QUpjgS/1IFy5/gwNG5t1tw'),(30,23,1,6,3,0,'A A IH/ B A A A BA A A BK97F0 BK97EG BK97F0 A A M','azrz761TPAhFcUy9uby/iQ'),(31,27,1,7,3,0,'A A IH/ B A A A 6 A A BK97F0 BK97Ee BK97F0 A A M','3UCXg8RHZ0DVe/m05YP7BA'),(32,31,1,8,3,0,'A A IH/ B A A A G A A BK97F0 BK97Ce BK97F0 A A M','QialzkHy0dGNa7I3kte7aQ'),(33,35,1,9,3,0,'A A IH/ B A A A o A A BK97GI BK97Da BK97GI A A M','SlHJ8a9iUD4dwaaL8Q0//A'),(34,39,1,10,3,0,'A A IH/ B A A A BA A A BK97GI BK97EG BK97GI A A M','t9HP+4laCc/8WxL0+k+5ZQ'),(35,43,1,11,3,0,'A A IH/ B A A A 6 A A BK97GI BK97Ee BK97GI A A M','BaaPGnSikaBRb/dTL815zg'),(36,47,1,12,3,0,'A A IH/ B A A A G A A BK97GI BK97Ce BK97GI A A M','jVl4lLjsN8Eu3gkUvZ6Z6A'),(37,4,1,1,4,0,'A A EH/ B A A A A A A BK97C+ BK97C+ BK97Bp A A M','0'),(38,8,1,2,4,0,'A A EH/ B A A A A A A BK97DD BK97DD BK97Bt A A M','0'),(39,12,1,3,4,0,'A A EH/ B A A A A A A BK97DH BK97DH BK97Bw A A M','0'),(40,16,1,4,4,0,'A A EH/ B A A A A A A BK97C5 BK97C5 BK97Bm A A M','0'),(41,20,1,5,4,0,'A A EH/ B A A A A A A BK97O6 BK97F0 BK97F0 A A M','0'),(42,24,1,6,4,0,'A A EH/ B A A A A A A BK97O6 BK97F0 BK97F0 A A M','0'),(43,28,1,7,4,0,'A A EH/ B A A A A A A BK97O6 BK97F0 BK97F0 A A M','0'),(44,32,1,8,4,0,'A A EH/ B A A A A A A BK97F0 BK97F0 BK97F0 A A M','0'),(45,36,1,9,4,0,'A A EH/ B A A A A A A BK97O6 BK97GI BK97GI A A M','0'),(46,40,1,10,4,0,'A A EH/ B A A A A A A BK97O6 BK97GI BK97GI A A M','0'),(47,44,1,11,4,0,'A A EH/ B A A A A A A BK97O6 BK97GI BK97GI A A M','0'),(48,48,1,12,4,0,'A A EH/ B A A A A A A BK97GI BK97GI BJdHSp A A M','0');
+/*!40000 ALTER TABLE `File` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Filename`
+--
+
+LOCK TABLES `Filename` WRITE;
+/*!40000 ALTER TABLE `Filename` DISABLE KEYS */;
+INSERT INTO `Filename` VALUES (1,'test01.txt'),(2,'test 0 2.txt'),(3,'test тест 03.txt'),(4,'');
+/*!40000 ALTER TABLE `Filename` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Job`
+--
+
+LOCK TABLES `Job` WRITE;
+/*!40000 ALTER TABLE `Job` DISABLE KEYS */;
+INSERT INTO `Job` VALUES (1,'job.win32.b.01.file.2009-11-09_09.12.55_03','job.win32.b.01.file','B','F',2,'T','2009-11-09 09:12:55','2009-11-09 09:12:57','2009-11-09 09:13:10','2009-11-09 09:13:10',1257750790,1,1257750765,48,6020,12173,0,0,2,1,0,0,0);
+/*!40000 ALTER TABLE `Job` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Log`
+--
+
+LOCK TABLES `Log` WRITE;
+/*!40000 ALTER TABLE `Log` DISABLE KEYS */;
+INSERT INTO `Log` VALUES (1,1,'2009-11-09 09:12:55','main.dir JobId 1: No prior Full backup Job record found.\n\0'),(2,1,'2009-11-09 09:12:55','main.dir JobId 1: No prior or suitable Full backup found in catalog. Doing FULL backup.\n\0'),(3,1,'2009-11-09 09:12:57','main.dir JobId 1: Start Backup JobId 1, Job=job.win32.b.01.file.2009-11-09_09.12.55_03\n\0'),(4,1,'2009-11-09 09:12:57','main.dir JobId 1: Created new Volume \"pool.file.7d.0001\" in catalog.\n\0'),(5,1,'2009-11-09 09:12:57','main.dir JobId 1: Using Device \"dev.file.storage.1\"\n\0'),(6,1,'2009-11-09 09:12:58','Storage1 JobId 1: Labeled new Volume \"pool.file.7d.0001\" on device \"dev.file.storage.1\" (/tmp/webacula/dev).\n\0'),(7,1,'2009-11-09 09:12:58','Storage1 JobId 1: Wrote label to prelabeled Volume \"pool.file.7d.0001\" on device \"dev.file.storage.1\" (/tmp/webacula/dev)\n\0'),(8,1,'2009-11-09 09:09:47','win32-fd JobId 1: Generate VSS snapshots. Driver=\"VSS Win 2003\", Drive(s)=\"CDE\"\n\0'),(9,1,'2009-11-09 09:13:10','Storage1 JobId 1: Job write elapsed time = 00:00:12, Transfer rate = 1.020 K bytes/second\n\0'),(10,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"System Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(11,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"MSDEWriter\", State: 0x1 (VSS_WS_STABLE)\n\0'),(12,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"TermServLicensing\", State: 0x1 (VSS_WS_STABLE)\n\0'),(13,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"Registry Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(14,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"COM+ REGDB Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(15,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"Event Log Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(16,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"BITS Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(17,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"WMI Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(18,1,'2009-11-09 09:13:10','main.dir JobId 1: Bacula main.dir 3.0.3 (18Oct09): 09-Ноя-2009 09:13:10\n  Build OS:               i686-pc-linux-gnu redhat \n  JobId:                  1\n  Job:                    job.win32.b.01.file.2009-11-09_09.12.55_03\n  Backup Level:           Full (upgraded from Incremental)\n  Client:                 \"win32.fd\" 3.0.1 (28Apr09) Linux,Cross-compile,Win32\n  FileSet:                \"file.set.win32\" 2009-11-09 09:12:55\n  Pool:                   \"pool.file.7d\" (From Job resource)\n  Catalog:                \"MyCatalog\" (From Client resource)\n  Storage:                \"storage.file.1\" (From Pool resource)\n  Scheduled time:         09-Ноя-2009 09:12:55\n  Start time:             09-Ноя-2009 09:12:57\n  End time:               09-Ноя-2009 09:13:10\n  Elapsed time:           13 secs\n  Priority:               10\n  FD Files Written:       48\n  SD Files Written:       48\n  FD Bytes Written:       6,020 (6.020 KB)\n  SD Bytes Written:       12,243 (12.24 KB)\n  Rate:                   0.5 KB/s\n  Software Compression:   50.5 %\n  VSS:                    yes\n  Encryption:             no\n  Accurate:               no\n  Volume name(s):         pool.file.7d.0001\n  Volume Session Id:      1\n  Volume Session Time:    1257750765\n  Last Volume Bytes:      14,497 (14.49 KB)\n  Non-fatal FD errors:    0\n  SD Errors:              0\n  FD termination status:  OK\n  SD termination status:  OK\n  Termination:            Backup OK\n\n\0'),(19,1,'2009-11-09 09:13:10','main.dir JobId 1: Begin pruning Jobs.\n\0'),(20,1,'2009-11-09 09:13:10','main.dir JobId 1: No Jobs found to prune.\n\0'),(21,1,'2009-11-09 09:13:10','main.dir JobId 1: Begin pruning Files.\n\0'),(22,1,'2009-11-09 09:13:10','main.dir JobId 1: No Files found to prune.\n\0'),(23,1,'2009-11-09 09:13:10','main.dir JobId 1: End auto prune.\n\n\0');
+/*!40000 ALTER TABLE `Log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Media`
+--
+
+LOCK TABLES `Media` WRITE;
+/*!40000 ALTER TABLE `Media` DISABLE KEYS */;
+INSERT INTO `Media` VALUES (1,'pool.file.7d.0001',0,2,'file.1',0,0,'2009-11-09 09:12:57','2009-11-09 09:13:10','2009-11-09 09:12:57',1,0,1,1,14497,0,0,2,0,'Append',1,1,0,604800,0,0,0,204800,0,1,0,0,0,61,0,14496,0,0,'0000-00-00 00:00:00',0,0,NULL);
+/*!40000 ALTER TABLE `Media` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `JobMedia`
+--
+LOCK TABLES `JobMedia` WRITE;
+/*!40000 ALTER TABLE `JobMedia` DISABLE KEYS */;
+INSERT INTO `JobMedia` VALUES (1,1,1,1,48,0,0,216,14496,1,0,0);
+/*!40000 ALTER TABLE `JobMedia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `MediaType`
+--
+
+LOCK TABLES `MediaType` WRITE;
+/*!40000 ALTER TABLE `MediaType` DISABLE KEYS */;
+INSERT INTO `MediaType` VALUES (1,'file.1',0),(2,'file.2',0);
+/*!40000 ALTER TABLE `MediaType` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Path`
+--
+
+LOCK TABLES `Path` WRITE;
+/*!40000 ALTER TABLE `Path` DISABLE KEYS */;
+INSERT INTO `Path` VALUES (1,'c:/bacula/test/dir01/'),(2,'c:/bacula/test/dir02/'),(3,'c:/bacula/test/dir03/'),(4,'c:/bacula/test/'),(5,'d:/test/dir01/'),(6,'d:/test/dir02/'),(7,'d:/test/dir03/'),(8,'d:/test/'),(9,'e:/test/dir01/'),(10,'e:/test/dir02/'),(11,'e:/test/dir03/'),(12,'e:/test/');
+/*!40000 ALTER TABLE `Path` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Pool`
+--
+
+LOCK TABLES `Pool` WRITE;
+/*!40000 ALTER TABLE `Pool` DISABLE KEYS */;
+INSERT INTO `Pool` VALUES (1,'Default',0,0,0,1,0,1209600,0,0,0,0,1,1,0,'Backup',0,'*',1,0,0,0,0,0,0),(2,'pool.file.7d',1,0,0,1,0,604800,0,0,0,204800,1,1,0,'Backup',0,'pool.file.7d.',1,0,0,0,0,0,0);
+/*!40000 ALTER TABLE `Pool` ENABLE KEYS */;
+UNLOCK TABLES;
+
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2009-11-09  9:15:39

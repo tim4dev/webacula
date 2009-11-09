@@ -41,7 +41,13 @@ class RestoreControllerTest extends ControllerTestCase
      */
     public function testRestoreSelectJobId() {
         print "\n".__METHOD__;
-        $jobid = 3;
+        // setup
+        $jobid = 4;
+        $fileid = 3660;
+        $filename = 'file31.dat';
+        $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
+        $tsleep = 20; // sec. wait to restore
+        
         $jobidhash = md5($jobid);
         // clear all tmp-tables
         $this->WbTmpTable = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
@@ -102,7 +108,7 @@ class RestoreControllerTest extends ControllerTestCase
 
         // mark file ajax
         echo "\n\t* Mark file (ajax). ";
-        $json = Zend_Json::encode( array('fileid' => 3612, 'jobidhash' => $jobidhash) );
+        $json = Zend_Json::encode( array('fileid' => $fileid, 'jobidhash' => $jobidhash) );
         $this->getRequest()
              ->setParams(array(
                 'data' => $json
@@ -111,7 +117,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->dispatch('restorejob/mark-file');
         // recieve json
         $data = Zend_Json::decode( $this->response->outputBody() );
-        if ( ($data['allok'] != 1) || ($data['total_files'] < 1) || ($data['filename'] != 'file31.dat') )
+        if ( ($data['allok'] != 1) || ($data['total_files'] < 1) || ($data['filename'] != $filename) )
             $this->assertTrue(FALSE, "\nMark file fail!\n");
         echo "OK. File affected = ", $data['filename'];
         $this->resetRequest()
@@ -119,7 +125,7 @@ class RestoreControllerTest extends ControllerTestCase
 
         // Unmark file ajax
         echo "\n\t* Unmark file (ajax). ";
-        $json = Zend_Json::encode( array('fileid' => 3612, 'jobidhash' => $jobidhash) );
+        $json = Zend_Json::encode( array('fileid' => $fileid, 'jobidhash' => $jobidhash) );
         $this->getRequest()
              ->setParams(array(
                 'data' => $json
@@ -128,7 +134,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->dispatch('restorejob/unmark-file');
         // recieve json
         $data = Zend_Json::decode( $this->response->outputBody() );
-        if ( ($data['allok'] != 1) || ($data['total_files'] = 0) || ($data['filename'] != 'file31.dat') )
+        if ( ($data['allok'] != 1) || ($data['total_files'] = 0) || ($data['filename'] != $filename) )
             $this->assertTrue(FALSE, "\nUnmark file fail!\n");
         echo "OK. File affected = ", $data['filename'];
         $this->resetRequest()
@@ -137,13 +143,12 @@ class RestoreControllerTest extends ControllerTestCase
         /*
          * Restore file
          */
-        $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/file31.dat';
         if (file_exists($file31_dat)) {
             unlink($file31_dat);
         }
         // mark file ajax
         echo "\n\t* Restore file: ";
-        $json = Zend_Json::encode( array('fileid' => 3612, 'jobidhash' => $jobidhash) );
+        $json = Zend_Json::encode( array('fileid' => $fileid, 'jobidhash' => $jobidhash) );
         $this->getRequest()
              ->setParams(array(
                 'data' => $json
@@ -152,7 +157,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->dispatch('restorejob/mark-file');
         // recieve json
         $data = Zend_Json::decode( $this->response->outputBody() );
-        if ( ($data['allok'] != 1) || ($data['total_files'] < 1) || ($data['filename'] != 'file31.dat') )
+        if ( ($data['allok'] != 1) || ($data['total_files'] < 1) || ($data['filename'] != $filename) )
             $this->assertTrue(FALSE, "\nMark file fail!\n");
         $this->resetRequest()
              ->resetResponse();
@@ -178,8 +183,8 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertNotQueryContentRegex('div', '/Error/i');
         $this->resetRequest()
              ->resetResponse();
-        echo " Goto run-restore - OK. Waiting to restore ... ";
-        sleep(20);
+        echo " Goto run-restore - OK. Waiting  $tsleep sec. to restore ... ";
+        sleep($tsleep);
         if ( !file_exists($file31_dat) ) {
             $this->assertTrue(FALSE, "\nFile not restore : $file31_dat\n");
         }

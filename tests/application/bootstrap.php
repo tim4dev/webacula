@@ -5,9 +5,10 @@ error_reporting( E_ALL | E_STRICT );
 
 /* Determine the root and library directories of the application */
 $appRoot = realpath(dirname(__FILE__) . '/../..');
-$libDir = "$appRoot/library";
+$libDir   = "$appRoot/library";
 $modelDir = "$appRoot/application/models";
-$path = array($libDir, $modelDir, get_include_path());
+$formDir  = "$appRoot/application/forms";
+$path = array( $libDir, $modelDir, $formDir, get_include_path() );
 set_include_path(implode(PATH_SEPARATOR, $path));
 
 defined('APPLICATION_PATH')

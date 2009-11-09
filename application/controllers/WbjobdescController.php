@@ -66,7 +66,7 @@ class WbjobdescController extends MyClass_ControllerAction
                 try {
                     $rows_affected = $table->insert($data);
                     if ($rows_affected) {
-                        $this->_helper->redirector('index'); // action, controller
+                        $this->_helper->redirector('index');
                         return;
                     }
                 } catch (Zend_Exception $e) {

@@ -177,7 +177,7 @@ class JobControllerTest extends ControllerTestCase
     {
         print "\n".__METHOD__.' ';
         $this->getRequest()
-             ->setParams(array("jobid" => "4"))
+             ->setParams(array("jobid" => "5"))
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
         $this->assertModule('default');
@@ -283,7 +283,7 @@ class JobControllerTest extends ControllerTestCase
     public function testDetailJob()
     {
         print "\n".__METHOD__.' ';
-        $this->dispatch('job/detail/jobid/2');
+        $this->dispatch('job/detail/jobid/3');
         $this->assertController('job');
         $this->assertAction('detail');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework

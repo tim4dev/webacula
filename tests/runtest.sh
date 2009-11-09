@@ -56,8 +56,9 @@ echo "Main tests"
 echo -e "${LINE1}\n"
 phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
 echo "ret=$?"
-if test $? -ne 0; then
-    exit $?
+if [ $? -ne 0 ]
+then
+    exit 111
 fi
 
 # Prepare testing other DBMS
@@ -75,8 +76,9 @@ echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
 echo "ret=$?"
-if test $? -ne 0; then
-    exit $?
+if [ $? -ne 0 ]
+then
+    exit 111
 fi
 
 
@@ -87,8 +89,9 @@ echo -e "${LINE1}\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
 phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
 echo "ret=$?"
-if test $? -ne 0; then
-    exit $?
+if [ $? -ne 0 ]
+then
+    exit 111
 fi
 
 cp -f ../application/config.ini.original  ../application/config.ini

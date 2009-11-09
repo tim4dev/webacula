@@ -151,6 +151,10 @@ dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test41.dat" bs=1024 count=600
 dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500
 
 
+my_log "Import data for Win32 backup ..."
+cp -f dev/pool.file.7d.0001 "${TMPDIR}/dev/"
+mysql -u root bacula < catalog/bacula.mysql.dump
+
 
 my_log "Run backup 1 ..."
 
@@ -247,9 +251,9 @@ rm -r -f  ${TMPDIR}/log/*
 my_log "Make Job with errors"
 if mysql -f <<END-OF-DATA
 USE bacula;
-update Job set JobErrors=99 where JobId=2;
-update Job set JobErrors=9  where JobId=10;
-update Job set JobStatus='R'  where JobId=11;
+update Job set JobErrors=99 where JobId=3;
+update Job set JobErrors=9  where JobId=11;
+update Job set JobStatus='R'  where JobId=12;
 END-OF-DATA
 then
 	echo "Succeeded."

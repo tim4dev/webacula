@@ -15,6 +15,7 @@ require_once dirname ( __FILE__ ) . '/HelpControllerTest.php';
 require_once dirname ( __FILE__ ) . '/OtherControllerTest.php';
 require_once dirname ( __FILE__ ) . '/ErrorControllerTest.php';
 require_once dirname ( __FILE__ ) . '/RestoreControllerTest.php';
+require_once dirname ( __FILE__ ) . '/WbjobdescControllerTest.php';
 
 class ControllersAllTests {
 
@@ -40,6 +41,7 @@ class ControllersAllTests {
 		$suite->addTestSuite ( 'OtherControllerTest' );
 		$suite->addTestSuite ( 'ErrorControllerTest' );
 		$suite->addTestSuite ( 'RestoreControllerTest' );
+		$suite->addTestSuite ( 'WbjobdescControllerTest' );
 		return $suite;
 	}
 }

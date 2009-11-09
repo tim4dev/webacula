@@ -13,7 +13,10 @@ class DirectorControllerTest extends ControllerTestCase
         parent::tearDown();
     }
 
-	public function testDirectorListjobtotals()
+    /**
+    * @group director
+    */
+    public function testDirectorListjobtotals()
     {
         print "\n".__METHOD__.' ';
         $this->dispatch('/director/listjobtotals');
@@ -27,7 +30,7 @@ class DirectorControllerTest extends ControllerTestCase
     }
 
    /**
-    * @group use-bconsole
+    * @group director
     */
     public function testDirectorStatusdir() {
         print "\n" . __METHOD__ . ' ';
@@ -41,11 +44,7 @@ class DirectorControllerTest extends ControllerTestCase
         $this->assertQueryContentContains ( 'div', '1000 OK: main.dir' );
         $this->assertNotQueryContentRegex ( 'div', '/Error/i' );
         // http://by.php.net/manual/en/function.preg-match.php
-        $this->assertQueryContentRegex ( 'div', "/6  Incr .* OK .* job-name-test-3/" );
-        $this->assertQueryContentRegex ( 'div', "/7  Diff .* OK .* job.name.test.1/" );
-        $this->assertQueryContentRegex ( 'div', "/8  Incr .* OK .* job_name_test_2/" );
-        $this->assertQueryContentRegex ( 'div', "/9  Incr .* OK .* job-name-test-3/" );
-        $this->assertQueryContentRegex ( 'div', "/10  Full.* OK .* job.name.test.4/" );
+        $this->assertQueryContentRegex ( 'div', "/7  Incr .* OK .* job-name-test-3/" );
         $this->assertQueryContentRegex ( 'div', "/11  Full.* OK .* job.name.test.4/" );
     }
 

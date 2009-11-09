@@ -18,7 +18,7 @@ class FileControllerTest extends ControllerTestCase
     public function testFileList ()
     {
         print "\n" . __METHOD__ . ' ';
-        $this->dispatch('file/list/jobid/2/page/1');
+        $this->dispatch('file/list/jobid/3/page/1');
         $this->assertController('file');
         $this->assertAction('list');
         //echo $this->response->outputBody(); // for debug !!!
