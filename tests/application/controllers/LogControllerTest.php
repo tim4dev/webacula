@@ -1,7 +1,7 @@
 <?php
 class LogControllerTest extends ControllerTestCase
 {
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
+    const ZF_pattern = '/Exception:|Notice:|Call Stack/'; // Zend Framework
 
     /**
      * @access protected
@@ -17,7 +17,7 @@ class LogControllerTest extends ControllerTestCase
     public function testViewConsoleLog ()
     {
         print "\n" . __METHOD__ . ' ';
-        $this->dispatch('log/view-log-id/jobid/2/jobname/job name test 2');
+        $this->dispatch('log/view-log-id/jobid/3/jobname/job name test 2');
         $this->assertController('log');
         $this->assertAction('view-log-id');
         //echo $this->response->outputBody(); // for debug !!!
