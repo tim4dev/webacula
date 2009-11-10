@@ -25,7 +25,20 @@
 <?php foreach($this->resultJob as $line) : ?>
 <tr>
 	<td> <?php print $this->translate->_("Job Id"); ?> </td>
-	<td><?php echo $this->escape($line['jobid']);?></td>
+    <td style="padding: 0px;">
+        &nbsp;<?php echo $this->escape($line['jobid']);?>&nbsp;&nbsp;
+        <?php
+            if ( isset($line['poolid'], $line['poolname']) )    {
+                // restore button
+                echo '<a href="';
+                echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
+                echo '" title="', $this->translate->_("Restore Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '"',
+                    ' border="0" hspace="0" align="absmiddle">';
+                echo '</a>';
+            }
+        ?>
+    </td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Unique Job Name"); ?> </td>
 	<td><?php echo $this->escape($line['job']);?></td>

@@ -55,7 +55,7 @@ $j(document).ready(
         <img src="<?= $this->baseUrl ?>/images/document-edit.png" alt="<?= $this->translate->_("Modify record") ?>" border="0" hspace="2">
         </a>
         
-        <a href="<?= $this->baseUrl ?>/wbjobdesc/delete/desc_id/<?= $line['desc_id'] ?>" id="confirm" class="confirm">
+        <a href="<?= $this->baseUrl ?>/wbjobdesc/delete/desc_id/<?= $line['desc_id'] ?>" title="<?= $this->translate->_("Delete record") ?>" id="confirm" class="confirm">
             <img src="<?= $this->baseUrl ?>/images/edit-delete.png" alt="<?= $this->translate->_("Delete record") ?>" border="0" hspace="2">
         </a>
     </td>
