@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-21 12:00+0300\n"
-"PO-Revision-Date: 2009-10-21 12:01+0300\n"
-"Last-Translator: Sven-Hendrik Haase <sh@lutzhaase.com>\n"
+"POT-Creation-Date: 2009-11-10 15:54+0300\n"
+"PO-Revision-Date: 2009-11-10 15:56+0300\n"
+"Last-Translator: Yuri Timofeev <tim4dev@gmail.com>\n"
 "Language-Team: Sven-Hendrik Haase <sh@lutzhaase.com>, Carsten Menke <Carsten.Menke@prozesse-im-unternehmen.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,8 +21,17 @@ msgid "Clients"
 msgstr "Clients"
 
 #: application/controllers/ClientController.php:53
+#: application/controllers/FeedController.php:56
 msgid "Client"
 msgstr "Client"
+
+#: application/controllers/WbjobdescController.php:43
+msgid "Job Descriptions"
+msgstr ""
+
+#: application/controllers/WbjobdescController.php:52
+msgid "Add Job Description"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:79
 msgid "in ascending order"
@@ -33,143 +42,144 @@ msgid "in descending order"
 msgstr "in absteigender Reihenfolge"
 
 #: application/controllers/WblogbookController.php:92
-#: application/controllers/WblogbookController.php:122
-#: application/controllers/WblogbookController.php:209
+#: application/controllers/WblogbookController.php:119
+#: application/controllers/WblogbookController.php:207
 msgid "Logbook"
 msgstr "Logbuch"
 
-#: application/controllers/WblogbookController.php:101
-#: application/controllers/WblogbookController.php:131
+#: application/controllers/WblogbookController.php:100
+#: application/controllers/WblogbookController.php:128
 #, php-format
 msgid " %s (from %s to %s)"
 msgstr " %s (von %s bis %s)"
 
-#: application/controllers/WblogbookController.php:176
+#: application/controllers/WblogbookController.php:174
 #, php-format
 msgid "Logbook by Id %s (from %u to %u)"
 msgstr "Logbuch nach Id %s (von %u bis %u)"
 
-#: application/controllers/WblogbookController.php:209
+#: application/controllers/WblogbookController.php:207
 msgid "Search text"
 msgstr "Suche text"
 
-#: application/controllers/WblogbookController.php:261
-#: application/controllers/WblogbookController.php:429
+#: application/controllers/WblogbookController.php:259
+#: application/controllers/WblogbookController.php:427
 msgid "Create record :"
 msgstr "Eintrag hinzufügen :"
 
-#: application/controllers/WblogbookController.php:262
-#: application/controllers/WblogbookController.php:431
+#: application/controllers/WblogbookController.php:260
+#: application/controllers/WblogbookController.php:429
 msgid "Type record :"
 msgstr "Eintragsart :"
 
-#: application/controllers/WblogbookController.php:263
-#: application/controllers/WblogbookController.php:432
+#: application/controllers/WblogbookController.php:261
+#: application/controllers/WblogbookController.php:430
 msgid "Text :"
 msgstr "Text :"
 
-#: application/controllers/WblogbookController.php:264
+#: application/controllers/WblogbookController.php:262
 msgid "Webacula Logbook Add record"
 msgstr "Webacula Logbuch Eintrag hinzufügen"
 
-#: application/controllers/WblogbookController.php:276
+#: application/controllers/WblogbookController.php:274
+#: application/controllers/WblogbookController.php:542
 msgid "Logbook: add new record"
 msgstr "Logbuch: neuen Eintrag hinzufügen"
 
-#: application/controllers/WblogbookController.php:360
+#: application/controllers/WblogbookController.php:358
 msgid "Logbook: modify record"
 msgstr "Logbuch: Eintrag verändern"
 
-#: application/controllers/WblogbookController.php:430
+#: application/controllers/WblogbookController.php:428
 msgid "Update record :"
 msgstr "Eintrag verändern :"
 
-#: application/controllers/WblogbookController.php:433
+#: application/controllers/WblogbookController.php:431
 msgid "Webacula Logbook Update record"
 msgstr "Webacula Logbuch Eintrag aktualisieren"
 
-#: application/controllers/WblogbookController.php:465
-#: application/controllers/WblogbookController.php:492
+#: application/controllers/WblogbookController.php:463
+#: application/controllers/WblogbookController.php:490
 msgid "LogId record :"
 msgstr "LogId Eintrag :"
 
-#: application/controllers/WblogbookController.php:466
+#: application/controllers/WblogbookController.php:464
 msgid "Webacula Logbook Delete record"
 msgstr ""
 
-#: application/controllers/WblogbookController.php:493
+#: application/controllers/WblogbookController.php:491
 msgid "Webacula Logbook UnDelete record"
 msgstr "Webacula Logbuch Eintrag löschen rückgängig"
 
-#: application/controllers/ChartController.php:81
-#: application/controllers/JobController.php:298
+#: application/controllers/ChartController.php:79
+#: application/controllers/JobController.php:299
 msgid "ERROR: The GD extension isn`t loaded. Please install php-gd package."
 msgstr "FEHLER: Die GD Erweiterung ist nicht geladen. Bitte das php-gd Paket installieren."
 
-#: application/controllers/ChartController.php:204
+#: application/controllers/ChartController.php:202
 msgid "Hours"
 msgstr "Stunden"
 
-#: application/controllers/RestorejobController.php:123
-#: application/controllers/RestorejobController.php:232
-#: application/controllers/RestorejobController.php:428
-#: application/controllers/RestorejobController.php:472
+#: application/controllers/RestorejobController.php:174
+#: application/controllers/RestorejobController.php:299
+#: application/controllers/RestorejobController.php:505
 #: application/controllers/RestorejobController.php:549
-#: application/controllers/RestorejobController.php:573
+#: application/controllers/RestorejobController.php:636
+#: application/controllers/RestorejobController.php:665
 msgid "Restore Job"
 msgstr "Auftrag wiederherstellen"
 
-#: application/controllers/RestorejobController.php:223
+#: application/controllers/RestorejobController.php:290
 msgid "Restore All files for JobId"
 msgstr "Alle Dateien für AuftragsId wiederherstellen"
 
-#: application/controllers/RestorejobController.php:234
-#: application/controllers/RestorejobController.php:430
+#: application/controllers/RestorejobController.php:301
+#: application/controllers/RestorejobController.php:507
 #, php-format
 msgid "JobId %u does not exist."
 msgstr "AuftragsId %u does not exist."
 
-#: application/controllers/RestorejobController.php:343
+#: application/controllers/RestorejobController.php:415
 msgid "Restore All files"
 msgstr "Alle Dateien wiederherstellen"
 
-#: application/controllers/RestorejobController.php:503
+#: application/controllers/RestorejobController.php:585
 #, php-format
 msgid "No Full backup before %s found."
 msgstr "Keine Vollsicherung vor %s gefunden."
 
-#: application/controllers/RestorejobController.php:516
+#: application/controllers/RestorejobController.php:598
 msgid "You have selected the following JobIds"
 msgstr "Sie haben die folgenden AuftragsIds ausgewählt"
 
-#: application/controllers/RestorejobController.php:833
+#: application/controllers/RestorejobController.php:933
 #, php-format
 msgid "%s<br>(%s dirs and files affected)"
 msgstr "%s<br>(%s Verzeichnisse und Dateien betroffen)"
 
-#: application/controllers/RestorejobController.php:835
-#: application/controllers/RestorejobController.php:882
+#: application/controllers/RestorejobController.php:935
+#: application/controllers/RestorejobController.php:985
 msgid "internal program error !"
 msgstr "Interner Programmfehler !"
 
-#: application/controllers/RestorejobController.php:880
+#: application/controllers/RestorejobController.php:983
 #, php-format
 msgid "%s<br>(%s dirs, %s files affected)"
 msgstr "%s<br>(%s Verzeichnisse, %s Dateien betroffen)"
 
-#: application/controllers/RestorejobController.php:949
+#: application/controllers/RestorejobController.php:1061
 msgid "List of Files to Restore for JobId"
 msgstr "Liste der wiederherzustellenden Dateien für AuftragsId"
 
-#: application/controllers/RestorejobController.php:998
+#: application/controllers/RestorejobController.php:1115
 msgid "List of Files to Restore"
 msgstr "Liste der wiederherzustellenden Dateien"
 
-#: application/controllers/RestorejobController.php:1053
+#: application/controllers/RestorejobController.php:1175
 msgid "Restore JobId"
 msgstr "AuftragsId wiederherstellen"
 
-#: application/controllers/RestorejobController.php:1131
+#: application/controllers/RestorejobController.php:1261
 msgid "Restore the most recent backup (or before a specified time) for a client"
 msgstr "Die aktuellste Sicherung (oder vor einem festgelegtem Zeitpunkt) für einen Client wiederherstellen"
 
@@ -187,70 +197,80 @@ msgid "Storage"
 msgstr "Storage"
 
 #: application/controllers/JobController.php:45
-#: application/controllers/JobController.php:372
+#: application/controllers/JobController.php:373
 msgid "Terminated Jobs (executed in last 24 hours)"
 msgstr "Beendete Aufträge (letzten 24 Stunden)"
 
 #: application/controllers/JobController.php:59
-#: application/controllers/JobController.php:74
+#: application/controllers/JobController.php:75
 msgid "Information from DB Catalog : List of Running Jobs"
 msgstr "Information aus dem DB Katalog : Liste der laufenden Aufträge"
 
-#: application/controllers/JobController.php:64
-#: application/controllers/JobController.php:79
+#: application/controllers/JobController.php:60
+#, fuzzy
+msgid "List of Running Jobs"
+msgstr "Zeige laufende Aufträge"
+
+#: application/controllers/JobController.php:65
+#: application/controllers/JobController.php:80
 msgid "Information from Director : List of Running Jobs"
 msgstr "Information des Director : Liste der laufenden Aufträge"
 
-#: application/controllers/JobController.php:95
-#: application/controllers/JobController.php:112
+#: application/controllers/JobController.php:96
+#: application/controllers/JobController.php:113
 msgid "Scheduled Jobs (at 24 hours forward)"
 msgstr "Geplante Aufträge (kommende 24 Stunden)"
 
-#: application/controllers/JobController.php:133
+#: application/controllers/JobController.php:134
 msgid "List Jobs with filters"
 msgstr "Liste der Aufträge mit Filtern"
 
-#: application/controllers/JobController.php:187
-#: application/controllers/JobController.php:189
+#: application/controllers/JobController.php:188
+#: application/controllers/JobController.php:190
 msgid "List Jobs by JobId"
 msgstr "Liste der Aufträge nach AuftragsId"
 
-#: application/controllers/JobController.php:202
-#: application/controllers/JobController.php:204
+#: application/controllers/JobController.php:203
+#: application/controllers/JobController.php:205
 msgid "List Jobs by Volume Name"
 msgstr "Liste der Aufträge nach Datenträgername"
 
-#: application/controllers/JobController.php:217
+#: application/controllers/JobController.php:218
 msgid "Search Jobs"
 msgstr "Suche Aufträge"
 
-#: application/controllers/JobController.php:233
+#: application/controllers/JobController.php:234
 msgid "Detail JobId"
 msgstr "Details AuftragsId"
 
-#: application/controllers/JobController.php:255
-#: application/controllers/JobController.php:268
+#: application/controllers/JobController.php:256
+#: application/controllers/JobController.php:269
 #, php-format
 msgid "Jobs with errors (last %s days)"
 msgstr "Aufträge mit Fehlern (letzten %s Tage)"
 
-#: application/controllers/JobController.php:302
+#: application/controllers/JobController.php:303
 msgid "Timeline for date"
 msgstr "Zeitleiste für Datum"
 
-#: application/controllers/JobController.php:314
+#: application/controllers/JobController.php:315
 msgid "Run Job"
 msgstr "Starte Auftrag"
 
-#: application/controllers/JobController.php:360
+#: application/controllers/JobController.php:361
 #, php-format
 msgid "List last %s Jobs run"
 msgstr "Liste der letzten %s gestarteten Aufträge"
 
-#: application/controllers/JobController.php:391
+#: application/controllers/JobController.php:392
 #, php-format
 msgid "List Jobs where %s is saved (limit %s)"
 msgstr "Liste der Aufträge, wo %s gespeichert ist (limit %s)"
+
+#: application/controllers/JobController.php:405
+#, fuzzy
+msgid "Cancel Job"
+msgstr "Abbrechen"
 
 #: application/controllers/FeedController.php:56
 msgid "Job Id"
@@ -354,162 +374,161 @@ msgstr "Status Director"
 msgid "List of Job Totals"
 msgstr "Liste der Gesamtaufträge"
 
-#: application/layouts/default/help.phtml:88
-#: application/layouts/default/help.phtml:171
-#: application/layouts/default/dashboard.phtml:98
-#: application/layouts/default/dashboard.phtml:196
-#: application/layouts/default/main.phtml:98
-#: application/layouts/default/main.phtml:162
+#: application/layouts/default/help.phtml:128
+#: application/layouts/default/help.phtml:215
+#: application/layouts/default/dashboard.phtml:138
+#: application/layouts/default/dashboard.phtml:240
+#: application/layouts/default/main.phtml:141
+#: application/layouts/default/main.phtml:209
 msgid "Desktop"
 msgstr "Übersicht"
 
-#: application/layouts/default/help.phtml:90
-#: application/layouts/default/dashboard.phtml:100
-#: application/layouts/default/main.phtml:100
+#: application/layouts/default/help.phtml:130
+#: application/layouts/default/dashboard.phtml:140
+#: application/layouts/default/main.phtml:143
 msgid "Job Totals"
 msgstr "Aufträge gesamt"
 
-#: application/layouts/default/help.phtml:93
-#: application/layouts/default/help.phtml:172
-#: application/layouts/default/dashboard.phtml:103
-#: application/layouts/default/dashboard.phtml:197
-#: application/layouts/default/main.phtml:103
-#: application/layouts/default/main.phtml:163
+#: application/layouts/default/help.phtml:132
+#: application/layouts/default/dashboard.phtml:142
+#: application/layouts/default/main.phtml:145
+msgid "Bacula Console"
+msgstr ""
+
+#: application/layouts/default/help.phtml:136
+#: application/layouts/default/help.phtml:216
+#: application/layouts/default/dashboard.phtml:146
+#: application/layouts/default/dashboard.phtml:241
+#: application/layouts/default/main.phtml:149
+#: application/layouts/default/main.phtml:210
 msgid "Director"
 msgstr "Director"
 
-#: application/layouts/default/help.phtml:94
-#: application/layouts/default/help.phtml:173
-#: application/layouts/default/dashboard.phtml:104
-#: application/layouts/default/dashboard.phtml:198
-#: application/layouts/default/main.phtml:104
-#: application/layouts/default/main.phtml:164
+#: application/layouts/default/help.phtml:137
+#: application/layouts/default/help.phtml:217
+#: application/layouts/default/dashboard.phtml:147
+#: application/layouts/default/dashboard.phtml:242
+#: application/layouts/default/main.phtml:150
+#: application/layouts/default/main.phtml:211
 msgid "Job"
 msgstr "Auftrag"
 
-#: application/layouts/default/help.phtml:96
-#: application/layouts/default/dashboard.phtml:106
-#: application/layouts/default/main.phtml:106
+#: application/layouts/default/help.phtml:139
+#: application/layouts/default/dashboard.phtml:149
+#: application/layouts/default/main.phtml:152
 msgid "Terminated"
 msgstr "Beendet"
 
-#: application/layouts/default/help.phtml:97
-#: application/layouts/default/dashboard.phtml:107
-#: application/layouts/default/main.phtml:107
+#: application/layouts/default/help.phtml:140
+#: application/layouts/default/dashboard.phtml:150
+#: application/layouts/default/main.phtml:153
 msgid "Running"
 msgstr "Laufend"
 
-#: application/layouts/default/help.phtml:98
-#: application/layouts/default/help.phtml:176
-#: application/layouts/default/dashboard.phtml:108
-#: application/layouts/default/dashboard.phtml:201
-#: application/layouts/default/main.phtml:108
-#: application/layouts/default/main.phtml:167
+#: application/layouts/default/help.phtml:141
+#: application/layouts/default/help.phtml:220
+#: application/layouts/default/dashboard.phtml:151
+#: application/layouts/default/dashboard.phtml:245
+#: application/layouts/default/main.phtml:154
+#: application/layouts/default/main.phtml:214
 msgid "Next"
 msgstr "Nächste"
 
-#: application/layouts/default/help.phtml:99
-#: application/layouts/default/help.phtml:109
-#: application/layouts/default/help.phtml:177
-#: application/layouts/default/help.phtml:184
-#: application/layouts/default/dashboard.phtml:109
-#: application/layouts/default/dashboard.phtml:119
-#: application/layouts/default/dashboard.phtml:202
-#: application/layouts/default/dashboard.phtml:209
-#: application/layouts/default/main.phtml:109
-#: application/layouts/default/main.phtml:119
-#: application/layouts/default/main.phtml:168
-#: application/layouts/default/main.phtml:175
+#: application/layouts/default/help.phtml:142
+#: application/layouts/default/help.phtml:152
+#: application/layouts/default/help.phtml:221
+#: application/layouts/default/help.phtml:227
+#: application/layouts/default/dashboard.phtml:152
+#: application/layouts/default/dashboard.phtml:162
+#: application/layouts/default/dashboard.phtml:246
+#: application/layouts/default/dashboard.phtml:252
+#: application/layouts/default/main.phtml:155
+#: application/layouts/default/main.phtml:165
+#: application/layouts/default/main.phtml:215
+#: application/layouts/default/main.phtml:221
 msgid "Problem"
 msgstr "Problem"
 
-#: application/layouts/default/help.phtml:100
-#: application/layouts/default/dashboard.phtml:110
-#: application/layouts/default/main.phtml:110
+#: application/layouts/default/help.phtml:143
+#: application/layouts/default/dashboard.phtml:153
+#: application/layouts/default/main.phtml:156
 msgid "Run"
 msgstr "Starte"
 
-#: application/layouts/default/help.phtml:101
-#: application/layouts/default/help.phtml:179
-#: application/layouts/default/dashboard.phtml:111
-#: application/layouts/default/dashboard.phtml:204
-#: application/layouts/default/main.phtml:111
-#: application/layouts/default/main.phtml:170
-#: application/views/scripts/wblogbook/index.phtml:127
+#: application/layouts/default/help.phtml:144
+#: application/layouts/default/help.phtml:223
+#: application/layouts/default/dashboard.phtml:154
+#: application/layouts/default/dashboard.phtml:248
+#: application/layouts/default/main.phtml:157
+#: application/layouts/default/main.phtml:217
+#: application/views/scripts/wblogbook/index.phtml:135
 msgid "Search"
 msgstr "Suche"
 
-#: application/layouts/default/help.phtml:102
-#: application/layouts/default/help.phtml:180
-#: application/layouts/default/dashboard.phtml:112
-#: application/layouts/default/dashboard.phtml:205
-#: application/layouts/default/main.phtml:112
-#: application/layouts/default/main.phtml:171
+#: application/layouts/default/help.phtml:145
+#: application/layouts/default/dashboard.phtml:155
+#: application/layouts/default/main.phtml:158
 msgid "Timeline"
 msgstr "Zeitleiste"
 
-#: application/layouts/default/help.phtml:103
-#: application/layouts/default/help.phtml:181
-#: application/layouts/default/dashboard.phtml:113
-#: application/layouts/default/dashboard.phtml:206
-#: application/layouts/default/main.phtml:113
-#: application/layouts/default/main.phtml:172
+#: application/layouts/default/help.phtml:146
+#: application/layouts/default/help.phtml:224
+#: application/layouts/default/dashboard.phtml:156
+#: application/layouts/default/dashboard.phtml:249
+#: application/layouts/default/main.phtml:159
+#: application/layouts/default/main.phtml:218
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: application/layouts/default/help.phtml:106
-#: application/layouts/default/help.phtml:182
-#: application/layouts/default/dashboard.phtml:116
-#: application/layouts/default/dashboard.phtml:207
-#: application/layouts/default/main.phtml:116
-#: application/layouts/default/main.phtml:173
+#: application/layouts/default/help.phtml:149
+#: application/layouts/default/help.phtml:225
+#: application/layouts/default/dashboard.phtml:159
+#: application/layouts/default/dashboard.phtml:250
+#: application/layouts/default/main.phtml:162
+#: application/layouts/default/main.phtml:219
 msgid "Pool/Volume"
 msgstr "Pool/Datenträger"
 
-#: application/layouts/default/help.phtml:108
-#: application/layouts/default/help.phtml:183
-#: application/layouts/default/dashboard.phtml:118
-#: application/layouts/default/dashboard.phtml:208
-#: application/layouts/default/main.phtml:118
-#: application/layouts/default/main.phtml:174
+#: application/layouts/default/help.phtml:151
+#: application/layouts/default/help.phtml:226
+#: application/layouts/default/dashboard.phtml:161
+#: application/layouts/default/dashboard.phtml:251
+#: application/layouts/default/main.phtml:164
+#: application/layouts/default/main.phtml:220
 msgid "Overview"
 msgstr "Übersicht"
 
-#: application/layouts/default/help.phtml:118
-#: application/layouts/default/dashboard.phtml:128
-#: application/layouts/default/main.phtml:128
+#: application/layouts/default/help.phtml:162
+#: application/layouts/default/dashboard.phtml:172
+#: application/layouts/default/main.phtml:175
 msgid "RSS"
 msgstr ""
 
-#: application/layouts/default/help.phtml:121
-#: application/layouts/default/help.phtml:188
-#: application/layouts/default/dashboard.phtml:131
-#: application/layouts/default/dashboard.phtml:213
-#: application/layouts/default/main.phtml:131
-#: application/layouts/default/main.phtml:179
+#: application/layouts/default/help.phtml:165
+#: application/layouts/default/dashboard.phtml:175
+#: application/layouts/default/main.phtml:178
 msgid "Help"
 msgstr "Hilfe"
 
-#: application/layouts/default/help.phtml:132
-#: application/layouts/default/dashboard.phtml:142
-#: application/layouts/default/main.phtml:142
+#: application/layouts/default/help.phtml:176
+#: application/layouts/default/dashboard.phtml:186
+#: application/layouts/default/main.phtml:189
 msgid "Enable JavaScript please..."
 msgstr "Bitte JavaScript akitvieren..."
 
-#: application/layouts/default/help.phtml:174
-#: application/layouts/default/dashboard.phtml:199
-#: application/layouts/default/main.phtml:165
+#: application/layouts/default/help.phtml:218
+#: application/layouts/default/dashboard.phtml:243
+#: application/layouts/default/main.phtml:212
 msgid "Last"
 msgstr "Letzte"
 
-#: application/layouts/default/help.phtml:175
-#: application/layouts/default/dashboard.phtml:200
-#: application/layouts/default/main.phtml:166
+#: application/layouts/default/help.phtml:219
+#: application/layouts/default/dashboard.phtml:244
+#: application/layouts/default/main.phtml:213
 msgid "Running Jobs"
 msgstr "Laufende Aufträge"
 
 #: application/views/scripts/msg-note.phtml:3
-#: application/views/scripts/wblogbook/index-printable.phtml:21
 msgid "Back"
 msgstr "Zurück"
 
@@ -537,95 +556,81 @@ msgstr "Weiter &gt;"
 msgid "Last</a>"
 msgstr "Letzte</a>"
 
-#: application/views/scripts/wblogbook/index.phtml:76
+#: application/views/scripts/wblogbook/index.phtml:75
 msgid "+ Add New Record"
 msgstr "+ neuen Eintrag hinzufügen"
 
-#: application/views/scripts/wblogbook/index.phtml:83
+#: application/views/scripts/wblogbook/index.phtml:82
 msgid "Filter by date"
 msgstr "Nach Datum filtern"
 
-#: application/views/scripts/wblogbook/index.phtml:84
+#: application/views/scripts/wblogbook/index.phtml:83
 msgid "Filter by Id"
 msgstr "Nach Id filtern"
 
-#: application/views/scripts/wblogbook/index.phtml:85
+#: application/views/scripts/wblogbook/index.phtml:84
 msgid "Text Search"
 msgstr "Suche text"
 
-#: application/views/scripts/wblogbook/index.phtml:91
+#: application/views/scripts/wblogbook/index.phtml:90
 msgid "Date range : from"
 msgstr "Datumsbereich: von"
 
-#: application/views/scripts/wblogbook/index.phtml:93
-#: application/views/scripts/wblogbook/index.phtml:109
+#: application/views/scripts/wblogbook/index.phtml:92
+#: application/views/scripts/wblogbook/index.phtml:112
 msgid "&nbsp; to"
 msgstr "&nbsp; bis"
 
 #: application/views/scripts/wblogbook/index.phtml:99
-#: application/views/scripts/wblogbook/index.phtml:115
+#: application/views/scripts/wblogbook/index.phtml:119
 msgid "Apply filter"
 msgstr "Filter anwenden"
 
-#: application/views/scripts/wblogbook/index.phtml:106
+#: application/views/scripts/wblogbook/index.phtml:109
 msgid "Id range : from"
 msgstr "Id Bereich : von"
 
-#: application/views/scripts/wblogbook/index.phtml:122
-#: application/views/scripts/wblogbook/index.phtml:153
-#: application/views/scripts/wblogbook/index-printable.phtml:37
+#: application/views/scripts/wblogbook/index.phtml:129
+#: application/views/scripts/wblogbook/index.phtml:164
 msgid "Text"
 msgstr "Text"
 
-#: application/views/scripts/wblogbook/index.phtml:132
-#: application/views/scripts/wblogbook/index.phtml:133
-#: application/views/scripts/wblogbook/index.phtml:135
+#: application/views/scripts/wblogbook/index.phtml:143
+#: application/views/scripts/wblogbook/index.phtml:144
+#: application/views/scripts/wblogbook/index.phtml:146
 msgid "View a printable version"
 msgstr "Zeige eine druckbare Version"
 
-#: application/views/scripts/wblogbook/index.phtml:138
-#: application/views/scripts/wblogbook/index.phtml:139
+#: application/views/scripts/wblogbook/index.phtml:149
+#: application/views/scripts/wblogbook/index.phtml:150
 msgid "To sort in ascending/descending order"
 msgstr "In aufsteigender/absteigender Reihenfolge sortieren"
 
-#: application/views/scripts/wblogbook/index.phtml:141
+#: application/views/scripts/wblogbook/index.phtml:152
 msgid "Sort in ascending order"
 msgstr "Sortiere in aufsteigender Reihenfolge"
 
-#: application/views/scripts/wblogbook/index.phtml:152
-#: application/views/scripts/wblogbook/index-printable.phtml:36
+#: application/views/scripts/wblogbook/index.phtml:163
 msgid "Date"
 msgstr "Datum"
 
-#: application/views/scripts/wblogbook/index.phtml:154
-#: application/views/scripts/wblogbook/index-printable.phtml:38
+#: application/views/scripts/wblogbook/index.phtml:165
 msgid "Type"
 msgstr "Typ"
 
-#: application/views/scripts/wblogbook/index.phtml:156
+#: application/views/scripts/wblogbook/index.phtml:167
 msgid "Last modified"
 msgstr "Zuletzt geändert"
 
-#: application/views/scripts/wblogbook/index.phtml:177
-msgid "Detail Job"
-msgstr "Details Auftrag"
-
-#: application/views/scripts/wblogbook/index.phtml:182
-#, fuzzy
-msgid "Detail Logbook"
-msgstr "Details Auftrag"
-
-#: application/views/scripts/wblogbook/index.phtml:200
+#: application/views/scripts/wblogbook/index.phtml:209
 msgid "Modify Entry"
 msgstr "Eintrag ändern"
 
-#: application/views/scripts/wblogbook/index.phtml:208
-#: application/views/scripts/wblogbook/index-printable.phtml:83
+#: application/views/scripts/wblogbook/index.phtml:217
 msgid "Deleted"
 msgstr "Gelöscht"
 
-#: application/views/scripts/wblogbook/index.phtml:245
-#: application/views/scripts/wblogbook/index-printable.phtml:109
+#: application/views/scripts/wblogbook/index.phtml:254
 msgid "No records found."
 msgstr "Keine Einträge gefunden."
 
@@ -637,93 +642,99 @@ msgstr "Druckbare Version."
 msgid "Current date :"
 msgstr "Heutiges Datum :"
 
-#: application/views/scripts/wblogbook/modify.phtml:30
+#: application/views/scripts/wblogbook/modify.phtml:29
 msgid "Record has not been modified. Reason :"
 msgstr "Eintrag wurde nicht verändert. Grund :"
 
-#: application/views/scripts/wblogbook/modify.phtml:45
+#: application/views/scripts/wblogbook/modify.phtml:44
 msgid "This record has been deleted."
 msgstr "Dieser Eintrag ist gelöscht worden."
 
-#: application/views/scripts/wblogbook/modify.phtml:52
+#: application/views/scripts/wblogbook/modify.phtml:51
 msgid "Log record Id "
 msgstr "Log Eintrag Id "
 
-#: application/views/scripts/wblogbook/modify.phtml:54
+#: application/views/scripts/wblogbook/modify.phtml:53
 msgid "Date last update record :"
 msgstr "Datum letzter Eintrag :"
 
-#: application/views/scripts/wblogbook/modify.phtml:58
+#: application/views/scripts/wblogbook/modify.phtml:57
 msgid "Select action "
 msgstr "Aktion auswählen "
 
-#: application/views/scripts/wblogbook/modify.phtml:60
+#: application/views/scripts/wblogbook/modify.phtml:59
 msgid "Modify this record"
 msgstr "Diesen Eintrag verändern"
 
-#: application/views/scripts/wblogbook/modify.phtml:62
+#: application/views/scripts/wblogbook/modify.phtml:61
 msgid "Delete this record (physically record will not be removed)"
 msgstr "Diesen Eintrag löschen (physisch wird der Eintrag nicht gelöscht)"
 
-#: application/views/scripts/wblogbook/modify.phtml:64
+#: application/views/scripts/wblogbook/modify.phtml:63
 msgid "Undelete this record"
 msgstr "Eintrag wiederherstellen"
 
-#: application/views/scripts/wblogbook/modify.phtml:72
-#: application/views/scripts/wblogbook/add.phtml:43
+#: application/views/scripts/wblogbook/modify.phtml:71
+#: application/views/scripts/wblogbook/add.phtml:42
 msgid "(<b>*</b>) Field is required to process this form"
 msgstr "(<b>*</b>) Feld muss ausgefüllt werden"
 
-#: application/views/scripts/wblogbook/modify.phtml:74
+#: application/views/scripts/wblogbook/modify.phtml:73
 msgid "<sup>*</sup>Date create record "
 msgstr "<sup>*</sup>Datum Eintrag erstellen "
 
-#: application/views/scripts/wblogbook/modify.phtml:77
-#: application/views/scripts/wblogbook/add.phtml:52
+#: application/views/scripts/wblogbook/modify.phtml:76
+#: application/views/scripts/wblogbook/add.phtml:51
 msgid "<sup>*</sup>Type "
 msgstr "<sup>*</sup>Typ "
 
-#: application/views/scripts/wblogbook/modify.phtml:83
-#: application/views/scripts/wblogbook/add.phtml:60
+#: application/views/scripts/wblogbook/modify.phtml:82
+#: application/views/scripts/wblogbook/add.phtml:59
 msgid "<sup>*</sup>Text"
 msgstr "<sup>*</sup>Text "
 
-#: application/views/scripts/wblogbook/modify.phtml:84
-#: application/views/scripts/wblogbook/add.phtml:61
+#: application/views/scripts/wblogbook/modify.phtml:83
+#: application/views/scripts/wblogbook/add.phtml:60
 msgid "Allowed to use tags :"
 msgstr "Tag Nutzung gestattet :"
 
-#: application/views/scripts/wblogbook/modify.phtml:100
-#: application/views/scripts/wblogbook/add.phtml:77
+#: application/views/scripts/wblogbook/modify.phtml:99
+#: application/views/scripts/wblogbook/add.phtml:76
 msgid "Allowed to use pseudo-tags :"
 msgstr "Pseudo-Tag Nutzung gestattet :"
 
-#: application/views/scripts/wblogbook/modify.phtml:114
-#: application/views/scripts/wblogbook/add.phtml:91
+#: application/views/scripts/wblogbook/modify.phtml:113
+#: application/views/scripts/wblogbook/add.phtml:90
 msgid "Submit Form"
 msgstr "Formular absenden"
 
-#: application/views/scripts/wblogbook/modify.phtml:116
+#: application/views/scripts/wblogbook/modify.phtml:115
 msgid "Reset Form"
 msgstr "Formular zurücksetzen"
 
-#: application/views/scripts/wblogbook/add.phtml:30
+#: application/views/scripts/wblogbook/add.phtml:29
 msgid "ERROR: Record has not been added. Reason :"
 msgstr "FEHLER: Eintrag wurde nicht hinzugefügt. Grund :"
 
-#: application/views/scripts/wblogbook/add.phtml:45
+#: application/views/scripts/wblogbook/add.phtml:44
 msgid "<sup>*</sup>Date "
 msgstr "<sup>*</sup>Datum "
 
 #: application/views/scripts/client/status-client-id.phtml:12
+#: application/views/scripts/storage/act-mount.phtml:12
+#: application/views/scripts/storage/status-id.phtml:12
 msgid "ERROR: There was a problem executing bconsole."
 msgstr "FEHLER: Es gab ein Problem beim Ausführen von bconsole."
 
 #: application/views/scripts/client/status-client-id.phtml:15
+#: application/views/scripts/storage/act-mount.phtml:15
+#: application/views/scripts/storage/status-id.phtml:15
 msgid "ERROR: bconsole not found."
 msgstr "FEHLER: bconsole nicht gefunden."
 
 #: application/views/scripts/client/status-client-id.phtml:33
+#: application/views/scripts/storage/act-mount.phtml:33
+#: application/views/scripts/storage/status-id.phtml:33
 msgid "Director output:"
 msgstr "Director Ausgabe:"
 
@@ -758,22 +769,18 @@ msgid "No Clients found."
 msgstr "Kein Client Status gefunden."
 
 #: application/views/scripts/file/list.phtml:12
-#: application/views/scripts/restorejob/list-recent-restore.phtml:84
 msgid "Attribute"
 msgstr "Attribute"
 
 #: application/views/scripts/file/list.phtml:13
-#: application/views/scripts/restorejob/list-recent-restore.phtml:85
 msgid "Name File"
 msgstr "Dateiname"
 
 #: application/views/scripts/file/list.phtml:14
-#: application/views/scripts/restorejob/list-recent-restore.phtml:86
 msgid "File Id"
 msgstr "Datei Id"
 
 #: application/views/scripts/file/list.phtml:59
-#: application/views/scripts/restorejob/list-recent-restore.phtml:144
 msgid "No Files found."
 msgstr "Keine Dateien gefunen."
 
@@ -848,32 +855,49 @@ msgstr "Keine Konsolenmeldungen gefunden."
 #: application/views/scripts/restorejob/restore-all.phtml:7
 #: application/views/scripts/restorejob/list-recent-restore.phtml:7
 #: application/views/scripts/restorejob/msg01.phtml:7
+#: application/views/scripts/restorejob/list-restore.phtml:7
+#: application/views/scripts/restorejob/main-form.phtml:15
+#: application/views/scripts/restorejob/restore-recent-all.phtml:7
+#: application/views/scripts/restorejob/draw-file-tree.phtml:7
 msgid "Please wait"
 msgstr "Bitte warten..."
 
 #: application/views/scripts/restorejob/restore-all.phtml:79
+#: application/views/scripts/restorejob/list-restore.phtml:89
 msgid "Where"
 msgstr "Wo"
 
 #: application/views/scripts/restorejob/restore-all.phtml:83
+#: application/views/scripts/restorejob/list-restore.phtml:93
+#: application/views/scripts/restorejob/main-form.phtml:200
+#: application/views/scripts/restorejob/main-form.phtml:243
 msgid "Fileset"
 msgstr "Dateisatz"
 
 #: application/views/scripts/restorejob/restore-all.phtml:104
 #: application/views/scripts/restorejob/list-recent-restore.phtml:62
+#: application/views/scripts/restorejob/list-restore.phtml:111
+#: application/views/scripts/restorejob/restore-recent-all.phtml:56
 msgid "Run Restore Job"
 msgstr "Wiederherstellungs Auftrag starten"
 
 #: application/views/scripts/restorejob/restore-all.phtml:110
 #: application/views/scripts/restorejob/list-recent-restore.phtml:67
+#: application/views/scripts/restorejob/list-restore.phtml:116
+#: application/views/scripts/restorejob/restore-recent-all.phtml:61
+#: application/views/scripts/restorejob/select-backups-before-date.phtml:29
+#: application/views/scripts/restorejob/draw-file-tree.phtml:190
+#: application/views/scripts/wbjobdesc/index.phtml:19
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: application/views/scripts/restorejob/list-recent-restore.phtml:39
+#: application/views/scripts/restorejob/list-restore.phtml:65
 msgid "Total"
 msgstr "Total"
 
 #: application/views/scripts/restorejob/list-recent-restore.phtml:54
+#: application/views/scripts/restorejob/restore-recent-all.phtml:43
 msgid "Path"
 msgstr "Pfad"
 
@@ -910,50 +934,48 @@ msgstr "Zeige laufende Aufträge"
 msgid "Please wait. Create temporary tables..."
 msgstr "Bitte warten. Erstelle temporäre Tabellen..."
 
-#: application/views/scripts/restorejob/main-form.phtml:76
-msgid "JobId"
-msgstr "AuftragsId"
+#: application/views/scripts/restorejob/main-form.phtml:80
+#, fuzzy
+msgid "Restore to a specified JobId"
+msgstr "Alle Dateien für AuftragsId wiederherstellen"
 
-#: application/views/scripts/restorejob/main-form.phtml:77
-msgid "Most recent backup"
-msgstr "Aktuellste Sicherung"
-
-#: application/views/scripts/restorejob/main-form.phtml:78
-msgid "Before a time"
-msgstr "Vor Zeit"
-
-#: application/views/scripts/restorejob/main-form.phtml:96
-#: application/views/scripts/job/terminated.phtml:155
-#: application/views/scripts/job/find-filters.phtml:179
+#: application/views/scripts/restorejob/main-form.phtml:93
+#: application/views/scripts/restorejob/main-form.phtml:146
 msgid "See List last 20 Jobs run"
 msgstr "Liste der letzten 20 gestarteten Aufträge anzeigen"
 
-#: application/views/scripts/restorejob/main-form.phtml:118
-#: application/views/scripts/restorejob/main-form.phtml:159
-#: application/views/scripts/restorejob/main-form.phtml:216
+#: application/views/scripts/restorejob/main-form.phtml:115
+#: application/views/scripts/restorejob/main-form.phtml:167
+#: application/views/scripts/restorejob/main-form.phtml:209
+#: application/views/scripts/restorejob/main-form.phtml:266
 msgid "Select Files for Restore"
 msgstr "Wähle Datein zum Wiederherstellen aus"
 
-#: application/views/scripts/restorejob/main-form.phtml:122
-#: application/views/scripts/restorejob/main-form.phtml:163
-#: application/views/scripts/restorejob/main-form.phtml:220
+#: application/views/scripts/restorejob/main-form.phtml:120
+#: application/views/scripts/restorejob/main-form.phtml:172
+#: application/views/scripts/restorejob/main-form.phtml:213
+#: application/views/scripts/restorejob/main-form.phtml:270
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:23
 msgid "Next "
 msgstr "Nächste "
 
-#: application/views/scripts/restorejob/main-form.phtml:135
+#: application/views/scripts/restorejob/main-form.phtml:132
+msgid "Full restore to a specified JobId"
+msgstr ""
+
+#: application/views/scripts/restorejob/main-form.phtml:184
 msgid "Restore the most recent backup for a client"
 msgstr "Die letzte Sicherung für einen Client wiederherstellen"
 
-#: application/views/scripts/restorejob/main-form.phtml:178
+#: application/views/scripts/restorejob/main-form.phtml:227
 msgid "Restore backup for a client before a specified time"
 msgstr "Die letzte Sicherung für einen Client vor einer festgelegten Zeit wiederherstellen"
 
-#: application/views/scripts/restorejob/main-form.phtml:199
+#: application/views/scripts/restorejob/main-form.phtml:249
 msgid "Date before"
 msgstr "Datum vor"
 
-#: application/views/scripts/restorejob/main-form.phtml:209
+#: application/views/scripts/restorejob/main-form.phtml:259
 msgid "YYYY-MM-DD HH:MM:SS"
 msgstr "JJJJ-MM-TT HH:MM:SS"
 
@@ -962,13 +984,9 @@ msgid "Where to Restore"
 msgstr "Wiederherstellen nach"
 
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:88
-#: application/views/scripts/job/timeline.phtml:49
-#: application/views/scripts/job/timeline.phtml:86
+#: application/views/scripts/job/timeline.phtml:48
+#: application/views/scripts/job/timeline.phtml:83
 #: application/views/scripts/job/terminated-dashboard.phtml:124
-#: application/views/scripts/job/problem.phtml:130
-#: application/views/scripts/job/terminated.phtml:153
-#: application/views/scripts/job/find-filters.phtml:177
-#: application/views/scripts/job/problem-dashboard.phtml:104
 msgid "No Jobs found."
 msgstr "Keine Aufträge gefunden."
 
@@ -1023,9 +1041,42 @@ msgstr "Letzte Aktion:"
 msgid "Change dir"
 msgstr "Ändere Verzeichnis"
 
-#: application/views/scripts/restorejob/draw-file-tree.phtml:246
+#: application/views/scripts/restorejob/draw-file-tree.phtml:247
 msgid "[Parent Directory]"
 msgstr "[Verzeichnis aufwärts]"
+
+#: application/views/scripts/restorejob/msg02session.phtml:6
+msgid "Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini."
+msgstr ""
+
+#: application/views/scripts/wbjobdesc/index.phtml:14
+msgid "Are you sure?"
+msgstr ""
+
+#: application/views/scripts/wbjobdesc/index.phtml:18
+#, fuzzy
+msgid "Delete"
+msgstr "Gelöscht"
+
+#: application/views/scripts/wbjobdesc/index.phtml:42
+msgid "Job Description"
+msgstr ""
+
+#: application/views/scripts/wbjobdesc/index.phtml:43
+msgid "Retention period"
+msgstr ""
+
+#: application/views/scripts/wbjobdesc/index.phtml:54
+#: application/views/scripts/wbjobdesc/index.phtml:55
+#, fuzzy
+msgid "Modify record"
+msgstr "Diesen Eintrag verändern"
+
+#: application/views/scripts/wbjobdesc/index.phtml:58
+#: application/views/scripts/wbjobdesc/index.phtml:59
+#, fuzzy
+msgid "Delete record"
+msgstr "Eintrag wiederherstellen"
 
 #: application/views/scripts/job/timeline.phtml:28
 msgid "YYYY-MM-DD"
@@ -1035,30 +1086,30 @@ msgstr "JJJJ-MM-TT"
 msgid "Show Timeline"
 msgstr "Zeige Zeitleiste"
 
+#: application/views/scripts/job/timeline.phtml:70
+#: application/views/scripts/job/terminated-dashboard.phtml:43
+msgid "Detail Job"
+msgstr "Details Auftrag"
+
 #: application/views/scripts/job/terminated-dashboard.phtml:15
-#: application/views/scripts/job/problem-dashboard.phtml:13
-#: application/views/scripts/job/running-dashboard.phtml:27
-#: application/views/scripts/job/running-dashboard.phtml:79
 msgid "Id"
 msgstr "Id"
 
 #: application/views/scripts/job/terminated-dashboard.phtml:111
-#: application/views/scripts/job/problem.phtml:89
-#: application/views/scripts/job/terminated.phtml:112
-#: application/views/scripts/job/find-filters.phtml:120
-#: application/views/scripts/job/problem-dashboard.phtml:89
 msgid "View Messages"
 msgstr "Mitteilungen anzeigen"
 
 #: application/views/scripts/job/next.phtml:8
 #: application/views/scripts/job/next-dashboard.phtml:12
 #: application/views/scripts/job/running-dashboard.phtml:12
+#: application/views/scripts/job/running.phtml:8
 msgid "ERROR: Cannot execute bconsole. File not found."
 msgstr "FEHLER: Kann bconsole nicht ausführen. Datei nicht gefunden."
 
 #: application/views/scripts/job/next.phtml:12
 #: application/views/scripts/job/next-dashboard.phtml:16
 #: application/views/scripts/job/running-dashboard.phtml:16
+#: application/views/scripts/job/running.phtml:12
 msgid "ERROR: There was a problem executing bconsole. See below."
 msgstr "FEHLER: Es gab ein Problem beim Ausführen von bconsole. Siehe unten."
 
@@ -1073,52 +1124,57 @@ msgid "Scheduled"
 msgstr "Geplant"
 
 #: application/views/scripts/job/next.phtml:30
-#: application/views/scripts/job/next-dashboard.phtml:33
 msgid "% Free space<br /> on Volume"
 msgstr "% Freier Speicher<br /> auf Datenträger"
 
 #: application/views/scripts/job/next.phtml:57
 #: application/views/scripts/job/next.phtml:79
-#: application/views/scripts/job/next-dashboard.phtml:60
-#: application/views/scripts/job/next-dashboard.phtml:82
 msgid "Unknown"
 msgstr "Unbekannt"
 
 #: application/views/scripts/job/next.phtml:61
-#: application/views/scripts/job/next-dashboard.phtml:64
 msgid "Volume with Error(s)"
 msgstr "Datenträger mit Fehler(n)"
 
 #: application/views/scripts/job/next.phtml:64
-#: application/views/scripts/job/next-dashboard.phtml:67
 msgid "New Volume"
 msgstr "Neuer Datenträger"
 
 #: application/views/scripts/job/next.phtml:96
-#: application/views/scripts/job/next-dashboard.phtml:98
+#: application/views/scripts/job/next-dashboard.phtml:71
 msgid "No Scheduled Jobs found."
 msgstr "Keine geplanten Aufträge gefunden."
 
 #: application/views/scripts/job/problem.phtml:20
 #: application/views/scripts/job/terminated.phtml:22
 #: application/views/scripts/job/find-filters.phtml:35
+#: application/views/scripts/job/running.phtml:81
 msgid "hh-mm-ss"
 msgstr ""
 
+#: application/views/scripts/job/terminated.phtml:154
+#: application/views/scripts/job/terminated.phtml:155
+#, fuzzy
+msgid "Written in Logbook"
+msgstr "Details Auftrag"
+
 #: application/views/scripts/job/running-dashboard.phtml:57
+#: application/views/scripts/job/running.phtml:55
 msgid "Information from Director : No Running Jobs found."
 msgstr "Information des Directors : Keine laufenden Aufträge gefunden."
 
 #: application/views/scripts/job/running-dashboard.phtml:85
+#: application/views/scripts/job/running.phtml:80
 msgid "yy-mm-dd"
 msgstr "jj-mm-tt"
 
 #: application/views/scripts/job/running-dashboard.phtml:127
+#: application/views/scripts/job/running.phtml:143
 msgid "Information from DB Catalog : No Running Jobs found."
 msgstr "Information aus dem DB Katalog : Keine laufenden Aufträge gefunden."
 
 #: application/views/scripts/job/detail.phtml:5
-#: application/views/scripts/job/detail.phtml:74
+#: application/views/scripts/job/detail.phtml:87
 msgid "Listing files"
 msgstr "Datei Auflistung"
 
@@ -1126,33 +1182,31 @@ msgstr "Datei Auflistung"
 msgid "Console Messages"
 msgstr "Konsolen Meldungen"
 
-#: application/views/scripts/job/detail.phtml:30
+#: application/views/scripts/job/detail.phtml:43
 msgid "Unique Job Name"
 msgstr "Eindeutiger Auftragsame"
 
-#: application/views/scripts/job/detail.phtml:36
+#: application/views/scripts/job/detail.phtml:49
 msgid "Purged Files"
 msgstr "Bereinigte Dateien"
 
-#: application/views/scripts/job/detail.phtml:39
+#: application/views/scripts/job/detail.phtml:52
 msgid "Job Type"
 msgstr "Auftragstyp"
 
-#: application/views/scripts/job/detail.phtml:45
+#: application/views/scripts/job/detail.phtml:58
 msgid "Client/Version"
 msgstr "Client/Version"
 
-#: application/views/scripts/job/detail.phtml:52
+#: application/views/scripts/job/detail.phtml:65
 msgid "Schedule Time"
 msgstr "Geplante Zeit"
 
-#: application/views/scripts/job/detail.phtml:101
+#: application/views/scripts/job/detail.phtml:114
 msgid "Volume(s)"
 msgstr "Datenträger"
 
-#: application/views/scripts/job/detail.phtml:112
-#: application/views/scripts/volume/find-pool-id.phtml:68
-#: application/views/scripts/volume/detail.phtml:248
+#: application/views/scripts/job/detail.phtml:125
 msgid "No Volumes found."
 msgstr "Keine Datenträger gefunden."
 
@@ -1289,7 +1343,6 @@ msgstr "Zuletzt<br />beschrieben"
 
 #: application/views/scripts/volume/problem.phtml:18
 #: application/views/scripts/volume/find-name.phtml:18
-#: application/views/scripts/volume/problem-dashboard.phtml:19
 #: application/views/scripts/volume/find-pool-id.phtml:20
 #: application/views/scripts/volume/detail.phtml:113
 msgid "Autochanger<br />Slot<br />number"
@@ -1297,14 +1350,13 @@ msgstr "Bandwechsler<br />Slot<br />Nummer"
 
 #: application/views/scripts/volume/problem.phtml:19
 #: application/views/scripts/volume/find-name.phtml:19
-#: application/views/scripts/volume/problem-dashboard.phtml:20
 #: application/views/scripts/volume/find-pool-id.phtml:21
 msgid "Can Recycle<br />Volume"
 msgstr "Kann Datenträger<br />wiederverwenden"
 
 #: application/views/scripts/volume/problem.phtml:69
 #: application/views/scripts/volume/problem.phtml:142
-#: application/views/scripts/volume/problem-dashboard.phtml:66
+#: application/views/scripts/volume/problem-dashboard.phtml:62
 msgid "Information from DB Catalog : All Volumes are OK."
 msgstr "Information aus dem DB Katalog : Alle Datenträger sind in Ordnung."
 
@@ -1455,6 +1507,16 @@ msgstr ""
 msgid "Comment"
 msgstr "Kommentar"
 
+#: application/views/scripts/bconsole/cmd.phtml:9
+msgid "This feature is not available."
+msgstr ""
+
+#~ msgid "JobId"
+#~ msgstr "AuftragsId"
+#~ msgid "Most recent backup"
+#~ msgstr "Aktuellste Sicherung"
+#~ msgid "Before a time"
+#~ msgstr "Vor Zeit"
 #~ msgid "No Client status found."
 #~ msgstr "Kein Client Status gefunden."
 #~ msgid "Invalid input parameters."
