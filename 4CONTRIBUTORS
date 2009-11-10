@@ -22,7 +22,7 @@ For Translators
 ~~~~~~~~~~~~~~~
 
 Webacula support multilingual - standard gettext (*.mo) files.
-Make copy languages/default.po and modify for your language.
+Make copy languages/en/webacula_en.po and modify for your language.
 And send me the file as described above.
 
 
