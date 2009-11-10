@@ -1,0 +1,27 @@
+<!-- job/cancel-job.phtml -->
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<?php
+    if ( $this->result_error )
+    {
+        switch ( $this->result_error )
+        {
+            case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
+                $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
+                break;
+            case 'NOFOUND_BCONSOLE': // bconsole не найден
+                $msg = $this->translate->_('ERROR: bconsole not found.');
+                break;
+            default: $msg = '';
+        }
+        echo '<font color="red"><div align="center"><p>' . $msg . '</p></div></font>';
+        echo '<font color="red">';
+        if ( $this->command_output )
+        {
+            foreach ($this->command_output as $line) {
+             echo $line . '<br>';
+          }
+        }
+        echo '</font>';
+    }
+?>

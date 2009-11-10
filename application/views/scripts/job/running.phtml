@@ -79,6 +79,7 @@
      <th scope="col"> <?php print $this->translate->_("Pool"); 	 ?> </th>
      <th scope="col"> <?php print $this->translate->_("Start Time"); ?><br /> <?php print $this->translate->_("yy-mm-dd"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
+     <th scope="col">&nbsp;</th>
 </tr>
 </thead>
 <tbody>
@@ -118,6 +119,16 @@
 
 	<td><?php echo $this->escape($line['starttime']);?></td>
 	<td align="right"><?php echo $this->escape($line['durationtime']);?></td>
+
+    <!-- cancel jobid -->
+    <td style="padding: 0px; width:16px;"><?php
+        echo '<a href="';
+        echo $this->baseUrl, '/job/cancel-job/jobid/', $this->escape($line['jobid']);
+        echo '" title="', $this->translate->_("Cancel"), '">';
+        echo '<img src="', $this->baseUrl, '/images/process-stop.png" alt="', $this->translate->_("Cancel"), '" border="0" hspace="1">';
+        echo '</a>';
+    ?>
+    </td>
 
 </tr>
 <?php endforeach; ?>

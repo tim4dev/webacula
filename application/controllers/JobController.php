@@ -57,6 +57,7 @@ class JobController extends MyClass_ControllerAction
     function runningAction()
     {
         $this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
+        $this->view->title = $this->view->translate->_("List of Running Jobs");
         // get data from model
         $jobs = new Job();
         $this->view->resultRunningJobs = $jobs->GetRunningJobs();
@@ -307,8 +308,8 @@ class JobController extends MyClass_ControllerAction
     }
 
     /**
-	 * Run Job
-	 */
+     * Run Job
+     */
     function runJobAction()
     {
         $this->view->title = $this->view->translate->_("Run Job");
@@ -391,6 +392,42 @@ EOF"
         $this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
         $job = new Job();
         $this->view->result = $job->getByFileName($namefile, $client, $limit);
+    }
+
+    
+    /**
+     * Cancel Job
+     * http://www.bacula.org/3.0.x-manuals/en/console/console/Bacula_Console.html
+     * cancel [jobid=<number> job=<job-name> ujobid=<unique-jobid>]
+     */
+    function cancelJobAction()
+    {
+        $this->view->title = $this->view->translate->_("Cancel Job");
+        $jobid = trim( $this->_request->getParam('jobid') );
+        $this->view->jobid = $jobid;
+        // run Job
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )    {
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
+            return;
+        }
+        $astatusdir = $director->execDirector(
+" <<EOF
+cancel jobid=$jobid
+.
+@sleep 7
+status dir
+@quit
+EOF"
+        );
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )   {
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+        // показываем вывод Director
+        echo $this->renderScript('/job/run-job-output.phtml');
     }
 
 
