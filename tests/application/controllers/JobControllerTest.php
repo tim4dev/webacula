@@ -112,6 +112,15 @@ class JobControllerTest extends ControllerTestCase
     public function testRunJob1()
     {
         print "\n".__METHOD__.' (nonreusable) ';
+        // create new file
+        $new_file = '/tmp/webacula/test/1/'.__METHOD__;
+        $file = fopen($new_file, 'w');
+        if( !$file ) {
+            $this->assertTrue(FALSE, "Unable to write file '$new_file'");
+        }
+        fwrite($file, __METHOD__."\n");
+        fclose($file);
+        // test
         $this->getRequest()
              ->setParams(array("jobname" => "job.name.test.1"))
              ->setMethod('POST');

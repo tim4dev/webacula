@@ -18,7 +18,9 @@ class RestoreControllerTest extends ControllerTestCase
         parent::tearDown();
     }
 
-
+    /**
+     * @group test1
+     */
     public function testMainForm ()
     {
         print "\n" . __METHOD__ . ' ';
@@ -29,10 +31,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertAction('main-form');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('h1', 'Restore Job');
-        $this->assertQueryContentContains('li', 'JobId');
-        $this->assertQueryContentContains('li', 'Most recent backup');
-        $this->assertQueryContentContains('li', 'Before a time');
+        $this->assertQueryContentContains('form', 'beginrecent'); // page load complete
     }
 
 

@@ -146,25 +146,28 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		$client = new Client();
 		$this->restoreNamespace->ClientIdFrom = $client->getClientId($this->restoreNamespace->ClientNameFrom);
 		// поиск JobId
-		$job = new Job();
-		$ajobs = $job->getJobBeforeDate('', $this->restoreNamespace->ClientIdFrom, $this->restoreNamespace->FileSet);
-		$this->assertTrue( isset($ajobs) , __FUNCTION__." No Full backup found");
-   		// запоминаем данные о jobids в сессии
-    	$this->restoreNamespace->JobHash = md5($ajobs['hash']);
-   		$this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
-   		$this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) && ( $ajobs['ajob_all'][1] == 8) &&
-   			(sizeof($ajobs['ajob_all']) == 2 )  ) ,	__FUNCTION__." 'Id=2  Full, Id=8  Diff' expected");
-		$sjobids = implode(",", $this->restoreNamespace->aJobId);
+        $job = new Job();
+        $ajobs = $job->getJobBeforeDate('', $this->restoreNamespace->ClientIdFrom, $this->restoreNamespace->FileSet);
+        $this->assertTrue( isset($ajobs) , __FUNCTION__." No Full backup found");
+        // запоминаем данные о jobids в сессии
+        $this->restoreNamespace->JobHash = md5($ajobs['hash']);
+        $this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
+        $this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) && 
+            ( $ajobs['ajob_all'][1] == 8)  &&
+            ( $ajobs['ajob_all'][2] == 13) &&
+            (sizeof($ajobs['ajob_all']) == 3 )  ) ,
+            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 13 Inc' expected");
+        $sjobids = implode(",", $this->restoreNamespace->aJobId);
 
-		// собственно клонирование
-		$this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-		$this->WbTmpTableRecent->cloneRecentBaculaToTmp($this->restoreNamespace->JobHash, $sjobids);
+        // собственно клонирование
+        $this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $this->WbTmpTableRecent->cloneRecentBaculaToTmp($this->restoreNamespace->JobHash, $sjobids);
 
 		// проверяем кол-во файлов и т.д.
 		$res = $this->WbTmpTableRecent->getCountFile();
-		$this->assertTrue($res == 3610, __FUNCTION__." failed (count files = $res)");
+		$this->assertTrue($res == 3611, __FUNCTION__." failed (count files = $res)");
 		$res = $this->WbTmpTableRecent->getCountFileName();
-		$this->assertTrue($res == 3603, __FUNCTION__." failed (count file names = $res)");
+		$this->assertTrue($res == 3604, __FUNCTION__." failed (count file names = $res)");
 		$res = $this->WbTmpTableRecent->getCountPath();
 		$this->assertTrue($res == 8, __FUNCTION__." failed (count paths = $res)");
 		// удаление временных таблиц
@@ -196,8 +199,11 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
    		// запоминаем данные о jobids в сессии
     	$this->restoreNamespace->JobHash = md5($ajobs['hash']);
    		$this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
-   		$this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) && ( $ajobs['ajob_all'][1] == 8) &&
-   			(sizeof($ajobs['ajob_all']) == 2 )  ) ,	__FUNCTION__." 'Id=2  Full, Id=8  Diff' expected");
+   		$this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) && 
+            ( $ajobs['ajob_all'][1] == 8)  &&
+            ( $ajobs['ajob_all'][2] == 13) &&
+            (sizeof($ajobs['ajob_all']) == 3 )  ) ,
+            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 13 Inc' expected");
 		$sjobids = implode(",", $this->restoreNamespace->aJobId);
 
 		// собственно клонирование
@@ -206,9 +212,9 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 
 		// проверяем кол-во файлов и т.д.
 		$res = $this->WbTmpTableRecent->getCountFile();
-		$this->assertTrue($res == 3610, __FUNCTION__." failed (count files = $res)");
+		$this->assertTrue($res == 3611, __FUNCTION__." failed (count files = $res)");
 		$res = $this->WbTmpTableRecent->getCountFileName();
-		$this->assertTrue($res == 3603, __FUNCTION__." failed (count file names = $res)");
+		$this->assertTrue($res == 3604, __FUNCTION__." failed (count file names = $res)");
 		$res = $this->WbTmpTableRecent->getCountPath();
 		$this->assertTrue($res == 8, __FUNCTION__." failed (count paths = $res)");
 		// удаление временных таблиц
