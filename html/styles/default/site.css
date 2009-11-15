@@ -426,11 +426,6 @@ div.roundcorner2 {
     background: #FFFFB4;
 }
 
-/*fieldset.ui-select { border: 0;  margin: 3px 3px 3px 3px; font-family: Trebuchet, Verdana, Arial;}*/
-select.ui-select, .ui-select-menu { float: left; margin-bottom: 40px; margin-top: 10px; font-family: Trebuchet, Verdana, Arial;}
-select.ui-select { width: 100%; font-family: Trebuchet, Verdana, Arial;}
-
-
 #easyTooltip{
     font-family: arial, verdana, sans-serif;
     font-size: 12px;

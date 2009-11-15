@@ -56,23 +56,23 @@ $j(document).ready(function() {
     $apools[''] = 'default';	// if empty FileSet exists in database
 ?>
 
-<div class="roundcorner1" style="width: 60%;">
+<div class="roundcorner1" style="width: 54em;">
 
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/restore-all'; ?>">
-<table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
+<table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
 <tr>
     <td align="right" class="search1">
         <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b>:</label>
     </td>
    	<td class="search1" align="left">
-       	<?php echo $this->formSelect('client', $this->client_name, array('class' => 'ui-select'), $aclients) ?>
+       	<?php echo $this->formSelect('client', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
     </td>
 
     <td align="right" class="search1">
         <label for="pool" class="ui-select"><?php print $this->translate->_("Pool"); ?>:</label>
     </td>
    	<td align="left" class="search1">
-       	<?php echo $this->formSelect('pool', null, array('class' => 'ui-select', 'style' => 'width: 200px;'), $apools) ?>
+       	<?php echo $this->formSelect('pool', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $apools) ?>
     </td>
 </tr>
 <tr>
@@ -83,7 +83,7 @@ $j(document).ready(function() {
         <label for="fileset" class="ui-select"><?php print $this->translate->_("Fileset"); ?>:</label>
     </td>
     <td align="left" class="search1">
-        <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 200px;'), $afilesets) ?>
+        <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $afilesets) ?>
     </td>
 </tr>
 <tr>
@@ -93,7 +93,7 @@ $j(document).ready(function() {
         <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?>:</label>
      </td>
    	<td align="left" class="search1">
-       	<?php echo $this->formSelect('storage', null, array('class' => 'ui-select', 'style' => 'width: 200px;'), $astorages) ?>
+       	<?php echo $this->formSelect('storage', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $astorages) ?>
     </td>
 </tr>
 <tr>

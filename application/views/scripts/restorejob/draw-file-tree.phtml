@@ -198,7 +198,7 @@ if ($this->type_restore == 'restore_recent') {
 
 
 <!-- Summary for restore -->
-<div class="roundcorner2" style="width: 150px; margin-top: 0; margin-left: 0; margin-right: 10px; text-align: left; float: left; background: #FAF294;">
+<div class="roundcorner2" style="width: 14em; margin: 0; text-align: left; float: left; background: #FAF294;">
 <b><?php print $this->translate->_("For restore"); ?></b><br />
 <?php print $this->translate->_("Size:"); ?> <div id="totalSize"><?php echo $this->convBytes($this->total_size); ?></div>
 <?php print $this->translate->_("Count:"); ?> <div id="totalFiles"><?php echo $this->total_files; ?></div>
@@ -208,10 +208,10 @@ if ($this->type_restore == 'restore_recent') {
 
 <!-- ******************************* draw file tree ******************************* -->
 <!-- pwd -->
-<div style="margin-right: 150px;">
+<div style="width: 61em; margin-left: 1em; margin-bottom: 3em;  float: left;">
 <table class="fmark" border="0" cellspacing="0" align="center">
 <tr>
-	<td colspan="3" class="pwd" style="font-size: 120%; background-color: #F3F7FF;">
+	<td colspan="3" class="pwd" style="font-size: 1em; background-color: #F3F7FF;">
 
 		<div id="responseResults" style="background-color: #FAF294;"><?php print $this->translate->_("Last action:"); ?><br />&nbsp;
 		</div>

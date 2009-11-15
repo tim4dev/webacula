@@ -59,13 +59,13 @@
 }
 
 #jobdesc-form {
-   width: 450px;
+   width: 34em;
    margin-top: 3px;
    margin-left: auto;
    margin-right: auto;
 }
 #jobdesc-form textarea:focus, #jobdesc-form input:focus {
-   border: 2px solid #900;
+   border: 1px solid #900;
    background-color: #FFF;
 }
 label {
@@ -75,7 +75,7 @@ label {
 }
 
 div.roundcorner-wjd {
-    width: 450px;
+    width: 34em;
     padding: 10px;
     text-align: left;
     margin-left: auto;

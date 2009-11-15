@@ -13,7 +13,6 @@ $j(document).ready(function() {
 <script type="text/javascript">
   //select
   $j(function(){
-      //$j('select#jobname').selectmenu({maxHeight: 300});
       $j('select').each(function() {
           var t = $j(this).selectmenu({maxHeight: 300});
 	          eval(t);
@@ -48,23 +47,19 @@ $j(document).ready(function() {
         }
         echo '</font>';
     }
-    // ***************** все OK *******************
-
+    // *** all OK ***
     if ( $this->result )
     {
         foreach ($this->result as $line) {
             $ajobs[$line] = $line;
         }
     }
-
 ?>
-
 <form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post">
     <label for="jobname" class="ui-select"><b><?php print $this->translate->_("Job Name"); ?></b> :</label>
-    <?php echo $this->formSelect('jobname', null, array('class' => 'ui-select'), $ajobs) ?>
+    <?php echo $this->formSelect('jobname', null, array('class' => 'ui-select', 'style' => 'width: 70%;'), $ajobs) ?>
     <div style="text-align: center; margin-left: auto; margin-right: auto;">
        <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>&nbsp;&nbsp;&nbsp;
     </div>
 </form>
-
 </div>

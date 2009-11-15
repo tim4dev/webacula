@@ -32,13 +32,13 @@ $j(document).ready(function() {
     }
 ?>
 
-<div class="roundcorner1" style="width: 540px;">
+<div class="roundcorner1" style="width: 41em;">
 
-<div style="text-align: left; padding: 10px; border-width: 1px;">
+<div style="text-align: left; padding: 4px; border-width: 1px;">
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/restore-recent-all'; ?>">
    <p><b><?php print $this->translate->_("Where to Restore"); ?> :</b></p>
    <label for="client" class="ui-select"><?php print $this->translate->_("Client"); ?></label>
-   <?php echo $this->formSelect('client_to_restore', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 50%;'), $aclients) ?>&nbsp;&nbsp;<br>
+   <?php echo $this->formSelect('client_to_restore', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>&nbsp;&nbsp;<br>
    <label for="path">
         <?php print $this->translate->_("Path"); ?> :
     </label>
@@ -50,7 +50,7 @@ $j(document).ready(function() {
     <input type="hidden" name="choice_form" id="choice_form"  value="1">
 
 	<span onclick="progressbar()">&nbsp;</span>
-<table border="0" align="center" style="margin-top: 20px;" cellpadding="15">
+<table border="0" align="center" style="margin-top: 10px;" cellpadding="10">
 	<tr>
 <td>
     <?php echo $this->formSubmit('ok', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') );	?>
