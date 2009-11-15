@@ -28,8 +28,9 @@
         </div>
     </div>
 <?php else: ?>
-<!-- ***************** all OK ******************* -->
-<div class="roundcorner2" style="width: 60%;">
+<!-- director output -->
+<table id="table-dir-output" >
+<tr><td>
     <b><?php print $this->translate->_("Director output:"); ?></b>
 
 	<?php
@@ -48,5 +49,6 @@
         echo '<p><b>', $this->translate->_("No Storage [un]mount."), '</b></p>';
     }
     ?>
-</div>
+</td></tr>
+</table>
 <?php endif; ?>

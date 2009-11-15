@@ -1,6 +1,6 @@
 
 h1 {
-    font-size:1.3em;
+    font-size:1.2em;
     font-family: sans-serif;
 }
 
@@ -8,58 +8,22 @@ h1 {
      margin: 0 auto;
 }
 
-table.t1 { border-bottom: 1px solid #7EBFFF; border-left: 1px solid #7EBFFF }
+/* for Director output */
 
-td.t1 {
-    padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    font-family: sans-serif;
-    font-size: 80%;
+#table-dir-output {
+   font-size: 1em;
+   background: #FFFFB4;
+   border-top:    1px solid #CDCA66;
+   border-bottom: 1px solid #CDCA66;
+   font-family: sans-serif;
+   margin: 0 auto;
 }
 
-td.t1lb {
-    padding: 3px 5px 3px 5px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    font-family: sans-serif;
-    font-size: 100%;
+#table-dir-output td {
+   padding: 1em;
 }
 
-td.t1h {
-    padding: 3px 5px 3px 5px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    background-color: #C3FFCA;
-    color:black;
-    font-family: sans-serif;
-    font-size: 90%;
-    font-weight : bold;
-    text-align:center;
-}
 
-td.t1hlb {
-    padding: 3px 5px 3px 5px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    background-color: #F5F5F5;
-    color:black;
-    font-family: sans-serif;
-    font-size: 100%;
-    font-weight : bold;
-    text-align:center;
-}
-
-td.t2h {
-    padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    background-color: #B5EDBC;
-    color:black;
-    font-family: sans-serif;
-    font-size: 90%;
-    font-weight : bold;
-}
 
 td.terr {
     padding: 3px 3px 3px 3px;
@@ -140,8 +104,8 @@ td.mono1 {
    color:#000; 
    border:outset 2px #FFbf4e; 
    font-weight : bold;
-   margin-top: 20px;
-   margin-bottom: 15px;
+   margin-top: 10px;
+   margin-bottom: 10px;
 }
 
 /* HTML and CSS Table Border Style Wizard: http://www.somacon.com/p141.php
@@ -236,17 +200,16 @@ span.mark{
 #box-table
 {
    font-family: "Lucida Sans Unicode", Sans-Serif;
-   font-size: 12px;
-   margin-top: 30px;
-   margin-bottom: 30px;
+   font-size: 1em;
+   font-weight: normal;
+   margin-top: 2em;
+   margin-bottom: 2em;
    text-align: left;
    border-collapse: collapse;
 }
 #box-table th
 {
-   font-size: 13px;
-   font-weight: normal;
-   padding: 8px;
+   padding: 7px;
    background: #b9c9fe;
    border-top: 4px solid #aabcfe;
    border-bottom: 1px solid #fff;
@@ -254,7 +217,8 @@ span.mark{
 }
 #box-table td
 {
-   padding: 8px;
+   font-size: 0.9em;
+   padding: 4px;
    background: #e8edff;
    border-bottom: 1px solid #fff;
    color: #669;
@@ -373,13 +337,13 @@ span.mark{
 ----------------------------------------------------------------------------------*/
 
 h1.dashboard {
-    font-size:95%;
+    font-size: 0.9em;
     font-family: sans-serif;
 }
 
 p.dashboard {
   font-family: arial, verdana, sans-serif;
-  font-size: 12px;
+  font-size: 0.8em;
 }
 
 a#dashboard {
@@ -392,19 +356,18 @@ a#dashboard:hover {
 #box-table-dashboard
 {
    font-family: "Lucida Sans Unicode", Sans-Serif;
-   font-size: 10px;
+   font-size: 0.8em;
    margin-top: 0px;
-   margin-bottom: 10px;
+   margin-bottom: 0.8em;
    text-align: left;
    border-collapse: collapse;
 }
 #box-table-dashboard th
 {
-   font-size: 10px;
    font-weight: normal;
    padding: 2px;
    background: #b9c9fe;
-   border-top: 4px solid #aabcfe;
+   border-top: 2px solid #aabcfe;
    border-bottom: 1px solid #fff;
    color: #039;
 }

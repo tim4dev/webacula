@@ -116,12 +116,10 @@ $j(function() {
  )); ?>
 </div>
 <br>
-<div style="text-align: center; margin: 5px;">
     <?php echo $this->formSubmit('ok1', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     ?>
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
-</div>
 </form>
     </div>
 <!-- END    Restore files for JobId -->
@@ -168,12 +166,10 @@ $j(function() {
  )); ?>
 </div>
 <br>
-<div style="text-align: center; margin: 5px;">
     <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     ?>
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
-</div>
 </form>
     </div>
 <!-- END    full restore to a specified JobId -->
@@ -185,7 +181,7 @@ $j(function() {
 <div>
 <p>
 <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-<table border="0" cellpadding="5" cellspacing="5" align="center" width="70%">
+<table border="0" cellpadding="5" cellspacing="5" width="70%">
 <tr><td>
 <?php echo $this->formHidden('most_recent_form', '1', null); ?>
 <?php echo $this->formHidden('beginrecent', '1', null); ?>
@@ -228,7 +224,7 @@ $j(function() {
 <div>
 <p>
 <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-<table border="0" cellpadding="5" cellspacing="5" align="center" width="70%">
+<table border="0" cellpadding="5" cellspacing="5" width="70%">
 <tr><td>
 <?php echo $this->formHidden('before_time_form', '1', null); ?>
 <?php echo $this->formHidden('beginrecent', '1', null); ?>
