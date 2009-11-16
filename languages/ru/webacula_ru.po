@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-10 16:29+0300\n"
+"POT-Creation-Date: 2009-11-16 08:03+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Yuri Timofeev <tim4dev@gmail.com>\n"
 "Language-Team: \n"
@@ -26,11 +26,11 @@ msgstr "Клиент"
 
 #: application/controllers/WbjobdescController.php:43
 msgid "Job Descriptions"
-msgstr ""
+msgstr "Описание заданий"
 
 #: application/controllers/WbjobdescController.php:52
 msgid "Add Job Description"
-msgstr ""
+msgstr "Добавить описание задания"
 
 #: application/controllers/WblogbookController.php:79
 msgid "in ascending order"
@@ -206,7 +206,6 @@ msgid "Information from DB Catalog : List of Running Jobs"
 msgstr "Информация из БД Каталога : Выполняющиеся Задания"
 
 #: application/controllers/JobController.php:60
-#, fuzzy
 msgid "List of Running Jobs"
 msgstr "Выполняющиеся Задания"
 
@@ -267,9 +266,8 @@ msgid "List Jobs where %s is saved (limit %s)"
 msgstr "Список Заданий где сохранен файл %s (максимум %s)"
 
 #: application/controllers/JobController.php:405
-#, fuzzy
 msgid "Cancel Job"
-msgstr "Отменить"
+msgstr "Отменить Задание"
 
 #: application/controllers/FeedController.php:56
 msgid "Job Id"
@@ -730,9 +728,9 @@ msgstr "ОШИБКА: Проблемы с запуском bconsole."
 msgid "ERROR: bconsole not found."
 msgstr "ОШИБКА: bconsole не найден."
 
-#: application/views/scripts/client/status-client-id.phtml:33
-#: application/views/scripts/storage/act-mount.phtml:33
-#: application/views/scripts/storage/status-id.phtml:33
+#: application/views/scripts/client/status-client-id.phtml:35
+#: application/views/scripts/storage/act-mount.phtml:34
+#: application/views/scripts/storage/status-id.phtml:34
 msgid "Director output:"
 msgstr "Информация от Директора:"
 
@@ -766,26 +764,26 @@ msgid "No Clients found."
 msgstr "Клиенты не найдены."
 
 #: application/views/scripts/file/list.phtml:12
-#: application/views/scripts/restorejob/list-recent-restore.phtml:84
+#: application/views/scripts/restorejob/list-recent-restore.phtml:81
 msgid "Attribute"
 msgstr "Атрибуты"
 
 #: application/views/scripts/file/list.phtml:13
-#: application/views/scripts/restorejob/list-recent-restore.phtml:85
+#: application/views/scripts/restorejob/list-recent-restore.phtml:82
 msgid "Name File"
 msgstr "Имя файла"
 
 #: application/views/scripts/file/list.phtml:14
-#: application/views/scripts/restorejob/list-recent-restore.phtml:86
+#: application/views/scripts/restorejob/list-recent-restore.phtml:83
 msgid "File Id"
 msgstr "Id файла"
 
 #: application/views/scripts/file/list.phtml:59
-#: application/views/scripts/restorejob/list-recent-restore.phtml:144
+#: application/views/scripts/restorejob/list-recent-restore.phtml:141
 msgid "No Files found."
 msgstr "Файлы не найдены."
 
-#: application/views/scripts/storage/act-mount.phtml:48
+#: application/views/scripts/storage/act-mount.phtml:49
 msgid "No Storage [un]mount."
 msgstr "Хранилище не [от]монтировано."
 
@@ -867,12 +865,12 @@ msgid "Fileset"
 msgstr "Набор файлов"
 
 #: application/views/scripts/restorejob/restore-all.phtml:104
-#: application/views/scripts/restorejob/list-recent-restore.phtml:62
+#: application/views/scripts/restorejob/list-recent-restore.phtml:59
 msgid "Run Restore Job"
 msgstr "Запуск Задания на восстановление"
 
 #: application/views/scripts/restorejob/restore-all.phtml:110
-#: application/views/scripts/restorejob/list-recent-restore.phtml:67
+#: application/views/scripts/restorejob/list-recent-restore.phtml:64
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -908,8 +906,8 @@ msgstr "Продолжить со старыми временными табли
 msgid "Exit"
 msgstr "Выход"
 
-#: application/views/scripts/restorejob/run-restore.phtml:52
-#: application/views/scripts/job/run-job-output.phtml:53
+#: application/views/scripts/restorejob/run-restore.phtml:53
+#: application/views/scripts/job/run-job-output.phtml:54
 msgid "View Running Jobs"
 msgstr "Выполняющиеся Задания"
 
@@ -919,47 +917,46 @@ msgid "Please wait. Create temporary tables..."
 msgstr "Подождите, создаются временные таблицы..."
 
 #: application/views/scripts/restorejob/main-form.phtml:80
-#, fuzzy
 msgid "Restore to a specified JobId"
-msgstr "Восстановление всех файлов для Id Задания"
+msgstr "Восстановление для Id Задания"
 
-#: application/views/scripts/restorejob/main-form.phtml:93
-#: application/views/scripts/restorejob/main-form.phtml:146
+#: application/views/scripts/restorejob/main-form.phtml:92
+#: application/views/scripts/restorejob/main-form.phtml:140
 msgid "See List last 20 Jobs run"
 msgstr "Просмотреть последние 20 запущенных Заданий"
 
-#: application/views/scripts/restorejob/main-form.phtml:115
-#: application/views/scripts/restorejob/main-form.phtml:167
-#: application/views/scripts/restorejob/main-form.phtml:209
-#: application/views/scripts/restorejob/main-form.phtml:266
+#: application/views/scripts/restorejob/main-form.phtml:113
+#: application/views/scripts/restorejob/main-form.phtml:159
+#: application/views/scripts/restorejob/main-form.phtml:197
+#: application/views/scripts/restorejob/main-form.phtml:252
 msgid "Select Files for Restore"
 msgstr "Выбрать файлы для восстановления"
 
-#: application/views/scripts/restorejob/main-form.phtml:120
-#: application/views/scripts/restorejob/main-form.phtml:172
-#: application/views/scripts/restorejob/main-form.phtml:213
-#: application/views/scripts/restorejob/main-form.phtml:270
+#: application/views/scripts/restorejob/main-form.phtml:117
+#: application/views/scripts/restorejob/main-form.phtml:163
+#: application/views/scripts/restorejob/main-form.phtml:201
+#: application/views/scripts/restorejob/main-form.phtml:255
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:23
 msgid "Next "
 msgstr "Далее "
 
-#: application/views/scripts/restorejob/main-form.phtml:132
+#: application/views/scripts/restorejob/main-form.phtml:128
 msgid "Full restore to a specified JobId"
-msgstr ""
+msgstr "Полное восстановление для JobId"
 
-#: application/views/scripts/restorejob/main-form.phtml:184
+#: application/views/scripts/restorejob/main-form.phtml:174
 msgid "Restore the most recent backup for a client"
 msgstr "Восстановление самого свежего бэкапа для клиента"
 
-#: application/views/scripts/restorejob/main-form.phtml:227
+#: application/views/scripts/restorejob/main-form.phtml:215
 msgid "Restore backup for a client before a specified time"
 msgstr "Восстановление бэкапа, сделанного перед указанным временем"
 
-#: application/views/scripts/restorejob/main-form.phtml:249
+#: application/views/scripts/restorejob/main-form.phtml:236
 msgid "Date before"
 msgstr "Дата перед"
 
-#: application/views/scripts/restorejob/main-form.phtml:259
+#: application/views/scripts/restorejob/main-form.phtml:246
 msgid "YYYY-MM-DD HH:MM:SS"
 msgstr "ГГГГ-ММ-ДД ЧЧ:ММ:СС"
 
@@ -1031,37 +1028,33 @@ msgstr "[Родительский каталог]"
 
 #: application/views/scripts/restorejob/msg02session.phtml:6
 msgid "Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini."
-msgstr ""
+msgstr "Время сессии для восстановления истекло.<br />Увеличьте <b>ttl_restore_session</b> в вашем config.ini."
 
 #: application/views/scripts/wbjobdesc/index.phtml:14
 msgid "Are you sure?"
-msgstr ""
+msgstr "Вы уверены?"
 
 #: application/views/scripts/wbjobdesc/index.phtml:18
-#, fuzzy
 msgid "Delete"
-msgstr "Удалена"
+msgstr "Удалить"
 
 #: application/views/scripts/wbjobdesc/index.phtml:42
 msgid "Job Description"
-msgstr ""
+msgstr "Описание Задания"
 
 #: application/views/scripts/wbjobdesc/index.phtml:43
-#, fuzzy
 msgid "Retention period"
 msgstr "Период хранения"
 
 #: application/views/scripts/wbjobdesc/index.phtml:54
 #: application/views/scripts/wbjobdesc/index.phtml:55
-#, fuzzy
 msgid "Modify record"
 msgstr "Изменить запись"
 
 #: application/views/scripts/wbjobdesc/index.phtml:58
 #: application/views/scripts/wbjobdesc/index.phtml:59
-#, fuzzy
 msgid "Delete record"
-msgstr "Восстановить запись"
+msgstr "Удалить запись"
 
 #: application/views/scripts/job/timeline.phtml:28
 msgid "YYYY-MM-DD"
@@ -1124,149 +1117,150 @@ msgstr "Нет запланированных заданий."
 #: application/views/scripts/job/problem.phtml:20
 #: application/views/scripts/job/terminated.phtml:22
 #: application/views/scripts/job/find-filters.phtml:35
-#: application/views/scripts/job/running.phtml:81
+#: application/views/scripts/job/running.phtml:78
 msgid "hh-mm-ss"
 msgstr "чч-мм-сс"
 
 #: application/views/scripts/job/terminated.phtml:154
 #: application/views/scripts/job/terminated.phtml:155
-#, fuzzy
+#: application/views/scripts/job/detail.phtml:36
+#: application/views/scripts/job/detail.phtml:37
 msgid "Written in Logbook"
-msgstr "Подробно о записи"
+msgstr "Записать в Журнал"
 
 #: application/views/scripts/job/running-dashboard.phtml:57
 #: application/views/scripts/job/running.phtml:55
 msgid "Information from Director : No Running Jobs found."
 msgstr "Информация от Директора : Выполняющихся Заданий не найдено."
 
-#: application/views/scripts/job/running-dashboard.phtml:85
-#: application/views/scripts/job/running.phtml:80
+#: application/views/scripts/job/running-dashboard.phtml:84
+#: application/views/scripts/job/running.phtml:77
 msgid "yy-mm-dd"
 msgstr "гг-мм-дд"
 
-#: application/views/scripts/job/running-dashboard.phtml:127
-#: application/views/scripts/job/running.phtml:143
+#: application/views/scripts/job/running-dashboard.phtml:126
+#: application/views/scripts/job/running.phtml:140
 msgid "Information from DB Catalog : No Running Jobs found."
 msgstr "Информация из БД Каталога : Выполняющихся Заданий не найдено."
 
-#: application/views/scripts/job/detail.phtml:5
-#: application/views/scripts/job/detail.phtml:87
-msgid "Listing files"
-msgstr "Список файлов"
-
-#: application/views/scripts/job/detail.phtml:11
+#: application/views/scripts/job/detail.phtml:18
+#: application/views/scripts/job/detail.phtml:19
 msgid "Console Messages"
 msgstr "Консольные сообщения"
 
-#: application/views/scripts/job/detail.phtml:43
+#: application/views/scripts/job/detail.phtml:45
 msgid "Unique Job Name"
 msgstr "Уникальное имя Задания"
 
-#: application/views/scripts/job/detail.phtml:49
+#: application/views/scripts/job/detail.phtml:51
 msgid "Purged Files"
 msgstr "Очистка Файлов"
 
-#: application/views/scripts/job/detail.phtml:52
+#: application/views/scripts/job/detail.phtml:54
 msgid "Job Type"
 msgstr "Тип Задания"
 
-#: application/views/scripts/job/detail.phtml:58
+#: application/views/scripts/job/detail.phtml:60
 msgid "Client/Version"
 msgstr "Клиент/Версия"
 
-#: application/views/scripts/job/detail.phtml:65
+#: application/views/scripts/job/detail.phtml:67
 msgid "Schedule Time"
 msgstr "Запланированное время"
 
-#: application/views/scripts/job/detail.phtml:114
+#: application/views/scripts/job/detail.phtml:89
+msgid "Listing files"
+msgstr "Список файлов"
+
+#: application/views/scripts/job/detail.phtml:116
 msgid "Volume(s)"
 msgstr "Том(а)"
 
-#: application/views/scripts/job/detail.phtml:125
+#: application/views/scripts/job/detail.phtml:127
 msgid "No Volumes found."
 msgstr "Информация о Томах не найдена."
 
-#: application/views/scripts/job/find-form.phtml:45
-#: application/views/scripts/job/find-form.phtml:49
+#: application/views/scripts/job/find-form.phtml:48
 #: application/views/scripts/job/find-form.phtml:52
-#: application/views/scripts/job/find-form.phtml:56
-#: application/views/scripts/job/find-form.phtml:60
-#: application/views/scripts/job/find-form.phtml:68
-#: application/views/scripts/job/find-form.phtml:78
+#: application/views/scripts/job/find-form.phtml:55
+#: application/views/scripts/job/find-form.phtml:59
+#: application/views/scripts/job/find-form.phtml:63
+#: application/views/scripts/job/find-form.phtml:71
+#: application/views/scripts/job/find-form.phtml:81
 msgid "ANY"
 msgstr "Любой"
 
-#: application/views/scripts/job/find-form.phtml:61
+#: application/views/scripts/job/find-form.phtml:64
 msgid "Full level"
 msgstr "Полное"
 
-#: application/views/scripts/job/find-form.phtml:62
+#: application/views/scripts/job/find-form.phtml:65
 msgid "Incremental level"
 msgstr "Инкрементальное"
 
-#: application/views/scripts/job/find-form.phtml:63
+#: application/views/scripts/job/find-form.phtml:66
 msgid "Differential level"
 msgstr "Дифференциальное"
 
-#: application/views/scripts/job/find-form.phtml:70
+#: application/views/scripts/job/find-form.phtml:73
 msgid "Completed successfully"
 msgstr "Выполнено успешно"
 
-#: application/views/scripts/job/find-form.phtml:71
+#: application/views/scripts/job/find-form.phtml:74
 msgid "Terminated with errors"
 msgstr "Прервано из-за ошибок"
 
-#: application/views/scripts/job/find-form.phtml:72
+#: application/views/scripts/job/find-form.phtml:75
 msgid "Canceled by user"
 msgstr "Прервано пользователем"
 
-#: application/views/scripts/job/find-form.phtml:73
+#: application/views/scripts/job/find-form.phtml:76
 msgid "Waiting anything"
 msgstr "Ожидает чего-либо"
 
-#: application/views/scripts/job/find-form.phtml:79
+#: application/views/scripts/job/find-form.phtml:82
 msgid "Backup type"
 msgstr "Бэкап"
 
-#: application/views/scripts/job/find-form.phtml:80
+#: application/views/scripts/job/find-form.phtml:83
 msgid "Restore type"
 msgstr "Восстановление"
 
-#: application/views/scripts/job/find-form.phtml:81
+#: application/views/scripts/job/find-form.phtml:84
 msgid "Verify type"
 msgstr "Проверка"
 
-#: application/views/scripts/job/find-form.phtml:82
+#: application/views/scripts/job/find-form.phtml:85
 msgid "Admin Job type"
 msgstr "Администраторское"
 
-#: application/views/scripts/job/find-form.phtml:101
+#: application/views/scripts/job/find-form.phtml:104
 msgid "Time, Client, Fileset, Level, Status, Type"
 msgstr "Время, Клиент, Набор файлов, Уровень, Статус, Тип"
 
-#: application/views/scripts/job/find-form.phtml:106
+#: application/views/scripts/job/find-form.phtml:109
 msgid "Time of start of the Jobs with"
 msgstr "Время начала Задания с"
 
-#: application/views/scripts/job/find-form.phtml:111
+#: application/views/scripts/job/find-form.phtml:113
 msgid "up to"
 msgstr "до"
 
-#: application/views/scripts/job/find-form.phtml:154
 #: application/views/scripts/job/find-form.phtml:157
+#: application/views/scripts/job/find-form.phtml:160
 msgid "List last"
 msgstr "Список последних"
 
-#: application/views/scripts/job/find-form.phtml:154
-#: application/views/scripts/job/find-form.phtml:158
+#: application/views/scripts/job/find-form.phtml:157
+#: application/views/scripts/job/find-form.phtml:161
 msgid "Jobs run"
 msgstr "запущенных Заданий"
 
-#: application/views/scripts/job/find-form.phtml:165
+#: application/views/scripts/job/find-form.phtml:168
 msgid "File Name"
 msgstr "Имя файла"
 
-#: application/views/scripts/job/find-form.phtml:170
+#: application/views/scripts/job/find-form.phtml:173
 msgid "Enter Filename (no path)"
 msgstr "Введите имя файла (без пути)"
 
@@ -1469,7 +1463,7 @@ msgstr "Комментарий"
 
 #: application/views/scripts/bconsole/cmd.phtml:9
 msgid "This feature is not available."
-msgstr ""
+msgstr "Эта возможность не реализована."
 
 #~ msgid "JobId"
 #~ msgstr "Id Задания"
