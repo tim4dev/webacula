@@ -99,9 +99,9 @@ class JobControllerTest extends ControllerTestCase
         //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('div', '1000 OK: main.dir');
-        $this->assertNotQueryContentRegex('div', '/Error/i');
-        $this->assertQueryContentContains('div', 'Job "wrong job name" not found');
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $this->assertQueryContentContains('td', 'Job "wrong job name" not found');
     }
 
 
@@ -132,11 +132,11 @@ class JobControllerTest extends ControllerTestCase
         //echo $this->response->outputBody();// for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('div', '1000 OK: main.dir');
-        $this->assertNotQueryContentRegex('div', '/Error/i');
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
         // http://by.php.net/manual/en/function.preg-match.php
         $pattern = '/Increme.*job.name.test.1.*is running|Increme.*job.name.test.1.*has terminated|12  Incr.*0.*0.*OK.*job.name.test.1/';
-        $this->assertQueryContentRegex('div', $pattern);
+        $this->assertQueryContentRegex('td', $pattern);
     }
 
     /**
@@ -157,11 +157,11 @@ class JobControllerTest extends ControllerTestCase
         //echo $this->response->outputBody();// for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('div', '1000 OK: main.dir');
-        $this->assertNotQueryContentRegex('div', '/Error/i');
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
         // http://by.php.net/manual/en/function.preg-match.php
         $pattern = '/Differe.*job_name_test_2.*is running|Differe.*job_name_test_2.*has terminated|13  Diff.*3.*4.115 K.*OK.*job_name_test_2/';
-       $this->assertQueryContentRegex('div', $pattern);
+        $this->assertQueryContentRegex('td', $pattern);
     }
 
     /*

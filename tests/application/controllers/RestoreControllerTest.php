@@ -177,9 +177,9 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertAction('run-restore');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('div', 'Connecting to Director');
-        $this->assertQueryContentContains('div', '@quit');
-        $this->assertNotQueryContentRegex('div', '/Error/i');
+        $this->assertQueryContentContains('td', 'Connecting to Director');
+        $this->assertQueryContentContains('td', '@quit');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
         $this->resetRequest()
              ->resetResponse();
         echo " Goto run-restore - OK. Waiting  $tsleep sec. to restore ... ";

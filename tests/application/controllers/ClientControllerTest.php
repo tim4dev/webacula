@@ -38,10 +38,10 @@ class ClientControllerTest extends ControllerTestCase
       //echo $this->response->outputBody(); // for debug !!!
       $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
-      $this->assertQueryContentContains('div', '1000 OK: main.dir');
-      $this->assertNotQueryContentRegex('div', '/Error/i');
-      $this->assertQueryContentRegex('div', "/local.fd Version:.*linux/");
-      $this->assertQueryContentRegex('div', "/Daemon started.*run since started/");
+      $this->assertQueryContentContains('td', '1000 OK: main.dir');
+      $this->assertNotQueryContentRegex('td', '/Error/i');
+      $this->assertQueryContentRegex('td', "/local.fd Version:.*linux/");
+      $this->assertQueryContentRegex('td', "/Daemon started.*run since started/");
    }
 
 }

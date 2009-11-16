@@ -41,9 +41,9 @@ class StorageControllerTest extends ControllerTestCase
         //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('div', '1000 OK: main.dir');
-        $this->assertNotQueryContentRegex('div', '/Error/i');
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
         // http://by.php.net/manual/en/function.preg-match.php
-        $this->assertQueryContentRegex('div', "/Storage1 Version:.*linux/");
+        $this->assertQueryContentRegex('td', "/Storage1 Version:.*linux/");
     }
 }
