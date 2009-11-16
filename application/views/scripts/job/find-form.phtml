@@ -3,7 +3,10 @@
   // select
   $j(function(){
       $j('select').each(function() {
-          var t = $j(this).selectmenu({maxHeight: 300});
+          var t = $j(this).selectmenu({
+              maxHeight: 300,
+              style: 'popup'
+            });
           eval(t);
       });
   });
@@ -85,7 +88,7 @@ $atype = array(
 ?>
 
 
-<div style="width: 80%; margin-left: auto; margin-right: auto;">
+<div style="width: 58em; margin-left: auto; margin-right: auto;">
 <div id="accordion" style="text-align: left;">
 
 <!-- // find by JobId -->
@@ -101,16 +104,16 @@ $atype = array(
 <h3><a href="#"><?php print $this->translate->_("Time, Client, Fileset, Level, Status, Type"); ?></a></h3>
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-filters';?>" method="post">
-<table border="0" cellpadding="5" cellspacing="5" align="left">
+<table border="0" cellpadding="4" cellspacing="4" align="left">
 <tr><td>
 	<b><?php print $this->translate->_("Time of start of the Jobs with"); ?></b>
-	<br><div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
 </td><td>
 	<?php echo $this->formText('date_begin', date('Y-m-d', time()-86400), array('size' => 10, 'maxlength' => 10)) ?>
 	<?php echo $this->formText('time_begin', date('H:i:s', time()-86400), array('size' => 8, 'maxlength' => 8 )) ?>
 	&nbsp;&nbsp;<b><?php print $this->translate->_("up to"); ?></b>&nbsp;
 	<?php echo $this->formText('date_end', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10)) ?>
 	<?php echo $this->formText('time_end', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8)) ?>
+	<br><div style="font-size:0.6em;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
 </td></tr><tr><td style="text-align: right;">
 	<label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
 </td><td>

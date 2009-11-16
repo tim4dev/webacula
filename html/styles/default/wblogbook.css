@@ -73,13 +73,13 @@
 }
 
 #logbook-form {
-   width: 700px;
+   width: 55em;
    margin-top: 25px;
    margin-left: auto;
    margin-right: auto;
 }
 #logbook-form textarea:focus, #logbook-form input:focus {
-   border: 2px solid #900;
+   border: 1px solid #900;
    background-color: #FFF;
 }
 label {
@@ -89,7 +89,7 @@ label {
 }
 
 div.roundcorner-wlb {
-    width: 700px;
+    width: 55em;
     padding: 20px;
     text-align: left;
     margin-left: auto;

@@ -40,22 +40,19 @@ $j(document).ready(function() {
         " ", $this->translate->_("file(s)"), ", ", $this->convBytes($this->total_size), "</b>" ; ?>
 </div>
 
-<div class="roundcorner1" style="width: 540px;">
+<div class="roundcorner1" style="width: 40em;">
 
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/run-restore-recent';?>">
 <table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
 <tr>
     <td align="left" colspan="2" class="search1">
         <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b>:</label>
-       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 50%;'), $aclients) ?>
+       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
     </td>
 </tr>
 <tr>
     <td align="left" colspan="2" class="search1" valign="top"><?php print $this->translate->_("Path"); ?>:
     <?php echo $this->formText('path_to_restore', '', array('size' => 50)) ?></td>
-</tr>
-<tr>
-    <td align="right" class="search1" colspan="2">&nbsp;</td>
 </tr>
 <tr>
     <td class="search1" align="center">

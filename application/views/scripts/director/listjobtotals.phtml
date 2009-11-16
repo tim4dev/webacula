@@ -28,8 +28,10 @@
         </div>
     </div>
 <?php else: ?>
-<!-- ***************** all OK ******************* -->
-<div class="roundcorner2" style="width: 50%;">
+
+<!-- director output -->
+<table id="table-dir-output">
+<tr><td>
 <b><?php print $this->translate->_("Director output:"); ?></b>
 <?php
     if ( $this->command_output )
@@ -45,5 +47,6 @@
 	   echo '</pre>';
     }
 ?>
-</div>
+</td></tr>
+</table>
 <?php endif; ?>

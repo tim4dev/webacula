@@ -1,18 +1,5 @@
 <h1 align="center"><?php echo $this->escape($this->titleJob); ?></h1>
 
-<center><p>
-<a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
-<?php print $this->translate->_("Listing files"); ?>
-</a>
-<br>
-<?php if ($this->resultJob): ?>
-<a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->jobid . '/jobname/' . $this->resultJob[0]['name']; ?>">
-<?php endif; ?>
-<?php print $this->translate->_("Console Messages"); ?>
-</a>
-</p>
-</center>
-
 <?php if ($this->resultJob): ?>
 <div align="center">
 <table id="box-table-one-column">
@@ -27,6 +14,10 @@
 	<td> <?php print $this->translate->_("Job Id"); ?> </td>
     <td style="padding: 0px;">
         &nbsp;<?php echo $this->escape($line['jobid']);?>&nbsp;&nbsp;
+        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->jobid . '/jobname/' . $this->resultJob[0]['name']; ?>" title="<?php
+            echo $this->translate->_("Console Messages"); ?>">
+            <?php print $this->translate->_("Console Messages"); ?>
+        </a>&nbsp;&nbsp;
         <?php
             if ( isset($line['poolid'], $line['poolname']) )    {
                 // restore button
@@ -35,9 +26,20 @@
                 echo '" title="', $this->translate->_("Restore Job"), '">';
                 echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '"',
                     ' border="0" hspace="0" align="absmiddle">';
+                echo '</a>&nbsp;';
+                // add to logbook button
+                echo '<a href="';
+                echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($this->resultJob[0]['name']),
+                    '/endtime/', $this->escape($line['endtime']),
+                    '/jobid/', $this->escape($line['jobid']),
+                    '/joberrors/', $this->escape($line['joberrors']);
+                echo '" title="', $this->translate->_("Written in Logbook"), '">';
+                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), 
+                    '" border="0" hspace="0" align="absmiddle">';
                 echo '</a>';
             }
         ?>
+        
     </td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Unique Job Name"); ?> </td>

@@ -28,8 +28,9 @@
         </div>
     </div>
 <?php else: ?>
-<!-- ***************** all OK ******************* -->
-<div class="roundcorner2" style="width: 75%;">
+<!-- director output -->
+<table id="table-dir-output">
+<tr><td>
     <b><?php print $this->translate->_("Director output:"); ?></b>
 	<?php
     if ( $this->command_output )
@@ -52,6 +53,6 @@
     <input type="hidden" name="jobname"  id="jobname"  value="<?php echo $this->jobname; ?>">
     <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs') ); ?>
     </form></div>
-
-</div>
+</td></tr>
+</table>
 <?php endif; ?>
