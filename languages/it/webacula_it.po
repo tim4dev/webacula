@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-10 15:58+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Yuri Timofeev <tim4dev@gmail.com>\n"
+"Last-Translator: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgstr "Client"
 
 #: application/controllers/WbjobdescController.php:43
 msgid "Job Descriptions"
-msgstr ""
+msgstr "Descrizioni Job"
 
 #: application/controllers/WbjobdescController.php:52
 msgid "Add Job Description"
-msgstr ""
+msgstr "Aggiungi Descrizione Job"
 
 #: application/controllers/WblogbookController.php:79
 msgid "in ascending order"
@@ -207,9 +207,8 @@ msgid "Information from DB Catalog : List of Running Jobs"
 msgstr "Informazioni dal DB Catalog : Lista dei Job in corso"
 
 #: application/controllers/JobController.php:60
-#, fuzzy
 msgid "List of Running Jobs"
-msgstr "Vista Job in Corso"
+msgstr "Lista Job in esecuzione"
 
 #: application/controllers/JobController.php:65
 #: application/controllers/JobController.php:80
@@ -268,9 +267,8 @@ msgid "List Jobs where %s is saved (limit %s)"
 msgstr "Lista Job dove %s sono salvati (limite %s)"
 
 #: application/controllers/JobController.php:405
-#, fuzzy
 msgid "Cancel Job"
-msgstr "Cancella"
+msgstr "Cancella Job"
 
 #: application/controllers/FeedController.php:56
 msgid "Job Id"
@@ -933,9 +931,8 @@ msgid "Please wait. Create temporary tables..."
 msgstr "Attendere prego. Creazione tabelle temporanee..."
 
 #: application/views/scripts/restorejob/main-form.phtml:80
-#, fuzzy
 msgid "Restore to a specified JobId"
-msgstr "Ripristina tutti i file per JobId"
+msgstr "Ripristina da uno specifico JobId"
 
 #: application/views/scripts/restorejob/main-form.phtml:93
 #: application/views/scripts/restorejob/main-form.phtml:146
@@ -959,7 +956,7 @@ msgstr "Prossimo"
 
 #: application/views/scripts/restorejob/main-form.phtml:132
 msgid "Full restore to a specified JobId"
-msgstr ""
+msgstr "Ripristino completo da uno specifico JobId"
 
 #: application/views/scripts/restorejob/main-form.phtml:184
 msgid "Restore the most recent backup for a client"
@@ -1049,33 +1046,29 @@ msgstr ""
 
 #: application/views/scripts/wbjobdesc/index.phtml:14
 msgid "Are you sure?"
-msgstr ""
+msgstr "Sei sicuro?"
 
 #: application/views/scripts/wbjobdesc/index.phtml:18
-#, fuzzy
 msgid "Delete"
-msgstr "Cancellati"
+msgstr "Elimina"
 
 #: application/views/scripts/wbjobdesc/index.phtml:42
 msgid "Job Description"
-msgstr ""
+msgstr "Descrizione Job"
 
 #: application/views/scripts/wbjobdesc/index.phtml:43
-#, fuzzy
 msgid "Retention period"
-msgstr "Ritenzione"
+msgstr "Periodo Ritenzione"
 
 #: application/views/scripts/wbjobdesc/index.phtml:54
 #: application/views/scripts/wbjobdesc/index.phtml:55
-#, fuzzy
 msgid "Modify record"
-msgstr "Modifica questo dato"
+msgstr "Modifica record"
 
 #: application/views/scripts/wbjobdesc/index.phtml:58
 #: application/views/scripts/wbjobdesc/index.phtml:59
-#, fuzzy
 msgid "Delete record"
-msgstr "Ripristina questo dato"
+msgstr "Elimina record"
 
 #: application/views/scripts/job/timeline.phtml:28
 msgid "YYYY-MM-DD"
@@ -1153,9 +1146,8 @@ msgstr "hh-mm-ss"
 
 #: application/views/scripts/job/terminated.phtml:154
 #: application/views/scripts/job/terminated.phtml:155
-#, fuzzy
 msgid "Written in Logbook"
-msgstr "Dettaglio Diario"
+msgstr "Scritti sul diario"
 
 #: application/views/scripts/job/running-dashboard.phtml:57
 #: application/views/scripts/job/running.phtml:55
@@ -1492,7 +1484,7 @@ msgstr "Commento"
 
 #: application/views/scripts/bconsole/cmd.phtml:9
 msgid "This feature is not available."
-msgstr ""
+msgstr "Questa caratteristica non e' disponibile."
 
 #~ msgid "JobId"
 #~ msgstr "JobId"
