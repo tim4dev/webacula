@@ -75,7 +75,8 @@ function my_PGSQL_db_connect()
         or die("[PGSQL]" . pg_last_error());*/
     $db = pg_connect("host='$dblocation' dbname='$dbname' user='$dbuser' password='$dbpassword'")
         or die("[PGSQL]" . pg_last_error());
-    echo "Connect [PGSQL] '$dbname' OK.\n";
+    pg_set_client_encoding ($db, 'SQL_ASCII');
+    echo "Connect [PGSQL] ", $dbname, ". Encoding ", pg_client_encoding(), ".  OK.\n";
     return $db;
 }
 
@@ -109,7 +110,7 @@ function my_copy_table($table_name)
 	       if ($value == '0000-00-00 00:00:00')  {
 	           $values  .= "NULL,";
 	       } else {
-            $values  .= "'" .  addslashes($value) . "',";
+            $values  .= "'" . pg_escape_string($dbOUT, $value) . "',";
           }
         }  
         $columns = rtrim($columns, ',');
@@ -120,7 +121,6 @@ function my_copy_table($table_name)
         //echo $query, "\n";
         $resOUT = pg_query($dbOUT, $query);
         if ( !$resOUT ) die("\n\nSQL : $query\n\n");
-        //if ( !$resOUT ) echo 'Query failed: ' , pg_last_error();
         $i++;
     }
 

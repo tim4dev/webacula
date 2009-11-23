@@ -53,7 +53,7 @@ my_check_log()
 #
 
 my_log "Check PostgreSql..."
-/usr/bin/psql -l
+psql -l
 if test $? -ne 0; then
 	echo "Can't connect to postgresql."
 	/sbin/service postgresql start
@@ -87,6 +87,7 @@ mkdir "${TMPDIR}/test/1"
 mkdir "${TMPDIR}/test/2"
 mkdir "${TMPDIR}/test/3"
 mkdir "${TMPDIR}/test/3/subdir"
+echo "Done."
 
 
 
@@ -136,7 +137,7 @@ my_log "Testing Configuration Files ..."
 /sbin/bconsole   -t -c /${BACULADIR}/bconsole.conf
 
 rm -r -f ${TMPDIR}/tmp/*
-
+echo "Done."
 
 
 my_log "Create dir tree ..."
@@ -154,6 +155,12 @@ dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500
 my_log "Import data for Win32 backup ..."
 cp -f dev/pool.file.7d.0001 "${TMPDIR}/dev/"
 mysql -u root bacula < catalog/bacula.mysql.dump
+
+if test $? -ne 0; then
+    echo "Error."
+    exit
+fi
+echo "OK."
 
 
 my_log "Run backup 1 ..."
@@ -265,16 +272,20 @@ fi
 
 my_log "Create Bacula PostgreSQL tables"
 
-# ENCODING 'UTF8'
+createdb -T template0 -E SQL_ASCII bacula
+if test $? -ne 0; then
+   echo "PGSQL : Creation of bacula database failed."
+   exit
+fi
 
-if /usr/bin/psql -f - -d template1 <<END-OF-DATA
-CREATE DATABASE bacula ENCODING 'SQL_ASCII';
+if psql -f - -d bacula <<END-OF-DATA
 ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
 END-OF-DATA
 then
-   echo "Creation of bacula database succeeded."
+   echo "PGSQL : Creation of bacula database succeeded."
 else
-   echo "Creation of bacula database failed."
+   echo "PGSQL : Creation of bacula database failed."
+   exit
 fi
 
 cd ${BASEDIR}
@@ -302,5 +313,6 @@ sh ./webacula_postgresql_fill_logbook
 my_log "Sqlite : fill webacula logbook"
 cd ${BASEDIR}
 sh ./webacula_sqlite_fill_logbook
+echo "Done."
 
 

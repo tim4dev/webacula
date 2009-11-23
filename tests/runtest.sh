@@ -34,7 +34,6 @@ if [ ${VERSION} == ${VER_SPEC} ] && [ ${VERSION} == ${VER_README} ]
 		exit 10
 fi
 
-echo ""
 diff -q ../application/config.ini  ../application/config.ini.original
 if [ $? == 0 ]
    then

@@ -53,11 +53,11 @@ echo -e "\n\n"
 rm -r -f /tmp/webacula/sqlite/bacula.db
 echo "Drop Sqlite bacula database succeeded."
 
-/usr/bin/psql -f - -d template1 <<END-OF-DATA
+psql -f - -d template0 <<END-OF-DATA
    DROP USER wbuser;
 END-OF-DATA
 
-if /usr/bin/dropdb bacula
+if dropdb bacula
 then
    echo "Drop PGSQL bacula database succeeded."
 else
@@ -65,8 +65,13 @@ else
 fi
 
 
-if /usr/bin/psql -f - -d template1 <<END-OF-DATA
-CREATE DATABASE bacula ENCODING 'SQL_ASCII';
+createdb -T template0 -E SQL_ASCII bacula
+if test $? -ne 0; then
+   echo "PGSQL : Creation of bacula database failed."
+   exit
+fi
+
+if psql -f - -d bacula <<END-OF-DATA
 ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
 END-OF-DATA
 then
