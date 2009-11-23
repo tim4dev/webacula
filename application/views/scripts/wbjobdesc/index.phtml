@@ -11,12 +11,12 @@ $j(document).ready(
     })
     
     $j('a.confirm').confirm({
-        msg:'<?= $this->translate->_("Are you sure?") ?>',
+        msg:'<?php echo $this->translate->_("Are you sure?") ?>',
         timeout:10000,
         buttons: {
             wrapper:'<button></button>',
-            ok:'<?= $this->translate->_("Delete") ?>',
-            cancel:'<?= $this->translate->_("Cancel") ?>',
+            ok:'<?php echo $this->translate->_("Delete") ?>',
+            cancel:'<?php echo $this->translate->_("Cancel") ?>',
             separator:' '
         }
     });
@@ -47,16 +47,16 @@ $j(document).ready(
 <tbody>
 <?php foreach($this->result as $line) : ?>
 <tr>
-    <td><?= $line['name_job'] ?></td>
-    <td><?= $line['description'] ?></td>
-    <td><?= $line['retention_period'] ?></td>
+    <td><?php echo $line['name_job'] ?></td>
+    <td><?php echo $line['description'] ?></td>
+    <td><?php echo $line['retention_period'] ?></td>
     <td>
-        <a href="<?= $this->baseUrl ?>/wbjobdesc/modify/desc_id/<?= $line['desc_id'] ?>" title="<?= $this->translate->_("Modify record") ?>">
-        <img src="<?= $this->baseUrl ?>/images/document-edit.png" alt="<?= $this->translate->_("Modify record") ?>" border="0" hspace="2">
+        <a href="<?php echo $this->baseUrl ?>/wbjobdesc/modify/desc_id/<?php echo $line['desc_id'] ?>" title="<?php echo $this->translate->_("Modify record") ?>">
+        <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2">
         </a>
         
-        <a href="<?= $this->baseUrl ?>/wbjobdesc/delete/desc_id/<?= $line['desc_id'] ?>" title="<?= $this->translate->_("Delete record") ?>" id="confirm" class="confirm">
-            <img src="<?= $this->baseUrl ?>/images/edit-delete.png" alt="<?= $this->translate->_("Delete record") ?>" border="0" hspace="2">
+        <a href="<?php echo $this->baseUrl ?>/wbjobdesc/delete/desc_id/<?php echo $line['desc_id'] ?>" title="<?php echo $this->translate->_("Delete record") ?>" id="confirm" class="confirm">
+            <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2">
         </a>
     </td>
 </tr>

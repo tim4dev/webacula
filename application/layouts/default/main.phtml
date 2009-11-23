@@ -9,7 +9,7 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php if ( $this->meta_refresh ) : ?>
-    <meta http-equiv="refresh" content="<?= $this->meta_refresh; ?>" />
+    <meta http-equiv="refresh" content="<?php echo $this->meta_refresh; ?>" />
 <?php endif; ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
