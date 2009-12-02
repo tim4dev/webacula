@@ -7,8 +7,9 @@ Webacula ChangeLog
    Add on "List of Running Jobs" the view of "joblog", so is possible to check the running session.
    Add "List Volumes likely to need replacement from age or errors", like bconsole -> query -> 16
    Fix bug #2891270 : ereg* deprecated in php >= 5.3
-   Add 'Job description' to Logbook.
+   Add 'Job description' feature to Logbook.
    Add 'Cancel JobId'.
+   Improved User Interface.
 
 === 3.3
    Now main page (index, "Desktop" menu) does not show a message like "Not found xyz".
