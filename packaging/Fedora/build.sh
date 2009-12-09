@@ -90,7 +90,8 @@ echo -e "\n*** exit=$?"
 echo -e "\nPress Enter to rpmbuild ..."
 read
 
-rpmbuild -ba ${SPEC}
+# fix error: unpacking of archive failed on file XXX cpio: MD5 sum mismatch
+rpmbuild --define "_source_filedigest_algorithm md5"  --define "_binary_filedigest_algorithm md5" -ba ${SPEC}
 echo -e "\n*** exit=$?"
 
 
@@ -106,6 +107,8 @@ Install rpm and testing.
 rpm -ihv ${RPM_RPMS}/noarch/webacula-\n
 
 mock -r fedora-11-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
+mock -r fedora-12-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
+mock -r epel-5-i386    rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 
 see result:
 

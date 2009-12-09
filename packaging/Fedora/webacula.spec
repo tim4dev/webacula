@@ -1,5 +1,5 @@
 Name:          webacula
-Version:       3.4
+Version:       3.4.1
 Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
@@ -28,7 +28,8 @@ Supports the run Job, restore all files or selected files,
 restore the most recent backup for a client,
 restore backup for a client before a specified time,
 mount/umount Storages, show scheduled, running and terminated Jobs and more.
-Supported languages: English, French, German, Italian, Portuguese Brazil, Russian.
+Supported languages: English, French, German, Italian,
+Portuguese Brazil, Russian.
 
 %description -l ru
 Webacula - Web Bacula - веб интерфейс для Bacula backup system.
@@ -114,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Dec 9 2009 Yuri Timofeev <tim4dev@gmail.com> 3.4.1-1
+- Version 3.4.1
+
 * Fri Oct 16 2009 Yuri Timofeev <tim4dev@gmail.com> 3.4-1
 - Version 3.4
 

@@ -100,11 +100,15 @@ class ChartController extends MyClass_ControllerAction
         }
 
         // fonts from .ini configuration
+        $ttf_font_error = 0;
         $config = new Zend_Config_Ini('../application/config.ini', 'timeline');
-
-        putenv('GDFONTPATH='. $config->gdfontpath);
-        $fontname = $config->fontname;
-        $fontsize = $config->fontsize;
+        if ( empty($config->fontname)) {
+            $fontsize = 10;
+        } else {
+            putenv('GDFONTPATH='. $config->gdfontpath);
+            $fontname = $config->fontname;
+            $fontsize = $config->fontsize;
+        }
         //$this->logger->log("timelineAction() : $date\n$fontname\n$fontsize\n", Zend_Log::INFO); // !!! debug
 
         // calculate values
@@ -198,15 +202,18 @@ class ChartController extends MyClass_ControllerAction
             ImageString($img, 4, $x1, $y1, sprintf("% 2d", $i), $blue);
         }
 
-        // название оси X
-        @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $this->view->translate->_("Hours"));
-        if ( empty($ares) )	{
-            $ttf_font_error = 1;	// TTF font not loaded/found
-            ImageString($img, 4, 5, 5, "Font " . $fontname . " not loaded/found.", $black); // do not to translate (перевод не нужен)
-            // ось подписываем встроенным шрифтом
+        // X axis title / название оси X
+        if ( empty($config->fontname)) {
+            // use system fixed font / ось подписываем встроенным шрифтом
             ImageString($img, $fixfont, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 2) ), "Hours", $blue); // do not to translate (перевод не нужен)
         } else {
-            $ttf_font_error = 0;
+            @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ), 
+                ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $this->view->translate->_("Hours"));
+            if ( empty($ares) ) {
+                $ttf_font_error = 1;    // TTF font not loaded/found
+                ImageString($img, 4, 5, 5, 
+                    "Font " . $fontname . " not loaded/found.", $black); // do not to translate (перевод не нужен)
+            }
         }
 
         //---------------- draw graph (рисуем график) --------------------------------------------
@@ -261,7 +268,7 @@ class ChartController extends MyClass_ControllerAction
             // где расположить текст
             // расчет координат текста
             // левая координата X = $abox[0], правая X = $abox[2]
-            if ( !$ttf_font_error )	{
+            if ( (!$ttf_font_error) && (!empty($config->fontname)) ) {
                 // TTF font loaded OK
                 $abox = ImageTtfBbox($fontsize, 0, $fontname, $str);
                 $xt = $xr1 + $margin_text_left;

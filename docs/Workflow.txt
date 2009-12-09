@@ -1,25 +1,27 @@
 
 Webacula workflow
 
-- Feature releases are numbered (and tagged) as 'vX.Y' and are meant to
+- Feature releases are numbered (and tagged) as 'X.Y' and are meant to
   contain bugfixes and enhancements, including functionality,
   performance and usability, without unit tests.
 
-- Maintenance releases are not supported.
+- Maintenance releases is supported only for the current release. 
+Maintenance releases does not support backports. 
+Maintenance releases are numbered (and tagged) as 'X.Y.Z'
 
 - All bugfixes since of the last feature release fall
   into the 'master' branch (possibly through a merge with topic 
   branch), accumulate and testing there and release as the form 
-  of the next release candidate, which is tagged as 'rcX.Y.Z'
+  of the next release candidate, which is tagged as 'X.Y.rcZ'
   Where 'X.Y' - is number of appropriate feature release, 
-  'Z' - number of release candidate.
+  'Z' - increase number of release candidate.
 
 - Files which contain the release candidates can be downloaded from 
   the directory 'webacula/current' in Sourceforge.
   Or get with the command:
 
-  git archive rcX.Y.Z --prefix='webacula/' | \
-    gzip > webacula-`git describe rcX.Y.Z`.tar.gz
+  git archive X.Y.rcZ --prefix='webacula/' | \
+    gzip > webacula-`git describe X.Y.rcZ`.tar.gz
 
   From Sourceforge or Github:
   git://webacula.git.sourceforge.net/gitroot/webacula/webacula
