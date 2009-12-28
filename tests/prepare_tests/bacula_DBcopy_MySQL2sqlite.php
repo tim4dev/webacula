@@ -123,8 +123,6 @@ function my_copy_table($table_name)
         $i++;
         //echo "."; // progress bar
     }
-    echo "\n";
-
     // close MySQL
     if ($resIN) mysql_free_result($resIN);
     if ($dbIN) mysql_close($dbIN);
@@ -133,7 +131,7 @@ function my_copy_table($table_name)
     unset($resOUT);
     unset($dbOUT);
 
-    echo "******* Table : '$table_name' , insert ", $i, " row(s)\n";
+    echo "Table : '$table_name' , insert ", $i, " row(s)\n";
 }
 
 

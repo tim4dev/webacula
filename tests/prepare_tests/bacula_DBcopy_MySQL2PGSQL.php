@@ -123,15 +123,13 @@ function my_copy_table($table_name)
         if ( !$resOUT ) die("\n\nSQL : $query\n\n");
         $i++;
     }
-
     // close MySQL
     if ($resIN) mysql_free_result($resIN);
     if ($dbIN) mysql_close($dbIN);
     // close PGSQL
     if ($resOUT) pg_free_result($resOUT);
     if ($dbOUT) pg_close($dbOUT);
-
-    echo "******* Table : '$table_name' , insert ", $i, " row(s)\n";
+    echo "Table : '$table_name' , insert ", $i, " row(s)\n";
 }
 
 
