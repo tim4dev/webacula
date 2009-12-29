@@ -32,15 +32,15 @@ my_check_log()
 {
     grep "^  Termination: *Backup OK" ${1} 2>&1 >/dev/null
     if test $? -eq 0; then
-        echo -e "\n${2} OK\n"
+        echo -e "\n=== ${2} OK ===\n"
         return 0
     fi
     grep "^  Termination: .*Backup Error" ${1} 2>&1 >/dev/null
     if test $? -eq 0; then
-        echo -e "\n${2} ERROR!!!\n"
+        echo -e "\n=== ${2} ERROR!!! ===\n"
         exit
     fi
-    echo -e "\n${2} UNKNOWN error or other nonsense !\n"
+    echo -e "\n=== ${2} UNKNOWN error or other nonsense ! ===\n"
     exit
 }
 
@@ -196,6 +196,7 @@ dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test41.dat" bs=1024 count=600 >
 my_check_rc
 dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500 > /dev/null 2>&1
 my_check_rc
+echo "Done."
 
 
 my_log "Import data for Win32 backup ..."

@@ -39,7 +39,7 @@ if [ $? == 0 ]
    then
       echo "OK. config.ini"
    else
-      echo -e "\nMake cp ../application/config.ini ../application/config.ini.original\n\n"
+      echo -e "\nMake application/config.ini and application/config.ini.original to be identical\n\n"
       exit 11
 fi
 

@@ -82,9 +82,9 @@ class Job extends Zend_Db_Table
 	 */
     function GetLastJobs()
     {
-    	$select = new Zend_Db_Select($this->db);
-    	$select->distinct();
-    	$last1day = date('Y-m-d H:i:s', time() - 86400); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 1 DAY
+        $select = new Zend_Db_Select($this->db);
+        //$select->distinct();
+        $last1day = date('Y-m-d H:i:s', time() - 86400); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 1 DAY
 
         switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
@@ -157,9 +157,9 @@ class Job extends Zend_Db_Table
         $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
         $select->where("j.EndTime > ?", $last1day);
         $select->order(array("StartTime", "JobId"));
-    	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-		$stmt = $select->query();
-		return $stmt->fetchAll();
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
     }
 
 

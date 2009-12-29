@@ -152,11 +152,11 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
         // запоминаем данные о jobids в сессии
         $this->restoreNamespace->JobHash = md5($ajobs['hash']);
         $this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
-        $this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) && 
+        $this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) &&
             ( $ajobs['ajob_all'][1] == 8)  &&
-            ( $ajobs['ajob_all'][2] == 13) &&
+            ( $ajobs['ajob_all'][2] == 14) &&
             (sizeof($ajobs['ajob_all']) == 3 )  ) ,
-            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 13 Inc' expected");
+            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 14 Inc' expected");
         $sjobids = implode(",", $this->restoreNamespace->aJobId);
 
         // собственно клонирование
@@ -199,11 +199,11 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
    		// запоминаем данные о jobids в сессии
     	$this->restoreNamespace->JobHash = md5($ajobs['hash']);
    		$this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
-   		$this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) && 
+   		$this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) &&
             ( $ajobs['ajob_all'][1] == 8)  &&
-            ( $ajobs['ajob_all'][2] == 13) &&
+            ( $ajobs['ajob_all'][2] == 14) &&
             (sizeof($ajobs['ajob_all']) == 3 )  ) ,
-            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 13 Inc' expected");
+            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 14 Inc' expected");
 		$sjobids = implode(",", $this->restoreNamespace->aJobId);
 
 		// собственно клонирование
