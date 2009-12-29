@@ -14,7 +14,7 @@ BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
 INSTALL_DIR="../../install/"
-DELAYJ=60
+DELAYJ=1
 LINE1="*********************************************************************************************"
 
 #########################################################
@@ -30,21 +30,18 @@ my_log() {
 # 2 - msg
 my_check_log()
 {
-	grep "^  Termination: *Backup OK" ${1} 2>&1 >/dev/null
-	if test $? -eq 0; then
-		echo -e "\n${2} OK\n"
-		#echo "Press Enter..."
-		#read
-		#sleep 10
-	fi
-	grep "^  Termination: .*Backup Error" ${1} 2>&1 >/dev/null
-	if test $? -eq 0; then
-		echo -e "\n${2} ERROR!!!\n"
-		exit
-		#echo "Press Enter..."
-		#read
-		#sleep 10
-	fi
+    grep "^  Termination: *Backup OK" ${1} 2>&1 >/dev/null
+    if test $? -eq 0; then
+        echo -e "\n${2} OK\n"
+        return 0
+    fi
+    grep "^  Termination: .*Backup Error" ${1} 2>&1 >/dev/null
+    if test $? -eq 0; then
+        echo -e "\n${2} ERROR!!!\n"
+        exit
+    fi
+    echo -e "\n${2} UNKNOWN error or other nonsense !\n"
+    exit
 }
 
 
@@ -142,25 +139,27 @@ sh ./webacula_sqlite_create_database.sh "/tmp/webacula/sqlite/webacula.db"
 chmod a+rwx /tmp/webacula/sqlite
 
 
-my_log "Create virtual changer..."
+my_log "Create fake autochanger..."
 cd ${BASEDIR}
 my_check_rc
 cp -f dev/devchanger/*  "${TMPDIR}/dev/devchanger"
 my_check_rc
 cd ${TMPDIR}/dev/devchanger
 my_check_rc
-# create 75 volumes
-for i in `seq 1 75`; do
+# create 5 volumes
+for i in `seq 1 5`; do
     echo $i:vol$i >> barcodes
     cp /dev/null slot$i
 done
 # make a cleaning tape
-echo 76:CLN01 >> barcodes
-cp /dev/null slot76
+echo 6:CLN01 >> barcodes
+cp /dev/null slot6
 # keep other empty
-for i in `seq 77 79`; do
+for i in `seq 7 9`; do
     echo $i:  >> barcodes
 done
+
+echo "Done."
 
 
 
@@ -185,17 +184,17 @@ my_log "Create dir tree ..."
 
 # Usage : <dir> <max files>
 cd ${BASEDIR}
-php ./create_dir_tree.php "${TMPDIR}/test/1" 3000
+php ./create_dir_tree.php "${TMPDIR}/test/1" 3000 > /dev/null 2>&1
 my_check_rc
-dd if=/dev/zero of="${TMPDIR}/test/2/file21.dat"  bs=1024 count=1000
+dd if=/dev/zero of="${TMPDIR}/test/2/file21.dat"  bs=1024 count=1000 > /dev/null 2>&1
 my_check_rc
-dd if=/dev/zero of="${TMPDIR}/test/2/file22.dat"  bs=1024 count=500
+dd if=/dev/zero of="${TMPDIR}/test/2/file22.dat"  bs=1024 count=500 > /dev/null 2>&1
 my_check_rc
-dd if=/dev/zero of="${TMPDIR}/test/3/file31.dat"  bs=1024 count=300
+dd if=/dev/zero of="${TMPDIR}/test/3/file31.dat"  bs=1024 count=300 > /dev/null 2>&1
 my_check_rc
-dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test41.dat" bs=1024 count=600
+dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test41.dat" bs=1024 count=600 > /dev/null 2>&1
 my_check_rc
-dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500
+dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500 > /dev/null 2>&1
 my_check_rc
 
 
@@ -205,12 +204,14 @@ mysql -u root bacula < catalog/bacula.mysql.dump
 my_check_rc
 echo "OK."
 
-
-my_log "Run backup 1 ..."
-
+my_log "bacula start ..."
 cd "/${BACULADIR}"
 ./bacula start
 sleep 3
+
+
+
+my_log "Run backup 1 ..."
 
 ${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
 @output /dev/null
@@ -235,9 +236,9 @@ sleep ${DELAYJ}
 
 my_log "Run backup 2 ..."
 
-dd if=/dev/zero of="${TMPDIR}/test/1/file_new11.dat"  bs=1024 count=300
-dd if=/dev/zero of="${TMPDIR}/test/2/file_new23.dat"  bs=1024 count=400
-dd if=/dev/zero of="${TMPDIR}/test/3/file_new31.dat"  bs=1024 count=500
+dd if=/dev/zero of="${TMPDIR}/test/1/file_new11.dat"  bs=1024 count=300 > /dev/null 2>&1
+dd if=/dev/zero of="${TMPDIR}/test/2/file_new23.dat"  bs=1024 count=400 > /dev/null 2>&1
+dd if=/dev/zero of="${TMPDIR}/test/3/file_new31.dat"  bs=1024 count=500 > /dev/null 2>&1
 
 
 ${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
@@ -263,9 +264,9 @@ sleep ${DELAYJ}
 
 my_log "Run backup 3 ..."
 
-dd if=/dev/zero of="${TMPDIR}/test/1/file_new12.dat"  bs=1024 count=350
-dd if=/dev/zero of="${TMPDIR}/test/2/file_new24.dat"  bs=1024 count=450
-dd if=/dev/zero of="${TMPDIR}/test/3/file_new32.dat"  bs=1024 count=550
+dd if=/dev/zero of="${TMPDIR}/test/1/file_new12.dat"  bs=1024 count=350 > /dev/null 2>&1
+dd if=/dev/zero of="${TMPDIR}/test/2/file_new24.dat"  bs=1024 count=450 > /dev/null 2>&1
+dd if=/dev/zero of="${TMPDIR}/test/3/file_new32.dat"  bs=1024 count=550 > /dev/null 2>&1
 
 ${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
 @output /dev/null
@@ -298,8 +299,11 @@ ${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
 @output /dev/null
 messages
 @output ${TMPDIR}/log/04.log
+label barcodes pool=Default slots=1-4 storage=LTO1 drive=0
+yes
+messages
 @sleep 1
-run job="job.name.test.autochanger.1" level=Full yes
+run storage=LTO1 job="job.name.test.autochanger.1" level=Full    yes
 wait
 messages
 quit
@@ -308,7 +312,7 @@ END_OF_DATA
 my_check_log "${TMPDIR}/log/04.log" "backup 4 autochanger"
 
 
-rm -r -f  ${TMPDIR}/log/*
+# rm -r -f  ${TMPDIR}/log/*
 
 
 my_log "Make Job with errors"
@@ -371,4 +375,4 @@ cd ${BASEDIR}
 sh ./webacula_sqlite_fill_logbook
 echo "Done."
 
-
+echo "All done."
