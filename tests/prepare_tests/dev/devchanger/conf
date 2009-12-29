@@ -1,0 +1,4 @@
+maxdrive=2
+maxslot=10
+dbgfile=/tmp/webacula/log/changer.log
+
