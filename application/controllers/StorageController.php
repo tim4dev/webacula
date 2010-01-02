@@ -47,6 +47,7 @@ class StorageController extends MyClass_ControllerAction
 
     function statusIdAction ()
     {
+        // status [slots] storage=<storage-name> [drive=<num>]
         $storage_id = intval($this->_request->getParam('id'));
         $storage_name = addslashes($this->_request->getParam('name'));
         if (! empty($storage_id)) {
@@ -77,8 +78,34 @@ EOF");
     function actMountAction()
     {
         $action = addslashes($this->_request->getParam('act'));
-        if (($action != 'mount') && ($action != 'umount'))
-            unset($action);
+        if (($action != 'mount') && ($action != 'umount')) {
+            $this->_forward('storage', null, null, null);
+            return;
+        }
+        /* autochanger commands :
+         *
+         * mount storage=<storage-name> [ slot=<num> ] [ drive=<num> ]
+         *
+         * unmount storage=<storage-name> [ drive=<num> ]
+         */
+        $autochanger = addslashes(trim($this->_request->getParam('autochanger')));
+        if ($autochanger == 1) {
+            if ($action == 'mount') {
+                $slot  = addslashes(trim($this->_request->getParam('slot')));
+                $drive = addslashes(trim($this->_request->getParam('drive', 0)));
+                $changer = "slot=$slot drive=$drive";
+                if ( $slot == '' ) {
+                    $this->_forward('storage', null, null, null);
+                    return;
+                }
+            }
+            if ($action == 'umount') {
+                $drive = addslashes(trim($this->_request->getParam('drive', 0)));
+                $changer = "drive=$drive";
+            }
+        } else
+            $changer = '';
+
         $storage_name = addslashes($this->_request->getParam('name'));
         if (! empty($action) && ! empty($storage_name)) {
             $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . " " . $action;
@@ -89,7 +116,7 @@ EOF");
                 return;
             }
             $astatusdir = $director->execDirector(" <<EOF
-$action storage=\"$storage_name\"
+$action storage=\"$storage_name\" $changer
 .
 quit
 EOF");

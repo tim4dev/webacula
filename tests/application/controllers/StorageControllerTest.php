@@ -83,4 +83,56 @@ class StorageControllerTest extends ControllerTestCase
         $this->assertQueryContentContains('td', '3906 File device "dev.file.storage.1" (/tmp/webacula/dev) is always mounted.');
     }
 
+    /**
+     * @group autochanger
+     */
+    public function testStorageUmountAutochanger ()
+    {
+        print "\n" . __METHOD__ . ' ';
+        $this->request->setPost(array(
+            'autochanger' => 1,
+            'act'  => 'umount',
+            'name' => 'LTO2',
+            'drive'=> 2
+        ));
+        $this->request->setMethod('POST');
+        $this->dispatch('storage/act-mount');
+        $this->assertModule('default');
+        $this->assertController('storage');
+        $this->assertAction('act-mount');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $this->assertQueryContentRegex('td', "/Device.*LTO2_2.*unmounted/");
+    }
+
+
+
+    /**
+     * @group autochanger
+     */
+    public function testStorageMountAutochanger ()
+    {
+        print "\n" . __METHOD__ . ' ';
+        $this->request->setPost(array(
+            'autochanger' => 1,
+            'act'  => 'mount',
+            'name' => 'LTO2',
+            'drive'=> 2,
+            'slot' => 1
+        ));
+        $this->request->setMethod('POST');
+        $this->dispatch('storage/act-mount');
+        $this->assertModule('default');
+        $this->assertController('storage');
+        $this->assertAction('act-mount');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $this->assertQueryContentRegex('td', "/Device.*LTO2_2.*mounted/");
+    }
+
+
 }
