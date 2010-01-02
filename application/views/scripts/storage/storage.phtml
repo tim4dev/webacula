@@ -32,8 +32,9 @@
 	</td>
 
     <td align="center"><?php
-        if ( $this->escape($storage->autochanger) > 0 ) echo "+";
-        else echo "-";
+        if ( $this->escape($storage->autochanger) > 0 ) echo '<img src="'.$this->baseUrl .'/images/media-tape-changer.png" alt="'.
+            $this->translate->_("AutoChanger").'" title="'.$this->translate->_("AutoChanger").'" border="0" hspace="5">';
+        else echo '&nbsp;';
     ?></td>
 </tr>
 <?php endforeach; ?>
