@@ -107,7 +107,6 @@ class WblogbookController extends MyClass_ControllerAction
         if ($ret)	{
             $this->view->result = $ret->fetchAll();
         }
-        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 
@@ -528,7 +527,7 @@ class WblogbookController extends MyClass_ControllerAction
         $this->view->aAllowedTags = $this->aAllowedTags;
     }
 
-    
+
     /**
      * Write record about Job to LogBook
      */
@@ -538,15 +537,15 @@ class WblogbookController extends MyClass_ControllerAction
         $name_job = trim($this->_request->getParam('name_job'));
         $endtime  = trim($this->_request->getParam('endtime'));
         $joberrors= intval($this->_request->getParam('joberrors'));
-        
+
         $this->view->title = $this->view->translate->_("Logbook: add new record");
         $this->view->wblogbook = new Wblogbook();
         $this->view->amessages = array();
-        
+
         // setup new record
         if ( $joberrors > 0 ) $this->view->wblogbook->logTypeId = 255; // Error
             else $this->view->wblogbook->logTypeId = 20; // OK
-        
+
         // get data from table
         Zend_Loader::loadClass('Wbjobdesc');
         $table = new wbJobDesc();
@@ -573,6 +572,6 @@ class WblogbookController extends MyClass_ControllerAction
         $this->view->aAllowedTags = $this->aAllowedTags;
         echo $this->renderScript('/wblogbook/add.phtml');
     }
-    
+
 
 }

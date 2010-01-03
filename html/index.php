@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '3.4.1' . ', build 2009.12.09');
+define('WEBACULA_VERSION', '3.5' . ', build 2010.01.03');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 

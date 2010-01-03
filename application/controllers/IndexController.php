@@ -52,6 +52,7 @@ class IndexController extends MyClass_ControllerAction
         } else {
             $this->view->titleDashboard = $config->head_title;
         }
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 }

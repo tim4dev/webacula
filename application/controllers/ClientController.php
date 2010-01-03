@@ -42,7 +42,6 @@ class ClientController extends MyClass_ControllerAction
         $clients = new Client();
         $order  = array('ClientId', 'Name');
         $this->view->clients = $clients->fetchAll(null, $order);
-        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 

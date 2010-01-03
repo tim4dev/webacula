@@ -434,3 +434,8 @@ div.roundcorner2 {
     background: #FBF6CB;
     color:#222;
 }
+
+.update-info {
+    font-family: arial, verdana, sans-serif;
+    font-size: 0.9em;
+}

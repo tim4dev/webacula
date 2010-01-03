@@ -8,7 +8,9 @@ header("Pragma: no-cache");                                     // HTTP/1.0
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="refresh" content="300" />
+<?php if ( $this->meta_refresh ) : ?>
+    <meta http-equiv="refresh" content="<?php echo $this->meta_refresh; ?>" />
+<?php endif; ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
     <title><?php echo $this->escape($this->titleDashboard); ?></title>
@@ -195,6 +197,14 @@ window.onfocus=CloseNewWin;
         });
     });
 </script>
+
+<?php if ( $this->meta_refresh ) : ?>
+<div class="update-info">
+    Last Updated: <?php echo date("r"); ?>
+    <br />
+    Updated every <?php echo $this->meta_refresh; ?> seconds
+</div>
+<?php endif; ?>
 
 
 <?php
