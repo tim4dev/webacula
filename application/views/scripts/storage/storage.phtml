@@ -36,10 +36,13 @@ $j().ready(function() {
     <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5">
 </a>
 <div class="jqmWindow" id="dialog<?php echo $this->escape($storage->storageid); ?>">
+<div class="dialog-header">
     <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage->name); ?></b>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+<div class="dialog-close">
     <a href="#" class="jqmClose">[x]</a>
-<hr>
+</div>
+<hr class="dialog-hr">
 
 <!-- autochanger form begin -->
 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
@@ -48,12 +51,12 @@ $j().ready(function() {
 <?php echo $this->formHidden('name', $this->escape($storage->name), null); ?>
 <div style="text-align: left; padding: 6px;">
     <label>
-    <?php print $this->translate->_("Enter autochanger drive:"); ?>
+    <?php print $this->translate->_("Enter autochanger drive"); ?>
     <?php echo $this->formText('drive', null, array('size' => 3)); ?>
     </label>
     <label>
     <br>
-    <?php print $this->translate->_("Enter autochanger slot:"); ?>
+    <sup>*</sup><?php print $this->translate->_("Enter autochanger slot"); ?>
     <?php echo $this->formText('slot', null, array('size' => 3)); ?>
     </label>
 </div>
@@ -108,10 +111,13 @@ $j().ready(function() {
     <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5">
 </a>
 <div class="jqmWindow" id="dialogU<?php echo $this->escape($storage->storageid); ?>">
+<div class="dialog-header">
     <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage->name); ?></b>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+<div class="dialog-close">
     <a href="#" class="jqmClose">[x]</a>
-<hr>
+</div>
+<hr class="dialog-hr">
 
 <!-- autochanger form begin -->
 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
@@ -120,7 +126,7 @@ $j().ready(function() {
 <?php echo $this->formHidden('name', $this->escape($storage->name), null); ?>
 <div style="text-align: left; padding: 6px;">
     <label>
-    <?php print $this->translate->_("Enter autochanger drive:"); ?>
+    <?php print $this->translate->_("Enter autochanger drive"); ?>
     <?php echo $this->formText('drive', null, array('size' => 3)); ?>
     </label>
 </div>

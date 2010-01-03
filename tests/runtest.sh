@@ -74,7 +74,7 @@ echo -e "\n\n${LINE1}"
 echo "Test Postgresql"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
-phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
+phpunit --exclude-group nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
 ret=$?
 echo "$ret"
 if [ $ret -ne 0 ]
@@ -88,7 +88,7 @@ echo -e "\n\n${LINE1}"
 echo "Test Sqlite"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
-phpunit --exclude-group nonreusable --colors --stop-on-failure AllTests.php
+phpunit --exclude-group nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
 ret=$?
 echo "$ret"
 if [ $ret -ne 0 ]
