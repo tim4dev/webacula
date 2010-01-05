@@ -386,15 +386,29 @@ EOF"
      */
     function findFileNameAction()
     {
-        $limit = 30;
-        $namefile = $this->_request->getParam('namefile'); // имя файла м.б. с лидирующими и концевыми пробелами
-        $client   = trim( $this->_request->getParam('client_nf') );
+        $limit    = 50;
+        $path     = rtrim( $this->_request->getParam('path') );
+        $namefile = $this->_request->getParam('namefile'); // NO trim!!
+        // $namefile required
+        if ( empty($namefile) ) {
+            $this->_forward('find-form', null, null, null);
+            return;
+        }
+        // $path will be with trailing slash
+        if ( !empty($path) && ( substr($path, -1) != '/') ) {
+            $this->_forward('find-form', null, null, null);
+            return;
+        }
+        $client   = addslashes( trim( $this->_request->getParam('client_nf') ));
+        $type_search = addslashes( $this->_request->getParam('type_file_search') );
+        $case_sensitive = addslashes( $this->_request->getParam('case_sensitive', 0) );
+        // TODO : remember input values
         $this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
         $job = new Job();
-        $this->view->result = $job->getByFileName($namefile, $client, $limit);
+        $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search, $case_sensitive);
     }
 
-    
+
     /**
      * Cancel Job
      * http://www.bacula.org/3.0.x-manuals/en/console/console/Bacula_Console.html
@@ -427,7 +441,7 @@ EOF"
             $this->view->result_error = $astatusdir['result_error'];
         }
         // показываем вывод Director
-        echo $this->renderScript('/job/run-job-output.phtml');
+        echo $this->renderScript('job/run-job-output.phtml');
     }
 
 

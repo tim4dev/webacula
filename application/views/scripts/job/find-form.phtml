@@ -47,14 +47,14 @@ $j(function() {
 // create array clients for Form
 $aclients[''] = $this->translate->_('ANY');
 foreach($this->clients as $client) :
-	$aclients[$this->escape($client->name)] = $this->escape($client->name);
+    $aclients[$this->escape($client->name)] = $this->escape($client->name);
 endforeach;
 $aclients[''] = $this->translate->_('ANY');	// if empty client exists in database
 
 // create array filesets for Form
 $afilesets[''] = $this->translate->_('ANY');
 foreach($this->filesets as $fileset) :
-	$afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
+    $afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
 endforeach;
 $afilesets[''] = $this->translate->_('ANY');	// if empty FileSet exists in database
 
@@ -85,6 +85,12 @@ $atype = array(
     "D" => $this->translate->_("Admin Job type")
 );
 
+// search by Path/Name File
+$atype_file_search = array(
+    'ordinary' => $this->translate->_("Ordinary"),
+    'like'     => $this->translate->_("LIKE operator"),
+    'regexp'   => $this->translate->_("Regular expression")
+);
 ?>
 
 
@@ -169,14 +175,28 @@ $atype = array(
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-file-name';?>" method="post">
 <table border="0" cellpadding="5" cellspacing="5" align="left">
-<tr><td>
-   	<b><?php print $this->translate->_("Enter Filename (no path)"); ?></b>
+<tr><td style="text-align: right;">
+    <b><?php print $this->translate->_("Enter path with trailing slash"); ?></b>
 </td><td>
-   	<?php echo $this->formText('namefile', "", array('size' => 40)) ?>
+    <?php echo $this->formText('namepath', "", array('size' => 40)) ?>
 </td></tr><tr><td style="text-align: right;">
-	<label for="client_nf" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
+    <b><sup>*</sup><?php print $this->translate->_("Enter Filename (no path)"); ?></b>
 </td><td>
-	<?php echo $this->formSelect('client_nf', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $aclients) ?>
+    <?php echo $this->formText('namefile', "", array('size' => 30)); ?>
+</td></tr><tr><td style="text-align: right;">
+    <b><?php print $this->translate->_("Type of search"); ?></b>
+</td><td style="text-align: left;">
+    <table border="0" cellpadding="2" cellspacing="2" align="left">
+        <tr><td>
+        <?php echo $this->formRadio('type_file_search', 'ordinary', null, $atype_file_search); ?>
+        </td><td>
+        <?php echo $this->formCheckbox('case_sensitive'); ?>Case sensitive
+        </td></tr>
+    </table>
+</td></tr><tr><td style="text-align: right;">
+    <label for="client_nf" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('client_nf', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $aclients); ?>
 </td></tr>
 <tr><td colspan="2">
 	<?php echo $this->formSubmit('ok5', $this->translate->_('Search'), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
