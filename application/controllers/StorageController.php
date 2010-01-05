@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -75,6 +75,7 @@ EOF");
     }
 
 
+
     function actMountAction()
     {
         $action = addslashes($this->_request->getParam('act'));
@@ -108,7 +109,18 @@ EOF");
 
         $storage_name = addslashes($this->_request->getParam('name'));
         if (! empty($action) && ! empty($storage_name)) {
-            $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . " " . $action;
+             switch ($action) {
+                case 'mount':
+                    $str_action = $this->view->translate->_("mount");
+                break;
+                case 'umount':
+                    $str_action = $this->view->translate->_("umount");
+                break;
+                default:
+                    $str_action = '';
+                break;
+            }
+            $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . ' ' . $str_action;
             $director = new Director();
             if (! $director->isFoundBconsole()) {
                 $this->view->result_error = 'NOFOUND_BCONSOLE';
@@ -129,6 +141,46 @@ EOF");
             }
         } else
             $this->view->command_output = null;
+    }
+
+
+
+    function autochangerContentAction()
+    {
+        /* Display Autochanger Content http://www.bacula.org/3.0.x-manuals/en/concepts/concepts/New_Features_in_3_0_0.html
+         *
+         * update slots storage="LTO1" drive=0
+         * status slots storage="LTO1" drive=0
+         */
+        $changer = '';
+
+        $storage_name = addslashes($this->_request->getParam('name'));
+        if (!empty($storage_name)) {
+            $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . ' '.
+                $this->view->translate->_("autochanger content");
+            $director = new Director();
+            if (! $director->isFoundBconsole()) {
+                $this->view->result_error = 'NOFOUND_BCONSOLE';
+                $this->render();
+                return;
+            }
+            $astatusdir = $director->execDirector(" <<EOF
+update slots storage=\"$storage_name\" drive=0
+wait
+status slots storage=\"$storage_name\" drive=0
+wait
+@quit
+EOF");
+            $this->view->command_output = $astatusdir['command_output'];
+            // check return status of the executed command
+            if ($astatusdir['return_var'] != 0) {
+                $this->view->result_error = $astatusdir['result_error'];
+                echo $this->renderScript('storage/status-id.phtml');
+                return;
+            }
+        } else
+            $this->view->command_output = null;
+        echo $this->renderScript('storage/status-id.phtml');
     }
 
 }

@@ -85,11 +85,15 @@ $j().ready(function() {
         &nbsp;
     </td>
 
-    <td align="center"><?php
-        if ( $this->escape($storage->autochanger) > 0 ) echo '<img src="'.$this->baseUrl .'/images/media-tape-changer.png" alt="'.
-            $this->translate->_("AutoChanger").'" title="'.$this->translate->_("AutoChanger").'" border="0" hspace="5">';
-        else echo '-';
-    ?></td>
+    <td align="center">
+        <?php if ( $this->escape($storage->autochanger) > 0 ) : ?>
+            <a href="<?php echo $this->baseUrl, '/storage/autochanger-content/name/', $this->escape($storage->name);?>" title="<?php print $this->translate->_("Display autochanger content"); ?>">
+            <img src="<?php echo $this->baseUrl;?>/images/media-tape-changer.png" border="0" hspace="5">
+            </a>
+        <?php else : ?>
+        -
+        <?php endif; ?>
+    </td>
 
 
 

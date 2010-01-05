@@ -201,9 +201,9 @@ window.onfocus=CloseNewWin;
 
 <?php if ( $this->meta_refresh ) : ?>
 <div class="update-info">
-    Last Updated: <?php echo date("r"); ?>
+    <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>
     <br />
-    Updated every <?php echo $this->meta_refresh; ?> seconds
+    <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
 </div>
 <?php endif; ?>
 

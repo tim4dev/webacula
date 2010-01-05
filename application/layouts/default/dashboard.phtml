@@ -112,10 +112,10 @@ function NewWindow(mypage,myname,w,h,scroll,pos){
     }
     if (pos=="default") {
         LeftPosition=50;
-        TopPosition=50
+        TopPosition=50;
     } else if ((pos!="center" && pos!="random" && pos!="default") || pos==null) {
             LeftPosition=0;
-            TopPosition=20
+            TopPosition=20;
         }
     settings='width='+w+',height='+h+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no,resizable=no';
     win=window.open(mypage,myname,settings);
@@ -200,11 +200,12 @@ window.onfocus=CloseNewWin;
 
 <?php if ( $this->meta_refresh ) : ?>
 <div class="update-info">
-    Last Updated: <?php echo date("r"); ?>
+    <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>
     <br />
-    Updated every <?php echo $this->meta_refresh; ?> seconds
+    <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
 </div>
 <?php endif; ?>
+
 
 
 <?php
