@@ -1,6 +1,11 @@
 Webacula ChangeLog
 ------------------
 
+=== 3.5
+   Job->Search->File name (LIKE, REGEX)
+   Support mount/unmount Autochanger
+   Display Autochanger content
+
 === 3.4.1
    Fix bug #545471 in bugzilla RedHat.
 
