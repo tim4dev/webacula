@@ -1,17 +1,4 @@
 
-https://sourceforge.net/apps/trac/webacula/ticket/29
-Display Autochanger Content
-The status slots storage=storage-name command displays autochanger content.
-
- Slot |  Volume Name  |  Status  |  Media Type       |   Pool     |
-------+---------------+----------+-------------------+------------|
-    1 |         00001 |   Append |  DiskChangerMedia |    Default |
-    2 |         00002 |   Append |  DiskChangerMedia |    Default |
-    3*|         00003 |   Append |  DiskChangerMedia |    Scratch |
-    4 |               |          |                   |            |
-
-If you an asterisk (*) appears after the slot number, you must run an update slots command to synchronize autochanger content with your catalog. 
-
 
 - окно wterminal побольше
 

@@ -223,6 +223,21 @@ class JobController extends MyClass_ControllerAction
         Zend_Loader::loadClass('FileSet');
         $filesets = new FileSet();
         $this->view->filesets = $filesets->fetchAll();
+        // type search
+        switch ($this->db_adapter) {
+            case 'PDO_SQLITE':
+                //regexp not implemented by default
+                $this->view->atype_file_search = array(
+                    'ordinary' => $this->view->translate->_("Ordinary"),
+                    'like'     => $this->view->translate->_("LIKE operator") );
+                break;
+            default:
+                $this->view->atype_file_search = array(
+                    'ordinary' => $this->view->translate->_("Ordinary"),
+                    'like'     => $this->view->translate->_("LIKE operator"),
+                    'regexp'   => $this->view->translate->_("Regular expression") );
+                break;
+        }
     }
 
     /**
@@ -401,11 +416,10 @@ EOF"
         }
         $client   = addslashes( trim( $this->_request->getParam('client_nf') ));
         $type_search = addslashes( $this->_request->getParam('type_file_search') );
-        $case_sensitive = addslashes( $this->_request->getParam('case_sensitive', 0) );
         // TODO : remember input values
         $this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
         $job = new Job();
-        $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search, $case_sensitive);
+        $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search);
     }
 
 

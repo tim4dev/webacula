@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/WbTmpTableTest.php';
 require_once dirname(__FILE__) . '/WblogbookTest.php';
 require_once dirname(__FILE__) . '/WblogtypeTest.php';
 require_once dirname(__FILE__) . '/WbjobdescTest.php';
+require_once dirname(__FILE__) . '/JobTest.php';
 
 class ModelsAllTests
 {
@@ -18,6 +19,7 @@ class ModelsAllTests
         $suite->addTestSuite('WblogbookTest');
         $suite->addTestSuite('WblogtypeTest');
         $suite->addTestSuite('WbjobdescTest');
+        $suite->addTestSuite('JobTest');
         return $suite;
     }
 }

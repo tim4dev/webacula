@@ -53,9 +53,9 @@ cd ..
 echo -e "\n\n${LINE1}"
 echo "Main tests"
 echo -e "${LINE1}\n"
-phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
+# phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
+phpunit --colors --stop-on-failure AllTests.php
 ret=$?
-echo "$ret"
 if [ $ret -ne 0 ]
 then
     exit $ret
@@ -76,9 +76,9 @@ echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
 phpunit --exclude-group nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
 ret=$?
-echo "$ret"
 if [ $ret -ne 0 ]
 then
+    cp -f ../application/config.ini.original  ../application/config.ini
     exit $ret
 fi
 
@@ -90,9 +90,9 @@ echo -e "${LINE1}\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
 phpunit --exclude-group nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
 ret=$?
-echo "$ret"
 if [ $ret -ne 0 ]
 then
+    cp -f ../application/config.ini.original  ../application/config.ini
     exit $ret
 fi
 

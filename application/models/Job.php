@@ -986,37 +986,21 @@ Select Job resource (1-3):
      * @param $field
      * @param $mask
      * @param $type_search      [ordinary | like | regexp]
-     * @param $case_insensitive     checked value is '1', and the unchecked value '0'
      * @return SQL WHERE statement
      */
-    function myMakeWhere($field, $mask, $type_search, $case_sensitive)
+    function myMakeWhere($field, $mask, $type_search)
     {
         $mask = $this->db->quoteInto("?", $mask);
         switch ($type_search) {
         case 'like':
             switch ($this->db_adapter) {
                 case 'PDO_MYSQL':
-                    if ($case_sensitive == 0) {
-                        return "($field LIKE   $mask)";
-                    } else {
-                        return "($field LIKE BINARY  $mask)"; // case sensitive
-                    }
+                    return "($field LIKE   $mask)";
                     break;
                 case 'PDO_PGSQL':
-                    if ($case_sensitive == 0) {
-                        return "($field ILIKE  $mask)";
-                    } else {
-                        return "($field LIKE   $mask)"; // case sensitive
-                    }
+                    return "($field LIKE   $mask)";
                     break;
                 case 'PDO_SQLITE':
-                    $bacula = Zend_Registry::get('db_bacula');
-                    if ($case_sensitive == 0) {
-                        $stmt = $bacula->query('PRAGMA case_sensitive_like = false;');
-                    } else {
-                        $stmt = $bacula->query('PRAGMA case_sensitive_like = true;'); // case sensitive
-                    }
-                    unset($stmt);
                     return "($field LIKE   $mask)";
                     break;
             }
@@ -1024,29 +1008,13 @@ Select Job resource (1-3):
         case 'regexp':
             switch ($this->db_adapter) {
                 case 'PDO_MYSQL':
-                    if ($case_sensitive == 0) {
-                        return "($field REGEXP $mask)";
-                    } else {
-                        return "($field REGEXP BINARY $mask)"; // case sensitive
-                    }
+                    return "($field REGEXP $mask)";
                     break;
                 case 'PDO_PGSQL':
-                    if ($case_sensitive == 0) {
-                        return "($field ~* $mask)";
-                    } else {
-                        return "($field ~ $mask)"; // case sensitive
-                    }
+                    return "($field ~ $mask)";
                     break;
                 case 'PDO_SQLITE':
-                    // NOTE !!! Sqlite : REGEXP not implemented by default
-                    $bacula = Zend_Registry::get('db_bacula');
-                    if ($case_sensitive == 0) {
-                        $stmt = $bacula->query('PRAGMA case_sensitive_like = false;');
-                    } else {
-                        $stmt = $bacula->query('PRAGMA case_sensitive_like = true;'); // case sensitive
-                    }
-                    unset($stmt);
-                    return "($field REGEXP   $mask)";
+                    return "($field LIKE  $mask)"; //regexp not implemented by default
                     break;
             }
             break;
@@ -1066,10 +1034,9 @@ Select Job resource (1-3):
      * @param $client
      * @param $limit
      * @param $type_search      [ordinary | like | regexp]
-     * @param $case_sensitive     unchecked value '0' (default), checked value is '1'
      * @return rows
      */
-    function getByFileName($path, $namefile, $client, $limit, $type_search, $case_sensitive)
+    function getByFileName($path, $namefile, $client, $limit, $type_search)
     {
         if ( isset($namefile, $client) )  {
             $select = new Zend_Db_Select($this->db);
@@ -1133,12 +1100,12 @@ Select Job resource (1-3):
 
             if ( !empty($path) )    {
                 $select->where(
-                    $this->myMakeWhere('Path.Path', $path, $type_search, $case_sensitive));
+                    $this->myMakeWhere('Path.Path', $path, $type_search));
             }
-            
+
             $select->where(
-                $this->myMakeWhere('Filename.Name', $namefile, $type_search, $case_sensitive));
-                
+                $this->myMakeWhere('Filename.Name', $namefile, $type_search));
+
             if ( !empty($client) )    {
                 $select->where($this->db->quoteInto("Client.Name = ?", $client));
             }
@@ -1146,18 +1113,7 @@ Select Job resource (1-3):
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         }
         $stmt = $select->query();
-        $res = $stmt->fetchAll();
-        unset($stmt);
-        
-        switch ($this->db_adapter) {
-            case 'PDO_SQLITE':
-                // if Sqlite : set PRAGMA case_sensitive_like to default value = false
-                $bacula = Zend_Registry::get('db_bacula');
-                $stmt = $bacula->query('PRAGMA case_sensitive_like = false;');
-                unset($stmt);
-            break;
-        }
-        return $res;
+        return $stmt->fetchAll();
     }
 
 
