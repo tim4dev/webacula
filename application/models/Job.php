@@ -984,35 +984,76 @@ Select Job resource (1-3):
      * Make WHERE
      *
      * @param $field
+     * @param $mask
      * @param $type_search      [ordinary | like | regexp]
      * @param $case_insensitive     checked value is '1', and the unchecked value '0'
-     * @param $mask
      * @return SQL WHERE statement
      */
-    function myMakeWhere($field, $type_search, $case_sensitive, $mask)
+    function myMakeWhere($field, $mask, $type_search, $case_sensitive)
     {
-            // TODO consider  $case_sensitive
-            switch ($type_search) {
-            case 'like':
-                /* MySQL : ($field LIKE BINARY  '$mask')
-                 *         ($field LIKE   '$mask')      not case sensitive
-                 * PostgreSQL : ($field LIKE   '$mask')
-                 *              ($field ILIKE  '$mask')     not case sensitive
-                 * TODO Sqlite
-                 */
-                break;
-            case 'regexp':
-                /* MySQL :  ($field REGEXP BINARY '$mask')
-                 *          ($field REGEXP '$mask')     not case sensitive
-                 * PostgreSQL : ($field ~ '$mask')
-                 *              ($field ~* '$mask')     not case sensitive
-                 * TODO Sqlite
-                 */
-                break;
-            default: // ordinary
-                // All SQL : ($field = '$mask')
-                break;
+        $mask = $this->db->quoteInto("?", $mask);
+        switch ($type_search) {
+        case 'like':
+            switch ($this->db_adapter) {
+                case 'PDO_MYSQL':
+                    if ($case_sensitive == 0) {
+                        return "($field LIKE   $mask)";
+                    } else {
+                        return "($field LIKE BINARY  $mask)"; // case sensitive
+                    }
+                    break;
+                case 'PDO_PGSQL':
+                    if ($case_sensitive == 0) {
+                        return "($field ILIKE  $mask)";
+                    } else {
+                        return "($field LIKE   $mask)"; // case sensitive
+                    }
+                    break;
+                case 'PDO_SQLITE':
+                    $bacula = Zend_Registry::get('db_bacula');
+                    if ($case_sensitive == 0) {
+                        $stmt = $bacula->query('PRAGMA case_sensitive_like = false;');
+                    } else {
+                        $stmt = $bacula->query('PRAGMA case_sensitive_like = true;'); // case sensitive
+                    }
+                    unset($stmt);
+                    return "($field LIKE   $mask)";
+                    break;
             }
+            break;
+        case 'regexp':
+            switch ($this->db_adapter) {
+                case 'PDO_MYSQL':
+                    if ($case_sensitive == 0) {
+                        return "($field REGEXP $mask)";
+                    } else {
+                        return "($field REGEXP BINARY $mask)"; // case sensitive
+                    }
+                    break;
+                case 'PDO_PGSQL':
+                    if ($case_sensitive == 0) {
+                        return "($field ~* $mask)";
+                    } else {
+                        return "($field ~ $mask)"; // case sensitive
+                    }
+                    break;
+                case 'PDO_SQLITE':
+                    // NOTE !!! Sqlite : REGEXP not implemented by default
+                    $bacula = Zend_Registry::get('db_bacula');
+                    if ($case_sensitive == 0) {
+                        $stmt = $bacula->query('PRAGMA case_sensitive_like = false;');
+                    } else {
+                        $stmt = $bacula->query('PRAGMA case_sensitive_like = true;'); // case sensitive
+                    }
+                    unset($stmt);
+                    return "($field REGEXP   $mask)";
+                    break;
+            }
+            break;
+        default: // ordinary
+            return "($field = $mask)";
+            break;
+        }
     }
 
 
@@ -1090,20 +1131,33 @@ Select Job resource (1-3):
                 break;
             }
 
-            // TODO myMakeWhere()
-
-            if ( $path != "" )    {
-                $select->where($this->db->quoteInto("Path.Path = ?", $path));
+            if ( !empty($path) )    {
+                $select->where(
+                    $this->myMakeWhere('Path.Path', $path, $type_search, $case_sensitive));
             }
-            $select->where($this->db->quoteInto("Filename.Name = ?", $namefile));
-            if ( $client != "" )    {
+            
+            $select->where(
+                $this->myMakeWhere('Filename.Name', $namefile, $type_search, $case_sensitive));
+                
+            if ( !empty($client) )    {
                 $select->where($this->db->quoteInto("Client.Name = ?", $client));
             }
             $select->order(array("StartTime"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         }
         $stmt = $select->query();
-        return $stmt->fetchAll();
+        $res = $stmt->fetchAll();
+        unset($stmt);
+        
+        switch ($this->db_adapter) {
+            case 'PDO_SQLITE':
+                // if Sqlite : set PRAGMA case_sensitive_like to default value = false
+                $bacula = Zend_Registry::get('db_bacula');
+                $stmt = $bacula->query('PRAGMA case_sensitive_like = false;');
+                unset($stmt);
+            break;
+        }
+        return $res;
     }
 
 
