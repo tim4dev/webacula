@@ -298,7 +298,7 @@ class JobController extends MyClass_ControllerAction
     function timelineAction()
     {
         // http://localhost/webacula/job/timeline/
-        $datetimeline = addslashes(trim( $this->_request->getParam('datetimeline', date('Y-m-d', time()-86400)) ));
+        $datetimeline = addslashes(trim( $this->_request->getParam('datetimeline', date('Y-m-d', time())) ));
 
         Zend_Loader::loadClass('Zend_Validate_Date');
         $validator = new Zend_Validate_Date();

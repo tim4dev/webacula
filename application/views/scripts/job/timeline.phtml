@@ -4,12 +4,12 @@
 
 <script type="text/javascript">
 $j(function() {
-	$j('#datetimeline').datepicker({
-			changeMonth: true,
-			changeYear: true
-	});
-	$j('#datetimeline').datepicker('setDate', '-1d' );
-	$j('#datetimeline').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
+    $j('#datetimeline').datepicker({
+        changeMonth: true,
+          changeYear: true
+    });
+    //$j('#datetimeline').datepicker('setDate', '-1d' );
+    $j('#datetimeline').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
 });
 </script>
 
@@ -24,7 +24,7 @@ $j(function() {
 		<b><?php print $this->translate->_("Date"); ?></b> :
 	</td>
 	<td>
-<?php echo $this->formText('datetimeline', date('Y-m-d', time()-86400), array('size' => 12)) ?>
+<?php echo $this->formText('datetimeline', date('Y-m-d', time()), array('size' => 12)) ?>
 <br><div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD"); ?></div>
 	</td>
 	<td valign="top">
@@ -37,51 +37,52 @@ $j(function() {
 <?php
 // check GD lib (php-gd)
 if ( extension_loaded('gd') ) {
-	if ( $this->result )	{
-		// show image
-		echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" />';
-	} else	{
-	    // не прошел валидацию; вывод причин этого
+    if ( $this->result )	{
+        // show image
+        echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" />';
+    } else  {
+        // не прошел валидацию; вывод причин этого
         foreach ($this->err_msg as $message) {
                 echo "<b>$message</b><br />";
         }
-		echo $this->translate->_('No Jobs found.');
-	}
-}	else {
-	echo $this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.');
+        echo $this->translate->_('No Jobs found.');
+    }
+}   else    {
+    echo $this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.');
 }
 ?>
 
 <?php // draw table
 if ($this->atime) : ?>
-	<div align="center">
-	<table id="box-table">
-	<thead>
-		<tr>
-			<th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
-			<th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
-			<th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
-			<th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
-		</tr>
-	</thead>
-	<?php foreach($this->atime as $line) : ?>
-		<tr>
-			<td>
-				<a href="<?php echo $this->baseUrl, '/job/detail/jobid/', $line['jobid'];?>" title="<?php print $this->translate->_("Detail Job"); ?>"><?php echo $line['jobid']?></a>
-			</td>
-			<td><?php echo $line['name'];?></td>
-			<td><?php echo $line['start'];?></td>
-			<td><?php echo $line['end'];?></td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-	</div>
+<div align="center">
+<table id="box-table">
+<thead>
+<tr>
+    <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
+</tr>
+</thead>
+<?php foreach($this->atime as $line) : ?>
+<tr><td>
+    <a href="<?php echo $this->baseUrl, '/job/detail/jobid/', $line['jobid'];?>" title="<?php print $this->translate->_("Detail Job"); ?>"><?php echo $line['jobid']?></a>
+</td><td>
+    <?php echo $line['name'];?>
+</td><td>
+    <?php echo $line['start'];?>
+</td><td>
+    <?php echo $line['end'];?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
 <?php else : ?>
 <div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
-	</div>
+    <div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
+    </div>
 </div>
 <?php endif; ?>
 
