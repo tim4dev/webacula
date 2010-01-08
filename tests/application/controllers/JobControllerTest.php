@@ -83,14 +83,17 @@ class JobControllerTest extends ControllerTestCase
    }
 
 
-    /*
-     * run Job with incorrect JobId
+    /**
+     * run Job with incorrect Job name
      */
     public function testRunJobWrong()
     {
         print "\n".__METHOD__.' ';
         $this->getRequest()
-             ->setParams(array("jobname" => "wrong job name"))
+             ->setParams(array(
+                 'jobname' => 'wrong job name',
+                 'checkbox_now' => 'on',
+                 'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->assertModule('default');
@@ -122,7 +125,10 @@ class JobControllerTest extends ControllerTestCase
         fclose($file);
         // test
         $this->getRequest()
-             ->setParams(array("jobname" => "job.name.test.1"))
+             ->setParams(array(
+                'jobname' => 'job.name.test.1',
+                'checkbox_now' => 'on',
+                'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->assertModule('default');
@@ -147,7 +153,10 @@ class JobControllerTest extends ControllerTestCase
     {
         print "\n".__METHOD__.' (nonreusable) ';
         $this->getRequest()
-             ->setParams(array("jobname" => "job name test 2"))
+             ->setParams(array(
+                'jobname'   => 'job name test 2',
+                'checkbox_now' => 'on',
+                'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->assertModule('default');
@@ -171,7 +180,7 @@ class JobControllerTest extends ControllerTestCase
     {
         print "\n".__METHOD__.' ';
         $this->getRequest()
-             ->setParams(array("jobid" => "1111"))
+             ->setParams(array('jobid'     => '1111'))
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
         $this->assertModule('default');
@@ -186,7 +195,7 @@ class JobControllerTest extends ControllerTestCase
     {
         print "\n".__METHOD__.' ';
         $this->getRequest()
-             ->setParams(array("jobid" => "5"))
+             ->setParams(array('jobid'     => '5'))
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
         $this->assertModule('default');

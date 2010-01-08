@@ -6,12 +6,12 @@
 <table id="box-table">
 <thead>
 <tr>
-     <th scope="col"> <a href="<?php echo $urlp, '/order/Name">', $this->translate->_("Name Pool"); ?></a></th>
-     <th scope="col"> <a href="<?php echo $urlp, '/order/LabelFormat">', $this->translate->_("Label Format"); ?></a></th>
-     <th scope="col"> <a href="<?php echo $urlp, '/order/NumVols">', $this->translate->_("Number<br />Volumes"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp; ?>/order/Name"><?php echo $this->translate->_("Name Pool"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp; ?>/order/LabelFormat"><?php echo $this->translate->_("Label Format"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp; ?>/order/NumVols"><?php echo $this->translate->_("Number<br />Volumes"); ?></a></th>
      <th scope="col"> <?php print $this->translate->_("Accept<br />Any<br />Volume"); ?> </th>
-     <th scope="col"> <a href="<?php echo $urlp, '/order/VolRetention">', $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
-     <th scope="col"> <a href="<?php echo $urlp, '/order/MaxVolBytes">', $this->translate->_("Max<br />Volume<br />(Bytes)"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp; ?>/order/VolRetention"><?php echo $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
+     <th scope="col"> <a href="<?php echo $urlp; ?>/order/MaxVolBytes"><?php echo $this->translate->_("Max<br />Volume<br />(Bytes)"); ?></a></th>
      <th scope="col"> <?php print $this->translate->_("Auto Prune"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Auto Recycle"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Type"); ?> </th>
@@ -20,9 +20,10 @@
 <tbody>
 <?php foreach($this->pools as $pool) : ?>
 <tr>
-     <td><a href="<?php echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($pool->poolid),
-		"/name/", $this->escape($pool->name), '" title="', $this->translate->_("Detail Pool"), '">',
-		$this->escape($pool->name); ?></a>
+     <td>
+        <a href="<?php echo $this->baseUrl;?>/volume/find-pool-id/id/<?php echo $this->escape($pool->poolid);?>/name/<?php echo $this->escape($pool->name);?>"
+            title="<?php echo $this->translate->_("Detail Pool"); ?>">
+        <?php echo $this->escape($pool->name); ?></a>
 	</td>
 
      <td><?php echo $this->escape($pool->labelformat);?></td>

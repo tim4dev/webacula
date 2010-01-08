@@ -24,7 +24,9 @@ $j(document).ready(function() {
 </script>
 
 <h1 align="center"><?php echo $this->escape($this->title), ' '; ?>
-<a href="<?php echo $this->baseUrl; ?>/job/detail/jobid/<?php echo $this->escape($this->jobid); ?>"><?php echo $this->escape($this->jobid); ?><a/></h1>
+<a href="<?php echo $this->baseUrl; ?>/job/detail/jobid/<?php echo $this->escape($this->jobid); ?>">
+    <?php echo $this->escape($this->jobid); ?>
+<a/></h1>
 
 <?php
     // create array clients for Form
@@ -62,25 +64,25 @@ $j(document).ready(function() {
 <table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
 <tr>
     <td align="right" class="search1">
-        <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b>:</label>
+        <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
     </td>
    	<td class="search1" align="left">
        	<?php echo $this->formSelect('client', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
     </td>
 
     <td align="right" class="search1">
-        <label for="pool" class="ui-select"><?php print $this->translate->_("Pool"); ?>:</label>
+        <label for="pool" class="ui-select"><?php print $this->translate->_("Pool"); ?></label>
     </td>
    	<td align="left" class="search1">
        	<?php echo $this->formSelect('pool', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $apools) ?>
     </td>
 </tr>
 <tr>
-    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?>: </td>
+    <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?></td>
     <td align="left" class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
 
     <td align="right" class="search1">
-        <label for="fileset" class="ui-select"><?php print $this->translate->_("Fileset"); ?>:</label>
+        <label for="fileset" class="ui-select"><?php print $this->translate->_("Fileset"); ?></label>
     </td>
     <td align="left" class="search1">
         <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $afilesets) ?>
@@ -90,7 +92,7 @@ $j(document).ready(function() {
     <td align="right" class="search1" colspan="2">&nbsp;</td>
 
     <td align="right" class="search1">
-        <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?>:</label>
+        <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?></label>
      </td>
    	<td align="left" class="search1">
        	<?php echo $this->formSelect('storage', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $astorages) ?>

@@ -19,11 +19,33 @@ $j(document).ready(function() {
 	  });
   });
 </script>
+<script type="text/javascript">
+function whenNow()
+{
+    if (document.form1.checkbox_now.checked)
+    {
+        document.form1.date_when.disabled = true;
+        document.form1.time_when.disabled = true;
+    }
+    else    {
+        document.form1.date_when.disabled = false;
+        document.form1.time_when.disabled = false;
+    }
+}
+</script>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
+<script type="text/javascript">
+$j(function() {
+    $j('#date_when').datepicker({
+            changeMonth: true,
+            changeYear: true
+    });
+    $j("#date_when").datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
+});
+</script>
 
-<div class="roundcorner1" style="width: 360px; text-align: left;">
-
+<div class="roundcorner1" style="width: 43em; text-align: left;">
 <?php
     if ( $this->result_error )
     {
@@ -47,19 +69,51 @@ $j(document).ready(function() {
         }
         echo '</font>';
     }
-    // *** all OK ***
-    if ( $this->result )
-    {
-        foreach ($this->result as $line) {
-            $ajobs[$line] = $line;
-        }
-    }
 ?>
-<form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post">
-    <label for="jobname" class="ui-select"><b><?php print $this->translate->_("Job Name"); ?></b> :</label>
-    <?php echo $this->formSelect('jobname', null, array('class' => 'ui-select', 'style' => 'width: 70%;'), $ajobs) ?>
+<fieldset>
+    <legend><?php echo $this->escape($this->title); ?></legend>
+<form action="<?php  echo $this->baseUrl.'/job/run-job';?>" method="post" name="form1">
+<?php echo $this->formHidden('from_form',  '1', null); ?>
+<table border="0" cellpadding="3" cellspacing="3" align="left">
+<tr><td style="text-align: right;">
+    <label for="jobname" class="ui-select"><b><?php print $this->translate->_("Job Name"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('jobname', null, array('class' => 'ui-select', 'style' => 'width: 25em;'), $this->jobs); ?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('client', null, array('class' => 'ui-select', 'style' => 'width: 25em;'), $this->clients); ?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="fileset" class="ui-select"><b><?php print $this->translate->_("Fileset"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 25em;'), $this->filesets); ?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="storage" class="ui-select"><b><?php print $this->translate->_("Storage"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('storage', null, array('class' => 'ui-select', 'style' => 'width: 25em;'), $this->storages); ?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="level" class="ui-select"><b><?php print $this->translate->_("Level"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('level', null, array('class' => 'ui-select', 'style' => 'width: 20em;'), $this->levels); ?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="spool" class="ui-select"><b><?php print $this->translate->_("Spool"); ?></b></label>
+</td><td>
+    <?php echo $this->formSelect('spool', null, array('class' => 'ui-select', 'style' => 'width: 10em;'), $this->spools); ?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="date_when" class="ui-select"><b><?php print $this->translate->_("When"); ?></b></label>
+</td><td>
+    <?php print $this->translate->_("Now"); ?><input type="checkbox" name="checkbox_now" onclick="whenNow(this)" checked>
+    <br>
+    <?php echo $this->formText('date_when', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10, 'disabled'=>'true')) ?>
+    <?php echo $this->formText('time_when', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8  , 'disabled'=>'true')) ?>
+    <br><div style="font-size:0.6em;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
+</td></tr><tr><td colspan="2">
     <div style="text-align: center; margin-left: auto; margin-right: auto;">
-       <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>&nbsp;&nbsp;&nbsp;
+       <?php echo $this->formSubmit('ok1', $this->translate->_('Run Job'), array('class' => 'prefer_btn')); ?>
     </div>
+</td></tr>
+</table>
 </form>
+&nbsp;
+</fieldset>
 </div>

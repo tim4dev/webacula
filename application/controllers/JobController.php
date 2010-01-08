@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
@@ -328,19 +328,55 @@ class JobController extends MyClass_ControllerAction
     function runJobAction()
     {
         $this->view->title = $this->view->translate->_("Run Job");
-        if( $this->_request->isPost() ) {
+        $from_form = intval( $this->_request->getParam('from_form', 0) );
+        if ( $from_form == 1 ) {
+        //if( $this->_request->isPost() ) {
+            // данные из формы поиска
             $jobname = trim( $this->_request->getParam('jobname') );
+            $client  = addslashes(trim( $this->_request->getParam('client', '') ));
+            $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
+            $storage = addslashes(trim( $this->_request->getParam('storage', '') ));
+            $level   = addslashes(trim( $this->_request->getParam('level', '') ));
+            $spool   = addslashes(trim( $this->_request->getParam('spool', 'yes') ));
+            $checkbox_now = addslashes(trim( $this->_request->getParam('checkbox_now') ));
+            if ($checkbox_now) {
+                $when = '';
+            } else {
+                $date_when  = addslashes( trim( $this->_request->getPost('date_when') ));
+                $time_when  = addslashes( trim( $this->_request->getPost('time_when') ));
+                $when = $date_when . ' ' . $time_when;
+            }
+
             $this->view->jobname = $jobname;
             // run Job
             $director = new Director();
-            if ( !$director->isFoundBconsole() )	{
+            if ( !$director->isFoundBconsole() )    {
                 $this->view->result_error = 'NOFOUND_BCONSOLE';
                 $this->render();
                 return;
             }
+            // make options
+            $cmdrun = ' ';
+            if ( !empty($client) )  $cmdrun .= 'client="'.$client.'" ';
+            if ( !empty($fileset) ) $cmdrun .= 'fileset="'.$fileset.'" ';
+            if ( !empty($level) )   $cmdrun .= 'level="'.$level.'" ';
+            if ( !empty($storage) ) $cmdrun .= 'storage="'.$storage.'" ';
+            if ( !empty($when) )    $cmdrun .= 'when="'.$when.'" ';
+            if ( !empty($spool) )   $cmdrun .= 'spooldata="'.$spool.'" ';
+            /*
+             * run job=<job-name>
+             *     client=<client-name>
+             *     fileset=<FileSet-name>
+             *     level=<level-keyword Full, Incremental, Differential>
+             *     storage=<storage-name>
+             *     where=<directory-prefix>
+             *     when=<universal-time-specification YYYY-MM-DD HH:MM:SS>
+             *     spooldata=yes|no
+             *     yes
+             */
             $astatusdir = $director->execDirector(
 " <<EOF
-run job=\"$jobname\" yes
+run job=\"$jobname\" $cmdrun yes
 .
 @sleep 3
 status dir
@@ -356,9 +392,60 @@ EOF"
             echo $this->renderScript('/job/run-job-output.phtml');
             return;
         }
-        // get data from model
+        // fill form
+        Zend_Loader::loadClass('Client');
+        Zend_Loader::loadClass('FileSet');
+        Zend_Loader::loadClass('Storage');
+        // get all Jobs
         $jobs = new Job();
-        $this->view->result = $jobs->getListJobs();
+        $res = $jobs->getListJobs();
+        foreach($res as $job) {
+            $a[$this->view->escape($job)] = $this->view->escape($job);
+        }
+        $this->view->jobs = $a;
+        unset($a);
+        // get all clients
+        $clients = new Client();
+        $order  = array('ClientId', 'Name');
+        $res = $clients->fetchAll(null, $order);
+        $a[''] = $this->view->translate->_("Default");
+        foreach($res as $client) {
+            $a[$this->view->escape($client->name)] = $this->view->escape($client->name);
+        }
+        $this->view->clients = $a;
+        unset($a);
+        // get all filesets
+        $filesets = new Fileset();
+        $order  = array('Fileset');
+        $res = $filesets->fetchAll(null, $order);
+        $a[''] = $this->view->translate->_("Default");
+        foreach($res as $fileset) {
+            $a[$this->view->escape($fileset->fileset)] = $this->view->escape($fileset->fileset);
+        }
+        $this->view->filesets = $a;
+        unset($a);
+        // get all storages
+        $storages = new Storage();
+        $order  = array('Name');
+        $res = $storages->fetchAll(null, $order);
+        $a[''] = $this->view->translate->_("Default");
+        foreach($res as $storage) {
+            $a[$this->view->escape($storage->name)] = $this->view->escape($storage->name);
+        }
+        $this->view->storages = $a;
+        unset($a);
+        // create array levels for Form
+        $this->view->levels = array(
+            ""             => $this->view->translate->_("Default"),
+            "Full"         => $this->view->translate->_("Full level"),
+            "Incremental"  => $this->view->translate->_("Incremental level"),
+            "Differential" => $this->view->translate->_("Differential level")
+        );
+        // spool
+        $this->view->spools = array(
+            "yes" => $this->view->translate->_("Yes"),
+            "no"  => $this->view->translate->_("No")
+        );
     }
 
 
