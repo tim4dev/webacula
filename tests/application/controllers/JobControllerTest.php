@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ */
+
 
 class JobControllerTest extends ControllerTestCase
 {
@@ -28,6 +35,13 @@ class JobControllerTest extends ControllerTestCase
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Jobs found');
       $this->assertQueryCountMin('tr', 11);  // не менее 11-ти строк таблицы
+   }
+
+
+   public function mySleep()
+   {
+        echo " sleep ", self::DELAY_AFTER_JOB, " seconds ";
+        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
    }
 
 
@@ -134,7 +148,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
-        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
+        $this->mySleep(); // подождать пока выполнится
         //echo $this->response->outputBody();// for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
@@ -162,7 +176,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
-        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
+        $this->mySleep(); // подождать пока выполнится
         //echo $this->response->outputBody();// for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
@@ -172,6 +186,40 @@ class JobControllerTest extends ControllerTestCase
         $pattern = '/Differe.*job_name_test_2.*is running|Differe.*job_name_test_2.*has terminated|13  Diff.*3.*4.115 K.*OK.*job_name_test_2/';
         $this->assertQueryContentRegex('td', $pattern);
     }
+
+
+    /**
+     * run Job with options
+     * @group nonreusable
+     */
+    public function testRunJobWithOptions()
+    {
+        print "\n".__METHOD__.' (nonreusable) ';
+        $this->getRequest()
+             ->setParams(array(
+                'jobname' => 'job.name.test.4',
+                'client'  => 'local.fd',
+                'fileset' => 'fileset.test.4',
+                'storage' => 'storage.file.2',
+                'level'   => 'Full',
+                'spool'   => 'no',
+                'checkbox_now' => 'on',
+                'from_form' => '1') )
+             ->setMethod('POST');
+        $this->dispatch('job/run-job');
+        $this->assertModule('default');
+        $this->assertController('job');
+        $this->assertAction('run-job');
+        $this->mySleep(); // подождать пока выполнится
+        //echo $this->response->outputBody(); // for debug !!!
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $pattern = '/Full.*job.name.test.4.*is running|Full.*job.name.test.4.*has terminated|16  Full.*OK.*job.name.test.4/';
+        $this->assertQueryContentRegex('td', $pattern);
+    }
+
 
     /*
      * find Job by incorrect Id
@@ -190,6 +238,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', 'No Jobs found');
     }
+
 
     public function testJobFindById()
     {
@@ -236,6 +285,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryCountMin('tr', 3);
     }
 
+
    /*
     * find Jobs with Volume name
     */
@@ -256,6 +306,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job.name.test.1');
     }
+
 
    /*
     * find last NN Jobs

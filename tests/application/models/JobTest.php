@@ -54,7 +54,7 @@ class JobTest extends PHPUnit_Framework_TestCase {
         if ( $this->job->db_adapter != 'PDO_SQLITE' ) {
             echo "\n\t* REGEXP search"; // $result = id 2
             $result = $this->job->getByFileName("", "^f.*dat$", '', 50, 'regexp');
-            $this->assertEquals(32, sizeof($result), 'error');
+            $this->assertEquals(38, sizeof($result), 'error');
             echo " - OK";
         }
     }

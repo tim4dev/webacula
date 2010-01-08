@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ */
 require_once dirname(__FILE__) . '/WbTmpTableTest.php';
 require_once dirname(__FILE__) . '/WblogbookTest.php';
 require_once dirname(__FILE__) . '/WblogtypeTest.php';
