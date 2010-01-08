@@ -87,32 +87,13 @@ class ChartController extends MyClass_ControllerAction
             return;
         }
 
-        if ( empty($date)  )	{
-            // Nothing data to graph
-            return;
-        }
+        if ( empty($date)  )
+            return; // Nothing data to graph
 
         $timeline = new Timeline;
-        $atime = $timeline->GetDataTimeline($date);
-        if ( empty($atime) )    {
-            // Nothing data to graph
-            return;
-        }
-
-        // fonts from .ini configuration
-        $ttf_font_error = 0;
-        $config = new Zend_Config_Ini('../application/config.ini', 'timeline');
-        if ( empty($config->fontname)) {
-            $fontname = null;
-            $fontsize = 10;
-        } else {
-            putenv('GDFONTPATH='. $config->gdfontpath);
-            $fontname = $config->fontname;
-            $fontsize = $config->fontsize;
-        }
         //$this->logger->log("timelineAction() : $date\n$fontname\n$fontsize\n", Zend_Log::INFO); // !!! debug
 
-        $img = $timeline->createTimelineImage($atime, $fontname, $fontsize);
+        $img = $timeline->createTimelineImage($date, true);
         // Set the headers
         $this->getResponse()->setHeader('Content-Type', 'image/png');
         // Output a PNG image to either the browser or a file :

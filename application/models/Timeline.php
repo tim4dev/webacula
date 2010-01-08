@@ -341,8 +341,25 @@ class Timeline
      * @param $fontsize
      * @return image
      */
-    public function createTimelineImage($atime, $fontname, $fontsize)
+    public function createTimelineImage($date, $draw = true)
     {
+        $atime = $this->GetDataTimeline($date);
+        if ( empty($atime) )    {
+            // Nothing data to graph
+            return;
+        }
+        // fonts from .ini configuration
+        $config = new Zend_Config_Ini('../application/config.ini', 'timeline');
+        if ( empty($config->fontname)) {
+            $fontname = null;
+            $fontsize = 10;
+        } else {
+            putenv('GDFONTPATH='. $config->gdfontpath);
+            $fontname = $config->fontname;
+            $fontsize = $config->fontsize;
+        }
+
+        if ( !$draw ) $img_map = array();
         $ttf_font_error = 0;
         // calculate values
         $height_bar = ceil($fontsize * 2);  // высота одной полосы графика
@@ -390,11 +407,11 @@ class Timeline
 
         // создание фона для рисования
         // Draw a filled rectangle : bool imagefilledrectangle ( resource image, int x1, int y1, int x2, int y2, int color )
-        ImageFilledRectangle($img, 0, 0, $width, $height, $bg_color);
+        if ($draw) ImageFilledRectangle($img, 0, 0, $width, $height, $bg_color);
 
         // контур фона
         // Draw a rectangle : bool imagerectangle ( resource image, int x1, int y1, int x2, int y2, int color )
-        ImageRectangle($img, 0, 0, $width-1, $height-1, $blue);
+        if ($draw) ImageRectangle($img, 0, 0, $width-1, $height-1, $blue);
 
         // --------------------------------- вычерчивание координатной сетки ---------------------------------------
         // ось X
@@ -404,12 +421,12 @@ class Timeline
         // $y0, $x0 - начало координат
         $y0 = $y2 = $height - $margin_bottom - $margin_top + $space_bar;
         $x0 = $margin_left;
-        ImageLine($img, $x0, $y0, $width - $margin_right, $y2,  $blue); // ось X
+        if ($draw) ImageLine($img, $x0, $y0, $width - $margin_right, $y2,  $blue); // ось X
 
         // вертикальные линии - часы
         // пунктирная линия
         $style_dash = array_merge(array_fill(0, 1, $blue), array_fill(0, 3, IMG_COLOR_TRANSPARENT));
-        ImageSetStyle($img, $style_dash);
+        if ($draw) ImageSetStyle($img, $style_dash);
 
         $hour1 = ceil( ( $width - $x0 - $margin_right ) / 24 ); // шаг засечек или 1 час в пикселах
         $y2  = 0;
@@ -432,13 +449,13 @@ class Timeline
                 $div2 = 5;
             }
             $x1 = $x0 - $div2 + $i * $hour1;
-            ImageString($img, 4, $x1, $y1, sprintf("% 2d", $i), $blue);
+            if ($draw) ImageString($img, 4, $x1, $y1, sprintf("% 2d", $i), $blue);
         }
 
         // X axis title / название оси X
         if ( empty($config->fontname)) {
             // use system fixed font / ось подписываем встроенным шрифтом
-            ImageString($img, $fixfont, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 2) ), "Hours", $blue); // do not to translate (перевод не нужен)
+            if ($draw) ImageString($img, $fixfont, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 2) ), "Hours", $blue); // do not to translate (перевод не нужен)
         } else {
             @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ),
                 ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $this->view->translate->_("Hours"));
@@ -486,7 +503,8 @@ class Timeline
             if ( $c > $acolor_count-1 ) {
                 $c = 0;
             }
-            ImageFilledRectangle( $img, $xr1, $yr1, $xr2, $yr2, $acolor[$c++] );
+            // draw restangle
+            if ($draw) ImageFilledRectangle( $img, $xr1, $yr1, $xr2, $yr2, $acolor[$c++] );
 
             // Write text to the image using TrueType fonts :
             // array imagettftext ( resource image, float size, float angle, int x, int y, int color, string fontfile, string text )
@@ -496,7 +514,7 @@ class Timeline
             // For example, "top left" is 0, 0.
             // size - The font size. Depending on your version of GD, this should be specified as the pixel size (GD1) or point size (GD2)
 
-            // **************** текст *****************
+            // **************** text *****************
             // array imagettfbbox ( float size, float angle, string fontfile, string text )
             // где расположить текст
             // расчет координат текста
@@ -508,21 +526,34 @@ class Timeline
                 if ( ($xt + $abox[2]) > $width )    {
                     $xt = $xr2 - $abox[2] - $margin_text_left;
                 }
-
-                // -------------- пишем текст
-                ImageTtfText($img, $fontsize, 0, $xt, $yt, $text_color, $fontname, $str);
+                // draw text
+                if ($draw) ImageTtfText($img, $fontsize, 0, $xt, $yt, $text_color, $fontname, $str);
             }    else {
+                // fix font
                 $lenfix = strlen($str) * imagefontwidth($fixfont);
                 if ( ($xr1 + $lenfix) > $width )    {
                     $xt = $xr2 - $lenfix - $margin_text_left;
                 }   else {
                     $xt = $xr1;
                 }
-                ImageString($img, $fixfont, $xt, $yr1, $str, $text_color);
+                // draw text
+                if ($draw) ImageString($img, $fixfont, $xt, $yr1, $str, $text_color);
+            }
+            // save coordinates
+            if ( !$draw ) {
+                ($xt < $xr1) ? $x1 = $xt : $x1 = $xr1;
+                ($xt > $xr2) ? $x2 = $xt : $x2 = $xr2;
+                $img_map[$i]['jobid'] = $atime[$i]['jobid'];
+                $img_map[$i]['name']  = $atime[$i]['name'];
+                $img_map[$i]['x1'] = $x1;
+                $img_map[$i]['y1'] = $yr1;
+                $img_map[$i]['x2'] = $x2;
+                $img_map[$i]['y2'] = $yr2;
             }
             $yt = $yt + $height_bar + $space_bar;
         }
-        return $img;
+        if ($draw)  return $img;
+        else return $img_map;
     }
 
 

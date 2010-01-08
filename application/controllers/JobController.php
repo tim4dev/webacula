@@ -319,7 +319,9 @@ class JobController extends MyClass_ControllerAction
         $timeline = new Timeline;
         $this->view->atime = $timeline->GetDataTimeline($datetimeline);
         $this->view->result = $datetimeline;
-        // вызвать ChartController -> timelineAction() для проверки, что он сможет рисовать
+        // for image map
+        $timeline = new Timeline;
+        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false);
     }
 
     /**
