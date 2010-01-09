@@ -34,12 +34,30 @@ $j(function() {
 </table>
 </form>
 
+<?php if ( $this->img_map ) : ?>
+<?php echo $this->translate->_("Point mouse cursor at image area and click to view Job detail"); ?>
+<map name="map1">
+    <?php
+        $count = count($this->img_map);
+        for ($i = 0; $i < $count; $i++) :
+    ?>
+<area
+   href="<?php echo $this->baseUrl, '/job/detail/jobid/', $this->img_map[$i]['jobid'];?>"
+   alt="<?php echo $this->translate->_("Detail Job"), ' : ', $this->img_map[$i]['name'], ' (', $this->img_map[$i]['jobid'], ')'; ?>"
+   title="<?php echo $this->translate->_("Detail Job"), ' : ', $this->img_map[$i]['name'], ' (', $this->img_map[$i]['jobid'], ')'; ?>"
+   shape=rect coords="<?php echo $this->img_map[$i]['x1'], ',', $this->img_map[$i]['y1'], ',',
+        $this->img_map[$i]['x2'], ',', $this->img_map[$i]['y2'];?>">
+    <?php endfor; ?>
+</map>
+<?php endif; ?>
+
+
 <?php
 // check GD lib (php-gd)
 if ( extension_loaded('gd') ) {
-    if ( $this->result )	{
+    if ( $this->result )    {
         // show image
-        echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" />';
+        echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
     } else  {
         // не прошел валидацию; вывод причин этого
         foreach ($this->err_msg as $message) {
@@ -52,6 +70,7 @@ if ( extension_loaded('gd') ) {
 }
 ?>
 
+<?php if ( empty($this->img_map) ) : ?>
 <?php // draw table
 if ($this->atime) : ?>
 <div align="center">
@@ -87,3 +106,5 @@ if ($this->atime) : ?>
 <?php endif; ?>
 
 </div>
+
+<?php endif; ?>

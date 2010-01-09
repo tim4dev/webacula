@@ -317,10 +317,9 @@ class JobController extends MyClass_ControllerAction
 
         $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
         $timeline = new Timeline;
-        $this->view->atime = $timeline->GetDataTimeline($datetimeline);
+        $this->view->atime = $timeline->getDataTimeline($datetimeline);
         $this->view->result = $datetimeline;
         // for image map
-        $timeline = new Timeline;
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false);
     }
 

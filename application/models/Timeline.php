@@ -336,12 +336,12 @@ class Timeline
     /**
      * Create Timeline Image
      *
-     * @param $atime    data for timeline
-     * @param $fontname
-     * @param $fontsize
+     * @param $date
+     * @param $draw     if FALSE return coordinates only, for imagemap
+     * @param $translate for translate
      * @return image
      */
-    public function createTimelineImage($date, $draw = true)
+    public function createTimelineImage($date, $draw = true, $translate = null)
     {
         $atime = $this->GetDataTimeline($date);
         if ( empty($atime) )    {
@@ -358,7 +358,6 @@ class Timeline
             $fontname = $config->fontname;
             $fontsize = $config->fontsize;
         }
-
         if ( !$draw ) $img_map = array();
         $ttf_font_error = 0;
         // calculate values
@@ -442,7 +441,7 @@ class Timeline
             // bool imagestring ( resource image, int font, int x, int y, string sring, int color )
             // Can be 1, 2, 3, 4, 5 for built-in fonts (where higher numbers corresponding to larger fonts)
 
-            // для учета кол-ва сиволов в цифрах часов
+            // для учета кол-ва символов в цифрах часов
             if ( $i < 10 ) {
                 $div2 = 10;
             }   else {
@@ -457,12 +456,14 @@ class Timeline
             // use system fixed font / ось подписываем встроенным шрифтом
             if ($draw) ImageString($img, $fixfont, floor( $width / 2 ), ( $height - floor( ($height -  $y0) / 2) ), "Hours", $blue); // do not to translate (перевод не нужен)
         } else {
-            @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ),
-                ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $this->view->translate->_("Hours"));
-            if ( empty($ares) ) {
-                $ttf_font_error = 1;    // TTF font not loaded/found
-                ImageString($img, 4, 5, 5,
-                    "Font " . $fontname . " not loaded/found.", $black); // do not to translate (перевод не нужен)
+            if ($draw) {
+                @ $ares = ImageTtfText($img, $fontsize, 0, floor( $width / 2 ),
+                    ( $height - floor( ($height -  $y0) / 3) ), $blue, $fontname, $translate->_("Hours"));
+                if ( empty($ares) ) {
+                    $ttf_font_error = 1;    // TTF font not loaded/found
+                    if ($draw) ImageString($img, 4, 5, 5,
+                        "Font " . $fontname . " not loaded/found.", $black); // do not to translate (перевод не нужен)
+                }
             }
         }
 
@@ -525,6 +526,9 @@ class Timeline
                 $xt = $xr1 + $margin_text_left;
                 if ( ($xt + $abox[2]) > $width )    {
                     $xt = $xr2 - $abox[2] - $margin_text_left;
+                    if ( !$draw ) ( $xt > $xr2 ) ? $x2 = $xt : $x2 = $xr2; // coordinates for imagemap
+                } else {
+                    if ( !$draw ) ( ($xt + $abox[2]) > $xr2 ) ? $x2 = $xt + $abox[2] : $x2 = $xr2; // coordinates for imagemap
                 }
                 // draw text
                 if ($draw) ImageTtfText($img, $fontsize, 0, $xt, $yt, $text_color, $fontname, $str);
@@ -533,8 +537,10 @@ class Timeline
                 $lenfix = strlen($str) * imagefontwidth($fixfont);
                 if ( ($xr1 + $lenfix) > $width )    {
                     $xt = $xr2 - $lenfix - $margin_text_left;
+                    if ( !$draw ) ( $xt > $xr2 ) ? $x2 = $xt : $x2 = $xr2; // coordinates for imagemap
                 }   else {
                     $xt = $xr1;
+                    if ( !$draw ) ( ($xt + $lenfix) > $xr2 ) ? $x2 = $xt + $lenfix : $x2 = $xr2; // coordinates for imagemap
                 }
                 // draw text
                 if ($draw) ImageString($img, $fixfont, $xt, $yr1, $str, $text_color);
@@ -542,7 +548,6 @@ class Timeline
             // save coordinates
             if ( !$draw ) {
                 ($xt < $xr1) ? $x1 = $xt : $x1 = $xr1;
-                ($xt > $xr2) ? $x2 = $xt : $x2 = $xr2;
                 $img_map[$i]['jobid'] = $atime[$i]['jobid'];
                 $img_map[$i]['name']  = $atime[$i]['name'];
                 $img_map[$i]['x1'] = $x1;

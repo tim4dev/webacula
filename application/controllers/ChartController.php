@@ -70,7 +70,7 @@ class ChartController extends MyClass_ControllerAction
         if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->disableLayout(); // disable layouts
         }
-        // http://localhost/webacula/chart/timeline/datetimeline/2009-06-10
+        // http://localhost/webacula/chart/timeline/datetimeline/2010-01-08
         // check GD lib (php-gd)
         if ( !extension_loaded('gd') ) {
             // No GD lib (php-gd) found
@@ -93,7 +93,7 @@ class ChartController extends MyClass_ControllerAction
         $timeline = new Timeline;
         //$this->logger->log("timelineAction() : $date\n$fontname\n$fontsize\n", Zend_Log::INFO); // !!! debug
 
-        $img = $timeline->createTimelineImage($date, true);
+        $img = $timeline->createTimelineImage($date, true, $this->view->translate);
         // Set the headers
         $this->getResponse()->setHeader('Content-Type', 'image/png');
         // Output a PNG image to either the browser or a file :
