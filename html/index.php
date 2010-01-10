@@ -169,6 +169,5 @@ try {
 // disables automatic starting of Zend_Session when using new Zend_Session_Namespace()
 Zend_Session::setOptions( array('strict' => true) );
 
-
 // run
 $frontController->dispatch();

@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,12 +67,14 @@ class RestorejobController extends MyClass_ControllerAction
     const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
     protected $ttl_restore_session = 3900; // time to live session (65 min)
 
+    protected $bacula_restore_job; // from ini. if have multiple Restore Job resources
+
 
 
     function init()
     {
         parent::init();
-        $this->translate = Zend_Registry::get('translate');
+        $this->translate  = Zend_Registry::get('translate');
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
         // set ttl_restore_session for tpmTable
@@ -84,6 +84,10 @@ class RestorejobController extends MyClass_ControllerAction
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         // load model
         Zend_Loader::loadClass('WbTmpTable');
+        // if have multiple Restore Job resources
+        $config = Zend_Registry::get('config');
+        if ( $config->bacula_restore_job )
+            $this->bacula_restore_job = $config->bacula_restore_job->toArray();
     }
 
     /*
@@ -350,6 +354,14 @@ class RestorejobController extends MyClass_ControllerAction
             $storage = addslashes( $this->_request->getParam('storage', null) );
             $pool    = addslashes( $this->_request->getParam('pool', null) );
             $fileset = addslashes( $this->_request->getParam('fileset', null) );
+            // if have multiple Restore Job resources
+            if ( $this->bacula_restore_job)
+                /* The defined Restore Job resources are:
+                      1: restore.files
+                      2: restore.files.2
+                    Select Restore Job (1-2): */
+                $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
+            else $restore_job_select = '';
 
             if ( (!empty($storage)) && ($storage != 'default') )    {
                 $cmd_mount = 'mount "' . $storage . '"';
@@ -370,11 +382,16 @@ class RestorejobController extends MyClass_ControllerAction
            if ( !empty($fileset) ) $cmd .= ' fileset="' . $fileset . '"';
            $cmd .= ' all done yes';
 
+            $comment = __METHOD__;
             $astatusdir = $director->execDirector(
 " <<EOF
+@#
+@# $comment
+@#
 $cmd_mount
 $cmd_sleep
 $cmd
+$restore_job_select
 @sleep 3
 status dir
 @quit
@@ -405,9 +422,13 @@ EOF"
             $filesets = new FileSet();
             $this->view->filesets = $filesets->fetchAll();
 
+            // if have multiple Restore Job resources
+            $this->view->bacula_restore_job = $this->bacula_restore_job;
+
             $this->render();
         }
     }
+
 
 
     function restoreRecentAllAction()
@@ -454,6 +475,15 @@ EOF"
             } else {
                 $path_to_restore = ' where="'. $path_to_restore . '" ';
             }
+            // if have multiple Restore Job resources
+            if ( $this->bacula_restore_job)
+                /* The defined Restore Job resources are:
+                  1: restore.files
+                  2: restore.files.2
+                   Select Restore Job (1-2): */
+                $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
+            else $restore_job_select = '';
+
             //******************************* запуск задания ***************************************
             // формируем командную строку
             // restore client="local.fd" restoreclient="local.fd" fileset="test1"  where="/home/test/11111" current select all done yes
@@ -464,9 +494,14 @@ EOF"
                 ' fileset="' . $this->restoreNamespace->FileSet . '"' .	$cmd_date_before;
             $cmd .= ' select all done yes';
 
+            $comment = __METHOD__;
             $astatusdir = $director->execDirector(
 " <<EOF
+@#
+@# $comment
+@#
 $cmd
+$restore_job_select
 @sleep 3
 status dir
 @quit
@@ -488,9 +523,12 @@ EOF"
             Zend_Loader::loadClass('Client');
             $clients = new Client();
             $this->view->clients = $clients->fetchAll();
+            // if have multiple Restore Job resources
+            $this->view->bacula_restore_job = $this->bacula_restore_job;
             $this->render();
         }
     }
+
 
 
     function selectFilesAction()
@@ -1105,10 +1143,13 @@ EOF"
    	    $filesets = new FileSet();
    	    $this->view->filesets = $filesets->fetchAll();
 
-   	    $this->view->client_name_to = $this->restoreNamespace->ClientNameTo;
-   	    $this->view->type_restore   = $this->restoreNamespace->typeRestore;
+        $this->view->client_name_to = $this->restoreNamespace->ClientNameTo;
+        $this->view->type_restore   = $this->restoreNamespace->typeRestore;
 
-    	$this->render();
+        // if have multiple Restore Job resources
+        $this->view->bacula_restore_job = $this->bacula_restore_job;
+
+        $this->render();
     }
 
 
@@ -1150,8 +1191,11 @@ EOF"
         $clients = new Client();
   	    $this->view->clients = $clients->fetchAll();
 
-   	    $this->view->client_name_to = $this->restoreNamespace->ClientNameTo;
-   	    $this->view->type_restore   = $this->restoreNamespace->typeRestore;
+        $this->view->client_name_to = $this->restoreNamespace->ClientNameTo;
+        $this->view->type_restore   = $this->restoreNamespace->typeRestore;
+
+        // if have multiple Restore Job resources
+        $this->view->bacula_restore_job = $this->bacula_restore_job;
 
     	$this->render();
     }
@@ -1180,6 +1224,14 @@ EOF"
         $storage = addslashes( $this->_request->getParam('storage', null));
         $pool    = addslashes( $this->_request->getParam('pool', null));
         $fileset = addslashes( $this->_request->getParam('fileset', null));
+        // if have multiple Restore Job resources
+        if ( $this->bacula_restore_job)
+            /* The defined Restore Job resources are:
+                  1: restore.files
+                  2: restore.files.2
+               Select Restore Job (1-2): */
+            $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
+        else $restore_job_select = '';
 
         $this->view->title = $this->view->translate->_("Restore JobId");
         $this->view->jobid = $this->restoreNamespace->JobId;
@@ -1231,14 +1283,19 @@ EOF"
             $cmd .= ' yes';
 
             //echo $cmd; exit;// !!! debug
+            $comment = __METHOD__;
             $astatusdir = $director->execDirector(
 " <<EOF
+@#
+@# $comment
+@#
 $cmd_mount
 $cmd_sleep
 $cmd
+$restore_job_select
 @sleep 3
 status dir
-@quit
+quit
 EOF"
             );
             $this->view->command_output = $astatusdir['command_output'];
@@ -1277,6 +1334,14 @@ EOF"
         }
         $this->restoreNamespace->ClientNameTo   = addslashes( $this->_request->getParam('client_name_to', '') );
         $path_to_restore = $this->_request->getParam('path_to_restore', '');
+        // if have multiple Restore Job resources
+        if ( $this->bacula_restore_job)
+            /* The defined Restore Job resources are:
+                  1: restore.files
+                  2: restore.files.2
+               Select Restore Job (1-2): */
+            $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
+        else $restore_job_select = '';
 
         // export to a text file (экспорт в текстовый файл)
         // получаем каталог куда можно писать файл
@@ -1310,9 +1375,14 @@ EOF"
             ' file=<"' . $list . '" ';
         $cmd .= ' done yes';
         //var_dump($cmd); exit; // !!!debug!!!
+        $comment = __METHOD__;
         $astatusdir = $director->execDirector(
 " <<EOF
+@#
+@# $comment
+@#
 $cmd
+$restore_job_select
 @sleep 3
 status dir
 @quit

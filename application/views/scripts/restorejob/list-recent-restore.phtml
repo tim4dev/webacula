@@ -46,14 +46,23 @@ $j(document).ready(function() {
 <table border="0" cellpadding="5" cellspacing="0" align="center" width="100%">
 <tr>
     <td align="left" colspan="2" class="search1">
-        <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b>:</label>
-       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
+        <label for="client" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
+        <?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
     </td>
 </tr>
 <tr>
-    <td align="left" colspan="2" class="search1" valign="top"><?php print $this->translate->_("Path"); ?>:
-    <?php echo $this->formText('path_to_restore', '', array('size' => 50)) ?></td>
+    <td align="left" colspan="2" class="search1" valign="top">
+        <label for="path_to_restore" class="ui-select"><?php print $this->translate->_("Path"); ?></label>
+        <?php echo $this->formText('path_to_restore', '', array('size' => 50)) ?>
+    </td>
 </tr>
+<?php if ( $this->bacula_restore_job ) : ?>
+<tr>
+    <td align="left" colspan="2" class="search1" valign="top">
+        <label for="restore_job_select" class="ui-select"><b><?php print $this->translate->_("Restore Job Resource"); ?></b></label>
+        <?php echo $this->formSelect('restore_job_select', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $this->bacula_restore_job) ?>
+</tr>
+<?php endif; ?>
 <tr>
     <td class="search1" align="center">
 		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>

@@ -46,7 +46,7 @@ class RestoreControllerTest extends ControllerTestCase
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
         $tsleep = 20; // sec. wait to restore
-        
+
         $jobidhash = md5($jobid);
         // clear all tmp-tables
         $this->WbTmpTable = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
@@ -178,7 +178,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', 'Connecting to Director');
-        $this->assertQueryContentContains('td', '@quit');
+        $this->assertQueryContentContains('td', 'quit');
         $this->assertNotQueryContentRegex('td', '/Error/i');
         $this->resetRequest()
              ->resetResponse();

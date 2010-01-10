@@ -7,6 +7,7 @@ Webacula ChangeLog
    Display Autochanger content.
    Extend the "Run Job" page by options to modify a Job before running : Pool, Client, FileSet, Storage, Level, Start Time.
    Add links to the Jobs displayed in a Timeline graphic (use imagemap).
+   Support multiple Restore Job resources.
 
 === 3.4.1
    Fix bug #545471 in bugzilla RedHat.

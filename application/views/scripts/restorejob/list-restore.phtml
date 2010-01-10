@@ -97,7 +97,14 @@ $j(document).ready(function() {
     </td>
 </tr>
 <tr>
-    <td align="right" class="search1" colspan="2">&nbsp;</td>
+    <?php if ( $this->bacula_restore_job ) : ?>
+        <td align="right" class="search1"><b><?php print $this->translate->_("Restore Job Resource"); ?></b></td>
+        <td align="left" class="search1">
+            <?php echo $this->formSelect('restore_job_select', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $this->bacula_restore_job) ?>
+        </td>
+    <?php else : ?>
+        <td align="right" class="search1" colspan="2">&nbsp;</td>
+    <?php endif; ?>
 
     <td align="right" class="search1">
         <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?>:</label>

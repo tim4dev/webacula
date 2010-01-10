@@ -58,7 +58,7 @@ $j(document).ready(function() {
     $apools[''] = 'default';	// if empty FileSet exists in database
 ?>
 
-<div class="roundcorner1" style="width: 54em;">
+<div class="roundcorner1" style="width: 58em;">
 
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/restore-all'; ?>">
 <table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
@@ -79,7 +79,7 @@ $j(document).ready(function() {
 </tr>
 <tr>
     <td align="right" class="search1" valign="top"><?php print $this->translate->_("Where"); ?></td>
-    <td align="left" class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 30)) ?></td>
+    <td align="left" class="search1" valign="top"><?php echo $this->formText('where', '', array('size' => 40)) ?></td>
 
     <td align="right" class="search1">
         <label for="fileset" class="ui-select"><?php print $this->translate->_("Fileset"); ?></label>
@@ -89,7 +89,14 @@ $j(document).ready(function() {
     </td>
 </tr>
 <tr>
-    <td align="right" class="search1" colspan="2">&nbsp;</td>
+    <?php if ( $this->bacula_restore_job ) : ?>
+        <td align="right" class="search1"><b><?php print $this->translate->_("Restore Job Resource"); ?></b></td>
+        <td align="left" class="search1">
+            <?php echo $this->formSelect('restore_job_select', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $this->bacula_restore_job) ?>
+        </td>
+    <?php else : ?>
+        <td align="right" class="search1" colspan="2">&nbsp;</td>
+    <?php endif; ?>
 
     <td align="right" class="search1">
         <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?></label>
@@ -103,8 +110,8 @@ $j(document).ready(function() {
             <input type="hidden" name="jobid"  id="jobid"  value="<?php echo $this->jobid; ?>">
             <input type="hidden" name="client_name"  id="client_name"  value="<?php echo $this->client_name; ?>">
             <input type="hidden" name="choice_form"  id="choice_form"  value="1">
-		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn') ); ?>
-        </form>
+            <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore Job'), array('class' => 'prefer_btn') ); ?>
+</form>
     </td>
     <td class="search1" colspan="2" align="center">
         <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore'; ?>">
