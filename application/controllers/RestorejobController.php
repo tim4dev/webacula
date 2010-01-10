@@ -245,6 +245,15 @@ class RestorejobController extends MyClass_ControllerAction
         // get job record
         Zend_Loader::loadClass('Job');
         $job = new Job();
+        // существует ли такое jobid
+        if ( !$job->isJobIdExists($jobid) ) {
+            // выдача сообщения, что такого joid не существует
+            $this->view->title = $this->view->translate->_("Restore Job");
+            $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
+            $this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."), $jobid);
+            echo $this->renderScript('restorejob/main-form.phtml');
+            return;
+        }
         $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
         $job_row = $ajob[0];
         // store the data in the session / запоминаем данные в сессии
