@@ -426,14 +426,19 @@ div.roundcorner2 {
     background: #FFFFB4;
 }
 
-#easyTooltip{
-    font-family: arial, verdana, sans-serif;
-    font-size: 12px;
-    padding: 6px 8px;
-    border:1px solid #FFD62F;
-    background: #FBF6CB;
+#tooltip {
+    position: absolute;
+    z-index: 3000;
     color:#222;
+    border:1px solid #FFD62F;
+    background-color: #FBF6CB;
+    padding: 5px;
+    opacity: 0.85;
+    font-family: arial, verdana, sans-serif;
+    font-size: 0.9em;
+    width: 10em;
 }
+#tooltip h3, #tooltip div { margin: 0; }
 
 .update-info {
     font-family: arial, verdana, sans-serif;

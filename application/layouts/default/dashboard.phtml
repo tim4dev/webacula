@@ -28,7 +28,7 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
 <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.7.2.custom.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/easyTooltip.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.tooltip.min.js"></script>
 
 <script type="text/javascript">
 	$j = jQuery.noConflict();
@@ -133,6 +133,16 @@ window.onfocus=CloseNewWin;
 // -->
 </script>
 
+<script type="text/javascript">
+$j(document).ready(function(){
+    $j('a').tooltip({
+        track: true,
+        delay: 0,
+        showURL: false
+        });
+});
+</script>
+
 </head>
 <body>
 
@@ -188,15 +198,6 @@ window.onfocus=CloseNewWin;
     <?php print $this->translate->_("Enable JavaScript please..."); ?>
 </div>
 </noscript>
-
-<script type="text/javascript">
-    $j(document).ready(function(){
-        $j("a").easyTooltip({
-            xOffset: 9,
-            yOffset: -17
-        });
-    });
-</script>
 
 <?php if ( $this->meta_refresh ) : ?>
 <div class="update-info">
