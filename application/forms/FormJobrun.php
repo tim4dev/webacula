@@ -24,16 +24,16 @@
  */
 require_once 'Zend/Form.php';
 require_once 'Zend/Form/Element/Submit.php';
-require_once 'Zend/Form/Element/Select.php';
 
 class FormJobrun extends Zend_Form
 {
-    
-    public function myRemoveDecorators($el)
-    {
-        $el->removeDecorator('Label');   // remove tag <dt>
-        $el->removeDecorator('HtmlTag'); // remove tag <dd>
-    }
+
+    public  $elDecorators = array(
+        'ViewHelper',
+        'Errors'
+    );
+
+
 
     public function init()
     {
@@ -42,9 +42,9 @@ class FormJobrun extends Zend_Form
         // Set the method for the display form to POST
         $this->setMethod('post');
         $from_form = $this->addElement('hidden', 'from_form', array(
+            'decorators' => $this->elDecorators,
             'value' => '1'
         ));
-        $this->myRemoveDecorators($from_form);
         // load models
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('FileSet');
@@ -56,34 +56,34 @@ class FormJobrun extends Zend_Form
         $jobs = $table_job->getListJobs();
         // select
         $jobname = $this->createElement('select', 'jobname', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Job Name',
             'required' => true,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $this->myRemoveDecorators($jobname);
         foreach( $jobs as $v) {
             $jobname->addMultiOption($v, $v);
         }
         /*
-         * Client 
-         */ 
+         * Client
+         */
         $table_client = new Client();
         $order  = array('ClientId', 'Name');
         $clients = $table_client->fetchAll(null, $order);
         // select
         $client = $this->createElement('select', 'client', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Client',
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $this->myRemoveDecorators($client);
         $client->addMultiOption('', $translate->_("Default"));
         foreach( $clients as $v) {
             $client->addMultiOption($v->name, $v->name);
         }
-        /* 
+        /*
          * Fileset
          */
         $table_filesets = new Fileset();
@@ -91,17 +91,17 @@ class FormJobrun extends Zend_Form
         $filesets = $table_filesets->fetchAll(null, $order);
         // select
         $fileset = $this->createElement('select', 'fileset', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Fileset',
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $this->myRemoveDecorators($fileset);
         $fileset->addMultiOption('', $translate->_("Default"));
         foreach( $filesets as $v) {
             $fileset->addMultiOption($v->fileset, $v->fileset);
         }
-        /* 
+        /*
          * Storage
          */
         $table_storages = new Storage();
@@ -109,44 +109,44 @@ class FormJobrun extends Zend_Form
         $storages = $table_storages->fetchAll(null, $order);
         // select
         $storage = $this->createElement('select', 'storage', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Storage',
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $this->myRemoveDecorators($storage);
         $storage->addMultiOption('', $translate->_("Default"));
         foreach( $storages as $v) {
             $storage->addMultiOption($v->name, $v->name);
         }
-        /* 
+        /*
          * Level
          */
         // select
         $level = $this->createElement('select', 'level', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Level',
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 20em;'
         ));
-        $this->myRemoveDecorators($level);
         $level->addMultiOptions(array(
             ''             => $translate->_("Default"),
             "Full"         => $translate->_("Full level"),
             "Incremental"  => $translate->_("Incremental level"),
             "Differential" => $translate->_("Differential level")
         ));
-        /* 
+        /*
          * Spool
          */
         // select
         $spool = $this->createElement('select', 'spool', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Spool',
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 10em;'
         ));
-        $this->myRemoveDecorators($spool);
         $spool->addMultiOptions(array(
             ''    => $translate->_("Default"),
             "yes" => $translate->_("Yes"),
@@ -156,17 +156,17 @@ class FormJobrun extends Zend_Form
          * checkbox Now
          */
         $checkbox_now = $this->createElement('checkbox', 'checkbox_now', array(
+            'decorators' => $this->elDecorators,
             'label'    => 'Now',
-            'required' => false,
             'onclick'  => 'whenNow(this)',
             'checked'  => 1
         ));
-        $this->myRemoveDecorators($checkbox_now);
         /*
          * When : date/time
          */
         // date
         $date_when = $this->createElement('text', 'date_when', array(
+            'decorators' => $this->elDecorators,
             'label'     => '',
             'required'  => false,
             'size'      => 10,
@@ -174,10 +174,10 @@ class FormJobrun extends Zend_Form
             'disabled'  =>'true',
             'value'     => date('Y-m-d', time())
         ));
-        $date_when->addValidator('StringLength', false, array(10, 10) );
-        $this->myRemoveDecorators($date_when);
+        $date_when->addValidator('StringLength', false, array(1, 10) );
         // time
         $time_when = $this->createElement('text', 'time_when', array(
+            'decorators' => $this->elDecorators,
             'label'     => '',
             'required'  => false,
             'size'      => 8,
@@ -185,12 +185,13 @@ class FormJobrun extends Zend_Form
             'disabled'  =>'true',
             'value'     => date('H:i:s', time())
         ));
-        $time_when->addValidator('StringLength', false, array(8, 8) );
-        $this->myRemoveDecorators($time_when);
+        $time_when->addValidator('StringLength', false, array(1, 8) );
         /*
          * submit button
-         */ 
+         */
         $submit = new Zend_Form_Element_Submit('submit',array(
+            'decorators' => $this->elDecorators,
+            'id'    => 'ok1',
             'class' => 'prefer_btn',
             'label'=>'Run Job'
         ));
@@ -210,5 +211,5 @@ class FormJobrun extends Zend_Form
             $submit
         ));
     }
-    
+
 }

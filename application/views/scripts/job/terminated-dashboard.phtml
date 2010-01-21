@@ -12,11 +12,12 @@
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
-	 <th scope="col"> <?php print $this->translate->_("Id"); ?> </th>
+     <th scope="col">&nbsp;</th>
+     <th scope="col"> <?php print $this->translate->_("Id"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-	 <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
 </tr>
@@ -28,16 +29,27 @@
         <?php
             if ( isset($line['poolid'], $line['poolname']) )	{
                 echo '<a href="';
-				echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
-				echo '" title="', $this->translate->_("Restore Job"), '">';
-				echo '<img src="', $this->baseUrl, '/images/restore-small.png" alt="', $this->translate->_("Restore Job"), '" border="0" hspace="2">';
-				echo '</a>';
+                echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
+                echo '" title="', $this->translate->_("Restore Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/restore-small.png" alt="', $this->translate->_("Restore Job"), '" border="0" hspace="2">';
+                echo '</a>';
             }
         ?>
     </td>
-	<td>
-		<?php
-			if ( isset($line['poolid'], $line['poolname']) )	{
+    <td>
+        <?php
+            if ( isset($line['jobname']) )    {
+                // re-run button
+                echo '<a href="';
+                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['jobname']);
+                echo '" title="', $this->translate->_("Re-run Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/re-run-job-small.png" alt="', $this->translate->_("Re-run Job"), '" border="0" hspace="2">';
+            }
+        ?>
+    </td>
+    <td>
+        <?php
+            if ( isset($line['poolid'], $line['poolname']) )	{
 				echo '<a href="';
 				echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
 				echo '" title="', $this->translate->_("Detail Job"), '">';

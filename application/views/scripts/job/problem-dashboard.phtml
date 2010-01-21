@@ -10,7 +10,8 @@
 <table id="box-table-dashboard">
 <thead>
 <tr>
-	 <th scope="col"> <?php print $this->translate->_("Id"); ?> </th>
+     <th scope="col">&nbsp;</th>
+     <th scope="col"> <?php print $this->translate->_("Id"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
@@ -23,6 +24,17 @@
 <tbody>
 <?php foreach($this->result as $line) : ?>
 <tr>
+    <td>
+        <?php
+            if ( isset($line['jobname']) )    {
+                // re-run button
+                echo '<a href="';
+                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['jobname']);
+                echo '" title="', $this->translate->_("Re-run Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/re-run-job-small.png" alt="', $this->translate->_("Re-run Job"), '" border="0" hspace="2">';
+            }
+        ?>
+
 	<td>
 		<?php
 			if ( isset($line['poolid']) && isset($line['poolname']) )	{

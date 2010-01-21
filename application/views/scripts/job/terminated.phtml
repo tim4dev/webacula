@@ -8,6 +8,7 @@
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
+     <th scope="col">&nbsp;</th>
      <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
@@ -26,15 +27,26 @@
 <tbody>
 <?php foreach($this->result as $line) : ?>
 <tr>
-    <td style="padding: 0px; width:24px;">
+    <td style="padding: 0px;">
         <?php
-            if ( isset($line['poolid'], $line['poolname']) )	{
+            if ( isset($line['poolid'], $line['poolname']) )    {
                 // restore button
                 echo '<a href="';
                 echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
                 echo '" title="', $this->translate->_("Restore Job"), '">';
                 echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '" border="0" hspace="2">';
                 echo '</a>';
+            }
+        ?>
+    </td>
+    <td style="padding: 0px;">
+        <?php
+            if ( isset($line['jobname']) )    {
+                // re-run button
+                echo '<a href="';
+                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['jobname']);
+                echo '" title="', $this->translate->_("Re-run Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Re-run Job"), '" border="0" hspace="2">';
             }
         ?>
     </td>
@@ -52,7 +64,7 @@
             }
         ?>
     </td>
-    
+
     <!-- Job.Name -->
     <td><?php  echo $this->escape($line['jobname']);?>  </td>
 
@@ -85,7 +97,7 @@
 	?>
 
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
-	
+
 	<?php
 		if ( $line['jobfiles'] == 0 ) {
 			$class = 'class="warn"';
@@ -115,8 +127,8 @@
 			     $this->translate->_("View Messages"), '" class="lerr">',
 			     $this->escape($line['joberrors']), '</a></td>';
 		}
-	?>	
-	
+	?>
+
 	<td><?php echo $line['clientname'];?></td>
 
 	<td>
@@ -142,7 +154,7 @@
 	<td>&nbsp;<?php echo $this->escape($line['starttime']);?>&nbsp;</td>
 	<td>&nbsp;<?php echo $this->escape($line['endtime']);?>&nbsp;</td>
 	<td align="right">&nbsp;<?php echo $this->escape($line['durationtime']);?>&nbsp;</td>
-	
+
     <!-- add to logbook button -->
     <td style="padding: 0px; width:16px;"><?php
         if ( isset($line['poolid'], $line['poolname']) )    {
@@ -166,7 +178,7 @@
 
 <?php else: ?>
 <div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;"> 
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
 		<p><a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">

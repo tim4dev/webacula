@@ -436,7 +436,7 @@ div.roundcorner2 {
     opacity: 0.85;
     font-family: arial, verdana, sans-serif;
     font-size: 0.9em;
-    width: 10em;
+/*    width: 11em;*/
 }
 #tooltip h3, #tooltip div { margin: 0; }
 

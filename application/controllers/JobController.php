@@ -328,70 +328,9 @@ class JobController extends MyClass_ControllerAction
      */
     function runJobAction()
     {
-        $from_form = intval( $this->_request->getParam('from_form', 0) );
-        if ( $from_form == 1 ) {
-        //if( $this->_request->isPost() ) {
-            // данные из формы
-            $jobname = trim( $this->_request->getParam('jobname') );
-            $client  = addslashes(trim( $this->_request->getParam('client', '') ));
-            $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
-            $storage = addslashes(trim( $this->_request->getParam('storage', '') ));
-            $level   = addslashes(trim( $this->_request->getParam('level', '') ));
-            $spool   = addslashes(trim( $this->_request->getParam('spool', 'yes') ));
-            $checkbox_now = addslashes(trim( $this->_request->getParam('checkbox_now') ));
-            if ($checkbox_now) {
-                $when = '';
-            } else {
-                $date_when  = addslashes( trim( $this->_request->getPost('date_when') ));
-                $time_when  = addslashes( trim( $this->_request->getPost('time_when') ));
-                $when = $date_when . ' ' . $time_when;
-            }
-
-            $this->view->jobname = $jobname;
-            // run Job
-            $director = new Director();
-            if ( !$director->isFoundBconsole() )    {
-                $this->view->result_error = 'NOFOUND_BCONSOLE';
-                $this->render();
-                return;
-            }
-            // make options
-            $cmdrun = ' ';
-            if ( !empty($client) )  $cmdrun .= 'client="'.$client.'" ';
-            if ( !empty($fileset) ) $cmdrun .= 'fileset="'.$fileset.'" ';
-            if ( !empty($level) )   $cmdrun .= 'level="'.$level.'" ';
-            if ( !empty($storage) ) $cmdrun .= 'storage="'.$storage.'" ';
-            if ( !empty($when) )    $cmdrun .= 'when="'.$when.'" ';
-            if ( !empty($spool) )   $cmdrun .= 'spooldata="'.$spool.'" ';
-            /*
-             * run job=<job-name>
-             *     client=<client-name>
-             *     fileset=<FileSet-name>
-             *     level=<level-keyword Full, Incremental, Differential>
-             *     storage=<storage-name>
-             *     where=<directory-prefix>
-             *     when=<universal-time-specification YYYY-MM-DD HH:MM:SS>
-             *     spooldata=yes|no
-             *     yes
-             */
-            $astatusdir = $director->execDirector(
-" <<EOF
-run job=\"$jobname\" $cmdrun yes
-.
-@sleep 3
-status dir
-@quit
-EOF"
-            );
-            $this->view->command_output = $astatusdir['command_output'];
-            // check return status of the executed command
-            if ( $astatusdir['return_var'] != 0 )	{
-                $this->view->result_error = $astatusdir['result_error'];
-            }
-            // показываем вывод Director
-            echo $this->renderScript('/job/run-job-output.phtml');
-            return;
-        }
+        /*
+         * form
+         */
         Zend_Loader::loadClass('FormJobrun');
         $form = new formJobrun();
         // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
@@ -401,6 +340,86 @@ EOF"
                 'form'=> $form
             ))
         ));
+
+        $from_form = intval( $this->_request->getParam('from_form', 0) );
+        if ($from_form == 1) { //if( $this->_request->isPost() ) {
+            if ( $form->isValid($this->_getAllParams()) )  {
+                // данные из формы
+                $jobname = trim( $this->_request->getParam('jobname') );
+                $client  = addslashes(trim( $this->_request->getParam('client', '') ));
+                $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
+                $storage = addslashes(trim( $this->_request->getParam('storage', '') ));
+                $level   = addslashes(trim( $this->_request->getParam('level', '') ));
+                $spool   = addslashes(trim( $this->_request->getParam('spool', 'yes') ));
+                $checkbox_now = addslashes(trim( $this->_request->getParam('checkbox_now') ));
+                if ($checkbox_now) {
+                    $when = '';
+                } else {
+                    $date_when  = addslashes( trim( $this->_request->getPost('date_when') ));
+                    $time_when  = addslashes( trim( $this->_request->getPost('time_when') ));
+                    $when = $date_when . ' ' . $time_when;
+                }
+
+                $this->view->jobname = $jobname;
+                // run Job
+                $director = new Director();
+                if ( !$director->isFoundBconsole() )    {
+                    $this->view->result_error = 'NOFOUND_BCONSOLE';
+                    $this->render();
+                    return;
+                }
+                // make options
+                $cmdrun = ' ';
+                if ( !empty($client) )  $cmdrun .= 'client="'.$client.'" ';
+                if ( !empty($fileset) ) $cmdrun .= 'fileset="'.$fileset.'" ';
+                if ( !empty($level) )   $cmdrun .= 'level="'.$level.'" ';
+                if ( !empty($storage) ) $cmdrun .= 'storage="'.$storage.'" ';
+                if ( !empty($when) )    $cmdrun .= 'when="'.$when.'" ';
+                if ( !empty($spool) )   $cmdrun .= 'spooldata="'.$spool.'" ';
+                /*
+                 * run job=<job-name>
+                 *     client=<client-name>
+                 *     fileset=<FileSet-name>
+                 *     level=<level-keyword Full, Incremental, Differential>
+                 *     storage=<storage-name>
+                 *     where=<directory-prefix>
+                 *     when=<universal-time-specification YYYY-MM-DD HH:MM:SS>
+                 *     spooldata=yes|no
+                 *     yes
+                 */
+                $astatusdir = $director->execDirector(
+" <<EOF
+run job=\"$jobname\" $cmdrun yes
+.
+@sleep 3
+status dir
+@quit
+EOF"
+                );
+                $this->view->command_output = $astatusdir['command_output'];
+                // check return status of the executed command
+                if ( $astatusdir['return_var'] != 0 )	{
+                    $this->view->result_error = $astatusdir['result_error'];
+                }
+                // показываем вывод Director
+                echo $this->renderScript('/job/run-job-output.phtml');
+                return;
+            }
+        } else {
+            $form->init();
+        }
+        /*
+         * fill form
+         */
+        // if re-run job
+        $jobname = trim( $this->_request->getParam('jobname') );
+        if ( !empty($jobname) ) {
+            // fill form
+            $form->populate( array(
+                'jobname' => $jobname
+            ));
+        }
+
         $this->view->form = $form;
     }
 

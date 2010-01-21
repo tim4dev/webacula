@@ -3,10 +3,10 @@
 
 <form  action="<?php echo $this->escape($this->form->getAction()); ?>"
         method="<?php echo $this->escape($this->form->getMethod()); ?>"
-        name="form1">
+        name="form1" id="form1">
 <fieldset>
     <legend><?php echo $translate->_("Run Job"); ?></legend>
-    
+
 <?php echo $this->form->from_form;?>
 
 <table border="0" cellpadding="3" cellspacing="3" align="center">
@@ -27,7 +27,7 @@
 </td><td>
     <?php echo $this->form->storage;?>
 </td></tr><tr><td style="text-align: right;">
-    <label for="level" class="ui-select"><b><?php echo $translate->_("Level"); ?></b></label>    
+    <label for="level" class="ui-select"><b><?php echo $translate->_("Level"); ?></b></label>
 </td><td>
     <?php echo $this->form->level;?>
 </td></tr><tr><td style="text-align: right;">

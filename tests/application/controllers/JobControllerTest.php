@@ -103,9 +103,10 @@ class JobControllerTest extends ControllerTestCase
     public function testRunJobWrong()
     {
         print "\n".__METHOD__.' ';
+        $jobname = 'wrong job name';
         $this->getRequest()
              ->setParams(array(
-                 'jobname' => 'wrong job name',
+                 'jobname' => $jobname,
                  'checkbox_now' => 'on',
                  'from_form' => '1') )
              ->setMethod('POST');
@@ -116,9 +117,8 @@ class JobControllerTest extends ControllerTestCase
         //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('td', '1000 OK: main.dir');
-        $this->assertNotQueryContentRegex('td', '/Error/i');
-        $this->assertQueryContentContains('td', 'Job "wrong job name" not found');
+        // zend form validate and error decorator output
+        $this->assertQueryContentContains('td', "'$jobname' was not found in the haystack");
     }
 
 

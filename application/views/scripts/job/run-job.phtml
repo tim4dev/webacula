@@ -20,9 +20,10 @@ $j(document).ready(function() {
   });
 </script>
 <script type="text/javascript">
-function whenNow()
+function whenNow(elm)
 {
-    if (document.form1.checkbox_now.checked)
+    // console.log('checkbox : ' + elm.checked); // for debug firebug
+    if (elm.checked)
     {
         document.form1.date_when.disabled = true;
         document.form1.time_when.disabled = true;
