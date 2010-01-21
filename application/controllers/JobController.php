@@ -328,11 +328,10 @@ class JobController extends MyClass_ControllerAction
      */
     function runJobAction()
     {
-        $this->view->title = $this->view->translate->_("Run Job");
         $from_form = intval( $this->_request->getParam('from_form', 0) );
         if ( $from_form == 1 ) {
         //if( $this->_request->isPost() ) {
-            // данные из формы поиска
+            // данные из формы
             $jobname = trim( $this->_request->getParam('jobname') );
             $client  = addslashes(trim( $this->_request->getParam('client', '') ));
             $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
@@ -394,37 +393,7 @@ EOF"
             return;
         }
         // fill form
-        Zend_Loader::loadClass('Client');
-        Zend_Loader::loadClass('FileSet');
-        Zend_Loader::loadClass('Storage');
-        // get all Jobs
-        $jobs = new Job();
-        $res = $jobs->getListJobs();
-        foreach($res as $job) {
-            $a[$this->view->escape($job)] = $this->view->escape($job);
-        }
-        $this->view->jobs = $a;
-        unset($a);
-        // get all clients
-        $clients = new Client();
-        $order  = array('ClientId', 'Name');
-        $res = $clients->fetchAll(null, $order);
-        $a[''] = $this->view->translate->_("Default");
-        foreach($res as $client) {
-            $a[$this->view->escape($client->name)] = $this->view->escape($client->name);
-        }
-        $this->view->clients = $a;
-        unset($a);
-        // get all filesets
-        $filesets = new Fileset();
-        $order  = array('Fileset');
-        $res = $filesets->fetchAll(null, $order);
-        $a[''] = $this->view->translate->_("Default");
-        foreach($res as $fileset) {
-            $a[$this->view->escape($fileset->fileset)] = $this->view->escape($fileset->fileset);
-        }
-        $this->view->filesets = $a;
-        unset($a);
+/*      
         // get all storages
         $storages = new Storage();
         $order  = array('Name');
@@ -447,6 +416,18 @@ EOF"
             "yes" => $this->view->translate->_("Yes"),
             "no"  => $this->view->translate->_("No")
         );
+*/
+        
+        Zend_Loader::loadClass('FormJobrun');
+        $form = new formJobrun();
+        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+        $form->setDecorators(array(
+            array('ViewScript', array(
+                'viewScript' => 'forms/formJobrun.phtml',
+                'form'=> $form
+            ))
+        ));
+        $this->view->form = $form;
     }
 
 
