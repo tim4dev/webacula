@@ -1,0 +1,54 @@
+<!-- formJobrun.phtml -->
+<?php $translate = Zend_Registry::get('translate'); ?>
+
+<form  action="<?php echo $this->escape($this->form->getAction()); ?>"
+        method="<?php echo $this->escape($this->form->getMethod()); ?>"
+        name="form1">
+<fieldset>
+    <legend><?php echo $translate->_("Run Job"); ?></legend>
+    
+<?php echo $this->form->from_form;?>
+
+<table border="0" cellpadding="3" cellspacing="3" align="center">
+<tr><td style="text-align: right;">
+    <label for="jobname" class="ui-select"><b><?php echo $translate->_("Job Name"); ?></b></label>
+</td><td>
+    <?php echo $this->form->jobname;?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="client" class="ui-select"><b><?php echo $translate->_("Client"); ?></b></label>
+</td><td>
+    <?php echo $this->form->client;?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="fileset" class="ui-select"><b><?php echo $translate->_("Fileset"); ?></b></label>
+</td><td>
+    <?php echo $this->form->fileset;?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="storage" class="ui-select"><b><?php echo $translate->_("Storage"); ?></b></label>
+</td><td>
+    <?php echo $this->form->storage;?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="level" class="ui-select"><b><?php echo $translate->_("Level"); ?></b></label>    
+</td><td>
+    <?php echo $this->form->level;?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="spool" class="ui-select"><b><?php echo $translate->_("Spool"); ?></b></label>
+</td><td>
+    <?php echo $this->form->spool;?>
+</td></tr><tr><td style="text-align: right;">
+    <label for="date_when" class="ui-select"><b><?php echo $translate->_("When"); ?></b></label>
+</td><td>
+    <?php echo $translate->_("Now"); ?>
+    <?php echo $this->form->checkbox_now;?>
+    <br>
+    <?php echo $this->form->date_when;?>
+    <?php echo $this->form->time_when;?>
+    <br>
+    <div style="font-size:0.6em;"><?php echo $translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
+</td></tr><tr><td colspan="2">
+    <div style="text-align: center; margin-left: auto; margin-right: auto;">
+        <?php echo $this->form->submit; ?>
+    </div>
+</td></tr>
+</table>
+</fieldset>
+</form>

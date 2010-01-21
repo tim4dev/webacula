@@ -28,6 +28,12 @@ require_once 'Zend/Form/Element/Select.php';
 
 class FormJobrun extends Zend_Form
 {
+    
+    public function myRemoveDecorators($el)
+    {
+        $el->removeDecorator('Label');   // remove tag <dt>
+        $el->removeDecorator('HtmlTag'); // remove tag <dd>
+    }
 
     public function init()
     {
@@ -38,6 +44,7 @@ class FormJobrun extends Zend_Form
         $from_form = $this->addElement('hidden', 'from_form', array(
             'value' => '1'
         ));
+        $this->myRemoveDecorators($from_form);
         // load models
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('FileSet');
@@ -54,7 +61,7 @@ class FormJobrun extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $jobname->removeDecorator('Label');
+        $this->myRemoveDecorators($jobname);
         foreach( $jobs as $v) {
             $jobname->addMultiOption($v, $v);
         }
@@ -71,7 +78,7 @@ class FormJobrun extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $client->removeDecorator('Label');
+        $this->myRemoveDecorators($client);
         $client->addMultiOption('', $translate->_("Default"));
         foreach( $clients as $v) {
             $client->addMultiOption($v->name, $v->name);
@@ -89,27 +96,117 @@ class FormJobrun extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $fileset->removeDecorator('Label');
+        $this->myRemoveDecorators($fileset);
         $fileset->addMultiOption('', $translate->_("Default"));
         foreach( $filesets as $v) {
             $fileset->addMultiOption($v->fileset, $v->fileset);
         }
-        
-        
-        
-        
-        
-        
-        // submit button
+        /* 
+         * Storage
+         */
+        $table_storages = new Storage();
+        $order  = array('Name');
+        $storages = $table_storages->fetchAll(null, $order);
+        // select
+        $storage = $this->createElement('select', 'storage', array(
+            'label'    => 'Storage',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 25em;'
+        ));
+        $this->myRemoveDecorators($storage);
+        $storage->addMultiOption('', $translate->_("Default"));
+        foreach( $storages as $v) {
+            $storage->addMultiOption($v->name, $v->name);
+        }
+        /* 
+         * Level
+         */
+        // select
+        $level = $this->createElement('select', 'level', array(
+            'label'    => 'Level',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 20em;'
+        ));
+        $this->myRemoveDecorators($level);
+        $level->addMultiOptions(array(
+            ''             => $translate->_("Default"),
+            "Full"         => $translate->_("Full level"),
+            "Incremental"  => $translate->_("Incremental level"),
+            "Differential" => $translate->_("Differential level")
+        ));
+        /* 
+         * Spool
+         */
+        // select
+        $spool = $this->createElement('select', 'spool', array(
+            'label'    => 'Spool',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 10em;'
+        ));
+        $this->myRemoveDecorators($spool);
+        $spool->addMultiOptions(array(
+            ''    => $translate->_("Default"),
+            "yes" => $translate->_("Yes"),
+            "no"  => $translate->_("No")
+        ));
+        /*
+         * checkbox Now
+         */
+        $checkbox_now = $this->createElement('checkbox', 'checkbox_now', array(
+            'label'    => 'Now',
+            'required' => false,
+            'onclick'  => 'whenNow(this)',
+            'checked'  => 1
+        ));
+        $this->myRemoveDecorators($checkbox_now);
+        /*
+         * When : date/time
+         */
+        // date
+        $date_when = $this->createElement('text', 'date_when', array(
+            'label'     => '',
+            'required'  => false,
+            'size'      => 10,
+            'maxlength' => 10,
+            'disabled'  =>'true',
+            'value'     => date('Y-m-d', time())
+        ));
+        $date_when->addValidator('StringLength', false, array(10, 10) );
+        $this->myRemoveDecorators($date_when);
+        // time
+        $time_when = $this->createElement('text', 'time_when', array(
+            'label'     => '',
+            'required'  => false,
+            'size'      => 8,
+            'maxlength' => 8,
+            'disabled'  =>'true',
+            'value'     => date('H:i:s', time())
+        ));
+        $time_when->addValidator('StringLength', false, array(8, 8) );
+        $this->myRemoveDecorators($time_when);
+        /*
+         * submit button
+         */ 
         $submit = new Zend_Form_Element_Submit('submit',array(
             'class' => 'prefer_btn',
             'label'=>'Run Job'
         ));
-        // add elements to form
+        /*
+         *  add elements to form
+         */
         $this->addElements( array(
             $jobname,
             $client,
             $fileset,
+            $storage,
+            $level,
+            $spool,
+            $checkbox_now,
+            $date_when,
+            $time_when,
             $submit
         ));
     }

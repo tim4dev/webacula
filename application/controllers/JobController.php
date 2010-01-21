@@ -392,38 +392,12 @@ EOF"
             echo $this->renderScript('/job/run-job-output.phtml');
             return;
         }
-        // fill form
-/*      
-        // get all storages
-        $storages = new Storage();
-        $order  = array('Name');
-        $res = $storages->fetchAll(null, $order);
-        $a[''] = $this->view->translate->_("Default");
-        foreach($res as $storage) {
-            $a[$this->view->escape($storage->name)] = $this->view->escape($storage->name);
-        }
-        $this->view->storages = $a;
-        unset($a);
-        // create array levels for Form
-        $this->view->levels = array(
-            ""             => $this->view->translate->_("Default"),
-            "Full"         => $this->view->translate->_("Full level"),
-            "Incremental"  => $this->view->translate->_("Incremental level"),
-            "Differential" => $this->view->translate->_("Differential level")
-        );
-        // spool
-        $this->view->spools = array(
-            "yes" => $this->view->translate->_("Yes"),
-            "no"  => $this->view->translate->_("No")
-        );
-*/
-        
         Zend_Loader::loadClass('FormJobrun');
         $form = new formJobrun();
         // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
         $form->setDecorators(array(
             array('ViewScript', array(
-                'viewScript' => 'forms/formJobrun.phtml',
+                'viewScript' => 'decorators/formJobrun.phtml',
                 'form'=> $form
             ))
         ));
