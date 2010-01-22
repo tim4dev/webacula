@@ -38,6 +38,7 @@ $j(document).ready(
 <table id="box-table-wbjobdesc" border="0"  width="70%">
 <thead>
 <tr>
+    <th scope="col">&nbsp;</th>
     <th scope="col" width="35%"> <?php print $this->translate->_("Job Name"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Job Description"); ?> </th>
     <th scope="col" width="10%"> <?php print $this->translate->_("Retention period"); ?> </th>
@@ -47,6 +48,17 @@ $j(document).ready(
 <tbody>
 <?php foreach($this->result as $line) : ?>
 <tr>
+    <td style="padding: 0px;">
+        <?php
+            if ( isset($line['name_job']) )    {
+                // re-run button
+                echo '<a href="';
+                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['name_job']);
+                echo '" title="', $this->translate->_("Run Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Run Job"), '" border="0" hspace="2">';
+            }
+        ?>
+    </td>
     <td><?php echo $line['name_job'] ?></td>
     <td><?php echo $line['description'] ?></td>
     <td><?php echo $line['retention_period'] ?></td>
