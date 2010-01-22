@@ -25,8 +25,23 @@
                 echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
                 echo '" title="', $this->translate->_("Restore Job"), '">';
                 echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '"',
-                    ' border="0" hspace="0" align="absmiddle">';
-                echo '</a>&nbsp;';
+                    ' border="0" hspace="1" align="absmiddle">';
+                echo '</a>';
+            }
+        ?>
+        <?php
+            if ( isset($line['name']) )    {
+                // re-run button
+                echo '<a href="';
+                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['name']);
+                echo '" title="', $this->translate->_("Re-run Job"), '">';
+                echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Re-run Job"), '"',
+                    ' border="0" hspace="1" align="absmiddle">';
+                echo '</a>';
+            }
+        ?>
+        <?php
+            if ( isset($line['poolid'], $line['poolname']) )    {
                 // add to logbook button
                 echo '<a href="';
                 echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($this->resultJob[0]['name']),
@@ -35,7 +50,7 @@
                     '/joberrors/', $this->escape($line['joberrors']);
                 echo '" title="', $this->translate->_("Written in Logbook"), '">';
                 echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), 
-                    '" border="0" hspace="0" align="absmiddle">';
+                    '" border="0" hspace="1" align="absmiddle">';
                 echo '</a>';
             }
         ?>
