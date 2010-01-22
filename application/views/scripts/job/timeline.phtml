@@ -1,10 +1,11 @@
+<!-- job/timeline.phtml -->
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 
 <script type="text/javascript">
 $j(function() {
     $j('#datetimeline').datepicker({
         changeMonth: true,
-          changeYear: true
+        changeYear: true
     });
     //$j('#datetimeline').datepicker('setDate', '-1d' );
     $j('#datetimeline').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
@@ -33,7 +34,9 @@ $j(function() {
 </form>
 
 <?php if ( $this->img_map ) : ?>
-<?php echo $this->translate->_("Point mouse cursor at image area and click to view Job detail"); ?>
+<span style="font:60%;font-family: arial, verdana, sans-serif;">
+    <?php echo $this->translate->_("Point mouse cursor at image area and click to view Job detail"); ?>
+</span>
 <map name="map1">
     <?php
         $count = count($this->img_map);
@@ -47,12 +50,11 @@ $j(function() {
         $this->img_map[$i]['x2'], ',', $this->img_map[$i]['y2'];?>">
     <?php endfor; ?>
 </map>
-<?php endif; ?>
-
 
 <?php
 // check GD lib (php-gd)
-if ( extension_loaded('gd') ) {
+if ( extension_loaded('gd') ) : ?>
+<?php
     if ( $this->result )    {
         // show image
         echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
@@ -63,37 +65,18 @@ if ( extension_loaded('gd') ) {
         }
         echo $this->translate->_('No Jobs found.');
     }
-}   else    {
-    echo $this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.');
-}
 ?>
-
-<?php if ( empty($this->img_map) ) : ?>
-<?php // draw table
-if ($this->atime) : ?>
-<div align="center">
-<table id="box-table">
-<thead>
-<tr>
-    <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
-</tr>
-</thead>
-<?php foreach($this->atime as $line) : ?>
-<tr><td>
-    <a href="<?php echo $this->baseUrl, '/job/detail/jobid/', $line['jobid'];?>" title="<?php print $this->translate->_("Detail Job"); ?>"><?php echo $line['jobid']?></a>
-</td><td>
-    <?php echo $line['name'];?>
-</td><td>
-    <?php echo $line['start'];?>
-</td><td>
-    <?php echo $line['end'];?></td>
-</tr>
-<?php endforeach; ?>
-</table>
+<?php  else : ?>
+<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+        <strong>
+        <?php echo $this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'); ?>
+        </strong></p>
+    </div>
 </div>
+<?php endif; ?>
+
 <?php else : ?>
 <div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
     <div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
@@ -101,8 +84,4 @@ if ($this->atime) : ?>
         <strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
     </div>
 </div>
-<?php endif; ?>
-
-</div>
-
 <?php endif; ?>

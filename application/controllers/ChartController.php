@@ -93,7 +93,39 @@ class ChartController extends MyClass_ControllerAction
         $timeline = new Timeline;
         //$this->logger->log("timelineAction() : $date\n$fontname\n$fontsize\n", Zend_Log::INFO); // !!! debug
 
-        $img = $timeline->createTimelineImage($date, true, $this->view->translate);
+        $img = $timeline->createTimelineImage($date, true, $this->view->translate, 'normal');
+        // Set the headers
+        $this->getResponse()->setHeader('Content-Type', 'image/png');
+        // Output a PNG image to either the browser or a file :
+        // bool imagepng ( resource image [, string filename [, int quality [, int filters]]] )
+        $res = imagepng($img, null, 5);
+        //$this->logger->log("timelineAction() : $res", Zend_Log::INFO); // !!! debug
+        //imagepng($img, '/tmp/timeline.png'); // !!! debug
+    }
+
+
+
+    /**
+     * Create Image Timeline for Dashboard
+     *
+     * @return image
+     */
+    function timelineDashboardAction()
+    {
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout')) {
+            $this->_helper->layout->disableLayout(); // disable layouts
+        }
+        // http://localhost/webacula/chart/timeline/datetimeline/2010-01-08
+        // check GD lib (php-gd)
+        if ( !extension_loaded('gd') ) {
+            // No GD lib (php-gd) found
+            $this->view->result = null;
+            return;
+        }
+        $timeline = new Timeline;
+        //$this->logger->log("timelineAction() : $date\n$fontname\n$fontsize\n", Zend_Log::INFO); // !!! debug
+        $img = $timeline->createTimelineImage(date('Y-m-d', time()), true, $this->view->translate, 'small');
         // Set the headers
         $this->getResponse()->setHeader('Content-Type', 'image/png');
         // Output a PNG image to either the browser or a file :

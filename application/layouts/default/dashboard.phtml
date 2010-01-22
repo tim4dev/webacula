@@ -140,6 +140,12 @@ $j(document).ready(function(){
         delay: 0,
         showURL: false
         });
+    // for image maps
+    $j('area').tooltip({
+        track: true,
+        delay: 0,
+        showURL: false
+    });
 });
 </script>
 
@@ -220,6 +226,9 @@ $aContent = array();
 
     if ( !empty($this->layout()->job_terminated) )
         $aContent[] = $this->layout()->job_terminated;
+
+    if ( !empty($this->layout()->job_timeline) )
+        $aContent[] = $this->layout()->job_timeline;
 
     if ( !empty($this->layout()->job_problem) )
         $aContent[] = $this->layout()->job_problem;

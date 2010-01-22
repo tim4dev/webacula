@@ -317,11 +317,33 @@ class JobController extends MyClass_ControllerAction
 
         $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
         $timeline = new Timeline;
-        $this->view->atime = $timeline->getDataTimeline($datetimeline);
         $this->view->result = $datetimeline;
         // for image map
-        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false);
+        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');
     }
+
+
+
+    function timelineDashboardAction()
+    {
+        if ( !extension_loaded('gd') ) {
+            // No GD lib (php-gd) found
+            $this->view->result = null;
+            $this->_helper->viewRenderer->setNoRender();
+            return;
+        }
+        $datetimeline = date('Y-m-d', time());
+        $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
+        $timeline = new Timeline;
+        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'small');
+        if ( empty($this->view->img_map) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('job_timeline');
+        }
+    }
+
+
 
     /**
      * Run Job
