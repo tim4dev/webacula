@@ -17,18 +17,34 @@ $j(function() {
 
 <!--  date form -->
 <form action="<?php echo $this->baseUrl; ?>/job/timeline" method="POST">
-<table cellspacing="0" cellpadding="10" border="0" align="center">
+<table cellspacing="0" cellpadding="0" border="0" align="center" style="margin-bottom:1em;">
 <tr>
-	<td align="right" valign="top">
-		<b><?php print $this->translate->_("Date"); ?></b> :
-	</td>
-	<td>
+    <td align="right" valign="top">
+        <b style="margin-right:1em;"><?php print $this->translate->_("Date"); ?></b>
+    </td><td>
+    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time()-86400);?>"
+        title="<?php echo $this->translate->_("Previous day"); ?>">
+        <img src="<?php echo $this->baseUrl;?>/images/arrow-left.png" 
+             alt="<?php echo $this->translate->_("Previous day"); ?>" border="0" hspace="0" align="absmiddle">
+    </a>
+    </td><td>
 <?php echo $this->formText('datetimeline', date('Y-m-d', time()), array('size' => 12)) ?>
-<br><div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD"); ?></div>
-	</td>
-	<td valign="top">
-	<INPUT type="submit" name="ok" value="<?php print $this->translate->_("Show Timeline"); ?>">
-	</td>
+    </td><td>
+    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time()+86400);?>"
+        title="<?php echo $this->translate->_("Next day"); ?>">
+        <img src="<?php echo $this->baseUrl;?>/images/arrow-right.png" 
+             alt="<?php echo $this->translate->_("Next day"); ?>" border="0" hspace="0" align="absmiddle">
+    </a>
+    </td><td valign="top">
+        <input type="submit" name="ok" style="margin-left:1em;" value="<?php print $this->translate->_("Show Timeline"); ?>">
+    </td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+    <td><div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD"); ?></div></td>
+    <td></td>
+    <td></td>
 </tr>
 </table>
 </form>
