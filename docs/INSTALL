@@ -244,9 +244,14 @@ CREATE DATABASE webacula
 
     To select individual files for restoration uses the following scheme.
     Of DB bacula in DB webacula into temporary tables copied data for a particular JobId.
+    Time to create Webacula temporary tables depends on:
+    - settings for your RDBMS to optimize the INSERT operation
+    - number of unique path names
+    - number of unique file names
 
 Note. This process may take a long time.
     It may be increased values in /etc/php.ini : memory_limit and max_execution_time.
+    And proportionally increase "ttl_restore_session" in application/config.ini
 
     Then, the files and directories are marked for restore.
     Then, a list of files and a command to restore sent to the service Director.
