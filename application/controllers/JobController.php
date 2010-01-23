@@ -298,8 +298,7 @@ class JobController extends MyClass_ControllerAction
     function timelineAction()
     {
         // http://localhost/webacula/job/timeline/
-        $datetimeline = addslashes(trim( $this->_request->getParam('datetimeline', date('Y-m-d', time())) ));
-
+        $datetimeline = addslashes(trim( $this->_request->getParam('datetimeline', date('Y-m-d', time()) ) ));
         Zend_Loader::loadClass('Zend_Validate_Date');
         $validator = new Zend_Validate_Date();
         if ( !$validator->isValid($datetimeline) ) {
@@ -314,12 +313,11 @@ class JobController extends MyClass_ControllerAction
             throw new Zend_Exception($this->view->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'));
             return;
         }
-
         $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
         $timeline = new Timeline;
-        $this->view->result = $datetimeline;
+        $this->view->datetimeline = $datetimeline;
         // for image map
-        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');
+        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');        
     }
 
 

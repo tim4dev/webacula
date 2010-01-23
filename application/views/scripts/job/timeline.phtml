@@ -3,12 +3,12 @@
 
 <script type="text/javascript">
 $j(function() {
+    // http://docs.jquery.com/UI/Datepicker/formatDate
     $j('#datetimeline').datepicker({
+        dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true
     });
-    //$j('#datetimeline').datepicker('setDate', '-1d' );
-    $j('#datetimeline').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
 });
 </script>
 
@@ -22,15 +22,15 @@ $j(function() {
     <td align="right" valign="top">
         <b style="margin-right:1em;"><?php print $this->translate->_("Date"); ?></b>
     </td><td>
-    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time()-86400);?>"
+    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo trim( date('Y-m-d', strtotime($this->datetimeline)-86400) );?>"
         title="<?php echo $this->translate->_("Previous day"); ?>">
         <img src="<?php echo $this->baseUrl;?>/images/arrow-left.png" 
              alt="<?php echo $this->translate->_("Previous day"); ?>" border="0" hspace="0" align="absmiddle">
     </a>
     </td><td>
-<?php echo $this->formText('datetimeline', date('Y-m-d', time()), array('size' => 12)) ?>
+<?php echo $this->formText('datetimeline', $this->datetimeline, array('size' => 12)) ?>
     </td><td>
-    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time()+86400);?>"
+    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo trim( date('Y-m-d', strtotime($this->datetimeline)+86400) );?>"
         title="<?php echo $this->translate->_("Next day"); ?>">
         <img src="<?php echo $this->baseUrl;?>/images/arrow-right.png" 
              alt="<?php echo $this->translate->_("Next day"); ?>" border="0" hspace="0" align="absmiddle">
@@ -71,9 +71,9 @@ $j(function() {
 // check GD lib (php-gd)
 if ( extension_loaded('gd') ) : ?>
 <?php
-    if ( $this->result )    {
+    if ( $this->datetimeline )    {
         // show image
-        echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->result, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
+        echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->datetimeline, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
     } else  {
         // не прошел валидацию; вывод причин этого
         foreach ($this->err_msg as $message) {

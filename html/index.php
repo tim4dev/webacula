@@ -166,6 +166,7 @@ try {
     //throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
 
+// http://framework.zend.com/manual/ru/zend.session.advancedusage.html
 // disables automatic starting of Zend_Session when using new Zend_Session_Namespace()
 Zend_Session::setOptions( array('strict' => true) );
 
