@@ -87,7 +87,7 @@ class WbTmpTable extends Zend_Db_Table
         // for debug !!!
         /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
         Zend_Loader::loadClass('Zend_Log');
-        $writer = new Zend_Log_Writer_Stream('/tmp/ajax.log');
+        $writer = new Zend_Log_Writer_Stream('/tmp/webacula-debug.log');
         $this->logger = new Zend_Log($writer);
         $this->logger->log("debug on", Zend_Log::INFO);*/
     }
@@ -862,6 +862,7 @@ class WbTmpTable extends Zend_Db_Table
 	 */
 	function cloneBaculaToTmp($jobid)
 	{
+	    //$this->logger->log("Start cloneBaculaToTmp(JobId = $jobid ) ", Zend_Log::DEBUG);// !!! debug
 		$bacula = Zend_Registry::get('db_bacula');
 		// create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path
 		if ( !$this->createTmpTables() ) {
@@ -962,6 +963,7 @@ class WbTmpTable extends Zend_Db_Table
         // end transaction
         // после успешного клонирования устанавливаем признак
         $this->setCloneOk();
+        //$this->logger->log("Stop cloneBaculaToTmp(JobId = $jobid)", Zend_Log::DEBUG);// !!! debug
         return TRUE;
 	}
 
