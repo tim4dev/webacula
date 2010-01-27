@@ -1,9 +1,9 @@
 <!-- select-backup-before-date.phtml -->
 
 <script type="text/javascript">
-$j(document).ready(function() {
-	$j('#ok').click(function() {
-    	$j.blockUI({
+$(document).ready(function() {
+	$('#ok').click(function() {
+    	$.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,

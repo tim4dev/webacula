@@ -2,9 +2,9 @@
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 
 <script type="text/javascript">
-$j(function() {
+$(function() {
     // http://docs.jquery.com/UI/Datepicker/formatDate
-    $j('#datetimeline').datepicker({
+    $('#datetimeline').datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true
@@ -24,20 +24,20 @@ $j(function() {
     </td><td>
     <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', strtotime($this->datetimeline)-86400 );?>"
         title="<?php echo $this->translate->_("Previous day"); ?>">
-        <img src="<?php echo $this->baseUrl;?>/images/arrow-left.png" 
+        <img src="<?php echo $this->baseUrl;?>/images/arrow-left.png"
              alt="<?php echo $this->translate->_("Previous day"); ?>" border="0" hspace="0" align="absmiddle">
     </a>
     </td><td>
     <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time() );?>"
         title="<?php echo $this->translate->_("Today"); ?>">
-        <img src="<?php echo $this->baseUrl;?>/images/user-online.png" 
+        <img src="<?php echo $this->baseUrl;?>/images/user-online.png"
              alt="<?php echo $this->translate->_("Today"); ?>" border="0" hspace="0" align="absmiddle">
     </a>
     </td><td>
     <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', strtotime($this->datetimeline)+86400 );?>"
         title="<?php echo $this->translate->_("Next day"); ?>"
         style="margin-right:0.5em;">
-        <img src="<?php echo $this->baseUrl;?>/images/arrow-right.png" 
+        <img src="<?php echo $this->baseUrl;?>/images/arrow-right.png"
              alt="<?php echo $this->translate->_("Next day"); ?>" border="0" hspace="0" align="absmiddle">
     </a>
     </td><td>

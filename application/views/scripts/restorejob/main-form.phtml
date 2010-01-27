@@ -1,17 +1,17 @@
 <!-- main-form.phtml -->
 
 <script type="text/javascript">
-$j(document).ready(function() {
-	$j('#ok1').click(function() {
-    	$j.blockUI({
+$(document).ready(function() {
+	$('#ok1').click(function() {
+    	$.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
         	centerY: true
         });
     });
-    $j('#ok').click(function() {
-    	$j.blockUI({
+    $('#ok').click(function() {
+    	$.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
@@ -23,9 +23,9 @@ $j(document).ready(function() {
 
 <script type="text/javascript">
   // select
-  $j(function(){
-      $j('select').each(function() {
-          var t = $j(this).selectmenu({maxHeight: 300});
+  $(function(){
+      $('select').each(function() {
+          var t = $(this).selectmenu({maxHeight: 300});
           eval(t);
       });
   });
@@ -33,18 +33,18 @@ $j(document).ready(function() {
 
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
-$j(function() {
-	$j('#date_before').datepicker({
-			changeMonth: true,
-			changeYear: true
-	});
-	$j('#date_before').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
+$(function() {
+    $('#date_before').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
+    });
 });
 </script>
 
 <script type="text/javascript">
-$j(function() {
-    $j("#accordion").accordion({
+$(function() {
+    $("#accordion").accordion({
             autoHeight: false
         });
 });

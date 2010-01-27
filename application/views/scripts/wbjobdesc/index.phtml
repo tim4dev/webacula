@@ -3,14 +3,14 @@
 <script type="text/javascript">
 // use :
 // <a href="/" id="confirm" class="confirm"> TEST2 </a>
-$j(document).ready( 
+$(document).ready(
     function() {
-    $j('a.confirm').click(function() {
-        document.location = $j(this).attr("href");
+    $('a.confirm').click(function() {
+        document.location = $(this).attr("href");
         return false;
-    })
-    
-    $j('a.confirm').confirm({
+    });
+
+    $('a.confirm').confirm({
         msg:'<?php echo $this->translate->_("Are you sure?") ?>',
         timeout:10000,
         buttons: {
@@ -66,7 +66,7 @@ $j(document).ready(
         <a href="<?php echo $this->baseUrl ?>/wbjobdesc/modify/desc_id/<?php echo $line['desc_id'] ?>" title="<?php echo $this->translate->_("Modify record") ?>">
         <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2">
         </a>
-        
+
         <a href="<?php echo $this->baseUrl ?>/wbjobdesc/delete/desc_id/<?php echo $line['desc_id'] ?>" title="<?php echo $this->translate->_("Delete record") ?>" id="confirm" class="confirm">
             <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2">
         </a>

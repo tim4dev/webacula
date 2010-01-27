@@ -31,10 +31,9 @@ String.prototype.reverse = function() {
 
 
 <script>
-$j = jQuery.noConflict();
 var welcome='<div style="color: #0f0;">Welcome to <b>webacula terminal.</b></div>'
-$j( document ).ready( function() {
-    $j('#wterm').wterm({
+$( document ).ready( function() {
+    $('#wterm').wterm({
         WIDTH:  '100%',
         HEIGHT: '100%',
         WELCOME_MESSAGE: welcome+'<div  style="color: #0f0;">'+
@@ -83,7 +82,7 @@ $j( document ).ready( function() {
 
     var help_str='';
     for( var cmd in arr_cmds ) {
-        $j.register_command( cmd, 'cmd' );
+        $.register_command( cmd, 'cmd' );
         help_str += cmd + ' ';
     }
 
@@ -100,11 +99,11 @@ $j( document ).ready( function() {
     };
     var help_str_not_avail='';
     for( var cmd_not_avail in arr_cmds_not_avail ) {
-        $j.register_command( cmd_not_avail, arr_cmds_not_avail[cmd_not_avail] );
+        $.register_command( cmd_not_avail, arr_cmds_not_avail[cmd_not_avail] );
         help_str_not_avail += cmd_not_avail + ' ';
     }
 
-    $j.register_command( 'whelp',
+    $.register_command( 'whelp',
         function() {
             return welcome+
                 '<div style="color: #fff;">Available bconsole commands:</div>'+help_str+

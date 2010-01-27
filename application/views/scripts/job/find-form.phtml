@@ -1,9 +1,9 @@
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
   // select
-  $j(function(){
-      $j('select').each(function() {
-          var t = $j(this).selectmenu({
+  $(function(){
+      $('select').each(function() {
+          var t = $(this).selectmenu({
               maxHeight: 300,
               style: 'popup'
             });
@@ -13,26 +13,25 @@
 </script>
 
 <script type="text/javascript">
-$j(function() {
-	$j('#date_begin').datepicker({
-			changeMonth: true,
-			changeYear: true
-	});
-	$j('#date_end').datepicker({
-			changeMonth: true,
-			changeYear: true
-	});
-
-	$j('#date_begin').datepicker('setDate', '-1d' );
-	$j('#date_begin').datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
-
-	$j("#date_end").datepicker('option', {dateFormat: $j.datepicker.ISO_8601} );
+$(function() {
+    $('#date_begin').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
+    });
+    $('#date_end').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
+    });
+    $('#date_begin').datepicker('setDate', '-1d' );
+    $('#date_begin').datepicker('option', {dateFormat: $.datepicker.ISO_8601} );
 });
 </script>
 
 <script type="text/javascript">
-$j(function() {
-	$j("#accordion").accordion({
+$(function() {
+	$("#accordion").accordion({
 			autoHeight: false
 		});
 });

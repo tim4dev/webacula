@@ -1,7 +1,7 @@
 /* Russian (UTF-8) initialisation for the jQuery UI date picker plugin. */
 /* Written by Andrew Stromnov (stromnov@gmail.com). */
-jQuery(function($j){
-	$j.datepicker.regional['ru'] = {
+jQuery(function($){
+	$.datepicker.regional['ru'] = {
 		closeText: 'Закрыть',
 		prevText: '&#x3c;Пред',
 		nextText: 'След&#x3e;',
@@ -15,5 +15,5 @@ jQuery(function($j){
 		dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
 		dateFormat: 'dd.mm.yy', firstDay: 1,
 		isRTL: false};
-	$j.datepicker.setDefaults($j.datepicker.regional['ru']);
+	$.datepicker.setDefaults($.datepicker.regional['ru']);
 });

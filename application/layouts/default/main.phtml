@@ -37,9 +37,8 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.tooltip.min.js"></script>
 
 <script type="text/javascript">
-	$j = jQuery.noConflict();
-	$j(document).ready(function() {
-        $j('ul.sf-menu').superfish({
+    $(document).ready(function() {
+        $('ul.sf-menu').superfish({
             delay:       500,                            // second delay on mouseout
             animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation
             speed:       'fast',                         // faster animation speed
@@ -88,9 +87,9 @@ div#bottommenu
 
 <script type="text/javascript">
   // round corners
-  $j(function(){
-	  $j('div.roundcorner1').corner();
-	  $j('div.roundcorner2').corner();
+  $(function(){
+    $('div.roundcorner1').corner();
+    $('div.roundcorner2').corner();
   });
 </script>
 
@@ -135,14 +134,14 @@ window.onfocus=CloseNewWin;
 </script>
 
 <script type="text/javascript">
-$j(document).ready(function(){
-    $j('a').tooltip({
+$(document).ready(function(){
+    $('a').tooltip({
         track: true,
         delay: 0,
         showURL: false
     });
     // for image maps
-    $j('area').tooltip({
+    $('area').tooltip({
         track: true,
         delay: 0,
         showURL: false

@@ -1,9 +1,9 @@
 <!-- draw-file-tree.phtml -->
 
 <script type="text/javascript">
-$j(document).ready(function() {
-	$j('#ok1').click(function() {
-    	$j.blockUI({
+$(document).ready(function() {
+	$('#ok1').click(function() {
+    	$.blockUI({
         	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
@@ -27,7 +27,7 @@ function markFile(elm, vfileid){
 	//console.log('markFile : ' + dataStr); // for debug firebug
 	if ( elm.checked == true  ) {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-file";
-  		$j.post(url,
+  		$.post(url,
   			{ data: dataStr },
   			renderMark,
   			"text"
@@ -35,7 +35,7 @@ function markFile(elm, vfileid){
 		elm.checked = true;
 	}	else {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-file";
-		$j.post(url,
+		$.post(url,
   			{ data: dataStr },
   			renderUnMark,
   			"text"
@@ -43,8 +43,8 @@ function markFile(elm, vfileid){
 		elm.checked = false;
 	}
 	// ajax post error handler
-	$j("#responseResults").ajaxError(function(event, request, settings){
-		$j(this).text('<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?> ' +
+	$("#responseResults").ajaxError(function(event, request, settings){
+		$(this).text('<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?> ' +
 			'Error requesting page ' + settings.url);
 	});
 }
@@ -102,7 +102,7 @@ function markDir(elm, vpath){
     //console.log(dataStr);
 	if ( elm.checked == true  ) {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-dir";
-  		$j.post(url,
+  		$.post(url,
   			{ data: dataStr },
   			renderDirMark,
   			"text"
@@ -110,7 +110,7 @@ function markDir(elm, vpath){
 		elm.checked = true;
 	}	else {
 		var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-dir";
-		$j.post(url,
+		$.post(url,
   			{ data: dataStr },
   			renderDirUnMark,
   			"text"
@@ -118,8 +118,8 @@ function markDir(elm, vpath){
 		elm.checked = false;
 	}
 	// ajax post error handler
-	$j("#responseResults").ajaxError(function(event, request, settings){
-		$j(this).text('<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?> ' +
+	$("#responseResults").ajaxError(function(event, request, settings){
+		$(this).text('<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?> ' +
 			'Error requesting page ' + settings.url);
 	});
 }
@@ -238,7 +238,7 @@ if ( !empty($this->curdir) && ($this->curdir != '/') ):
 			<input type="hidden" name="curdir" id="curdir" value="<?php
      			// get parent dir (получаем родительский каталог)
      			// любые символы (кроме /) между / и / заменить на /
-				$prevdir = preg_replace('/\/[^\/]+\/$/', '/', $this->curdir); 
+				$prevdir = preg_replace('/\/[^\/]+\/$/', '/', $this->curdir);
 				if ( $this->curdir == $prevdir ) {
 					$prevdir = ''; // самый корень
 				}

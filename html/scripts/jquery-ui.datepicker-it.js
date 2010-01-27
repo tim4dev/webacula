@@ -1,7 +1,7 @@
 /* Italian initialisation for the jQuery UI date picker plugin. */
 /* Written by Apaella (apaella@gmail.com). */
-jQuery(function($j){
-	$j.datepicker.regional['it'] = {
+jQuery(function($){
+	$.datepicker.regional['it'] = {
 		closeText: 'Chiudi',
 		prevText: '&#x3c;Prec',
 		nextText: 'Succ&#x3e;',
@@ -15,5 +15,5 @@ jQuery(function($j){
 		dayNamesMin: ['Do','Lu','Ma','Me','Gio','Ve','Sa'],
 		dateFormat: 'dd/mm/yy', firstDay: 1,
 		isRTL: false};
-	$j.datepicker.setDefaults($j.datepicker.regional['it']);
+	$.datepicker.setDefaults($.datepicker.regional['it']);
 });

@@ -24,8 +24,8 @@
 <!-- autochanger block begin -->
 
 <script type="text/javascript">
-$j().ready(function() {
-    $j('#dialog<?php echo $this->escape($storage->storageid); ?>').jqm({
+$().ready(function() {
+    $('#dialog<?php echo $this->escape($storage->storageid); ?>').jqm({
         trigger: '#trigger<?php echo $this->escape($storage->storageid); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
     });
@@ -103,8 +103,8 @@ $j().ready(function() {
 <!-- autochanger block begin -->
 
 <script type="text/javascript">
-$j().ready(function() {
-    $j('#dialogU<?php echo $this->escape($storage->storageid); ?>').jqm({
+$().ready(function() {
+    $('#dialogU<?php echo $this->escape($storage->storageid); ?>').jqm({
         trigger: '#triggerU<?php echo $this->escape($storage->storageid); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
     });
