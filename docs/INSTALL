@@ -1,6 +1,6 @@
 
-	System Requirements
-	~~~~~~~~~~~~~~~~~~~
+    System Requirements
+    ~~~~~~~~~~~~~~~~~~~
 
 - Bacula 3.0 or later.
 - Full supported MySQL, PostgreSQL and Sqlite databases.
@@ -17,8 +17,8 @@
 Run docs/check_system_requirements.php to verify.
 
 
-	Install & Setup
-	~~~~~~~~~~~~~~~
+    Install & Setup
+    ~~~~~~~~~~~~~~~
 
 - login as root
 - mkdir /var/www/webacula
@@ -63,20 +63,20 @@ IMPORTANT! This directory and files in it should be available to read the Direct
 
 
 - Creates system group account (if not yet created) :
-	groupadd bacula
+    groupadd bacula
 
 - Add apache to group:
-	usermod -aG bacula apache
+    usermod -aG bacula apache
 
 - Next, bconsole file can be executed by Apache web server :
   NOTE. /usr/sbin/bconsole -- binary ELF file (not a shell script!)
 
   variant 1:
-	chown root:bacula /usr/sbin/bconsole
-	chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+    chown root:bacula /usr/sbin/bconsole
+    chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
 
-	chown root:bacula /etc/bacula/bconsole.conf
-	chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+    chown root:bacula /etc/bacula/bconsole.conf
+    chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
 
    edit application/config.ini
        bacula.sudo = ""
@@ -107,18 +107,18 @@ AccessFileName .htaccess
 
 Alias "/webacula"  "/var/www/webacula/html"
 <Directory "/var/www/webacula/html">
-   RewriteEngine on
-	Options FollowSymLinks
-	AllowOverride All
-	Order deny,allow
-	Allow from 127.0.0.1
-	# your network
-	Allow from 192.161.150.0/255.255.255.0
+    RewriteEngine on
+    Options FollowSymLinks
+    AllowOverride All
+    Order deny,allow
+    Allow from 127.0.0.1
+    # your network
+    Allow from 192.161.150.0/255.255.255.0
 
-	AuthType Basic
-	AuthName "Webacula"
-	AuthUserFile       /etc/httpd/conf/webacula.users
-	Require valid-user
+    AuthType Basic
+    AuthName "Webacula"
+    AuthUserFile       /etc/httpd/conf/webacula.users
+    Require valid-user
 </Directory>
 
 
@@ -183,38 +183,38 @@ cd /etc/bacula
 Delete old tmp files: wb_clean_tmp.sh script to be run by the cron.
 
 If necessary change a name and the password of the user in a files in install/ directory:
-	webacula_mysql_create_database.sh
-	webacula_postgresql_create_database.sh
-	webacula_postgresql_make_tables.sh
+    webacula_mysql_create_database.sh
+    webacula_postgresql_create_database.sh
+    webacula_postgresql_make_tables.sh
 
 
 Create database, tables and user :
    cd install
 
 for MySQL:
-	./webacula_mysql_create_database.sh
-	./webacula_mysql_make_tables.sh
+    ./webacula_mysql_create_database.sh
+    ./webacula_mysql_make_tables.sh
 
 for PostgreSQL:
-	./webacula_postgresql_create_database.sh
-	./webacula_postgresql_make_tables.sh
+    ./webacula_postgresql_create_database.sh
+    ./webacula_postgresql_make_tables.sh
 
 for Sqlite:
-	sudo mkdir /var/lib/sqlite/
-	sudo chown root.apache /var/lib/sqlite
-	sudo chmod g+rw /var/lib/sqlite
-	sudo ./webacula_sqlite_create_database.sh
-	sudo chgrp apache /var/lib/sqlite/webacula.db
-	sudo chmod g+rw /var/lib/sqlite/webacula.db
+    sudo mkdir /var/lib/sqlite/
+    sudo chown root.apache /var/lib/sqlite
+    sudo chmod g+rw /var/lib/sqlite
+    sudo ./webacula_sqlite_create_database.sh
+    sudo chgrp apache /var/lib/sqlite/webacula.db
+    sudo chmod g+rw /var/lib/sqlite/webacula.db
 
 
 NOTE. Database "webacula" also required for restore the jobs and files.
 
 
 
-	LogBook
-	~~~~~~~
-	Logbook - is simple electronic journal of backups. Records in logbook are insert, modify, delete manually by the operator.
+    LogBook
+    ~~~~~~~
+    Logbook - is simple electronic journal of backups. Records in logbook are insert, modify, delete manually by the operator.
 Records can contain links (usual web-links on which it is possible to click) to Bacula Jobs or links to other records of this logbook.
 In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
 See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
@@ -222,19 +222,18 @@ Logbook stored in a separate database "webacula", now it is supported  MySQL and
 
 
 
-	Update
-	~~~~~~
-
+    Update
+    ~~~~~~
    Download latest tarball.
    Save in safe place your "config.ini", remove directory "webacula", extract Webacula source code and replace "config.ini" back.
 
-	If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
+    If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
 
 CREATE DATABASE webacula
-	DEFAULT CHARACTER SET utf8
-   DEFAULT COLLATE utf8_general_ci;
+    DEFAULT CHARACTER SET utf8
+    DEFAULT COLLATE utf8_general_ci;
 
-	and load data from dump again.
+    and load data from dump again.
 
 
 
@@ -259,4 +258,25 @@ Note. This process may take a long time.
 
 IMPORTANT. Need to file containing a list of files to restore, has been available for reading for Director service.
 
+
+
+    Restore Job (tests)
+    ~~~~~~~~~~~~~~~~~~~
+MySQL settings by default.
+
+------- /etc/php.ini
+max_execution_time = 3600
+max_input_time = 3600
+memory_limit = 32M
+
+Elapsed time for creating temporary tables:
+100,000 unique file names -- 3 minutes 
+200,000                   -- 5 min
+600,000                   -- 17 min
+1,200,000                 -- 40 min
+
+Average rate of creation: 30,000--40,000 files in a minute.
+
+Use settings from /usr/share/doc/mysql-server-*/my-large.cnf
+and average rate of creation up to 50,000 files/minute.
 

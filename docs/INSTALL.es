@@ -236,7 +236,7 @@ CREATE DATABASE webacula
 
     Trabajos de Recuperación (detalles técnicos)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Read also the "Restore Job" chapter of file INSTALL in this directory.
+    Read also INSTALL file.
     Comandos como "restore all" son enviados inmediatamente al servicio Director.
 
     Para seleccionar ficheros individuales a restaurar use el siguiente esquema.

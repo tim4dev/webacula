@@ -88,8 +88,8 @@ class WbTmpTable extends Zend_Db_Table
         /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
         Zend_Loader::loadClass('Zend_Log');
         $writer = new Zend_Log_Writer_Stream('/tmp/webacula-debug.log');
-        $this->logger = new Zend_Log($writer);
-        $this->logger->log("debug on", Zend_Log::INFO);*/
+        $this->logger = new Zend_Log($writer);*/
+        //$this->logger->log("debug on", Zend_Log::DEBUG);
     }
 
     protected function _setupTableName()

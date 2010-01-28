@@ -121,12 +121,12 @@ IMPORTANT. Database "webacula" required for select to restore the jobs and files
 
 
 
-	LogBook
-	~~~~~~~
-   See INSTALL file.
+    LogBook
+    ~~~~~~~
+    See INSTALL file.
 
 
    Restore Job (technical details)
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Read INSTALL file.
+   Read also INSTALL file.
 

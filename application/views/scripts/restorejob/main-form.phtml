@@ -2,22 +2,54 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#ok1').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+    $('#ok_id').click(function() {
+        var msg = '';
+        if ($('#choice-restoreselect').attr('checked')) {
+            msg = '<?php print $this->translate->_("Please wait. Create temporary tables..."); ?>';
+        } else {
+            msg = '<?php print $this->translate->_("Please wait"); ?>...';
+        }
+        $.blockUI({
+            message: '<h2>'+msg+'</h2>'
         });
     });
-    $('#ok').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+
+    $('#ok_id_full').click(function() {
+        var msg = '';
+        if ($('#choice_full_jobid-restoreselectfulljobid').attr('checked')) {
+            msg = '<?php print $this->translate->_("Please wait. Create temporary tables..."); ?>';
+        } else {
+            msg = '<?php print $this->translate->_("Please wait"); ?>...';
+        }
+        $.blockUI({
+            message: '<h2>'+msg+'</h2>'
         });
     });
+
+    $('#ok_recent').click(function() {
+        var msg = '';
+        if ($('#choice_recent-restorerecentselect').attr('checked')) {
+            msg = '<?php print $this->translate->_("Please wait. Create temporary tables..."); ?>';
+        } else {
+            msg = '<?php print $this->translate->_("Please wait"); ?>...';
+        }
+        $.blockUI({
+            message: '<h2>'+msg+'</h2>'
+        });
+    });
+
+    $('#ok_time').click(function() {
+        var msg = '';
+        if ($('#choice_recent-restorerecentselect').attr('checked')) {
+            msg = '<?php print $this->translate->_("Please wait. Create temporary tables..."); ?>';
+        } else {
+            msg = '<?php print $this->translate->_("Please wait"); ?>...';
+        }
+        $.blockUI({
+            message: '<h2>'+msg+'</h2>'
+        });
+    });
+
 });
 </script>
 
@@ -114,7 +146,7 @@ $(function() {
  )); ?>
 </div>
 <br>
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
+    <?php echo $this->formSubmit('ok_id', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     ?>
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
@@ -160,7 +192,7 @@ $(function() {
  )); ?>
 </div>
 <br>
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
+    <?php echo $this->formSubmit('ok_id_full', $this->translate->_('Next '), array('class' => 'prefer_btn') ),
          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     ?>
     <?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
@@ -198,7 +230,7 @@ $(function() {
 </p>
 </td></tr>
 <tr><td>
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
+    <?php echo $this->formSubmit('ok_recent', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
     &nbsp;&nbsp;
 </td><td>
     &nbsp;&nbsp;
@@ -252,7 +284,7 @@ $(function() {
               'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
 </td></tr>
 <tr><td>
-        <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
+        <?php echo $this->formSubmit('ok_time', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
     &nbsp;&nbsp;
 </td><td>
     &nbsp;&nbsp;
