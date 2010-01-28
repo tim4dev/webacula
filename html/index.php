@@ -162,6 +162,7 @@ try {
     $db = Zend_Db_Table::getDefaultAdapter();
     $db->getConnection();
 } catch (Zend_Db_Adapter_Exception $e) {
+    echo '<pre>';
     // возможно СУБД не запущена
     //throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
