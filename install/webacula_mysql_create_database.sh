@@ -4,7 +4,6 @@
 # $Id: webacula_mysql_create_database.sh 402 2009-08-14 22:29:40Z tim4dev $
 #
 
-bindir="/usr/bin"
 db_name="webacula"
 
 # If necessary change db_user and db_password.
@@ -14,7 +13,7 @@ db_user="wbuser"
 db_password="wbpass"
 host="localhost"
 
-if $bindir/mysql $* -f <<END-OF-DATA
+if mysql $* -f <<END-OF-DATA
 CREATE DATABASE ${db_name}
 	DEFAULT CHARACTER SET utf8
 	DEFAULT COLLATE utf8_general_ci;

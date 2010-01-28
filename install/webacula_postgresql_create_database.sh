@@ -4,7 +4,6 @@
 # $Id: webacula_postgresql_create_database.sh 402 2009-08-14 22:29:40Z tim4dev $
 #
 
-bindir="/usr/bin"
 db_name="webacula"
 
 # If necessary change db_user and db_password.
@@ -13,7 +12,7 @@ db_name="webacula"
 db_user="wbuser"
 db_password="wbpass"
 
-$bindir/psql -f - -d template1 $* <<END-OF-DATA
+psql -f - -d template1 $* <<END-OF-DATA
 CREATE DATABASE ${db_name} ENCODING 'UTF8';
 ALTER DATABASE ${db_name} SET datestyle TO 'ISO, YMD';
 END-OF-DATA
@@ -27,7 +26,7 @@ else
 	exit 1
 fi
 
-$bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
+psql -f - -d ${db_name} $* <<END-OF-DATA
 CREATE USER ${db_user} WITH LOGIN PASSWORD '${db_password}';
 GRANT ALL ON DATABASE ${db_name} TO ${db_user};
 END-OF-DATA

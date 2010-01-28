@@ -7,7 +7,7 @@ then
    db_name="${1}"
 fi
 
-/usr/bin/sqlite3 ${db_name} <<END-OF-DATA
+sqlite3 ${db_name} <<END-OF-DATA
 
 CREATE TABLE wbLogBook (
 	logId		INTEGER,

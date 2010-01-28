@@ -3,10 +3,9 @@
 # Script to create webacula tables
 #
 
-bindir="/usr/bin"
 db_name="webacula"
 
-if $bindir/mysql $* -f <<END-OF-DATA
+if mysql $* -f <<END-OF-DATA
 
 USE webacula;
 

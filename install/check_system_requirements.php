@@ -2,9 +2,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +30,8 @@
 
 $PHPV   = '5.2.4';
 $MYSQLV = '5.0.0';
+$PGSQLV = '8.0.0';
+$SQLITEV= '3.0.0';
 $AEXT1   = array('pdo', 'gd', 'xml', 'dom');
 $AEXT2   = array('pdo_mysql', 'pdo_pgsql');
 
@@ -43,16 +43,47 @@ function getMySQLversion() {
    return $version[0];
 }
 
+function getPgSQLversion() {
+   $output = shell_exec('psql -V');
+   preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version);
+   return $version[0];
+}
 
+function getSqliteVersion() {
+   $output = shell_exec('sqlite3 -version');
+   preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version);
+   return $version[0];
+}
+
+
+/*
+ * main program
+ */
 
 echo "\nCheck System Requirements...\n";
 
 $mysql_ver = getMySQLversion();
 echo 'Current MySQL version = ', $mysql_ver;
 if ( version_compare($mysql_ver, $MYSQLV) === -1 ) {
-	echo "\tERROR! Upgrade your MySQL version to $MYSQLV or later\n";
+    echo "\tWarning. Upgrade your MySQL version to $MYSQLV or later\n";
 } else {
-	echo "\tOK\n";
+    echo "\tOK\n";
+}
+
+$pgsql_ver = getPgSQLversion();
+echo 'Current PostgreSQL version = ', $pgsql_ver;
+if ( version_compare($pgsql_ver, $PGSQLV) === -1 ) {
+    echo "\tWarning. Upgrade your PostgreSQL version to $PGSQLV or later\n";
+} else {
+    echo "\tOK\n";
+}
+
+$sqlite_ver = getSqliteVersion();
+echo 'Current Sqlite version = ', $sqlite_ver;
+if ( version_compare($sqlite_ver, $SQLITEV) === -1 ) {
+    echo "\tWarning. Upgrade your Sqlite version to $SQLITEV or later\n";
+} else {
+    echo "\tOK\n";
 }
 
 $php_ver = phpversion();

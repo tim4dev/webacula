@@ -3,7 +3,6 @@
 # Script to create webacula tables
 #
 
-bindir="/usr/bin"
 db_name="webacula"
 
 # If necessary change db_user.
@@ -11,7 +10,7 @@ db_name="webacula"
 
 db_user="wbuser"
 
-$bindir/psql -f webacula_postgresql_make_tables.sql  -d ${db_name} $*
+psql -f webacula_postgresql_make_tables.sql  -d ${db_name} $*
 res=$?
 if test $res = 0;
 then
@@ -23,7 +22,7 @@ fi
 
 
 
-$bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
+psql -f - -d ${db_name} $* <<END-OF-DATA
 
 GRANT all ON wbLogBook TO ${db_user};
 GRANT all ON wbLogType TO ${db_user};
