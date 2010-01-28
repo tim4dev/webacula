@@ -3,10 +3,9 @@
 # Script to update webacula tables from v.3.x to 3.4
 #
 
-bindir="/usr/bin"
 db_name="webacula"
 
-if $bindir/mysql $* -f <<END-OF-DATA
+if mysql $* -f <<END-OF-DATA
 
 USE webacula;
 

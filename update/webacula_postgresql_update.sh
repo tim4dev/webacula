@@ -3,7 +3,6 @@
 # Script to update webacula tables from v.3.x to 3.4
 #
 
-bindir="/usr/bin"
 db_name="webacula"
 
 # If necessary change db_user.
@@ -11,7 +10,7 @@ db_name="webacula"
 
 db_user="wbuser"
 
-$bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
+psql -f - -d ${db_name} $* <<END-OF-DATA
 
 GRANT all ON wbJobDesc TO ${db_user};
 GRANT SELECT, UPDATE ON wbjobdesc_desc_id_seq TO ${db_user};
