@@ -1153,6 +1153,7 @@ EOF"
     }
 
 
+
     function listRecentRestoreAction()
     {
         // session expired ?
@@ -1199,6 +1200,7 @@ EOF"
 
     	$this->render();
     }
+
 
 
     /**
@@ -1329,7 +1331,7 @@ EOF"
         $director = new Director();
         if ( !$director->isFoundBconsole() )	{
             $this->view->result_error = 'NOFOUND_BCONSOLE';
-            $this->render();
+            $this->renderScript('restorejob/run-restore.phtml');
             return;
         }
         $this->restoreNamespace->ClientNameTo   = addslashes( $this->_request->getParam('client_name_to', '') );
@@ -1426,6 +1428,86 @@ EOF"
         // goto home (переадресуем на главную страницу)
         $this->_redirect('index');
     }
+
+
+
+    /**
+     * Restore single file
+     */
+    function singleFileRestoreAction()
+    {
+        $this->view->title = $this->view->translate->_('Restore Single File');
+        $fileid = intval( $this->_request->getParam('fileid', 0) );
+        // get data for form
+        Zend_Loader::loadClass('Client');
+        $clients = new Client();
+        $this->view->clients = $clients->fetchAll();
+
+        Zend_Loader::loadClass('Job');
+        $job = new Job();
+        $this->view->file = $job->getByFileId($fileid);
+        $this->render();
+    }
+
+
+
+    /**
+     * Run Restore single File
+     * http://www.bacula.org/rel-manual/Restore_Command.html
+     */
+    function runRestoreSingleFileAction()
+    {
+        $this->view->title = $this->view->translate->_('Restore Single File');
+        $fileid         = intval( $this->_request->getParam('fileid', 0) );
+        $client_name_to = addslashes( $this->_request->getParam('client_name_to', null));
+        $where          = addslashes( $this->_request->getParam('where', null));
+        Zend_Loader::loadClass('Job');
+        // get File data
+        $job = new Job();
+        $file = $job->getByFileId($fileid);
+        // check access to bconsole
+        Zend_Loader::loadClass('Director');
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )    {
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->renderScript('restorejob/run-restore.phtml');
+            return;
+        }
+        //******************************* запуск задания ***************************************
+        // perform the command line  (формируем командную строку)
+        // !!! ONLY IN THAT ORDER (ТОЛЬКО В УКАЗАННОМ ПОРЯДКЕ) !!!
+        // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
+        // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
+        //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
+        $cmd = 'restore jobid=' . $file[0]['jobid'] .
+               ' file="' . $file[0]['path'] . $file[0]['filename'] . '"';
+        if ( !empty($client_name_to) )   $cmd .= ' restoreclient="' . $client_name_to . '"';
+        if ( !empty($where) )    $cmd .= ' where="' . $where . '"';
+        $cmd .= ' yes';
+        //var_dump($cmd); exit;// !!! debug
+        $comment = __METHOD__;
+        $astatusdir = $director->execDirector(
+" <<EOF
+@#
+@# $comment
+@#
+$cmd
+@sleep 3
+status dir
+quit
+EOF");
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] == 0 )   {
+            $this->deleteTmpTables();
+            $this->mySessionStop();
+        } else {
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+        //echo "<pre>3 command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
+        $this->renderScript('restorejob/run-restore.phtml');
+    }
+
 
 
 

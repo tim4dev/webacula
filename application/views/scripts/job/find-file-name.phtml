@@ -1,3 +1,4 @@
+<!-- find-file-name.phtml -->
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php if ($this->result): ?>
@@ -8,6 +9,7 @@
 <tr>
      <th scope="col">&nbsp;</th>
 	 <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
+	 <th scope="col">&nbsp;</th>
 	 <th scope="col"> <?php print $this->translate->_("Name File"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
@@ -27,10 +29,10 @@
         <?php
             if ( isset($line['poolid'], $line['poolname']) )	{
                 echo '<a href="',
-				    $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']),
-				    '" title="', $this->translate->_("Restore Job") , '">',
-				    '<img src="', $this->baseUrl .'/images/restore.png" alt="',
-				    $this->translate->_("Restore Job"), '" border="0" hspace="5"></a>';
+                    $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']),
+                    '" title="', $this->translate->_("Restore Job") , '">',
+                    '<img src="', $this->baseUrl .'/images/restore.png" alt="',
+                    $this->translate->_("Restore Job"), '" border="0" hspace="5"></a>';
             }
         ?>
     </td>
@@ -47,6 +49,19 @@
 			}
 		?>
 	</td>
+
+    <!-- restore single file -->
+    <td>
+        <?php
+            if ( isset($line['poolid'], $line['fileid']) )    {
+                echo '<a href="',
+                    $this->baseUrl, '/restorejob/single-file-restore/fileid/', $this->escape($line['fileid']),
+                    '" title="', $this->translate->_("Restore File") , '">',
+                    '<img src="', $this->baseUrl .'/images/restore-small.png" alt="',
+                    $this->translate->_("Restore File"), '" border="0" hspace="2"></a>';
+            }
+        ?>
+    </td>
 
 	<!-- FileName -->
 	<td><?php echo $this->escape($line['path']), $this->escape($line['filename']);?></td>

@@ -45,7 +45,7 @@ class RestoreControllerTest extends ControllerTestCase
         $fileid = 3660;
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
-        $tsleep = 20; // sec. wait to restore
+        $tsleep = 15; // sec. wait to restore
 
         $jobidhash = md5($jobid);
         // clear all tmp-tables
@@ -138,7 +138,6 @@ class RestoreControllerTest extends ControllerTestCase
         echo "OK. File affected = ", $data['filename'];
         $this->resetRequest()
              ->resetResponse();
-
         /*
          * Restore file
          */
@@ -189,6 +188,72 @@ class RestoreControllerTest extends ControllerTestCase
         }
         echo " Restore file exists - OK.\n";
         unlink($file31_dat);
+    }
+
+
+
+    /**
+     * @group restore_file
+     */
+    public function testRestoreSingleFile() {
+        print "\n".__METHOD__;
+        // setup
+        $jobid = 3;
+        $fileid = 50;
+        $filename   = 'file22.dat';
+        $where      = '/tmp/webacula/restore';
+        $file_full  = '/tmp/webacula/test/2/'.$filename;
+        $file_restore = $where.'/tmp/webacula/test/2/'.$filename;
+        $client_name_to = 'local.fd';
+        $tsleep = 10; // sec. wait to restore
+        // form Restore Single File
+        $this->getRequest()
+             ->setParams(array(
+                'fileid'  => $fileid
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/single-file-restore');
+        $this->assertModule('default');
+        $this->assertController('restorejob');
+        $this->assertAction('single-file-restore');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('table', $file_full);
+        $this->resetRequest()
+             ->resetResponse();
+        echo "\n\t* Form Restore Single File - OK.";
+        /*
+         * Restore single file
+         */
+        if (file_exists($file_restore)) {
+            unlink($file_restore);
+        }
+        $this->getRequest()
+             ->setParams(array(
+                'fileid'  => $fileid,
+                'client_name_to' => $client_name_to,
+                'where' => $where
+            ))
+            ->setMethod('POST');
+        $this->dispatch('restorejob/run-restore-single-file');
+        $this->assertModule('default');
+        $this->assertController('restorejob');
+        $this->assertAction('run-restore-single-file');
+        //echo $this->response->outputBody(); // for debug !!!
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('td', 'Connecting to Director');
+        $this->assertQueryContentContains('td', 'quit');
+        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $this->resetRequest()
+             ->resetResponse();
+        echo "\n\t* Goto run-restore single file - OK. Waiting  $tsleep sec. to restore ... ";
+        sleep($tsleep);
+        if ( !file_exists($file_restore) ) {
+            $this->assertTrue(FALSE, "\nSingle file not restore : $file_restore\n");
+        }
+        echo "\n\t* Restore single file exists - OK.\n";
+        unlink($file_restore);
     }
 
 

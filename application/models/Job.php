@@ -1052,7 +1052,7 @@ Select Job resource (1-3):
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
                 $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
@@ -1069,7 +1069,7 @@ Select Job resource (1-3):
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
                 $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
@@ -1088,12 +1088,12 @@ Select Job resource (1-3):
                     'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
                 $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('jobstatuslong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('clientname' => 'Client.Name'));
-                $select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('poolname' => 'Pool.Name'));
+                $select->joinLeft('Pool',   'j.PoolId = Pool.PoolId',          array('poolname' => 'Pool.Name'));
                 $select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('fileset' => 'FileSet.FileSet'));
                 break;
             }
@@ -1234,6 +1234,23 @@ Select Job resource (1-3):
         }
         return(array('ajob_full' => $ajob_full, 'ajob_diff' => $ajob_diff, 'ajob_inc' => $ajob_inc,
             'ajob_all' => $ajob_all, 'hash' => $hash));
+    }
+
+
+
+    function getByFileId($fileid)
+    {
+        if ( empty($fileid) )
+            return;
+        $select = new Zend_Db_Select($this->db);
+        $select->from(array('f' => 'File'), array('FileId', 'LStat'));
+        $select->joinLeft(array('j' => 'Job'),  'j.JobId  = f.JobId',  array('JobId') );
+        $select->joinLeft(array('p' => 'Path'), 'p.PathId = f.PathId', array('PathId', 'Path') );
+        $select->joinLeft(array('n' => 'Filename'), 'n.FilenameId = f.FilenameId', array('Filename' => 'Name') );
+        $select->where("f.FileId = ?", $fileid);
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt = $select->query();
+        return $stmt->fetchAll();
     }
 
 

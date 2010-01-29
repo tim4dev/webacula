@@ -317,7 +317,7 @@ class JobController extends MyClass_ControllerAction
         $timeline = new Timeline;
         $this->view->datetimeline = $datetimeline;
         // for image map
-        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');        
+        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');
     }
 
 
@@ -483,7 +483,7 @@ EOF"
      */
     function findFileNameAction()
     {
-        $limit    = 50;
+        $limit    = 100;
         $path     = rtrim( $this->_request->getParam('path') );
         $namefile = $this->_request->getParam('namefile'); // NO trim!!
         // $namefile required
@@ -498,7 +498,6 @@ EOF"
         }
         $client   = addslashes( trim( $this->_request->getParam('client_nf') ));
         $type_search = addslashes( $this->_request->getParam('type_file_search') );
-        // TODO : remember input values
         $this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
         $job = new Job();
         $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search);
