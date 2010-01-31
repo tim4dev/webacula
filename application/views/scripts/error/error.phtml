@@ -14,13 +14,13 @@
 </pre>
 
 <h2>System Information:</h2>
-<pre>
-Webacula    : <?php echo Zend_Registry::get('webacula_version'), "\n"; ?>
-Webacula DB : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula, "\n"; ?>
-Bacula DB   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula, "\n"; ?>
-Zend Framework : <?php echo $this->zend_version, "\n"; ?>
-PHP         : <?php echo phpversion(), "\n"; ?>
-</pre>
+<ul>
+<li></>Webacula version   : <?php echo Zend_Registry::get('webacula_version'), "\n"; ?></li>
+<li>Webacula Database : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula, "\n"; ?></li>
+<li>Bacula Database   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula, "\n"; ?></li>
+<li>Zend Framework : <?php echo $this->zend_version, "\n"; ?></li>
+<li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">PHP</a> : <?php echo phpversion(), "\n"; ?></li>
+</ul>
 
 <h2><?php echo $this->translate->_('What to do next?'); ?></h2>
 <p>
