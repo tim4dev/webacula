@@ -132,27 +132,32 @@ class Job extends Zend_Db_Table
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
         /*
-         *  C 	Created but not yet running
-			R 	Running
-			B 	Blocked
-			T 	Terminated normally
-			E 	Terminated in Error
-			e 	Non-fatal error
-			f 	Fatal error
-			D 	Verify Differences
-			A 	Canceled by the user
-
-			F 	Waiting on the File daemon
-			S 	Waiting on the Storage daemon
-			m 	Waiting for a new Volume to be mounted
-			M 	Waiting for a Mount
-			s 	Waiting for Storage resource
-			j 	Waiting for Job resource
-			c 	Waiting for Client resource
-			d 	Wating for Maximum jobs
-			t 	Waiting for Start Time
-			p 	Waiting for higher priority job to finish
-			W	?undocumented? see cats/sql_cmds.c -- List last 20 Jobs
+         * developers/Database_Tables.html
+C   Created but not yet running
+R   Running
+B   Blocked
+T   Terminated normally
+W   Terminated normally with warnings
+E   Terminated in Error
+e   Non-fatal error
+f   Fatal error
+D   Verify Differences
+A   Canceled by the user
+I   Incomplete Job
+F   Waiting on the File daemon
+S   Waiting on the Storage daemon
+m   Waiting for a new Volume to be mounted
+M   Waiting for a Mount
+s   Waiting for Storage resource
+j   Waiting for Job resource
+c   Waiting for Client resource
+d   Wating for Maximum jobs
+t   Waiting for Start Time
+p   Waiting for higher priority job to finish
+i   Doing batch insert file records
+a   SD despooling attributes
+l   Doing data despooling
+L   Committing data (last despool)
          */
         $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
         $select->where("j.EndTime > ?", $last1day);
@@ -171,7 +176,34 @@ class Job extends Zend_Db_Table
     {
     	$select = new Zend_Db_Select($this->db);
     	$select->distinct();
-
+        /*
+         * developers/Database_Tables.html
+C   Created but not yet running
+R   Running
+B   Blocked
+T   Terminated normally
+W   Terminated normally with warnings
+E   Terminated in Error
+e   Non-fatal error
+f   Fatal error
+D   Verify Differences
+A   Canceled by the user
+I   Incomplete Job
+F   Waiting on the File daemon
+S   Waiting on the Storage daemon
+m   Waiting for a new Volume to be mounted
+M   Waiting for a Mount
+s   Waiting for Storage resource
+j   Waiting for Job resource
+c   Waiting for Client resource
+d   Wating for Maximum jobs
+t   Waiting for Start Time
+p   Waiting for higher priority job to finish
+i   Doing batch insert file records
+a   SD despooling attributes
+l   Doing data despooling
+L   Committing data (last despool)
+         */
         switch ($this->db_adapter) {
         case 'PDO_MYSQL':
         	$last7day = date('Y-m-d H:i:s', time() - 604800);
@@ -185,7 +217,8 @@ class Job extends Zend_Db_Table
 	    	$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
         	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 	       	$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-    		$select->where("(j.EndTime = 0) OR (j.EndTime IS NULL) OR (j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','p'))");
+    		$select->where("(j.EndTime = 0) OR (j.EndTime IS NULL) OR ".
+                "(j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
 	        $select->where("j.StartTime > ?", $last7day);
 			break;
     	case 'PDO_PGSQL':
@@ -201,7 +234,8 @@ class Job extends Zend_Db_Table
 	    	$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
         	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 	       	$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-   			$select->where("(j.EndTime IS NULL) OR (j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','p'))");
+   			$select->where("(j.EndTime IS NULL) OR ".
+                "(j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
     		$select->where("j.StartTime > ( NOW() - INTERVAL '7 days' )");
             break;
 		case 'PDO_SQLITE':
@@ -222,7 +256,8 @@ class Job extends Zend_Db_Table
 			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
 			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 			$select->joinLeft(array('p' => 'Pool'), 'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-			$select->where("(datetime(j.EndTime) IS NULL) OR (j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','p'))");
+			$select->where("(datetime(j.EndTime) IS NULL) OR ".
+                "(j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
 			$select->where("j.StartTime > datetime('now','-7 days')");
 			break;
         }
@@ -530,7 +565,7 @@ EOF', $command_output, $return_var);
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('fileset'=>'FileSet'));
 
         $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
-        $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e', 'f')))");
+        $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I')))");
         $select->where("j.EndTime > ?", $last7day);
         $select->order(array("StartTime", "JobId"));
 
@@ -684,7 +719,7 @@ Select Job resource (1-3):
    				break;
     		case "t":
 				// Terminated in Error
-   				$select->where("j.JobStatus  IN ('E', 'e', 'f')");
+   				$select->where("j.JobStatus  IN ('E', 'e', 'f', 'I')");
    				break;
    			case "A":
 				// Canceled by the user
@@ -839,7 +874,7 @@ Select Job resource (1-3):
     			    'SchedTime' => "DATE_FORMAT(j.SchedTime,   '%y-%b-%d %H:%i')",
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
+        		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)', 'PriorJobId'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
@@ -851,7 +886,7 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime', 'SchedTime',
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => '(EndTime - StartTime)'
+        		    'DurationTime' => '(EndTime - StartTime)', 'PriorJobId'
     			));
     			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
@@ -868,7 +903,8 @@ Select Job resource (1-3):
 					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))",
+					'priorjobid'=>'PriorJobId'
 				));
 				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
 				break;
@@ -1097,6 +1133,9 @@ Select Job resource (1-3):
                 $select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('fileset' => 'FileSet.FileSet'));
                 break;
             }
+
+            // terminated jobs
+            $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
 
             if ( !empty($path) )    {
                 $select->where(

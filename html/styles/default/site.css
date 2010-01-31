@@ -288,15 +288,15 @@ span.mark{
 #box-table-one-column
 {
    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-   font-size: 12px;
-   margin-top: 30px;
-   margin-bottom: 30px;
+   font-size: 1em;
+   margin-top: 2em;
+   margin-bottom: 2em;
    text-align: left;
    border-collapse: collapse;
 }
 #box-table-one-column th
 {
-   font-size: 14px;
+   font-size: 1em;
    font-weight: normal;
    padding: 6px 6px;
    color: #039;
@@ -306,15 +306,13 @@ span.mark{
    padding: 6px 6px;
    color: #669;
    border-top: 1px solid #e8edff;
-   /*border-bottom: 1px solid #fff;
-   border-top: 1px solid transparent;*/
 }
 .col-first
 {
    background: #d0dafd;
    border-right: 1px solid transparent;
    border-left: 1px solid transparent;
-   width: 10em;
+   width: 11em;
 }
 #box-table-one-column tr:hover td
 {

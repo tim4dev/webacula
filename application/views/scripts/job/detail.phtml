@@ -16,8 +16,7 @@
         &nbsp;<?php echo $this->escape($line['jobid']);?>&nbsp;&nbsp;
         <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->jobid . '/jobname/' . $this->resultJob[0]['name']; ?>" title="<?php
             echo $this->translate->_("Console Messages"); ?>">
-            <?php print $this->translate->_("Console Messages"); ?>
-        </a>&nbsp;&nbsp;
+            <?php print $this->translate->_("Console Messages"); ?></a>&nbsp;&nbsp;
         <?php
             if ( isset($line['poolid'], $line['poolname']) )    {
                 // restore button
@@ -49,19 +48,28 @@
                     '/jobid/', $this->escape($line['jobid']),
                     '/joberrors/', $this->escape($line['joberrors']);
                 echo '" title="', $this->translate->_("Written in Logbook"), '">';
-                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), 
+                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"),
                     '" border="0" hspace="1" align="absmiddle">';
                 echo '</a>';
             }
         ?>
-        
+
     </td>
+
+<?php if ($line['priorjobid']) : ?>
+<!-- Link to prior Job Record when migrated -->
 </tr><tr>
-	<td> <?php print $this->translate->_("Unique Job Name"); ?> </td>
-	<td><?php echo $this->escape($line['job']);?></td>
+    <td> <?php print $this->translate->_("Prior Job"); ?> </td>
+    <td><?php echo $this->escape($line['priorjobid']);?></td>
 </tr><tr>
-	<td> <?php print $this->translate->_("Job Name"); ?> </td>
-	<td><?php echo $this->escape($line['name']);?></td>
+<?php endif; ?>
+
+</tr><tr>
+    <td> <?php print $this->translate->_("Unique Job Name"); ?> </td>
+    <td><?php echo $this->escape($line['job']);?></td>
+</tr><tr>
+    <td> <?php print $this->translate->_("Job Name"); ?> </td>
+    <td><?php echo $this->escape($line['name']);?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Purged Files"); ?> </td>
 	<td><?php echo $this->Int2Char($this->escape($line['purgedfiles']));?></td>
@@ -100,22 +108,31 @@
 		<?php echo $this->escape($line['poolname']);?></a>
 	</td>
 </tr><tr>
-	<td> <a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
-	<?php print $this->translate->_("Listing files"); ?></a>
-	</td>
-	<?php
-		if ( $this->escape($line['jobfiles']) != 0 )
-			$class = '';
-		else
-			$class = 'class="warn"';
-		echo '<td ', $class, '>', number_format($this->escape($line['jobfiles'])), '</td>';
-	?>
+
+    <td>
+    <?php if ($line['purgedfiles']) : ?>
+        <?php print $this->translate->_("Number of files"); ?>
+    <?php else : ?>
+        <a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
+        <?php print $this->translate->_("Listing files"); ?></a>
+    <?php endif; ?>
+    </td>
+    <?php
+        if ($line['jobfiles'])
+            $class = '';
+        else
+            $class = 'class="warn"';
+        echo '<td ', $class, '>', number_format($this->escape($line['jobfiles']));
+    ?>
+    <?php if ($line['purgedfiles'])
+        echo '(', $this->translate->_("All File records purged"), ')'; ?>
+    </td>
 </tr><tr>
-	<td> <?php print $this->translate->_("Bytes"); ?> </td>
-	<?php
-		if ( $this->escape($line['jobbytes']) != 0 )
-			$class = '';
-		else
+    <td> <?php print $this->translate->_("Bytes"); ?> </td>
+    <?php
+        if ( $this->escape($line['jobbytes']) != 0 )
+            $class = '';
+        else
 			$class = 'class="warn"';
 		echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
 	?>

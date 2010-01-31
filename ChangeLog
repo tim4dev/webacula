@@ -8,6 +8,8 @@ Webacula ChangeLog
    Extend the "Run Job" page by options to modify a Job before running : Pool, Client, FileSet, Storage, Level, Start Time.
    Add links to the Jobs displayed in a Timeline graphic (use imagemap).
    Support multiple Restore Job resources.
+   Take into consideration new Job fields : PriorJobId (link to prior Job Record when migrated),
+PurgedFiles (set when all File records purged). See 'developers/Database_Tables.html' for details.
    Improved User Interface.
    Fix bugs.
 

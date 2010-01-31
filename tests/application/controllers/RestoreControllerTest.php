@@ -45,7 +45,7 @@ class RestoreControllerTest extends ControllerTestCase
         $fileid = 3660;
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
-        $tsleep = 15; // sec. wait to restore
+        $tsleep = 20; // sec. wait to restore
 
         $jobidhash = md5($jobid);
         // clear all tmp-tables
@@ -205,7 +205,7 @@ class RestoreControllerTest extends ControllerTestCase
         $file_full  = '/tmp/webacula/test/2/'.$filename;
         $file_restore = $where.'/tmp/webacula/test/2/'.$filename;
         $client_name_to = 'local.fd';
-        $tsleep = 10; // sec. wait to restore
+        $tsleep = 20; // sec. wait to restore
         // form Restore Single File
         $this->getRequest()
              ->setParams(array(
@@ -218,7 +218,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertAction('single-file-restore');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('table', $file_full);
+        $this->assertQueryContentContains('td', $file_full);
         $this->resetRequest()
              ->resetResponse();
         echo "\n\t* Form Restore Single File - OK.";
