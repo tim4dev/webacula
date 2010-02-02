@@ -498,9 +498,10 @@ EOF"
         }
         $client   = addslashes( trim( $this->_request->getParam('client_nf') ));
         $type_search = addslashes( $this->_request->getParam('type_file_search') );
-        $this->view->title = sprintf($this->view->translate->_("List Jobs where %s is saved (limit %s)"), $namefile, $limit);
         $job = new Job();
         $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search);
+        $this->view->title = sprintf($this->view->translate->_("List Jobs (%s found) where '%s' is saved (limit %s)"),
+            sizeof($this->view->result), $namefile, $limit);
     }
 
 

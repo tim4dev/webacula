@@ -1133,7 +1133,6 @@ Select Job resource (1-3):
                 $select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('fileset' => 'FileSet.FileSet'));
                 break;
             }
-
             // terminated jobs
             $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
 

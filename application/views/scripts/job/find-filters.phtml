@@ -1,5 +1,5 @@
 <!-- find-filters.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleLastJobs); ?></h1>
+<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php $urlp = $this->baseUrl . '/job/find-filters' .
     '/date_begin/' . $this->date_begin . '/time_begin/' . $this->time_begin .
@@ -120,8 +120,8 @@
 			     $this->translate->_("View Messages"), '" class="lerr">',
 			     $this->escape($line['joberrors']), '</a></td>';
 		}
-	?>	
-	
+	?>
+
 	<td><?php echo $line['clientname'];?></td>
 
 	<td>
@@ -169,7 +169,7 @@
         'jtype' => $this->jtype,
         'volname' => $this->volname
         ))
-        );        
+        );
 ?>
 <!-- end paginationControl -->
 
