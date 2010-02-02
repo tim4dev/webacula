@@ -47,6 +47,9 @@ fi
 cd prepare_tests
 sudo ./clean_all.sh
 sudo ./prepare.sh
+if test $? -ne 0; then
+    exit
+fi
 cd ..
 
 # Main tests

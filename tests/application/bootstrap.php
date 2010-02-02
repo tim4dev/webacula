@@ -45,7 +45,13 @@ $registry = Zend_Registry::getInstance();
 $registry->set('config', $config);
 $registry->set('config_webacula', $config_webacula);
 // set timezone
-date_default_timezone_set($config->def->timezone);
+if ( isset($config->def->timezone) )
+    date_default_timezone_set($config->def->timezone);
+else {
+    Zend_Loader::loadClass('Zend_Date');
+    $date = new Zend_Date();
+    date_default_timezone_set( $date->getTimeZone() );
+}
 
 // set self version
 Zend_Registry::set('webacula_version', WEBACULA_VERSION);

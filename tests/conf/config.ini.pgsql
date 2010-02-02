@@ -1,3 +1,8 @@
+;
+; config.ini
+; Webacula 3.5
+;
+
 [general]
 ; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE  
 db.adapter = PDO_PGSQL

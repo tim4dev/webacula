@@ -39,22 +39,23 @@ class JobTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetByFileName() {
         print "\n".__METHOD__.' ';
+        $limit = 100;
         // test
         // getByFileName($path, $namefile, $client, $limit, $type_search)
        echo "\n\t* Ordinary search";  // $result = id 5, 8
-        $result = $this->job->getByFileName('/tmp/webacula/test/1/', 'file_new11.dat', '', 50, 'ordinary');
+        $result = $this->job->getByFileName('/tmp/webacula/test/1/', 'file_new11.dat', '', $limit, 'ordinary');
         $this->assertEquals(2, sizeof($result), 'error');
         echo " - OK";
 
         echo "\n\t* LIKE search"; // $result = id 2
-        $result = $this->job->getByFileName("/tmp/webacula/test/1/0 Каталог'tmp/%/", "100_Файл%txt", '', 50, 'like');
+        $result = $this->job->getByFileName("/tmp/webacula/test/1/0 Каталог'tmp/%/", "100_Файл%txt", '', $limit, 'like');
         $this->assertEquals(1, sizeof($result), 'error');
         echo " - OK";
 
         if ( $this->job->db_adapter != 'PDO_SQLITE' ) {
             echo "\n\t* REGEXP search"; // $result = id 2
-            $result = $this->job->getByFileName("", "^f.*dat$", '', 50, 'regexp');
-            $this->assertEquals(38, sizeof($result), 'error');
+            $result = $this->job->getByFileName("", "^f.*dat$", '', $limit, 'regexp');
+            $this->assertEquals(32, sizeof($result), 'error'); // only terminated jobs
             echo " - OK";
         }
     }

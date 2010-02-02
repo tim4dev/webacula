@@ -50,8 +50,8 @@ my_check_log()
 my_check_rc() {
     rc=$?
     if test $rc -ne 0; then
-        echo "Return code = ${rc}"
-        exit
+        echo "ERROR! Return code = ${rc}"
+        exit $rc
     fi
 }
 
