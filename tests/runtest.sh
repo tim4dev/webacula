@@ -57,6 +57,7 @@ echo -e "\n\n${LINE1}"
 echo "Main tests"
 echo -e "${LINE1}\n"
 # phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
+cp -f conf/config.ini.mysql  ../application/config.ini
 phpunit --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]

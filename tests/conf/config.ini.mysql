@@ -1,4 +1,4 @@
-;
+; tests
 ; config.ini
 ; Webacula 3.5
 ;
@@ -17,7 +17,7 @@ def.timezone = "Europe/Minsk"
 
 ; if locale undefined, webacula use autodetect
 ; avaliable locales : en, de, fr, pt_BR, ru
-; locale = "en"
+locale = "en"
 
 ; see INSTALL file for details
 bacula.sudo = "/usr/bin/sudo"

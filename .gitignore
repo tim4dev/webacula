@@ -4,5 +4,5 @@
 .project
 .settings/
 library/Zend/
-library/Zend*
+library/Zend.arc/
 tests/report/*
