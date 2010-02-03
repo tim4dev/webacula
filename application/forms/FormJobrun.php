@@ -145,7 +145,7 @@ class FormJobrun extends Zend_Form
             'label'    => 'Spool',
             'required' => false,
             'class' => 'ui-select',
-            'style' => 'width: 10em;'
+            'style' => 'width: 15em;'
         ));
         $spool->addMultiOptions(array(
             ''    => $translate->_("Default"),

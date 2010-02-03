@@ -271,13 +271,8 @@ $(function() {
         echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10));
         echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8));
     ?>
+    <br><div style="font-size:0.6em;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
 </td></tr>
-<tr><td>
-&nbsp;
-</td><td>
-    <div style="font-size:0.6em;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
-</td></tr>
-
 <tr><td colspan="2">
 <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
         array('restore_recent_all'    => $this->translate->_('Restore All files'),

@@ -8,8 +8,13 @@ h1 {
      margin: 0 auto;
 }
 
-/* for Director output */
+/* messages output */
+table.t1 {
+    border-bottom: 1px solid #7EBFFF;
+    border-left: 1px solid #7EBFFF
+}
 
+/* for Director output */
 #table-dir-output {
    font-size: 1em;
    background: #FFFFB4;
