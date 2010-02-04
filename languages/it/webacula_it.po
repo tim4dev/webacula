@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-02 22:49+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Yuri Timofeev <tim4dev@gmail.com>\n"
+"Last-Translator: dimi\n"
 "Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -222,16 +222,16 @@ msgstr "Cerca Job"
 #: application/controllers/JobController.php:231
 #: application/controllers/JobController.php:236
 msgid "Ordinary"
-msgstr ""
+msgstr "Ordinario"
 
 #: application/controllers/JobController.php:232
 #: application/controllers/JobController.php:237
 msgid "LIKE operator"
-msgstr ""
+msgstr "LIKE operatore"
 
 #: application/controllers/JobController.php:238
 msgid "Regular expression"
-msgstr ""
+msgstr "Espressioni regolari"
 
 #: application/controllers/JobController.php:249
 msgid "Detail JobId"
@@ -429,11 +429,11 @@ msgstr "Livello Differenziale"
 
 #: application/forms/FormJobrun.php:152
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: application/forms/FormJobrun.php:153
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: application/layouts/default/dashboard.phtml:155
 #: application/layouts/default/dashboard.phtml:260
@@ -454,7 +454,7 @@ msgstr "Totale Job"
 #: application/layouts/default/main.phtml:161
 #: application/layouts/default/help.phtml:131
 msgid "Bacula Console"
-msgstr ""
+msgstr "Bacula Console"
 
 #: application/layouts/default/dashboard.phtml:163
 #: application/layouts/default/dashboard.phtml:261
@@ -580,7 +580,7 @@ msgstr "Abilita JavaScript grazie..."
 #: application/layouts/default/main.phtml:211
 #, php-format
 msgid "Last Updated: %s"
-msgstr ""
+msgstr "Ultimo aggiornamento: %s"
 
 #: application/layouts/default/dashboard.phtml:211
 #: application/layouts/default/main.phtml:213
@@ -722,11 +722,11 @@ msgstr "Smonta Storage"
 #: application/views/scripts/storage/storage.phtml:54
 #: application/views/scripts/storage/storage.phtml:133
 msgid "Enter autochanger drive"
-msgstr ""
+msgstr "Inserire drive autochanger"
 
 #: application/views/scripts/storage/storage.phtml:59
 msgid "Enter autochanger slot"
-msgstr ""
+msgstr "Inserire slot autochanger"
 
 #: application/views/scripts/storage/storage.phtml:83
 msgid "Storage Status"
@@ -734,7 +734,7 @@ msgstr "Stato Storage"
 
 #: application/views/scripts/storage/storage.phtml:90
 msgid "Display autochanger content"
-msgstr ""
+msgstr "Mostra contenuto autochanger"
 
 #: application/views/scripts/storage/act-mount.phtml:49
 msgid "No Storage [un]mount."
@@ -813,7 +813,7 @@ msgstr "Dove"
 
 #: application/views/scripts/decorators/formJobrun.phtml:40
 msgid "Now"
-msgstr ""
+msgstr "Adesso"
 
 #: application/views/scripts/decorators/formJobrun.phtml:46
 #: application/views/scripts/job/find-form.phtml:115
@@ -923,7 +923,7 @@ msgstr "AAAA-MM-GG"
 
 #: application/views/scripts/job/timeline.phtml:62
 msgid "Point mouse cursor at image area and click to view Job detail"
-msgstr ""
+msgstr "Muovi il puntatore del mouse  e clicka sull'immagine per visualizzare il dettaglio del job"
 
 #: application/views/scripts/job/next-dashboard.phtml:29
 msgid "Priority"
@@ -993,7 +993,7 @@ msgstr "Lista dei file"
 
 #: application/views/scripts/job/detail.phtml:128
 msgid "All File records purged"
-msgstr ""
+msgstr "Tutti i file record eliminati"
 
 #: application/views/scripts/job/detail.phtml:148
 msgid "Volume(s)"
@@ -1082,7 +1082,7 @@ msgstr "Nome File"
 
 #: application/views/scripts/job/find-form.phtml:172
 msgid "Enter path with trailing slash"
-msgstr ""
+msgstr "Inserire il percorso compreso di slash"
 
 #: application/views/scripts/job/find-form.phtml:176
 msgid "Enter Filename (no path)"
@@ -1090,7 +1090,7 @@ msgstr "Inserisci Filename (nessun percorso)"
 
 #: application/views/scripts/job/find-form.phtml:180
 msgid "Type of search<br>(case sensitive)"
-msgstr ""
+msgstr "Tipo di ricerca<br>(case sensitive)"
 
 #: application/views/scripts/job/run-job-output.phtml:54
 msgid "View Running Jobs"
@@ -1157,7 +1157,7 @@ msgstr "Prossimo"
 
 #: application/views/scripts/restorejob/msg02session.phtml:6
 msgid "Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini."
-msgstr ""
+msgstr "Sessione di ripristino backup scaduta.<br />Aumenta <b>ttl_restore_session</b> nel file config.ini."
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:23
 #: application/views/scripts/restorejob/draw-file-tree.phtml:99
