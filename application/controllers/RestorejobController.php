@@ -1459,6 +1459,7 @@ EOF"
     {
         $this->view->title = $this->view->translate->_('Restore Single File');
         $fileid         = intval( $this->_request->getParam('fileid', 0) );
+        $client_name    = addslashes( $this->_request->getParam('client_name', null));
         $client_name_to = addslashes( $this->_request->getParam('client_name_to', null));
         $where          = addslashes( $this->_request->getParam('where', null));
         Zend_Loader::loadClass('Job');
@@ -1481,8 +1482,9 @@ EOF"
         //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
         $cmd = 'restore jobid=' . $file[0]['jobid'] .
                ' file="' . $file[0]['path'] . $file[0]['filename'] . '"';
-        if ( !empty($client_name_to) )   $cmd .= ' restoreclient="' . $client_name_to . '"';
-        if ( !empty($where) )    $cmd .= ' where="' . $where . '"';
+        if ( isset($client_name) )     $cmd .= ' client="' . $client_name . '"';
+        if ( isset($client_name_to) )  $cmd .= ' restoreclient="' . $client_name_to . '"';
+        if ( isset($where) )           $cmd .= ' where="' . $where . '"';
         $cmd .= ' yes';
         //var_dump($cmd); exit;// !!! debug
         $comment = __METHOD__;

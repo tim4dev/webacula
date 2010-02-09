@@ -204,6 +204,7 @@ class RestoreControllerTest extends ControllerTestCase
         $where      = '/tmp/webacula/restore';
         $file_full  = '/tmp/webacula/test/2/'.$filename;
         $file_restore = $where.'/tmp/webacula/test/2/'.$filename;
+        $client_name    = 'local.fd';
         $client_name_to = 'local.fd';
         $tsleep = 20; // sec. wait to restore
         // form Restore Single File
@@ -232,6 +233,7 @@ class RestoreControllerTest extends ControllerTestCase
              ->setParams(array(
                 'fileid'  => $fileid,
                 'client_name_to' => $client_name_to,
+                'client_name'    => $client_name,
                 'where' => $where
             ))
             ->setMethod('POST');
