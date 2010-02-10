@@ -44,7 +44,7 @@ $(document).ready(function() {
             (<?php print $this->translate->_("Where"); ?>)</label>
     </td>
    	<td class="search1" align="left">
-       	<?php echo $this->formSelect('client_name_to', '', array('class' => 'ui-select', 'style' => 'width: 23em;'), $aclients) ?>
+       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 23em;'), $aclients) ?>
     </td>
 </tr>
 <tr>
@@ -58,7 +58,7 @@ $(document).ready(function() {
         <label for="client_name" class="ui-select"><?php print $this->translate->_("Client"); ?></label>
     </td>
     <td class="search1" align="left">
-        <?php echo $this->formSelect('client_name', '', array('class' => 'ui-select', 'style' => 'width: 20em;'), $aclients) ?>
+        <?php echo $this->formSelect('client_name', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 20em;'), $aclients) ?>
     </td>
 </tr>
 <tr>

@@ -107,3 +107,5 @@ cp -f ../application/config.ini.original  ../application/config.ini
 echo -e "\n\n"
 sh ./locale-test.sh
 
+sudo service postgresql stop
+

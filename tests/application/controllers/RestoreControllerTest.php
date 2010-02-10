@@ -193,19 +193,25 @@ class RestoreControllerTest extends ControllerTestCase
 
 
     /**
-     * @group restore_file
+     * @group restore_single_file
      */
     public function testRestoreSingleFile() {
         print "\n".__METHOD__;
+        
         // setup
         $jobid = 3;
-        $fileid = 50;
         $filename   = 'file22.dat';
-        $where      = '/tmp/webacula/restore';
-        $file_full  = '/tmp/webacula/test/2/'.$filename;
-        $file_restore = $where.'/tmp/webacula/test/2/'.$filename;
+        $path       = '/tmp/webacula/test/2/';
         $client_name    = 'local.fd';
         $client_name_to = 'local.fd';
+        // find fileid
+        $job = new Job();
+        $res = $job->getByFileName($path, $filename, $client_name, 1, 'ordinary');
+        $fileid = $res[0]['fileid'];
+        //print_r($res); exit; // for debug !!!
+        $where      = '/tmp/webacula/restore';
+        $file_full  = $path.$filename;
+        $file_restore = $where.'/tmp/webacula/test/2/'.$filename;
         $tsleep = 20; // sec. wait to restore
         // form Restore Single File
         $this->getRequest()
@@ -219,6 +225,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertAction('single-file-restore');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
+        //echo $this->response->outputBody(); exit; // for debug !!!        
         $this->assertQueryContentContains('td', $file_full);
         $this->resetRequest()
              ->resetResponse();

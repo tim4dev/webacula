@@ -1446,6 +1446,12 @@ EOF"
         Zend_Loader::loadClass('Job');
         $job = new Job();
         $this->view->file = $job->getByFileId($fileid);
+        
+        if (isset($this->view->file))
+            $this->view->client_name    = $clients->getClientName($this->view->file[0]['jobid']);
+        else
+            $this->view->client_name = '';
+        $this->view->client_name_to = $this->view->client_name;
         $this->render();
     }
 

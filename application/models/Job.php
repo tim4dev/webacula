@@ -1276,6 +1276,11 @@ Select Job resource (1-3):
 
 
 
+    /**
+     * Get records by FileId
+     * @param $fileid
+     * @return recordset
+     */
     function getByFileId($fileid)
     {
         if ( empty($fileid) )
