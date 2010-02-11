@@ -20,7 +20,7 @@ class VolumeControllerTest extends ControllerTestCase
     public function testFindPoolById ()
     {
         print "\n" . __METHOD__ . ' ';
-        $this->dispatch('volume/find-pool-id/id/2/name/pool.file.7d');
+        $this->dispatch('volume/find-pool-id/id/1/name/pool.file.7d');
         $this->assertController('volume');
         $this->assertAction('find-pool-id');
         //echo $this->response->outputBody(); // for debug !!!

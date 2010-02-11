@@ -42,7 +42,7 @@ class RestoreControllerTest extends ControllerTestCase
         print "\n".__METHOD__;
         // setup
         $jobid = 4;
-        $fileid = 3660;
+        $fileid = 1217;
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
         $tsleep = 20; // sec. wait to restore

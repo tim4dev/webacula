@@ -149,13 +149,16 @@ class JobControllerTest extends ControllerTestCase
         $this->assertController('job');
         $this->assertAction('run-job');
         $this->mySleep(); // подождать пока выполнится
-        //echo $this->response->outputBody();// for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        // http://by.php.net/manual/en/function.preg-match.php
-        $pattern = '/Increme.*job.name.test.1.*is running|Increme.*job.name.test.1.*has terminated|12  Incr.*0.*0.*OK.*job.name.test.1/';
+        //echo $this->response->outputBody();// for debug !!!        
+        // http://php.net/manual/en/function.preg-match.php
+        $pattern = '/Increme.*job.name.test.1.*is running|'.
+                   'Increme.*job.name.test.1.*has terminated|'.
+                   '1[0-9]  Incr.*0.*0.*OK.*job.name.test.1|'.
+                   '1[1-9].*Increme.*job.name.test.1.*is waiting on Storage/';
         $this->assertQueryContentRegex('td', $pattern);
     }
 
@@ -182,8 +185,12 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
+        //echo $this->response->outputBody();// for debug !!!        
         // http://by.php.net/manual/en/function.preg-match.php
-        $pattern = '/Differe.*job_name_test_2.*is running|Differe.*job_name_test_2.*has terminated|13  Diff.*3.*4.115 K.*OK.*job_name_test_2/';
+        $pattern = '/Differe.*job_name_test_2.*is running|'.
+                   'Differe.*job_name_test_2.*has terminated|'.
+                   '1[0-9].*Diff.*3.*4.115 K.*OK.*job_name_test_2|'.
+                   '1[0-9].*Differe.*job_name_test_2.*is waiting on Storage/';
         $this->assertQueryContentRegex('td', $pattern);
     }
 
@@ -216,7 +223,11 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        $pattern = '/Full.*job.name.test.4.*is running|Full.*job.name.test.4.*has terminated|16  Full.*OK.*job.name.test.4/';
+        //echo $this->response->outputBody();// for debug !!!        
+        $pattern = '/Full.*job.name.test.4.*is running|'.
+                   'Full.*job.name.test.4.*has terminated|'.
+                   '1[0-9].*Full.*OK.*job.name.test.4|'.
+                   '1[0-9].*Full.*job.name.test.4.*is waiting on Storage/';
         $this->assertQueryContentRegex('td', $pattern);
     }
 
