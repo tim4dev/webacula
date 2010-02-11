@@ -75,7 +75,7 @@ class Media extends Zend_Db_Table
     }
 
 
-    function getByName($volname, $order)
+    function getByName($volname, $order='VolumeName')
     {
         $select = new Zend_Db_Select($this->db);
         $select->from('Media',
