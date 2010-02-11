@@ -1,5 +1,5 @@
 Name:          webacula
-Version:       3.5
+Version:       5.0
 Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
@@ -13,7 +13,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 
 Requires: webserver
-Requires: bacula-console >= 2.4.0
+Requires: bacula-console >= 5.0
 Requires: php-ZendFramework >= 1.8.3
 Requires: php >= 5.2.4
 Requires: php-pdo
@@ -115,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Feb 11 2010 Yuri Timofeev <tim4dev@gmail.com> 5.0-1
+- Version 5.0
+
 * Mon Jan  4 2010 Yuri Timofeev <tim4dev@gmail.com> 3.5-1
 - Version 3.5
 

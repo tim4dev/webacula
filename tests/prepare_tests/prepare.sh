@@ -184,7 +184,7 @@ my_log "Create dir tree ..."
 
 # Usage : <dir> <max files>
 cd ${BASEDIR}
-php ./create_dir_tree.php "${TMPDIR}/test/1" 3000 > /dev/null 2>&1
+php ./create_dir_tree.php "${TMPDIR}/test/1" 1000 > /dev/null 2>&1
 my_check_rc
 dd if=/dev/zero of="${TMPDIR}/test/2/file21.dat"  bs=1024 count=1000 > /dev/null 2>&1
 my_check_rc
@@ -376,4 +376,5 @@ cd ${BASEDIR}
 sh ./webacula_sqlite_fill_logbook
 echo "Done."
 
-echo "All done."
+echo "PREPARE: all done OK."
+

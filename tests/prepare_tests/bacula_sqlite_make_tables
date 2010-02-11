@@ -25,7 +25,9 @@ CREATE TABLE Path (
 
 CREATE INDEX inx2 ON Path (Path);
 
-
+-- In File table
+-- FileIndex can be 0 for FT_DELETED files
+-- FileNameId can link to Filename.Name='' for directories
 CREATE TABLE File (
    FileId INTEGER,
    FileIndex INTEGER UNSIGNED NOT NULL,
@@ -46,7 +48,6 @@ CREATE INDEX file_jpf_idx ON File (JobId, PathId, FilenameId);
 --
 -- CREATE INDEX inx4 ON File (PathId);
 -- CREATE INDEX inx5 ON File (FileNameId);
--- CREATE INDEX inx9 ON File (JobId, PathId, FilenameId);
 
 CREATE TABLE Job (
    JobId INTEGER,
@@ -73,6 +74,9 @@ CREATE TABLE Job (
    PriorJobId INTEGER UNSIGNED REFERENCES Job DEFAULT 0,
    PurgedFiles TINYINT DEFAULT 0,
    HasBase TINYINT DEFAULT 0,
+   HasCache TINYINT DEFAULT 0,
+   Reviewed TINYINT DEFAULT 0,
+   Comment TEXT,
    PRIMARY KEY(JobId) 
    );
 CREATE INDEX inx6 ON Job (Name);
@@ -102,7 +106,10 @@ CREATE TABLE JobHisto (
    FileSetId INTEGER UNSIGNED DEFAULT 0,
    PriorJobId INTEGER UNSIGNED DEFAULT 0,
    PurgedFiles TINYINT DEFAULT 0,
-   HasBase TINYINT DEFAULT 0
+   HasBase TINYINT DEFAULT 0,
+   HasCache TINYINT DEFAULT 0,
+   Reviewed TINYINT DEFAULT 0,
+   Comment TEXT
    );
 CREATE INDEX inx61 ON JobHisto (StartTime);
 
@@ -155,8 +162,6 @@ CREATE TABLE JobMedia (
    StartBlock INTEGER UNSIGNED DEFAULT 0,
    EndBlock INTEGER UNSIGNED DEFAULT 0,
    VolIndex INTEGER UNSIGNED DEFAULT 0,
-   Copy     INTEGER UNSIGNED DEFAULT 0,
-   Stripe   INTEGER UNSIGNED DEFAULT 0,
    PRIMARY KEY(JobMediaId) 
    );
 
@@ -296,6 +301,8 @@ CREATE TABLE BaseFiles (
    PRIMARY KEY(BaseId)
    );
 
+CREATE INDEX basefiles_jobid_idx ON BaseFiles ( JobId );
+
 CREATE TABLE UnsavedFiles (
    UnsavedId INTEGER,
    JobId INTEGER UNSIGNED REFERENCES Job NOT NULL,
@@ -336,60 +343,81 @@ CREATE TABLE CDImages (
    PRIMARY KEY (MediaId)
    );
 
+CREATE TABLE PathHierarchy
+(
+     PathId integer NOT NULL,
+     PPathId integer NOT NULL,
+     CONSTRAINT pathhierarchy_pkey PRIMARY KEY (PathId)
+);
+
+CREATE INDEX pathhierarchy_ppathid 
+          ON PathHierarchy (PPathId);
+
+CREATE TABLE PathVisibility
+(
+      PathId integer NOT NULL,
+      JobId integer NOT NULL,
+      Size int8 DEFAULT 0,
+      Files int4 DEFAULT 0,
+      CONSTRAINT pathvisibility_pkey PRIMARY KEY (JobId, PathId)
+);
+
+CREATE INDEX pathvisibility_jobid
+          ON PathVisibility (JobId);
 
 CREATE TABLE Status (
    JobStatus CHAR(1) NOT NULL,
    JobStatusLong BLOB, 
+   Severity INT,
    PRIMARY KEY (JobStatus)
    );
 
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('C', 'Created, not yet running');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('R', 'Running');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('B', 'Blocked');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('T', 'Completed successfully');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('E', 'Terminated with errors');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('e', 'Non-fatal error');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('f', 'Fatal error');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('D', 'Verify found differences');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('A', 'Canceled by user');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('F', 'Waiting for Client');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('S', 'Waiting for Storage daemon');
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('C', 'Created, not yet running',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('R', 'Running',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('B', 'Blocked',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('T', 'Completed successfully', 10);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('E', 'Terminated with errors', 25);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('e', 'Non-fatal error',20);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('f', 'Fatal error',100);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('D', 'Verify found differences',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('A', 'Canceled by user',90);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('F', 'Waiting for Client',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('S', 'Waiting for Storage daemon',15);
 INSERT INTO Status (JobStatus,JobStatusLong) VALUES
    ('m', 'Waiting for new media');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('M', 'Waiting for media mount');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('s', 'Waiting for storage resource');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('j', 'Waiting for job resource');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('c', 'Waiting for client resource');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('d', 'Waiting on maximum jobs');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('t', 'Waiting on start time');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('p', 'Waiting on higher priority jobs');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('a', 'SD despooling attributes');
-INSERT INTO Status (JobStatus,JobStatusLong) VALUES
-   ('i', 'Doing batch insert file records');
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('M', 'Waiting for media mount',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('s', 'Waiting for storage resource',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('j', 'Waiting for job resource',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('c', 'Waiting for client resource',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('d', 'Waiting on maximum jobs',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('t', 'Waiting on start time',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('p', 'Waiting on higher priority jobs',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('a', 'SD despooling attributes',15);
+INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
+   ('i', 'Doing batch insert file records',15);
 
 
 -- Initialize Version		 
-INSERT INTO Version (VersionId) VALUES (11);
-
+INSERT INTO Version (VersionId) VALUES (12);
 
 PRAGMA default_cache_size = 100000;
 PRAGMA synchronous = NORMAL;

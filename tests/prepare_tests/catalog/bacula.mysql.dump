@@ -1,8 +1,8 @@
--- MySQL dump 10.11
+-- MySQL dump 10.13  Distrib 5.1.42, for redhat-linux-gnu (i386)
 --
 -- Host: localhost    Database: bacula
 -- ------------------------------------------------------
--- Server version	5.0.84
+-- Server version	5.1.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,14 +16,218 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `BaseFiles`
+--
+
+DROP TABLE IF EXISTS `BaseFiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `BaseFiles` (
+  `BaseId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `BaseJobId` int(10) unsigned NOT NULL,
+  `JobId` int(10) unsigned NOT NULL,
+  `FileId` bigint(20) unsigned NOT NULL,
+  `FileIndex` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`BaseId`),
+  KEY `basefiles_jobid_idx` (`JobId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BaseFiles`
+--
+
+LOCK TABLES `BaseFiles` WRITE;
+/*!40000 ALTER TABLE `BaseFiles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `BaseFiles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CDImages`
+--
+
+DROP TABLE IF EXISTS `CDImages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CDImages` (
+  `MediaId` int(10) unsigned NOT NULL,
+  `LastBurn` datetime NOT NULL,
+  PRIMARY KEY (`MediaId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CDImages`
+--
+
+LOCK TABLES `CDImages` WRITE;
+/*!40000 ALTER TABLE `CDImages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CDImages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Client`
+--
+
+DROP TABLE IF EXISTS `Client`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Client` (
+  `ClientId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` tinyblob NOT NULL,
+  `Uname` tinyblob NOT NULL,
+  `AutoPrune` tinyint(4) DEFAULT '0',
+  `FileRetention` bigint(20) unsigned DEFAULT '0',
+  `JobRetention` bigint(20) unsigned DEFAULT '0',
+  PRIMARY KEY (`ClientId`),
+  UNIQUE KEY `Name` (`Name`(128))
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Client`
+--
+
+LOCK TABLES `Client` WRITE;
+/*!40000 ALTER TABLE `Client` DISABLE KEYS */;
+INSERT INTO `Client` VALUES (1,'local.fd','',0,0,0),(2,'win32.fd','5.0.0 (24Jan10) Linux,Cross-compile,Win32',1,157680000,157680000);
+/*!40000 ALTER TABLE `Client` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Counters`
+--
+
+DROP TABLE IF EXISTS `Counters`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Counters` (
+  `Counter` tinyblob NOT NULL,
+  `MinValue` int(11) DEFAULT '0',
+  `MaxValue` int(11) DEFAULT '0',
+  `CurrentValue` int(11) DEFAULT '0',
+  `WrapCounter` tinyblob NOT NULL,
+  PRIMARY KEY (`Counter`(128))
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Counters`
+--
+
+LOCK TABLES `Counters` WRITE;
+/*!40000 ALTER TABLE `Counters` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Counters` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Device`
+--
+
+DROP TABLE IF EXISTS `Device`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Device` (
+  `DeviceId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` tinyblob NOT NULL,
+  `MediaTypeId` int(10) unsigned DEFAULT '0',
+  `StorageId` int(10) unsigned DEFAULT '0',
+  `DevMounts` int(10) unsigned DEFAULT '0',
+  `DevReadBytes` bigint(20) unsigned DEFAULT '0',
+  `DevWriteBytes` bigint(20) unsigned DEFAULT '0',
+  `DevReadBytesSinceCleaning` bigint(20) unsigned DEFAULT '0',
+  `DevWriteBytesSinceCleaning` bigint(20) unsigned DEFAULT '0',
+  `DevReadTime` bigint(20) unsigned DEFAULT '0',
+  `DevWriteTime` bigint(20) unsigned DEFAULT '0',
+  `DevReadTimeSinceCleaning` bigint(20) unsigned DEFAULT '0',
+  `DevWriteTimeSinceCleaning` bigint(20) unsigned DEFAULT '0',
+  `CleaningDate` datetime DEFAULT '0000-00-00 00:00:00',
+  `CleaningPeriod` bigint(20) unsigned DEFAULT '0',
+  PRIMARY KEY (`DeviceId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Device`
+--
+
+LOCK TABLES `Device` WRITE;
+/*!40000 ALTER TABLE `Device` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Device` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `File`
+--
+
+DROP TABLE IF EXISTS `File`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `File` (
+  `FileId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `FileIndex` int(10) unsigned DEFAULT '0',
+  `JobId` int(10) unsigned NOT NULL,
+  `PathId` int(10) unsigned NOT NULL,
+  `FilenameId` int(10) unsigned NOT NULL,
+  `MarkId` int(10) unsigned DEFAULT '0',
+  `LStat` tinyblob NOT NULL,
+  `MD5` tinyblob,
+  PRIMARY KEY (`FileId`),
+  KEY `JobId` (`JobId`),
+  KEY `JobId_2` (`JobId`,`PathId`,`FilenameId`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `File`
 --
 
 LOCK TABLES `File` WRITE;
 /*!40000 ALTER TABLE `File` DISABLE KEYS */;
-INSERT INTO `File` VALUES (1,1,1,1,1,0,'A A IH/ B A A A j A A BK97DP BK97DP BK97C+ A A M','Y/wGYwWMxBODY/GRm1ACBQ'),(2,5,1,2,1,0,'A A IH/ B A A A CU A A BK97Dv BK97Dv BK97DD A A M','+Mxq8kNtH6Npt9NgScEoJA'),(3,9,1,3,1,0,'A A IH/ B A A A Bl A A BK97EQ BK97EQ BK97DH A A M','XO+OErz78cEZPm+aqbWiWQ'),(4,13,1,4,1,0,'A A IH/ B A A A G A A BK97Ce BK97Ce BK97B6 A A M','QialzkHy0dGNa7I3kte7aQ'),(5,17,1,5,1,0,'A A IH/ B A A A j A A BK97F0 BK97DP BK97F0 A A M','Y/wGYwWMxBODY/GRm1ACBQ'),(6,21,1,6,1,0,'A A IH/ B A A A CU A A BK97F0 BK97Dv BK97F0 A A M','+Mxq8kNtH6Npt9NgScEoJA'),(7,25,1,7,1,0,'A A IH/ B A A A Bl A A BK97F0 BK97EQ BK97F0 A A M','XO+OErz78cEZPm+aqbWiWQ'),(8,29,1,8,1,0,'A A IH/ B A A A G A A BK97F0 BK97Ce BK97F0 A A M','QialzkHy0dGNa7I3kte7aQ'),(9,33,1,9,1,0,'A A IH/ B A A A j A A BK97GI BK97DP BK97GI A A M','nJnu+5oJTt0w3ZFYY6pCsA'),(10,37,1,10,1,0,'A A IH/ B A A A CU A A BK97GI BK97Dv BK97GI A A M','PYg8BT1dWtAMRNOwVz+uwQ'),(11,41,1,11,1,0,'A A IH/ B A A A Bl A A BK97GI BK97EQ BK97GI A A M','z3HVA23tuFrl1tgnH9hbwA'),(12,45,1,12,1,0,'A A IH/ B A A A G A A BK97GI BK97Ce BK97GI A A M','jVl4lLjsN8Eu3gkUvZ6Z6A'),(13,2,1,1,2,0,'A A IH/ B A A A o A A BK97DV BK97DV BK97C+ A A M','qssP4BWCIXPTiZYr5dli5A'),(14,6,1,2,2,0,'A A IH/ B A A A Bi A A BK97D8 BK97D8 BK97DD A A M','HDAih25RMDXZ6+yQoiJz4w'),(15,10,1,3,2,0,'A A IH/ B A A A 1 A A BK97EY BK97EY BK97DH A A M','VrfY2+tYwknO0fLbI6CvlA'),(16,14,1,4,2,0,'A A IH/ B A A A G A A BK97Cz BK97Ce BK97Cz A A M','QialzkHy0dGNa7I3kte7aQ'),(17,18,1,5,2,0,'A A IH/ B A A A o A A BK97F0 BK97DV BK97F0 A A M','qssP4BWCIXPTiZYr5dli5A'),(18,22,1,6,2,0,'A A IH/ B A A A Bi A A BK97F0 BK97D8 BK97F0 A A M','HDAih25RMDXZ6+yQoiJz4w'),(19,26,1,7,2,0,'A A IH/ B A A A 1 A A BK97F0 BK97EY BK97F0 A A M','VrfY2+tYwknO0fLbI6CvlA'),(20,30,1,8,2,0,'A A IH/ B A A A G A A BK97F0 BK97Ce BK97F0 A A M','QialzkHy0dGNa7I3kte7aQ'),(21,34,1,9,2,0,'A A IH/ B A A A o A A BK97GI BK97DV BK97GI A A M','lpOzxAITWyq6qYvdKYe5kw'),(22,38,1,10,2,0,'A A IH/ B A A A Bi A A BK97GI BK97D8 BK97GI A A M','+AOIVz30qQXpDb5ktI0MgA'),(23,42,1,11,2,0,'A A IH/ B A A A 1 A A BK97GI BK97EY BK97GI A A M','LIkSDYNz8Wr/6xgEQSge9w'),(24,46,1,12,2,0,'A A IH/ B A A A G A A BK97GI BK97Ce BK97GI A A M','jVl4lLjsN8Eu3gkUvZ6Z6A'),(25,3,1,1,3,0,'A A IH/ B A A A o A A BK97Da BK97Da BK97C+ A A M','QUpjgS/1IFy5/gwNG5t1tw'),(26,7,1,2,3,0,'A A IH/ B A A A BA A A BK97EG BK97EG BK97DD A A M','azrz761TPAhFcUy9uby/iQ'),(27,11,1,3,3,0,'A A IH/ B A A A 6 A A BK97GI BK97Ee BK97DH A A M','3UCXg8RHZ0DVe/m05YP7BA'),(28,15,1,4,3,0,'A A IH/ B A A A G A A BK97C5 BK97Ce BK97C5 A A M','QialzkHy0dGNa7I3kte7aQ'),(29,19,1,5,3,0,'A A IH/ B A A A o A A BK97F0 BK97Da BK97F0 A A M','QUpjgS/1IFy5/gwNG5t1tw'),(30,23,1,6,3,0,'A A IH/ B A A A BA A A BK97F0 BK97EG BK97F0 A A M','azrz761TPAhFcUy9uby/iQ'),(31,27,1,7,3,0,'A A IH/ B A A A 6 A A BK97F0 BK97Ee BK97F0 A A M','3UCXg8RHZ0DVe/m05YP7BA'),(32,31,1,8,3,0,'A A IH/ B A A A G A A BK97F0 BK97Ce BK97F0 A A M','QialzkHy0dGNa7I3kte7aQ'),(33,35,1,9,3,0,'A A IH/ B A A A o A A BK97GI BK97Da BK97GI A A M','SlHJ8a9iUD4dwaaL8Q0//A'),(34,39,1,10,3,0,'A A IH/ B A A A BA A A BK97GI BK97EG BK97GI A A M','t9HP+4laCc/8WxL0+k+5ZQ'),(35,43,1,11,3,0,'A A IH/ B A A A 6 A A BK97GI BK97Ee BK97GI A A M','BaaPGnSikaBRb/dTL815zg'),(36,47,1,12,3,0,'A A IH/ B A A A G A A BK97GI BK97Ce BK97GI A A M','jVl4lLjsN8Eu3gkUvZ6Z6A'),(37,4,1,1,4,0,'A A EH/ B A A A A A A BK97C+ BK97C+ BK97Bp A A M','0'),(38,8,1,2,4,0,'A A EH/ B A A A A A A BK97DD BK97DD BK97Bt A A M','0'),(39,12,1,3,4,0,'A A EH/ B A A A A A A BK97DH BK97DH BK97Bw A A M','0'),(40,16,1,4,4,0,'A A EH/ B A A A A A A BK97C5 BK97C5 BK97Bm A A M','0'),(41,20,1,5,4,0,'A A EH/ B A A A A A A BK97O6 BK97F0 BK97F0 A A M','0'),(42,24,1,6,4,0,'A A EH/ B A A A A A A BK97O6 BK97F0 BK97F0 A A M','0'),(43,28,1,7,4,0,'A A EH/ B A A A A A A BK97O6 BK97F0 BK97F0 A A M','0'),(44,32,1,8,4,0,'A A EH/ B A A A A A A BK97F0 BK97F0 BK97F0 A A M','0'),(45,36,1,9,4,0,'A A EH/ B A A A A A A BK97O6 BK97GI BK97GI A A M','0'),(46,40,1,10,4,0,'A A EH/ B A A A A A A BK97O6 BK97GI BK97GI A A M','0'),(47,44,1,11,4,0,'A A EH/ B A A A A A A BK97O6 BK97GI BK97GI A A M','0'),(48,48,1,12,4,0,'A A EH/ B A A A A A A BK97GI BK97GI BJdHSp A A M','0');
+INSERT INTO `File` VALUES (1,1,1,1,1,0,'A A IH/ B A A A F A A BLc/sV BLc/sU BLc/sJ A A M','VSp/FiSf2PuSapcyRH+Y5Q'),(2,2,1,1,2,0,'A A IH/ B A A A G A A BLc/sm BLc/sk BLc/sJ A A M','LjV+KBbOc7BatBb0HOTueQ'),(3,3,1,1,3,0,'A A EH/ B A A A A A A BLc/s7 BLc/sd BLc/r3 A A M','0'),(4,5,1,2,3,0,'A A EH/ B A A A A A A BLc/s7 BLc/s7 BLc/s1 A A M','0'),(5,4,1,2,4,0,'A A IH/ B A A A E A A BLc/ry BLc/rx BLc/rn A A M','BWV1fAwlAjQ3rzB+FJKQ9A');
 /*!40000 ALTER TABLE `File` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `FileSet`
+--
+
+DROP TABLE IF EXISTS `FileSet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `FileSet` (
+  `FileSetId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FileSet` tinyblob NOT NULL,
+  `MD5` tinyblob,
+  `CreateTime` datetime DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`FileSetId`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FileSet`
+--
+
+LOCK TABLES `FileSet` WRITE;
+/*!40000 ALTER TABLE `FileSet` DISABLE KEYS */;
+INSERT INTO `FileSet` VALUES (1,'fileset.test.win32','QHQzR5+5K4VtExdbNH+AhB','2010-02-11 15:00:15');
+/*!40000 ALTER TABLE `FileSet` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Filename`
+--
+
+DROP TABLE IF EXISTS `Filename`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Filename` (
+  `FilenameId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` blob NOT NULL,
+  PRIMARY KEY (`FilenameId`),
+  KEY `Name` (`Name`(255))
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Filename`
@@ -31,9 +235,49 @@ UNLOCK TABLES;
 
 LOCK TABLES `Filename` WRITE;
 /*!40000 ALTER TABLE `Filename` DISABLE KEYS */;
-INSERT INTO `Filename` VALUES (1,'test01.txt'),(2,'test 0 2.txt'),(3,'test тест 03.txt'),(4,'');
+INSERT INTO `Filename` VALUES (1,'file.txt.txt'),(2,'Текстовый документ 2.txt'),(3,''),(4,'Текстовый документ.txt');
 /*!40000 ALTER TABLE `Filename` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Job`
+--
+
+DROP TABLE IF EXISTS `Job`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Job` (
+  `JobId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Job` tinyblob NOT NULL,
+  `Name` tinyblob NOT NULL,
+  `Type` binary(1) NOT NULL,
+  `Level` binary(1) NOT NULL,
+  `ClientId` int(11) DEFAULT '0',
+  `JobStatus` binary(1) NOT NULL,
+  `SchedTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `StartTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `EndTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `RealEndTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `JobTDate` bigint(20) unsigned DEFAULT '0',
+  `VolSessionId` int(10) unsigned DEFAULT '0',
+  `VolSessionTime` int(10) unsigned DEFAULT '0',
+  `JobFiles` int(10) unsigned DEFAULT '0',
+  `JobBytes` bigint(20) unsigned DEFAULT '0',
+  `ReadBytes` bigint(20) unsigned DEFAULT '0',
+  `JobErrors` int(10) unsigned DEFAULT '0',
+  `JobMissingFiles` int(10) unsigned DEFAULT '0',
+  `PoolId` int(10) unsigned DEFAULT '0',
+  `FileSetId` int(10) unsigned DEFAULT '0',
+  `PriorJobId` int(10) unsigned DEFAULT '0',
+  `PurgedFiles` tinyint(4) DEFAULT '0',
+  `HasBase` tinyint(4) DEFAULT '0',
+  `HasCache` tinyint(4) DEFAULT '0',
+  `Reviewed` tinyint(4) DEFAULT '0',
+  `Comment` blob,
+  PRIMARY KEY (`JobId`),
+  KEY `Name` (`Name`(128))
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Job`
@@ -41,9 +285,160 @@ UNLOCK TABLES;
 
 LOCK TABLES `Job` WRITE;
 /*!40000 ALTER TABLE `Job` DISABLE KEYS */;
-INSERT INTO `Job` VALUES (1,'job.win32.b.01.file.2009-11-09_09.12.55_03','job.win32.b.01.file','B','F',2,'T','2009-11-09 09:12:55','2009-11-09 09:12:57','2009-11-09 09:13:10','2009-11-09 09:13:10',1257750790,1,1257750765,48,6020,12173,0,0,2,1,0,0,0);
+INSERT INTO `Job` VALUES (1,'job.name.test.win32.2010-02-11_15.00.15_03','job.name.test.win32','B','F',2,'T','2010-02-11 15:00:14','2010-02-11 15:00:17','2010-02-11 15:00:34','2010-02-11 15:00:34',1265893234,1,1265893206,5,803,1587,0,0,1,1,0,0,0,0,0,NULL);
 /*!40000 ALTER TABLE `Job` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `JobHisto`
+--
+
+DROP TABLE IF EXISTS `JobHisto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `JobHisto` (
+  `JobId` int(10) unsigned NOT NULL,
+  `Job` tinyblob NOT NULL,
+  `Name` tinyblob NOT NULL,
+  `Type` binary(1) NOT NULL,
+  `Level` binary(1) NOT NULL,
+  `ClientId` int(11) DEFAULT '0',
+  `JobStatus` binary(1) NOT NULL,
+  `SchedTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `StartTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `EndTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `RealEndTime` datetime DEFAULT '0000-00-00 00:00:00',
+  `JobTDate` bigint(20) unsigned DEFAULT '0',
+  `VolSessionId` int(10) unsigned DEFAULT '0',
+  `VolSessionTime` int(10) unsigned DEFAULT '0',
+  `JobFiles` int(10) unsigned DEFAULT '0',
+  `JobBytes` bigint(20) unsigned DEFAULT '0',
+  `ReadBytes` bigint(20) unsigned DEFAULT '0',
+  `JobErrors` int(10) unsigned DEFAULT '0',
+  `JobMissingFiles` int(10) unsigned DEFAULT '0',
+  `PoolId` int(10) unsigned DEFAULT '0',
+  `FileSetId` int(10) unsigned DEFAULT '0',
+  `PriorJobId` int(10) unsigned DEFAULT '0',
+  `PurgedFiles` tinyint(4) DEFAULT '0',
+  `HasBase` tinyint(4) DEFAULT '0',
+  `HasCache` tinyint(4) DEFAULT '0',
+  `Reviewed` tinyint(4) DEFAULT '0',
+  `Comment` blob,
+  KEY `StartTime` (`StartTime`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `JobHisto`
+--
+
+LOCK TABLES `JobHisto` WRITE;
+/*!40000 ALTER TABLE `JobHisto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `JobHisto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `JobMedia`
+--
+
+DROP TABLE IF EXISTS `JobMedia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `JobMedia` (
+  `JobMediaId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `JobId` int(10) unsigned NOT NULL,
+  `MediaId` int(10) unsigned NOT NULL,
+  `FirstIndex` int(10) unsigned DEFAULT '0',
+  `LastIndex` int(10) unsigned DEFAULT '0',
+  `StartFile` int(10) unsigned DEFAULT '0',
+  `EndFile` int(10) unsigned DEFAULT '0',
+  `StartBlock` int(10) unsigned DEFAULT '0',
+  `EndBlock` int(10) unsigned DEFAULT '0',
+  `VolIndex` int(10) unsigned DEFAULT '0',
+  PRIMARY KEY (`JobMediaId`),
+  KEY `JobId` (`JobId`,`MediaId`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `JobMedia`
+--
+
+LOCK TABLES `JobMedia` WRITE;
+/*!40000 ALTER TABLE `JobMedia` DISABLE KEYS */;
+INSERT INTO `JobMedia` VALUES (1,1,1,1,5,0,0,206,2374,1);
+/*!40000 ALTER TABLE `JobMedia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Location`
+--
+
+DROP TABLE IF EXISTS `Location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Location` (
+  `LocationId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Location` tinyblob NOT NULL,
+  `Cost` int(11) DEFAULT '0',
+  `Enabled` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`LocationId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Location`
+--
+
+LOCK TABLES `Location` WRITE;
+/*!40000 ALTER TABLE `Location` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Location` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `LocationLog`
+--
+
+DROP TABLE IF EXISTS `LocationLog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LocationLog` (
+  `LocLogId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Date` datetime DEFAULT '0000-00-00 00:00:00',
+  `Comment` blob NOT NULL,
+  `MediaId` int(10) unsigned DEFAULT '0',
+  `LocationId` int(10) unsigned DEFAULT '0',
+  `NewVolStatus` enum('Full','Archive','Append','Recycle','Purged','Read-Only','Disabled','Error','Busy','Used','Cleaning') NOT NULL,
+  `NewEnabled` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`LocLogId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LocationLog`
+--
+
+LOCK TABLES `LocationLog` WRITE;
+/*!40000 ALTER TABLE `LocationLog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `LocationLog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Log`
+--
+
+DROP TABLE IF EXISTS `Log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Log` (
+  `LogId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `JobId` int(10) unsigned DEFAULT '0',
+  `Time` datetime DEFAULT '0000-00-00 00:00:00',
+  `LogText` blob NOT NULL,
+  PRIMARY KEY (`LogId`),
+  KEY `JobId` (`JobId`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Log`
@@ -51,9 +446,65 @@ UNLOCK TABLES;
 
 LOCK TABLES `Log` WRITE;
 /*!40000 ALTER TABLE `Log` DISABLE KEYS */;
-INSERT INTO `Log` VALUES (1,1,'2009-11-09 09:12:55','main.dir JobId 1: No prior Full backup Job record found.\n\0'),(2,1,'2009-11-09 09:12:55','main.dir JobId 1: No prior or suitable Full backup found in catalog. Doing FULL backup.\n\0'),(3,1,'2009-11-09 09:12:57','main.dir JobId 1: Start Backup JobId 1, Job=job.win32.b.01.file.2009-11-09_09.12.55_03\n\0'),(4,1,'2009-11-09 09:12:57','main.dir JobId 1: Created new Volume \"pool.file.7d.0001\" in catalog.\n\0'),(5,1,'2009-11-09 09:12:57','main.dir JobId 1: Using Device \"dev.file.storage.1\"\n\0'),(6,1,'2009-11-09 09:12:58','Storage1 JobId 1: Labeled new Volume \"pool.file.7d.0001\" on device \"dev.file.storage.1\" (/tmp/webacula/dev).\n\0'),(7,1,'2009-11-09 09:12:58','Storage1 JobId 1: Wrote label to prelabeled Volume \"pool.file.7d.0001\" on device \"dev.file.storage.1\" (/tmp/webacula/dev)\n\0'),(8,1,'2009-11-09 09:09:47','win32-fd JobId 1: Generate VSS snapshots. Driver=\"VSS Win 2003\", Drive(s)=\"CDE\"\n\0'),(9,1,'2009-11-09 09:13:10','Storage1 JobId 1: Job write elapsed time = 00:00:12, Transfer rate = 1.020 K bytes/second\n\0'),(10,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"System Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(11,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"MSDEWriter\", State: 0x1 (VSS_WS_STABLE)\n\0'),(12,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"TermServLicensing\", State: 0x1 (VSS_WS_STABLE)\n\0'),(13,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"Registry Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(14,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"COM+ REGDB Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(15,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"Event Log Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(16,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"BITS Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(17,1,'2009-11-09 09:09:59','win32-fd JobId 1: VSS Writer (BackupComplete): \"WMI Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(18,1,'2009-11-09 09:13:10','main.dir JobId 1: Bacula main.dir 3.0.3 (18Oct09): 09-Ноя-2009 09:13:10\n  Build OS:               i686-pc-linux-gnu redhat \n  JobId:                  1\n  Job:                    job.win32.b.01.file.2009-11-09_09.12.55_03\n  Backup Level:           Full (upgraded from Incremental)\n  Client:                 \"win32.fd\" 3.0.1 (28Apr09) Linux,Cross-compile,Win32\n  FileSet:                \"file.set.win32\" 2009-11-09 09:12:55\n  Pool:                   \"pool.file.7d\" (From Job resource)\n  Catalog:                \"MyCatalog\" (From Client resource)\n  Storage:                \"storage.file.1\" (From Pool resource)\n  Scheduled time:         09-Ноя-2009 09:12:55\n  Start time:             09-Ноя-2009 09:12:57\n  End time:               09-Ноя-2009 09:13:10\n  Elapsed time:           13 secs\n  Priority:               10\n  FD Files Written:       48\n  SD Files Written:       48\n  FD Bytes Written:       6,020 (6.020 KB)\n  SD Bytes Written:       12,243 (12.24 KB)\n  Rate:                   0.5 KB/s\n  Software Compression:   50.5 %\n  VSS:                    yes\n  Encryption:             no\n  Accurate:               no\n  Volume name(s):         pool.file.7d.0001\n  Volume Session Id:      1\n  Volume Session Time:    1257750765\n  Last Volume Bytes:      14,497 (14.49 KB)\n  Non-fatal FD errors:    0\n  SD Errors:              0\n  FD termination status:  OK\n  SD termination status:  OK\n  Termination:            Backup OK\n\n\0'),(19,1,'2009-11-09 09:13:10','main.dir JobId 1: Begin pruning Jobs.\n\0'),(20,1,'2009-11-09 09:13:10','main.dir JobId 1: No Jobs found to prune.\n\0'),(21,1,'2009-11-09 09:13:10','main.dir JobId 1: Begin pruning Files.\n\0'),(22,1,'2009-11-09 09:13:10','main.dir JobId 1: No Files found to prune.\n\0'),(23,1,'2009-11-09 09:13:10','main.dir JobId 1: End auto prune.\n\n\0');
+INSERT INTO `Log` VALUES (1,1,'2010-02-11 15:00:15','main.dir JobId 1: No prior Full backup Job record found.\n\0'),(2,1,'2010-02-11 15:00:15','main.dir JobId 1: No prior or suitable Full backup found in catalog. Doing FULL backup.\n\0'),(3,1,'2010-02-11 15:00:17','main.dir JobId 1: Start Backup JobId 1, Job=job.name.test.win32.2010-02-11_15.00.15_03\n\0'),(4,1,'2010-02-11 15:00:17','main.dir JobId 1: Created new Volume \"pool.file.7d.0001\" in catalog.\n\0'),(5,1,'2010-02-11 15:00:17','main.dir JobId 1: Using Device \"dev.file.storage.1\"\n\0'),(6,1,'2010-02-11 15:00:17','Storage1 JobId 1: Labeled new Volume \"pool.file.7d.0001\" on device \"dev.file.storage.1\" (/tmp/webacula/dev).\n\0'),(7,1,'2010-02-11 15:00:17','Storage1 JobId 1: Wrote label to prelabeled Volume \"pool.file.7d.0001\" on device \"dev.file.storage.1\" (/tmp/webacula/dev)\n\0'),(8,1,'2010-02-11 15:00:17','Storage1 JobId 1: Spooling data ...\n\0'),(9,1,'2010-02-11 15:00:18','win32.fd JobId 1: Generate VSS snapshots. Driver=\"VSS WinXP\", Drive(s)=\"C\"\n\0'),(10,1,'2010-02-11 15:00:34','win32.fd JobId 1: VSS Writer (BackupComplete): \"WMI Writer\", State: 0x1 (VSS_WS_STABLE)\n\0'),(11,1,'2010-02-11 15:00:34','win32.fd JobId 1: VSS Writer (BackupComplete): \"MSDEWriter\", State: 0x1 (VSS_WS_STABLE)\n\0'),(12,1,'2010-02-11 15:00:34','win32.fd JobId 1: VSS Writer (BackupComplete): \"Microsoft Writer (Service State)\", State: 0x1 (VSS_WS_STABLE)\n\0'),(13,1,'2010-02-11 15:00:34','win32.fd JobId 1: VSS Writer (BackupComplete): \"Microsoft Writer (Bootable State)\", State: 0x1 (VSS_WS_STABLE)\n\0'),(14,1,'2010-02-11 15:00:34','Storage1 JobId 1: Job write elapsed time = 00:00:17, Transfer rate = 91  Bytes/second\n\0'),(15,1,'2010-02-11 15:00:34','Storage1 JobId 1: Committing spooled data to Volume \"pool.file.7d.0001\". Despooling 2,181 bytes ...\n\0'),(16,1,'2010-02-11 15:00:34','Storage1 JobId 1: Despooling elapsed time = 00:00:01, Transfer rate = 2.181 K Bytes/second\n\0'),(17,1,'2010-02-11 15:00:34','Storage1 JobId 1: Sending spooled attrs to the Director. Despooling 1,496 bytes ...\n\0'),(18,1,'2010-02-11 15:00:34','main.dir JobId 1: Bacula main.dir 5.0.0 (26Jan10): 11-Фев-2010 15:00:34\n  Build OS:               i686-pc-linux-gnu redhat \n  JobId:                  1\n  Job:                    job.name.test.win32.2010-02-11_15.00.15_03\n  Backup Level:           Full (upgraded from Incremental)\n  Client:                 \"win32.fd\" 5.0.0 (24Jan10) Linux,Cross-compile,Win32\n  FileSet:                \"fileset.test.win32\" 2010-02-11 15:00:15\n  Pool:                   \"pool.file.7d\" (From Job resource)\n  Catalog:                \"MyCatalog\" (From Client resource)\n  Storage:                \"storage.file.1\" (From Pool resource)\n  Scheduled time:         11-Фев-2010 15:00:14\n  Start time:             11-Фев-2010 15:00:17\n  End time:               11-Фев-2010 15:00:34\n  Elapsed time:           17 secs\n  Priority:               10\n  FD Files Written:       5\n  SD Files Written:       5\n  FD Bytes Written:       803 (803 B)\n  SD Bytes Written:       1,555 (1.555 KB)\n  Rate:                   0.0 KB/s\n  Software Compression:   49.4 %\n  VSS:                    yes\n  Encryption:             no\n  Accurate:               no\n  Volume name(s):         pool.file.7d.0001\n  Volume Session Id:      1\n  Volume Session Time:    1265893206\n  Last Volume Bytes:      2,375 (2.375 KB)\n  Non-fatal FD errors:    0\n  SD Errors:              0\n  FD termination status:  OK\n  SD termination status:  OK\n  Termination:            Backup OK\n\n\0'),(19,1,'2010-02-11 15:00:34','main.dir JobId 1: Begin pruning Jobs older than 35 years 1 month 21 days 13 hours 34 secs.\n\0'),(20,1,'2010-02-11 15:00:34','main.dir JobId 1: No Jobs found to prune.\n\0'),(21,1,'2010-02-11 15:00:34','main.dir JobId 1: Begin pruning Jobs.\n\0'),(22,1,'2010-02-11 15:00:34','main.dir JobId 1: No Files found to prune.\n\0'),(23,1,'2010-02-11 15:00:34','main.dir JobId 1: End auto prune.\n\n\0');
 /*!40000 ALTER TABLE `Log` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Media`
+--
+
+DROP TABLE IF EXISTS `Media`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Media` (
+  `MediaId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `VolumeName` tinyblob NOT NULL,
+  `Slot` int(11) DEFAULT '0',
+  `PoolId` int(10) unsigned DEFAULT '0',
+  `MediaType` tinyblob NOT NULL,
+  `MediaTypeId` int(10) unsigned DEFAULT '0',
+  `LabelType` tinyint(4) DEFAULT '0',
+  `FirstWritten` datetime DEFAULT '0000-00-00 00:00:00',
+  `LastWritten` datetime DEFAULT '0000-00-00 00:00:00',
+  `LabelDate` datetime DEFAULT '0000-00-00 00:00:00',
+  `VolJobs` int(10) unsigned DEFAULT '0',
+  `VolFiles` int(10) unsigned DEFAULT '0',
+  `VolBlocks` int(10) unsigned DEFAULT '0',
+  `VolMounts` int(10) unsigned DEFAULT '0',
+  `VolBytes` bigint(20) unsigned DEFAULT '0',
+  `VolParts` int(10) unsigned DEFAULT '0',
+  `VolErrors` int(10) unsigned DEFAULT '0',
+  `VolWrites` int(10) unsigned DEFAULT '0',
+  `VolCapacityBytes` bigint(20) unsigned DEFAULT '0',
+  `VolStatus` enum('Full','Archive','Append','Recycle','Purged','Read-Only','Disabled','Error','Busy','Used','Cleaning') NOT NULL,
+  `Enabled` tinyint(4) DEFAULT '1',
+  `Recycle` tinyint(4) DEFAULT '0',
+  `ActionOnPurge` tinyint(4) DEFAULT '0',
+  `VolRetention` bigint(20) unsigned DEFAULT '0',
+  `VolUseDuration` bigint(20) unsigned DEFAULT '0',
+  `MaxVolJobs` int(10) unsigned DEFAULT '0',
+  `MaxVolFiles` int(10) unsigned DEFAULT '0',
+  `MaxVolBytes` bigint(20) unsigned DEFAULT '0',
+  `InChanger` tinyint(4) DEFAULT '0',
+  `StorageId` int(10) unsigned DEFAULT '0',
+  `DeviceId` int(10) unsigned DEFAULT '0',
+  `MediaAddressing` tinyint(4) DEFAULT '0',
+  `VolReadTime` bigint(20) unsigned DEFAULT '0',
+  `VolWriteTime` bigint(20) unsigned DEFAULT '0',
+  `EndFile` int(10) unsigned DEFAULT '0',
+  `EndBlock` int(10) unsigned DEFAULT '0',
+  `LocationId` int(10) unsigned DEFAULT '0',
+  `RecycleCount` int(10) unsigned DEFAULT '0',
+  `InitialWrite` datetime DEFAULT '0000-00-00 00:00:00',
+  `ScratchPoolId` int(10) unsigned DEFAULT '0',
+  `RecyclePoolId` int(10) unsigned DEFAULT '0',
+  `Comment` blob,
+  PRIMARY KEY (`MediaId`),
+  UNIQUE KEY `VolumeName` (`VolumeName`(128)),
+  KEY `PoolId` (`PoolId`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Media`
@@ -61,18 +512,24 @@ UNLOCK TABLES;
 
 LOCK TABLES `Media` WRITE;
 /*!40000 ALTER TABLE `Media` DISABLE KEYS */;
-INSERT INTO `Media` VALUES (1,'pool.file.7d.0001',0,2,'file.1',0,0,'2009-11-09 09:12:57','2009-11-09 09:13:10','2009-11-09 09:12:57',1,0,1,1,14497,0,0,2,0,'Append',1,1,0,604800,0,0,0,204800,0,1,0,0,0,61,0,14496,0,0,'0000-00-00 00:00:00',0,0,NULL);
+INSERT INTO `Media` VALUES (1,'pool.file.7d.0001',0,1,'file.1',0,0,'2010-02-11 15:00:17','2010-02-11 15:00:34','2010-02-11 15:00:17',1,0,1,1,2375,0,0,2,0,'Append',1,1,0,604800,0,0,0,204800,0,1,0,0,0,28,0,2374,0,0,'0000-00-00 00:00:00',0,0,NULL);
 /*!40000 ALTER TABLE `Media` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping data for table `JobMedia`
+-- Table structure for table `MediaType`
 --
-LOCK TABLES `JobMedia` WRITE;
-/*!40000 ALTER TABLE `JobMedia` DISABLE KEYS */;
-INSERT INTO `JobMedia` VALUES (1,1,1,1,48,0,0,216,14496,1,0,0);
-/*!40000 ALTER TABLE `JobMedia` ENABLE KEYS */;
-UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `MediaType`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `MediaType` (
+  `MediaTypeId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `MediaType` tinyblob NOT NULL,
+  `ReadOnly` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`MediaTypeId`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `MediaType`
@@ -80,9 +537,24 @@ UNLOCK TABLES;
 
 LOCK TABLES `MediaType` WRITE;
 /*!40000 ALTER TABLE `MediaType` DISABLE KEYS */;
-INSERT INTO `MediaType` VALUES (1,'file.1',0),(2,'file.2',0);
+INSERT INTO `MediaType` VALUES (1,'file.1',0),(2,'file.2',0),(3,'LTO1',0),(4,'LTO2',0);
 /*!40000 ALTER TABLE `MediaType` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Path`
+--
+
+DROP TABLE IF EXISTS `Path`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Path` (
+  `PathId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Path` blob NOT NULL,
+  PRIMARY KEY (`PathId`),
+  KEY `Path` (`Path`(255))
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Path`
@@ -90,9 +562,97 @@ UNLOCK TABLES;
 
 LOCK TABLES `Path` WRITE;
 /*!40000 ALTER TABLE `Path` DISABLE KEYS */;
-INSERT INTO `Path` VALUES (1,'c:/bacula/test/dir01/'),(2,'c:/bacula/test/dir02/'),(3,'c:/bacula/test/dir03/'),(4,'c:/bacula/test/'),(5,'d:/test/dir01/'),(6,'d:/test/dir02/'),(7,'d:/test/dir03/'),(8,'d:/test/'),(9,'e:/test/dir01/'),(10,'e:/test/dir02/'),(11,'e:/test/dir03/'),(12,'e:/test/');
+INSERT INTO `Path` VALUES (1,'c:/win32-test/Новая \'папка\'/'),(2,'c:/win32-test/');
 /*!40000 ALTER TABLE `Path` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `PathHierarchy`
+--
+
+DROP TABLE IF EXISTS `PathHierarchy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PathHierarchy` (
+  `PathId` int(11) NOT NULL,
+  `PPathId` int(11) NOT NULL,
+  PRIMARY KEY (`PathId`),
+  KEY `pathhierarchy_ppathid` (`PPathId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PathHierarchy`
+--
+
+LOCK TABLES `PathHierarchy` WRITE;
+/*!40000 ALTER TABLE `PathHierarchy` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PathHierarchy` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PathVisibility`
+--
+
+DROP TABLE IF EXISTS `PathVisibility`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PathVisibility` (
+  `PathId` int(11) NOT NULL,
+  `JobId` int(11) NOT NULL,
+  `Size` bigint(20) DEFAULT '0',
+  `Files` int(11) DEFAULT '0',
+  PRIMARY KEY (`JobId`,`PathId`),
+  KEY `pathvisibility_jobid` (`JobId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PathVisibility`
+--
+
+LOCK TABLES `PathVisibility` WRITE;
+/*!40000 ALTER TABLE `PathVisibility` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PathVisibility` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Pool`
+--
+
+DROP TABLE IF EXISTS `Pool`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Pool` (
+  `PoolId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` tinyblob NOT NULL,
+  `NumVols` int(10) unsigned DEFAULT '0',
+  `MaxVols` int(10) unsigned DEFAULT '0',
+  `UseOnce` tinyint(4) DEFAULT '0',
+  `UseCatalog` tinyint(4) DEFAULT '0',
+  `AcceptAnyVolume` tinyint(4) DEFAULT '0',
+  `VolRetention` bigint(20) unsigned DEFAULT '0',
+  `VolUseDuration` bigint(20) unsigned DEFAULT '0',
+  `MaxVolJobs` int(10) unsigned DEFAULT '0',
+  `MaxVolFiles` int(10) unsigned DEFAULT '0',
+  `MaxVolBytes` bigint(20) unsigned DEFAULT '0',
+  `AutoPrune` tinyint(4) DEFAULT '0',
+  `Recycle` tinyint(4) DEFAULT '0',
+  `ActionOnPurge` tinyint(4) DEFAULT '0',
+  `PoolType` enum('Backup','Copy','Cloned','Archive','Migration','Scratch') NOT NULL,
+  `LabelType` tinyint(4) DEFAULT '0',
+  `LabelFormat` tinyblob,
+  `Enabled` tinyint(4) DEFAULT '1',
+  `ScratchPoolId` int(10) unsigned DEFAULT '0',
+  `RecyclePoolId` int(10) unsigned DEFAULT '0',
+  `NextPoolId` int(10) unsigned DEFAULT '0',
+  `MigrationHighBytes` bigint(20) unsigned DEFAULT '0',
+  `MigrationLowBytes` bigint(20) unsigned DEFAULT '0',
+  `MigrationTime` bigint(20) unsigned DEFAULT '0',
+  PRIMARY KEY (`PoolId`),
+  UNIQUE KEY `Name` (`Name`(128))
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Pool`
@@ -100,10 +660,106 @@ UNLOCK TABLES;
 
 LOCK TABLES `Pool` WRITE;
 /*!40000 ALTER TABLE `Pool` DISABLE KEYS */;
-INSERT INTO `Pool` VALUES (1,'Default',0,0,0,1,0,1209600,0,0,0,0,1,1,0,'Backup',0,'*',1,0,0,0,0,0,0),(2,'pool.file.7d',1,0,0,1,0,604800,0,0,0,204800,1,1,0,'Backup',0,'pool.file.7d.',1,0,0,0,0,0,0);
+INSERT INTO `Pool` VALUES (1,'pool.file.7d',1,0,0,1,0,604800,0,0,0,204800,1,1,0,'Backup',0,'pool.file.7d.',1,0,0,0,0,0,0),(2,'Default',0,0,0,1,0,604800,0,0,0,1048576,1,1,0,'Backup',0,'*',1,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `Pool` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `Status`
+--
+
+DROP TABLE IF EXISTS `Status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Status` (
+  `JobStatus` char(1) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `JobStatusLong` blob,
+  `Severity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`JobStatus`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Status`
+--
+
+LOCK TABLES `Status` WRITE;
+/*!40000 ALTER TABLE `Status` DISABLE KEYS */;
+INSERT INTO `Status` VALUES ('C','Created, not yet running',15),('R','Running',15),('B','Blocked',15),('T','Completed successfully',10),('E','Terminated with errors',25),('e','Non-fatal error',20),('f','Fatal error',100),('D','Verify found differences',15),('A','Canceled by user',90),('F','Waiting for Client',15),('S','Waiting for Storage daemon',15),('m','Waiting for new media',15),('M','Waiting for media mount',15),('s','Waiting for storage resource',15),('j','Waiting for job resource',15),('c','Waiting for client resource',15),('d','Waiting on maximum jobs',15),('t','Waiting on start time',15),('p','Waiting on higher priority jobs',15),('i','Doing batch insert file records',15),('a','SD despooling attributes',15);
+/*!40000 ALTER TABLE `Status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Storage`
+--
+
+DROP TABLE IF EXISTS `Storage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Storage` (
+  `StorageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` tinyblob NOT NULL,
+  `AutoChanger` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`StorageId`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Storage`
+--
+
+LOCK TABLES `Storage` WRITE;
+/*!40000 ALTER TABLE `Storage` DISABLE KEYS */;
+INSERT INTO `Storage` VALUES (1,'storage.file.1',0),(2,'storage.file.2',0),(3,'LTO1',1),(4,'LTO2',1);
+/*!40000 ALTER TABLE `Storage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `UnsavedFiles`
+--
+
+DROP TABLE IF EXISTS `UnsavedFiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UnsavedFiles` (
+  `UnsavedId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `JobId` int(10) unsigned NOT NULL,
+  `PathId` int(10) unsigned NOT NULL,
+  `FilenameId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`UnsavedId`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `UnsavedFiles`
+--
+
+LOCK TABLES `UnsavedFiles` WRITE;
+/*!40000 ALTER TABLE `UnsavedFiles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `UnsavedFiles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Version`
+--
+
+DROP TABLE IF EXISTS `Version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Version` (
+  `VersionId` int(10) unsigned NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Version`
+--
+
+LOCK TABLES `Version` WRITE;
+/*!40000 ALTER TABLE `Version` DISABLE KEYS */;
+INSERT INTO `Version` VALUES (12);
+/*!40000 ALTER TABLE `Version` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -114,4 +770,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-11-09  9:15:39
+-- Dump completed on 2010-02-11 15:02:28
