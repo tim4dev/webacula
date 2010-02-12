@@ -3,6 +3,7 @@
 .buildpath
 .project
 .settings/
+nbproject/
 library/Zend/
 library/Zend.arc/
 tests/report/*

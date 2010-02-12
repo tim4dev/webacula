@@ -58,7 +58,7 @@ class RestorejobController extends MyClass_ControllerAction
     // for pager
     const ROW_LIMIT_FILES = 500;
     // for names of tmp tables (для формирования имен временных таблиц)
-    const _PREFIX = '_'; // только в нижнем регистре
+    const _PREFIX = 'webacula_'; // только в нижнем регистре
 
     public $db_adapter;
 
@@ -718,10 +718,14 @@ EOF"
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
             $stmt = $db->query("
-                SELECT p.Path, p.isMarked, f.FileId, f.PathId, f.LStat
-                FROM " . $tmp_tables->getTableNamePath() . " AS p
-                LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS f
-                ON f.PathId = p.PathId WHERE (f.MD5 = '0') ORDER BY p.PathId ASC
+                SELECT p.Path, t.isMarked, f.FileId, f.PathId, f.LStat
+                FROM Path AS p
+                LEFT JOIN File AS f
+                    ON f.PathId = p.PathId
+                LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS t
+                    ON t.FileId = f.FileId
+                WHERE (f.MD5 = '0')
+                ORDER BY p.Path
             ");
             $result = $stmt->fetchAll();
 
@@ -731,7 +735,7 @@ EOF"
                     $pos = strpos($line['path'], $curdir);
                 } else {
                     $pos = 0;
-                    if ( $line['path'][0] == '/') $curdir = '/'; // linux path
+                    if ( $line['path'][0] == '/') $curdir = '/'; // unix path
                     //elseif ( $line['path'][1] === ':') $curdir = $line['path'][0] . ':/'; // windows path
                 }
                 // найден текущий каталог
@@ -760,14 +764,15 @@ EOF"
 
             // теперь необходимо получить список каталогов, данные LStat о которых не хранятся в таблице File
             // так бывает если, например, в FileSet заданы конкретные имена файлов
-            $stmt = $db->query("SELECT PathId, Path, isMarked
+/*            $stmt = $db->query("SELECT PathId, Path, isMarked
                     FROM " . $tmp_tables->getTableNamePath() . " AS n
                     WHERE n.PathId NOT IN
                         (SELECT p.PathId FROM " . $tmp_tables->getTableNamePath() . " AS p
-                        LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS f ON f.PathId = p.PathId WHERE (f.MD5 = '0'))");
+                        LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS f ON f.PathId = p.PathId
+                        WHERE (f.MD5 = '0'))");
             $result = $stmt->fetchAll();
-
-            // get a list of directories on the current (получаем список каталогов относительно текущего)
+*/
+/*            // get a list of directories on the current (получаем список каталогов относительно текущего)
             foreach($result as $line)	{
                 if ( !empty($curdir) ) {
                     $pos = strpos($line['path'], $curdir);
@@ -799,7 +804,7 @@ EOF"
             unset($stmt);
             //echo "<pre>"; print_r($curdir); echo "</pre><br>";  // for !!!debug!!!
             //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-
+*/
             //****** получаем список файлов в текущем каталоге ******
             $afile = array();
             if ( $curdir )	{
@@ -818,12 +823,13 @@ EOF"
                         break;
                     default: // include mysql, postgresql
                         $stmt = $db->query("
-                            SELECT DISTINCT f.FileId, f.LStat, f.PathId, f.isMarked, n.Name, p.Path
-                            FROM " . $tmp_tables->getTableNameFile() . " AS f,
-                            " . $tmp_tables->getTableNameFilename()  . " AS n,
-                            " . $tmp_tables->getTableNamePath() .      " AS p
-                            WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+                            SELECT DISTINCT f.FileId, f.LStat, f.PathId, t.isMarked, n.Name, p.Path
+                            FROM " . $tmp_tables->getTableNameFile() . " AS t,
+                            Filename AS n, Path AS p, File AS f
+                            WHERE (t.FileId = f.FileId) AND
+                            (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
+                            (p.Path = '" . addslashes($curdir) . "')
+                            ORDER BY Name ASC;");
                         break;
                 }
                 $result = $stmt->fetchAll();
@@ -1446,7 +1452,7 @@ EOF"
         Zend_Loader::loadClass('Job');
         $job = new Job();
         $this->view->file = $job->getByFileId($fileid);
-        
+
         if (isset($this->view->file))
             $this->view->client_name    = $clients->getClientName($this->view->file[0]['jobid']);
         else
