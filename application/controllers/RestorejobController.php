@@ -698,102 +698,68 @@ EOF"
      * Главная функция по отрисовке дерева каталогов
      *
      * @param string jobidhash
-     * @param string curdir
+     * @param string curdir     если это начало отрисовки, то $curdir = ''
      *
      */
     function drawFileTreeAction()
     {
+        /*
+         http://www.postgresql.org/docs/current/static/functions-string.html
+         функция длины строки для mysql и postgresql одинакова:
+char_length(string)
+
+         http://www.sqlite.org/lang_corefunc.html
+length(X)    The length(X) function returns the length of X in characters if X is a string,
+or in bytes if X is a blob. If X is NULL then length(X) is NULL.
+If X is numeric then length(X) returns the length of a string representation of X.
+         */
         // session expired ?
         if ( !isset($this->restoreNamespace->isSessionExist) ) {
             echo $this->renderScript('restorejob/msg02session.phtml');
             return;
         }
-        $curdir  = stripslashes( $this->_request->getParam('curdir', '') );
+        $curdir  = stripslashes( $this->_request->getParam('curdir', '') );  // Un-quotes a quoted string
         $this->view->title = $this->view->translate->_("Restore Job");
 
         $adir = array();
-        if ( $this->restoreNamespace->JobHash )	{
-
+        if ( $this->restoreNamespace->JobHash )    {
             //************ get a list of all directories + LStat (получаем список всех каталогов + их атрибуты LStat) ******
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
+
+            // $this->_db->quote();
             $stmt = $db->query("
                 SELECT p.Path, t.isMarked, f.FileId, f.PathId, f.LStat
                 FROM Path AS p
-                LEFT JOIN File AS f
+                INNER JOIN File AS f
                     ON f.PathId = p.PathId
-                LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS t
+                INNER JOIN " . $tmp_tables->getTableNameFile() . " AS t
                     ON t.FileId = f.FileId
                 WHERE (f.MD5 = '0')
                 ORDER BY p.Path
             ");
-            $result = $stmt->fetchAll();
-
             // get a list of directories on the current (получаем список каталогов относительно текущего)
-            foreach($result as $line)	{
-                if ( !empty($curdir) ) {
-                    $pos = strpos($line['path'], $curdir);
-                } else {
+            while($line = $stmt->fetch())   {
+                if ( empty($curdir) ) {
                     $pos = 0;
                     if ( $line['path'][0] == '/') $curdir = '/'; // unix path
                     //elseif ( $line['path'][1] === ':') $curdir = $line['path'][0] . ':/'; // windows path
-                }
-                // найден текущий каталог
-                if ( $pos === 0 )	{
-                    // удаляем текущий каталог из полного пути
-                    $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
-
-                    // если есть еще подкаталоги
-                    if ( !empty($nextdir) ) {
-                        // получаем следующий уровень подкаталога
-                        $atmp = explode("/", $nextdir, 3);
-                        $dir = $atmp[0];
-
-                        if ( !empty($dir) ) {
-                            $adir[$dir]['lstat']    = $line['lstat'];
-                            $adir[$dir]['pathid']   = $line['pathid'];
-                            $adir[$dir]['dir']      = $dir;
-                            $adir[$dir]['ismarked'] = $line['ismarked'];
-                        }
-                    }
-                }
-            }
-            unset($stmt);
-            //echo "<pre>"; print_r($curdir); echo "</pre><br>";  // for !!!debug!!!
-            //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-
-            // теперь необходимо получить список каталогов, данные LStat о которых не хранятся в таблице File
-            // так бывает если, например, в FileSet заданы конкретные имена файлов
-/*            $stmt = $db->query("SELECT PathId, Path, isMarked
-                    FROM " . $tmp_tables->getTableNamePath() . " AS n
-                    WHERE n.PathId NOT IN
-                        (SELECT p.PathId FROM " . $tmp_tables->getTableNamePath() . " AS p
-                        LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS f ON f.PathId = p.PathId
-                        WHERE (f.MD5 = '0'))");
-            $result = $stmt->fetchAll();
-*/
-/*            // get a list of directories on the current (получаем список каталогов относительно текущего)
-            foreach($result as $line)	{
-                if ( !empty($curdir) ) {
+                } else
                     $pos = strpos($line['path'], $curdir);
-                } else {
-                    $pos = 0;
-                    if ( $line['path'][0] == '/') $curdir = '/'; // linux path
-                    //elseif ( $line['path'][1] === ':') $curdir = $line['path'][0] . ':/'; // windows path
-                }
                 // найден текущий каталог
-                if ( $pos === 0 )	{
+                if ( $pos === 0 )   {
                     // удаляем текущий каталог из полного пути
                     $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
-
                     // если есть еще подкаталоги
                     if ( !empty($nextdir) ) {
                         // получаем следующий уровень подкаталога
                         $atmp = explode("/", $nextdir, 3);
                         $dir = $atmp[0];
-
                         if ( !empty($dir) ) {
-                            $adir[$dir]['lstat']    = '';
+                            if (isset($atmp[2]))
+                                $adir[$dir]['lstat'] = '';  // данных LStat нет, это просто часть пути
+                            else
+                                $adir[$dir]['lstat'] = $line['lstat']; // точное совпадение, зн. есть данные об LStat
                             $adir[$dir]['pathid']   = $line['pathid'];
                             $adir[$dir]['dir']      = $dir;
                             $adir[$dir]['ismarked'] = $line['ismarked'];
@@ -802,9 +768,6 @@ EOF"
                 }
             }
             unset($stmt);
-            //echo "<pre>"; print_r($curdir); echo "</pre><br>";  // for !!!debug!!!
-            //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-*/
             //****** получаем список файлов в текущем каталоге ******
             $afile = array();
             if ( $curdir )	{
@@ -844,21 +807,15 @@ EOF"
                 }
                 unset($stmt);
             }
-            //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-            //echo "<pre>"; print_r($afile); echo "</pre>"; exit; // for !!!debug!!!
-
             $this->view->adir   = $adir;
             $this->view->afile  = $afile;
             $this->view->curdir = $curdir;
             $this->view->jobidhash = $this->restoreNamespace->JobHash;
-
             // получаем суммарную статистику
             $atotal = $tmp_tables->getTotalSummaryMark();
             $this->view->total_size  = $atotal['total_size'];
             $this->view->total_files = $atotal['total_files'];
-
             $this->view->type_restore = $this->restoreNamespace->typeRestore;
-
             $this->render();
         }
         else {
