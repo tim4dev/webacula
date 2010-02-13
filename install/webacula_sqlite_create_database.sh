@@ -52,11 +52,6 @@ CREATE TABLE wbVersion (
 INSERT INTO wbVersion (versionId) VALUES (3);
 
 
-/* list of temporary tables */
-DROP TABLE IF EXISTS wbTmpTable;
-DROP TABLE IF EXISTS wbTmpTableList;
-DROP TABLE IF EXISTS wbtmptablelist; 
-
 CREATE TABLE wbtmptablelist (
         tmpId    INTEGER,
         tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */

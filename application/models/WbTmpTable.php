@@ -59,7 +59,6 @@ class WbTmpTable extends Zend_Db_Table
         $this->ttl_restore_session = $ttl_restore_session;
         // формируем имена временных таблиц
         $this->tmp_file     = $prefix . 'file_'     . $this->jobidhash;
-
         $config['db']      = Zend_Registry::get('db_bacula'); // database
         $config['name']    = $this->_name;      // name table
         $config['primary'] = $this->_primary;   // primary key
@@ -79,6 +78,44 @@ class WbTmpTable extends Zend_Db_Table
                 break;
         }
 
+    // существует ли таблица ?
+        try {
+            $this->_db->query('SELECT tmpId FROM '. $this->_name .' LIMIT 1');
+        } catch (Zend_Exception $e) {
+            // создаем таблицу
+            switch ($this->db_adapter) {
+            case 'PDO_MYSQL':
+                $sql = 'CREATE TABLE '. $this->_name .' (
+                        tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                        tmpName  CHAR(64) UNIQUE NOT NULL,      /* name temporary table */
+                        tmpJobIdHash CHAR(64) NOT NULL,
+                        tmpCreate   TIMESTAMP NOT NULL,
+                        tmpIsCloneOk INTEGER DEFAULT 0,         /* is clone bacula tables OK */
+                        PRIMARY KEY(tmpId)
+                        ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM; ';
+                break;
+            case 'PDO_PGSQL':
+                $sql = 'CREATE TABLE '. $this->_name .' (
+                        tmpId    SERIAL NOT NULL,
+                        tmpName  CHAR(64) UNIQUE NOT NULL,
+                        tmpJobIdHash CHAR(64) NOT NULL,
+                        tmpCreate   timestamp without time zone NOT NULL,
+                        tmpIsCloneOk SMALLINT DEFAULT 0,
+                        PRIMARY KEY(tmpId))';
+                break;
+            case 'PDO_PGSQL':
+                $sql = 'CREATE TABLE wbtmptablelist (
+                       tmpId    INTEGER,
+                       tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
+                       tmpJobIdHash CHAR(64) NOT NULL,
+                       tmpCreate   TIMESTAMP NOT NULL,
+                       tmpIsCloneOk INTEGER DEFAULT 0,··   ·   ·   ·   /* is clone bacula tables OK */
+                       PRIMARY KEY(tmpId))';
+                break;
+            }
+            $this->_db->query($sql);
+        }
+
         // for debug !!!
         Zend_Loader::loadClass('Zend_Log_Writer_Stream');
         Zend_Loader::loadClass('Zend_Log');
@@ -87,11 +124,6 @@ class WbTmpTable extends Zend_Db_Table
         //$this->logger->log("debug on", Zend_Log::DEBUG);
     }
 
-/* ???    protected function _setupTableName()
-    {
-        $this->_name = 'wbtmptablelist';
-        parent::_setupTableName();
-    }*/
 
     protected function _setupPrimaryKey()
     {
