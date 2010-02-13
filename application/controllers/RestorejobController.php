@@ -22,7 +22,7 @@
  */
 
 /*
- * формат хранения данных в сессии
+ * формат хранения данных в сессии / data storage format in the session
  *
  * *** common parameters
  *
@@ -836,19 +836,16 @@ If X is numeric then length(X) returns the length of a string representation of 
     function markFileAction()
     {
         // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->disableLayout(); // disable layouts
-        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log(__METHOD__."  $fileid  $jobidhash", Zend_Log::INFO);
-            }
-
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $tmp_tables->markFile($fileid);
@@ -865,7 +862,7 @@ If X is numeric then length(X) returns the length of a string representation of 
             // возвращаем данные в javascript
             echo $json;
         } else {
-            $aout['allok']    = 0;
+            $aout['allok'] = 0;
             $json = Zend_Json::encode($aout);
             echo $json;
         }
@@ -891,9 +888,8 @@ If X is numeric then length(X) returns the length of a string representation of 
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log("unmarkFileAction()  $fileid  $jobidhash", Zend_Log::INFO);
-            }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $tmp_tables->unmarkFile($fileid);
@@ -924,42 +920,39 @@ If X is numeric then length(X) returns the length of a string representation of 
     function markDirAction()
     {
         // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->disableLayout(); // disable layouts
-        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log(__METHOD__." input value:\n$path\n$jobidhash\n", Zend_Log::INFO);
-            }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 1); // isMarked = 1
-            if ( $res ) {
-                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files'] + $res['dirs']);
-            } else {
-               $aout['msg'] =  $this->view->translate->_('internal program error !');
-            }
-           // получаем суммарную статистику
+            if ( $res )
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
+            else
+                $aout['msg'] =  $this->view->translate->_('internal program error !');
+            // получаем суммарную статистику
             $atotal = $tmp_tables->getTotalSummaryMark();
             // формируем массив для отправки назад
             $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
             $aout['total_files'] = $atotal['total_files'];
             $aout['path']        = $path;
-            $aout['allok']    	 = 1; // действия успешны
-            if ( $this->_config->debug_level >= 9 ) {
-                $this->logger->log(__METHOD__." return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
-            }
+            $aout['allok']       = 1; // действия успешны
+            if ( $this->_config->debug_level >= 9 )
+                $this->logger->log(__METHOD__." return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".
+                        $aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
             // Преобразование для возвращения клиенту
             $json = Zend_Json::encode($aout);
             // возвращаем данные в javascript
             echo $json;
         } else {
-            $aout['allok']    = 0;
+            $aout['allok'] = 0;
             $json = Zend_Json::encode($aout);
             echo $json;
         }
@@ -974,26 +967,23 @@ If X is numeric then length(X) returns the length of a string representation of 
     function unmarkDirAction()
     {
         // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->disableLayout(); // disable layouts
-        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log(__METHOD__."  $path  $jobidhash", Zend_Log::INFO);
-            }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 0); // isMarked = 0
-            if ( $res ) {
-                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs, %s files affected)"), $res['path'], $res['dirs'], $res['files']);
-           } else {
+            if ( $res )
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
+           else
                 $aout['msg'] =  $this->view->translate->_('internal program error !');
-           }
             // получаем суммарную статистику
             $atotal = $tmp_tables->getTotalSummaryMark();
             // формируем массив для отправки назад
@@ -1070,10 +1060,9 @@ If X is numeric then length(X) returns the length of a string representation of 
         $page  = ($page > 0) ? $page : 1;
         $this->view->title = $this->view->translate->_("List of Files to Restore for JobId")." ".$this->restoreNamespace->JobId;
 
-        if ( !$this->restoreNamespace->JobHash )	{
-        	$this->view->result = null;
-        }
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        if ( !$this->restoreNamespace->JobHash )
+            $this->view->result = null;
+        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
         // get total info
         $atotal = $tmp_tables->getTotalSummaryMark();
         $this->view->total_size = $atotal['total_size'];

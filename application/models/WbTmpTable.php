@@ -80,10 +80,10 @@ class WbTmpTable extends Zend_Db_Table
         }
 
         // for debug !!!
-        /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
+        Zend_Loader::loadClass('Zend_Log_Writer_Stream');
         Zend_Loader::loadClass('Zend_Log');
-        $writer = new Zend_Log_Writer_Stream('/tmp/webacula-debug.log');
-        $this->logger = new Zend_Log($writer);*/
+        $writer = new Zend_Log_Writer_Stream('/tmp/webacula_debug.log');
+        $this->logger = new Zend_Log($writer);
         //$this->logger->log("debug on", Zend_Log::DEBUG);
     }
 
@@ -115,7 +115,7 @@ class WbTmpTable extends Zend_Db_Table
      */
     function markFile($fileid)
     {
-    	$this->_db->query("UPDATE " . $this->_db->quoteIdentifier($this->tmp_file) . " SET isMarked=1 WHERE FileId=$fileid");
+        $this->_db->query("UPDATE " . $this->_db->quoteIdentifier($this->tmp_file) . " SET isMarked=1 WHERE FileId=$fileid");
     }
 
 
@@ -124,7 +124,7 @@ class WbTmpTable extends Zend_Db_Table
      */
     function unmarkFile($fileid)
     {
-    	$this->_db->query("UPDATE " . $this->_db->quoteIdentifier($this->tmp_file) . " SET isMarked=0 WHERE FileId=$fileid");
+        $this->_db->query("UPDATE " . $this->_db->quoteIdentifier($this->tmp_file) . " SET isMarked=0 WHERE FileId=$fileid");
     }
 
     /**
@@ -140,14 +140,15 @@ class WbTmpTable extends Zend_Db_Table
     {
         //$this->logger->log("markDir() input value:\n$path\n$label\n", Zend_Log::DEBUG);// !!! debug
         // проверка $label
-        if ( !is_numeric($label) ) {
+        if ( !is_numeric($label) )
             return null;
-        }
         // помечаем файлы для восстановления
         $query = "UPDATE " . $this->_db->quoteIdentifier($this->tmp_file) . " SET isMarked = $label
             WHERE FileId IN (
-            SELECT FileId FROM  File
-            WHERE Path LIKE " . $this->_db->quote($path . "%") . ")";
+            SELECT f.FileId FROM File AS f
+            INNER JOIN Path AS p
+                ON f.PathId = p.PathId
+            WHERE p.Path LIKE " . $this->_db->quote($path . "%") . ")";
         //$this->logger->log($query, Zend_Log::DEBUG);// !!! debug
         $res = $this->_db->query($query);
         unset($query);
@@ -173,9 +174,9 @@ class WbTmpTable extends Zend_Db_Table
      */
     function getFileName($fileid)
     {
-        $stmt = $this->_db->query('SELECT f.FileId, n.Name FROM ' . $this->_db->quoteIdentifier($this->tmp_file) . ' AS f, ' .
-            ' Filename AS n '.
-            ' WHERE (f.FilenameId = n.FilenameId) AND (f.FileId = ' . $fileid . ') LIMIT 1');
+        $stmt = $this->_db->query('SELECT n.Name AS name
+            FROM Filename AS n, File AS f
+            WHERE (f.FilenameId = n.FilenameId) AND (f.FileId = ' . $fileid . ') LIMIT 1');
         $res  = $stmt->fetchAll();
         return $res[0]['name'];
     }
@@ -642,22 +643,30 @@ class WbTmpTable extends Zend_Db_Table
         switch ($this->db_adapter) {
         case 'PDO_SQLITE':
             // bug http://framework.zend.com/issues/browse/ZF-884
-            $sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name
-                FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . " AS f, " .
-                ' Path AS p,
-                Filename AS n
-                WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId)
-                ORDER BY Path ASC, Name ASC
-                LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+            $sql = 'SELECT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name
+                FROM  ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . ' AS t
+                LEFT JOIN File AS f
+                    ON f.FileId=t.FileId
+                LEFT JOIN Path AS p
+                    ON f.PathId=p.PathId
+                LEFT JOIN Filename AS n
+                    ON f.FilenameId=n.FilenameId
+                WHERE (t.isMarked = 1)
+                ORDER BY p.Path ASC, n.Name ASC
+                LIMIT '. self::ROW_LIMIT_FILES .' OFFSET '. $offset;
             break;
         default: // mysql, postgresql
-            $sql = 'SELECT DISTINCT f.FileId, f.LStat, f.MD5, p.Path, n.Name
-                FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . " AS f, " .
-                ' Path AS p,
-                Filename AS n
-                WHERE (f.isMarked = 1) AND (f.PathId = p.PathId) AND (f.FileNameId = n.FileNameId)
-                ORDER BY Path ASC, Name ASC
-                LIMIT ' . self::ROW_LIMIT_FILES . ' OFFSET ' . $offset;
+            $sql = 'SELECT f.FileId, f.LStat, f.MD5, p.Path, n.Name
+                FROM  ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . ' AS t
+                LEFT JOIN File AS f
+                    ON f.FileId=t.FileId
+                LEFT JOIN Path AS p
+                    ON f.PathId=p.PathId
+                LEFT JOIN Filename AS n
+                    ON f.FilenameId=n.FilenameId
+                WHERE (t.isMarked = 1)
+                ORDER BY p.Path ASC, n.Name ASC
+                LIMIT '. self::ROW_LIMIT_FILES .' OFFSET '. $offset;
             break;
         }
         //$this->logger->log("listRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
