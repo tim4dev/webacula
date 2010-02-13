@@ -502,34 +502,27 @@ class WbTmpTable extends Zend_Db_Table
             $ares['msg'] = "Unable to write file $name";
             return $ares;
         }
-
         switch ($this->db_adapter) {
-        case 'PDO_MYSQL':
-            $sql = "SELECT f.FileId, n.Name, p.Path
-                    FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS f
-                    INNER JOIN Filename AS n
-                    INNER JOIN Path AS p
-                    WHERE
-                    (f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1)
-                    ORDER BY `Path` ASC";
-            break;
         case 'PDO_PGSQL':
-            $sql = "SELECT f.FileId, n.Name, p.Path
-                    FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS f,
-                    Filename AS n,
-                    Path AS p
-                    WHERE
-                    (f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1)
-                    ORDER BY Path ASC";
+            $sql = "SELECT n.Name, p.Path
+                FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS t,
+                File AS f,
+                Filename AS n,
+                Path AS p
+                WHERE
+                (f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1) AND (f.FileId=t.FileId)
+                ORDER BY Path ASC";
             break;
-        case 'PDO_SQLITE':
-            $sql = "SELECT f.FileId, n.Name, p.Path
-                    FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS f
-                    INNER JOIN Filename AS n
-                    INNER JOIN Path AS p
-                    WHERE
-                    (f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1)
-                    ORDER BY Path ASC";
+        //case 'PDO_MYSQL':
+        //case 'PDO_SQLITE':
+        default:
+            $sql = 'SELECT n.Name, p.Path
+                FROM  ' . $this->_db->quoteIdentifier($this->tmp_file) . ' AS t
+                INNER JOIN File AS f
+                INNER JOIN Path AS p
+                INNER JOIN Filename AS n
+                WHERE (t.isMarked = 1) AND (f.FileId=t.FileId) AND (f.PathId=p.PathId) AND (f.FilenameId=n.FilenameId)
+                ORDER BY p.Path ASC';
             break;
         }
         $stmt = $this->_db->query($sql);
@@ -544,7 +537,6 @@ class WbTmpTable extends Zend_Db_Table
         $ares['result'] = TRUE;
         $ares['msg'] = 'Export file is completed successfully';
         $ares['count'] = $i;
-
         return $ares;
     }
 
