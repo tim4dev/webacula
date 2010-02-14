@@ -777,12 +777,13 @@ If X is numeric then length(X) returns the length of a string representation of 
                 switch ($this->db_adapter) {
                     case 'PDO_SQLITE':
                         $stmt = $db->query("
-                            SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, f.isMarked as ismarked, n.Name as name, p.Path as path
-                            FROM " . $tmp_tables->getTableNameFile() . " AS f,
-                            " . $tmp_tables->getTableNameFilename()  . " AS n,
-                            " . $tmp_tables->getTableNamePath() .      " AS p
-                            WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+                            SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, t.isMarked as ismarked, n.Name as name, p.Path as path
+                            FROM " . $tmp_tables->getTableNameFile() . " AS t,
+                            Filename AS n, Path AS p, File AS f
+                            WHERE (t.FileId = f.FileId) AND
+                            (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
+                            (p.Path = '" . addslashes($curdir) . "')
+                            ORDER BY Name ASC;");
                         break;
                     default: // include mysql, postgresql
                         $stmt = $db->query("

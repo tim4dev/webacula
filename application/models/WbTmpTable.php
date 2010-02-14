@@ -103,13 +103,13 @@ class WbTmpTable extends Zend_Db_Table
                         tmpIsCloneOk SMALLINT DEFAULT 0,
                         PRIMARY KEY(tmpId))';
                 break;
-            case 'PDO_PGSQL':
-                $sql = 'CREATE TABLE wbtmptablelist (
+            case 'PDO_SQLITE':
+                $sql = 'CREATE TABLE '. $this->_name .' (
                        tmpId    INTEGER,
-                       tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
+                       tmpName  CHAR(64) UNIQUE NOT NULL,
                        tmpJobIdHash CHAR(64) NOT NULL,
                        tmpCreate   TIMESTAMP NOT NULL,
-                       tmpIsCloneOk INTEGER DEFAULT 0,··   ·   ·   ·   /* is clone bacula tables OK */
+                       tmpIsCloneOk INTEGER DEFAULT 0,
                        PRIMARY KEY(tmpId))';
                 break;
             }
@@ -541,8 +541,7 @@ class WbTmpTable extends Zend_Db_Table
                 File AS f,
                 Filename AS n,
                 Path AS p
-                WHERE
-                (f.FilenameId = n.FilenameId) AND (f.PathId = p.PathId) AND (f.isMarked = 1) AND (f.FileId=t.FileId)
+                WHERE (t.isMarked = 1) AND (f.FileId=t.FileId) AND (f.PathId=p.PathId) AND (f.FilenameId=n.FilenameId)
                 ORDER BY Path ASC";
             break;
         //case 'PDO_MYSQL':

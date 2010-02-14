@@ -65,10 +65,6 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		// проверяем кол-во
 		$res = $this->WbTmpTable->getCountFile();
 		$this->assertTrue($res == 1208, __FUNCTION__." failed (count files = $res)");
-		$res = $this->WbTmpTable->getCountFileName();
-		$this->assertTrue($res == 1201, __FUNCTION__." failed (count file names = $res)");
-		$res = $this->WbTmpTable->getCountPath();
-		$this->assertTrue($res == 8, __FUNCTION__." failed (count paths = $res)");
 	}
 
 	/**
@@ -166,10 +162,6 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		// проверяем кол-во файлов и т.д.
 		$res = $this->WbTmpTableRecent->getCountFile();
 		$this->assertTrue($res == 1211, __FUNCTION__." failed (count files = $res)");
-		$res = $this->WbTmpTableRecent->getCountFileName();
-		$this->assertTrue($res == 1204, __FUNCTION__." failed (count file names = $res)");
-		$res = $this->WbTmpTableRecent->getCountPath();
-		$this->assertTrue($res == 8, __FUNCTION__." failed (count paths = $res)");
 		// удаление временных таблиц
 		$this->WbTmpTableRecent->deleteAllTmpTables();
 		// проверяем удаление
@@ -213,10 +205,6 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 		// проверяем кол-во файлов и т.д.
 		$res = $this->WbTmpTableRecent->getCountFile();
 		$this->assertTrue($res == 1211, __FUNCTION__." failed (count files = $res)");
-		$res = $this->WbTmpTableRecent->getCountFileName();
-		$this->assertTrue($res == 1204, __FUNCTION__." failed (count file names = $res)");
-		$res = $this->WbTmpTableRecent->getCountPath();
-		$this->assertTrue($res == 8, __FUNCTION__." failed (count paths = $res)");
 		// удаление временных таблиц
 		$this->WbTmpTableRecent->deleteAllTmpTables();
 		// проверяем удаление
