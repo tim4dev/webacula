@@ -68,17 +68,7 @@ class WbTmpTable extends Zend_Db_Table
 
         // setup DB adapter
         $this->_db = Zend_Db_Table::getAdapter('db_bacula');
-        switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $this->_db->query('SET NAMES utf8');
-                $this->_db->query('SET CHARACTER SET utf8');
-                break;
-            case 'PDO_PGSQL':
-                $this->_db->query("SET NAMES 'UTF8'");
-                break;
-        }
-
-    // существует ли таблица ?
+        // существует ли таблица ?
         try {
             $this->_db->query('SELECT tmpId FROM '. $this->_name .' LIMIT 1');
         } catch (Zend_Exception $e) {
@@ -87,10 +77,10 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_MYSQL':
                 $sql = 'CREATE TABLE '. $this->_name .' (
                         tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-                        tmpName  CHAR(64) UNIQUE NOT NULL,      /* name temporary table */
+                        tmpName  CHAR(64) UNIQUE NOT NULL,      
                         tmpJobIdHash CHAR(64) NOT NULL,
                         tmpCreate   TIMESTAMP NOT NULL,
-                        tmpIsCloneOk INTEGER DEFAULT 0,         /* is clone bacula tables OK */
+                        tmpIsCloneOk INTEGER DEFAULT 0,
                         PRIMARY KEY(tmpId)
                         ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM; ';
                 break;
@@ -115,12 +105,11 @@ class WbTmpTable extends Zend_Db_Table
             }
             $this->_db->query($sql);
         }
-
         // for debug !!!
-        Zend_Loader::loadClass('Zend_Log_Writer_Stream');
+        /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
         Zend_Loader::loadClass('Zend_Log');
         $writer = new Zend_Log_Writer_Stream('/tmp/webacula_debug.log');
-        $this->logger = new Zend_Log($writer);
+        $this->logger = new Zend_Log($writer);*/
         //$this->logger->log("debug on", Zend_Log::DEBUG);
     }
 
@@ -175,12 +164,12 @@ class WbTmpTable extends Zend_Db_Table
         if ( !is_numeric($label) )
             return null;
         // помечаем файлы для восстановления
-        $query = "UPDATE " . $this->_db->quoteIdentifier($this->tmp_file) . " SET isMarked = $label
-            WHERE FileId IN (
+        $query = 'UPDATE '. $this->_db->quoteIdentifier($this->tmp_file) .' SET isMarked = '.$label.
+            ' WHERE FileId IN (
             SELECT f.FileId FROM File AS f
             INNER JOIN Path AS p
                 ON f.PathId = p.PathId
-            WHERE p.Path LIKE " . $this->_db->quote($path . "%") . ")";
+            WHERE p.Path LIKE ' . $this->_db->quote($path.'%') . ')';
         //$this->logger->log($query, Zend_Log::DEBUG);// !!! debug
         $res = $this->_db->query($query);
         unset($query);

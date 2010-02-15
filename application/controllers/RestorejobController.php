@@ -703,16 +703,6 @@ EOF"
      */
     function drawFileTreeAction()
     {
-        /*
-         http://www.postgresql.org/docs/current/static/functions-string.html
-         функция длины строки для mysql и postgresql одинакова:
-char_length(string)
-
-         http://www.sqlite.org/lang_corefunc.html
-length(X)    The length(X) function returns the length of X in characters if X is a string,
-or in bytes if X is a blob. If X is NULL then length(X) is NULL.
-If X is numeric then length(X) returns the length of a string representation of X.
-         */
         // session expired ?
         if ( !isset($this->restoreNamespace->isSessionExist) ) {
             echo $this->renderScript('restorejob/msg02session.phtml');
@@ -726,7 +716,6 @@ If X is numeric then length(X) returns the length of a string representation of 
             //************ get a list of all directories + LStat (получаем список всех каталогов + их атрибуты LStat) ******
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
-
             // $this->_db->quote();
             $stmt = $db->query("
                 SELECT p.Path, t.isMarked, f.FileId, f.PathId, f.LStat
@@ -768,39 +757,47 @@ If X is numeric then length(X) returns the length of a string representation of 
                 }
             }
             unset($stmt);
+            unset($db);
             //****** получаем список файлов в текущем каталоге ******
             $afile = array();
             if ( $curdir )	{
                 $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
                 $db = $tmp_tables->getDb();
-                // unused ? $db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
+                $select = $db->select();
                 switch ($this->db_adapter) {
                     case 'PDO_SQLITE':
-                        $stmt = $db->query("
-                            SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, t.isMarked as ismarked, n.Name as name, p.Path as path
-                            FROM " . $tmp_tables->getTableNameFile() . " AS t,
+                        $sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, t.isMarked as ismarked, n.Name as name, p.Path as path
+                            FROM ' . $tmp_tables->getTableNameFile() .' AS t,
                             Filename AS n, Path AS p, File AS f
                             WHERE (t.FileId = f.FileId) AND
                             (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '" . addslashes($curdir) . "')
-                            ORDER BY Name ASC;");
+                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')". 
+                            ' ORDER BY Name ASC';
                         break;
                     default: // include mysql, postgresql
-                        $stmt = $db->query("
-                            SELECT DISTINCT f.FileId, f.LStat, f.PathId, t.isMarked, n.Name, p.Path
-                            FROM " . $tmp_tables->getTableNameFile() . " AS t,
+                        $sql = 'SELECT DISTINCT f.FileId, f.LStat, f.PathId, t.isMarked, n.Name, p.Path
+                            FROM ' . $tmp_tables->getTableNameFile() .' AS t,
                             Filename AS n, Path AS p, File AS f
                             WHERE (t.FileId = f.FileId) AND
                             (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '" . addslashes($curdir) . "')
-                            ORDER BY Name ASC;");
+                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')". 
+                            ' ORDER BY Name ASC';
+/*                        $select->distinct(); 
+                        $select->from(array('t' => $tmp_tables->getTableNameFile()), 'isMarked');
+                        $select->from(array('n' => 'Filename'), array('Name'));
+                        $select->from(array('p' => 'Path'), array('Path'));
+                        $select->from(array('f' => 'File'), array('FileId', 'LStat', 'PathId'));
+                        $select->where('t.FileId = f.FileId');
+                        $select->where('f.FileNameId = n.FileNameId');
+                        $select->where('f.PathId = p.PathId');
+                        $select->where("n.Name != ''");
+                        $select->where("p.Path = ?", $curdir);
+                        $select->order('Name ASC');*/
                         break;
                 }
-                $result = $stmt->fetchAll();
-
-                // получаем список файлов
-                foreach($result as $line)	{
-                    $file = $line['name'];
+                $stmt = $db->query($sql);
+                while($line = $stmt->fetch())   {
+                    $file = $line['name'];                    
                     $afile[$file]['fileid']   = $line['fileid'];
                     $afile[$file]['pathid']   = $line['pathid'];
                     $afile[$file]['lstat']    = $line['lstat'];
