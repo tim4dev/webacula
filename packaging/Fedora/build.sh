@@ -45,6 +45,7 @@ cd ${SRC_DIR}
 mkdir -p "${RPM_TMP}/webacula-${VERSION}"
 
 echo "library/Zend
+library/Zend.arc
 library/runme
 library/Zend*.tar.gz
 packaging
