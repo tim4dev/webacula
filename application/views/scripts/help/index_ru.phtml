@@ -20,11 +20,20 @@ Webacula</a>
 <p>&nbsp;</p>
 <h1>Информация</h1>
 <p>
-<ul>
-    <li>БД Bacula   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></li>
-    <li>БД Webacula : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula; ?></li>
-    <li>Zend Framework : <?php echo $this->zend_version; ?></li>
-    <li>Locale : <?php echo $this->locale; ?></li>
-    <li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">php info</a> (в отдельном окне)</li>
-    <li><a href="<?php echo $this->baseUrl, '/help/my-id/' ?>" target="_blank">id</a> (в отдельном окне)</li>
-</ul>
+<table id="box-table-one-column" border="0" width="100%">
+    <colgroup><col class="col-first"></colgroup>
+    <colgroup><col style="width: 30em;"></colgroup>
+    <thead>
+    </thead>
+    <tbody>
+<tr><td>БД Bacula </td><td> <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></td><tr>
+<tr><td>Версия БД Каталога Bacula </td><td> <?php echo $this->catalog_version_bacula; ?></td><tr>
+<tr><td>Директор Bacula </td><td> <?php echo $this->director_version; ?></td><tr>
+<tr><td>Bconsole </td><td> <?php echo $this->bconsole_version; ?></td><tr>
+<tr><td>БД Webacula </td><td> <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula; ?></td><tr>
+<tr><td>Zend Framework </td><td> <?php echo $this->zend_version; ?></td><tr>
+<tr><td>Locale </td><td> <?php echo $this->locale; ?></td><tr>
+<tr><td>PHP info</td><td><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">в отдельном окне</a></td><tr>
+<tr><td>id</td><td><?php system('id');?></td><tr>
+    </tbody>
+</table>

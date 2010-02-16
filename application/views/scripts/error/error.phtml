@@ -15,11 +15,15 @@
 
 <h2>System Information:</h2>
 <ul>
-<li></>Webacula version   : <?php echo Zend_Registry::get('webacula_version'), "\n"; ?></li>
-<li>Webacula Database : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula, "\n"; ?></li>
-<li>Bacula Database   : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula, "\n"; ?></li>
+<li>DB Bacula : <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula, "\n"; ?></li>
+<li>Version for Bacula Catalog database : <?php echo $this->catalog_version_bacula; ?></li>
+<li>Director : <?php echo $this->director_version; ?></li>
+<li>Bconsole : <?php echo $this->bconsole_version; ?></li>
+<li>Webacula version   : <?php echo Zend_Registry::get('webacula_version'), "\n"; ?></li>
+<li>DB Webacula : <?php echo $this->db_adapter_webacula, " ", $this->db_server_version_webacula, "\n"; ?></li>
 <li>Zend Framework : <?php echo $this->zend_version, "\n"; ?></li>
 <li><a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank">PHP</a> : <?php echo phpversion(), "\n"; ?></li>
+<li>id : <?php system('id');?></li>
 </ul>
 
 <h2><?php echo $this->translate->_('What to do next?'); ?></h2>

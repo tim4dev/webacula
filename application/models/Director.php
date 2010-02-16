@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,11 +62,30 @@ class Director
 
 	public function isFoundBconsole()
 	{
-		if ( file_exists($this->bconsole))	{
-    		return TRUE;
-		} else {
-			return FALSE;
-		}
+		return file_exists($this->bconsole);
+	}
+
+    public function getDirectorVersion()
+	{
+        $res = $this->execDirector(' <<EOF
+version
+EOF');
+        //preg_match('/.*[0-9]+\.[0-9]+\.[0-9]+.*/', $res['command_output'][4], $ver);
+        if ( isset ($res['command_output'][4]))
+            return $res['command_output'][4];
+        else
+            return FALSE;
+	}
+
+    public function getBconsoleVersion()
+	{
+        $res = $this->execDirector(' <<EOF
+@version
+EOF');
+        if ( isset ($res['command_output'][4]))
+            return $res['command_output'][4];
+        else
+            return FALSE;
 	}
 
 }

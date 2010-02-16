@@ -18,7 +18,8 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.0' . ', build 2010.02.15');
+define('WEBACULA_VERSION', '5.0' . ', build 2010.02.16');
+define('BACULA_VERSION', 12);
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 
@@ -55,6 +56,7 @@ Zend_Loader::loadClass('Zend_Layout');
 Zend_Loader::loadClass('MyClass_ControllerAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
+Zend_Loader::loadClass('Version');
 
 // load configuration
 $config = new Zend_Config_Ini('../application/config.ini', 'general');
@@ -76,6 +78,7 @@ else {
 }
 
 // set self version
+Zend_Registry::set('bacula_version',   BACULA_VERSION);
 Zend_Registry::set('webacula_version', WEBACULA_VERSION);
 
 // set global const
@@ -170,8 +173,16 @@ try {
 } catch (Zend_Db_Adapter_Exception $e) {
     echo '<pre>';
     // возможно СУБД не запущена
-    //throw new Zend_Exception("Fatal error: Can't connect to SQL server");
+    throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
+// check Bacula Catalog version
+$ver = new Version();
+if ( !$ver->checkVesion(BACULA_VERSION) )   {
+    echo '<pre>';
+    throw new Zend_Exception("Version error for Catalog database (wanted ".BACULA_VERSION.",".
+            " got ". $ver->getVesion().") ");
+}
+
 
 // http://framework.zend.com/manual/ru/zend.session.advancedusage.html
 // disables automatic starting of Zend_Session when using new Zend_Session_Namespace()

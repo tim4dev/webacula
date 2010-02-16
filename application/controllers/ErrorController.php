@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +43,13 @@ class ErrorController extends MyClass_ControllerAction
         $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
         $db_webacula = Zend_Registry::get('db_webacula');
         $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
+
+        $ver = new Version();
+        $this->view->catalog_version_bacula = $ver->getVesion();
+        Zend_Loader::loadClass('Director');
+        $dir = new Director();
+        $this->view->director_version = $dir->getDirectorVersion();
+        $this->view->bconsole_version = $dir->getBconsoleVersion();
 
         switch ($errors->type) {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:

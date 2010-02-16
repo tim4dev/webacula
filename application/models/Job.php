@@ -67,11 +67,10 @@ class Job extends Zend_Db_Table
     	$select->where("JobId = ?", $jobid);
     	$select->limit(1);
     	$res = $this->db->fetchOne($select);
-		if ( $res )	{
-			return TRUE;
-		} else {
-			return FALSE;
-		}
+		if ( $res )
+            return TRUE;
+		else
+            return FALSE;
 	}
 
 
@@ -1010,7 +1009,6 @@ Select Job resource (1-3):
 		$select->where("j.Type = 'B'");
    		$select->order(array("sortStartTime DESC"));
    		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!DEBUG!!!
-
    		$stmt = $select->query();
         return $stmt->fetchAll();
     }
