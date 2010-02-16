@@ -33,7 +33,8 @@ grant all on location	  to ${db_user};
 grant all on locationlog  to ${db_user};
 grant all on log	  to ${db_user};
 grant all on jobhisto	  to ${db_user};
-
+grant all on PathHierarchy  to ${db_user};
+grant all on PathVisibility to ${db_user};
 -- for sequences on those tables
 
 grant select, update on filename_filenameid_seq    to ${db_user};

@@ -1,6 +1,6 @@
 <?php
  /*
- * Script for copy all data from MySQL Bacula v.3.0 DB into PostgreSQL Bacula v.3.0 DB
+ * Script for copy all data from MySQL Bacula v.5.x into PostgreSQL Bacula v.5.x DB
  * begin: 2007.01.03
  *
  * $Id$
@@ -24,10 +24,11 @@ $tables = array(
     'Device',
     'Storage',
     'MediaType',
-//    'Status',
     'Log',
     'Location',
-    'LocationLog'
+    'LocationLog',
+    'PathHierarchy',
+    'PathVisibility'
 );
 
 

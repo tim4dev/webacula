@@ -55,14 +55,10 @@ CREATE TABLE IF NOT EXISTS wbVersion (
    versionId INTEGER UNSIGNED NOT NULL
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM;
 
-INSERT INTO wbVersion (versionId) VALUES (3);
+INSERT INTO wbVersion (versionId) VALUES (5);
 
 
 /* list of temporary tables */
-DROP TABLE IF EXISTS wbTmpTable;
-DROP TABLE IF EXISTS wbTmpTableList;
-DROP TABLE IF EXISTS wbtmptablelist; 
-
 CREATE TABLE wbtmptablelist (
         tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
         tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */

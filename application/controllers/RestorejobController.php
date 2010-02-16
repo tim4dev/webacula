@@ -22,7 +22,7 @@
  */
 
 /*
- * формат хранения данных в сессии
+ * формат хранения данных в сессии / data storage format in the session
  *
  * *** common parameters
  *
@@ -58,7 +58,7 @@ class RestorejobController extends MyClass_ControllerAction
     // for pager
     const ROW_LIMIT_FILES = 500;
     // for names of tmp tables (для формирования имен временных таблиц)
-    const _PREFIX = '_'; // только в нижнем регистре
+    const _PREFIX = 'webacula_'; // только в нижнем регистре
 
     public $db_adapter;
 
@@ -698,7 +698,7 @@ EOF"
      * Главная функция по отрисовке дерева каталогов
      *
      * @param string jobidhash
-     * @param string curdir
+     * @param string curdir     если это начало отрисовки, то $curdir = ''
      *
      */
     function drawFileTreeAction()
@@ -708,45 +708,47 @@ EOF"
             echo $this->renderScript('restorejob/msg02session.phtml');
             return;
         }
-        $curdir  = stripslashes( $this->_request->getParam('curdir', '') );
+        $curdir  = stripslashes( $this->_request->getParam('curdir', '') );  // Un-quotes a quoted string
         $this->view->title = $this->view->translate->_("Restore Job");
 
         $adir = array();
-        if ( $this->restoreNamespace->JobHash )	{
-
+        if ( $this->restoreNamespace->JobHash )    {
             //************ get a list of all directories + LStat (получаем список всех каталогов + их атрибуты LStat) ******
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
+            // $this->_db->quote();
             $stmt = $db->query("
-                SELECT p.Path, p.isMarked, f.FileId, f.PathId, f.LStat
-                FROM " . $tmp_tables->getTableNamePath() . " AS p
-                LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS f
-                ON f.PathId = p.PathId WHERE (f.MD5 = '0') ORDER BY p.PathId ASC
+                SELECT p.Path, t.isMarked, f.FileId, f.PathId, f.LStat
+                FROM Path AS p
+                INNER JOIN File AS f
+                    ON f.PathId = p.PathId
+                INNER JOIN " . $tmp_tables->getTableNameFile() . " AS t
+                    ON t.FileId = f.FileId
+                WHERE (f.MD5 = '0')
+                ORDER BY p.Path
             ");
-            $result = $stmt->fetchAll();
-
             // get a list of directories on the current (получаем список каталогов относительно текущего)
-            foreach($result as $line)	{
-                if ( !empty($curdir) ) {
-                    $pos = strpos($line['path'], $curdir);
-                } else {
+            while($line = $stmt->fetch())   {
+                if ( empty($curdir) ) {
                     $pos = 0;
-                    if ( $line['path'][0] == '/') $curdir = '/'; // linux path
+                    if ( $line['path'][0] == '/') $curdir = '/'; // unix path
                     //elseif ( $line['path'][1] === ':') $curdir = $line['path'][0] . ':/'; // windows path
-                }
+                } else
+                    $pos = strpos($line['path'], $curdir);
                 // найден текущий каталог
-                if ( $pos === 0 )	{
+                if ( $pos === 0 )   {
                     // удаляем текущий каталог из полного пути
                     $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
-
                     // если есть еще подкаталоги
                     if ( !empty($nextdir) ) {
                         // получаем следующий уровень подкаталога
                         $atmp = explode("/", $nextdir, 3);
                         $dir = $atmp[0];
-
                         if ( !empty($dir) ) {
-                            $adir[$dir]['lstat']    = $line['lstat'];
+                            if (isset($atmp[2]))
+                                $adir[$dir]['lstat'] = '';  // данных LStat нет, это просто часть пути
+                            else
+                                $adir[$dir]['lstat'] = $line['lstat']; // точное совпадение, зн. есть данные об LStat
                             $adir[$dir]['pathid']   = $line['pathid'];
                             $adir[$dir]['dir']      = $dir;
                             $adir[$dir]['ismarked'] = $line['ismarked'];
@@ -755,82 +757,47 @@ EOF"
                 }
             }
             unset($stmt);
-            //echo "<pre>"; print_r($curdir); echo "</pre><br>";  // for !!!debug!!!
-            //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-
-            // теперь необходимо получить список каталогов, данные LStat о которых не хранятся в таблице File
-            // так бывает если, например, в FileSet заданы конкретные имена файлов
-            $stmt = $db->query("SELECT PathId, Path, isMarked
-                    FROM " . $tmp_tables->getTableNamePath() . " AS n
-                    WHERE n.PathId NOT IN
-                        (SELECT p.PathId FROM " . $tmp_tables->getTableNamePath() . " AS p
-                        LEFT JOIN " . $tmp_tables->getTableNameFile() . " AS f ON f.PathId = p.PathId WHERE (f.MD5 = '0'))");
-            $result = $stmt->fetchAll();
-
-            // get a list of directories on the current (получаем список каталогов относительно текущего)
-            foreach($result as $line)	{
-                if ( !empty($curdir) ) {
-                    $pos = strpos($line['path'], $curdir);
-                } else {
-                    $pos = 0;
-                    if ( $line['path'][0] == '/') $curdir = '/'; // linux path
-                    //elseif ( $line['path'][1] === ':') $curdir = $line['path'][0] . ':/'; // windows path
-                }
-                // найден текущий каталог
-                if ( $pos === 0 )	{
-                    // удаляем текущий каталог из полного пути
-                    $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
-
-                    // если есть еще подкаталоги
-                    if ( !empty($nextdir) ) {
-                        // получаем следующий уровень подкаталога
-                        $atmp = explode("/", $nextdir, 3);
-                        $dir = $atmp[0];
-
-                        if ( !empty($dir) ) {
-                            $adir[$dir]['lstat']    = '';
-                            $adir[$dir]['pathid']   = $line['pathid'];
-                            $adir[$dir]['dir']      = $dir;
-                            $adir[$dir]['ismarked'] = $line['ismarked'];
-                        }
-                    }
-                }
-            }
-            unset($stmt);
-            //echo "<pre>"; print_r($curdir); echo "</pre><br>";  // for !!!debug!!!
-            //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-
+            unset($db);
             //****** получаем список файлов в текущем каталоге ******
             $afile = array();
             if ( $curdir )	{
                 $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
                 $db = $tmp_tables->getDb();
-                // unused ? $db_adapter = Zend_Registry::get('DB_ADAPTER_WEBACULA');
+                $select = $db->select();
                 switch ($this->db_adapter) {
                     case 'PDO_SQLITE':
-                        $stmt = $db->query("
-                            SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, f.isMarked as ismarked, n.Name as name, p.Path as path
-                            FROM " . $tmp_tables->getTableNameFile() . " AS f,
-                            " . $tmp_tables->getTableNameFilename()  . " AS n,
-                            " . $tmp_tables->getTableNamePath() .      " AS p
-                            WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+                        $sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, t.isMarked as ismarked, n.Name as name, p.Path as path
+                            FROM ' . $tmp_tables->getTableNameFile() .' AS t,
+                            Filename AS n, Path AS p, File AS f
+                            WHERE (t.FileId = f.FileId) AND
+                            (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
+                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')". 
+                            ' ORDER BY Name ASC';
                         break;
                     default: // include mysql, postgresql
-                        $stmt = $db->query("
-                            SELECT DISTINCT f.FileId, f.LStat, f.PathId, f.isMarked, n.Name, p.Path
-                            FROM " . $tmp_tables->getTableNameFile() . " AS f,
-                            " . $tmp_tables->getTableNameFilename()  . " AS n,
-                            " . $tmp_tables->getTableNamePath() .      " AS p
-                            WHERE (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '" . addslashes($curdir) . "') ORDER BY Name ASC;");
+                        $sql = 'SELECT DISTINCT f.FileId, f.LStat, f.PathId, t.isMarked, n.Name, p.Path
+                            FROM ' . $tmp_tables->getTableNameFile() .' AS t,
+                            Filename AS n, Path AS p, File AS f
+                            WHERE (t.FileId = f.FileId) AND
+                            (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
+                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')". 
+                            ' ORDER BY Name ASC';
+/*                        $select->distinct(); 
+                        $select->from(array('t' => $tmp_tables->getTableNameFile()), 'isMarked');
+                        $select->from(array('n' => 'Filename'), array('Name'));
+                        $select->from(array('p' => 'Path'), array('Path'));
+                        $select->from(array('f' => 'File'), array('FileId', 'LStat', 'PathId'));
+                        $select->where('t.FileId = f.FileId');
+                        $select->where('f.FileNameId = n.FileNameId');
+                        $select->where('f.PathId = p.PathId');
+                        $select->where("n.Name != ''");
+                        $select->where("p.Path = ?", $curdir);
+                        $select->order('Name ASC');*/
                         break;
                 }
-                $result = $stmt->fetchAll();
-
-                // получаем список файлов
-                foreach($result as $line)	{
-                    $file = $line['name'];
+                $stmt = $db->query($sql);
+                while($line = $stmt->fetch())   {
+                    $file = $line['name'];                    
                     $afile[$file]['fileid']   = $line['fileid'];
                     $afile[$file]['pathid']   = $line['pathid'];
                     $afile[$file]['lstat']    = $line['lstat'];
@@ -838,21 +805,15 @@ EOF"
                 }
                 unset($stmt);
             }
-            //echo "<pre>"; print_r($adir); echo "</pre><br>";  // for !!!debug!!!
-            //echo "<pre>"; print_r($afile); echo "</pre>"; exit; // for !!!debug!!!
-
             $this->view->adir   = $adir;
             $this->view->afile  = $afile;
             $this->view->curdir = $curdir;
             $this->view->jobidhash = $this->restoreNamespace->JobHash;
-
             // получаем суммарную статистику
             $atotal = $tmp_tables->getTotalSummaryMark();
             $this->view->total_size  = $atotal['total_size'];
             $this->view->total_files = $atotal['total_files'];
-
             $this->view->type_restore = $this->restoreNamespace->typeRestore;
-
             $this->render();
         }
         else {
@@ -873,19 +834,16 @@ EOF"
     function markFileAction()
     {
         // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->disableLayout(); // disable layouts
-        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log(__METHOD__."  $fileid  $jobidhash", Zend_Log::INFO);
-            }
-
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $tmp_tables->markFile($fileid);
@@ -902,7 +860,7 @@ EOF"
             // возвращаем данные в javascript
             echo $json;
         } else {
-            $aout['allok']    = 0;
+            $aout['allok'] = 0;
             $json = Zend_Json::encode($aout);
             echo $json;
         }
@@ -928,9 +886,8 @@ EOF"
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log("unmarkFileAction()  $fileid  $jobidhash", Zend_Log::INFO);
-            }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $tmp_tables->unmarkFile($fileid);
@@ -961,42 +918,39 @@ EOF"
     function markDirAction()
     {
         // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->disableLayout(); // disable layouts
-        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log(__METHOD__." input value:\n$path\n$jobidhash\n", Zend_Log::INFO);
-            }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 1); // isMarked = 1
-            if ( $res ) {
-                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files'] + $res['dirs']);
-            } else {
-               $aout['msg'] =  $this->view->translate->_('internal program error !');
-            }
-           // получаем суммарную статистику
+            if ( $res )
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
+            else
+                $aout['msg'] =  $this->view->translate->_('internal program error !');
+            // получаем суммарную статистику
             $atotal = $tmp_tables->getTotalSummaryMark();
             // формируем массив для отправки назад
             $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
             $aout['total_files'] = $atotal['total_files'];
             $aout['path']        = $path;
-            $aout['allok']    	 = 1; // действия успешны
-            if ( $this->_config->debug_level >= 9 ) {
-                $this->logger->log(__METHOD__." return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".$aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
-            }
+            $aout['allok']       = 1; // действия успешны
+            if ( $this->_config->debug_level >= 9 )
+                $this->logger->log(__METHOD__." return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".
+                        $aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
             // Преобразование для возвращения клиенту
             $json = Zend_Json::encode($aout);
             // возвращаем данные в javascript
             echo $json;
         } else {
-            $aout['allok']    = 0;
+            $aout['allok'] = 0;
             $json = Zend_Json::encode($aout);
             echo $json;
         }
@@ -1011,26 +965,23 @@ EOF"
     function unmarkDirAction()
     {
         // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->disableLayout(); // disable layouts
-        }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
             // Получение значения
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 ) {
+            if ( $this->_config->debug_level >= 9 )
                 $this->logger->log(__METHOD__."  $path  $jobidhash", Zend_Log::INFO);
-            }
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 0); // isMarked = 0
-            if ( $res ) {
-                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs, %s files affected)"), $res['path'], $res['dirs'], $res['files']);
-           } else {
+            if ( $res )
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
+           else
                 $aout['msg'] =  $this->view->translate->_('internal program error !');
-           }
             // получаем суммарную статистику
             $atotal = $tmp_tables->getTotalSummaryMark();
             // формируем массив для отправки назад
@@ -1107,10 +1058,9 @@ EOF"
         $page  = ($page > 0) ? $page : 1;
         $this->view->title = $this->view->translate->_("List of Files to Restore for JobId")." ".$this->restoreNamespace->JobId;
 
-        if ( !$this->restoreNamespace->JobHash )	{
-        	$this->view->result = null;
-        }
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        if ( !$this->restoreNamespace->JobHash )
+            $this->view->result = null;
+        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
         // get total info
         $atotal = $tmp_tables->getTotalSummaryMark();
         $this->view->total_size = $atotal['total_size'];
@@ -1446,7 +1396,7 @@ EOF"
         Zend_Loader::loadClass('Job');
         $job = new Job();
         $this->view->file = $job->getByFileId($fileid);
-        
+
         if (isset($this->view->file))
             $this->view->client_name    = $clients->getClientName($this->view->file[0]['jobid']);
         else
