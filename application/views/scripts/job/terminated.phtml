@@ -51,19 +51,11 @@
             }
         ?>
     </td>
-	<td>
-        <?php
-            if ( isset($line['poolid'], $line['poolname']) )    {
-                // name job
-                echo '<a href="';
-                echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
-                echo '" title="', $this->translate->_("Detail Job"), '">';
-            }
-            echo $line['jobid'];
-            if ( isset($line['poolid'], $line['poolname']) )	{
-                echo '</a>';
-            }
-        ?>
+    <td>
+        <a href="<?php echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']); ?>"
+            title="<?php echo $this->translate->_("Detail Job"); ?>">
+            <?php echo $line['jobid']; ?>
+        </a>
     </td>
 
     <!-- Job.Name -->

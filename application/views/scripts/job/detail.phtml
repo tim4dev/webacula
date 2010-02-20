@@ -98,19 +98,24 @@
 </tr><tr>
 	<td> <?php print $this->translate->_("Duration"); ?> </td>
 	<td><?php echo $this->escape($line['durationtime']);?></td>
-</tr><tr>
-	<td> <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
-		"/name/" . $this->escape($line['poolname']);?>"> <?php print $this->translate->_("Pool"); ?> </a>
-	</td>
-	<td>
-	<a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
-		"/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Pool"); ?>">
-		<?php echo $this->escape($line['poolname']);?></a>
-	</td>
-</tr><tr>
+</tr>
 
+<?php if (!empty($line['poolname']) && ($line['poolid'] > 0) ) : ?>
+<tr>
+    <td> <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
+        "/name/" . $this->escape($line['poolname']);?>"> <?php print $this->translate->_("Pool"); ?> </a>
+    </td>
     <td>
-    <?php if ($line['purgedfiles']) : ?>
+    <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
+        "/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Pool"); ?>">
+        <?php echo $this->escape($line['poolname']);?></a>
+    </td>
+</tr>
+<?php endif; ?>
+
+<tr>
+    <td>
+    <?php if ($line['purgedfiles'] || ($line['type'] == 'R')) : ?>
         <?php print $this->translate->_("Number of files"); ?>
     <?php else : ?>
         <a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
@@ -144,22 +149,26 @@
 		else
 			echo '<td class="err">' . $this->escape($line['joberrors']) . '</td>';
 	?>
-</tr><tr>
-	<td> <?php print $this->translate->_("Volume(s)"); ?> </td>
-	<td>
-		<?php
-			if ($this->resultVol)	{
-				foreach($this->resultVol as $line2)	{
-                    echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '" ',
-                        ' title="', $this->translate->_("Detail Volume"), '">',
-                        $this->escape($line2['volumename']), '</a><br>';
-				}
-			}
-			else
-				echo $this->translate->_("No Volumes found.");
-		?>
-	</td>
 </tr>
+
+<?php if ($line['poolid'] > 0) : ?>
+<tr>
+<td> <?php print $this->translate->_("Volume(s)"); ?> </td>
+<td>
+    <?php
+        if ($this->resultVol)   {
+            foreach($this->resultVol as $line2)     {
+                echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '" ',
+                    ' title="', $this->translate->_("Detail Volume"), '">',
+                    $this->escape($line2['volumename']), '</a><br>';
+            }
+        } else
+            echo $this->translate->_("No Volumes found.");
+    ?>
+</td>
+</tr>
+<?php endif; ?>
+
 <?php endforeach; ?>
 <tbody>
 </table>
