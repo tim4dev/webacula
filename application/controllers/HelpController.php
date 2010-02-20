@@ -19,7 +19,6 @@
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
- * $Id: HelpController.php 398 2009-08-13 23:07:32Z tim4dev $
  */
 
 require_once 'Zend/Controller/Action.php';
@@ -52,6 +51,8 @@ class HelpController extends MyClass_ControllerAction
         $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
         $db_webacula = Zend_Registry::get('db_webacula');
         $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
+
+        Zend_Loader::loadClass('Version');
         $ver = new Version();
         $this->view->catalog_version_bacula = $ver->getVesion();
 
