@@ -109,18 +109,28 @@
 		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
 	?>
 
-	<!-- Errors -->
-	<?php
-		if ( $line['joberrors'] == 0 )
-			echo '<td align="center">-</td>';
-		else  {
-		    echo '<td class="err" align="right">',
-		         '<a href="',
-			     $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
-			     $this->translate->_("View Messages"), '" class="lerr">',
-			     $this->escape($line['joberrors']), '</a></td>';
-		}
-	?>
+<!-- Errors -->
+<?php
+    if ( $line['joberrors'] == 0 )
+        echo '<td align="center">-</td>';
+    else  {
+        if ( $line['reviewed'] > 0 )  {
+            // reviewed icon
+            echo '<td align="right">';
+            echo '<img src="', $this->baseUrl, '/images/dialog-ok-apply.png" ',
+                ' alt="', $this->translate->_("Bacula Job Reviewed"),'"',
+                ' title="', $this->translate->_("Bacula Job Reviewed"),'"',
+                ' border="0" hspace="4">';
+        } else
+            echo '<td class="err" align="right">';
+        echo '<a href="',
+            $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
+            $this->translate->_("View Messages"), '"';
+        if ( $line['reviewed'] == 0 )
+            echo ' class="linkerr" ';
+        echo '>', $this->escape($line['joberrors']), '</a></td>';
+    }
+?>
 
 	<td><?php echo $line['clientname'];?></td>
 

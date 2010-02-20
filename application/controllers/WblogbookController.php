@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * This file is part of Webacula.
  *
@@ -264,6 +264,49 @@ class WblogbookController extends MyClass_ControllerAction
     }
 
 
+    /*
+     * Update Bacula tables:
+     * set Reviewed = 1 in Job table
+     * and insert new record into Log table
+     */
+    function myJobReviewed($jobid, $msg='')
+    {
+        Zend_Loader::loadClass('Job');
+        Zend_Loader::loadClass('Log');
+        if ($jobid <= 0)
+            return;
+        if (empty($msg))
+            $msg = $this->view->translate->_('Bacula Job Reviewed');
+        // change Job table
+        $table = new Job();
+        $data = array(
+            'Reviewed' => 1,
+            'Comment'  => $msg
+        );
+        $where = $table->getAdapter()->quoteInto('JobId = ?', $jobid);
+        $res = $table->update($data, $where);
+        if ( $res ) {
+            $email = new MyClass_SendEmail();
+            $email->mySendEmail(
+                $this->config_webacula->email->from,
+                $this->config_webacula->email->to_admin,
+                $this->view->translate->_('JobId :') ." ". $jobid ."\n". $msg,
+                $this->view->translate->_('Bacula Job Reviewed')
+            );
+        }
+        unset($table);
+        // add record in Log table
+        $table = new Log();
+        $data = array(
+            'JobId' => $jobid,
+            'Time' => date("Y-m-d H:i:s", time()),
+            'LogText' => $msg
+        );
+        $table->insert($data);
+    }
+
+
+
     /**
 	 * LogBook Add From New Record action
 	 *
@@ -313,6 +356,11 @@ class WblogbookController extends MyClass_ControllerAction
             if ( !$validator_logbookid->isValid( $logTxt ) ) {
                 $this->view->amessages = array_merge($this->view->amessages, $validator_logbookid->getMessages());
             }
+
+            // Reviewed feature
+            $jobid = intval($this->_request->getPost('jobid', 0));
+            if ( ($this->_request->getPost('reviewed', 0)) && ($jobid > 0) )
+                $this->myJobReviewed($jobid);
 
 			// ********************* final
 			// add record into database
@@ -536,16 +584,12 @@ class WblogbookController extends MyClass_ControllerAction
         $jobid    = intval($this->_request->getParam('jobid'));
         $name_job = trim($this->_request->getParam('name_job'));
         $endtime  = trim($this->_request->getParam('endtime'));
-        $joberrors= intval($this->_request->getParam('joberrors'));
+        $joberrors= intval($this->_request->getParam('joberrors', 0));
 
         $this->view->title = $this->view->translate->_("Logbook: add new record");
         $this->view->wblogbook = new Wblogbook();
         $this->view->amessages = array();
-
         // setup new record
-        if ( $joberrors > 0 ) $this->view->wblogbook->logTypeId = 255; // Error
-            else $this->view->wblogbook->logTypeId = 20; // OK
-
         // get data from table
         Zend_Loader::loadClass('Wbjobdesc');
         $table = new wbJobDesc();
@@ -560,6 +604,11 @@ class WblogbookController extends MyClass_ControllerAction
             $this->view->wblogbook->logTxt = "$name_job\n$endtime\n".
                 "BACULA_JOBID=$jobid\n";
         }
+        if ( $joberrors > 0 )   {
+            $this->view->wblogbook->logTypeId = 255; // Error
+            $this->view->wblogbook->logTxt .=  "\nJob Errors : ".$joberrors."\n";
+        }   else
+            $this->view->wblogbook->logTypeId = 20; // OK
         // get data from wbLogType
         Zend_Loader::loadClass('Wblogtype');
         $typs = new Wblogtype();
@@ -570,6 +619,8 @@ class WblogbookController extends MyClass_ControllerAction
         $this->view->wblogbook->logDateCreate = date('Y-m-d H:i:s', time());
         $this->view->hiddenNew = 1;
         $this->view->aAllowedTags = $this->aAllowedTags;
+        $this->view->joberrors = $joberrors;
+        $this->view->jobid = $jobid;
         echo $this->renderScript('/wblogbook/add.phtml');
     }
 

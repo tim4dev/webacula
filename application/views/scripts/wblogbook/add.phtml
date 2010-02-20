@@ -47,11 +47,19 @@ endforeach;
 
 <?php echo $this->formHidden('logDateLast', $this->wblogbook->logDateLast, null); ?>
 <?php echo $this->formHidden('hiddenNew',   $this->hiddenNew, null); ?>
+<?php echo $this->formHidden('jobid',   $this->jobid, null); ?>
 
 <label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>&nbsp;
 <?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, null, $atyps); ?>
-<br><br>
 
+<?php if ($this->joberrors > 0) : ?>
+    &nbsp;&nbsp;
+    <label for="reviewed"><?php print $this->translate->_("Reviewed "); ?></label>
+    <?php echo $this->formCheckbox('reviewed', null, array('checked' => 1)) ?>
+    (<?php print $this->translate->_("Don't show this Job in 'Jobs with errors' list in future"); ?>)
+<?php endif; ?>
+
+<br><br>
 
 <!-- textarea -->
 

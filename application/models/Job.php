@@ -92,7 +92,8 @@ class Job extends Zend_Db_Table
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
+                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)',
+                    'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
         	break;
@@ -104,7 +105,8 @@ class Job extends Zend_Db_Table
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => '(EndTime - StartTime)'
+                    'DurationTime' => '(EndTime - StartTime)',
+                    'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
             break;
@@ -121,7 +123,8 @@ class Job extends Zend_Db_Table
 					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
+					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))",
+					'reviewed'=>'Reviewed'
 				));
 				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
 			break;
@@ -566,6 +569,7 @@ EOF', $command_output, $return_var);
         $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
         $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I')))");
         $select->where("j.EndTime > ?", $last7day);
+        $select->where("j.Reviewed = 0");
         $select->order(array("StartTime", "JobId"));
 
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -873,7 +877,8 @@ Select Job resource (1-3):
     			    'SchedTime' => "DATE_FORMAT(j.SchedTime,   '%y-%b-%d %H:%i')",
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)', 'PriorJobId'
+        		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)', 'PriorJobId',
+                    'Reviewed', 'Comment'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
@@ -885,7 +890,8 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime', 'SchedTime',
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => '(EndTime - StartTime)', 'PriorJobId'
+        		    'DurationTime' => '(EndTime - StartTime)', 'PriorJobId',
+                    'Reviewed', 'Comment'
     			));
     			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
@@ -903,7 +909,7 @@ Select Job resource (1-3):
 					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))",
-					'priorjobid'=>'PriorJobId'
+                    'priorjobid'=>'PriorJobId', 'reviewed'=>'Reviewed', 'comment'=>'Comment'
 				));
 				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
 				break;
