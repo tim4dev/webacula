@@ -1,12 +1,12 @@
 
 	INSTALL.es Copyright 2009	Reynier Perez Mira <rperezm@uci.cu>
-	Change by Yuri Timofeev.
+	Changed by Yuri Timofeev.
 
 
 	Requerimientos del Sistema
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Bacula 3.0 o superior.
+- Bacula 5.0 o superior.
 - Soportados MySQL, PostgreSQL y Sqlite.
 - Zend Framework version 1.8.3 or later.
 - Zend Framework está construido usando programación orientada a objetos y requiere: 
@@ -15,7 +15,7 @@
   http://framework.zend.com/manual/en/requirements.html
 - Apache con el módulo mod_rewrite o servidor web equivalente. Por ejemplo, nginx con ngx_http_rewrite_module.
 - Módulo  GD (php-gd package) de PHP. GD es una librería de código abierto que permite la creación dinámica de imágenes por los programadores.
-- Gestor de Bases de Datos MySQL, PostgreSQL para poder usar las funcionalidades: Restaurar Ficheros y Libro de Logs.
+- Gestor de Bases de Datos MySQL, PostgreSQL para poder usar las funcionalidades: Libro de Logs.
 - http://php.net/dom para subscripciones RSS
 
 Ejecute el script install/check_system_requirements.php antes de continuar lo que le permitirá comprobar los requerimientos.
@@ -96,7 +96,8 @@ IMPORTANT! Tanto el fichero como el directorio deben poder ser leídos por el se
   Compruebe los cambios realizados :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
-IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). See Bacula documentation "The Console Resource" chapter for details.
+IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists).
+           See Bacula documentation "The Console Resource" chapter for details.
 
 - Cree un fichero para Bacula en la configuración de Apache /etc/httpd/conf.d/webacula.conf
   NOTA. La organización de directorios puede ser diferente en su servidor.
@@ -205,7 +206,6 @@ for Sqlite:
    sudo chgrp apache /var/lib/sqlite/webacula.db
    sudo chmod g+rw /var/lib/sqlite/webacula.db
 
-NOTE. Database "webacula" also required for restore the jobs and files.
 
 
 
@@ -236,7 +236,7 @@ CREATE DATABASE webacula
 
     Trabajos de Recuperación (detalles técnicos)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Read also INSTALL file.
+    Read also RestoreJob.txt file.
     Comandos como "restore all" son enviados inmediatamente al servicio Director.
 
     Para seleccionar ficheros individuales a restaurar use el siguiente esquema.

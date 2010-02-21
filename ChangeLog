@@ -2,6 +2,7 @@ Webacula ChangeLog
 ------------------
 
 === 5.0
+    Now database 'webacula' NOT required for Restore Jobs.
 
 === 3.5 (Tue Feb 16 2010)
    Job->Search->File name (LIKE, REGEX) and restore single file.

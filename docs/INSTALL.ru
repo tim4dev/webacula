@@ -2,14 +2,14 @@
 	Системные требования
 	~~~~~~~~~~~~~~~~~~~~
 
-- Bacula 3.0 или выше.
+- Bacula 5.0 или выше.
 - Полная поддержка СУБД MySQL, PostgreSQL и Sqlite.
 - Zend Framework version 1.8.3 или выше.
 - Zend Framework требует PHP 5.2.4 и выше с расширением PDO. См. также:
   http://framework.zend.com/manual/en/requirements.html
 - Apache и mod_rewrite, либо эквивалентный веб-сервер. Например, nginx и ngx_http_rewrite_module.
 - Установленный пакет php-gd для графики.
-- Создание отдельной БД "webacula" для восстановления файлов и ведения Журнала.
+- Создание отдельной БД "webacula" для ведения Журнала.
 - http://php.net/dom для RSS ленты
 
 Запустите install/check_system_requirements.php для проверки.
@@ -203,9 +203,6 @@ cd /etc/bacula
 	sudo chmod g+rw /var/lib/sqlite/webacula.db
 
 
-Примечание. БД webacula требуется для восстановления заданий и файлов.
-
-
 
 
 
@@ -236,7 +233,7 @@ CREATE DATABASE webacula
 
     Restore Job (технические детали)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    См. также файл INSTALL.
+    См. также файл RestoreJob.txt.
     Команда типа "restore all" сразу отсылается к сервису Director.
 
     Для выбора отдельных файлов для восстановления используется следующая схема.
@@ -256,5 +253,4 @@ CREATE DATABASE webacula
 
 ВАЖНО. Требуется, чтобы файл, содержащий список файлов для восстановления, был доступен сервису Director
     по чтению.
-
 

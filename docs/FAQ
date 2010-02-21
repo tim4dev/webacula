@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------------
 Q. I receive a message like "/usr/sbin/bconsole: Permission denied".
 
-A. This is not a webacula (or bacula) bug.
+A. This is not a Webacula (or Bacula) bug.
 
 First check: /usr/sbin/bconsole -- is binary ELF file (not a shell script).
 See also INSTALL file.
@@ -67,10 +67,10 @@ Q. Log book full text search not worked (MySQL).
 
 A.
 
-Backup webacula DB :
+Backup Webacula DB :
 mysqldump --skip-add-drop-table --skip-add-drop-database  -u root webacula > webacula.sql
 
-drop DB webacula and create with :
+drop 'webacula' database and create with :
 
 CREATE DATABASE webacula
 	DEFAULT CHARACTER SET utf8

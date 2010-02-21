@@ -11,7 +11,7 @@
   http://framework.zend.com/manual/en/requirements.html
 - Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
 - Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
-- Create separate database "webacula" for use Restore Files and Logbook features.
+- Create separate database "webacula" for use Logbook features.
 - http://php.net/dom for RSS feed
 
 Run docs/check_system_requirements.php to verify.
@@ -95,7 +95,8 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   Check :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
-IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). See Bacula documentation "The Console Resource" chapter for details.
+IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). 
+           See Bacula documentation "The Console Resource" chapter for details.
 
 - Create configuration for Apache /etc/httpd/conf.d/webacula.conf
   NOTE. Specific directories on your system may be different.
@@ -145,11 +146,7 @@ for test mod_rewrite
 
 - increase values in /etc/php.ini :
   memory_limit = 32M
-  max_execution_time = 300
-
-  If you will restore ("Restore Job" -> "Select Files for Restore") about 100,000 unique files set following values:
-  memory_limit = 128M
-  max_execution_time = 600
+  max_execution_time = 3600
 
 - Next (NOTE. Specific commands on your system may be different) :
 /sbin/service httpd restart
@@ -208,8 +205,6 @@ for Sqlite:
     sudo chmod g+rw /var/lib/sqlite/webacula.db
 
 
-NOTE. Database "webacula" also required for restore the jobs and files.
-
 
 
     LogBook
@@ -234,56 +229,4 @@ CREATE DATABASE webacula
     DEFAULT COLLATE utf8_general_ci;
 
     and load data from dump again.
-
-
-
-    Restore Job (technical details)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Command like "restore all" immediately sent to the service Director.
-
-    To select individual files for restoration uses the following scheme.
-    Of DB bacula in DB webacula into temporary tables copied data for a particular JobId.
-    Time to create Webacula temporary tables depends on:
-    - settings for your RDBMS to optimize the INSERT operation
-    - number of unique path names
-    - number of unique file names
-
-Note. This process may take a long time.
-    It may be increased values in /etc/php.ini : memory_limit and max_execution_time.
-    And proportionally increase "ttl_restore_session" in application/config.ini
-
-    Then, the files and directories are marked for restore.
-    Then, a list of files and a command to restore sent to the service Director.
-    Temporary tables in the database webacula removed.
-
-IMPORTANT. Need to file containing a list of files to restore, has been available for reading for Director service.
-
-
-
-    Restore Job (tests)
-    ~~~~~~~~~~~~~~~~~~~
-MySQL settings by default.
-
-------- /etc/php.ini
-max_execution_time = 3600
-max_input_time = 3600
-memory_limit = 32M
-
-
-+--------------------------+------------+--------+
-|Elapsed time for creating |v3.x        |v.5.x   |
-|temporary tables          |            |        |
-+--------------------------+------------+--------+
-100,000 unique file names    3  minutes 
-200,000                      5  min
-500,000                      -            9 min
-600,000                      17 min
-1,200,000                    40 min
-2,000,000                    -
-
-v3.x: Average rate of creation: 30,000--40,000 files in a minute.
-v5.x: Average rate of creation: 100,000 files in a minute.
-
-Use settings from /usr/share/doc/mysql-server-*/my-large.cnf
-and up average rate of creation files.
 

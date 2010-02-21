@@ -1,0 +1,53 @@
+
+    Restore Job: Technical details
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Command like "restore all" immediately sent to the service Director.
+
+    To select individual files for restoration uses the following scheme.
+    Webacula create temporary tables (named 'webacula_xxxx') and copied data for a particular JobId.
+    Time to create temporary tables depends on:
+    - settings for your RDBMS to optimize the INSERT operation
+    - number of unique file names (a great extent) in Job
+    - number of unique path names (a lesser degree) in Job
+
+Note. This process may take a long time.
+    It may be increased values in /etc/php.ini : memory_limit and max_execution_time.
+    And proportionally increase "ttl_restore_session" in application/config.ini
+
+    Then, the files and directories are marked for restore.
+    Then, a list of files and a command to restore sent to the service Director.
+    Drop temporary tables.
+
+IMPORTANT. Need to file containing a list of files to restore, has been available for reading for Director service.
+
+
+
+    Restore Job: Performance tests
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MySQL settings by default.
+
+------- /etc/php.ini
+max_execution_time = 3600
+max_input_time = 3600
+memory_limit = 32M
+
+
++---------------------------+-------------+----------+
+|Elapsed time for creating  |Webacula     |Webacula  |
+|temporary tables           |v.3.x        |v.5.x     |
++---------------------------+-------------+----------+
+ 100,000 unique file names     3  min         -
+ 200,000                       5  min         -
+ 500,000                       -              9 min
+ 600,000                       17 min         -
+ 1,200,000                     40 min         -
+ 2,000,000                     -              20 min
++---------------------------+-------------+----------+
+ Average rate of creation
+ (files/minute):               40K            100K 
++---------------------------+-------------+----------+
+
+Use settings from /usr/share/doc/mysql-server-*/my-large.cnf
+and up average rate of creation temporary tables.
+
+

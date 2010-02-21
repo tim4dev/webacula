@@ -1,12 +1,12 @@
 
    INSTALL.debian Copyright 2008 Samuel Rios Carvalho <nhawkbr@gmail.com>
-   Change by Yuri Timofeev.
+   Changed by Yuri Timofeev.
 
 
 	System Requirements
 	~~~~~~~~~~~~~~~~~~~
 
-- Bacula 3.0 or later.
+- Bacula 5.0 or later.
 - Full supported MySQL, PostgreSQL and Sqlite databases.
 - Zend Framework version 1.8.3 or later.
 - Zend Framework is built with object-oriented PHP 5 and requires
@@ -15,7 +15,7 @@
   http://framework.zend.com/manual/en/requirements.html
 - Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
 - Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
-- Create separate database "webacula" for use Restore Files and Logbook features.
+- Create separate database "webacula" for use Logbook features.
 - http://php.net/dom for RSS feed
 
 Run docs/check_system_requirements.php to verify.
@@ -98,7 +98,8 @@ IMPORTANT! This directory and files in it should be available to read the Direct
   Check :
 # su -l www-data -s /bin/sh -c "/usr/bin/sudo /sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
-IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). See Bacula documentation "The Console Resource" chapter for details.
+IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists).
+        See Bacula documentation "The Console Resource" chapter for details.
 
 - Create configuration for Apache /etc/apache2/sites-available/webacula
   and create link:
@@ -214,8 +215,6 @@ for Sqlite:
    chmod g+rw /var/lib/sqlite/webacula.db
 
 
-NOTE. Database "webacula" also required for restore the jobs and files.
-
 
 
 	LogBook
@@ -232,11 +231,5 @@ Logbook stored in a separate database "webacula", now it is supported  MySQL and
     Update
     ~~~~~~
     Please see the "Update" chapter of file INSTALL in this directory.
-
-
-
-    Restore Job (technical details)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Please see INSTALL file.
 
 
