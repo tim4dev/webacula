@@ -2,8 +2,6 @@
 /**
  * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
- * This file is part of Webacula.
- *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -30,11 +28,13 @@ class WblogbookController extends MyClass_ControllerAction
 {
 
     // PRE code improperly processed in regexp in *_replace in index.phtml
-	// код PRE неправильно обрабатывается regexp'ом в *_replace в index.phtml
-	protected $aAllowedTags = array('pre','b', 'h1', 'h2', 'h3', 'p', 'i', 'em', 'u', 'br', 'code', 'del', 'sub',
-		'sup', 'tt', 'a');
-	protected $aAllowedAttrs = array('href');
-	protected $config_webacula;
+    // код PRE неправильно обрабатывается regexp'ом в *_replace в index.phtml
+    protected $aAllowedTags = array('pre','b', 'h1', 'h2', 'h3', 'p', 'i', 'em', 'u', 'br', 'code', 'del', 'sub',
+        'sup', 'tt', 'a');
+    protected $aAllowedAttrs = array('href');
+    protected $config_webacula;
+    protected $id_insert = 0; // id вставленной записи
+
 
     function init()
     {
@@ -240,27 +240,27 @@ class WblogbookController extends MyClass_ControllerAction
 		$digit = new Zend_Filter_Digits();
 		$digit->allowWhiteSpace = true;
 
-		$logTypeId = $intf->filter(trim($this->_request->getPost('logTypeId')));
+        $logTypeId = $intf->filter(trim($this->_request->getPost('logTypeId')));
 
-		$logbook = new wbLogBook();
-    	$data = array(
-			'logDateCreate' => $logDateCreate,
-			'logTxt'    => $logTxt,
-			'logTypeId' => $logTypeId
-		);
+        $logbook = new wbLogBook();
+        $data = array(
+            'logDateCreate' => $logDateCreate,
+            'logTxt'    => $logTxt,
+            'logTypeId' => $logTypeId
+        );
 
-		$rows_affected = $logbook->insert($data);
-		if ( $rows_affected ) {
-		    $email = new MyClass_SendEmail();
-		    $email->mySendEmail(
-		        $this->config_webacula->email->from,
-		        $this->config_webacula->email->to_admin,
-		        $this->view->translate->_('Create record :') . " " . $data['logDateCreate'] . "\n" .
-		        $this->view->translate->_('Type record :')   . " " . $data['logTypeId'] . "\n" .
-		        $this->view->translate->_("Text :")          ."\n-------\n" . $data['logTxt'] . "\n-------\n\n" ,
-		        $this->view->translate->_('Webacula Logbook Add record')
-		    );
-		}
+        $this->id_insert = $logbook->insert($data);
+        if ( $this->id_insert ) {
+            $email = new MyClass_SendEmail();
+            $email->mySendEmail(
+                $this->config_webacula->email->from,
+                $this->config_webacula->email->to_admin,
+                $this->view->translate->_('Create record :') . " " . $data['logDateCreate'] . "\n" .
+                $this->view->translate->_('Type record :')   . " " . $data['logTypeId'] . "\n" .
+                $this->view->translate->_("Text :")          ."\n-------\n" . $data['logTxt'] . "\n-------\n\n" ,
+                $this->view->translate->_('Webacula Logbook Add record')
+            );
+        }
     }
 
 
@@ -271,17 +271,24 @@ class WblogbookController extends MyClass_ControllerAction
      */
     function myJobReviewed($jobid, $msg='')
     {
-        Zend_Loader::loadClass('Job');
-        Zend_Loader::loadClass('Log');
         if ($jobid <= 0)
             return;
+        Zend_Loader::loadClass('Job');
+        Zend_Loader::loadClass('Log');
         if (empty($msg))
-            $msg = $this->view->translate->_('Bacula Job Reviewed');
-        // change Job table
+            $msg = $this->view->translate->_("Bacula Job Reviewed. See Webacula LOGBOOK_ID=".$this->id_insert).'.';
+        // read Comment from Job table
         $table = new Job();
+        $where = $table->getAdapter()->quoteInto('JobId = ?', $jobid);
+        $row   = $table->fetchRow($where);
+        if ($row)
+            $msg_job = $msg ."\n". $row->comment;
+        else
+            $msg_job = $msg;
+        // change Job table
         $data = array(
             'Reviewed' => 1,
-            'Comment'  => $msg
+            'Comment'  => $msg_job
         );
         $where = $table->getAdapter()->quoteInto('JobId = ?', $jobid);
         $res = $table->update($data, $where);
@@ -290,7 +297,7 @@ class WblogbookController extends MyClass_ControllerAction
             $email->mySendEmail(
                 $this->config_webacula->email->from,
                 $this->config_webacula->email->to_admin,
-                $this->view->translate->_('JobId :') ." ". $jobid ."\n". $msg,
+                $this->view->translate->_('JobId :') ." ". $jobid ."\n". $msg_job,
                 $this->view->translate->_('Bacula Job Reviewed')
             );
         }
@@ -357,28 +364,32 @@ class WblogbookController extends MyClass_ControllerAction
                 $this->view->amessages = array_merge($this->view->amessages, $validator_logbookid->getMessages());
             }
 
-            // Reviewed feature
-            $jobid = intval($this->_request->getPost('jobid', 0));
-            if ( ($this->_request->getPost('reviewed', 0)) && ($jobid > 0) )
-                $this->myJobReviewed($jobid);
+            // ********************* final
+            // add record into database
+            if ( empty($this->view->amessages))     {
+                // validation is OK. add record into logbook
+                $this->myAddRecord($logDateCreate, $logTxt);
+                // Reviewed feature
+                $jobid     = intval($this->_request->getPost('jobid', 0));
+                $joberrors = intval($this->_request->getParam('joberrors', 0));
+                $reviewed  = $this->_request->getPost('reviewed', 0);
+                if ( $reviewed && ($joberrors > 0) )
+                    $this->myJobReviewed($jobid);
+                elseif ($jobid)
+                    $this->myJobReviewed($jobid, $this->view->translate->_("See also Webacula LOGBOOK_ID=".$this->id_insert).'.');
+                //$msg = $this->view->translate->_("Bacula Job Reviewed. See Webacula LOGBOOK_ID=".$this->id_insert).'.';
+                $this->_redirect('/wblogbook/index');
+                return;
+            }
 
-			// ********************* final
-			// add record into database
-			if ( empty($this->view->amessages))	{
-				// validation is OK. add record into logbook
-    			$this->myAddRecord($logDateCreate, $logTxt);
-    			$this->_redirect('/wblogbook/index');
-    			return;
-			}
-
-    		// ********************* save user input for correct this
-    		$this->view->wblogbook->logTxt    = $strip_tags->filter($this->_request->getPost('logTxt'));
-        	$this->view->wblogbook->logTypeId = $this->_request->getPost('logTypeId');
-    	} else {
-	    	// ********************* setup empty record
-        	$this->view->wblogbook->logTxt    = null;
-        	$this->view->wblogbook->logTypeId = null;
-    	}
+            // ********************* save user input for correct this
+            $this->view->wblogbook->logTxt    = $strip_tags->filter($this->_request->getPost('logTxt'));
+            $this->view->wblogbook->logTypeId = $this->_request->getPost('logTypeId');
+        } else {
+            // ********************* setup empty record
+            $this->view->wblogbook->logTxt    = null;
+            $this->view->wblogbook->logTypeId = null;
+        }
 
     	// draw form
     	Zend_Loader::loadClass('Wblogtype');
@@ -480,14 +491,10 @@ class WblogbookController extends MyClass_ControllerAction
     			$this->_redirect('/wblogbook/index');
     			return;
 			}
-
     		// ********************* save user input for correct this
     		$this->view->wblogbook->logTxt    = $strip_tags->filter($this->_request->getPost('logTxt'));
         	$this->view->wblogbook->logTypeId = $this->_request->getPost('logTypeId');
     	}
-
-
-
     	// ****************************** DELETE record **********************************
     	if ( $this->_request->isPost() && $this->_request->getPost('hiddenModify') &&
     		$this->_request->getPost('act') == 'delete')
@@ -514,8 +521,6 @@ class WblogbookController extends MyClass_ControllerAction
     		$this->_redirect('/wblogbook/index');
     		return;
     	}
-
-
     	// ****************************** UNDELETE record **********************************
     	if ( $this->_request->isPost() && $this->_request->getPost('hiddenModify') &&
     		$this->_request->getPost('act') == 'undelete')
@@ -525,7 +530,6 @@ class WblogbookController extends MyClass_ControllerAction
 			$data = array(
     			'logIsDel' => '0'
 			);
-
 			$where = $table->getAdapter()->quoteInto('logId = ?', $logid);
 			$res = $table->update($data, $where);
 			// send email
@@ -541,9 +545,6 @@ class WblogbookController extends MyClass_ControllerAction
     		$this->_redirect('/wblogbook/index');
     		return;
     	}
-
-
-
     	// ********************* READ ORIGINAL RECORD from database ****************
     	if ( $this->_request->isPost() )
     	{
@@ -560,15 +561,12 @@ class WblogbookController extends MyClass_ControllerAction
         		$this->view->wblogbook->logTypeId = $row->logtypeid;
         		$this->view->wblogbook->logIsDel  = $row->logisdel;
     		}
-    	}
-
-    	// for draw form
-    	Zend_Loader::loadClass('Wblogtype');
-
-    	// get data from wbLogType
-    	$typs = new Wblogtype();
-    	$this->view->typs = $typs->fetchAll();
-
+        }
+        // for draw form
+        Zend_Loader::loadClass('Wblogtype');
+        // get data from wbLogType
+        $typs = new Wblogtype();
+        $this->view->typs = $typs->fetchAll();
         // common fileds
         $this->view->wblogbook->logDateLast = date('Y-m-d H:i:s', time());
         $this->view->hiddenModify = 1;

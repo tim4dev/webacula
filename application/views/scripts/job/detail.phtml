@@ -142,13 +142,22 @@
 		echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
 	?>
 </tr><tr>
-	<td> <?php print $this->translate->_("Errors"); ?> </td>
-	<?php
-		if ( $this->escape($line['joberrors']) == 0 )
-			echo '<td>-</td>';
-		else
-			echo '<td class="err">' . $this->escape($line['joberrors']) . '</td>';
-	?>
+    <td> <?php print $this->translate->_("Errors"); ?> </td>
+    <?php
+    if ( $this->escape($line['joberrors']) == 0 )
+        echo '<td>-';
+    else
+        if ( $line['reviewed'] > 0 )  {
+            echo '<td>';
+            echo '<img src="', $this->baseUrl, '/images/dialog-ok-apply.png" align="absmiddle" ',
+                ' alt="', $this->translate->_("Bacula Job Reviewed"),'"',
+                ' title="', $this->translate->_("Bacula Job Reviewed"),'"',
+                ' border="0" hspace="4">';
+            echo $this->escape($line['joberrors']);
+        } else
+            echo '<td class="err">' . $this->escape($line['joberrors']);
+    ?>
+    </td>
 </tr>
 
 <?php if ($line['poolid'] > 0) : ?>
@@ -168,6 +177,20 @@
 </td>
 </tr>
 <?php endif; ?>
+
+<tr>
+<td> <?php echo $this->translate->_("Comment"); ?> </td>
+<td>
+<?php
+    $pattern = "/(LOGBOOK_ID=)([0-9]*)/i";
+    $replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
+    $str = preg_replace($pattern, $replacement, $line['comment']);
+    // linebreak
+    $str = str_replace(array("\r\n", "\r", "\n"), "<br>", $str);
+    echo $str;
+?>
+</td>
+</tr>
 
 <?php endforeach; ?>
 <tbody>
