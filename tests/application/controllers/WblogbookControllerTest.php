@@ -133,6 +133,56 @@ class WblogbookControllerTest extends ControllerTestCase
     }
 
 
+    /**
+     * @group logbook
+     */
+    public function testJobReviewed()
+    {
+        $jobid = 3;
+        print "\n".__METHOD__.' ';
+        $this->request->setPost(array(
+            'hiddenNew' => 1,
+            'reviewed'  => 1,
+            'joberrors' => 1111,
+            'jobid'     => $jobid,
+            'logDateCreate' => date("Y-m-d H:i:s", time()),
+            'logTxt' => __METHOD__."\nJob Reviewed",
+            "test" => 1
+        ));
+        $this->request->setMethod('POST');
+        $this->dispatch('wblogbook/add');
+        $this->assertController('wblogbook');
+        $this->assertAction('add');
+        //echo $this->response->outputBody();exit; // for debug !!!
+        $this->assertRedirectTo('/wblogbook/index');
+        $this->resetRequest()
+            ->resetResponse();
+        // проверить есть ли запись в Job
+        Zend_Loader::loadClass('Job');
+        $table = new Job();
+        $row   = $table->fetchRow("JobId = $jobid");
+        if ( $row->reviewed == 0 )
+            $this->assertTrue(FALSE, "\nJob Reviewed fail!\n");
+        if ( !strpos($row->comment, 'Reviewed') )
+            $this->assertTrue(FALSE, "\nComment of Job Reviewed fail!\n");
+        // проверить, что запись теперь не показывается в job/problem
+        $this->dispatch('job/problem');
+        $this->assertModule('default');
+        $this->assertController('job');
+        $this->assertAction('problem');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        //echo $this->response->outputBody();//exit; // for debug !!!
+        $this->assertNotQueryContentContains('td', '/job/detail/jobid/3"');
+        // возвращаем все назад
+        $data = array(
+            'Reviewed' => 0,
+            'Comment'  => ''
+        );
+        $res = $table->update($data, "JobId = $jobid");
+        if ( !$res )
+            $this->assertTrue(FALSE, "\nBackwards of Job Reviewed fail!\n");
+    }
 
 
 }

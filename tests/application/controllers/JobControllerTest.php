@@ -153,7 +153,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        //echo $this->response->outputBody();// for debug !!!        
+        //echo $this->response->outputBody();// for debug !!!
         // http://php.net/manual/en/function.preg-match.php
         $pattern = '/Increme.*job.name.test.1.*is running|'.
                    'Increme.*job.name.test.1.*has terminated|'.
@@ -185,7 +185,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        //echo $this->response->outputBody();// for debug !!!        
+        //echo $this->response->outputBody();// for debug !!!
         // http://by.php.net/manual/en/function.preg-match.php
         $pattern = '/Differe.*job_name_test_2.*is running|'.
                    'Differe.*job_name_test_2.*has terminated|'.
@@ -223,7 +223,7 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        //echo $this->response->outputBody();// for debug !!!        
+        //echo $this->response->outputBody();// for debug !!!
         $pattern = '/Full.*job.name.test.4.*is running|'.
                    'Full.*job.name.test.4.*has terminated|'.
                    '1[0-9].*Full.*OK.*job.name.test.4|'.
