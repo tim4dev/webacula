@@ -212,7 +212,7 @@ L   Committing data (last despool)
             $select->from(array('j' => 'Job'),
     		  array('JobId', 'JobName' => 'Name', 'Level', 'ClientId',
     		  'StartTime' => "j.StartTime", 'EndTime'   => "j.EndTime",
-    		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+    		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
         	   'FileSetId', 'PurgedFiles', 'JobStatus',
         	   'DurationTime' => 'TIMEDIFF(NOW(), StartTime)'
     		));
@@ -229,7 +229,7 @@ L   Committing data (last despool)
             $select->from(array('j' => 'Job'),
     		  array('JobId', 'JobName' => 'Name', 'Level', 'ClientId',
     		  'StartTime' => "j.StartTime", 'EndTime'   => "j.EndTime",
-    		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+    		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
         	   'FileSetId', 'PurgedFiles', 'JobStatus',
         	   'DurationTime' => '(NOW() - StartTime)'
     		));
@@ -251,7 +251,7 @@ L   Committing data (last despool)
 				array('jobid'=>'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 				'starttime' => "j.StartTime", 'endtime'   => "j.EndTime",
 				'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-				'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+				'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed' => 'Reviewed', 'poolid'=>'PoolId',
 				'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 				'DurationTime' => "(strftime('%H:%M:%S',strftime('%s','now') - strftime('%s',StartTime),'unixepoch'))"
 			));
@@ -528,7 +528,7 @@ EOF', $command_output, $return_var);
         case 'PDO_MYSQL':
             $select->from(array('j' => 'Job'),
                array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
             ));
@@ -538,7 +538,7 @@ EOF', $command_output, $return_var);
             // PostgreSQL
             $select->from(array('j' => 'Job'),
                 array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'
             ));
@@ -555,7 +555,7 @@ EOF', $command_output, $return_var);
                 array('jobid' => 'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
                     'starttime'=>'StartTime', 'endtime'=>'EndTime',
                     'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
             ));
@@ -663,7 +663,7 @@ Select Job resource (1-3):
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
    				    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
    				    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-   				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+   				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
        			    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
                 break;
@@ -673,7 +673,7 @@ Select Job resource (1-3):
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
    				    'StartTime', 'EndTime',
-   				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+   				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
        			    'DurationTime' => '(EndTime - StartTime)'));
                 break;
@@ -683,7 +683,7 @@ Select Job resource (1-3):
 				$select->from(array('j' => 'Job'),
 					array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
 					'StartTime', 'EndTime',
-					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+					'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
 					'FileSetId', 'PurgedFiles', 'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
 				break;
@@ -764,7 +764,7 @@ Select Job resource (1-3):
                     'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
                     'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
                     'StartTimeRaw' => 'j.StartTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
                 break;
@@ -774,7 +774,7 @@ Select Job resource (1-3):
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime', 'EndTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'));
                 break;
@@ -786,7 +786,7 @@ Select Job resource (1-3):
                     array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
                     'starttime'=>'StartTime', 'endtime'=>'EndTime',
                     'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
                 break;
@@ -818,7 +818,7 @@ Select Job resource (1-3):
     			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
                     'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
            			'FileSetId', 'PurgedFiles', 'JobStatus',
            			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
     			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
@@ -829,7 +829,7 @@ Select Job resource (1-3):
             	$select->from(array('j' => 'Job'),
 					array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime', 'EndTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)' ));
 				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
@@ -840,7 +840,7 @@ Select Job resource (1-3):
 					array('jobid'=>'JobId', 'job'=>'Job', 'JobName'=>'Name', 'level'=>'Level', 'clientid'=>'ClientId',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime', 'schedtime'=>'SchedTime',
 					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus', 'type'=>'Type',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
 				));
@@ -970,7 +970,7 @@ Select Job resource (1-3):
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'sortStartTime' => 'StartTime',
 			        'StartTime', 'EndTime',
-			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
    			         'FileSetId', 'PurgedFiles', 'JobStatus',
    			         'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
    		        ));
@@ -985,7 +985,7 @@ Select Job resource (1-3):
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'sortStartTime' => 'StartTime',
 			        'StartTime', 'EndTime',
-			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
    			         'FileSetId', 'PurgedFiles', 'JobStatus',
    			         'DurationTime' => '(EndTime - StartTime)'
    		        ));
@@ -1002,7 +1002,7 @@ Select Job resource (1-3):
 					'sortStartTime' => 'StartTime',
 					'starttime'=>'StartTime', 'endtime'=>'EndTime',
 					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
 					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
 					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
 				));
@@ -1089,7 +1089,7 @@ Select Job resource (1-3):
                 array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
                     'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
                 $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
@@ -1106,7 +1106,7 @@ Select Job resource (1-3):
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime', 'EndTime',
-                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'));
                 $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
@@ -1125,7 +1125,7 @@ Select Job resource (1-3):
                 array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
                     'starttime'=>'StartTime', 'endtime'=>'EndTime',
                     'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
                 $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
