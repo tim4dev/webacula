@@ -49,7 +49,9 @@
 		if ( ( isset($line['firstwritten'])) && ($this->escape($line['voljobs']) <= 0) )
 			echo '<td class="warn" align="right">', number_format($this->escape($line['voljobs'])), '</td>';
 		else
-			echo '<td align="right">', number_format($this->escape($line['voljobs'])), '</td>';
+		    echo '<td align="right"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
+                'title="', $this->translate->_("List Jobs by Volume Name"), '">',
+                number_format($this->escape($line['voljobs'])), '</a></td>';
 	?>
 
 	<td align="center"><?php echo $this->ConvSecondsToDays($this->escape($line['volretention']));?></td>
