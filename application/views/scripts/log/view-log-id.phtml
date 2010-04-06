@@ -6,9 +6,17 @@
 <table class="t1" border="0" cellspacing="0" align="center">
 <tr>
 <td class="t3"><pre>
-<?php foreach($this->result as $line) : ?>
-  <?php echo $this->escape($line['logtime']) . "   " . rtrim( $this->escape($line['logtext']) , "\r\n\t \0") . "<br>";?>
-<?php endforeach; ?>
+<?php 
+    foreach($this->result as $line) {
+        //echo $this->escape($line['logtime']) . "   " . rtrim( $this->escape($line['logtext']) , "\r\n\t \0") . "<br>";
+        $line = $this->escape($line['logtime']) . "   " . rtrim($this->escape($line['logtext']) , "\r\n\t \0");
+        if(preg_match ("/ERR/", $line)) {
+            echo '<div style="color: white; background-color: red;">' . $line . ' </div><br />';
+        } else {
+            echo $line, '<br />';
+        }
+    }
+?>
 </pre></td>
 </table>
 
