@@ -18,7 +18,7 @@ $(document).ready(function() {
 <div class="roundcorner2" style="width: 42em;">
 
 <form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post">
-<p><?php print $this->translate->_("In DB webacula found existing tmp-tables for the Restore Job with JobId"); ?>
+<p><?php print $this->translate->_("Found existing temporary tables for the Restore Job with JobId"); ?>
     <?php echo $this->jobid; ?>.</p>
 <p>
 <?php print $this->translate->_("Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."); ?>
@@ -27,8 +27,8 @@ $(document).ready(function() {
 
 <?php echo $this->formRadio('choice', 'recreate_tmp', null,
     array(
-        'recreate_tmp'  => $this->translate->_('Recreate tmp-tables (recommended)'),
-	    'continue_tmp'  => $this->translate->_('Continue with the old tmp-tables'),
+        'recreate_tmp'  => $this->translate->_('Recreate temporary tables (recommended)'),
+	    'continue_tmp'  => $this->translate->_('Continue with the old temporary tables'),
 		'goto_homepage' => $this->translate->_('Exit')
     ));
 ?>
