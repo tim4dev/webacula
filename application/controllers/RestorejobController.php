@@ -575,14 +575,11 @@ EOF"
             $this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);
             // tmp таблицы существуют ?
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-            if ( !$tmp_tables->isAllTmpTablesExists() )	{
-                $this->cloneBaculaTables( $this->restoreNamespace->JobHash ); // create tmp tables
-                $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
-            } else {
-                $tmp_tables->dropOldTmpTables();  // delete all old tmp tables
+            if ( $tmp_tables->isAllTmpTablesExists() )	{
                 // tmp таблицы устарели ?
-                if ( $tmp_tables->isOldTmpTables() )	{
+                if ( $tmp_tables->isOldTmpTables() )    {
                     // tmp-таблицы устарели
+                    $tmp_tables->dropOldTmpTables();  // delete all old tmp tables
                     // create tmp tables
                     $this->cloneBaculaTables($this->restoreNamespace->JobHash);
                     // рисуем дерево
@@ -597,6 +594,9 @@ EOF"
                     echo $this->renderScript('restorejob/msg01.phtml');
                     return;
                 }
+            } else {
+                $this->cloneBaculaTables( $this->restoreNamespace->JobHash ); // create tmp tables
+                $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
             }
         } else {
             // продолжаем показывать дерево каталогов
@@ -662,14 +662,11 @@ EOF"
             // данные в сессии уже запомнены в selectBackupsBeforeDateAction()
             // tmp таблицы существуют ?
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-            if ( !$tmp_tables->isAllTmpTablesExists() ) {
-                $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash); // create tmp tables
-                $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
-            } else {
-                $tmp_tables->dropOldTmpTables();  // delete all old tmp tables
+            if ( $tmp_tables->isAllTmpTablesExists() ) {
                 // tmp таблицы устарели ?
-                if ( $tmp_tables->isOldTmpTables() )	{
+                if ( $tmp_tables->isOldTmpTables() )    {
                     // tmp-таблицы устарели
+                    $tmp_tables->dropOldTmpTables();  // delete all old tmp tables
                     // create tmp tables
                     $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash);
                     // рисуем дерево
@@ -684,6 +681,9 @@ EOF"
                     echo $this->renderScript('restorejob/msg01.phtml');
                     return;
                 }
+            } else {
+                $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash); // create tmp tables
+                $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
             }
         } else {
             // продолжаем показывать дерево каталогов
@@ -771,7 +771,7 @@ EOF"
                             Filename AS n, Path AS p, File AS f
                             WHERE (t.FileId = f.FileId) AND
                             (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')". 
+                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')".
                             ' ORDER BY Name ASC';
                         break;
                     default: // include mysql, postgresql
@@ -780,9 +780,9 @@ EOF"
                             Filename AS n, Path AS p, File AS f
                             WHERE (t.FileId = f.FileId) AND
                             (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')". 
+                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')".
                             ' ORDER BY Name ASC';
-/*                        $select->distinct(); 
+/*                        $select->distinct();
                         $select->from(array('t' => $tmp_tables->getTableNameFile()), 'isMarked');
                         $select->from(array('n' => 'Filename'), array('Name'));
                         $select->from(array('p' => 'Path'), array('Path'));
@@ -797,7 +797,7 @@ EOF"
                 }
                 $stmt = $db->query($sql);
                 while($line = $stmt->fetch())   {
-                    $file = $line['name'];                    
+                    $file = $line['name'];
                     $afile[$file]['fileid']   = $line['fileid'];
                     $afile[$file]['pathid']   = $line['pathid'];
                     $afile[$file]['lstat']    = $line['lstat'];
@@ -1098,7 +1098,6 @@ EOF"
 
         // if have multiple Restore Job resources
         $this->view->bacula_restore_job = $this->bacula_restore_job;
-
         $this->render();
     }
 
@@ -1171,11 +1170,17 @@ EOF"
         }
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        $client_name_to = addslashes( $this->_request->getParam('client_name_to', null));
-        $where   = addslashes( $this->_request->getParam('where', null));
+        $client_name_to = addslashes( $this->_request->getParam('client_name_to', null)); // restoreclient
         $storage = addslashes( $this->_request->getParam('storage', null));
         $pool    = addslashes( $this->_request->getParam('pool', null));
         $fileset = addslashes( $this->_request->getParam('fileset', null));
+        $replace = addslashes( $this->_request->getParam('replace', null));
+        // advanced options
+        $where   = addslashes( $this->_request->getParam('where', null));
+        $strip_prefix = addslashes( $this->_request->getParam('strip_prefix', null));
+        $add_prefix   = addslashes( $this->_request->getParam('add_prefix', null));
+        $add_suffix   = addslashes( $this->_request->getParam('add_suffix', null));
+        $regexwhere   = addslashes( $this->_request->getParam('regexwhere', null));
         // if have multiple Restore Job resources
         if ( $this->bacula_restore_job)
             /* The defined Restore Job resources are:
@@ -1227,10 +1232,16 @@ EOF"
                    ' file=<"/tmp/webacula_restore_' . $this->restoreNamespace->JobHash . '.tmp"' .
                    ' restoreclient="' . $client_name_to . '" ';
             if ( !empty($this->restoreNamespace->ClientNameFrom) )   $cmd .= ' client="' . $this->restoreNamespace->ClientNameFrom . '"';
-            if ( !empty($where) )    $cmd .= ' where="' . $where . '"';
             if ( !empty($storage) )  $cmd .= ' storage="' . $storage . '"';
             if ( !empty($pool) )     $cmd .= ' pool="' . $pool . '"';
             if ( !empty($fileset) )  $cmd .= ' fileset="' . $fileset . '"';
+            if ( !empty($replace) )  $cmd .= ' replace=yes';
+            // advanced options
+            if ( !empty($where) )        $cmd .= ' where="' . $where . '"';
+            if ( !empty($strip_prefix) ) $cmd .= ' strip_prefix="' . $strip_prefix . '"';
+            if ( !empty($add_prefix) )   $cmd .= ' add_prefix="' . $add_prefix . '"';
+            if ( !empty($add_suffix) )   $cmd .= ' add_suffix="' . $add_suffix . '"';
+            if ( !empty($regexwhere) )   $cmd .= ' regexwhere="' . $regexwhere . '"';
 
             $cmd .= ' yes';
 
