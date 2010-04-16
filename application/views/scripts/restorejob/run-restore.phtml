@@ -28,6 +28,7 @@
         </div>
     </div>
 <?php else: ?>
+<!-- restorejob/run-restore.phtml -->
 <!-- director output -->
 <table id="table-dir-output">
 <tr><td>
@@ -37,13 +38,13 @@
     {
         echo '<pre>';
         foreach ($this->command_output as $line) {
-            if ( strpos($line, 'ERR') )   {
-                echo '<div style="color: white; background-color: red;">' . $line . '</div><br>';
+            if ( preg_match('/(ERR|not found|invalid|Expected)/i', $line) )   {
+                    echo '<div style="color: white; background-color: red;">', $line, '</div><br>';
             } else {
-                echo $line . '<br>';
+                    echo $line, '<br>';
             }
-		}
-		echo '</pre>';
+        }
+	echo '</pre>';
     }
     ?>
 

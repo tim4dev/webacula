@@ -38,7 +38,7 @@
         {
             echo '<pre>';
             foreach ($this->command_output as $line) {
-                if ( preg_match('/(ERR|not found|invalid)/i', $line) )   {
+                if ( preg_match('/(ERR|not found|invalid|Expected)/i', $line) )   {
                     echo '<div style="color: white; background-color: red;">', $line, '</div><br>';
                 } else {
                     echo $line, '<br>';

@@ -84,7 +84,7 @@ class RestorejobController extends MyClass_ControllerAction
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         // load model
         Zend_Loader::loadClass('WbTmpTable');
-        // if have multiple Restore Job resources
+        // if have multiple Restore Job resources // TODO убрать, когда форма FormRestoreOptions будет готова
         $config = Zend_Registry::get('config');
         if ( $config->bacula_restore_job )
             $this->bacula_restore_job = $config->bacula_restore_job->toArray();
@@ -304,7 +304,7 @@ class RestorejobController extends MyClass_ControllerAction
         $this->view->jobid = $jobid;
 
         // начало отрисовки? т.е. форма выбора client, where, storage уже заполнена?
-        $choice_form = intval( $this->_request->getParam('choice_form', 0) );
+        $from_form = intval( $this->_request->getParam('from_form', 0) );
 
         // существует ли такое jobid
         if ( !$job->isJobIdExists($jobid) ) {
@@ -334,10 +334,9 @@ class RestorejobController extends MyClass_ControllerAction
         }
 
         $client_name = $client->getClientName($jobid);
-        $this->view->client_name = $client_name;
 
         // *************************** run restore ************************************************
-        if ( $choice_form == 1 )  {
+        if ( $from_form == 1 )  {
             // форма выбора client, where, storage уже заполнена
             // check access to bconsole
             Zend_Loader::loadClass('Director');
@@ -348,12 +347,17 @@ class RestorejobController extends MyClass_ControllerAction
                 return;
             }
 
-            $client_restore = addslashes( $this->_request->getParam('client', '') );
-            $client_backup  = addslashes( $this->_request->getParam('client_name', '') );
-            $where   = addslashes( $this->_request->getParam('where', null) );
+            $client_name_to = addslashes( $this->_request->getParam('client_name_to', '') );
+            $client_name    = addslashes( $this->_request->getParam('client_name', '') );
             $storage = addslashes( $this->_request->getParam('storage', null) );
             $pool    = addslashes( $this->_request->getParam('pool', null) );
             $fileset = addslashes( $this->_request->getParam('fileset', null) );
+            // advanced options
+            $where   = addslashes( $this->_request->getParam('where', null));
+            $strip_prefix = addslashes( $this->_request->getParam('strip_prefix', null));
+            $add_prefix   = addslashes( $this->_request->getParam('add_prefix', null));
+            $add_suffix   = addslashes( $this->_request->getParam('add_suffix', null));
+            $regexwhere   = addslashes( $this->_request->getParam('regexwhere', null));
             // if have multiple Restore Job resources
             if ( $this->bacula_restore_job)
                 /* The defined Restore Job resources are:
@@ -374,12 +378,17 @@ class RestorejobController extends MyClass_ControllerAction
            //******************************* запуск задания ***************************************
            // формируем командную строку
            // restore client=Rufus select current all done yes
-           $cmd = 'restore jobid=' . $jobid . ' restoreclient="' . $client_restore . '"';
-           if ( !empty($client_backup) )  $cmd .= ' client="' . $client_backup . '"';
-           if ( !empty($where) )   $cmd .= ' where="' . $where . '"';
+           $cmd = 'restore jobid=' . $jobid . ' restoreclient="' . $client_name_to . '"';
+           if ( !empty($client_name) )  $cmd .= ' client="' . $client_name . '"';
            if ( !empty($storage) ) $cmd .= ' storage="' . $storage . '"';
            if ( !empty($pool) ) $cmd .= ' pool="' . $pool . '"';
            if ( !empty($fileset) ) $cmd .= ' fileset="' . $fileset . '"';
+           // advanced options
+           if ( !empty($where) )        $cmd .= ' where="' . $where . '"';
+           if ( !empty($strip_prefix) ) $cmd .= ' strip_prefix="' . $strip_prefix . '"';
+           if ( !empty($add_prefix) )   $cmd .= ' add_prefix="' . $add_prefix . '"';
+           if ( !empty($add_suffix) )   $cmd .= ' add_suffix="' . $add_suffix . '"';
+           if ( !empty($regexwhere) )   $cmd .= ' regexwhere="' . $regexwhere . '"';
            $cmd .= ' all done yes';
 
             $comment = __METHOD__;
@@ -406,24 +415,27 @@ EOF"
             $this->renderScript('restorejob/run-restore.phtml');
 
         } else {
-            // get data for form
-            Zend_Loader::loadClass('Storage');
-            Zend_Loader::loadClass('Pool');
-            Zend_Loader::loadClass('FileSet');
-
-            $this->view->clients = $client->fetchAll();
-
-            $storages = new Storage();
-            $this->view->storages = $storages->fetchAll();
-
-            $pools = new Pool();
-            $this->view->pools = $pools->fetchAll();
-
-            $filesets = new FileSet();
-            $this->view->filesets = $filesets->fetchAll();
-
-            // if have multiple Restore Job resources
-            $this->view->bacula_restore_job = $this->bacula_restore_job;
+            /*
+             * Restore options form
+             */
+            Zend_Loader::loadClass('FormRestoreOptions');
+            $form = new formRestoreOptions();
+            // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+            $form->setDecorators(array(
+                array('ViewScript', array(
+                    'viewScript' => 'decorators/formRestoreoptions.phtml',
+                    'form'=> $form
+                ))
+            ));
+            $form->init();
+            // fill form
+            $form->populate( array(
+                'client_name_to' => $this->restoreNamespace->ClientNameTo,
+                'type_restore'   => $this->restoreNamespace->typeRestore,
+                'jobid'          => $this->view->jobid,
+                'client_name'    => $client_name
+            ));
+            $this->view->form = $form;
 
             $this->render();
         }
@@ -1045,7 +1057,15 @@ EOF"
 
 
     /**
-     * Показываем plain-список файлов перед запуском задания на восстановление
+     * Restore action
+     *
+     * Shows:
+     *  - form to specify the options for Job Restore
+     *  - plain-list of files before starting the Restore Job
+     *
+     * Показываем :
+     *  - форму для указания опций для восстановления
+     *  - plain-список файлов перед запуском задания на восстановление
      */
     function listRestoreAction()
     {
@@ -1066,38 +1086,35 @@ EOF"
         $this->view->total_size = $atotal['total_size'];
 
         // *** pager ***
-  		// calculate total rows and pages
+  	// calculate total rows and pages
         $this->view->total_rows = $atotal['total_files'];
         $this->view->total_pages = ceil( $this->view->total_rows / self::ROW_LIMIT_FILES );
         $this->view->current_page = $page;
         // *** end pager ***
 
-		$offset = self::ROW_LIMIT_FILES * ($page - 1);
-		$this->view->result = $tmp_tables->getListToRestore($offset);
+	$offset = self::ROW_LIMIT_FILES * ($page - 1);
+	$this->view->result = $tmp_tables->getListToRestore($offset);
+        
+        /*
+         * Restore options form
+         */
+        Zend_Loader::loadClass('FormRestoreOptions');
+        $form = new formRestoreOptions();
+        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+        $form->setDecorators(array(
+            array('ViewScript', array(
+                'viewScript' => 'decorators/formRestoreoptions.phtml',
+                'form'=> $form
+            ))
+        ));
+        $form->init();
+        // fill form
+        $form->populate( array(
+            'client_name_to' => $this->restoreNamespace->ClientNameTo,
+            'type_restore'   => $this->restoreNamespace->typeRestore
+        ));
+        $this->view->form = $form;
 
-        // get data for form
-        Zend_Loader::loadClass('Client');
-        Zend_Loader::loadClass('Storage');
-        Zend_Loader::loadClass('Pool');
-        Zend_Loader::loadClass('FileSet');
-
-        $clients = new Client();
-  	    $this->view->clients = $clients->fetchAll();
-
-  	    $storages = new Storage();
-   	    $this->view->storages = $storages->fetchAll();
-
-   	    $pools = new Pool();
-   	    $this->view->pools = $pools->fetchAll();
-
-   	    $filesets = new FileSet();
-   	    $this->view->filesets = $filesets->fetchAll();
-
-        $this->view->client_name_to = $this->restoreNamespace->ClientNameTo;
-        $this->view->type_restore   = $this->restoreNamespace->typeRestore;
-
-        // if have multiple Restore Job resources
-        $this->view->bacula_restore_job = $this->bacula_restore_job;
         $this->render();
     }
 
@@ -1123,31 +1140,36 @@ EOF"
         $this->view->total_size = $atotal['total_size'];
 
         // *** pager ***
-  		// calculate total rows and pages
+  	// calculate total rows and pages
         $this->view->total_rows = $atotal['total_files'];
         $this->view->total_pages = ceil( $this->view->total_rows / self::ROW_LIMIT_FILES );
         $this->view->current_page = $page;
         // *** end pager ***
 
-		$offset = self::ROW_LIMIT_FILES * ($page - 1);
-		$this->view->result = $tmp_tables->getListToRestore($offset);
+	$offset = self::ROW_LIMIT_FILES * ($page - 1);
+	$this->view->result = $tmp_tables->getListToRestore($offset);
 
-        // get data for form
-        Zend_Loader::loadClass('Client');
-        Zend_Loader::loadClass('Storage');
-        Zend_Loader::loadClass('Pool');
-        Zend_Loader::loadClass('FileSet');
+        /*
+         * Restore options form
+         */
+        Zend_Loader::loadClass('FormRestoreOptions');
+        $form = new formRestoreOptions();
+        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+        $form->setDecorators(array(
+            array('ViewScript', array(
+                'viewScript' => 'decorators/formRestoreoptions.phtml',
+                'form'=> $form
+            ))
+        ));
+        $form->init();
+        // fill form
+        $form->populate( array(
+            'client_name_to' => $this->restoreNamespace->ClientNameTo,
+            'type_restore'   => $this->restoreNamespace->typeRestore
+        ));
+        $this->view->form = $form;
 
-        $clients = new Client();
-  	    $this->view->clients = $clients->fetchAll();
-
-        $this->view->client_name_to = $this->restoreNamespace->ClientNameTo;
-        $this->view->type_restore   = $this->restoreNamespace->typeRestore;
-
-        // if have multiple Restore Job resources
-        $this->view->bacula_restore_job = $this->bacula_restore_job;
-
-    	$this->render();
+        $this->render();
     }
 
 

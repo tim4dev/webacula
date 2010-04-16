@@ -1,0 +1,275 @@
+<?php
+/**
+ * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ *
+ * Webacula is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Webacula is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ *
+ */
+require_once 'Zend/Form.php';
+require_once 'Zend/Form/Element/Submit.php';
+
+class FormRestoreOptions extends Zend_Form
+{
+
+    protected $_action_cancel = '';
+    
+    public  $elDecorators = array(
+        'ViewHelper',
+        'Errors'
+    );
+
+
+    public function init()
+    {
+        $translate = Zend_Registry::get('translate');
+        Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
+        // Set the method for the display form to POST
+        $this->setMethod('post');
+        $from_form = $this->addElement('hidden', 'from_form', array(
+            'decorators' => $this->elDecorators,
+            'value' => '1'
+        ));
+        $type_restore = $this->addElement('hidden', 'type_restore', array(
+            'decorators' => $this->elDecorators
+        ));
+        $jobid = $this->addElement('hidden', 'jobid', array(
+            'decorators' => $this->elDecorators
+        ));
+        // load models
+        Zend_Loader::loadClass('Client');
+        Zend_Loader::loadClass('Storage');
+        Zend_Loader::loadClass('Pool');
+        Zend_Loader::loadClass('FileSet');
+
+        /******* standard options ******/
+        /*
+         * client_name / client
+         * client_name_to / restoreclient
+         * 
+         */
+        $table_client = new Client();
+  	$clients = $table_client->fetchAll();
+        $client_name = $this->createElement('select', 'client_name', array(
+            'decorators' => $this->elDecorators,
+            'label'    => 'Client',
+            'required' => true,
+            'class' => 'ui-select',
+            'style' => 'width: 18em;'
+        ));
+        $client_name_to = $this->createElement('select', 'client_name_to', array(
+            'decorators' => $this->elDecorators,
+            'label'    => 'Restore client',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 18em;'
+        ));
+        //$client_name->addMultiOption('', $translate->_("Default"));
+        foreach( $clients as $v) {
+            $client_name->addMultiOption($v->name, $v->name);
+            $client_name_to->addMultiOption($v->name, $v->name);
+        }
+        /*
+         * pool
+         */
+        $table_pool = new Pool();
+   	$pools = $table_pool->fetchAll();
+        $pool = $this->createElement('select', 'pool', array(
+            'decorators' => $this->elDecorators,
+            'label'    => 'Pool',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 18em;'
+        ));
+        $pool->addMultiOption('', $translate->_("Default"));
+        foreach( $pools as $v) {
+            $pool->addMultiOption($v->name, $v->name);
+        }
+        /*
+         * replace
+         */
+        $replace = $this->createElement('checkbox', 'replace', array(
+            'decorators' => $this->elDecorators,
+            'label'    => 'Replace',
+            'checked'  => 0
+        ));
+        /*
+         * fileset
+         */
+        $table_fileset = new FileSet();
+   	$filesets = $table_fileset->fetchAll();
+        $fileset = $this->createElement('select', 'fileset', array(
+            'decorators' => $this->elDecorators,
+            'label'    => 'Fileset',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 18em;'
+        ));
+        $fileset->addMultiOption('', $translate->_("Default"));
+        foreach( $filesets as $v) {
+            $fileset->addMultiOption($v->fileset, $v->fileset);
+        }
+        /*
+         * storage
+         */
+        $table_storage = new Storage();
+   	$storages = $table_storage->fetchAll();
+        $storage = $this->createElement('select', 'storage', array(
+            'decorators' => $this->elDecorators,
+            'label'    => 'Storage',
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 18em;'
+        ));
+        $storage->addMultiOption('', $translate->_("Default"));
+        foreach( $storages as $v) {
+            $storage->addMultiOption($v->name, $v->name);
+        }
+        /*
+         * restore_job_select
+         * if have multiple Restore Job resources
+         */
+        $config = Zend_Registry::get('config');
+        if ( $config->bacula_restore_job )  {
+            $restore_job_select = $this->createElement('select', 'restore_job_select', array(
+                'decorators' => $this->elDecorators,
+                'label'    => 'Restore Job Resource',
+                'required' => true,
+                'class' => 'ui-select',
+                'style' => 'width: 18em;'
+            ));
+            $bacula_restore_jobs = $config->bacula_restore_job->toArray();
+            foreach( $bacula_restore_jobs as $v) {
+                $restore_job_select->addMultiOption($v, $v);
+            }
+            // add element to form
+            $this->addElement($restore_job_select);
+        }
+
+        /******* advanced options ******/
+        /*
+         * where
+         */
+        $where = $this->createElement('text', 'where', array(
+            'decorators' => $this->elDecorators,
+            'label'     => 'Where',
+            'required'  => false,
+            'size'      => 34,
+            'maxlength' => 255,
+            'value'     => ''
+        ));
+        $where->addValidator('StringLength', false, array(1, 255) );
+        /*
+         * strip_prefix
+         */
+        $strip_prefix = $this->createElement('text', 'strip_prefix', array(
+            'decorators' => $this->elDecorators,
+            'label'     => 'Strip&nbsp;prefix',
+            'required'  => false,
+            'size'      => 24,
+            'maxlength' => 64,
+            'value'     => ''
+        ));
+        $strip_prefix->addValidator('StringLength', false, array(1, 64) );
+        /*
+         * add_prefix
+         */
+        $add_prefix = $this->createElement('text', 'add_prefix', array(
+            'decorators' => $this->elDecorators,
+            'label'     => 'Add&nbsp;prefix',
+            'required'  => false,
+            'size'      => 24,
+            'maxlength' => 64,
+            'value'     => ''
+        ));
+        $add_prefix->addValidator('StringLength', false, array(1, 64) );
+        /*
+         * add_suffix
+         */
+        $add_suffix = $this->createElement('text', 'add_suffix', array(
+            'decorators' => $this->elDecorators,
+            'label'     => 'Add&nbsp;suffix',
+            'required'  => false,
+            'size'      => 24,
+            'maxlength' => 64,
+            'value'     => ''
+        ));
+        $add_suffix->addValidator('StringLength', false, array(1, 64) );
+        /*
+         * regexwhere
+         */
+        $regexwhere = $this->createElement('text', 'regexwhere', array(
+            'decorators' => $this->elDecorators,
+            'label'     => 'RegexWhere',
+            'required'  => false,
+            'size'      => 24,
+            'maxlength' => 64,
+            'value'     => ''
+        ));
+        $regexwhere->addValidator('StringLength', false, array(1, 64) );
+        /*
+         * submit button
+         */
+        $submit_button = new Zend_Form_Element_Submit('submit_button', array(
+            'decorators' => $this->elDecorators,
+            'id'    => 'ok1',
+            'class' => 'prefer_btn',
+            'label' => 'Run Restore Job'
+        ));
+        /*
+         * cancel button
+         */
+        $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
+            'decorators' => $this->elDecorators,
+            'id'    => 'cancel1',
+            'label' => 'Cancel'
+        ));
+        /*
+         *  add elements to form
+         */
+        $this->addElements( array(
+            $client_name,
+            $client_name_to,
+            $pool,
+            $replace,
+            $fileset,
+            $storage,
+            $where,
+            $strip_prefix,
+            $add_prefix,
+            $add_suffix,
+            $regexwhere,
+            $submit_button,
+            $cancel_button
+        ));
+    }
+
+
+
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
+
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }
+
+}

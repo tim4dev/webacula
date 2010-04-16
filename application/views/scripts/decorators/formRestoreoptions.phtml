@@ -1,0 +1,274 @@
+<!-- formRestoreoptions.phtml -->
+<?php $translate = Zend_Registry::get('translate'); ?>
+
+<style type="text/css">
+    #link_dialog {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+    #link_dialog span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+</style>
+
+<script type="text/javascript">
+$(function() {
+	// tabs
+    $("#tabs").tabs();
+
+    // Dialog
+    $('#info_dialog').dialog({
+        autoOpen: false,
+        width: 640,
+        height: 480
+    });
+
+    // helps for advanced options
+    $('#link_dialog').click(function(){
+        $('#info_dialog').dialog('open');
+        return false;
+    });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#ok1').click(function() {
+    	$.blockUI({
+        	message: '<h2><?php print $translate->_("Please wait"); ?>...</h2>',
+        	css: { backgroundColor: '#f3fcf2' },
+        	centerX: true,
+        	centerY: true
+        });
+    });
+});
+</script>
+
+<script type="text/javascript">
+  // select
+  $(function(){
+      $('select').each(function() {
+          var t = $(this).selectmenu({maxHeight: 300});
+          eval(t);
+      });
+  });
+</script>
+
+
+
+<div id="tabs" style="width: 58em; margin-left: auto; margin-right: auto;">
+<ul>
+    <li><a href="#tabs-standard-options"><?php print $translate->_("Standard options"); ?></a></li>
+    <li><a href="#tabs-advanced-options"><?php print $translate->_("Advanced options"); ?></a></li>
+</ul>
+
+
+
+<div id="tabs-standard-options">
+
+<form method="<?php echo $this->escape($this->form->getMethod()); ?>"
+      action="<?php echo $this->escape($this->form->getAction()); ?>"
+      name="formRestoreoptions" id="formRestoreoptions">
+
+<?php 
+    // hidden fields
+    echo $this->form->from_form;
+    echo $this->form->type_restore; // TODO not used ?
+    echo $this->form->jobid;
+?>
+
+<table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
+<tr>
+    <!-- client -->
+    <td align="right">
+        <label for="client_name" class="ui-select"><b><?php print $translate->_("Client"); ?></b></label>
+    </td>
+    <td align="left">
+        <?php echo $this->form->client_name;?>
+    </td>
+
+    <td align="right">
+        <label for="pool" class="ui-select"><?php print $translate->_("Pool"); ?></label>
+    </td>
+    <td align="left">
+        <?php echo $this->form->pool;?>
+    </td>
+</tr>
+<tr>
+    <!-- restoreclient -->
+    <td align="right">
+        <label for="client_name_to" class="ui-select"><b><?php print $translate->_("Restore client"); ?></b></label>
+    </td>
+    <td align="left">
+        <?php echo $this->form->client_name_to;?>
+    </td>
+
+    <!-- Fileset -->
+    <td align="right">
+        <label for="fileset" class="ui-select"><?php print $translate->_("Fileset"); ?></label>
+    </td>
+    <td align="left">
+        <?php echo $this->form->fileset;?>
+    </td>
+</tr>
+<tr>
+    <!-- Replace -->
+    <td align="right"> <label for="replace"><?php print $translate->_("Replace"); ?></label> </td>
+    <td align="left">
+        <?php echo $this->form->replace;?>
+    </td>
+
+    <!-- Storage -->
+    <td align="right">
+        <label for="storage" class="ui-select"><?php print $translate->_("Storage"); ?></label>
+    </td>
+    <td align="left">
+        <?php echo $this->form->storage;?>
+    </td>
+</tr>
+<tr>
+    <?php if ( $this->form->restore_job_select ) : ?>
+    <!-- if have multiple Restore Job resources -->
+    <td align="right">
+        <label for="restore_job_select" class="ui-select"><b><?php print $translate->_("Restore Job Resource"); ?></b></label>
+    </td>
+    <td align="left">
+        <?php echo $this->form->restore_job_select;?>
+    </td>
+    <td colspan="2">&nbsp;</td>
+    <?php else: ?>
+        <td colspan="4">&nbsp;</td>
+    <?php endif; ?>
+</tr>
+</table>
+
+</div>
+<!-- END tabs-standard-options -->
+
+
+
+<div id="tabs-advanced-options">
+
+<p><a href="#" id="link_dialog" class="ui-state-default ui-corner-all">
+    <span class="ui-icon ui-icon-info"></span>
+    <?php print $translate->_("Help"); ?>
+</a></p>
+
+<table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
+<tr>
+    <!-- Where -->
+    <td align="right" valign="middle"> <label for="where"><?php print $translate->_("Where"); ?></label> </td>
+    <td align="left"  valign="middle"> <?php echo $this->formText('where', '', array('size' => 34)) ?> </td>
+    <td><?php print $translate->_("Restore files in <b>where</b> directory."); ?></td>
+</tr><tr>
+    <!-- strip_prefix -->
+    <td align="right" valign="middle"> <label for="strip_prefix"><?php print $translate->_("Strip&nbsp;prefix"); ?></label> </td>
+    <td align="left"  valign="middle"> <?php echo $this->formText('strip_prefix', '', array('size' => 24)) ?> </td>
+    <td><?php print $translate->_("Remove a part of the filename when restoring."); ?></td>
+</tr><tr>
+    <!-- add_prefix -->
+    <td align="right" valign="middle"> <label for="add_prefix"><?php print $translate->_("Add&nbsp;prefix"); ?></label> </td>
+    <td align="left"  valign="middle"> <?php echo $this->formText('add_prefix', '', array('size' => 24)) ?> </td>
+    <td><?php print $translate->_("Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."); ?></td>
+</tr><tr>
+    <!-- add_suffix -->
+    <td align="right" valign="middle"> <label for="add_suffix"><?php print $translate->_("Add&nbsp;suffix"); ?></label> </td>
+    <td align="left"  valign="middle"> <?php echo $this->formText('add_suffix', '', array('size' => 24)) ?> </td>
+    <td><?php print $translate->_("Add a suffix to all your files."); ?></td>
+</tr><tr>
+    <!-- regexwhere -->
+    <td align="right" valign="middle"> <label for="regexwhere"><?php print $translate->_("RegexWhere"); ?></label> </td>
+    <td align="left"  valign="middle"> <?php echo $this->formText('regexwhere', '', array('size' => 34)) ?> </td>
+    <td><?php print $translate->_("Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."); ?></td>
+</tr>
+</table>
+</div>
+<!-- END tabs-advanced-options -->
+
+<!-- From Bacula manuals main/Restore_Command.html -->
+<div id="info_dialog" title="<?php echo $translate->_("Help"); ?>">
+
+<h3>Using File Relocation</h3>
+<p>For example, many users use OS snapshot features so that file
+<tt>/home/eric/mbox</tt> will be backed up from the directory
+<tt>/.snap/home/eric/mbox</tt>, which can complicate restores.  If you use
+<b>where=/tmp</b>, the file will be restored to
+<tt>/tmp/.snap/home/eric/mbox</tt> and you will have to move the file to
+<tt>/home/eric/mbox.bkp</tt> by hand.
+
+</p><p>
+However, case, you could use the
+<b>strip_prefix=/.snap</b> and <b>add_suffix=.bkp</b> options and
+Bacula will restore the file to its original location - that is
+
+<tt>/home/eric/mbox</tt>.
+
+
+<h3>RegexWhere Format</h3>
+<p>The format is very close to that used by sed or Perl (<tt>s/replace this/by that/</tt>) operator.
+A valid regexwhere expression has three fields :
+<ol>
+    <LI>a search expression (with optional submatch)</LI>
+    <LI>a replacement expression (with optional back references $1 to $9)</LI>
+    <LI>a set of search options (only case-insensitive 'i' at this time)</LI>
+</ol>
+</p><P>Each field is delimited by a separator specified by the user as the first
+character of the expression. The separator can be one of the following:
+<PRE>
+  &lt;separator-keyword&gt; = / ! ; % : , ~ # = &amp;
+</PRE>
+</p><P>You can use several expressions separated by a commas.<P>
+
+<h3>Examples</h3>
+<p>
+<table border="1" cellpadding="3">
+<thead>
+    <th scope="col">Orignal filename</th>
+    <th scope="col">New filename</th>
+    <th scope="col">RegexWhere</th>
+    <th scope="col">Comments</th>
+</thead>
+<tbody>
+<tr><td align="CENTER"><tt>c:/system.ini</tt></td>
+<td align="CENTER"><tt>c:/system.old.ini</tt></td>
+<td align="CENTER"><tt>/.ini$/.old.ini/</tt></td>
+<td align="LEFT">$ matches end of name</td>
+</tr>
+<tr><td align="CENTER"><tt>/prod/u01/pdata/</tt></td>
+<td align="CENTER"><tt>/rect/u01/rdata</tt></td>
+<td align="CENTER"><tt>/prod/rect/,/pdata/rdata/</tt></td>
+
+<td align="LEFT">uses two regexp</td>
+</tr>
+<tr><td align="CENTER"><tt>/prod/u01/pdata/</tt></td>
+<td align="CENTER"><tt>/rect/u01/rdata</tt></td>
+<td align="CENTER"><tt>!/prod/!/rect/!,/pdata/rdata/</tt></td>
+<td align="LEFT">use <tt>!</tt> as separator</td>
+</tr>
+<tr><td align="CENTER"><tt>C:/WINNT</tt></td>
+
+<td align="CENTER"><tt>d:/WINNT</tt></td>
+<td align="CENTER"><tt>/c:/d:/i</tt></td>
+<td align="LEFT">case insensitive pattern match</td>
+</tr>
+</tbody></table>
+</p>
+
+</div>
+
+
+
+<table border="0" cellpadding="3" cellspacing="0" align="center">
+<tr>
+    <td align="center">
+        <?php echo $this->form->submit_button; ?>
+        </form>
+    </td>
+    <td>&nbsp; &nbsp;</td>
+    <td align="center">
+
+       <form method="<?php echo $this->escape($this->form->getMethod()); ?>"
+             action="<?php echo $this->escape($this->form->getActionCancel()); ?>"
+             name="formRestoreoptionsCancel" id="formRestoreoptionsCancel">
+          <?php echo $this->form->cancel_button; ?>
+       </form>
+    </td>
+</tr>
+</table>
+
+</div>
