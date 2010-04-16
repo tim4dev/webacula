@@ -2,7 +2,11 @@ Webacula ChangeLog
 ------------------
 
 === 5.0
+    Required Bacula 5.0 or later.
     Now database 'webacula' NOT required for Restore Jobs.
+    Implements "Reviewed" feature: if the Job completed with an error, then you can
+click on the link "Written in Logbook" and "Reviewed" this Job.
+Then don't show this Job in list "Jobs with errors" in future. See also trac ticket #43.
 
 === 3.5 (Tue Feb 16 2010)
    Job->Search->File name (LIKE, REGEX) and restore single file.
