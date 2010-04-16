@@ -221,6 +221,7 @@ Logbook stored in a separate database "webacula", now it is supported  MySQL and
     ~~~~~~
    Download latest tarball.
    Save in safe place your "config.ini", remove directory "webacula", extract Webacula source code and replace "config.ini" back.
+   Run necessary script from update/ directory.
 
     If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
 
