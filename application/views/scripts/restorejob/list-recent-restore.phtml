@@ -1,28 +1,5 @@
 <!-- list-recent-restore.phtml -->
 
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#ok1').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
-        });
-    });
-});
-</script>
-
-<script type="text/javascript">
-  // select
-  $(function(){
-      $('select').each(function() {
-          var t = $(this).selectmenu({maxHeight: 300});
-          eval(t);
-      });
-  });
-</script>
-
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php if ($this->result): ?>
@@ -35,11 +12,7 @@ $(document).ready(function() {
 
 
 
-<?php
-    $this->form->setAction( $this->baseUrl .'/restorejob/run-restore-recent' );
-    $this->form->setActionCancel( $this->baseUrl .'/restorejob/cancel-restore-recent' );
-    echo $this->form;
-?>
+<?php echo $this->form;?>
 <br style="clear: both;" />
 
 

@@ -27,7 +27,7 @@ class FormRestoreOptions extends Zend_Form
 {
 
     protected $_action_cancel = '';
-    
+
     public  $elDecorators = array(
         'ViewHelper',
         'Errors'
@@ -60,10 +60,10 @@ class FormRestoreOptions extends Zend_Form
         /*
          * client_name / client
          * client_name_to / restoreclient
-         * 
+         *
          */
         $table_client = new Client();
-  	$clients = $table_client->fetchAll();
+        $clients = $table_client->fetchAll();
         $client_name = $this->createElement('select', 'client_name', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Client',
@@ -87,7 +87,7 @@ class FormRestoreOptions extends Zend_Form
          * pool
          */
         $table_pool = new Pool();
-   	$pools = $table_pool->fetchAll();
+   	    $pools = $table_pool->fetchAll();
         $pool = $this->createElement('select', 'pool', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Pool',
@@ -100,18 +100,10 @@ class FormRestoreOptions extends Zend_Form
             $pool->addMultiOption($v->name, $v->name);
         }
         /*
-         * replace
-         */
-        $replace = $this->createElement('checkbox', 'replace', array(
-            'decorators' => $this->elDecorators,
-            'label'    => 'Replace',
-            'checked'  => 0
-        ));
-        /*
          * fileset
          */
         $table_fileset = new FileSet();
-   	$filesets = $table_fileset->fetchAll();
+   	    $filesets = $table_fileset->fetchAll();
         $fileset = $this->createElement('select', 'fileset', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Fileset',
@@ -127,7 +119,7 @@ class FormRestoreOptions extends Zend_Form
          * storage
          */
         $table_storage = new Storage();
-   	$storages = $table_storage->fetchAll();
+   	    $storages = $table_storage->fetchAll();
         $storage = $this->createElement('select', 'storage', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Storage',
@@ -153,8 +145,9 @@ class FormRestoreOptions extends Zend_Form
                 'style' => 'width: 18em;'
             ));
             $bacula_restore_jobs = $config->bacula_restore_job->toArray();
+            $i = 1;
             foreach( $bacula_restore_jobs as $v) {
-                $restore_job_select->addMultiOption($v, $v);
+                $restore_job_select->addMultiOption($i++, $v);
             }
             // add element to form
             $this->addElement($restore_job_select);
@@ -172,7 +165,7 @@ class FormRestoreOptions extends Zend_Form
             'maxlength' => 255,
             'value'     => ''
         ));
-        $where->addValidator('StringLength', false, array(1, 255) );
+        $where->addValidator('StringLength', false, array(0, 255) );
         /*
          * strip_prefix
          */
@@ -184,7 +177,7 @@ class FormRestoreOptions extends Zend_Form
             'maxlength' => 64,
             'value'     => ''
         ));
-        $strip_prefix->addValidator('StringLength', false, array(1, 64) );
+        $strip_prefix->addValidator('StringLength', false, array(0, 64) );
         /*
          * add_prefix
          */
@@ -196,7 +189,7 @@ class FormRestoreOptions extends Zend_Form
             'maxlength' => 64,
             'value'     => ''
         ));
-        $add_prefix->addValidator('StringLength', false, array(1, 64) );
+        $add_prefix->addValidator('StringLength', false, array(0, 64) );
         /*
          * add_suffix
          */
@@ -206,9 +199,9 @@ class FormRestoreOptions extends Zend_Form
             'required'  => false,
             'size'      => 24,
             'maxlength' => 64,
-            'value'     => ''
+            'value'     => '' // '.old' // for debug
         ));
-        $add_suffix->addValidator('StringLength', false, array(1, 64) );
+        $add_suffix->addValidator('StringLength', false, array(0, 64) );
         /*
          * regexwhere
          */
@@ -218,9 +211,9 @@ class FormRestoreOptions extends Zend_Form
             'required'  => false,
             'size'      => 24,
             'maxlength' => 64,
-            'value'     => ''
+            'value'     => '' // '/test/qwerty/,/webacula/zzzasdf/'  // for debug
         ));
-        $regexwhere->addValidator('StringLength', false, array(1, 64) );
+        $regexwhere->addValidator('StringLength', false, array(0, 64) );
         /*
          * submit button
          */
@@ -245,7 +238,6 @@ class FormRestoreOptions extends Zend_Form
             $client_name,
             $client_name_to,
             $pool,
-            $replace,
             $fileset,
             $storage,
             $where,

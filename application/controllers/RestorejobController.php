@@ -69,6 +69,23 @@ class RestorejobController extends MyClass_ControllerAction
 
     protected $bacula_restore_job; // from ini. if have multiple Restore Job resources
 
+    /*
+     * for Restore Form options
+     */
+    protected $jobid;
+    protected $client_name;
+    protected $client_name_to; // restoreclient
+    protected $storage;
+    protected $pool;
+    protected $fileset;
+    protected $restore_job_select; // if have multiple Restore Job resources
+    // advanced options
+    protected $where;
+    protected $strip_prefix;
+    protected $add_prefix;
+    protected $add_suffix;
+    protected $regexwhere;
+
 
 
     function init()
@@ -114,10 +131,52 @@ class RestorejobController extends MyClass_ControllerAction
         Zend_Session::rememberMe($this->ttl_restore_session);
     }
 
+
     function mySessionStop() {
         // close session / удаляем данные сессии
         $this->restoreNamespace->unsetAll();
         Zend_Session::forgetMe();
+    }
+
+
+    function getParamFromForm() {
+        $this->jobid = addslashes( $this->_request->getParam('jobid', null));
+        $this->client_name    = addslashes( $this->_request->getParam('client_name', null));
+        $this->client_name_to = addslashes( $this->_request->getParam('client_name_to', null)); // restoreclient
+        $this->storage = addslashes( $this->_request->getParam('storage', null));
+        $this->pool    = addslashes( $this->_request->getParam('pool', null));
+        $this->fileset = addslashes( $this->_request->getParam('fileset', null));
+
+        // if have multiple Restore Job resources
+        /* The defined Restore Job resources are:
+             1: restore.files
+             2: restore.files.2
+          Select Restore Job (1-2): */
+        $this->restore_job_select = $this->_request->getParam('restore_job_select', null);
+        // advanced options
+        $this->where   = addslashes( $this->_request->getParam('where', null));
+        $this->strip_prefix = addslashes( $this->_request->getParam('strip_prefix', null));
+        $this->add_prefix   = addslashes( $this->_request->getParam('add_prefix', null));
+        $this->add_suffix   = addslashes( $this->_request->getParam('add_suffix', null));
+        $this->regexwhere   = addslashes( $this->_request->getParam('regexwhere', null));
+    }
+
+
+    function getCmdRestore()   {
+        $cmd = '';
+        if ( !empty($this->jobid) )  $cmd .= ' jobid=' . $this->jobid;
+        if ( !empty($this->client_name) )  $cmd .= ' client="' . $this->client_name . '"';
+        if ( !empty($this->client_name_to) )  $cmd .= ' restoreclient="' . $this->client_name_to . '"';
+        if ( !empty($this->storage) ) $cmd .= ' storage="' . $this->storage . '"';
+        if ( !empty($this->pool) ) $cmd .= ' pool="' . $this->pool . '"';
+        if ( !empty($this->fileset) ) $cmd .= ' fileset="' . $this->fileset . '"';
+        // advanced options
+        if ( !empty($this->where) )        $cmd .= ' where="' . $this->where . '"';
+        if ( !empty($this->strip_prefix) ) $cmd .= ' strip_prefix="' . $this->strip_prefix . '"';
+        if ( !empty($this->add_prefix) )   $cmd .= ' add_prefix="' . $this->add_prefix . '"';
+        if ( !empty($this->add_suffix) )   $cmd .= ' add_suffix="' . $this->add_suffix . '"';
+        if ( !empty($this->regexwhere) )   $cmd .= ' regexwhere="' . $this->regexwhere . '"';
+        return $cmd;
     }
 
 
@@ -313,6 +372,7 @@ class RestorejobController extends MyClass_ControllerAction
             $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
             $this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."), $jobid);
 
+            // TODO сделать формы отдельно + валидаторы
             // get data for form
             Zend_Loader::loadClass('Storage');
             Zend_Loader::loadClass('Pool');
@@ -346,50 +406,17 @@ class RestorejobController extends MyClass_ControllerAction
                 $this->render();
                 return;
             }
-
-            $client_name_to = addslashes( $this->_request->getParam('client_name_to', '') );
-            $client_name    = addslashes( $this->_request->getParam('client_name', '') );
-            $storage = addslashes( $this->_request->getParam('storage', null) );
-            $pool    = addslashes( $this->_request->getParam('pool', null) );
-            $fileset = addslashes( $this->_request->getParam('fileset', null) );
-            // advanced options
-            $where   = addslashes( $this->_request->getParam('where', null));
-            $strip_prefix = addslashes( $this->_request->getParam('strip_prefix', null));
-            $add_prefix   = addslashes( $this->_request->getParam('add_prefix', null));
-            $add_suffix   = addslashes( $this->_request->getParam('add_suffix', null));
-            $regexwhere   = addslashes( $this->_request->getParam('regexwhere', null));
-            // if have multiple Restore Job resources
-            if ( $this->bacula_restore_job)
-                /* The defined Restore Job resources are:
-                      1: restore.files
-                      2: restore.files.2
-                    Select Restore Job (1-2): */
-                $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
-            else $restore_job_select = '';
-
-            if ( (!empty($storage)) && ($storage != 'default') )    {
-                $cmd_mount = 'mount "' . $storage . '"';
+            $this->getParamFromForm();
+            $cmd_mount = '';
+            $cmd_sleep = '';
+            if ( (!empty($this->storage)) )    {
+                $cmd_mount = 'mount "' . $this->storage . '"';
                 $cmd_sleep = '@sleep 10';
-            }   else {
-                $cmd_mount = '';
-                $cmd_sleep = '';
             }
-
-           //******************************* запуск задания ***************************************
-           // формируем командную строку
-           // restore client=Rufus select current all done yes
-           $cmd = 'restore jobid=' . $jobid . ' restoreclient="' . $client_name_to . '"';
-           if ( !empty($client_name) )  $cmd .= ' client="' . $client_name . '"';
-           if ( !empty($storage) ) $cmd .= ' storage="' . $storage . '"';
-           if ( !empty($pool) ) $cmd .= ' pool="' . $pool . '"';
-           if ( !empty($fileset) ) $cmd .= ' fileset="' . $fileset . '"';
-           // advanced options
-           if ( !empty($where) )        $cmd .= ' where="' . $where . '"';
-           if ( !empty($strip_prefix) ) $cmd .= ' strip_prefix="' . $strip_prefix . '"';
-           if ( !empty($add_prefix) )   $cmd .= ' add_prefix="' . $add_prefix . '"';
-           if ( !empty($add_suffix) )   $cmd .= ' add_suffix="' . $add_suffix . '"';
-           if ( !empty($regexwhere) )   $cmd .= ' regexwhere="' . $regexwhere . '"';
-           $cmd .= ' all done yes';
+            //******************************* run job ***************************************
+            // create command / формируем командную строку
+            // restore client=Rufus select current all done yes
+            $cmd  = 'restore '. $this->getCmdRestore() .' all done yes';
 
             $comment = __METHOD__;
             $astatusdir = $director->execDirector(
@@ -400,7 +427,7 @@ class RestorejobController extends MyClass_ControllerAction
 $cmd_mount
 $cmd_sleep
 $cmd
-$restore_job_select
+$this->restore_job_select
 @sleep 3
 status dir
 @quit
@@ -428,15 +455,16 @@ EOF"
                 ))
             ));
             $form->init();
+            $form->setAction( $this->view->baseUrl .'/restorejob/restore-all' );
+            $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
             // fill form
             $form->populate( array(
                 'client_name_to' => $this->restoreNamespace->ClientNameTo,
                 'type_restore'   => $this->restoreNamespace->typeRestore,
                 'jobid'          => $this->view->jobid,
-                'client_name'    => $client_name
+                'client_name'    => $this->client_name
             ));
             $this->view->form = $form;
-
             $this->render();
         }
     }
@@ -457,7 +485,7 @@ EOF"
         $this->view->title = $this->view->translate->_("Restore All files");
 
         // начало отрисовки? т.е. форма выбора client, where уже заполнена?
-        $choice_form = intval( $this->_request->getParam('choice_form', 0) );
+        $from_form = intval( $this->_request->getParam('from_form', 0) );
 
         $director = new Director();
         if ( !$director->isFoundBconsole() )	{
@@ -467,44 +495,25 @@ EOF"
         }
 
         // *************************** run restore ************************************************
-        if ( $choice_form == 1 )  {
+        if ( $from_form == 1 )  {
             // форма выбора client, where уже заполнена
-            $this->restoreNamespace->ClientNameTo   = addslashes( $this->_request->getParam('client_to_restore', '') );
-            $path_to_restore     = $this->_request->getParam('path_to_restore', '');
+            $this->getParamFromForm();
+            // переопределение некоторых переменных
+            $this->client_name    = addslashes( $this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
+            $this->fileset = addslashes( $this->_request->getParam('fileset', $this->restoreNamespace->FileSet) );
+            $this->restoreNamespace->ClientNameTo = $this->client_name_to;
 
             if ( empty($this->restoreNamespace->DateBefore) ) {
                 $cmd_date_before = ' current ';
             } else {
                 $cmd_date_before = ' before="'. $this->restoreNamespace->DateBefore . '" ';
             }
-            if ( empty($this->restoreNamespace->ClientNameTo) ) {
-                $client_to_restore = '';
-            } else {
-                $client_to_restore = ' restoreclient="'. $this->restoreNamespace->ClientNameTo . '" ';
-            }
-            if ( empty($path_to_restore) ) {
-                $path_to_restore = '';
-            } else {
-                $path_to_restore = ' where="'. $path_to_restore . '" ';
-            }
-            // if have multiple Restore Job resources
-            if ( $this->bacula_restore_job)
-                /* The defined Restore Job resources are:
-                  1: restore.files
-                  2: restore.files.2
-                   Select Restore Job (1-2): */
-                $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
-            else $restore_job_select = '';
-
-            //******************************* запуск задания ***************************************
-            // формируем командную строку
+            //******************************* run job ***************************************
+            // create command / формируем командную строку
             // restore client="local.fd" restoreclient="local.fd" fileset="test1"  where="/home/test/11111" current select all done yes
             // restore client="local.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
             // restore client="local.fd" restoreclient="srv1.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
-            $cmd = 'restore client="' . $this->restoreNamespace->ClientNameFrom . '" ' .
-                $client_to_restore . $path_to_restore .
-                ' fileset="' . $this->restoreNamespace->FileSet . '"' .	$cmd_date_before;
-            $cmd .= ' select all done yes';
+            $cmd = 'restore '. $this->getCmdRestore() .' '. $cmd_date_before .' select all done yes';
 
             $comment = __METHOD__;
             $astatusdir = $director->execDirector(
@@ -513,7 +522,7 @@ EOF"
 @# $comment
 @#
 $cmd
-$restore_job_select
+$this->restore_job_select
 @sleep 3
 status dir
 @quit
@@ -527,16 +536,29 @@ EOF"
             $this->renderScript('restorejob/run-restore.phtml');
 
         } else {
-            // для отрисовки формы выбора client, where
-            $this->view->client_from_restore = $this->restoreNamespace->ClientNameFrom;
-            $this->view->fileset_restore	 = $this->restoreNamespace->FileSet;
-            $this->view->date_before		 = $this->restoreNamespace->DateBefore;
-            // get data for form
-            Zend_Loader::loadClass('Client');
-            $clients = new Client();
-            $this->view->clients = $clients->fetchAll();
-            // if have multiple Restore Job resources
-            $this->view->bacula_restore_job = $this->bacula_restore_job;
+            /*
+             * Restore options form
+             */
+            Zend_Loader::loadClass('FormRestoreOptions');
+            $form = new formRestoreOptions();
+            // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+            $form->setDecorators(array(
+                array('ViewScript', array(
+                    'viewScript' => 'decorators/formRestoreoptions.phtml',
+                    'form'=> $form
+                ))
+            ));
+            $form->init();
+            $form->setAction( $this->view->baseUrl .'/restorejob/restore-recent-all' );
+            $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore-recent' );
+            // fill form
+            $form->populate( array(
+                'client_name'    => $this->restoreNamespace->ClientNameFrom,
+                'client_name_to' => $this->restoreNamespace->ClientNameTo,
+                'fileset'        => $this->restoreNamespace->FileSet,
+                'type_restore'   => $this->restoreNamespace->typeRestore,
+            ));
+            $this->view->form = $form;
             $this->render();
         }
     }
@@ -560,6 +582,7 @@ EOF"
             /* Начало отрисовки дерева каталогов */
             // существует ли такое jobid
             if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) {
+                // TODO сделать формы отдельно + валидаторы
                 // выдача сообщения, что такого jobid не существует
                 $this->view->title = $this->view->translate->_("Restore Job");
                 $this->view->jobid = $this->restoreNamespace->JobId;
@@ -658,6 +681,7 @@ EOF"
         $this->view->beginrecent = 1;
         $this->render();
     }
+
 
     function selectRecentFilesAction()
     {
@@ -794,17 +818,6 @@ EOF"
                             (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
                             (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')".
                             ' ORDER BY Name ASC';
-/*                        $select->distinct();
-                        $select->from(array('t' => $tmp_tables->getTableNameFile()), 'isMarked');
-                        $select->from(array('n' => 'Filename'), array('Name'));
-                        $select->from(array('p' => 'Path'), array('Path'));
-                        $select->from(array('f' => 'File'), array('FileId', 'LStat', 'PathId'));
-                        $select->where('t.FileId = f.FileId');
-                        $select->where('f.FileNameId = n.FileNameId');
-                        $select->where('f.PathId = p.PathId');
-                        $select->where("n.Name != ''");
-                        $select->where("p.Path = ?", $curdir);
-                        $select->order('Name ASC');*/
                         break;
                 }
                 $stmt = $db->query($sql);
@@ -1086,15 +1099,15 @@ EOF"
         $this->view->total_size = $atotal['total_size'];
 
         // *** pager ***
-  	// calculate total rows and pages
+  	    // calculate total rows and pages
         $this->view->total_rows = $atotal['total_files'];
         $this->view->total_pages = ceil( $this->view->total_rows / self::ROW_LIMIT_FILES );
         $this->view->current_page = $page;
         // *** end pager ***
 
-	$offset = self::ROW_LIMIT_FILES * ($page - 1);
-	$this->view->result = $tmp_tables->getListToRestore($offset);
-        
+        $offset = self::ROW_LIMIT_FILES * ($page - 1);
+        $this->view->result = $tmp_tables->getListToRestore($offset);
+
         /*
          * Restore options form
          */
@@ -1108,6 +1121,8 @@ EOF"
             ))
         ));
         $form->init();
+        $form->setAction( $this->view->baseUrl .'/restorejob/run-restore' );
+        $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
         // fill form
         $form->populate( array(
             'client_name_to' => $this->restoreNamespace->ClientNameTo,
@@ -1140,14 +1155,14 @@ EOF"
         $this->view->total_size = $atotal['total_size'];
 
         // *** pager ***
-  	// calculate total rows and pages
+        // calculate total rows and pages
         $this->view->total_rows = $atotal['total_files'];
         $this->view->total_pages = ceil( $this->view->total_rows / self::ROW_LIMIT_FILES );
         $this->view->current_page = $page;
         // *** end pager ***
 
-	$offset = self::ROW_LIMIT_FILES * ($page - 1);
-	$this->view->result = $tmp_tables->getListToRestore($offset);
+        $offset = self::ROW_LIMIT_FILES * ($page - 1);
+        $this->view->result = $tmp_tables->getListToRestore($offset);
 
         /*
          * Restore options form
@@ -1162,6 +1177,8 @@ EOF"
             ))
         ));
         $form->init();
+        $form->setAction( $this->view->baseUrl .'/restorejob/run-restore-recent' );
+        $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore-recent' );
         // fill form
         $form->populate( array(
             'client_name_to' => $this->restoreNamespace->ClientNameTo,
@@ -1192,39 +1209,22 @@ EOF"
         }
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        $client_name_to = addslashes( $this->_request->getParam('client_name_to', null)); // restoreclient
-        $storage = addslashes( $this->_request->getParam('storage', null));
-        $pool    = addslashes( $this->_request->getParam('pool', null));
-        $fileset = addslashes( $this->_request->getParam('fileset', null));
-        $replace = addslashes( $this->_request->getParam('replace', null));
-        // advanced options
-        $where   = addslashes( $this->_request->getParam('where', null));
-        $strip_prefix = addslashes( $this->_request->getParam('strip_prefix', null));
-        $add_prefix   = addslashes( $this->_request->getParam('add_prefix', null));
-        $add_suffix   = addslashes( $this->_request->getParam('add_suffix', null));
-        $regexwhere   = addslashes( $this->_request->getParam('regexwhere', null));
-        // if have multiple Restore Job resources
-        if ( $this->bacula_restore_job)
-            /* The defined Restore Job resources are:
-                  1: restore.files
-                  2: restore.files.2
-               Select Restore Job (1-2): */
-            $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
-        else $restore_job_select = '';
+        if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) return;
+
+        $this->getParamFromForm();
+        // переопределяем некоторые переменные
+        $this->jobid = $this->restoreNamespace->JobId;
 
         $this->view->title = $this->view->translate->_("Restore JobId");
         $this->view->jobid = $this->restoreNamespace->JobId;
         $this->view->jobidhash = $this->restoreNamespace->JobHash;
 
-        if ( (!empty($storage)) && ($storage != 'default') )    {
+        $cmd_mount = '';
+        $cmd_sleep = '';
+        if ( (!empty($storage)) )    {
             $cmd_mount = 'mount "' . $storage . '"';
             $cmd_sleep = '@sleep 7';
-        }   else {
-            $cmd_mount = '';
-            $cmd_sleep = '';
         }
-
-        if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) return;
         // получаем каталог куда можно писать файл
         $config = Zend_Registry::get('config');
         $tmpdir = $config->tmpdir;
@@ -1244,28 +1244,14 @@ EOF"
         // unused ? $list = $ares['name']; // имя файла со списком файлов для восстановления
 
         if ( $ares['result'] == TRUE )  {
-            //******************************* запуск задания ***************************************
+            //******************************* run job ***************************************
             // perform the command line  (формируем командную строку)
-            // !!! ONLY IN THAT ORDER (ТОЛЬКО В УКАЗАННОМ ПОРЯДКЕ) !!!
             // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
             // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
             //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
-            $cmd = 'restore jobid=' . $this->restoreNamespace->JobId .
-                   ' file=<"/tmp/webacula_restore_' . $this->restoreNamespace->JobHash . '.tmp"' .
-                   ' restoreclient="' . $client_name_to . '" ';
-            if ( !empty($this->restoreNamespace->ClientNameFrom) )   $cmd .= ' client="' . $this->restoreNamespace->ClientNameFrom . '"';
-            if ( !empty($storage) )  $cmd .= ' storage="' . $storage . '"';
-            if ( !empty($pool) )     $cmd .= ' pool="' . $pool . '"';
-            if ( !empty($fileset) )  $cmd .= ' fileset="' . $fileset . '"';
-            if ( !empty($replace) )  $cmd .= ' replace=yes';
-            // advanced options
-            if ( !empty($where) )        $cmd .= ' where="' . $where . '"';
-            if ( !empty($strip_prefix) ) $cmd .= ' strip_prefix="' . $strip_prefix . '"';
-            if ( !empty($add_prefix) )   $cmd .= ' add_prefix="' . $add_prefix . '"';
-            if ( !empty($add_suffix) )   $cmd .= ' add_suffix="' . $add_suffix . '"';
-            if ( !empty($regexwhere) )   $cmd .= ' regexwhere="' . $regexwhere . '"';
-
-            $cmd .= ' yes';
+            $cmd = 'restore '. $this->getCmdRestore() .
+                ' file=<"/tmp/webacula_restore_' . $this->restoreNamespace->JobHash . '.tmp"' .
+                ' yes';
 
             //echo $cmd; exit;// !!! debug
             $comment = __METHOD__;
@@ -1277,7 +1263,7 @@ EOF"
 $cmd_mount
 $cmd_sleep
 $cmd
-$restore_job_select
+$this->restore_job_select
 @sleep 3
 status dir
 quit
@@ -1317,16 +1303,10 @@ EOF"
             $this->renderScript('restorejob/run-restore.phtml');
             return;
         }
-        $this->restoreNamespace->ClientNameTo   = addslashes( $this->_request->getParam('client_name_to', '') );
-        $path_to_restore = $this->_request->getParam('path_to_restore', '');
-        // if have multiple Restore Job resources
-        if ( $this->bacula_restore_job)
-            /* The defined Restore Job resources are:
-                  1: restore.files
-                  2: restore.files.2
-               Select Restore Job (1-2): */
-            $restore_job_select = intval( $this->_request->getParam('restore_job_select', 0)) + 1;
-        else $restore_job_select = '';
+        $this->getParamFromForm();
+        // переопределяем некоторые переменные
+        if ( !empty($this->restoreNamespace->ClientNameTo) ) $this->client_name_to = $this->restoreNamespace->ClientNameTo;
+        $this->restoreNamespace->ClientNameTo   = $this->client_name_to;
 
         // export to a text file (экспорт в текстовый файл)
         // получаем каталог куда можно писать файл
@@ -1336,29 +1316,13 @@ EOF"
         $ares = $tmp_tables->exportMarkFiles($tmpdir);
         $list = $ares['name']; // имя файла со списком файлов для восстановления
 
-        if ( empty($this->restoreNamespace->DateBefore) ) {
-            $cmd_date_before = ' current ';
-        } else {
-            $cmd_date_before = ' before="'. $this->restoreNamespace->DateBefore . '" ';
-        }
-        if ( empty($this->restoreNamespace->ClientNameTo) ) {
-            $client_to_restore = '';
-        } else {
-            $client_to_restore = ' restoreclient="'. $this->restoreNamespace->ClientNameTo . '" ';
-        }
-        if ( empty($path_to_restore) ) {
-            $path_to_restore = '';
-        } else {
-            $path_to_restore = ' where="'. $path_to_restore . '" ';
-       	}
+        $date_before = 'current';
+        if ( !empty($this->restoreNamespace->DateBefore) )
+            $date_before = 'before="'. $this->restoreNamespace->DateBefore . '"';
         //******************************* запуск задания ***************************************
         // формируем командную строку
         // restore client="local.fd" fileset="test1" before="2009-05-15 14:50:01" file=<"/etc/bacula/webacula_restore.tmp" done yes
-        $cmd = 'restore client="' . $this->restoreNamespace->ClientNameFrom . '" ' .
-            $client_to_restore . $path_to_restore .
-            ' fileset="' . $this->restoreNamespace->FileSet . '" ' .	$cmd_date_before .
-            ' file=<"' . $list . '" ';
-        $cmd .= ' done yes';
+        $cmd = 'restore ' . $this->getCmdRestore() .' '.	$date_before .' file=<"'. $list . '" done yes';
         //var_dump($cmd); exit; // !!!debug!!!
         $comment = __METHOD__;
         $astatusdir = $director->execDirector(
@@ -1367,7 +1331,7 @@ EOF"
 @# $comment
 @#
 $cmd
-$restore_job_select
+$this->restore_job_select
 @sleep 3
 status dir
 @quit

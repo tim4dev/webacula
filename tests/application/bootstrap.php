@@ -34,6 +34,7 @@ define('WEBACULA_VERSION', '3.x, build for tests');
 Zend_Loader::loadClass('MyClass_ControllerAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
+Zend_Loader::loadClass('Version');
 
 // load configuration
 $config = new Zend_Config_Ini($appRoot . '/application/config.ini', 'general');

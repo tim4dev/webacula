@@ -43,6 +43,7 @@ if [ $? == 0 ]
       exit 11
 fi
 
+sudo rm -f /tmp/webacula_restore_*
 
 cd prepare_tests
 sudo ./clean_all.sh
@@ -108,4 +109,6 @@ echo -e "\n\n"
 sh ./locale-test.sh
 
 sudo service postgresql stop
+
+sudo rm -f /tmp/webacula_restore_*
 

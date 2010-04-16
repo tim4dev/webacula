@@ -65,7 +65,7 @@ $(document).ready(function() {
       action="<?php echo $this->escape($this->form->getAction()); ?>"
       name="formRestoreoptions" id="formRestoreoptions">
 
-<?php 
+<?php
     // hidden fields
     echo $this->form->from_form;
     echo $this->form->type_restore; // TODO not used ?
@@ -107,11 +107,17 @@ $(document).ready(function() {
     </td>
 </tr>
 <tr>
-    <!-- Replace -->
-    <td align="right"> <label for="replace"><?php print $translate->_("Replace"); ?></label> </td>
-    <td align="left">
-        <?php echo $this->form->replace;?>
-    </td>
+    <?php if ( $this->form->restore_job_select ) : ?>
+        <!-- if have multiple Restore Job resources -->
+        <td align="right">
+            <label for="restore_job_select" class="ui-select"><b><?php print $translate->_("Restore Job Resource"); ?></b></label>
+        </td>
+        <td align="left">
+            <?php echo $this->form->restore_job_select;?>
+        </td>
+    <?php else: ?>
+        <td colspan="2">&nbsp;</td>
+    <?php endif; ?>
 
     <!-- Storage -->
     <td align="right">
@@ -120,20 +126,6 @@ $(document).ready(function() {
     <td align="left">
         <?php echo $this->form->storage;?>
     </td>
-</tr>
-<tr>
-    <?php if ( $this->form->restore_job_select ) : ?>
-    <!-- if have multiple Restore Job resources -->
-    <td align="right">
-        <label for="restore_job_select" class="ui-select"><b><?php print $translate->_("Restore Job Resource"); ?></b></label>
-    </td>
-    <td align="left">
-        <?php echo $this->form->restore_job_select;?>
-    </td>
-    <td colspan="2">&nbsp;</td>
-    <?php else: ?>
-        <td colspan="4">&nbsp;</td>
-    <?php endif; ?>
 </tr>
 </table>
 
@@ -153,27 +145,27 @@ $(document).ready(function() {
 <tr>
     <!-- Where -->
     <td align="right" valign="middle"> <label for="where"><?php print $translate->_("Where"); ?></label> </td>
-    <td align="left"  valign="middle"> <?php echo $this->formText('where', '', array('size' => 34)) ?> </td>
+    <td align="left"  valign="middle"> <?php echo $this->form->where;?> </td>
     <td><?php print $translate->_("Restore files in <b>where</b> directory."); ?></td>
 </tr><tr>
     <!-- strip_prefix -->
     <td align="right" valign="middle"> <label for="strip_prefix"><?php print $translate->_("Strip&nbsp;prefix"); ?></label> </td>
-    <td align="left"  valign="middle"> <?php echo $this->formText('strip_prefix', '', array('size' => 24)) ?> </td>
+    <td align="left"  valign="middle"> <?php echo $this->form->strip_prefix;?> </td>
     <td><?php print $translate->_("Remove a part of the filename when restoring."); ?></td>
 </tr><tr>
     <!-- add_prefix -->
     <td align="right" valign="middle"> <label for="add_prefix"><?php print $translate->_("Add&nbsp;prefix"); ?></label> </td>
-    <td align="left"  valign="middle"> <?php echo $this->formText('add_prefix', '', array('size' => 24)) ?> </td>
+    <td align="left"  valign="middle"> <?php echo $this->form->add_prefix; ?> </td>
     <td><?php print $translate->_("Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."); ?></td>
 </tr><tr>
     <!-- add_suffix -->
     <td align="right" valign="middle"> <label for="add_suffix"><?php print $translate->_("Add&nbsp;suffix"); ?></label> </td>
-    <td align="left"  valign="middle"> <?php echo $this->formText('add_suffix', '', array('size' => 24)) ?> </td>
+    <td align="left"  valign="middle"> <?php echo $this->form->add_suffix; ?> </td>
     <td><?php print $translate->_("Add a suffix to all your files."); ?></td>
 </tr><tr>
     <!-- regexwhere -->
     <td align="right" valign="middle"> <label for="regexwhere"><?php print $translate->_("RegexWhere"); ?></label> </td>
-    <td align="left"  valign="middle"> <?php echo $this->formText('regexwhere', '', array('size' => 34)) ?> </td>
+    <td align="left"  valign="middle"> <?php echo $this->form->regexwhere; ?> </td>
     <td><?php print $translate->_("Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."); ?></td>
 </tr>
 </table>

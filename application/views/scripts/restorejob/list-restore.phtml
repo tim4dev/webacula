@@ -1,55 +1,5 @@
 <!-- list-restore.phtml -->
 
-<style type="text/css">
-    #link_dialog {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
-    #link_dialog span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
-</style>
-
-<script type="text/javascript">
-$(function() {
-	// tabs
-    $("#tabs").tabs();
-
-    // Dialog
-    $('#info_dialog').dialog({
-        autoOpen: false,
-        width: 640,
-        height: 480
-    });
-
-    // helps for advanced options
-    $('#link_dialog').click(function(){
-        $('#info_dialog').dialog('open');
-        return false;
-    });
-});
-</script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#ok1').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
-        });
-    });
-});
-</script>
-
-<script type="text/javascript">
-  // select
-  $(function(){
-      $('select').each(function() {
-          var t = $(this).selectmenu({maxHeight: 300});
-          eval(t);
-      });
-  });
-</script>
-
-
-
 <h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
 <?php if ($this->result): ?>
@@ -64,11 +14,7 @@ $(document).ready(function() {
 
 
 
-<?php
-    $this->form->setAction( $this->baseUrl .'/restorejob/run-restore' );
-    $this->form->setActionCancel( $this->baseUrl .'/restorejob/cancel-restore' );
-    echo $this->form;
-?>
+<?php echo $this->form;?>
 <br style="clear: both;" />
 
 

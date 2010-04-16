@@ -45,6 +45,7 @@ class RestoreControllerTest extends ControllerTestCase
         $fileid = 1217;
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
+        $client_name = 'local.fd';
         $tsleep = 25; // sec. wait to restore
 
         $jobidhash = md5($jobid);
@@ -170,7 +171,13 @@ class RestoreControllerTest extends ControllerTestCase
         $this->resetRequest()
              ->resetResponse();
         // goto /restorejob/run-restore
+        $this->getRequest()
+             ->setParams(array(
+                'client_name' => $client_name
+             ))
+             ->setMethod('POST');
         $this->dispatch('restorejob/run-restore');
+        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('run-restore');
@@ -178,7 +185,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', 'Connecting to Director');
         $this->assertQueryContentContains('td', 'quit');
-        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $this->assertNotQueryContentRegex('td', '/Error|Expected/i');
         $this->resetRequest()
              ->resetResponse();
         echo " Goto run-restore - OK. Waiting  $tsleep sec. to restore ... ";
@@ -253,7 +260,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', 'Connecting to Director');
         $this->assertQueryContentContains('td', 'quit');
-        $this->assertNotQueryContentRegex('td', '/Error/i');
+        $this->assertNotQueryContentRegex('td', '/Error|Expected/i');
         $this->resetRequest()
              ->resetResponse();
         echo "\n\t* Goto run-restore single file - OK. Waiting  $tsleep sec. to restore ... ";
