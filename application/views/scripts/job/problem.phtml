@@ -19,6 +19,7 @@
      <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
+     <th scope="col">&nbsp;</th>
 </tr>
 </thead>
 <tbody>
@@ -130,6 +131,20 @@
 	<td><?php echo $this->escape($line['endtime']);?></td>
 	<td align="right"><?php echo $this->escape($line['durationtime']);?></td>
 
+        <!-- add to logbook button -->
+        <td style="padding: 0px; width:16px;"><?php
+        if ( isset($line['poolid'], $line['poolname']) )    {
+                echo '<a href="';
+                echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($line['jobname']),
+                    '/endtime/', $this->escape($line['endtime']),
+                    '/jobid/', $this->escape($line['jobid']),
+                    '/joberrors/', $this->escape($line['joberrors']);
+                echo '" title="', $this->translate->_("Written in Logbook"), '">';
+                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), '" border="0" hspace="2">';
+                echo '</a>';
+        }
+        ?>
+        </td>
 </tr>
 <?php endforeach; ?>
 </tbody>
