@@ -38,8 +38,11 @@ class FormRestoreOptions extends Zend_Form
     {
         $translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
-        // Set the method for the display form to POST
+        // set method to POST
         $this->setMethod('post');
+        /*
+         * hidden fields
+         */
         $from_form = $this->addElement('hidden', 'from_form', array(
             'decorators' => $this->elDecorators,
             'value' => '1'
@@ -78,7 +81,8 @@ class FormRestoreOptions extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 18em;'
         ));
-        //$client_name->addMultiOption('', $translate->_("Default"));
+        $client_name->addMultiOption('', $translate->_("Default"));
+        $client_name_to->addMultiOption('', $translate->_("Default"));
         foreach( $clients as $v) {
             $client_name->addMultiOption($v->name, $v->name);
             $client_name_to->addMultiOption($v->name, $v->name);

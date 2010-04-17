@@ -72,6 +72,7 @@ class RestorejobController extends MyClass_ControllerAction
     /*
      * for Restore Form options
      */
+    protected $type_restore;
     protected $jobid;
     protected $client_name;
     protected $client_name_to; // restoreclient
@@ -139,7 +140,11 @@ class RestorejobController extends MyClass_ControllerAction
     }
 
 
+    /**
+     * Get param from FormRestoreOptions
+     */
     function getParamFromForm() {
+        $this->type_restore = addslashes( $this->_request->getParam('type_restore', null));
         $this->jobid = addslashes( $this->_request->getParam('jobid', null));
         $this->client_name    = addslashes( $this->_request->getParam('client_name', null));
         $this->client_name_to = addslashes( $this->_request->getParam('client_name_to', null)); // restoreclient
@@ -177,6 +182,15 @@ class RestorejobController extends MyClass_ControllerAction
         if ( !empty($this->add_suffix) )   $cmd .= ' add_suffix="' . $this->add_suffix . '"';
         if ( !empty($this->regexwhere) )   $cmd .= ' regexwhere="' . $this->regexwhere . '"';
         return $cmd;
+    }
+
+
+
+    function routeDrawTreeToRestore()   {
+        if ($this->restoreNamespace->typeRestore == 'restore_recent')
+            $this->view->action_form = '/restorejob/list-recent-restore';
+        else
+            $this->view->action_form = '/restorejob/list-restore';
     }
 
 
@@ -363,7 +377,7 @@ class RestorejobController extends MyClass_ControllerAction
         $this->view->jobid = $jobid;
 
         // начало отрисовки? т.е. форма выбора client, where, storage уже заполнена?
-        $from_form = intval( $this->_request->getParam('from_form', 0) );
+        $from_form = $this->_request->getParam('from_form', 0);
 
         // существует ли такое jobid
         if ( !$job->isJobIdExists($jobid) ) {
@@ -393,7 +407,12 @@ class RestorejobController extends MyClass_ControllerAction
             return;
         }
 
-        $client_name = $client->getClientName($jobid);
+        // получаем значения из формы FormRestoreOptions
+        $this->getParamFromForm();
+        // переопределяем некоторые переменные
+        $this->client_name    = $client->getClientName($jobid);
+        $this->client_name_to = $this->restoreNamespace->ClientNameTo;
+        $this->type_restore   = $this->restoreNamespace->typeRestore;
 
         // *************************** run restore ************************************************
         if ( $from_form == 1 )  {
@@ -406,7 +425,7 @@ class RestorejobController extends MyClass_ControllerAction
                 $this->render();
                 return;
             }
-            $this->getParamFromForm();
+            
             $cmd_mount = '';
             $cmd_sleep = '';
             if ( (!empty($this->storage)) )    {
@@ -459,10 +478,9 @@ EOF"
             $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
             // fill form
             $form->populate( array(
-                'client_name_to' => $this->restoreNamespace->ClientNameTo,
-                'type_restore'   => $this->restoreNamespace->typeRestore,
                 'jobid'          => $this->view->jobid,
-                'client_name'    => $this->client_name
+                'client_name'    => $this->client_name,
+                'type_restore'   => $this->type_restore
             ));
             $this->view->form = $form;
             $this->render();
@@ -496,7 +514,7 @@ EOF"
 
         // *************************** run restore ************************************************
         if ( $from_form == 1 )  {
-            // форма выбора client, where уже заполнена
+            // получаем значения из формы FormRestoreOptions
             $this->getParamFromForm();
             // переопределение некоторых переменных
             $this->client_name    = addslashes( $this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
@@ -576,6 +594,9 @@ EOF"
         $job = new Job();
         Zend_Loader::loadClass('Client');
         $client = new Client();
+
+        // routing
+        $this->routeDrawTreeToRestore();
         // начало отрисовки дерева каталогов ?
         $beginr = intval( $this->_request->getParam('beginr', 0) );
         if ( $beginr == 1 ) {
@@ -607,7 +628,9 @@ EOF"
                 echo $this->renderScript('restorejob/main-form.phtml');
                 return;
             }
+
             $this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);
+            
             // tmp таблицы существуют ?
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             if ( $tmp_tables->isAllTmpTablesExists() )	{
@@ -690,6 +713,8 @@ EOF"
             echo $this->renderScript('restorejob/msg02session.phtml');
             return;
         }
+        // routing
+        $this->routeDrawTreeToRestore();
         // http://www.bacula.org/en/rel-manual/Restore_Command.html#SECTION002240000000000000000
         // начало отрисовки дерева каталогов ?
         $beginrecent = intval( $this->_request->getParam('beginrecent', 0) );
@@ -1037,6 +1062,8 @@ EOF"
             return;
         }
         $this->_helper->viewRenderer->setNoRender();
+        // routing
+        $this->routeDrawTreeToRestore();
         // в форме "Msg01" сделан выбор, что делать со старыми tmp-таблицами
         $choice  = addslashes( $this->_request->getParam('choice', '') );
         if ($this->restoreNamespace->typeRestore)	{
@@ -1125,6 +1152,7 @@ EOF"
         $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
         // fill form
         $form->populate( array(
+            'client_name'    => $this->restoreNamespace->ClientNameFrom,
             'client_name_to' => $this->restoreNamespace->ClientNameTo,
             'type_restore'   => $this->restoreNamespace->typeRestore
         ));
@@ -1181,6 +1209,7 @@ EOF"
         $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore-recent' );
         // fill form
         $form->populate( array(
+            'client_name'    => $this->restoreNamespace->ClientNameFrom,
             'client_name_to' => $this->restoreNamespace->ClientNameTo,
             'type_restore'   => $this->restoreNamespace->typeRestore
         ));
@@ -1211,6 +1240,7 @@ EOF"
         $job = new Job();
         if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) return;
 
+        // получаем значения из формы FormRestoreOptions
         $this->getParamFromForm();
         // переопределяем некоторые переменные
         $this->jobid = $this->restoreNamespace->JobId;
@@ -1303,10 +1333,8 @@ EOF"
             $this->renderScript('restorejob/run-restore.phtml');
             return;
         }
+        // получаем значения из формы FormRestoreOptions
         $this->getParamFromForm();
-        // переопределяем некоторые переменные
-        if ( !empty($this->restoreNamespace->ClientNameTo) ) $this->client_name_to = $this->restoreNamespace->ClientNameTo;
-        $this->restoreNamespace->ClientNameTo   = $this->client_name_to;
 
         // export to a text file (экспорт в текстовый файл)
         // получаем каталог куда можно писать файл
@@ -1323,7 +1351,7 @@ EOF"
         // формируем командную строку
         // restore client="local.fd" fileset="test1" before="2009-05-15 14:50:01" file=<"/etc/bacula/webacula_restore.tmp" done yes
         $cmd = 'restore ' . $this->getCmdRestore() .' '.	$date_before .' file=<"'. $list . '" done yes';
-        //var_dump($cmd); exit; // !!!debug!!!
+        //echo $cmd; exit; // !!!debug!!!
         $comment = __METHOD__;
         $astatusdir = $director->execDirector(
 " <<EOF

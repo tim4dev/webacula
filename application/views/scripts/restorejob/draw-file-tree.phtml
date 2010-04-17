@@ -168,13 +168,7 @@ function failDirResults(response){
 
 <table border="0" cellpadding="0" cellspacing="0" align="center">
 <tr><td valign="top">
-<form method="POST" action="<?php
-if ($this->type_restore == 'restore_recent') {
-	echo $this->baseUrl .'/restorejob/list-recent-restore';
-} else {
-	echo $this->baseUrl .'/restorejob/list-restore';
-}
-?>">
+<form method="POST" action="<?php echo $this->baseUrl, $this->action_form; ?>">
     <?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job') . '...', array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
 </form>
 </td>
