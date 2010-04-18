@@ -226,10 +226,10 @@ class RestoreControllerTest extends ControllerTestCase
                 'fileid'  => $fileid
              ))
              ->setMethod('POST');
-        $this->dispatch('restorejob/single-file-restore');
+        $this->dispatch('restorejob/restore-single-file');
         $this->assertModule('default');
         $this->assertController('restorejob');
-        $this->assertAction('single-file-restore');
+        $this->assertAction('restore-single-file');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         //echo $this->response->outputBody(); exit; // for debug !!!

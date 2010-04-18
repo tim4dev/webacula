@@ -28,6 +28,8 @@ require_once 'Zend/Form/Element/Submit.php';
 class FormJobrun extends Zend_Form
 {
 
+    protected $translate;
+
     public  $elDecorators = array(
         'ViewHelper',
         'Errors'
@@ -37,7 +39,7 @@ class FormJobrun extends Zend_Form
 
     public function init()
     {
-        $translate = Zend_Registry::get('translate');
+        $this->translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // Set the method for the display form to POST
         $this->setMethod('post');
@@ -79,7 +81,7 @@ class FormJobrun extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $client->addMultiOption('', $translate->_("Default"));
+        $client->addMultiOption('', $this->translate->_("Default"));
         foreach( $clients as $v) {
             $client->addMultiOption($v->name, $v->name);
         }
@@ -97,7 +99,7 @@ class FormJobrun extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $fileset->addMultiOption('', $translate->_("Default"));
+        $fileset->addMultiOption('', $this->translate->_("Default"));
         foreach( $filesets as $v) {
             $fileset->addMultiOption($v->fileset, $v->fileset);
         }
@@ -115,7 +117,7 @@ class FormJobrun extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 25em;'
         ));
-        $storage->addMultiOption('', $translate->_("Default"));
+        $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
             $storage->addMultiOption($v->name, $v->name);
         }
@@ -131,10 +133,10 @@ class FormJobrun extends Zend_Form
             'style' => 'width: 20em;'
         ));
         $level->addMultiOptions(array(
-            ''             => $translate->_("Default"),
-            "Full"         => $translate->_("Full level"),
-            "Incremental"  => $translate->_("Incremental level"),
-            "Differential" => $translate->_("Differential level")
+            ''             => $this->translate->_("Default"),
+            "Full"         => $this->translate->_("Full level"),
+            "Incremental"  => $this->translate->_("Incremental level"),
+            "Differential" => $this->translate->_("Differential level")
         ));
         /*
          * Spool
@@ -148,9 +150,9 @@ class FormJobrun extends Zend_Form
             'style' => 'width: 15em;'
         ));
         $spool->addMultiOptions(array(
-            ''    => $translate->_("Default"),
-            "yes" => $translate->_("Yes"),
-            "no"  => $translate->_("No")
+            ''    => $this->translate->_("Default"),
+            "yes" => $this->translate->_("Yes"),
+            "no"  => $this->translate->_("No")
         ));
         /*
          * checkbox Now

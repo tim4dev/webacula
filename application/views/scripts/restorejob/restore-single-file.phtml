@@ -1,4 +1,4 @@
-<!-- single-file-restore.phtml -->
+<!-- restore-single-file.phtml -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -24,53 +24,7 @@ $(document).ready(function() {
 
 <?php if ($this->file): ?>
 
-<?php
-    // create array clients for Form
-    $aclients[''] = 'default';
-    foreach($this->clients as $client) :
-        $aclients[$this->escape($client->name)] = $this->escape($client->name);
-    endforeach;
-?>
-
-
-<div class="roundcorner1" style="width: 50em;">
-
-<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/run-restore-single-file';?>">
-<?php echo $this->formHidden('fileid', $this->escape($this->file[0]['fileid']), null); ?>
-<table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
-<tr>
-    <td align="right" class="search1">
-        <label for="client_name_to" class="ui-select"><?php print $this->translate->_("Client"); ?>
-            (<?php print $this->translate->_("Where"); ?>)</label>
-    </td>
-   	<td class="search1" align="left">
-       	<?php echo $this->formSelect('client_name_to', $this->client_name_to, array('class' => 'ui-select', 'style' => 'width: 23em;'), $aclients) ?>
-    </td>
-</tr>
-<tr>
-    <td align="right" class="search1"><label for="client_name" class="ui-select"><?php print $this->translate->_("Path"); ?>
-        (<?php print $this->translate->_("Where"); ?>)</label>
-        </td>
-    <td class="search1" align="left" valign="top"><?php echo $this->formText('where', '', array('size' => 54)) ?></td>
-</tr>
-<tr>
-    <td align="right" class="search1">
-        <label for="client_name" class="ui-select"><?php print $this->translate->_("Client"); ?></label>
-    </td>
-    <td class="search1" align="left">
-        <?php echo $this->formSelect('client_name', $this->client_name, array('class' => 'ui-select', 'style' => 'width: 20em;'), $aclients) ?>
-    </td>
-</tr>
-<tr>
-    <td class="search1" colspan="2" align="center">
-		    <?php echo $this->formSubmit('ok1', $this->translate->_('Run Restore'), array('class' => 'prefer_btn') ); ?>
-        </form>
-    </td>
-</tr>
-</table>
-
-</div>
-
+<?php echo $this->form;?>
 <br style="clear: both;" />
 
 <?php $decode = new MyClass_HomebrewBase64; ?>

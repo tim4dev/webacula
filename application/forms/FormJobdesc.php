@@ -27,9 +27,12 @@ require_once 'Zend/Form/Element/Submit.php';
 
 class FormJobdesc extends Zend_Form
 {
+    protected $translate;
 
-	public function init()
+
+    public function init()
     {
+        $this->translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // Set the method for the display form to POST
         $this->setMethod('post');

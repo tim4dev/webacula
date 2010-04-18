@@ -74,6 +74,7 @@ class RestorejobController extends MyClass_ControllerAction
      */
     protected $type_restore;
     protected $jobid;
+    protected $fileid;  // restore single file
     protected $client_name;
     protected $client_name_to; // restoreclient
     protected $storage;
@@ -102,10 +103,6 @@ class RestorejobController extends MyClass_ControllerAction
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         // load model
         Zend_Loader::loadClass('WbTmpTable');
-        // if have multiple Restore Job resources // TODO убрать, когда форма FormRestoreOptions будет готова
-        $config = Zend_Registry::get('config');
-        if ( $config->bacula_restore_job )
-            $this->bacula_restore_job = $config->bacula_restore_job->toArray();
     }
 
     /*
@@ -146,6 +143,7 @@ class RestorejobController extends MyClass_ControllerAction
     function getParamFromForm() {
         $this->type_restore = addslashes( $this->_request->getParam('type_restore', null));
         $this->jobid = addslashes( $this->_request->getParam('jobid', null));
+        $this->fileid = addslashes( $this->_request->getParam('fileid', null)); // restore single file
         $this->client_name    = addslashes( $this->_request->getParam('client_name', null));
         $this->client_name_to = addslashes( $this->_request->getParam('client_name_to', null)); // restoreclient
         $this->storage = addslashes( $this->_request->getParam('storage', null));
@@ -1409,24 +1407,37 @@ EOF"
     /**
      * Restore single file
      */
-    function singleFileRestoreAction()
+    function restoreSingleFileAction()
     {
         $this->view->title = $this->view->translate->_('Restore Single File');
-        $fileid = intval( $this->_request->getParam('fileid', 0) );
+        $this->fileid = $this->_request->getParam('fileid', null);
         // get data for form
-        Zend_Loader::loadClass('Client');
-        $clients = new Client();
-        $this->view->clients = $clients->fetchAll();
-
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        $this->view->file = $job->getByFileId($fileid);
-
-        if (isset($this->view->file))
-            $this->view->client_name    = $clients->getClientName($this->view->file[0]['jobid']);
-        else
-            $this->view->client_name = '';
-        $this->view->client_name_to = $this->view->client_name;
+        $this->view->file = $job->getByFileId($this->fileid);
+        Zend_Loader::loadClass('Client');
+        $clients = new Client();
+        /*
+         * Restore options form
+         */
+        Zend_Loader::loadClass('FormRestoreOptions');
+        $form = new formRestoreOptions();
+        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+        $form->setDecorators(array(
+            array('ViewScript', array(
+                'viewScript' => 'decorators/formRestoreoptions.phtml',
+                'form'=> $form
+            ))
+        ));
+        $form->init();
+        $form->setAction( $this->view->baseUrl .'/restorejob/run-restore-single-file' );
+        $form->setActionCancel( $this->view->baseUrl );
+        // fill form
+        $form->populate( array(
+            'fileid'         => $this->fileid,
+            'client_name'    => $clients->getClientName($this->view->file[0]['jobid'])
+        ));
+        $this->view->form = $form;
         $this->render();
     }
 
@@ -1439,14 +1450,13 @@ EOF"
     function runRestoreSingleFileAction()
     {
         $this->view->title = $this->view->translate->_('Restore Single File');
-        $fileid         = intval( $this->_request->getParam('fileid', 0) );
-        $client_name    = addslashes( $this->_request->getParam('client_name', null));
-        $client_name_to = addslashes( $this->_request->getParam('client_name_to', null));
-        $where          = addslashes( $this->_request->getParam('where', null));
-        Zend_Loader::loadClass('Job');
+        // получаем значения из формы FormRestoreOptions
+        $this->getParamFromForm();
+
         // get File data
+        Zend_Loader::loadClass('Job');
         $job = new Job();
-        $file = $job->getByFileId($fileid);
+        $file = $job->getByFileId($this->fileid);
         // check access to bconsole
         Zend_Loader::loadClass('Director');
         $director = new Director();
@@ -1457,17 +1467,14 @@ EOF"
         }
         //******************************* запуск задания ***************************************
         // perform the command line  (формируем командную строку)
-        // !!! ONLY IN THAT ORDER (ТОЛЬКО В УКАЗАННОМ ПОРЯДКЕ) !!!
         // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
         // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
         //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
-        $cmd = 'restore jobid=' . $file[0]['jobid'] .
-               ' file="' . $file[0]['path'] . $file[0]['filename'] . '"';
-        if ( isset($client_name) )     $cmd .= ' client="' . $client_name . '"';
-        if ( isset($client_name_to) )  $cmd .= ' restoreclient="' . $client_name_to . '"';
-        if ( isset($where) )           $cmd .= ' where="' . $where . '"';
-        $cmd .= ' yes';
-        //var_dump($cmd); exit;// !!! debug
+        $cmd = 'restore jobid=' . $file[0]['jobid'] . 
+               ' file="' . $file[0]['path'] . $file[0]['filename'] . '"' .
+               $this->getCmdRestore() .
+               ' yes';
+
         $comment = __METHOD__;
         $astatusdir = $director->execDirector(
 " <<EOF

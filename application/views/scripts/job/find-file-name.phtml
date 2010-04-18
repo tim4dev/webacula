@@ -55,7 +55,7 @@
         <?php
             if ( isset($line['poolid'], $line['fileid']) )    {
                 echo '<a href="',
-                    $this->baseUrl, '/restorejob/single-file-restore/fileid/', $this->escape($line['fileid']),
+                    $this->baseUrl, '/restorejob/restore-single-file/fileid/', $this->escape($line['fileid']),
                     '" title="', $this->translate->_("Restore File") , '">',
                     '<img src="', $this->baseUrl .'/images/restore-small.png" alt="',
                     $this->translate->_("Restore File"), '" border="0" hspace="2"></a>';

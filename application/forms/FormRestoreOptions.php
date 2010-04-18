@@ -27,6 +27,7 @@ class FormRestoreOptions extends Zend_Form
 {
 
     protected $_action_cancel = '';
+    protected $translate;
 
     public  $elDecorators = array(
         'ViewHelper',
@@ -36,7 +37,7 @@ class FormRestoreOptions extends Zend_Form
 
     public function init()
     {
-        $translate = Zend_Registry::get('translate');
+        $this->translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
         $this->setMethod('post');
@@ -51,6 +52,10 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators
         ));
         $jobid = $this->addElement('hidden', 'jobid', array(
+            'decorators' => $this->elDecorators
+        ));
+        // for restore single file
+        $fileid = $this->addElement('hidden', 'fileid', array(
             'decorators' => $this->elDecorators
         ));
         // load models
@@ -81,8 +86,8 @@ class FormRestoreOptions extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 18em;'
         ));
-        $client_name->addMultiOption('', $translate->_("Default"));
-        $client_name_to->addMultiOption('', $translate->_("Default"));
+        $client_name->addMultiOption('', $this->translate->_("Default"));
+        $client_name_to->addMultiOption('', $this->translate->_("Default"));
         foreach( $clients as $v) {
             $client_name->addMultiOption($v->name, $v->name);
             $client_name_to->addMultiOption($v->name, $v->name);
@@ -99,7 +104,7 @@ class FormRestoreOptions extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 18em;'
         ));
-        $pool->addMultiOption('', $translate->_("Default"));
+        $pool->addMultiOption('', $this->translate->_("Default"));
         foreach( $pools as $v) {
             $pool->addMultiOption($v->name, $v->name);
         }
@@ -115,7 +120,7 @@ class FormRestoreOptions extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 18em;'
         ));
-        $fileset->addMultiOption('', $translate->_("Default"));
+        $fileset->addMultiOption('', $this->translate->_("Default"));
         foreach( $filesets as $v) {
             $fileset->addMultiOption($v->fileset, $v->fileset);
         }
@@ -131,7 +136,7 @@ class FormRestoreOptions extends Zend_Form
             'class' => 'ui-select',
             'style' => 'width: 18em;'
         ));
-        $storage->addMultiOption('', $translate->_("Default"));
+        $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
             $storage->addMultiOption($v->name, $v->name);
         }
@@ -227,6 +232,7 @@ class FormRestoreOptions extends Zend_Form
             'class' => 'prefer_btn',
             'label' => 'Run Restore Job'
         ));
+        $this->translate->_("Run Restore Job"); // workaround for poedit
         /*
          * cancel button
          */
@@ -235,6 +241,7 @@ class FormRestoreOptions extends Zend_Form
             'id'    => 'cancel1',
             'label' => 'Cancel'
         ));
+        $this->translate->_("Cancel"); // workaround for poedit
         /*
          *  add elements to form
          */

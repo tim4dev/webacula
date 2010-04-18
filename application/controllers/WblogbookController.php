@@ -297,7 +297,7 @@ class WblogbookController extends MyClass_ControllerAction
             $email->mySendEmail(
                 $this->config_webacula->email->from,
                 $this->config_webacula->email->to_admin,
-                $this->view->translate->_('JobId :') ." ". $jobid ."\n". $msg_job,
+                $this->view->translate->_('Job Id') ." ". $jobid ."\n". $msg_job,
                 $this->view->translate->_('Bacula Job Reviewed')
             );
         }
