@@ -16,12 +16,22 @@ INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
 
 
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
-   VALUES (ADDTIME(NOW(),'-48:15:10'),NULL,'The weather today is good ;)',20,NULL);
+   VALUES (ADDTIME(NOW(),'-48:15:10'),NULL,'Financial information (accounts, tax details) 2008
+   This an additional full backup to the full backup BACULA_JOBID=3
+   This backup is done manually at the command of John Smith.
+
+   The weather today is good ;)
+
+   -- William Hackerson',20,NULL);
 
 
 
 INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
-   VALUES (ADDTIME(NOW(),'-20:40:30'),NULL,'<b>Error</b> record (for example).\r\n\r\nSerious errors in  BACULA_JOBID=2',255,0);
+   VALUES (ADDTIME(NOW(),'-20:40:30'),NULL,'Today was a <b>power failure</b>.
+   Not accomplished nightly backups job.test.1, job.test.2 BACULA_JOBID=4, BACULA_JOBID=5
+   Problem with power has been resolved in 02:00 pm.
+
+   -- Michael Foobar',255,0);
 
 
 
