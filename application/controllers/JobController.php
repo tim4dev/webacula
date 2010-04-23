@@ -433,6 +433,7 @@ EOF"
          */
         // if re-run job
         $jobname = trim( $this->_request->getParam('jobname') );
+        // re-run restore job
         if ( !empty($jobname) ) {
             // fill form
             $form->populate( array(

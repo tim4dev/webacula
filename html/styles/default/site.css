@@ -405,18 +405,6 @@ a#dashboard:hover {
   color:#FFFF77;
 }
 
-div.roundcorner1 {
-    width: 500px;
-    padding: 20px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    color: #000;
-    background: #C3D9FF;
-}
-
 div.roundcorner2 {
     width: 500px;
     padding: 20px;

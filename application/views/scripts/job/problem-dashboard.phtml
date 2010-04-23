@@ -26,7 +26,7 @@
 <tr>
     <td>
         <?php
-            if ( isset($line['jobname']) )    {
+            if ( isset($line['jobname']) && ($line['type'] != 'R') )    {
                 // re-run button
                 echo '<a href="';
                 echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['jobname']);

@@ -4,12 +4,10 @@
 <form  action="<?php echo $this->escape($this->form->getAction()); ?>"
         method="<?php echo $this->escape($this->form->getMethod()); ?>"
         name="form1" id="form1">
-<fieldset>
-    <legend><?php echo $translate->_("Run Job"); ?></legend>
 
 <?php echo $this->form->from_form;?>
 
-<table border="0" cellpadding="3" cellspacing="3" align="center">
+<table border="0" cellpadding="4" cellspacing="0" align="center" style="padding: 1em;">
 <tr><td style="text-align: right;">
     <label for="jobname" class="ui-select"><b><?php echo $translate->_("Job Name"); ?></b></label>
 </td><td>
@@ -50,5 +48,4 @@
     </div>
 </td></tr>
 </table>
-</fieldset>
 </form>

@@ -91,43 +91,44 @@ class Job extends Zend_Db_Table
                     array('JobId', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)',
                     'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
         	break;
             case 'PDO_PGSQL':
-            // PostgreSQL
-            // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
+                // PostgreSQL
+                // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'JobName' => 'Name', 'Level', 'ClientId',
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
-                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
                     'DurationTime' => '(EndTime - StartTime)',
                     'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
-            break;
-			case 'PDO_SQLITE':
-				// SQLite3 Documentation
-				// http://sqlite.org/lang_datefunc.html
-				// bug http://framework.zend.com/issues/browse/ZF-884
-				// http://sqlite.org/pragma.html
-				//$res = $db->query('PRAGMA short_column_names=1'); // not affected
-				//$res = $db->query('PRAGMA full_column_names=0'); // not affected
-				$select->from(array('j' => 'Job'),
-					array('jobid'=>'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
-					'starttime'=>'StartTime', 'endtime'=>'EndTime',
-					'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
-					'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
-					'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
-					'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))",
-					'reviewed'=>'Reviewed'
-				));
-				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
-			break;
+                break;
+            case 'PDO_SQLITE':
+		// SQLite3 Documentation
+		// http://sqlite.org/lang_datefunc.html
+		// bug http://framework.zend.com/issues/browse/ZF-884
+		// http://sqlite.org/pragma.html
+		//$res = $db->query('PRAGMA short_column_names=1'); // not affected
+		//$res = $db->query('PRAGMA full_column_names=0'); // not affected
+		$select->from(array('j' => 'Job'),
+			array('jobid'=>'JobId', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+			'starttime'=>'StartTime', 'endtime'=>'EndTime',
+			'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
+			'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'poolid'=>'PoolId',
+			'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
+                        'type' => 'Type',
+			'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))",
+			'reviewed'=>'Reviewed'
+		));
+		$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
+		break;
         }
 
         $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
@@ -529,7 +530,7 @@ EOF', $command_output, $return_var);
             $select->from(array('j' => 'Job'),
                array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
-                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
             ));
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
@@ -539,7 +540,7 @@ EOF', $command_output, $return_var);
             $select->from(array('j' => 'Job'),
                 array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
-                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
                     'DurationTime' => '(EndTime - StartTime)'
             ));
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
@@ -557,6 +558,7 @@ EOF', $command_output, $return_var);
                     'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
                     'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
+                    'type' => 'Type',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"
             ));
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong'=>'JobStatusLong'));
