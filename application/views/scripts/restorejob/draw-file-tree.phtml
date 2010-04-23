@@ -192,10 +192,10 @@ if ($this->type_restore == 'restore_recent') {
 
 
 <!-- Summary for restore -->
-<div class="roundcorner2" style="width: 14em; margin: 0; text-align: left; float: left; background: #FAF294;">
-<b><?php print $this->translate->_("For restore"); ?></b><br />
-<?php print $this->translate->_("Size:"); ?> <div id="totalSize"><?php echo $this->convBytes($this->total_size); ?></div>
-<?php print $this->translate->_("Count:"); ?> <div id="totalFiles"><?php echo $this->total_files; ?></div>
+<div class="ui-state-default ui-corner-all" style="width: 14em; text-align: left; float: left;">
+   <b><?php print $this->translate->_("For restore"); ?></b><br />
+   <?php print $this->translate->_("Size:"); ?> <div id="totalSize"><?php echo $this->convBytes($this->total_size); ?></div>
+   <?php print $this->translate->_("Count:"); ?> <div id="totalFiles"><?php echo $this->total_files; ?></div>
 </div>
 <!-- END Summary for restore -->
 

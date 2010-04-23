@@ -405,18 +405,6 @@ a#dashboard:hover {
   color:#FFFF77;
 }
 
-div.roundcorner2 {
-    width: 500px;
-    padding: 20px;
-    text-align: left;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    color: #000;
-    background: #FFFFB4;
-}
-
 #tooltip {
     position: absolute;
     z-index: 3000;
