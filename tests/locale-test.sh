@@ -90,6 +90,7 @@ my_wget "en-us" "http://localhost/webacula/" "Desktop"
 my_wget "de" "http://localhost/webacula/" "Nächste"
 my_wget "fr" "http://localhost/webacula/" "Bureau"
 my_wget "it" "http://localhost/webacula/" "Problemi"
+my_wget "es" "http://localhost/webacula/" "Escritorio"
 my_wget "pt-br" "http://localhost/webacula/" "últimos"
 my_wget "ru" "http://localhost/webacula/" "Панель"
 
@@ -122,6 +123,9 @@ my_wget_def "en" "http://localhost/webacula/" "Problemi" "it"
 
 cp -f conf/locale/config.ini.pt_BR  "${APPINI}"
 my_wget_def "en" "http://localhost/webacula/" "últimos" "pt_BR"
+
+cp -f conf/locale/config.ini.es  "${APPINI}"
+my_wget_def "en" "http://localhost/webacula/" "Escritorio" "es"
 
 cp -f conf/locale/config.ini.ru  "${APPINI}"
 my_wget_def "en" "http://localhost/webacula/" "Панель" "ru"

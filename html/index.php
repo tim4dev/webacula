@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.0' . ', build 2010.04.23');
+define('WEBACULA_VERSION', '5.0' . ', build 2010.05.06');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -135,6 +135,7 @@ $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru_RU');
 $translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
 $translate->addTranslation('../languages/it/webacula_it.mo', 'it');
+$translate->addTranslation('../languages/es/webacula_es.mo', 'es');
 
 if ( isset($config->locale) ) {
     // locale is user defined

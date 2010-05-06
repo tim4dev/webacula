@@ -4,6 +4,7 @@ Webacula ChangeLog
 === 5.0
     Required Bacula 5.0 or later.
     Now database 'webacula' NOT required for Restore Jobs.
+    Add Spanish translation by Efren Bravo <efrenba@yahoo.es>
     Implements "Reviewed" feature: if the Job completed with an error, then you can
 click on the link "Written in Logbook" and "Reviewed" this Job.
 Then don't show this Job in list "Jobs with errors" in future. See also trac ticket #43.
