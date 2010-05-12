@@ -423,7 +423,7 @@ class RestorejobController extends MyClass_ControllerAction
                 $this->render();
                 return;
             }
-            
+
             $cmd_mount = '';
             $cmd_sleep = '';
             if ( (!empty($this->storage)) )    {
@@ -628,7 +628,7 @@ EOF"
             }
 
             $this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);
-            
+
             // tmp таблицы существуют ?
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             if ( $tmp_tables->isAllTmpTablesExists() )	{
@@ -772,6 +772,7 @@ EOF"
 
         $adir = array();
         if ( $this->restoreNamespace->JobHash )    {
+            $this->routeDrawTreeToRestore();
             //************ get a list of all directories + LStat (получаем список всех каталогов + их атрибуты LStat) ******
             $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
@@ -1470,7 +1471,7 @@ EOF"
         // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
         // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
         //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
-        $cmd = 'restore jobid=' . $file[0]['jobid'] . 
+        $cmd = 'restore jobid=' . $file[0]['jobid'] .
                ' file="' . $file[0]['path'] . $file[0]['filename'] . '"' .
                $this->getCmdRestore() .
                ' yes';
