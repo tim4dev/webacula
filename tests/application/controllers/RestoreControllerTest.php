@@ -2,7 +2,7 @@
 class RestoreControllerTest extends ControllerTestCase
 {
 
-    const _PREFIX = '_'; // только в нижнем регистре
+    const _PREFIX = 'webacula_'; // только в нижнем регистре see RestoreController.php
     const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
     protected $ttl_restore_session = 600; // time to live session (10 min)
 
@@ -42,6 +42,7 @@ class RestoreControllerTest extends ControllerTestCase
         print "\n".__METHOD__;
         // setup
         $jobid = 4;
+        $jobidhash = md5($jobid);
         $fileid = 1217;
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
@@ -69,6 +70,26 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('html', $jobidhash); // jobidhash for jobid = 3
+        $this->resetRequest()
+             ->resetResponse();
+
+        // change directory - check routeDrawTreeToRestore()
+        echo "\n\t* Change directory";
+        $this->getRequest()
+             ->setParams(array(
+                'curdir' => '/tmp/webacula/',
+                'beginr' => 0
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/draw-file-tree');
+        $this->assertModule('default');
+        $this->assertController('restorejob');
+        $this->assertAction('draw-file-tree');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        //echo $this->response->outputBody();exit; // for debug !!!
+        // check button action
+        $this->assertQueryContentContains('div', '<form method="POST" action="/restorejob/list-restore">');
         $this->resetRequest()
              ->resetResponse();
 
