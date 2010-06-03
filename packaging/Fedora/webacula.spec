@@ -1,5 +1,5 @@
 Name:          webacula
-Version:       5.0
+Version:       5.1
 Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
@@ -115,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu May 12 2010 Yuri Timofeev <tim4dev@gmail.com> 5.1-1
+- Version 5.1
+
 * Thu Feb 20 2010 Yuri Timofeev <tim4dev@gmail.com> 5.0-1
 - Version 5.0
 

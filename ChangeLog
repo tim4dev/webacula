@@ -1,6 +1,9 @@
 Webacula ChangeLog
 ------------------
 
+=== 5.1
+    fix bug #3000461 Restore selected files
+
 === 5.0
     Important : required Bacula 5.0 or later.
     Important : now database 'webacula' NOT required for Restore Jobs. Now create a tree of files to Job Restore is faster at 30%--50%
