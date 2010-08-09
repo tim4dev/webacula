@@ -43,7 +43,7 @@ class RestoreControllerTest extends ControllerTestCase
         // setup
         $jobid = 4;
         $jobidhash = md5($jobid);
-        $fileid = 1217;
+        $fileid = 1220;
         $filename = 'file31.dat';
         $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
         $client_name = 'local.fd';
