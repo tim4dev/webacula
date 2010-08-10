@@ -1,6 +1,9 @@
 Webacula ChangeLog
 ------------------
 
+=== 5.0.2
+    Fresh Portuguese Brazil translation by Samuel Rios Carvalho
+
 === 5.0.1
     fix bug #3000461 Restore selected files
 

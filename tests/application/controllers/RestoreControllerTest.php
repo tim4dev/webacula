@@ -43,9 +43,14 @@ class RestoreControllerTest extends ControllerTestCase
         // setup
         $jobid = 4;
         $jobidhash = md5($jobid);
-        $fileid = 1220;
         $filename = 'file31.dat';
-        $file31_dat = '/tmp/webacula/restore/tmp/webacula/test/3/'.$filename;
+        $filepath = '/tmp/webacula/test/3/';
+        // find fileid by filename
+        $job = new Job();
+        $result = $job->getByFileName($filepath, $filename, '', 1, 'ordinary');
+        $fileid = $result[0]['fileid']; //1220
+        
+        $file31_dat = '/tmp/webacula/restore'. $filepath. $filename;
         $client_name = 'local.fd';
         $tsleep = 25; // sec. wait to restore
 
