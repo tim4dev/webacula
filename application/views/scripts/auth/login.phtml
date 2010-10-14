@@ -1,0 +1,59 @@
+<!-- application/views/scripts/auth/login.phtml -->
+
+<h2 align="center">Login with your <font color="#00008B">We</font><font color="#A80000">bacula</font> account</h2>
+
+<div style="font-weight:bold; color:red;">
+    <?php echo $this->msg; ?> &nbsp;
+</div>
+
+<form  action="<?php echo $this->form->getAction( $this->url() );  ?>"
+        method="<?php echo $this->form->getMethod();  ?>">
+
+<table border="0" cellspacing="7" align="center">
+<tr>
+    <td align="center">
+        <span class="ui-icon ui-icon-person"></span>
+    </td>
+    <td>
+        <b>Username</b>
+    </td>
+    <td align="left" colspan="2">
+        <?php echo $this->form->login; ?>
+    </td>
+</tr>
+<tr>
+    <td align="center">
+        <span class="ui-icon ui-icon-locked"></span>
+    </td>
+    <td>
+        <b>Password</b>
+    </td>
+    <td align="left">
+        <?php echo $this->form->pwd; ?>
+    </td>
+    <td align="left">
+        <a href="#">Forgot?</a>
+    </td>
+</tr>
+<tr>
+    <td align="left">
+        <span class="ui-icon ui-icon-tag"></span>
+    </td>
+    <td align="left" colspan="3">
+        Remember me <span style="vertical-align: middle;"><?php echo $this->form->rememberme; ?></span>
+    </td>
+</tr>
+<tr>
+    <td colspan="4"> &nbsp;
+        <?php echo $this->form->captcha; ?>
+        <?php echo $this->form->csrf; ?>
+    </td>
+</tr>
+<tr>
+    <td colspan="4">
+        <?php echo $this->form->submit; ?>
+    </td>
+</tr>
+
+</table>
+</form>

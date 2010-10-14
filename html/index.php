@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.0.2' . ', build 2010.09.20');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.14');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -38,6 +38,7 @@ set_include_path('.' . PATH_SEPARATOR . '../library' . PATH_SEPARATOR . '../appl
 
 include "Zend/Loader.php";
 
+Zend_Loader::loadClass('Zend_Auth');
 Zend_Loader::loadClass('Zend_Controller_Front');
 Zend_Loader::loadClass('Zend_Session');
 Zend_Loader::loadClass('Zend_Config_Ini');
@@ -53,6 +54,8 @@ Zend_Loader::loadClass('Zend_Paginator');
 Zend_Loader::loadClass('Zend_Layout');
 
 // load my class
+Zend_Loader::loadClass('MyClass_Acl');
+Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_ControllerAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
@@ -184,10 +187,12 @@ if ( !$ver->checkVesion(BACULA_VERSION) )   {
             " got ". $ver->getVesion().") ");
 }
 
+Zend_Session::start();
 
-// http://framework.zend.com/manual/ru/zend.session.advancedusage.html
-// disables automatic starting of Zend_Session when using new Zend_Session_Namespace()
-Zend_Session::setOptions( array('strict' => true) );
+// для подсчета кол-ва неудачных логинов для вывода капчи
+$defNamespace = new Zend_Session_Namespace('Default');
+if (!isset($defNamespace->numLoginFails))
+    $defNamespace->numLoginFails = 0; // начальное значение
 
 // run
 $frontController->dispatch();

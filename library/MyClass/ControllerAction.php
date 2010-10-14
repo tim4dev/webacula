@@ -8,7 +8,7 @@ require_once 'Zend/Controller/Action.php';
 
 class MyClass_ControllerAction extends Zend_Controller_Action
 {
-    
+
     const DEBUG_LOG = '/tmp/webacula_debug.log';
     protected $_config;
     public $debug_level;
@@ -19,7 +19,7 @@ class MyClass_ControllerAction extends Zend_Controller_Action
         $this->view->baseUrl = $this->_request->getBaseUrl();
         $this->view->translate = Zend_Registry::get('translate');
         $this->view->language  = Zend_Registry::get('language');
-        
+
         $this->_config = Zend_Registry::get('config');
         // debug
         if ( $this->_config->debug_level > 0 ) {
@@ -41,6 +41,5 @@ class MyClass_ControllerAction extends Zend_Controller_Action
             }
         }
     }
-    
+
 }
-?>

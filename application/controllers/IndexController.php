@@ -23,7 +23,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class IndexController extends MyClass_ControllerAction
+class IndexController extends MyClass_ControllerAclAction
 {
 
     function init ()

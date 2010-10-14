@@ -98,8 +98,6 @@ class RestorejobController extends MyClass_ControllerAction
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
         // set ttl_restore_session for tpmTable
         $this->setTtlRestoreSession();
-        // start / continue session
-        Zend_Session::start();
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         // load model
         Zend_Loader::loadClass('WbTmpTable');
@@ -122,18 +120,15 @@ class RestorejobController extends MyClass_ControllerAction
     function mySessionStart() {
         $this->setTtlRestoreSession();
         // session begin
-        Zend_Session::start();
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         $this->restoreNamespace->isSessionExist = true;
         $this->restoreNamespace->setExpirationSeconds($this->ttl_restore_session);
-        Zend_Session::rememberMe($this->ttl_restore_session);
     }
 
 
     function mySessionStop() {
         // close session / удаляем данные сессии
         $this->restoreNamespace->unsetAll();
-        Zend_Session::forgetMe();
     }
 
 

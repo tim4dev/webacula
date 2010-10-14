@@ -1,0 +1,56 @@
+<!-- application/layouts/scripts/login.phtml -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><?php echo $this->escape($this->title); ?></title>
+
+<style type="text/css">
+body {background-color: #EEEAEA;}
+
+.login-content {
+	width: 80%;
+    margin-top:    3em;
+    margin-bottom: 2.5em;
+    margin-left:   auto;
+    margin-right:  auto;
+    font-family: arial, verdana, sans-serif;
+}
+
+#login input
+{
+    margin-left:    0em;
+    padding-top:    0.3em;
+    padding-right:  0em;
+    padding-bottom: 0.3em;
+    padding-left:   0em;
+}
+
+.login-btn {
+    background-color:#FFbf4e;
+    color:#000;
+    border:outset 2px #FFbf4e;
+    font-weight : bold;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    width: 8em;
+    height: 3em;
+}
+</style>
+
+
+    <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.3.2.min.js"></script>
+    <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.7.2.custom.css");</style>
+    <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>
+</head>
+<body>
+    <div class="ui-widget-content ui-corner-all"
+        style="width:38em; margin-left:auto; margin-right:auto; margin-top:4em;">
+        <div class="login-content" id="login">
+            <?php echo $this->layout()->content; ?>
+        </div>
+    </div>
+    <p><a href="<?php echo $this->url( array('controller'=>'index', 'action'=>'terminated'), 'default', true) ?>">hack login form</a></p>
+</body>
+</html>
