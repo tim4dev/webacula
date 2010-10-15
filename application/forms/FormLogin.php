@@ -25,13 +25,18 @@ require_once 'Zend/Form.php';
 class FormLogin extends Zend_Form
 {
 
-    const MAX_LOGIN_ATTEMPT = 2;
+	protected $translate;
+    const MAX_LOGIN_ATTEMPT = 3;
 	public  $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
 
 
 
     public function init()
     {
+    	// translate
+    	$this->translate = Zend_Registry::get('translate');
+        Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
+        // login attempt
         $defNamespace = new Zend_Session_Namespace('Default');
     	$use_captcha = ($defNamespace->numLoginFails >= self::MAX_LOGIN_ATTEMPT) ? TRUE : FALSE;
 
@@ -40,11 +45,11 @@ class FormLogin extends Zend_Form
             array('ViewScript', array('viewScript' => 'login.phtml'))
         ));
 
-        // Создание и конфигурирование элемента username
+        // username
         $login = $this->createElement('text', 'login', array(
             'decorators' => $this->elDecorators,
             'required'   => true,
-            'label' => 'Username',
+            'label' => $this->translate->_('Username'),
             'size' => 25,
             'maxlength' => 50
             ));
@@ -56,40 +61,42 @@ class FormLogin extends Zend_Form
               ->addValidator('stringLength', false, array(2, 20))
               ->setRequired(true);
 
-        // Создание и конфигурирование элемента password
+        // password
         $password = $this->createElement('password', 'pwd', array(
             'decorators' => $this->elDecorators,
             'required'   => true,
-            'label' => 'Password',
+            'label' => $this->translate->_('Password'),
             'size' => 25,
             'maxlength' => 50
         ));
         $password->addValidator('StringLength', false, array(1, 50))
                  ->setRequired(true);
 
+        // remember me
         $checkbox = $this->createElement('checkbox', 'rememberme', array(
             'decorators' => $this->elDecorators,
-            'label' => 'Remember me',
+            'label' => $this->translate->_('Remember me'),
             'checked'  => 1
         ));
 
+        // login
         $submit = $this->createElement('submit', 'submit', array(
             'decorators' => array('ViewHelper', 'Errors'),
             'class' => 'login-btn',
             'id'    => 'submit',
-            'label' => 'Log In'
+            'label' => $this->translate->_('Log In')
         ));
 
-        // Добавление элементов в форму:
+        // add elements to form
         $this->addElement($login)
             ->addElement($password)
             ->addElement($checkbox)
             ->addElement($submit);
 
         if ($use_captcha)   {
-            // Add a captcha
+            // create captcha
             $captcha = $this->createElement('captcha', 'captcha', array(
-                'label'      => 'Введите указанные символы:',
+                'label'      => $this->translate->_('Type the characters:'),
                 'captcha'    => array(
                     'captcha' => 'Figlet',
                     'wordLen' => 3,
@@ -102,7 +109,7 @@ class FormLogin extends Zend_Form
                 'ignore' => true,
             ));
 
-            // Добавление капчи в форму
+            // add captcha to form
             $this->addElement($captcha)
                 ->addElement($csrf);
         }

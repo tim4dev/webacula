@@ -29,10 +29,13 @@ class AuthController extends Zend_Controller_Action
 
     public function init()
     {
+    	parent::init();
         Zend_Loader::loadClass('FormLogin');
         Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
         $this->view->baseUrl = $this->_request->getBaseUrl();
         $this->_helper->layout->setLayout('login');
+        // translate
+        $this->view->translate = Zend_Registry::get('translate');
         // для подсчета кол-ва неудачных логинов для вывода капчи
         $this->defNamespace = new Zend_Session_Namespace('Default');
     }
@@ -95,11 +98,11 @@ class AuthController extends Zend_Controller_Action
                     if (isset($this->defNamespace->numLoginFails))
                         $this->defNamespace->numLoginFails = 0;
                     /* сообщаем пользователю о том, что он вошел */
-                    $this->view->msg = "Вы успешно вошли как " . $data->login;
+                    $this->view->msg = $this->view->translate->_("You successfully logged in as ") . $data->login;
                     $this->_redirect('index/index');
                 } else {
-                    sleep(0);  // TODO увеличить
-                    $this->view->msg = "Имя пользователя или пароль неверны";
+                    sleep(1);  // TODO increase value
+                    $this->view->msg = $this->view->translate->_("Username or password is incorrect");
                     // включаем счетчик, если кол-во неудачных логинов большое то включаем капчу
                     $this->defNamespace->numLoginFails++;
                 }
