@@ -26,7 +26,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class ClientController extends MyClass_ControllerAction
+class ClientController extends MyClass_ControllerAclAction
 {
 
     function init()

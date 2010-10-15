@@ -25,7 +25,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class StorageController extends MyClass_ControllerAction
+class StorageController extends MyClass_ControllerAclAction
 {
 
     function init ()

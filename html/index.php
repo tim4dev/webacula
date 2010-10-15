@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.14');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.15');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -115,14 +115,14 @@ $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB
 $db_webacula = Zend_Db::factory($config_webacula->db->adapter, $params);
 Zend_Registry::set('db_webacula', $db_webacula);
 
-// setup controller, exceptions handler
+// setup controller, exceptions/errors handler
 $frontController = Zend_Controller_Front::getInstance();
 $frontController->setControllerDirectory('../application/controllers');
-if ( $config->debug == 1 ) {
-	$frontController->throwExceptions(true);
-} else {
+if ( $config->debug == 1 )
+    $frontController->throwExceptions(true);
+else
 	$frontController->throwExceptions(false);
-}
+
 //$frontController->setParam('useDefaultControllerAlways', true); // handle 404 errors
 
 // translate

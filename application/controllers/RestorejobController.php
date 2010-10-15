@@ -53,7 +53,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class RestorejobController extends MyClass_ControllerAction
+class RestorejobController extends MyClass_ControllerAclAction
 {
     // for pager
     const ROW_LIMIT_FILES = 500;

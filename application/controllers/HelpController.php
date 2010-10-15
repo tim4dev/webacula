@@ -23,7 +23,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class HelpController extends MyClass_ControllerAction
+class HelpController extends MyClass_ControllerAclAction
 {
 
     function init ()
@@ -51,6 +51,9 @@ class HelpController extends MyClass_ControllerAction
         $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
         $db_webacula = Zend_Registry::get('db_webacula');
         $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
+        // auth
+        $auth = Zend_Auth::getInstance();
+        $this->view->ident = $auth->getIdentity();
 
         Zend_Loader::loadClass('Version');
         $ver = new Version();

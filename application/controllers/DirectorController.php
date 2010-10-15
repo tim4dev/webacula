@@ -25,7 +25,7 @@
  */
 require_once 'Zend/Controller/Action.php';
 
-class DirectorController extends MyClass_ControllerAction
+class DirectorController extends MyClass_ControllerAclAction
 {
 
     function init()

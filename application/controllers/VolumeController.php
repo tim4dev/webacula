@@ -25,7 +25,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class VolumeController extends MyClass_ControllerAction
+class VolumeController extends MyClass_ControllerAclAction
 {
 
     protected $config_webacula;
@@ -92,6 +92,8 @@ class VolumeController extends MyClass_ControllerAction
      */
     function problemDashboardAction ()
     {
+        if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('dashboard');
         $this->view->titleProblemVolumes = $this->view->translate->_("Volumes with errors");
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         // get data from model

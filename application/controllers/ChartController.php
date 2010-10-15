@@ -27,7 +27,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class ChartController extends MyClass_ControllerAction
+class ChartController extends MyClass_ControllerAclAction
 {
 
     function init()

@@ -26,7 +26,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class WbjobdescController extends MyClass_ControllerAction
+class WbjobdescController extends MyClass_ControllerAclAction
 {
 
     function init()
@@ -62,7 +62,7 @@ class WbjobdescController extends MyClass_ControllerAction
                     'description' => $description,
                     'retention_period' => $retention_period
                 );
-                
+
                 try {
                     $rows_affected = $table->insert($data);
                     if ($rows_affected) {
@@ -97,7 +97,7 @@ class WbjobdescController extends MyClass_ControllerAction
                     'retention_period' => $retention_period
                 );
                 $where = $table->getAdapter()->quoteInto('desc_id = ?', $desc_id);
-                
+
                 try {
                     $rows_affected = $table->update($data, $where);
                     if ($rows_affected) {
@@ -130,7 +130,7 @@ class WbjobdescController extends MyClass_ControllerAction
         }
     }
 
-    
+
     public function deleteAction()
     {
         $desc_id = intval($this->_request->getParam('desc_id'));
@@ -140,6 +140,6 @@ class WbjobdescController extends MyClass_ControllerAction
         $this->_helper->redirector('index');
     }
 
-    
-    
+
+
 }

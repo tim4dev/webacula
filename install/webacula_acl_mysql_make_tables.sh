@@ -7,7 +7,10 @@ db_name="bacula"
 db_password=""
 host="localhost"
 
-if mysql $* -f <<END-OF-DATA
+#if mysql $* -f <<END-OF-DATA
+
+# !!! for debug only !!!
+if mysql -u root -f <<END-OF-DATA
 
 USE bacula;
 

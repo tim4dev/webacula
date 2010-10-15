@@ -199,6 +199,9 @@ $(document).ready(function(){
     </li>
     <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a>
     </li>
+    <li><a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">
+        <?php print $this->translate->_("Logout"); ?></a>
+    </li>
 </ul>
 <br style="clear: both;" />
 
@@ -222,28 +225,6 @@ $(document).ready(function(){
 
 
 <?php echo $this->layout()->content ?>
-
-
-<!-- footer menu -->
-<div id="center_for_ie2">
-<div id="bottommenu">
-    <div class="bottommenua">
-<b><a href="<?php echo $this->baseUrl;?>"><?php print $this->translate->_("Desktop"); ?></a></b>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></b>&nbsp;|&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/terminated"><b><?php print $this->translate->_("Job"); ?></a> : </b>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running Jobs"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run Job"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a>&nbsp;|&nbsp;
-<a href="<?php echo $this->baseUrl;?>/pool/all"><b><?php print $this->translate->_("Pool/Volume"); ?></a> : </b>&nbsp;
-<a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a></b>&nbsp;|&nbsp;
-<b><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a></b>
-    </div>
-</div>
-</div> <!-- end of ieCenter div -->
 
 </body>
 </html>

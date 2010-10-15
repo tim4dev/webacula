@@ -24,7 +24,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class WblogbookController extends MyClass_ControllerAction
+class WblogbookController extends MyClass_ControllerAclAction
 {
 
     // PRE code improperly processed in regexp in *_replace in index.phtml

@@ -24,16 +24,11 @@
 /* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
-class ErrorController extends MyClass_ControllerAction
+class ErrorController extends MyClass_ControllerAclAction
 {
 
     public function errorAction()
     {
-        $errors = $this->_getParam('error_handler');
-        $exception = $errors->exception;
-        $this->view->err_message = $exception->getMessage();
-	    $this->view->err_trace   = $exception->getTraceAsString();
-
         Zend_Loader::loadClass('Zend_Version');
         $this->view->zend_version = Zend_Version::VERSION;
         $this->view->db_adapter_bacula   = Zend_Registry::get('DB_ADAPTER');
@@ -51,19 +46,29 @@ class ErrorController extends MyClass_ControllerAction
         $this->view->director_version = $dir->getDirectorVersion();
         $this->view->bconsole_version = $dir->getBconsoleVersion();
 
-        switch ($errors->type) {
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
-                // ошибка 404 - не найден контроллер или действие
-                $this->getResponse()
-                    ->setRawHeader('HTTP/1.1 404 Not Found');
-                //.получение данных для отображения...
-                $this->view->err_custom_message = 'Error 404. Page Not Found.';
-                break;
-            default:
-                // ошибка приложения; выводим страницу ошибки,
-                // но не меняем код статуса
-                break;
+        $errors = $this->_getParam('error_handler');
+        if ($errors) {
+            $exception = $errors->exception;
+            $this->view->err_message = $exception->getMessage();
+            $this->view->err_trace   = $exception->getTraceAsString();
+            switch ($errors->type) {
+                case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
+                case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
+                    // ошибка 404 - не найден контроллер или действие
+                    $this->getResponse()->setHttpResponseCode(404);
+                    //.получение данных для отображения...
+                    $this->view->err_custom_message = 'Webacula : Error 404. Page Not Found.';
+                    break;
+                default:
+                    // ошибка приложения
+                    $this->getResponse()->setHttpResponseCode(500);
+                    $this->view->message = 'Webacula : application error.';
+                    break;
+            } // switch
+        } else {
+            $this->getResponse()->setHttpResponseCode(500);
+            $this->view->err_message = 'Webacula : application error.';
+            $this->view->err_trace   = __METHOD__ . ' line ' . __LINE__;
         }
     }
 

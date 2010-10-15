@@ -25,7 +25,7 @@
  */
 require_once 'Zend/Controller/Action.php';
 
-class BconsoleController extends MyClass_ControllerAction
+class BconsoleController extends MyClass_ControllerAclAction
 {
 
     protected $aNotAvailCmd = array('delete', 'prune', 'purge', 'python', 'setip', 'sqlquery', 'query', 'wait');

@@ -20,7 +20,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class JobController extends MyClass_ControllerAction
+class JobController extends MyClass_ControllerAclAction
 {
     // for Zend Paginator
     const ROW_LIMIT_JOBS = 70;
@@ -72,6 +72,8 @@ class JobController extends MyClass_ControllerAction
      */
     function runningDashboardAction()
     {
+    	if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('dashboard');
         $this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
         // get data from model
         $jobs = new Job();
@@ -110,6 +112,8 @@ class JobController extends MyClass_ControllerAction
      */
     function nextDashboardAction()
     {
+    	if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('dashboard');
         $this->view->title = $this->view->translate->_("Scheduled Jobs (at 24 hours forward)");
         // get static const
         $this->view->unknown_volume_capacity = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
@@ -280,6 +284,8 @@ class JobController extends MyClass_ControllerAction
      */
     function problemDashboardAction()
     {
+    	if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('dashboard');
         $last_days = $this->getLastDays();
         $this->view->title = sprintf( $this->view->translate->_("Jobs with errors (last %s days)"), $last_days);
         // get data from model
@@ -324,6 +330,8 @@ class JobController extends MyClass_ControllerAction
 
     function timelineDashboardAction()
     {
+    	if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('dashboard');
         if ( !extension_loaded('gd') ) {
             // No GD lib (php-gd) found
             $this->view->result = null;
@@ -467,6 +475,8 @@ EOF"
      */
     function terminatedDashboardAction()
     {
+    	if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('dashboard');
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         $job = new Job();
         $this->view->result = $job->GetLastJobs();

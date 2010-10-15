@@ -1,5 +1,25 @@
 <?php
-
+/**
+ * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ *
+ * Webacula is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Webacula is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ *
+ */
 /**
  * Common code for all Controllers
  */
@@ -19,7 +39,9 @@ class MyClass_ControllerAction extends Zend_Controller_Action
         $this->view->baseUrl = $this->_request->getBaseUrl();
         $this->view->translate = Zend_Registry::get('translate');
         $this->view->language  = Zend_Registry::get('language');
-
+        // layout
+        if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('main');
         $this->_config = Zend_Registry::get('config');
         // debug
         if ( $this->_config->debug_level > 0 ) {
@@ -27,18 +49,6 @@ class MyClass_ControllerAction extends Zend_Controller_Action
             Zend_Loader::loadClass('Zend_Log');
             $writer = new Zend_Log_Writer_Stream(self::DEBUG_LOG);
             $this->logger = new Zend_Log($writer);
-        }
-    }
-
-    public function __call( $method, $args )
-    {
-        if ( $this->_config->debug_level ) {
-            $this->logger->log("Action $method does not exist", Zend_Log::INFO);
-            parent::__call( $method, $args );
-        } else {
-            if('Action' == substr($method, -6)) {
-                $this->_forward('index');
-            }
         }
     }
 

@@ -32,10 +32,13 @@ class AuthController extends Zend_Controller_Action
     	parent::init();
         Zend_Loader::loadClass('FormLogin');
         Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
+        Zend_Loader::loadClass('Wbroles');
         $this->view->baseUrl = $this->_request->getBaseUrl();
         $this->_helper->layout->setLayout('login');
         // translate
         $this->view->translate = Zend_Registry::get('translate');
+        // для переадресаций
+        $this->_redirector = $this->_helper->getHelper('Redirector');
         // для подсчета кол-ва неудачных логинов для вывода капчи
         $this->defNamespace = new Zend_Session_Namespace('Default');
     }
@@ -86,19 +89,26 @@ class AuthController extends Zend_Controller_Action
                 /* Проверяем валидность результата */
                 if( $resultAuth->isValid() )
                 {
-                    /* Пишем в сессию необходимые нам данные (пароль обнуляем) */
+                    /* Пишем в сессию (default) необходимые нам данные (пароль обнуляем) */
                     $storage = $auth->getStorage();
                     $data = $authAdapter->getResultRowObject(array(
                         'id',
                         'login',
                         'role_id'
                     ));
+                    // find role name
+                    $table = new Wbroles();
+                    $row   = $table->find($data->role_id);
+                    if ($row->count() == 1)
+                        $data->role_name = $row[0]['name'];
                     $storage->write($data);
                     // обнуляем счетчик неудачных логинов
                     if (isset($this->defNamespace->numLoginFails))
                         $this->defNamespace->numLoginFails = 0;
-                    /* сообщаем пользователю о том, что он вошел */
-                    $this->view->msg = $this->view->translate->_("You successfully logged in as ") . $data->login;
+                    // remember me
+                    if ($form->getValue('rememberme'))
+                        Zend_Session::rememberMe();
+                    // goto home page
                     $this->_redirect('index/index');
                 } else {
                     sleep(1);  // TODO increase value

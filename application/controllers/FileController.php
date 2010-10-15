@@ -25,7 +25,7 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class FileController extends MyClass_ControllerAction
+class FileController extends MyClass_ControllerAclAction
 {
     // for pager
     const ROW_LIMIT_FILES = 500;
