@@ -1,23 +1,16 @@
 <?php
 class PoolControllerTest extends ControllerTestCase
 {
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
-    /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
-
+   /**
+    * @group pool
+    */
     public function testListAllPool ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('pool/all');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('pool');
         $this->assertAction('all');
         //echo $this->response->outputBody(); // for debug !!!

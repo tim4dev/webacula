@@ -1,0 +1,15 @@
+#!/bin/sh
+
+db_name="bacula"
+
+mysql -f <<END-OF-DATA
+
+USE bacula;
+SET NAMES utf8;
+SET CHARACTER SET utf8;
+
+INSERT INTO Log (LogText, JobId) VALUES ('символы в кодировке utf8', 3);
+INSERT INTO Log (LogText, JobId) VALUES ('������� � ��������� cp1251', 3);
+
+END-OF-DATA
+exit 0

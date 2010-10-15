@@ -1,6 +1,10 @@
 #!/bin/bash
 #
 # Test for translate into several languages and display content
+# 
+# @author Yuri Timofeev <tim4dev@gmail.com>
+# @package webacula
+# @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
 #
 
 LINE1="*********************************************************************************************"
@@ -8,6 +12,20 @@ LINE1="*************************************************************************
 ###########################################################
 # Functions
 ###########################################################
+
+my_login() {
+    wget --quiet --no-proxy --save-cookies cookies.txt \
+        --post-data 'login=root&pwd=1&rememberme=1&submit=Log+In' \
+        -O /dev/null \
+        http://localhost/webacula/auth/login
+    if [ ${?} -ne 0 ]
+    then
+        echo -e "ERROR!\n"
+        exit 10
+    fi
+    echo -ne "OK\n"
+}
+
 
 # for auto determination locales
 my_wget() {
@@ -17,6 +35,7 @@ my_wget() {
     echo -ne "Locale ${LOCALE1} - \t"
     wget --quiet --no-proxy --header='Accept-Charset: UTF-8' \
         --header="Accept-Language: ${LOCALE1}"   \
+        --load-cookies cookies.txt \
         -O - \
        "${URL1}" | grep "${STR1}" > /dev/null
 
@@ -38,6 +57,7 @@ my_wget_def() {
     echo -ne "Locale ${DEFLOCALE1} - \t"
     wget --quiet --no-proxy --header='Accept-Charset: UTF-8' \
         --header="Accept-Language: ${LOCALE1}"   \
+        --load-cookies cookies.txt \
         -O - \
        "${URL1}" | grep "${STR1}" > /dev/null
 
@@ -78,6 +98,9 @@ if [ $? == 0 ]
       echo -e "\nMake cp ../application/config.ini ../application/config.ini.original\n\n"
       exit 11
 fi
+
+echo -ne "\n\nLog in as root "
+my_login
 
 echo -e "\n\n${LINE1}"
 echo "Testing locales and languages"
@@ -135,6 +158,7 @@ my_wget_def "ru" "http://localhost/webacula/" "Desktop" "fake"
 
 # restore original conf
 cp -f ../application/config.ini.original  ../application/config.ini
+rm -f cookies.txt
 
 echo -e "\n---------------\nAll tests - OK\n\n"
 

@@ -4,22 +4,16 @@ class DirectorControllerTest extends ControllerTestCase
 {
     const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
-   /**
-    * @access protected
-    */
-    protected function tearDown()
-    {
-        $this->reset;
-        parent::tearDown();
-    }
-
     /**
     * @group director
     */
     public function testDirectorListjobtotals()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->dispatch('/director/listjobtotals');
+        $this->_isLogged($this->response->outputBody());
+        //echo $body;exit; // for debug !!!
         $this->assertModule('default');
         $this->assertController('director');
         $this->assertAction('listjobtotals');
@@ -34,11 +28,12 @@ class DirectorControllerTest extends ControllerTestCase
     */
     public function testDirectorStatusdir() {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch ( 'director/statusdir' );
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule ( 'default' );
         $this->assertController ( 'director' );
         $this->assertAction ( 'statusdir' );
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode ( 200 );
         $this->assertQueryContentContains ( 'td', '1000 OK: main.dir' );

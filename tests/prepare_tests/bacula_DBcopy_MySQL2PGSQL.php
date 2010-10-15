@@ -3,7 +3,9 @@
  * Script for copy all data from MySQL Bacula v.5.x into PostgreSQL Bacula v.5.x DB
  * begin: 2007.01.03
  *
- * $Id$
+ * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
 
 $tables = array(
@@ -113,7 +115,7 @@ function my_copy_table($table_name)
 	       } else {
             $values  .= "'" . pg_escape_string($dbOUT, $value) . "',";
           }
-        }  
+        }
         $columns = rtrim($columns, ',');
         $values  = rtrim($values, ',');
         unset($row);

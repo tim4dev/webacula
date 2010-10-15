@@ -1,24 +1,15 @@
 <?php
 class FeedControllerTest extends ControllerTestCase
 {
-
-    /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
     /**
      * @group feed
      */
     public function testRSS ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('feed/feed/test/1');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('feed');
         $this->assertAction('feed');
         //echo $this->response->outputBody();exit; // for debug !!!

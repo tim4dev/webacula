@@ -2,6 +2,10 @@
 #
 # Prepare Bacula environment and run simple backups
 #
+# @author Yuri Timofeev <tim4dev@gmail.com>
+# @package webacula
+# @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
+#
 
 if [ "$UID" -ne 0 ]
 then
@@ -368,6 +372,7 @@ my_log "MySQL : fill webacula logbook"
 cd ${BASEDIR}
 sh ./webacula_mysql_fill_logbook
 sh ./webacula_mysql_fill_acl
+sh ./bacula_mysql_fill_log
 
 my_log "PostgreSQL : fill webacula logbook"
 cd ${BASEDIR}

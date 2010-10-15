@@ -3,7 +3,6 @@ class RestoreControllerTest extends ControllerTestCase
 {
 
     const _PREFIX = 'webacula_'; // только в нижнем регистре see RestoreController.php
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
     protected $ttl_restore_session = 600; // time to live session (10 min)
 
 
@@ -12,15 +11,18 @@ class RestoreControllerTest extends ControllerTestCase
      */
     protected function tearDown ()
     {
-        $this->resetRequest();
-        $this->resetResponse();
         session_write_close();
         parent::tearDown();
     }
 
+    /**
+     * @group restore-form
+     * @group restore
+     */
     public function testMainForm ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('restorejob/main-form/test/1');
         //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertModule('default');
@@ -33,10 +35,12 @@ class RestoreControllerTest extends ControllerTestCase
 
 
     /**
-     * @group restore_ajax
+     * @group restore-ajax
+     * @group restore
      */
     public function testRestoreSelectJobId() {
         print "\n".__METHOD__;
+        $this->_rootLogin();
         // setup
         $jobid = 4;
         $jobidhash = md5($jobid);
@@ -223,11 +227,12 @@ class RestoreControllerTest extends ControllerTestCase
 
 
     /**
-     * @group restore_single_file
+     * @group restore-single-file
+     * @group restore
      */
     public function testRestoreSingleFile() {
         print "\n".__METHOD__;
-
+        $this->_rootLogin();
         // setup
         $jobid = 3;
         $filename   = 'file22.dat';

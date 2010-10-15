@@ -24,7 +24,7 @@
  */
 require_once 'Zend/Controller/Action.php';
 
-class FeedController extends MyClass_ControllerAction
+class FeedController extends MyClass_ControllerAclAction
 {
 
     function init ()

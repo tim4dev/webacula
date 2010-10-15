@@ -2,23 +2,15 @@
 class FileControllerTest extends ControllerTestCase
 {
 
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
-
-    /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
-
+   /**
+    * @group file
+    */
     public function testFileList ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('file/list/jobid/3/page/1');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('file');
         $this->assertAction('list');
         //echo $this->response->outputBody(); // for debug !!!

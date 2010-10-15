@@ -16,11 +16,22 @@ require_once 'Zend/Test/PHPUnit/ControllerTestCase.php';
 abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 {
 	protected $_application;
+	const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework errors
 
 	public function setUp() {
 		$this->bootstrap = array ($this, 'appBootstrap' );
 		parent::setUp();
 	}
+
+
+    protected function tearDown ()
+    {
+        $this->resetRequest();
+        $this->resetResponse();
+        $this->_logout();
+        parent::tearDown();
+    }
+
 
 	/**
 	 * Boostrap Application
@@ -32,7 +43,7 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 	}
 
 
-	protected function _doRootLogin()    {
+	protected function _rootLogin() {
 		// php array to object
         $data = (object)$arr = array(
           'id'        => 1000,
@@ -45,6 +56,16 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
         $storage = $auth->getStorage();
         $storage->write($data);
         Zend_Session::rememberMe();
+        echo ' (login as '.$data->login.') ';
     }
 
+    protected function _isLogged($body) {
+        if ( empty($body) )
+            throw new RuntimeException('Login failed!');
+    }
+
+    protected function _logout()    {
+        Zend_Auth::getInstance()->clearIdentity();
+        Zend_Session::forgetMe();
+    }
 }

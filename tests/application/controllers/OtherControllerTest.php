@@ -1,29 +1,21 @@
 <?php
 class OtherControllerTest extends ControllerTestCase
 {
-    protected $locales = array('de' , 'en' , 'fr' , 'pt_BR' , 'ru', 'it');
-
+    protected $locales = array('de' , 'en' , 'fr' , 'pt_BR' , 'ru', 'it', 'es');
 
     /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
-
-    /*
 	 * test language files
+	 * @group lang
 	 */
     public function testTranslate ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $translate = Zend_Registry::get('translate');
         foreach ($this->locales as $locale) {
+            echo ' ', $locale;
             $this->assertTrue($translate->isTranslated('Desktop', false, $locale), "invalid '$locale' language file!");
         }
+        echo ' ';
     }
 }

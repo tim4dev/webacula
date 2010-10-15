@@ -1,18 +1,6 @@
 <?php
 class IndexControllerTest extends ControllerTestCase
 {
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
-
-    /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
 
     /**
      * @group test-test
@@ -30,11 +18,9 @@ class IndexControllerTest extends ControllerTestCase
     public function testIndex ()
     {
         print "\n" . __METHOD__ . ' ';
-        $this->_doRootLogin();
+        $this->_rootLogin();
         $this->dispatch('index/index');
-        $body = $this->response->outputBody();
-        if ( empty($body) )
-            $this->assertTrue(FALSE, "Login failed!");
+        $this->_isLogged($this->response->outputBody());
         //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);

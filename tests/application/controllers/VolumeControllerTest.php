@@ -4,26 +4,17 @@ class VolumeControllerTest extends ControllerTestCase
     const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
     /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
-
-    /**
      * @group volume
      */
     public function testFindPoolById ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('volume/find-pool-id/id/1/name/pool.file.7d');
+        //echo $this->response->outputBody(); exit; // for debug !!!
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('volume');
         $this->assertAction('find-pool-id');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Volumes found');
@@ -38,7 +29,9 @@ class VolumeControllerTest extends ControllerTestCase
     public function testDetail ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('volume/detail/mediaid/1');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('volume');
         $this->assertAction('detail');
         $this->assertResponseCode(200);
@@ -54,6 +47,7 @@ class VolumeControllerTest extends ControllerTestCase
     public function testUpdate ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $volname = 'pool.file.7d.0001';
         // get info
         $media = new Media();
@@ -73,6 +67,7 @@ class VolumeControllerTest extends ControllerTestCase
             'comment' => "\n\nmoved\nLorem ipsum dolor sit amet\n"));
         $this->request->setMethod('POST');
         $this->dispatch('volume/update');
+        //$this->_isLogged($this->response->outputBody());
         $this->assertController('volume');
         $this->assertAction('update');
         // back
@@ -88,6 +83,7 @@ class VolumeControllerTest extends ControllerTestCase
             'comment' => "\n\nback\nLorem ipsum dolor sit amet\n"));
         $this->request->setMethod('POST');
         $this->dispatch('volume/update');
+        //$this->_isLogged($this->response->outputBody());
         $this->assertController('volume');
         $this->assertAction('update');
     }

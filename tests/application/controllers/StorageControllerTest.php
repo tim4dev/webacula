@@ -1,23 +1,16 @@
 <?php
 class StorageControllerTest extends ControllerTestCase
 {
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
-    /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
-
+   /**
+    * @group storage
+    */
     public function testListAllStorage ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('storage/storage');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('storage');
         $this->assertAction('storage');
         //echo $this->response->outputBody(); // for debug !!!
@@ -30,11 +23,14 @@ class StorageControllerTest extends ControllerTestCase
 
     /**
      * @group use-bconsole
+     * @group storage
      */
     public function testStorageStatus ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('storage/status-id/id/1/name/storage.file.1');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('status-id');
@@ -50,11 +46,14 @@ class StorageControllerTest extends ControllerTestCase
 
     /**
      * @group use-bconsole
+     * @group storage
      */
     public function testStorageUmount ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('storage/act-mount/act/umount/name/storage.file.1');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
@@ -68,11 +67,14 @@ class StorageControllerTest extends ControllerTestCase
 
     /**
      * @group use-bconsole
+     * @group storage
      */
     public function testStorageMount ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('storage/act-mount/act/mount/name/storage.file.1');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
@@ -85,10 +87,12 @@ class StorageControllerTest extends ControllerTestCase
 
     /**
      * @group autochanger
+     * @group storage
      */
     public function testStorageUmountAutochanger ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             'autochanger' => 1,
             'act'  => 'umount',
@@ -97,6 +101,7 @@ class StorageControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('storage/act-mount');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
@@ -111,10 +116,12 @@ class StorageControllerTest extends ControllerTestCase
 
     /**
      * @group autochanger
+     * @group storage
      */
     public function testStorageMountAutochanger ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             'autochanger' => 1,
             'act'  => 'mount',
@@ -124,6 +131,7 @@ class StorageControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('storage/act-mount');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');

@@ -2,25 +2,15 @@
 class HelpControllerTest extends ControllerTestCase
 {
 
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
-
-    /**
-     * @access protected
-     */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
     /**
      * @group help
      */
     public function testHelp ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $this->dispatch('help/index');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('help');
         $this->assertAction('index');
         //echo $this->response->outputBody(); // for debug !!!

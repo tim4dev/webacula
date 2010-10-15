@@ -3,12 +3,12 @@
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests
 
-- unit тесты для других СУБД
 
 - в табл webacula_dt_resources добавить доступ в меню адмики
 - убрать отладочный код в SQL скриптах install/
 - пароли в SQL скриптах install/
 - в логин форм увеличить sleep(7);  // TODO
 - создать SQL индексы, если нужно
+- unit тесты для других СУБД
 - перевод на др языки
 

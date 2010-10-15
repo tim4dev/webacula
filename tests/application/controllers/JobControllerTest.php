@@ -13,20 +13,23 @@ class JobControllerTest extends ControllerTestCase
     const DELAY_AFTER_JOB = 15;
     const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
 
-   /**
-    * @access protected
-    */
-	protected function tearDown()
-   {
-      $this->resetRequest();
-      $this->resetResponse();
-      parent::tearDown();
-   }
 
+    protected function mySleep()
+    {
+        echo " sleep ", self::DELAY_AFTER_JOB, " seconds ";
+        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
+    }
+
+
+   /**
+    * @group job1
+    */
    public function testJobTerminated()
    {
       print "\n".__METHOD__.' ';
+      $this->_rootLogin();
       $this->dispatch('job/terminated');
+      $this->_isLogged($this->response->outputBody());
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('terminated');
@@ -38,17 +41,15 @@ class JobControllerTest extends ControllerTestCase
    }
 
 
-   public function mySleep()
-   {
-        echo " sleep ", self::DELAY_AFTER_JOB, " seconds ";
-        sleep(self::DELAY_AFTER_JOB); // подождать пока выполнится
-   }
-
-
+   /**
+    * @group job1
+    */
    public function testJobRunning()
    {
       print "\n".__METHOD__.' ';
+      $this->_rootLogin();
       $this->dispatch('job/running');
+      $this->_isLogged($this->response->outputBody());
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('running');
@@ -61,11 +62,15 @@ class JobControllerTest extends ControllerTestCase
       $this->assertQueryCount('tr', 2);
    }
 
-
+   /**
+    * @group job1
+    */
 	public function testJobNext()
    {
       print "\n".__METHOD__.' ';
+      $this->_rootLogin();
       $this->dispatch('job/next');
+      $this->_isLogged($this->response->outputBody());
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('next');
@@ -79,11 +84,15 @@ class JobControllerTest extends ControllerTestCase
       $this->assertQueryCount('tr', 4);
    }
 
-
+   /**
+    * @group job1
+    */
    public function testJobProblem()
    {
       print "\n".__METHOD__.' ';
+      $this->_rootLogin();
       $this->dispatch('job/problem');
+      $this->_isLogged($this->response->outputBody());
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('problem');
@@ -99,10 +108,12 @@ class JobControllerTest extends ControllerTestCase
 
     /**
      * run Job with incorrect Job name
+     * @group job1
      */
     public function testRunJobWrong()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $jobname = 'wrong job name';
         $this->getRequest()
              ->setParams(array(
@@ -111,6 +122,7 @@ class JobControllerTest extends ControllerTestCase
                  'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
@@ -124,11 +136,12 @@ class JobControllerTest extends ControllerTestCase
 
     /**
      * run job.name.test.1
-     * @group nonreusable
+     * @group job-nonreusable
      */
     public function testRunJob1()
     {
         print "\n".__METHOD__.' (nonreusable) ';
+        $this->_rootLogin();
         // create new file
         $new_file = '/tmp/webacula/test/1/'.__METHOD__;
         $file = fopen($new_file, 'w');
@@ -145,6 +158,7 @@ class JobControllerTest extends ControllerTestCase
                 'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
@@ -162,13 +176,15 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryContentRegex('td', $pattern);
     }
 
+
     /**
      * run 'job name test 2'
-     * @group nonreusable
+     * @group job-nonreusable
      */
     public function testRunJob2()
     {
         print "\n".__METHOD__.' (nonreusable) ';
+        $this->_rootLogin();
         $this->getRequest()
              ->setParams(array(
                 'jobname'   => 'job name test 2',
@@ -176,6 +192,7 @@ class JobControllerTest extends ControllerTestCase
                 'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
@@ -197,11 +214,12 @@ class JobControllerTest extends ControllerTestCase
 
     /**
      * run Job with options
-     * @group nonreusable
+     * @group job-nonreusable
      */
     public function testRunJobWithOptions()
     {
         print "\n".__METHOD__.' (nonreusable) ';
+        $this->_rootLogin();
         $this->getRequest()
              ->setParams(array(
                 'jobname' => 'job.name.test.4',
@@ -214,6 +232,7 @@ class JobControllerTest extends ControllerTestCase
                 'from_form' => '1') )
              ->setMethod('POST');
         $this->dispatch('job/run-job');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
@@ -232,16 +251,19 @@ class JobControllerTest extends ControllerTestCase
     }
 
 
-    /*
+    /**
      * find Job by incorrect Id
+     * @group job2
      */
     public function testJobFindByIdWrong()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->getRequest()
              ->setParams(array('jobid'     => '1111'))
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-job-id');
@@ -250,14 +272,18 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryContentContains('div', 'No Jobs found');
     }
 
-
+   /**
+    * @group job2
+    */
     public function testJobFindById()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->getRequest()
              ->setParams(array('jobid'     => '5'))
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-job-id');
@@ -269,12 +295,14 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryCount('tr', 2);
     }
 
-    /*
+    /**
      * find Jobs with Level = Diff
+     * @group job2
      */
     public function testJobFindByFilters()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             "jlevel" => "D",
             "date_begin" => date('Y-m-d', time()-86400),
@@ -284,6 +312,7 @@ class JobControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('job/find-filters');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-filters');
@@ -297,17 +326,20 @@ class JobControllerTest extends ControllerTestCase
     }
 
 
-   /*
+   /**
     * find Jobs with Volume name
+    * @group job2
     */
     public function testJobFindByVolumeName()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             "volname" => "pool.file.7d.0001"
         ));
         $this->request->setMethod('POST');
         $this->dispatch('job/find-volume-name');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-volume-name');
@@ -319,17 +351,20 @@ class JobControllerTest extends ControllerTestCase
     }
 
 
-   /*
+   /**
     * find last NN Jobs
+    * @group job2
     */
     public function testFindLastJobs()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             "numjob" => 5
         ));
         $this->request->setMethod('POST');
         $this->dispatch('job/list-last-jobs-run');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('list-last-jobs-run');
@@ -342,14 +377,19 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryContentContains('td', 'job.name.test.1');
     }
 
+   /**
+    * @group job2
+    */
     public function testJobFindByFileName()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             "namefile" => "0 Файл'.txt"
         ));
         $this->request->setMethod('POST');
         $this->dispatch('job/find-file-name');
+        $this->_isLogged($this->response->outputBody());
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-file-name');
@@ -360,10 +400,15 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryCount('tr', 2);
     }
 
+   /**
+    * @group job2
+    */
     public function testDetailJob()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->dispatch('job/detail/jobid/3');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('job');
         $this->assertAction('detail');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework

@@ -2,24 +2,34 @@
 
 class ErrorControllerTest extends ControllerTestCase
 {
+
    /**
-    * @access protected
+    * @group error
     */
-   protected function tearDown()
-   {
-      $this->resetRequest();
-      $this->resetResponse();
-      parent::tearDown();
+   public function testErrorAction() {
+      print "\n".__METHOD__.' ';
+      $this->_rootLogin();
+      $this->dispatch('index/fake_action');
+      //echo $this->response->outputBody(); // for debug !!!
+      $this->assertModule('default');
+      $this->assertController('error');
+      $this->assertAction('error');
+      $this->assertResponseCode(404);
+      $this->assertQueryContentContains('p', 'Action "fakeaction" does not exist');
    }
 
-   public function testError() {
+   /**
+    * @group error
+    */
+   public function testErrorBoth() {
       print "\n".__METHOD__.' ';
+      $this->_rootLogin();
       $this->dispatch('fake_controller/fake_action');
       //echo $this->response->outputBody(); // for debug !!!
       $this->assertModule('default');
       $this->assertController('error');
       $this->assertAction('error');
-      $this->assertResponseCode(200);
+      $this->assertResponseCode(404);
       $this->assertQueryContentContains('p', 'Invalid controller specified (fake_controller)');
    }
 

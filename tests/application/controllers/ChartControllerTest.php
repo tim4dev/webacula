@@ -2,30 +2,25 @@
 
 class ChartControllerTest extends ControllerTestCase
 {
+
     /**
-     * @access protected
+     * @group chart
      */
-    protected function tearDown ()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
-
     public function testTimeline ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_rootLogin();
         $name_img = 'img_tmp.png';
         if (file_exists($name_img)) {
             unlink($name_img);
         }
         $this->assertTrue(function_exists("imagepng"), "(imagepng not found)");
         $this->dispatch('chart/timeline/datetimeline/' . date("Y-m-d", time()));
+        $img = $this->response->outputBody();
+        $this->_isLogged($img);
         $this->assertModule('default');
         $this->assertController('chart');
         $this->assertAction('timeline');
-        $img = $this->response->outputBody();
         if (empty($img)) {
             $this->assertTrue(FALSE, "image is empty!");
         }

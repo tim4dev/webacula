@@ -2,24 +2,13 @@
 
 class WblogbookControllerTest extends ControllerTestCase
 {
-    const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework
-
-   /**
-    * @access protected
-    */
-    protected function tearDown()
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-        parent::tearDown();
-    }
-
     /**
      * @group logbook
      */
     public function testPrintableLogbook()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             "date_begin" => date('Y-m-d', time()-2678400),
             "date_end"   => date('Y-m-d', time()),
@@ -28,9 +17,10 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/filterbydate');
+        //echo $this->response->outputBody();exit; // for debug !!!
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('wblogbook');
         $this->assertAction('filterbydate');
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('div', 'Printable version');
@@ -43,6 +33,7 @@ class WblogbookControllerTest extends ControllerTestCase
     public function testValidateDateTime()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         // add new record
         $this->request->setPost(array(
             "hiddenNew" => 1,
@@ -53,6 +44,7 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('wblogbook');
         $this->assertAction('add');
         $this->assertQueryContentRegex('div', '/ERROR: Record has not been added. Reason.*is not of the format/');
@@ -64,6 +56,7 @@ class WblogbookControllerTest extends ControllerTestCase
     public function testValidateLogId()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         // add new record
         $this->request->setPost(array(
             "hiddenNew" => 1,
@@ -76,6 +69,7 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('wblogbook');
         $this->assertAction('add');
         //echo $this->response->outputBody();exit; // for debug !!!
@@ -88,6 +82,7 @@ class WblogbookControllerTest extends ControllerTestCase
     public function testValidateJobId()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         // add new record
         $this->request->setPost(array(
             "hiddenNew" => 1,
@@ -100,6 +95,7 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
+        $this->_isLogged($this->response->outputBody());
         $this->assertController('wblogbook');
         $this->assertAction('add');
         //echo $this->response->outputBody();exit; // for debug !!!
@@ -112,6 +108,7 @@ class WblogbookControllerTest extends ControllerTestCase
     public function testAdd()
     {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         // add new record
         $this->request->setPost(array(
             "hiddenNew" => 1,
@@ -120,7 +117,7 @@ class WblogbookControllerTest extends ControllerTestCase
                 "\n\nLorem ipsum dolor sit amet,\n".
                 "consectetur adipiscing elit.\n".
                 "BACULA_JOBID=2\n".
-                "Nullam eu magna ut diam egestas fringilla.\n".
+                "Nullam eu magna ut diam egestas fringilla. Русский текст.\n".
                 'LOGBOOK_ID=3',
             "logTypeId" => 10,
             "test" => 1
@@ -130,6 +127,7 @@ class WblogbookControllerTest extends ControllerTestCase
         $this->assertController('wblogbook');
         $this->assertAction('add');
         $this->assertRedirectTo('/wblogbook/index');
+        //echo $this->response->outputBody();exit; // for debug !!!
     }
 
 
@@ -140,6 +138,7 @@ class WblogbookControllerTest extends ControllerTestCase
     {
         $jobid = 3;
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $this->request->setPost(array(
             'hiddenNew' => 1,
             'reviewed'  => 1,

@@ -2,13 +2,17 @@
 #############################################################
 #
 # Main script for unit tests
+# 
+# @author Yuri Timofeev <tim4dev@gmail.com>
+# @package webacula
+# @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
 #
 # Usage:
 #
-# ./runtest.sh --exclude-group nonreusable,restore,logbook
+# ./runtest.sh --exclude-group job-nonreusable,restore,logbook
 # ./runtest.sh --group test-test
 # ./runtest.sh --filter testJobFindByVolumeName
-# phpunit --group test1 --stop-on-failure AllTests.php
+# phpunit --group test-test --stop-on-failure AllTests.php
 #
 #############################################################
 
@@ -63,43 +67,44 @@ phpunit --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
-    exit $ret
-fi
-
-# Prepare testing other DBMS
-echo -e "\n\n${LINE1}"
-echo "Prepare testing other DBMS"
-echo -e "${LINE1}\n"
-cd prepare_tests
-sudo ./sync_bacula_db_from_mysql2others.sh
-cd ..
-
-# Test Postgresql
-echo -e "\n\n${LINE1}"
-echo "Test Postgresql"
-echo -e "${LINE1}\n"
-cp -f conf/config.ini.pgsql  ../application/config.ini
-phpunit --exclude-group nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
-ret=$?
-if [ $ret -ne 0 ]
-then
     cp -f ../application/config.ini.original  ../application/config.ini
     exit $ret
 fi
 
+## Prepare testing other DBMS
+#echo -e "\n\n${LINE1}"
+#echo "Prepare testing other DBMS"
+#echo -e "${LINE1}\n"
+#cd prepare_tests
+#sudo ./sync_bacula_db_from_mysql2others.sh
+#cd ..
 
-# Test Sqlite
-echo -e "\n\n${LINE1}"
-echo "Test Sqlite"
-echo -e "${LINE1}\n"
-cp -f conf/config.ini.sqlite  ../application/config.ini
-phpunit --exclude-group nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
-ret=$?
-if [ $ret -ne 0 ]
-then
-    cp -f ../application/config.ini.original  ../application/config.ini
-    exit $ret
-fi
+## Test Postgresql
+#echo -e "\n\n${LINE1}"
+#echo "Test Postgresql"
+#echo -e "${LINE1}\n"
+#cp -f conf/config.ini.pgsql  ../application/config.ini
+#phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+#ret=$?
+#if [ $ret -ne 0 ]
+#then
+#    cp -f ../application/config.ini.original  ../application/config.ini
+#    exit $ret
+#fi
+
+
+## Test Sqlite
+#echo -e "\n\n${LINE1}"
+#echo "Test Sqlite"
+#echo -e "${LINE1}\n"
+#cp -f conf/config.ini.sqlite  ../application/config.ini
+#phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+#ret=$?
+#if [ $ret -ne 0 ]
+#then
+#    cp -f ../application/config.ini.original  ../application/config.ini
+#    exit $ret
+#fi
 
 cp -f ../application/config.ini.original  ../application/config.ini
 
@@ -111,4 +116,7 @@ sh ./locale-test.sh
 sudo service postgresql stop
 
 sudo rm -f /tmp/webacula_restore_*
+
+# restore original conf
+cp -f ../application/config.ini.original  ../application/config.ini
 
