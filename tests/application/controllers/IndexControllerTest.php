@@ -30,7 +30,11 @@ class IndexControllerTest extends ControllerTestCase
     public function testIndex ()
     {
         print "\n" . __METHOD__ . ' ';
+        $this->_doRootLogin();
         $this->dispatch('index/index');
+        $body = $this->response->outputBody();
+        if ( empty($body) )
+            $this->assertTrue(FALSE, "Login failed!");
         //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);

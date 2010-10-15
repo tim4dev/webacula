@@ -19,7 +19,7 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 
 	public function setUp() {
 		$this->bootstrap = array ($this, 'appBootstrap' );
-		parent::setUp ();
+		parent::setUp();
 	}
 
 	/**
@@ -28,7 +28,23 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 	public function appBootstrap() {
 		$this->_application = new Zend_Application ( APPLICATION_PATH );
 		$this->frontController->addControllerDirectory ( APPLICATION_PATH . '/controllers' );
-		$this->_application->bootstrap ();
+		$this->_application->bootstrap();
 	}
+
+
+	protected function _doRootLogin()    {
+		// php array to object
+        $data = (object)$arr = array(
+          'id'        => 1000,
+          'login'     => 'root',
+          'role_id'   => 1,
+          'role_name' => 'root_role'
+        );
+        // wtite session
+        $auth = Zend_Auth::getInstance();
+        $storage = $auth->getStorage();
+        $storage->write($data);
+        Zend_Session::rememberMe();
+    }
 
 }

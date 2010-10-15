@@ -35,9 +35,8 @@ class IndexController extends MyClass_ControllerAclAction
 
     function indexAction ()
     {
-        if ($this->_helper->hasHelper('layout')) {
+        if ($this->_helper->hasHelper('layout'))
             $this->_helper->layout->setLayout('dashboard');
-        }
         // actionToStack($action, $controller, $module, $params);
         $this->_helper->actionStack('problem-dashboard', 'job');
         $this->_helper->actionStack('problem-dashboard', 'volume');

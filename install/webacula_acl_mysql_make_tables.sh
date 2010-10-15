@@ -4,22 +4,10 @@
 #
 
 db_name="bacula"
-db_password=""
-host="localhost"
 
-#if mysql $* -f <<END-OF-DATA
-
-# !!! for debug only !!!
-if mysql -u root -f <<END-OF-DATA
+if mysql $* -f <<END-OF-DATA
 
 USE bacula;
-
--- !!! for debug only !!!
-drop table if exists webacula_users;
-drop table if exists webacula_roles;
-drop table if exists webacula_resources;
-drop table if exists webacula_dt_resources;
-
 
 
 CREATE TABLE IF NOT EXISTS webacula_users (
@@ -97,8 +85,6 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES (11,'volume',  
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (12,'wbjobdesc', 'Menu Job Descriptions');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (13,'wblogbook', 'Menu Logbook');
 
--- !!! for debug only !!!
-INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1001, 'user', PASSWORD('1'), 2);
 
 
 END-OF-DATA

@@ -1,6 +1,6 @@
 ; tests
 ; config.ini
-; Webacula 3.5
+; Webacula 5.x
 ;
 
 [general]

@@ -52,7 +52,6 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         $this->view->identity  = '';
         $this->view->role_name = '';
         if ( $this->isAuth() )  {
-            $this->_helper->layout->setLayout('main');
             $this->_identity  = Zend_Auth::getInstance()->getIdentity();
             // find current user ACL role
             Zend_Loader::loadClass('Wbroles');
@@ -66,15 +65,11 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
             $this->view->role_name = $this->_role_name;
             $this->view->role_id   = $this->_role_id;
             $this->view->identity  = $this->_identity;
-        } else
-            $this->_helper->layout->setLayout('login');
+        }
         // для переадресаций
         $this->_redirector = $this->_helper->getHelper('Redirector');
         // ACL
         $this->_acl = new MyClass_Acl();
-        // layout
-        if ($this->_helper->hasHelper('layout'))
-            $this->_helper->layout->setLayout('main');
         // debug
         if ( $this->_config->debug_level > 0 ) {
             Zend_Loader::loadClass('Zend_Log_Writer_Stream');

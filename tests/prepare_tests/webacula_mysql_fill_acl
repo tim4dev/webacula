@@ -1,0 +1,19 @@
+#!/bin/sh
+
+db_name="bacula"
+
+if mysql -f <<END-OF-DATA
+
+USE bacula;
+SET NAMES utf8;
+SET CHARACTER SET utf8;
+
+INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1001, 'user', PASSWORD('1'), 2);
+
+END-OF-DATA
+then
+   echo "Creation of Webacula ACLs MySQL tables succeeded."
+else
+   echo "Creation of Webacula ACLs MySQL tables failed."
+fi
+exit 0

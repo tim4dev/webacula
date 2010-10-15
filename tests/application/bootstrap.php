@@ -19,7 +19,6 @@ set_include_path(implode(PATH_SEPARATOR, $path));
 
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', $appRoot . '/application');
-
 //echo "APPLICATION_PATH = ",APPLICATION_PATH, "\n", 'appRoot = ',$appRoot, "\n", 'libDir = ', $libDir, "\n", var_dump($path), "\n"; exit; // debug !!!
 
 require_once "Zend/Loader/Autoloader.php";
@@ -28,10 +27,12 @@ Zend_Loader_Autoloader::getInstance();
 /*
  * from index.php
  */
-define('WEBACULA_VERSION', '3.x, build for tests');
+define('WEBACULA_VERSION', '5.x, build for tests');
+define('BACULA_VERSION', 12); // Bacula Catalog version
 
 // load my class
-Zend_Loader::loadClass('MyClass_ControllerAction');
+Zend_Loader::loadClass('MyClass_Acl');
+Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 Zend_Loader::loadClass('Version');
@@ -55,6 +56,7 @@ else {
 }
 
 // set self version
+Zend_Registry::set('bacula_version',   BACULA_VERSION);
 Zend_Registry::set('webacula_version', WEBACULA_VERSION);
 
 // set global const
@@ -109,6 +111,7 @@ $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru');
 $translate->addTranslation('../languages/ru/webacula_ru.mo', 'ru_RU');
 $translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
 $translate->addTranslation('../languages/it/webacula_it.mo', 'it');
+$translate->addTranslation('../languages/es/webacula_es.mo', 'es');
 
 if ( isset($config->locale) ) {
     // locale is user defined
@@ -149,8 +152,12 @@ try {
 	//throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
 
-// disables automatic starting of Zend_Session when using new Zend_Session_Namespace()
-Zend_Session::setOptions( array('strict' => true) );
+Zend_Session::start();
+
+// для подсчета кол-ва неудачных логинов для вывода капчи
+$defNamespace = new Zend_Session_Namespace('Default');
+if (!isset($defNamespace->numLoginFails))
+    $defNamespace->numLoginFails = 0; // начальное значение
 
 /*
  * end from index.php

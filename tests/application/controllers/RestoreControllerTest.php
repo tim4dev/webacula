@@ -18,9 +18,6 @@ class RestoreControllerTest extends ControllerTestCase
         parent::tearDown();
     }
 
-    /**
-     * @group test1
-     */
     public function testMainForm ()
     {
         print "\n" . __METHOD__ . ' ';
@@ -49,7 +46,7 @@ class RestoreControllerTest extends ControllerTestCase
         $job = new Job();
         $result = $job->getByFileName($filepath, $filename, '', 1, 'ordinary');
         $fileid = $result[0]['fileid']; //1220
-        
+
         $file31_dat = '/tmp/webacula/restore'. $filepath. $filename;
         $client_name = 'local.fd';
         $tsleep = 25; // sec. wait to restore

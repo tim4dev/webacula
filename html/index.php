@@ -56,7 +56,6 @@ Zend_Loader::loadClass('Zend_Layout');
 // load my class
 Zend_Loader::loadClass('MyClass_Acl');
 Zend_Loader::loadClass('MyClass_ControllerAclAction');
-Zend_Loader::loadClass('MyClass_ControllerAction');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 Zend_Loader::loadClass('Version');

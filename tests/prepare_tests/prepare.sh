@@ -137,6 +137,7 @@ sh ./webacula_postgresql_create_database.sh
 sh ./webacula_postgresql_make_tables.sh
 sh ./webacula_sqlite_create_database.sh "/tmp/webacula/sqlite/webacula.db"
 chmod a+rwx /tmp/webacula/sqlite
+sh ./webacula_acl_mysql_make_tables.sh
 
 
 my_log "Create fake autochanger..."
@@ -366,6 +367,7 @@ php ./bacula_DBcopy_MySQL2sqlite.php
 my_log "MySQL : fill webacula logbook"
 cd ${BASEDIR}
 sh ./webacula_mysql_fill_logbook
+sh ./webacula_mysql_fill_acl
 
 my_log "PostgreSQL : fill webacula logbook"
 cd ${BASEDIR}
