@@ -33,6 +33,7 @@ class FormLogin extends Zend_Form
 
     public function init()
     {
+        Zend_Loader::loadClass('Zend_Validate_Regex');
     	// translate
     	$this->translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
@@ -56,9 +57,12 @@ class FormLogin extends Zend_Form
         $login->addDecorator('FormElements',
             array('tag'=>'div','style'=>'width:10em; background-color:#E0F0FF;'));
 
-        $login->addValidator('alnum')
-              ->addValidator('regex', false, array('/^[a-z,0-9]+/'))
-              ->addValidator('stringLength', false, array(2, 20))
+        $login_validator = new Zend_Validate_Regex('/^[a-z0-9\-_@\.]+$/i');
+        $login_validator->setMessage( $this->translate->_(
+            'Login characters incorrect. Allowed: alphabetical characters, digits, and "- . _ @" characters.'
+        ));
+        $login->addValidator($login_validator)
+              ->addValidator('stringLength', false, array(1, 50))
               ->setRequired(true);
 
         // password
