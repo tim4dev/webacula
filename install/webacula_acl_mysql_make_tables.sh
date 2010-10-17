@@ -22,10 +22,8 @@ CREATE TABLE IF NOT EXISTS webacula_users (
     active   integer,
     role_id  integer,
     PRIMARY KEY (id),
-	INDEX (login)
+    INDEX (login)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-CREATE INDEX webacula_idx1 ON webacula_users(login);
 
 
 CREATE TABLE IF NOT EXISTS webacula_roles (
@@ -85,6 +83,31 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES (11,'volume',  
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (12,'wbjobdesc', 'Menu Job Descriptions');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (13,'wblogbook', 'Menu Logbook');
 
+
+
+-- Bacula ACLs
+
+CREATE TABLE IF NOT EXISTS webacula_storage_acl (
+    id        integer not null auto_increment,
+    name      char(127),
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS webacula_pool_acl (
+    id        integer not null auto_increment,
+    name      char(127),
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- 'root_role' Bacula ACLs
+INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('*', 1, 1); 
+INSERT INTO webacula_pool_acl    (name, order_acl, role_id) VALUES ('*', 1, 1);
 
 
 END-OF-DATA

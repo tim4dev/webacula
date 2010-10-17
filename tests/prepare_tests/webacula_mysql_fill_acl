@@ -8,7 +8,25 @@ USE bacula;
 SET NAMES utf8;
 SET CHARACTER SET utf8;
 
-INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1001, 'user', PASSWORD('1'), 2);
+-- role
+INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (3, 'user_role', 'for tests', 2);
+
+-- user
+INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1001, 'user1', PASSWORD('1'), 2);
+INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1002, 'user2', PASSWORD('1'), 3);
+
+
+-- Bacula ACLs
+
+-- storage
+INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('storage.file.2', 1, 2);
+INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('LTO1',           2, 2);
+INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('storage.file.1', 1, 3);
+
+-- pool
+INSERT INTO webacula_pool_acl (name, order_acl, role_id) VALUES ('Default',      1, 2);
+INSERT INTO webacula_pool_acl (name, order_acl, role_id) VALUES ('pool.file.7d', 1, 3);
+
 
 END-OF-DATA
 then

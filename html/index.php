@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.15');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.16');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -53,9 +53,10 @@ Zend_Loader::loadClass('Zend_Exception');
 Zend_Loader::loadClass('Zend_Paginator');
 Zend_Loader::loadClass('Zend_Layout');
 
-// load my class
+// load my classes
 Zend_Loader::loadClass('MyClass_Acl');
 Zend_Loader::loadClass('MyClass_ControllerAclAction');
+Zend_Loader::loadClass('MyClass_BaculaAcl');
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 Zend_Loader::loadClass('Version');

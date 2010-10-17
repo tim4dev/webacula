@@ -1,14 +1,58 @@
 
+
+везде в скриптах вида, заменить обращения к объектам на массивы, т.к. возвращаться будет массив
+
+-------------------------------------------------------------------------------------------------------
+во всех моделях добавить:
+
+    protected $bacula_acl; // bacula acl
+
+
+    public function __construct...
+        $this->bacula_acl = new MyClass_BaculaAcl();
+
+    
+    public function aclFetchAll($order) {
+        $res = $this->fetchAll(null, $order)
+                    ->toArray();
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl($res, 'name', 'pool ???');
+    }    
+
+-------------------------------------------------------------------------------------------------------
+в контроллерах (где получают данные от моделей)  заменить вызовы например :
+    $pools->fetchAll(...)
+на
+    $pools->aclFetchAll(...)
+
+-------------------------------------------------------------------------------------------------------
+
+Таблицы *acl
+- поле name — это regexp.
+- Кроме того, если в поле name есть строка _LOGIN_ то она заменяется на login юзера.
+- если нет ни одного ACL правила, то юзер не имеет никаких прав.
+- правила применяются в порядке order
+
+Пример проверки ACL:
+
+$field = 'name';
+foreach($this->view->storages as $storage) {
+    echo $storage->{$field}, '<br>';
+}
+
+-------------------------------------------------------------------------------------------------------
+
 - unit тесты
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests
 
-
+- все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)
 - в табл webacula_dt_resources добавить доступ в меню адмики
 - убрать отладочный код в SQL скриптах install/
 - пароли в SQL скриптах install/
 - в логин форм увеличить sleep(7);  // TODO
 - создать SQL индексы, если нужно
 - unit тесты для других СУБД
+- локализация отображаемых даты/времени с помощью Zend_Filter см. раздел "Standard Filter Classes --> Localization for date and time"
 - перевод на др языки
 

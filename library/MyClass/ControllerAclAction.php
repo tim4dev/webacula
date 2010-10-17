@@ -34,7 +34,7 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
     public $debug_level;
 
     // ACL
-    protected $_acl;
+    protected $_acl;        // webacula acl
     protected $_identity;
     protected $_role_name = '';
     protected $_role_id   = null;
@@ -69,7 +69,7 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         // для переадресаций
         $this->_redirector = $this->_helper->getHelper('Redirector');
         // ACL
-        $this->_acl = new MyClass_Acl();
+        $this->_acl        = new MyClass_Acl();
         // debug
         if ( $this->_config->debug_level > 0 ) {
             Zend_Loader::loadClass('Zend_Log_Writer_Stream');

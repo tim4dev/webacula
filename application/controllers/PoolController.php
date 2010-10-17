@@ -37,9 +37,10 @@ class PoolController extends MyClass_ControllerAclAction
    {
       $order  = addslashes(trim( $this->_request->getParam('order', 'Name') ));
       $this->view->title = $this->view->translate->_("Pools");
-      $pools = new Pool();
-      $this->view->pools = $pools->fetchAll(null, $order);
+      // to view
       $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+      $pools = new Pool();
+      $this->view->pools = $pools->aclFetchAll(null, $order);
    }
 
 
