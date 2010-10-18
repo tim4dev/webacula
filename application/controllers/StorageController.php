@@ -2,8 +2,6 @@
 /**
  * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
- * This file is part of Webacula.
- *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,9 +26,13 @@ require_once 'Zend/Controller/Action.php';
 class StorageController extends MyClass_ControllerAclAction
 {
 
+    protected $bacula_acl; // bacula acl
+
+
     function init ()
     {
         parent::init();
+        $this->bacula_acl = new MyClass_BaculaAcl();
         // load model
         Zend_Loader::loadClass('Storage');
         Zend_Loader::loadClass('Director');
@@ -41,15 +43,24 @@ class StorageController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Storages");
         // get data for form
         $storages = new Storage();
-        $this->view->storages = $storages->fetchAll();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->storages = $storages->aclFetchAll();
     }
+
 
     function statusIdAction ()
     {
         // status [slots] storage=<storage-name> [drive=<num>]
         $storage_id = intval($this->_request->getParam('id'));
         $storage_name = addslashes($this->_request->getParam('name'));
+        // do bacula  acl
+        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'name', 'storage') ) {
+            $this->view->result_error = 'BACULA_ACCESS_DENIED';
+            $this->view->command_output = null;
+            $this->render();
+            return;
+        }
+
         if (! empty($storage_id)) {
             $this->view->title = sprintf($this->view->translate->_("Storage %s status"), $storage_name);
             $director = new Director();
@@ -108,6 +119,13 @@ EOF");
             $changer = '';
 
         $storage_name = addslashes($this->_request->getParam('name'));
+        // do bacula acl
+        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'name', 'storage') ) {
+            $this->view->result_error = 'BACULA_ACCESS_DENIED';
+            $this->view->command_output = null;
+            $this->render();
+            return;
+        }
         if (! empty($action) && ! empty($storage_name)) {
              switch ($action) {
                 case 'mount':
@@ -155,6 +173,13 @@ EOF");
         $changer = '';
 
         $storage_name = addslashes($this->_request->getParam('name'));
+        // do bacula acl
+        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'name', 'storage') ) {
+            $this->view->result_error = 'BACULA_ACCESS_DENIED';
+            $this->view->command_output = null;
+            echo $this->renderScript('storage/status-id.phtml');
+            return;
+        }
         if (!empty($storage_name)) {
             $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . ' '.
                 $this->view->translate->_("autochanger content");

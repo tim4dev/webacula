@@ -14,6 +14,9 @@
             case 'NOFOUND_BCONSOLE': // bconsole не найден
                 $msg = $this->translate->_('ERROR: bconsole not found.');
                 break;
+            case 'BACULA_ACCESS_DENIED':
+                $msg = $this->translate->_('Bacula ACLs : Access denied.');
+                break;
             default: $msg = '';
         }
         echo $msg;

@@ -19,25 +19,25 @@
 <?php foreach($this->storages as $storage) : ?>
 <tr>
     <td align="center">
-    <?php if ( $storage->autochanger > 0 ) : ?>
+    <?php if ( $storage['autochanger'] > 0 ) : ?>
 
 <!-- autochanger block begin -->
 
 <script type="text/javascript">
 $().ready(function() {
-    $('#dialog<?php echo $this->escape($storage->storageid); ?>').jqm({
-        trigger: '#trigger<?php echo $this->escape($storage->storageid); ?>',
+    $('#dialog<?php echo $this->escape($storage['storageid']); ?>').jqm({
+        trigger: '#trigger<?php echo $this->escape($storage['storageid']); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
     });
 });
 </script>
 
-<a href="#" id="trigger<?php echo $this->escape($storage->storageid); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
+<a href="#" id="trigger<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
     <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5">
 </a>
-<div class="jqmWindow" id="dialog<?php echo $this->escape($storage->storageid); ?>">
+<div class="jqmWindow" id="dialog<?php echo $this->escape($storage['storageid']); ?>">
 <div class="dialog-header">
-    <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage->name); ?></b>
+    <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage['name']); ?></b>
 </div>
 <div class="dialog-close">
     <a href="#" class="jqmClose">[x]</a>
@@ -48,7 +48,7 @@ $().ready(function() {
 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
 <?php echo $this->formHidden('autochanger', '1', null); ?>
 <?php echo $this->formHidden('act', 'mount', null); ?>
-<?php echo $this->formHidden('name', $this->escape($storage->name), null); ?>
+<?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
 <div style="text-align: left; padding: 6px;">
     <label>
     <?php print $this->translate->_("Enter autochanger drive"); ?>
@@ -72,22 +72,22 @@ $().ready(function() {
 
 
     <?php else : ?>
-        <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/mount/name/', $this->escape($storage->name);?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
+        <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/mount/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
         <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5"></a>
     <?php endif; ?>
     </td>
 
     <td>
         &nbsp;
-        <a href="<?php echo $this->baseUrl, "/storage/status-id/id/", $this->escape($storage->storageid),
-            "/name/", $this->escape($storage->name);?>" title="<?php print $this->translate->_("Storage Status"); ?>">
-        <?php echo $this->escape($storage->name);?></a>
+        <a href="<?php echo $this->baseUrl, "/storage/status-id/id/", $this->escape($storage['storageid']),
+            "/name/", $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Storage Status"); ?>">
+        <?php echo $this->escape($storage['name']);?></a>
         &nbsp;
     </td>
 
     <td align="center">
-        <?php if ( $this->escape($storage->autochanger) > 0 ) : ?>
-            <a href="<?php echo $this->baseUrl, '/storage/autochanger-content/name/', $this->escape($storage->name);?>" title="<?php print $this->translate->_("Display autochanger content"); ?>">
+        <?php if ( $storage['autochanger'] > 0 ) : ?>
+            <a href="<?php echo $this->baseUrl, '/storage/autochanger-content/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Display autochanger content"); ?>">
             <img src="<?php echo $this->baseUrl;?>/images/media-tape-changer.png" border="0" hspace="5">
             </a>
         <?php else : ?>
@@ -98,25 +98,25 @@ $().ready(function() {
 
 
     <td align="center">
-    <?php if ( $storage->autochanger > 0 ) : ?>
+    <?php if ( $storage['autochanger'] > 0 ) : ?>
 
 <!-- autochanger block begin -->
 
 <script type="text/javascript">
 $().ready(function() {
-    $('#dialogU<?php echo $this->escape($storage->storageid); ?>').jqm({
-        trigger: '#triggerU<?php echo $this->escape($storage->storageid); ?>',
+    $('#dialogU<?php echo $this->escape($storage['storageid']); ?>').jqm({
+        trigger: '#triggerU<?php echo $this->escape($storage['storageid']); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
     });
 });
 </script>
 
-<a href="#" id="triggerU<?php echo $this->escape($storage->storageid); ?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
+<a href="#" id="triggerU<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
     <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5">
 </a>
-<div class="jqmWindow" id="dialogU<?php echo $this->escape($storage->storageid); ?>">
+<div class="jqmWindow" id="dialogU<?php echo $this->escape($storage['storageid']); ?>">
 <div class="dialog-header">
-    <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage->name); ?></b>
+    <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage['name']); ?></b>
 </div>
 <div class="dialog-close">
     <a href="#" class="jqmClose">[x]</a>
@@ -127,7 +127,7 @@ $().ready(function() {
 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
 <?php echo $this->formHidden('autochanger', '1', null); ?>
 <?php echo $this->formHidden('act', 'umount', null); ?>
-<?php echo $this->formHidden('name', $this->escape($storage->name), null); ?>
+<?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
 <div style="text-align: left; padding: 6px;">
     <label>
     <?php print $this->translate->_("Enter autochanger drive"); ?>
@@ -147,7 +147,7 @@ $().ready(function() {
 
 
     <?php else : ?>
-        <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/umount/name/', $this->escape($storage->name);?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
+        <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/umount/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
         <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5"></a>
     <?php endif; ?>
     </td>

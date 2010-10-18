@@ -46,6 +46,8 @@ foreach($this->view->storages as $storage) {
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests
 
+- заполнить остальные поля табл webacula_users
+- реализация восстановления пароля
 - все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)
 - в табл webacula_dt_resources добавить доступ в меню адмики
 - убрать отладочный код в SQL скриптах install/

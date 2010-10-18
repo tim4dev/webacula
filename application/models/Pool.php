@@ -54,7 +54,7 @@ class Pool extends Zend_Db_Table
     }
 
 
-    public function aclFetchAll($order) {
+    public function aclFetchAll($order = '') {
         $res = $this->fetchAll(null, $order)
                     ->toArray();
         // do Bacula ACLs
