@@ -111,12 +111,12 @@ class MyClass_BaculaAcl
         $stmt = $select->query();
         $acls2dim = $stmt->fetchAll(); // array
         /* convert $acls2dim to one dimension array $acls1dim
-         * and check '*' keyword ( '*' - allowed everything all )
+         * and check '*' keyword ( '*all*' - allowed everything all )
          */
         $acls1dim = array();
         foreach($acls2dim as $acl2) {
             $acls1dim[] = $acl2['name'];
-            if ( $acl2['name'] == '*' )
+            if ( $acl2['name'] == '*all*' )
                 // allowed everything all
                 return $list;
         }
@@ -156,12 +156,12 @@ class MyClass_BaculaAcl
         $stmt = $select->query();
         $acls2dim = $stmt->fetchAll(); // array
         /* convert $acls2dim to one dimension array $acls1dim
-         * and check '*' keyword ( '*' - allowed everything all )
+         * and check '*' keyword ( '*all*' - allowed everything all )
          */
         $acls1dim = array();
         foreach($acls2dim as $acl2) {
             $acls1dim[] = $acl2['name'];
-            if ( $acl2['name'] == '*' )
+            if ( $acl2['name'] == '*all*' )
                 // allowed everything all
                 return $list;
         }

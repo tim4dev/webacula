@@ -87,6 +87,8 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES (13,'wblogbook'
 
 -- Bacula ACLs
 
+
+
 CREATE TABLE IF NOT EXISTS webacula_storage_acl (
     id        integer not null auto_increment,
     name      char(127),
@@ -95,6 +97,8 @@ CREATE TABLE IF NOT EXISTS webacula_storage_acl (
     PRIMARY KEY (id),
     INDEX (id, order_acl)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     id        integer not null auto_increment,
@@ -105,9 +109,76 @@ CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     INDEX (id, order_acl)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+
+CREATE TABLE IF NOT EXISTS webacula_command_acl (
+    id        integer not null auto_increment,
+    dt_id    integer,
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS webacula_dt_commands (
+    id      integer not null auto_increment,
+    name    char(127) UNIQUE not null,
+    description TEXT NOT NULL,
+    primary key (id)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- see src/dird/ua_cmds.c
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (1,   "*all*",       "All command");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (10,  "add",         "Add media to a pool");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (20,  "autodisplay", "Autodisplay console messages");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (30,  "automount",   "Automount after label");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (40,  "cancel",      "Cancel a job");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (50,  "create",      "Create DB Pool from resource");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (60,  "delete",      "Delete volume, pool or job");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (70,  "disable",     "Disable a job");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (80,  "enable",      "Enable a job");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (90,  "estimate",    "Performs FileSet estimate, listing gives full listing");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (100, "exit",        "Terminate Bconsole session");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (110, "gui",         "Non-interactive gui mode");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (120, "help",        "Print help on specific command");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (130, "label",       "Label a tape");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (140, "list",        "List objects from catalog");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (150, "llist",       "Full or long list like list command");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (160, "messages",    "Display pending messages");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (170, "memory",      "Print current memory usage");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (180, "mount",       "Mount storage");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (190, "prune",       "Prune expired records from catalog");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (200, "purge",       "Purge records from catalog");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (210, "python",      "Python control commands");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (220, "quit",        "Terminate Bconsole session");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (230, "query",       "Query catalog");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (240, "restore",     "Restore files");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (250, "relabel",     "Relabel a tape");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (260, "release",     "Release storage");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (270, "reload",      "Reload conf file");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (280, "run",         "Run a job");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (290, "status",      "Report status");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (300, "setdebug",    "Sets debug level");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (310, "setip",       "Sets new client address, if authorized");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (320, "show",        "Show resource records");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (330, "sqlquery",    "Use SQL to query catalog");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (340, "time",        "Print current time");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (350, "trace",       "Turn on/off trace to file");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (360, "unmount",     "Unmount storage");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (370, "umount",      "Umount - for old-time Unix guys, see unmount");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (380, "update",      "Update volume, pool or stats");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (390, "use",         "Use catalog xxx");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (400, "var",         "Does variable expansion");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (410, "version",     "Print Director version");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (420, "wait",        "Wait until no jobs are running");
+
+
+
 -- 'root_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('*', 1, 1); 
-INSERT INTO webacula_pool_acl    (name, order_acl, role_id) VALUES ('*', 1, 1);
+INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1); 
+INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_command_acl (dt_id, order_acl, role_id) VALUES (1, 1, 1);
+
 
 
 END-OF-DATA

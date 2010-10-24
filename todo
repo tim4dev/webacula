@@ -1,4 +1,54 @@
 
+*** Реализация : CommandACL
+
+Необходим общий для Bacula Director и Webacula каталог.
+В конфиге bacula-dir.conf:
+@|"sh -c 'for f in /var/www/webacula/user-console.d/*-bconsole.conf ; do echo @${f} ; done'"
+Там же создать запрещающий .htaccess
+Дополнительное поле в таблице webacula_users - пароль к Director для bconsole (НЕ может совпадать с паролем на логин юзера)
+
+Webacula тестирует доступность /var/www/webacula/user-console.d/ на запись.
+При изменениях настроек роли (в админке) Webacula создает в каталоге "user-console.d"  файл с конфигурацией 
+    <имя роли>-bconsole.conf
+для применения в Bacula Director для каждой роли, зарегистрированной в Webacula.
+
+Причем role-bconsole.conf для каждой роли создается на основе данных по всем Bacula ACLs, хранящимся в БД Webacula.
+
+После создания файл role-bconsole.conf тестируется с помощью 
+    /sbin/bacula-dir -t -c bacula-dir-fake.conf
+    где bacula-dir-fake.conf - типовой конфиг с подключенным вновь созданным role-bconsole.conf
+    
+После проверки role-bconsole.conf в Bacula Director посылается команда "reload" для вступления изменений в действие.  
+
+При запуске любой команды Webacula создает во _временном_ каталоге (еще один каталог) xxx-bconsole.conf
+    где "xxx" - имя роли. 
+Далее запускает для тестирования конфига 
+    bconsole -t xxx-bconsole.conf
+и если всё - ок, реально запускаем    
+    bconsole -c xxx-bconsole.conf
+и пусть Bacula сама применяет все свои ACLs.
+После получения вывода от директора - удалить userlogin-bconsole.conf из временного каталога.
+
+При этом Webacula выступает в роли Web-interfece конфигуратора для Bacula. 
+Пока - с ограниченными (только Console resource) возможностями.
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+Текущее состояние :
+
+  * ClientACL
++  * StorageACL
++  * PoolACL
+  * FileSetACL
+  * WhereACL
+  * ScheduleACL not used in Webacula, not implemented
+  * CatalogACL  not used in Webacula, not implemented
+    
+-------------------------------------------------------------------------------------------------------
 
 везде в скриптах вида, заменить обращения к объектам на массивы, т.к. возвращаться будет массив
 
@@ -56,5 +106,6 @@ foreach($this->view->storages as $storage) {
 - создать SQL индексы, если нужно
 - unit тесты для других СУБД
 - локализация отображаемых даты/времени с помощью Zend_Filter см. раздел "Standard Filter Classes --> Localization for date and time"
+- заменить wterminal на что-то более вменяемое с подсказками
 - перевод на др языки
 
