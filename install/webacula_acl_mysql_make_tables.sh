@@ -185,10 +185,21 @@ CREATE TABLE IF NOT EXISTS webacula_client_acl (
 
 
 
+CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
+    id        integer not null auto_increment,
+    name      char(127),
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 -- 'root_role' Bacula ACLs
 INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1); 
 INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_command_acl (dt_id, order_acl, role_id) VALUES (1, 1, 1);
 
 

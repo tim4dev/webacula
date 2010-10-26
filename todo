@@ -50,7 +50,7 @@ Director -> Console resource :
 + ClientACL
 + StorageACL
 + PoolACL
-  * FileSetACL
++ FileSetACL
   * WhereACL
   * ScheduleACL not used in Webacula, not implemented
   * CatalogACL  not used in Webacula, not implemented
@@ -80,7 +80,7 @@ Director -> Console resource :
         $this->bacula_acl = new MyClass_BaculaAcl();
 
     
-    public function aclFetchAll($order) {
+    public function aclFetchAll($order = null) {
         $res = $this->fetchAll(null, $order)
                     ->toArray();
         // do Bacula ACLs
@@ -101,13 +101,6 @@ Director -> Console resource :
 - если нет ни одного ACL правила, то юзер не имеет никаких прав.
 - правила применяются в порядке order
 
-Пример проверки ACL:
-
-$field = 'name';
-foreach($this->view->storages as $storage) {
-    echo $storage->{$field}, '<br>';
-}
-
 -------------------------------------------------------------------------------------------------------
 
 - в каталоге install создать подкаталоги для разных СУБД, перенести скрипты
@@ -126,5 +119,6 @@ foreach($this->view->storages as $storage) {
 - unit тесты для других СУБД
 - локализация отображаемых даты/времени с помощью Zend_Filter см. раздел "Standard Filter Classes --> Localization for date and time"
 - заменить wterminal на что-то более вменяемое с подсказками
+- документация по установке
 - перевод на др языки
 
