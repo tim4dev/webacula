@@ -16,6 +16,10 @@ DROP TABLE webacula_storage_acl;
 DROP TABLE webacula_pool_acl;
 DROP TABLE webacula_command_acl;
 DROP TABLE webacula_dt_commands;
+DROP TABLE webacula_client_acl;
+DROP TABLE webacula_fileset_acl;
+DROP TABLE webacula_where_acl;
+
 
 
 END-OF-DATA

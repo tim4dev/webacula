@@ -51,7 +51,7 @@ Director -> Console resource :
 + StorageACL
 + PoolACL
 + FileSetACL
-  * WhereACL
++ WhereACL
   * ScheduleACL not used in Webacula, not implemented
   * CatalogACL  not used in Webacula, not implemented
     
