@@ -1,15 +1,14 @@
 <!-- job/running.phtml -->
-<h1 align="center"><?php echo $this->escape($this->titleDirRunningJobs); ?></h1>
 
-<?php if ($this->resultDirRunningJobs): ?>
+<?php if ( $this->resultDirRunningJobs ): ?>
 <?php
 	if ($this->resultDirRunningJobs[0] == 'NOFOUND') {
-		echo '<font color="red"><div align="center"><p>',
-		      $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></div></font>';
+		echo '<font color="red"><p>',
+		      $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></font>';
 	}
  	elseif ($this->resultDirRunningJobs[0] == 'ERROR') {
- 		echo '<font color="red"><div align="center"><p>',
- 		     $this->translate->_("ERROR: There was a problem executing bconsole. See below."), '</p></div>';
+ 		echo '<font color="red"><p>',
+ 		     $this->translate->_("ERROR: There was a problem executing bconsole. See below."), '</p>';
  		foreach ($this->resultDirRunningJobs as $line) {
 			echo $line, '<br>';
 		}
@@ -17,8 +16,8 @@
  	} else	{
 ?>
 
-<div align="center">
 <table id="box-table">
+<caption><?php echo $this->escape($this->titleDirRunningJobs); ?></caption>
 <thead>
 <tr>
 	 <th scope="col"> <?php print $this->translate->_("Job Id");   ?> </th>
@@ -42,14 +41,13 @@
 <?php endforeach; ?>
 <tbody>
 </table>
-</div>
 
 <?php
 }
 ?>
 
 <?php else : ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+<div class="ui-widget" style="width: 45%; margin-left: 2em;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></strong></p>
@@ -59,12 +57,14 @@
 
 
 
-<h1 align="center" style="margin-top: 2em;"><?php echo $this->escape($this->titleRunningJobs); ?></h1>
+<div style="margin-top: 1.5em;">&nbsp;</div>
 
-<?php if ($this->resultRunningJobs): ?>
 
-<div align="center">
+
+<?php if ( $this->resultRunningJobs ): ?>
+
 <table id="box-table">
+<caption><?php echo $this->escape($this->titleRunningJobs); ?></caption>
 <thead>
 <tr>
 	 <th scope="col"> <?php print $this->translate->_("Job Id"); 	 ?> </th>
@@ -131,10 +131,10 @@
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
+
 
 <?php else: ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+<div class="ui-widget" style="width: 45%; margin-left: 2em;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></strong></p>

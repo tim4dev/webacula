@@ -1,4 +1,4 @@
-<!-- restore-single-file.phtml -->
+<!-- restorejob/restore-single-file.phtml -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -20,16 +20,15 @@ $(document).ready(function() {
   });
 </script>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
-
 <?php if ($this->file): ?>
 
+<h1 style="margin-left: 2em;"><?php echo $this->escape($this->title); ?></h1>
+
 <?php echo $this->form;?>
-<br style="clear: both;" />
+<br style="clear: both; margin-top: 1.5em;" />
 
 <?php $decode = new MyClass_HomebrewBase64; ?>
 
-<div align="center">
 <table id="box-table-minimalist" border="0">
 <thead>
 <tr>
@@ -71,8 +70,6 @@ $(document).ready(function() {
 </tbody>
 </table>
 
-</div>
-
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
+	<div style="margin-left: 2em;"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
 <?php endif; ?>

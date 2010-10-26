@@ -1,5 +1,4 @@
-<!-- find-filters.phtml -->
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<!-- ob/find-filters.phtml -->
 
 <?php $urlp = $this->baseUrl . '/job/find-filters' .
     '/date_begin/' . $this->date_begin . '/time_begin/' . $this->time_begin .
@@ -16,8 +15,8 @@
 
 <?php if (count($this->paginator)): ?>
 
-<div align="center">
 <table id="box-table">
+<caption><?php echo $this->escape($this->title); ?></caption>
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
@@ -150,9 +149,8 @@
 </tr>
 <?php endforeach; ?>
 </tbody>
+<tfoot></tfoot>
 </table>
-</div>
-<p>&nbsp;</p>
 
 <!-- start paginationControl -->
 <?php
@@ -169,7 +167,7 @@
         'jtype' => $this->jtype,
         'volname' => $this->volname
         ))
-        );
+    );
 ?>
 <!-- end paginationControl -->
 

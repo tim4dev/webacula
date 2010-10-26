@@ -1,5 +1,6 @@
 <!-- job/cancel-job.phtml -->
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+
+<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php
     if ( $this->result_error )
@@ -14,7 +15,7 @@
                 break;
             default: $msg = '';
         }
-        echo '<font color="red"><div align="center"><p>' . $msg . '</p></div></font>';
+        echo '<font color="red"><p>' . $msg . '</p></font>';
         echo '<font color="red">';
         if ( $this->command_output )
         {

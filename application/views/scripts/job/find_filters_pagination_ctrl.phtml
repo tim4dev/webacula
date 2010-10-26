@@ -1,15 +1,15 @@
-<!-- paginationControl -->
+<!-- job/find_filters_pagination_ctrl.phtml -->
 
 <?php $this->translate = Zend_Registry::get('translate'); ?>
 
 <?php if ($this->pageCount): ?>
-<div align="center">
+<div style="margin-left: 2em;">
 <p>
 <?php
-    echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
+    //echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
     $opt = array();
     empty($this->options['date_begin']) ? true : $opt['date_begin'] = $this->options['date_begin'];
-    empty($this->options['time_begin']) ? true : $opt['time_begin'] = $this->options['time_begin'];   
+    empty($this->options['time_begin']) ? true : $opt['time_begin'] = $this->options['time_begin'];
     empty($this->options['date_end'])   ? true : $opt['date_end']   = $this->options['date_end'];
     empty($this->options['time_end'])   ? true : $opt['time_end']   = $this->options['time_end'];
     empty($this->options['client'])     ? true : $opt['client']     = rawurlencode($this->options['client']);
@@ -34,13 +34,15 @@
 <?php endif; ?>
 
 <!-- Нумерованные ссылки на страницы -->
-<?php foreach ($this->pagesInRange as $page): ?>
-  <?php if ($page != $this->current): ?>
-    <a href="<?php echo $this->url( array_merge(array('page' => $page), $opt) ); ?>"> <?php echo $page;?></a> &nbsp;
-  <?php else: ?>
-    <?php echo $page; ?> &nbsp;
-  <?php endif; ?>
-<?php endforeach; ?>
+<?php if ( sizeof($this->pagesInRange) > 1 ):?>
+    <?php foreach ($this->pagesInRange as $page): ?>
+        <?php if ($page != $this->current): ?>
+            <a href="<?php echo $this->url( array_merge(array('page' => $page), $opt) ); ?>"> <?php echo $page;?></a> &nbsp;
+        <?php else: ?>
+            <?php echo $page; ?> &nbsp;
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 <!-- Ссылка на следующую страницу -->
 <?php if (isset($this->next)): ?>

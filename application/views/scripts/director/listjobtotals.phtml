@@ -1,11 +1,12 @@
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<!-- director/listjobtotals.phtml -->
 
 <?php if ( $this->result_error ): ?>
-    <div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+    <div class="ui-widget" style="width: 60%; margin-left: 2em;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
             <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
             <strong>
     <?php
+        echo $this->escape($this->title), '<br>';
         switch ( $this->result_error )
         {
             case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
@@ -31,6 +32,7 @@
 
 <!-- director output -->
 <table id="table-dir-output">
+<caption><h1 align="center"><?php echo $this->escape($this->title); ?></h1></caption>
 <tr><td>
 <b><?php print $this->translate->_("Director output:"); ?></b>
 <?php

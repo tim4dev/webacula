@@ -12,12 +12,11 @@ $(function() {
 });
 </script>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
-<div align="center">
-
 <!--  date form -->
 <form action="<?php echo $this->baseUrl; ?>/job/timeline" method="POST">
-<table cellspacing="0" cellpadding="0" border="0" align="center" style="margin-bottom:1em;">
+<table cellspacing="0" cellpadding="0" border="0"
+    style="font-family: Sans-Serif; margin-bottom: 1.5em; margin-left:5em; margin-top: 1em;">
+<caption style="font-weight: bold; font-size: 1.2em;"><?php echo $this->escape($this->title); ?></caption>
 <tr>
     <td align="right" valign="top">
         <b style="margin-right:1em;"><?php print $this->translate->_("Date"); ?></b>
@@ -91,7 +90,7 @@ if ( extension_loaded('gd') ) : ?>
     }
 ?>
 <?php  else : ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
+<div class="ui-widget" style="width: 45%; margin-left: 2em;">
     <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
         <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
         <strong>
@@ -102,7 +101,7 @@ if ( extension_loaded('gd') ) : ?>
 <?php endif; ?>
 
 <?php else : ?>
-<div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">
+<div class="ui-widget" style="width: 40%; margin-left: 2em;">
     <div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
         <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
         <strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>

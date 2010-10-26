@@ -21,9 +21,17 @@ table.t1 {
    border-top:    1px solid #CDCA66;
    border-bottom: 1px solid #CDCA66;
    font-family: sans-serif;
-   margin: 0 auto;
+   margin-left: 2em;
+   margin-top: 1em;
+   margin-bottom: 2em;
 }
-
+#table-dir-output caption
+{
+	margin-left: 0em;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2em;
+}	
 #table-dir-output td {
    padding: 1em;
 }
@@ -181,8 +189,7 @@ span.mark{
 
 .noteclassic {
   margin: 2em;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 2em;
   width: 40% !important;
   min-height: 40px;
   clear: both;
@@ -207,10 +214,18 @@ span.mark{
    font-family: "Lucida Sans Unicode", Sans-Serif;
    font-size: 1em;
    font-weight: normal;
-   margin-top: 2em;
+   margin-top: 1em;
    margin-bottom: 2em;
+   margin-left: 2em;
    text-align: left;
    border-collapse: collapse;
+}
+#box-table caption
+{
+	margin-left: 0em;
+	text-align: left;
+	font-weight: bold;
+	font-size: 1.2em;
 }
 #box-table th
 {
@@ -234,18 +249,15 @@ span.mark{
    background: #d0dafd;
    color: #339;
 }
-
 #box-table .warn
 {
    background: #FAFF63;
 }
-
 #box-table .err
 {
    color:white;
    background: #FF5050;
 }
-
 #box-table .linkerr
 {
    color:#FFFF77;
@@ -259,8 +271,15 @@ span.mark{
    background: #fff;
    text-align: left;
    border-collapse: collapse;
-   margin-top: 30px;
+   margin-top: 0px;
    margin-bottom: 30px;   
+}
+#box-table-minimalist caption
+{
+    margin-left: 0em;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 #box-table-minimalist th
 {
@@ -294,10 +313,18 @@ span.mark{
 {
    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
    font-size: 1em;
-   margin-top: 2em;
+   margin-top: 1em;
    margin-bottom: 2em;
+   margin-left: 2em;
    text-align: left;
    border-collapse: collapse;
+}
+#box-table-one-column caption
+{
+	margin-left: 0em;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 #box-table-one-column th
 {
@@ -421,5 +448,6 @@ a#dashboard:hover {
 
 .update-info {
     font-family: arial, verdana, sans-serif;
-    font-size: 0.9em;
+    font-size: 0.8em;
+    margin-bottom: 1em;
 }

@@ -45,40 +45,6 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 
 <?php echo $this->MainmenuFloat($this); ?>
 
-<!-- bottom menu -->
-<style type="text/css">
-div#bottommenu
-{
-   margin-top: 8em;
-   margin-left: 0;
-   margin-right: 0;
-   width: 100%;
-
-   text-align: center; /* align left to fix the previous IE css bug */
-
-   font-family: Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   background-color:#002244;
-   color:white;
-   padding: 1px 1px;
-   clear: both;
-}
-
-.bottommenua a {
-   padding: 1px 1px;
-   background-color: #002244;
-   color: white;
-}
-
-/* наведение мышкой */
-.bottommenua a:hover{
-   background-color:#00458A;
-   color: #FFFF33;
-}
-
-</style>
-<!-- END bottom menu -->
-
 <style type="text/css">
 .float_panel
 {
@@ -203,7 +169,7 @@ $(document).ready(function(){
 </ul>
 <br style="clear: both;" />
 
-<div style="margin-top: 3px;">&nbsp;</div>
+<div style="margin-top: 1px;">&nbsp;</div>
 
 <script type="text/javascript">
 </script>
@@ -215,8 +181,7 @@ $(document).ready(function(){
 
 <?php if ( $this->meta_refresh ) : ?>
 <div class="update-info">
-    <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>
-    <br />
+    <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>.
     <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
 </div>
 <?php endif; ?>

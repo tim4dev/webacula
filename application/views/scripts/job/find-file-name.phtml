@@ -1,10 +1,9 @@
-<!-- find-file-name.phtml -->
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<!-- job/find-file-name.phtml -->
 
 <?php if ($this->result): ?>
 
-<div align="center">
 <table id="box-table-minimalist" border="0">
+<caption><?php echo $this->escape($this->title); ?></caption>
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
@@ -152,8 +151,7 @@
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
+	<div style="margin-left: 2em;"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
 <?php endif; ?>

@@ -1,8 +1,8 @@
-<h1 align="center"><?php echo $this->escape($this->titleJob); ?></h1>
+<!-- job/detail.phtml -->
 
-<?php if ($this->resultJob): ?>
-<div align="center">
+<?php if ( $this->resultJob ): ?>
 <table id="box-table-one-column">
+<caption><?php echo $this->escape($this->titleJob); ?></caption>
 <colgroup>
 	<col class="col-first">
 </colgroup>
@@ -195,8 +195,7 @@
 <?php endforeach; ?>
 <tbody>
 </table>
-</div>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Jobs found."); ?></b></p></div>
+	<p><b><?php print $this->translate->_("No Jobs found."); ?></b></p>
 <?php endif; ?>
