@@ -1,35 +1,42 @@
 
-*** Реализация : CommandACL
+*** Текущая реализация CommandACL :
 
+Цель: минимизировать количество настроек Bacula и Webacula.
+
+Настройка:
 Необходим общий для Bacula Director и Webacula каталог.
 В конфиге bacula-dir.conf:
-@|"sh -c 'for f in /var/www/webacula/user-console.d/*-bconsole.conf ; do echo @${f} ; done'"
+@|"sh -c 'for f in /var/www/webacula/user-console.d/*-console.conf ; do echo @${f} ; done'"
 Там же создать запрещающий .htaccess
-Дополнительное поле в таблице webacula_users - пароль к Director для bconsole (НЕ может совпадать с паролем на логин юзера)
+  * Новое поле в таблице webacula_users - пароль к Director для bconsole 
+    (для безопасности - НЕ может совпадать с паролем на логин юзера)
+  * Новый параметр в .ini для хранения полного пути к /sbin/bacula-dir
 
+Алгоритм:
 Webacula тестирует доступность /var/www/webacula/user-console.d/ на запись.
-При изменениях настроек роли (в админке) Webacula создает в каталоге "user-console.d"  файл с конфигурацией 
-    <имя роли>-bconsole.conf
-для применения в Bacula Director для каждой роли, зарегистрированной в Webacula.
+При изменениях настроек роли (в админке) Webacula перезаписывает файл, содержащий конфигурацию для 
+Director -> Console resource : 
+    /var/www/webacula/user-console.d/<имя роли>-console.conf
 
-Причем role-bconsole.conf для каждой роли создается на основе данных по всем Bacula ACLs, хранящимся в БД Webacula.
+Файл <имя роли>-console.conf создается для каждой роли, зарегистрированной в Webacula.
+Причем <имя роли>-console.conf для каждой роли создается на основе данных по всем Bacula ACLs, хранящимся в БД Webacula.
 
-После создания файл role-bconsole.conf тестируется с помощью 
+После создания файл <имя роли>-console.conf тестируется с помощью 
     /sbin/bacula-dir -t -c bacula-dir-fake.conf
-    где bacula-dir-fake.conf - типовой конфиг с подключенным вновь созданным role-bconsole.conf
+    где bacula-dir-fake.conf - типовой конфиг с подключенным вновь созданным <имя роли>-console.conf
     
-После проверки role-bconsole.conf в Bacula Director посылается команда "reload" для вступления изменений в действие.  
+После проверки <имя роли>-console.conf в Bacula Director посылается команда "reload" для вступления изменений в действие.  
 
-При запуске любой команды Webacula создает во _временном_ каталоге (еще один каталог) xxx-bconsole.conf
+При запуске любой команды Webacula создает во _временном_ каталоге (см. 'tmpdir' в config.ini) xxx-bconsole.conf
     где "xxx" - имя роли. 
 Далее запускает для тестирования конфига 
     bconsole -t xxx-bconsole.conf
 и если всё - ок, реально запускаем    
     bconsole -c xxx-bconsole.conf
 и пусть Bacula сама применяет все свои ACLs.
-После получения вывода от директора - удалить userlogin-bconsole.conf из временного каталога.
+После получения вывода от директора - удалить xxx-bconsole.conf из временного каталога.
 
-При этом Webacula выступает в роли Web-interfece конфигуратора для Bacula. 
+При этом Webacula выступает в роли Web-interface конфигуратора для Bacula. 
 Пока - с ограниченными (только Console resource) возможностями.
 
 
@@ -49,6 +56,17 @@ Webacula тестирует доступность /var/www/webacula/user-consol
   * CatalogACL  not used in Webacula, not implemented
     
 -------------------------------------------------------------------------------------------------------
+
+Ограничения на запуск команд в bconsole
+        // do Bacula ACLs
+        $command = 'list';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+            $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $command );
+            echo $this->renderScript('bacula-access-denied.phtml');
+            return;
+        }
+        
+-------------------------------------------------------------------------------------------------------        
 
 везде в скриптах вида, заменить обращения к объектам на массивы, т.к. возвращаться будет массив
 
@@ -92,6 +110,7 @@ foreach($this->view->storages as $storage) {
 
 -------------------------------------------------------------------------------------------------------
 
+- в каталоге install создать подкаталоги для разных СУБД, перенести скрипты
 - unit тесты
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests

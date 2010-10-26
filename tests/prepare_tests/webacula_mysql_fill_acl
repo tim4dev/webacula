@@ -2,7 +2,7 @@
 
 db_name="bacula"
 
-if mysql -f <<END-OF-DATA
+if mysql $* -f <<END-OF-DATA
 
 USE bacula;
 SET NAMES utf8;
@@ -33,8 +33,8 @@ INSERT INTO webacula_command_acl (dt_id, order_acl, role_id) VALUES (290, 1, 2);
 
 END-OF-DATA
 then
-   echo "Creation of Webacula ACLs MySQL tables succeeded."
+   echo "OK."
 else
-   echo "Creation of Webacula ACLs MySQL tables failed."
+   echo "Failed."
 fi
 exit 0

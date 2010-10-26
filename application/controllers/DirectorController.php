@@ -1,9 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +35,13 @@ class DirectorController extends MyClass_ControllerAclAction
     function statusdirAction()
     {
         $this->view->title = $this->view->translate->_("Status Director");
+        // do Bacula ACLs
+        $command = 'status';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $command );
+            echo $this->renderScript('bacula-access-denied.phtml');
+            return;
+        }
         // get status dir
         $director = new Director();
         if ( !$director->isFoundBconsole() )	{
@@ -59,9 +64,17 @@ EOF"
     }
 
 
+
     function listjobtotalsAction()
     {
         $this->view->title = $this->view->translate->_("List of Job Totals");
+        // do Bacula ACLs
+        $command = 'list';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+            $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $command );
+            echo $this->renderScript('bacula-access-denied.phtml');
+            return;
+        }
         $director = new Director();
         if ( !$director->isFoundBconsole() )	{
             $this->view->result_error = 'NOFOUND_BCONSOLE';

@@ -104,10 +104,22 @@ class MyClass_BaculaAcl
 	    $table = new Wbroles();
 	    $roles = $table->getParents( $this->getCurrentRoleId() );
 	    // get all Bacula ACLs and all parents Bacula ACLs
-        $select = $this->db->select()
-                        ->from( $this->getAclTableName($acl), array('name') )
-                        ->where('role_id IN (?)', $roles)
-                        ->order('order_acl');
+	    switch ($acl) {
+            case 'command':
+                $select = $this->db->select()
+                          ->from( array('c'=> $this->getAclTableName($acl) ), array() )
+                          ->joinInner( array('dt'=>'webacula_dt_commands'), 'dt.id = c.dt_id', array('name'))
+                          ->where('c.role_id IN (?)', $roles)
+                          ->order('c.order_acl');
+            break;
+
+            default:
+                $select = $this->db->select()
+                          ->from( $this->getAclTableName($acl), array('name') )
+                          ->where('role_id IN (?)', $roles)
+                          ->order('order_acl');
+            break;
+        }
         $stmt = $select->query();
         $acls2dim = $stmt->fetchAll(); // array
         /* convert $acls2dim to one dimension array $acls1dim
@@ -137,7 +149,7 @@ class MyClass_BaculaAcl
      * @param  string  $resource
      * @param  string  $field
      * @param  string  $acl  one of 'job', 'client', 'storage', etc.
-     * @return array
+     * @return boolean
      */
     public function doOneBaculaAcl($resource, $field, $acl)
     {
@@ -149,10 +161,23 @@ class MyClass_BaculaAcl
         $table = new Wbroles();
         $roles = $table->getParents( $this->getCurrentRoleId() );
         // get all Bacula ACLs and all parents Bacula ACLs
-        $select = $this->db->select()
-                        ->from( $this->getAclTableName($acl), array('name') )
-                        ->where('role_id IN (?)', $roles)
-                        ->order('order_acl');
+        switch ($acl) {
+        	case 'command':
+        		$select = $this->db->select()
+                          ->from( array('c'=> $this->getAclTableName($acl) ), array() )
+                          ->joinInner( array('dt'=>'webacula_dt_commands'), 'dt.id = c.dt_id', array('name'))
+                          ->where('c.role_id IN (?)', $roles)
+                          ->order('c.order_acl');
+        	break;
+
+        	default:
+               $select = $this->db->select()
+                          ->from( $this->getAclTableName($acl), array('name') )
+                          ->where('role_id IN (?)', $roles)
+                          ->order('order_acl');
+        	break;
+        }
+
         $stmt = $select->query();
         $acls2dim = $stmt->fetchAll(); // array
         /* convert $acls2dim to one dimension array $acls1dim
@@ -163,7 +188,7 @@ class MyClass_BaculaAcl
             $acls1dim[] = $acl2['name'];
             if ( $acl2['name'] == '*all*' )
                 // allowed everything all
-                return $list;
+                return TRUE;
         }
         // do acls
         return (in_array($resource, $acls1dim)) ? TRUE : FALSE;
