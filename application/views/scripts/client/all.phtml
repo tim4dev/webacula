@@ -16,16 +16,16 @@
 <?php foreach($this->clients as $client) : ?>
 <tr>
      <td>
-        <a href="<?php echo $this->baseUrl, "/client/status-client-id/id/", $this->escape($client->clientid),
-     	  "/name/", $this->escape($client->name); ?>" title="<?php echo $this->translate->_("Client Detail");?>">
-		  <?php echo $this->escape($client->name);?>
+        <a href="<?php echo $this->baseUrl, "/client/status-client-id/id/", $this->escape($client['clientid']),
+     	  "/name/", $this->escape($client['name']); ?>" title="<?php echo $this->translate->_("Client Detail");?>">
+		  <?php echo $this->escape($client['name']);?>
 		</a>
 	</td>
 
-     <td><?php echo $this->escape($client->uname);?></td>
-     <td align="center"><?php echo $this->int2Char($this->escape($client->autoprune));?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client->fileretention));?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client->jobretention));?></td>
+     <td><?php echo $this->escape($client['uname']);?></td>
+     <td align="center"><?php echo $this->int2Char($this->escape($client['autoprune']));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['fileretention']));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['jobretention']));?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>

@@ -27,6 +27,9 @@ INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('storage.fil
 INSERT INTO webacula_pool_acl (name, order_acl, role_id) VALUES ('Default',      1, 2);
 INSERT INTO webacula_pool_acl (name, order_acl, role_id) VALUES ('pool.file.7d', 1, 3);
 
+-- client
+INSERT INTO webacula_client_acl (name, order_acl, role_id) VALUES ('local.fd',   1, 2);
+
 -- command
 INSERT INTO webacula_command_acl (dt_id, order_acl, role_id) VALUES (290, 1, 2); -- status
 

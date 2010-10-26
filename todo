@@ -47,9 +47,9 @@ Director -> Console resource :
 -------------------------------------------------------------------------------------------------------
 Текущее состояние :
 
-  * ClientACL
-+  * StorageACL
-+  * PoolACL
++ ClientACL
++ StorageACL
++ PoolACL
   * FileSetACL
   * WhereACL
   * ScheduleACL not used in Webacula, not implemented

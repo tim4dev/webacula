@@ -1,9 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +39,7 @@ class ClientController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Clients");
         $clients = new Client();
         $order  = array('ClientId', 'Name');
-        $this->view->clients = $clients->fetchAll(null, $order);
+        $this->view->clients = $clients->aclFetchAll($order);
     }
 
 
@@ -50,6 +48,13 @@ class ClientController extends MyClass_ControllerAclAction
         // http://localhost/webacula/client/status-client-id/id/1/name/local.fd
         $client_name = $this->_getParam('name');
         $this->view->title = $this->view->translate->_("Client") . " " . $client_name;
+        // do Bacula ACLs
+        $command = 'status';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+            $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $command );
+            echo $this->renderScript('bacula-access-denied.phtml');
+            return;
+        }
         $director = new Director();
         if ( !$director->isFoundBconsole() )    {
             $this->view->result_error = 'NOFOUND_BCONSOLE';
