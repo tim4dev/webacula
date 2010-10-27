@@ -1,12 +1,12 @@
 <!-- log/view-log-id.phtml -->
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php if ($this->result): ?>
 
-<table class="t1" border="0" cellspacing="0" align="center">
+<table class="t1" border="0" cellspacing="0">
 <tr>
 <td class="t3"><pre>
-<?php 
+<?php
     foreach($this->result as $line) {
         //echo $this->escape($line['logtime']) . "   " . rtrim( $this->escape($line['logtext']) , "\r\n\t \0") . "<br>";
         $line = $this->escape($line['logtime']) . "   " . rtrim($line['logtext'] , "\r\n\t \0");
@@ -21,5 +21,5 @@
 </table>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Console messages found."); ?></b></p></div>
+	<p><b><?php print $this->translate->_("No Console messages found."); ?></b></p>
 <?php endif; ?>

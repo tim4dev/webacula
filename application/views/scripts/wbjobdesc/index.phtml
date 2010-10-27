@@ -24,9 +24,9 @@ $(document).ready(
 </script>
 
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<h1><?php echo $this->escape($this->title); ?></h1>
 
-<div style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px;">
+<div style="width: 200px; margin-top: 30px; margin-bottom: 20px;">
 <form method="POST" action="<?php echo $this->baseUrl ?>/wbjobdesc/add">
     <input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>" class="ui-button ui-state-default ui-corner-all">
 </form>
@@ -34,7 +34,6 @@ $(document).ready(
 
 <?php if ($this->result): ?>
 
-<div align="center">
 <table id="box-table-wbjobdesc" border="0"  width="70%">
 <thead>
 <tr>
@@ -75,7 +74,6 @@ $(document).ready(
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
 
 <?php else: ?>
 <div class="ui-widget" style="width: 40%; margin-left: auto; margin-right: auto;">

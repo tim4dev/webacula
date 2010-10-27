@@ -1,3 +1,5 @@
+<!-- wblogbook/add.phtml -->
+
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
 <script type="text/javascript">
   // round corners
@@ -6,7 +8,7 @@
   });
 </script>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php
 // create array type record
@@ -21,7 +23,7 @@ endforeach;
 
 <?php if ($this->amessages): ?>
 <!-- display ERRORS -->
-<div class="ui-widget" style="width: 100%; margin-left: auto; margin-right: auto;">
+<div class="ui-widget" style="float: left;">
 	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
 		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
 		<strong>
@@ -35,6 +37,7 @@ endforeach;
 		</strong></p>
 	</div>
 </div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>
 
 <form id="logbook" name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/add';?>" method="post">

@@ -1,9 +1,8 @@
-<!-- paginationControl -->
+<!-- file/paginationControl -->
 
 <?php $this->translate = Zend_Registry::get('translate'); ?>
 
 <?php if ($this->pageCount): ?>
-<div align="center">
 <p>
 <?php
     echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
@@ -38,5 +37,5 @@
 <?php if (isset($this->next)): ?>
   <?php echo '<a href="', $this->url(array('page' => $this->last)), '">', $this->translate->_('Last</a>'); ?>
 <?php endif; ?>
-</div>
+
 <?php endif; ?>

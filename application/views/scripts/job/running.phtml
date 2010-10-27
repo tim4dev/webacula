@@ -47,12 +47,13 @@
 ?>
 
 <?php else : ?>
-<div class="ui-widget" style="width: 45%; margin-left: 2em;">
+<div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></strong></p>
 	</div>
 </div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>
 
 
@@ -134,10 +135,11 @@
 
 
 <?php else: ?>
-<div class="ui-widget" style="width: 45%; margin-left: 2em;">
+<div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></strong></p>
 	</div>
 </div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>

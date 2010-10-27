@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 <?php if ($this->file): ?>
 
-<h1 style="margin-left: 2em;"><?php echo $this->escape($this->title); ?></h1>
+<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php echo $this->form;?>
 <br style="clear: both; margin-top: 1.5em;" />
@@ -71,5 +71,5 @@ $(document).ready(function() {
 </table>
 
 <?php else: ?>
-	<div style="margin-left: 2em;"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
+	<p><b><?php print $this->translate->_("No Files found."); ?></b></p>
 <?php endif; ?>

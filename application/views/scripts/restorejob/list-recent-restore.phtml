@@ -1,25 +1,19 @@
-<!-- list-recent-restore.phtml -->
-
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<!-- restorejob/list-recent-restore.phtml -->
+<?php $decode = new MyClass_HomebrewBase64; ?>
 
 <?php if ($this->result): ?>
 
-<div align="center" style="margin: 10px;">
+<h1><?php echo $this->escape($this->title); ?></h1>
 <?php
     echo "<b>", $this->translate->_("Total"), ": ", $this->total_rows,
-        " ", $this->translate->_("file(s)"), ", ", $this->convBytes($this->total_size), "</b>" ; ?>
+        " ", $this->translate->_("file(s)"), ", ", $this->convBytes($this->total_size), "</b>" ;
+?>
+
+<div style="margin-top: 1em; margin-bottom: 2em;">
+<?php echo $this->form;?>
 </div>
 
 
-
-<?php echo $this->form;?>
-<br style="clear: both;" />
-
-
-
-<?php $decode = new MyClass_HomebrewBase64; ?>
-
-<div align="center">
 <table id="box-table-minimalist" border="0">
 <thead>
 <tr>
@@ -60,10 +54,7 @@
 <?php endforeach; ?>
 <tbody>
 </table>
-</div>
-<p>&nbsp;</p>
 
-<center>&nbsp;
 <?php
 // pager
 if ( $this->total_pages > 1 )   {
@@ -80,8 +71,7 @@ if ( $this->total_pages > 1 )   {
 	}
 }
 ?>
-</center>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Files found."); ?></b></p></div>
+	<p><b><?php print $this->translate->_("No Files found."); ?></b></p>
 <?php endif; ?>

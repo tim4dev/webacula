@@ -1,4 +1,6 @@
-<!-- draw-file-tree.phtml -->
+<!-- restorejob/draw-file-tree.phtml -->
+
+<?php $decode = new MyClass_HomebrewBase64; ?>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -156,17 +158,20 @@ function failDirResults(response){
 	var renderDiv = document.getElementById('responseResults');
     renderDiv.innerHTML = response.responseText + ' ' + '<?php print addslashes($this->translate->_("ERROR: Action for directory failed !")); ?>';
 }
-
 </script>
 
+<table border="0" align="left" cellpadding="0" cellspacing="0">
+<tr><td style="font-size: 1.2em;">
 
+   <!-- Summary for restore -->
+   <b><?php print $this->translate->_("For restore"); ?></b><br>
+   <b><?php print $this->translate->_("Size:"); ?></b>  <span id="totalSize"><?php echo $this->convBytes($this->total_size); ?></span>,
+   <b><?php print $this->translate->_("Count:"); ?></b> <span id="totalFiles"><?php echo $this->total_files; ?></span>
+   <!-- END Summary for restore -->
 
+</td></tr><tr><td>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
-
-<div align="center" style="margin-top: 30px; margin-bottom: 20px;">
-
-<table border="0" cellpadding="0" cellspacing="0" align="center">
+<table border="0" cellpadding="0" cellspacing="0" align="left" style="margin-top: 2em; margin-bottom: 2.5em;">
 <tr><td valign="top">
 <form method="POST" action="<?php echo $this->baseUrl, $this->action_form; ?>">
     <?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job') . '...', array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
@@ -185,25 +190,14 @@ if ($this->type_restore == 'restore_recent') {
 </form>
 </td></tr>
 </table>
-</div>
 
 
-<?php $decode = new MyClass_HomebrewBase64; ?>
-
-
-<!-- Summary for restore -->
-<div class="ui-state-default ui-corner-all" style="width: 14em; text-align: left; float: left;">
-   <b><?php print $this->translate->_("For restore"); ?></b><br />
-   <?php print $this->translate->_("Size:"); ?> <div id="totalSize"><?php echo $this->convBytes($this->total_size); ?></div>
-   <?php print $this->translate->_("Count:"); ?> <div id="totalFiles"><?php echo $this->total_files; ?></div>
-</div>
-<!-- END Summary for restore -->
+</td></tr><tr><td>
 
 
 <!-- ******************************* draw file tree ******************************* -->
 <!-- pwd -->
-<div style="width: 61em; margin-left: 1em; margin-bottom: 3em;  float: left;">
-<table class="fmark" border="0" cellspacing="0" align="center">
+<table class="fmark" border="0" cellspacing="0" align="left">
 <tr>
 	<td colspan="3" class="pwd" style="font-size: 1em; background-color: #F3F7FF;">
 
@@ -218,7 +212,6 @@ if ($this->type_restore == 'restore_recent') {
 		<br>&nbsp;
      </td>
 </tr>
-
 
 
 <!-- Directories -->
@@ -365,5 +358,5 @@ foreach($this->afile as $key=>$line) :
 	endforeach; ?>
 
 </table>
-</div>
-<br style="clear: both;" />
+
+</td></tr></table>

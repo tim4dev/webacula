@@ -111,10 +111,11 @@
 </table>
 
 <?php else: ?>
-<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+<div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all"">
 		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<?php print $this->translate->_("No Jobs found."); ?></p>
 	</div>
 </div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>

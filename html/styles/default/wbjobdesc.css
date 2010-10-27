@@ -61,8 +61,6 @@
 #jobdesc-form {
    width: 34em;
    margin-top: 3px;
-   margin-left: auto;
-   margin-right: auto;
 }
 #jobdesc-form textarea:focus, #jobdesc-form input:focus {
    border: 1px solid #900;
@@ -78,8 +76,6 @@ div.roundcorner-wjd {
     width: 34em;
     padding: 10px;
     text-align: left;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 30px;
     margin-bottom: 20px;
     color: #000;

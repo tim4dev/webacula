@@ -3,7 +3,6 @@
 <?php $this->translate = Zend_Registry::get('translate'); ?>
 
 <?php if ($this->pageCount): ?>
-<div style="margin-left: 2em;">
 <p>
 <?php
     //echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
@@ -55,5 +54,5 @@
   <?php echo '<a href="', $this->url( array_merge(array('page' => $this->last), $opt) ),
   '">', $this->translate->_('Last</a>'); ?>
 <?php endif; ?>
-</div>
+
 <?php endif; ?>

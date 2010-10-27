@@ -1,9 +1,9 @@
 <!-- restorejob/run-restore.phtml -->
 
-<h1 style="margin-left: 2em;"><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
+<h1><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
 
 <?php if ( $this->result_error ): ?>
-    <div class="ui-widget" style="width: 50%; margin-left: 2em;">
+    <div class="ui-widget" style="width: 50%;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
             <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
             <strong>

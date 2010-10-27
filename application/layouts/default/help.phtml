@@ -87,7 +87,8 @@ window.onfocus=CloseNewWin;
 </script>
 
 </head>
-<body>
+
+<body style="margin-top: 34px; margin-left: 3em;">
 
 <ul id="main-menu" class="sf-menu">
    	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
@@ -123,6 +124,7 @@ window.onfocus=CloseNewWin;
     </li>
     <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
         <ul>
+            <li><a href="<?php echo $this->baseUrl;?>/wblogbook/add"><?php print $this->translate->_("Add New Record"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
         </ul>
@@ -133,9 +135,7 @@ window.onfocus=CloseNewWin;
         <?php print $this->translate->_("Logout"); ?></a>
     </li>
 </ul>
-<br style="clear: both;" />
-
-<div style="margin: 10px;">&nbsp;</div>
+<div style="clear: both;"><!--  --></div>
 
 <script type="text/javascript">
 </script>
@@ -145,8 +145,7 @@ window.onfocus=CloseNewWin;
 </div>
 </noscript>
 
-
-<div align="left" style="width: 56em; margin-left: 2em; text-align: left;">
+<div align="left" style="width: 56em; text-align: left; margin-top: 60px;">
 <?php echo $this->layout()->content ?>
 
 <p>&nbsp;</p>

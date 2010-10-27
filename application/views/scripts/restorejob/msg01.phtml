@@ -1,4 +1,4 @@
-<!-- msg01.phtml -->
+<!-- restorejob/msg01.phtml -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -13,9 +13,9 @@ $(document).ready(function() {
 });
 </script>
 
-<h1 align="center"><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
+<h1><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
 
-<div class="ui-state-error ui-corner-all" style="width: 42em; text-align: left; margin-left: auto; margin-right: auto;">
+<div class="ui-state-error ui-corner-all" style="width: 42em; text-align: left;">
 
 <form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post" style="margin: 2em;">
 <p><?php print $this->translate->_("Found existing temporary tables for the Restore Job with JobId"); ?>
@@ -38,5 +38,3 @@ $(document).ready(function() {
 </form>
 
 </div>
-
-<p>&nbsp;</p>

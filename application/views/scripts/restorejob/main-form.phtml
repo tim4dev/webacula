@@ -82,8 +82,6 @@ $(function() {
 });
 </script>
 
-<h1 style="margin-left: 2em;"><?php echo $this->escape($this->title); ?></h1>
-
 <?php
     // create array clients for Form
     if ( $this->clients ) {
@@ -104,9 +102,10 @@ $(function() {
 
 
 
-<div style="width: 42em; margin-left: 2em;">
-<div id="accordion" style="text-align: left;">
+<div style="width: 52em;">
+<h1><?php echo $this->escape($this->title); ?></h1>
 
+<div id="accordion" style="text-align: left;">
 
 <!--    Restore files for JobId -->
 <h3><a href="#"><?php print $this->translate->_("Restore to a specified JobId"); ?></a></h3>

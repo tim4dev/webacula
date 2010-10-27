@@ -75,8 +75,6 @@
 #logbook-form {
    width: 55em;
    margin-top: 25px;
-   margin-left: auto;
-   margin-right: auto;
 }
 #logbook-form textarea:focus, #logbook-form input:focus {
    border: 1px solid #900;
@@ -92,8 +90,6 @@ div.roundcorner-wlb {
     width: 55em;
     padding: 20px;
     text-align: left;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 30px;
     margin-bottom: 20px;
     color: #000;

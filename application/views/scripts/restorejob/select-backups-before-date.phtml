@@ -1,4 +1,4 @@
-<!-- select-backup-before-date.phtml -->
+<!-- restorejob/select-backup-before-date.phtml -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -13,27 +13,27 @@ $(document).ready(function() {
 });
 </script>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
 
-<div style="text-align: left; padding: 10px; border-width: 1px;">
-<table border="0" cellpadding="7" cellspacing="7" align="center">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="3">
+<h1><?php echo $this->escape($this->title); ?></h1>
+</td></tr>
 <tr><td>
 <form action="<?php  echo $this->baseUrl.'/restorejob/select-recent-files';?>" method="post">
 	<input type="hidden" name="beginrecent"  id="beginrecent"  value="<?php echo $this->beginrecent; ?>">
     <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
 </form>
 </td>
-<td> </td>
+<td></td>
 <td>
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore-recent'; ?>">
 	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
 </form>
-</td></tr></table>
-</div>
+</td></tr>
+</table>
 
 <?php if ($this->ajob_full): ?>
 
-<div align="center">
 <table id="box-table">
 <thead>
 <tr>
@@ -82,8 +82,7 @@ $(document).ready(function() {
 <?php endif; ?>
 </tbody>
 </table>
-</div>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Jobs found."); ?></b></p></div>
+	<p><b><?php print $this->translate->_("No Jobs found."); ?></b></p>
 <?php endif; ?>

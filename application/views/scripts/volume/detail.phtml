@@ -13,7 +13,7 @@ $(document).ready(function() {
 });
 </script>
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
+<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php
 // Volume Status
@@ -47,7 +47,6 @@ $ainchanger = array(
 ?>
 
 <?php if ($this->result): ?>
-<div align="center">
 
 <form action="<?php  echo $this->baseUrl.'/volume/update/';?>" method="post">
 
@@ -57,7 +56,7 @@ $ainchanger = array(
 <td>
 <!-- part 1 -->
 
-<table id="box-table-one-column" style="margin-left:1em; margin-right:1em;">
+<table id="box-table-one-column">
     <colgroup><col class="col-first"></colgroup>
     <colgroup><col style="width: 20em;"></colgroup>
     <thead>
@@ -245,8 +244,7 @@ $ainchanger = array(
 <!-- end container -->
 </form>
 
-</div>
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Volumes found."); ?></b></p></div>
+	<p><b><?php print $this->translate->_("No Volumes found."); ?></b></p>
 <?php endif; ?>

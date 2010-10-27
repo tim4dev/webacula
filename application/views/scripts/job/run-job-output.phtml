@@ -1,7 +1,7 @@
 <!-- job/run-job-output.phtml -->
 
 <?php if ( $this->result_error ): ?>
-    <div class="ui-widget" style="width: 50%; margin-left: 2em;">
+    <div class="ui-widget" style="float: left;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
             <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
             <strong>
@@ -27,7 +27,10 @@
             </strong></p>
         </div>
     </div>
+    <div style="clear: both;"><!--  --></div>
+
 <?php else: ?>
+
 <!-- director output -->
 <table id="table-dir-output">
 <caption><?php echo $this->escape($this->title . ' ' . $this->jobname); ?></caption>
@@ -48,12 +51,15 @@
     }
     ?>
 
-    <p>&nbsp;</p>
-    <div align="center">
+<p>&nbsp;</p>
+
+<div align="center">
     <form action="<?php  echo $this->baseUrl.'/job/running';?>" method="post">
-    <input type="hidden" name="jobname"  id="jobname"  value="<?php echo $this->jobname; ?>">
-    <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs') ); ?>
-    </form></div>
+        <input type="hidden" name="jobname"  id="jobname"  value="<?php echo $this->jobname; ?>">
+        <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs') ); ?>
+    </form>
+</div>
 </td></tr>
 </table>
+
 <?php endif; ?>

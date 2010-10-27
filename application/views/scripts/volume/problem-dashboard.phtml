@@ -1,4 +1,5 @@
 <!-- volume/problem-dashboard.phtml -->
+
 <h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/volume/problem" id="dashboard">
 		<?php echo $this->escape($this->titleProblemVolumes); ?>
@@ -58,10 +59,11 @@
 </table>
 
 <?php else: ?>
-<div class="ui-widget" style="width: 80%; margin-left: 0px;">
+<div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all">
 		<p class="dashboard"><span class="ui-icon ui-icon-circle-check" style="float: left; margin-right: 0.3em;"></span>
 		<?php print $this->translate->_("Information from DB Catalog : All Volumes are OK.");?></p>
 	</div>
 </div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>

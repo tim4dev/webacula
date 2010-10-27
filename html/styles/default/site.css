@@ -21,7 +21,6 @@ table.t1 {
    border-top:    1px solid #CDCA66;
    border-bottom: 1px solid #CDCA66;
    font-family: sans-serif;
-   margin-left: 2em;
    margin-top: 1em;
    margin-bottom: 2em;
 }
@@ -143,7 +142,7 @@ table.fmark td.cl2 {
 	border-width: 0px 0px 0px 0px;
 	padding: 1px 1px 1px 1px;
 	border-style: none none none none;
-	background-color: #BFDDFF;
+	background-color: #C8E7FF;
 	font-family: monospace;
 }
 table.fmark td.pwd {
@@ -189,7 +188,6 @@ span.mark{
 
 .noteclassic {
   margin: 2em;
-  margin-left: 2em;
   width: 40% !important;
   min-height: 40px;
   clear: both;
@@ -216,7 +214,6 @@ span.mark{
    font-weight: normal;
    margin-top: 1em;
    margin-bottom: 2em;
-   margin-left: 2em;
    text-align: left;
    border-collapse: collapse;
 }
@@ -315,7 +312,6 @@ span.mark{
    font-size: 1em;
    margin-top: 1em;
    margin-bottom: 2em;
-   margin-left: 2em;
    text-align: left;
    border-collapse: collapse;
 }
@@ -414,18 +410,15 @@ a#dashboard:hover {
    background: #d0dafd;
    color: #339;
 }
-
 #box-table-dashboard .warn
 {
    background: #FAFF63;
 }
-
 #box-table-dashboard .err
 {
    color:white;
    background: #FF5050;
 }
-
 #box-table-dashboard .linkerr
 {
   text-decoration: underline;
@@ -449,5 +442,6 @@ a#dashboard:hover {
 .update-info {
     font-family: arial, verdana, sans-serif;
     font-size: 0.8em;
-    margin-bottom: 1em;
+    margin-top: 40px;
+    margin-bottom: 2em;
 }

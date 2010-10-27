@@ -123,7 +123,7 @@ $(document).ready(function(){
 
 
 </head>
-<body>
+<body style="margin-top: 34px; margin-left: 3em;">
 
 <ul id="main-menu" class="sf-menu">
    	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
@@ -159,6 +159,7 @@ $(document).ready(function(){
     </li>
     <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
         <ul>
+            <li><a href="<?php echo $this->baseUrl;?>/wblogbook/add"><?php print $this->translate->_("Add New Record"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
         </ul>
@@ -169,9 +170,8 @@ $(document).ready(function(){
         <?php print $this->translate->_("Logout"); ?></a>
     </li>
 </ul>
-<br style="clear: both;" />
+<div style="clear: both;"><!--  --></div>
 
-<div style="margin: 2px;">&nbsp;</div>
 
 <script type="text/javascript">
 </script>
@@ -186,9 +186,10 @@ $(document).ready(function(){
     <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>.
     <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
 </div>
+<?php else: ?>
+<div style="margin-top: 60px;">&nbsp;</div>
 <?php endif; ?>
 
-<div style="margin-top: 1em;">&nbsp;</div>
 
 <?php echo $this->layout()->content ?>
 

@@ -1,4 +1,4 @@
-<!-- ob/find-filters.phtml -->
+<!-- job/find-filters.phtml -->
 
 <?php $urlp = $this->baseUrl . '/job/find-filters' .
     '/date_begin/' . $this->date_begin . '/time_begin/' . $this->time_begin .
@@ -172,9 +172,8 @@
 <!-- end paginationControl -->
 
 <?php else: ?>
-	<div align="center"><p><b><?php print $this->translate->_("No Jobs found."); ?></b></p>
+	<p><b><?php print $this->translate->_("No Jobs found."); ?></b></p>
 	<p><a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
 	<?php print $this->translate->_("See List last 20 Jobs run"); ?>
 	</a></p>
-	</div>
 <?php endif; ?>

@@ -39,10 +39,6 @@ $(function() {
 });
 </script>
 
-
-
-<h1 style="margin-left: 2em;"><?php echo $this->escape($this->title); ?></h1>
-
 <?php
 
 // create array clients for Form
@@ -89,7 +85,8 @@ $atype = array(
 ?>
 
 
-<div style="width: 58em; margin-left: 2em;">
+<div style="width: 58em;">
+<h1><?php echo $this->escape($this->title); ?></h1>
 <div id="accordion" style="text-align: left;">
 
 <!-- // find by JobId -->
