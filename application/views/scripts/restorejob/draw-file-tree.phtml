@@ -18,6 +18,15 @@ $(document).ready(function() {
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/json2.js"></script>
 
 <script type="text/javascript">
+
+function renderSummaryStat(vsize, vfiles) {
+    // summary for restore
+    renderDiv = document.getElementById('totalSize');
+    renderDiv.innerHTML = vsize;
+    renderDiv = document.getElementById('totalFiles');
+    renderDiv.innerHTML = vfiles;
+}
+
 // files handle
 function markFile(elm, vfileid){
     // wait
@@ -46,51 +55,56 @@ function markFile(elm, vfileid){
 	}
 	// ajax post error handler
 	$("#responseResults").ajaxError(function(event, request, settings){
-		$(this).text('<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?> ' +
+		$(this).text('<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?> ' +
 			'Error requesting page ' + settings.url);
 	});
 }
 
-function renderSummaryStat(vsize, vfiles) {
-    // summary for restore
-    renderDiv = document.getElementById('totalSize');
-    renderDiv.innerHTML = vsize;
-    renderDiv = document.getElementById('totalFiles');
-    renderDiv.innerHTML = vfiles;
-}
-
 function renderMark(response){
-	//console.log('renderMark : ' + response); // for debug firebug
-    var data = JSON.parse(response);
-    if ( data.allok == 1 )	{
-	    //console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
-		var renderDiv = document.getElementById('responseResults');
-    	renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: mark")); ?> ' + data.filename + '<br />&nbsp;';
-	    // summary for restore
-    	renderSummaryStat(data.total_size, data.total_files);
-    }	else {
-    	var response = { responseText : 'mark file : ' };
-    	failResults(response);
-    }
+    //console.log('renderMark : ' + response); // for debug firebug
+	try {
+	    var data = JSON.parse(response);
+	    if ( data.allok == 1 )	{
+	        //  console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
+	    	var renderDiv = document.getElementById('responseResults');
+	    	renderDiv.style.backgroundColor = '#FAF294';
+	    	renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: mark")); ?> ' + data.filename + '<br />&nbsp;';
+	    	// summary for restore
+    	    renderSummaryStat(data.total_size, data.total_files);
+       } else {
+            var response = { responseText : 'mark file : ' };
+            failResults(response);
+       }
+	}  catch(e) {
+		var response = { responseText : 'Ajax JSON.parse : ' };
+        failResults(response);
+	}
 }
 
 function renderUnMark(response){
-    var data = JSON.parse(response);
-    if ( data.allok == 1 )	{
-		//console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug
-		var renderDiv = document.getElementById('responseResults');
-    	renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: unmark")); ?> ' + data.filename + '<br />&nbsp;';
-	    // summary for restore
-    	renderSummaryStat(data.total_size, data.total_files);
-    }	else {
-    	var response = { responseText : 'unmark file : ' };
-    	failResults(response);
+	try {
+	    var data = JSON.parse(response);
+	    if ( data.allok == 1 )	{
+	    	  //console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug
+	    	  var renderDiv = document.getElementById('responseResults');
+	    	  renderDiv.style.backgroundColor = '#FAF294';
+	    	  renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: unmark")); ?> ' + data.filename + '<br />&nbsp;';
+	    	  // summary for restore
+	    	  renderSummaryStat(data.total_size, data.total_files);
+        } else {
+    	    var response = { responseText : 'unmark file : ' };
+    	    failResults(response);
+        }
+    }  catch(e) {
+        var response = { responseText : 'Ajax JSON.parse : ' };
+        failResults(response);
     }
 }
 
 function failResults(response){
 	var renderDiv = document.getElementById('responseResults');
-    renderDiv.innerHTML = response.responseText + ' ' + '<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?>';
+	renderDiv.style.backgroundColor = '#FFB1B1';
+    renderDiv.innerHTML = response.responseText + ' ' + '<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?>' + '<br />&nbsp;';
 }
 
 
@@ -121,43 +135,51 @@ function markDir(elm, vpath){
 	}
 	// ajax post error handler
 	$("#responseResults").ajaxError(function(event, request, settings){
-		$(this).text('<?php print addslashes($this->translate->_("ERROR: Action for file failed !")); ?> ' +
+		$(this).text('<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?> ' +
 			'Error requesting page ' + settings.url);
 	});
 }
 
 function renderDirMark(response){
-	var data = JSON.parse(response);
-	var renderDiv = document.getElementById('responseResults');
-	if ( data.allok == 1 )	{
-		//console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
-    	renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: mark directory tree")); ?> ' + data.msg;
-	    // summary for restore
-    	renderSummaryStat(data.total_size, data.total_files);
-	} 	else {
-    	var response = { responseText : 'mark dir : ' };
-    	failDirResults(response);
+	try {
+	    var data = JSON.parse(response);
+	    var renderDiv = document.getElementById('responseResults');
+	    if ( data.allok == 1 )	{
+		    //console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
+	    	renderDiv.style.backgroundColor = '#FAF294';
+    	    renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: mark directory tree")); ?> ' + data.msg;
+    	    // summary for restore
+    	    renderSummaryStat(data.total_size, data.total_files);
+    	} 	else {
+    	    var response = { responseText : 'mark dir : ' };
+    	    failResults(response);
+    	}
+    }  catch(e) {
+        var response = { responseText : 'Ajax JSON.parse : ' };
+        failResults(response);
     }
 }
 
 function renderDirUnMark(response){
-	var data = JSON.parse(response);
-	var renderDiv = document.getElementById('responseResults');
-	if ( data.allok == 1 )	{
-		//console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
-    	renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: unmark directory tree")); ?> ' + data.msg;
-	    // summary for restore
-    	renderSummaryStat(data.total_size, data.total_files);
-	}  	else {
-    	var response = { responseText : 'unmark dir : ' };
-    	failDirResults(response);
+	try {
+	    var data = JSON.parse(response);
+	    var renderDiv = document.getElementById('responseResults');
+	    if ( data.allok == 1 )	{
+	        //console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
+	    	renderDiv.style.backgroundColor = '#FAF294';
+	        renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: unmark directory tree")); ?> ' + data.msg;
+	        // summary for restore
+	        renderSummaryStat(data.total_size, data.total_files);
+	    }  	else {
+	        var response = { responseText : 'unmark dir : ' };
+	        failDirResults(response);
+	    }
+    }  catch(e) {
+        var response = { responseText : 'Ajax JSON.parse : ' };
+        failResults(response);
     }
 }
 
-function failDirResults(response){
-	var renderDiv = document.getElementById('responseResults');
-    renderDiv.innerHTML = response.responseText + ' ' + '<?php print addslashes($this->translate->_("ERROR: Action for directory failed !")); ?>';
-}
 </script>
 
 <table border="0" align="left" cellpadding="0" cellspacing="0">
