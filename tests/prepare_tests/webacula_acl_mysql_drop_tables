@@ -3,10 +3,7 @@
 # Script to drop Webacula ACLs tables in Bacula database
 #
 
-if mysql $* -f <<END-OF-DATA
-
-USE bacula;
-
+if mysql -u root bacula -f <<END-OF-DATA
 
 DROP TABLE webacula_users;
 DROP TABLE webacula_roles;
@@ -19,7 +16,6 @@ DROP TABLE webacula_dt_commands;
 DROP TABLE webacula_client_acl;
 DROP TABLE webacula_fileset_acl;
 DROP TABLE webacula_where_acl;
-
 
 
 END-OF-DATA

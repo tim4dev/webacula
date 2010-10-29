@@ -215,9 +215,7 @@ if ($this->type_restore == 'restore_recent') {
 
 
 <!-- Directories -->
-<?php
-if ( !empty($this->curdir) && ($this->curdir != '/') ):
-?>
+<?php if ( !empty($this->curdir) && ($this->curdir != '/') ): ?>
 <tr>
 	<td colspan="3" class="pwd" style="background-color: #F3F7FF;">
 		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
@@ -235,25 +233,29 @@ if ( !empty($this->curdir) && ($this->curdir != '/') ):
 		</form>
 	</td>
 </tr>
+<?php else:?>
+    <tr>
+        <td colspan="3" class="pwd" style="background-color: #F3F7FF;">&nbsp;</td>
+    </tr>
 <?php endif; ?>
 
 <?php
 $i = 0;
 
-// полосатая таблица
+// striped table / полосатая таблица
 foreach($this->adir as $key=>$line) :
     if ( empty($line['dir']) ) continue;
 
 	$i++;
 	if ($i & 1)
-    	$cl = 'cl1'; // нечет
+    	$cl = 'cl1'; // odd / нечет
 	else
-    	$cl = 'cl2'; // чет
+    	$cl = 'cl2'; // even / чет
 ?>
 
 
 <tr>
-	<td class="<?php echo $cl; ?>" width="20%">
+	<td class="<?php echo $cl; ?>">
 		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
 			<input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/folder.png">
 			<input type="hidden" name="curdir" id="curdir" value="<?php echo $this->curdir . $line['dir'] . '/'; ?>">
@@ -307,13 +309,14 @@ foreach($this->adir as $key=>$line) :
 
 <!-- Files -->
 <?php
+// striped table / полосатая таблица
 foreach($this->afile as $key=>$line) :
 	if ( !empty($key) ) :
 		$i++;
 		if ($i & 1)
-    		$cl = 'cl1'; // нечет
+    		$cl = 'cl1'; // odd / нечет
 		else
-    		$cl = 'cl2'; // чет
+    		$cl = 'cl2'; // even / чет
 ?>
 <tr>
 	<td class="<?php echo $cl; ?>" width="20%">
