@@ -4,7 +4,7 @@
 
 - Bacula 5.0 или выше.
 - Полная поддержка СУБД MySQL, PostgreSQL и Sqlite.
-- Zend Framework version 1.8.3 или выше.
+- Zend Framework version 1.10.0 или выше.
 - Zend Framework требует PHP 5.2.4 и выше с расширением PDO. См. также:
   http://framework.zend.com/manual/en/requirements.html
 - Apache и mod_rewrite, либо эквивалентный веб-сервер. Например, nginx и ngx_http_rewrite_module.

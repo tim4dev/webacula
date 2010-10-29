@@ -8,7 +8,7 @@
 
 - Bacula 5.0 o superior.
 - Soportados MySQL, PostgreSQL y Sqlite.
-- Zend Framework version 1.8.3 or later.
+- Zend Framework version 1.10.0 or later.
 - Zend Framework está construido usando programación orientada a objetos y requiere: 
   PHP 5.2.4 o superior con la extensión PDO(de acuerdo al motor de bases de datos seleccionado) activada . Por favor revise el apéndice "Requerimientos del Sistema" para una información mejor detallada
   información más detallada:
