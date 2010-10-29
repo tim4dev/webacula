@@ -277,6 +277,15 @@ foreach($this->adir as $key=>$line) :
 
 
 <tr>
+    <td class="<?php echo $cl; ?>" style="width: 24px;">
+        <?php
+            if ( $line['ismarked'] == 0 ) {
+                echo '<input type="checkbox" onclick="markDir(this, ' . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
+            } else {
+                echo '<input type="checkbox" checked onclick="markDir(this, '   . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
+            }
+            ?>
+    </td>
 	<td class="<?php echo $cl; ?>">
 		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
 			<input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/folder.png">
@@ -285,15 +294,6 @@ foreach($this->adir as $key=>$line) :
 				echo $line['dir'];
 			?>
 		</form>
-	</td>
-	<td class="<?php echo $cl; ?>">
-		<?php
-			if ( $line['ismarked'] == 0 ) {
-				echo '<input type="checkbox" onclick="markDir(this, ' . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
-			} else {
-				echo '<input type="checkbox" checked onclick="markDir(this, '   . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
-			}
-			?>
 	</td>
 	<td class="<?php echo $cl; ?>">
 		<?php
@@ -341,11 +341,7 @@ foreach($this->afile as $key=>$line) :
     		$cl = 'cl2'; // even / чет
 ?>
 <tr>
-	<td class="<?php echo $cl; ?>" width="20%">
-		<!-- Name file -->
-		<?php echo $key; ?>
-	</td>
-	<td class="<?php echo $cl; ?>">
+	<td class="<?php echo $cl; ?>" style="width: 24px;">
 	   <?php
 		if ( $line['ismarked'] == 0 ) {
 			echo '<input type="checkbox" onclick="markFile(this, '  . "'" .  addslashes($line['fileid'])  . "'" .  ')">';
@@ -354,6 +350,11 @@ foreach($this->afile as $key=>$line) :
 		}
 		?>
 	</td>
+
+	<td class="<?php echo $cl; ?>">
+        <!-- Name file -->
+        <?php echo $key; ?>
+    </td>
 
 	<td class="<?php echo $cl; ?>">
 	<?php

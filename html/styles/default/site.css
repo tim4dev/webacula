@@ -124,7 +124,7 @@ td.mono1 {
 ----------------------------------------------------------------------------------*/
 
 table.fmark {
-	width: 90em;
+	width: 80em;
 	border-width: 0px 0px 0px 0px;
 	border-spacing: 0px;
 	border-style: none none none none;
@@ -152,6 +152,10 @@ table.fmark td.pwd {
 	border-style: none none none none;
 	background-color: #FFFFFF;
 	font-family: monospace;
+}
+table.fmark tr:hover td {
+   background: #FFCB8A;
+   color: #000080;
 }
 
 
