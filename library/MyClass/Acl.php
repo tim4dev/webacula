@@ -11,8 +11,6 @@ class MyClass_Acl extends Zend_Acl
 
     public function __construct()
     {
-        Zend_Loader::loadClass('Wbresources');
-        Zend_Loader::loadClass('Wbroles');
         // fetch all resources
         $table = new Wbresources();
         $resources = $table->fetchAllRecources();

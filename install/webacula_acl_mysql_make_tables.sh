@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS webacula_users (
     role_id  integer,
     PRIMARY KEY (id),
     INDEX (login)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 CREATE TABLE IF NOT EXISTS webacula_roles (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS webacula_roles (
     description TEXT,
     inherit_id  integer,
     primary key (id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;    
+);    
 
 
 CREATE TABLE IF NOT EXISTS webacula_resources (
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS webacula_resources (
     dt_id    integer,
     role_id  integer,
     primary key (id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 CREATE TABLE IF NOT EXISTS webacula_dt_resources (
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS webacula_dt_resources (
     name    char(50) UNIQUE not null,
     description TEXT NOT NULL,
     primary key (id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS webacula_storage_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 
@@ -118,14 +118,14 @@ CREATE TABLE IF NOT EXISTS webacula_command_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 CREATE TABLE IF NOT EXISTS webacula_dt_commands (
     id      integer not null auto_increment,
     name    char(127) UNIQUE not null,
     description TEXT NOT NULL,
     primary key (id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 -- see src/dird/ua_cmds.c
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (1,   "*all*",       "All command");
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS webacula_client_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 

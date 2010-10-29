@@ -55,7 +55,6 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         if ( $this->isAuth() )  {
             $this->_identity  = Zend_Auth::getInstance()->getIdentity();
             // find current user ACL role
-            Zend_Loader::loadClass('Wbroles');
             $table = new Wbroles();
             $row   = $table->find($this->_identity->role_id);
             if ($row->count() == 1) {

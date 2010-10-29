@@ -5,8 +5,6 @@ db_name="bacula"
 if mysql $* -f <<END-OF-DATA
 
 USE bacula;
-SET NAMES utf8;
-SET CHARACTER SET utf8;
 
 -- role
 INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (3, 'user_role', 'for tests', 2);

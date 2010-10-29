@@ -39,19 +39,6 @@ class Wbroles extends Zend_Db_Table
     }
 
 
-    public function init() {
-        $db = Zend_Db_Table::getAdapter('bacula');
-        switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $db->query('SET NAMES utf8');
-                $db->query('SET CHARACTER SET utf8');
-                break;
-            case 'PDO_PGSQL':
-                $db->query("SET NAMES 'UTF8'");
-                break;
-        }
-    }
-
 
     /*
      * возвращает одномерный массив id всех родителей данного $id, включая его самого
