@@ -25,6 +25,9 @@ class AuthController extends Zend_Controller_Action
 {
     protected $defNamespace;
     const MAX_LOGIN_ATTEMPT = 3;
+    protected $_role_name = '';
+    protected $_role_id   = null;
+
 
 
     public function init()
@@ -41,6 +44,11 @@ class AuthController extends Zend_Controller_Action
         $this->_redirector = $this->_helper->getHelper('Redirector');
         // для подсчета кол-ва неудачных логинов для вывода капчи
         $this->defNamespace = new Zend_Session_Namespace('Default');
+        // Get current role_id, role_name
+        $auth    = Zend_Auth::getInstance();
+        $ident   = $auth->getIdentity();
+        $this->_role_id   = $ident->role_id;
+        $this->_role_name = $ident->role_name;
     }
 
 
@@ -111,7 +119,7 @@ class AuthController extends Zend_Controller_Action
                     // goto home page
                     $this->_redirect('index/index');
                 } else {
-                    sleep(1);  // TODO increase value
+                    sleep(2);  // TODO increase this value
                     $this->view->msg = $this->view->translate->_("Username or password is incorrect");
                     // включаем счетчик, если кол-во неудачных логинов большое то включаем капчу
                     $this->defNamespace->numLoginFails++;
@@ -131,10 +139,10 @@ class AuthController extends Zend_Controller_Action
     	/* "Очищаем" данные об идентификации пользоваля */
 		Zend_Auth::getInstance()->clearIdentity();
 		Zend_Session::forgetMe();
-		/**
-		 *	Перебрасываем его на главную
-		 *  TODO Желательно еще как-то оповестить пользователя о том, что он вышел
-		 */
+		/* Cleaning cache */
+		$bacula_acl = new MyClass_BaculaAcl();
+		$bacula_acl->cleanCache();
+		/*	Перебрасываем его на главную */
 		$this->_redirect('/');
 	}
 

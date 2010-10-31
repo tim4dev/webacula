@@ -55,6 +55,7 @@ class MyClass_BaculaAcl
     );
     protected $_role_name = '';
     protected $_role_id   = null;
+    protected $_cache_id  = null;
 
 
 	public function __construct()
@@ -68,6 +69,17 @@ class MyClass_BaculaAcl
         $ident   = $auth->getIdentity();
         $this->_role_id   = $ident->role_id;
         $this->_role_name = $ident->role_name;
+        $this->_cache_id  = $this->_role_id.'_acls2dim';
+	}
+
+
+
+	public function cleanCache() {
+		/*
+         * Cleaning cache. See also MyClass_BaculaAcl
+         */
+        $cache = Zend_Registry::get('cache');
+        $cache->remove($this->_cache_id);
 	}
 
 
@@ -103,10 +115,9 @@ class MyClass_BaculaAcl
 	    /*
 	     * Cache
 	     */
-	    $cache_tag = $this->_role_id.'_acls2dim';
 	    $cache = Zend_Registry::get('cache');
         // проверка, есть ли уже запись в кэше:
-        if( !$acls2dim = $cache->load( $cache_tag ) ) {
+        if( !$acls2dim = $cache->load( $this->_cache_id ) ) {
             // промах кэша
             // get current role and all parents roles
             $table = new Wbroles();
@@ -131,7 +142,7 @@ class MyClass_BaculaAcl
             $stmt = $select->query();
             $acls2dim = $stmt->fetchAll(); // array
             // save to cache
-            $cache->save($acls2dim, $cache_tag );
+            $cache->save($acls2dim, $this->_cache_id, array('bacula_acl') );
         }
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
@@ -171,10 +182,9 @@ class MyClass_BaculaAcl
         /*
          * Cache
          */
-        $cache_tag = $this->_role_id.'_acls2dim';
         $cache = Zend_Registry::get('cache');
         // проверка, есть ли уже запись в кэше:
-        if( !$acls2dim = $cache->load( $cache_tag ) ) {
+        if( !$acls2dim = $cache->load( $this->_cache_id ) ) {
             // промах кэша
             // get current role and all parents roles
             $table = new Wbroles();
@@ -199,7 +209,7 @@ class MyClass_BaculaAcl
             $stmt = $select->query();
             $acls2dim = $stmt->fetchAll(); // array
             // save to cache
-            $cache->save($acls2dim, $cache_tag );
+            $cache->save($acls2dim,  $this->_cache_id, array('bacula_acl') );
         }
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
