@@ -66,10 +66,11 @@ class MyClass_BaculaAcl
         Zend_Loader::loadClass('Wbroles');
         // Get current role_id, role_name
         $auth    = Zend_Auth::getInstance();
-        $ident   = $auth->getIdentity();
-        $this->_role_id   = $ident->role_id;
-        $this->_role_name = $ident->role_name;
-        $this->_cache_id  = $this->_role_id.'_acls2dim';
+        if ($ident   = $auth->getIdentity() ) {
+            $this->_role_id   = $ident->role_id;
+            $this->_role_name = $ident->role_name;
+            $this->_cache_id  = $this->_role_id.'_acls2dim';
+        }
 	}
 
 

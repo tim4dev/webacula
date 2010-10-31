@@ -46,9 +46,10 @@ class AuthController extends Zend_Controller_Action
         $this->defNamespace = new Zend_Session_Namespace('Default');
         // Get current role_id, role_name
         $auth    = Zend_Auth::getInstance();
-        $ident   = $auth->getIdentity();
-        $this->_role_id   = $ident->role_id;
-        $this->_role_name = $ident->role_name;
+        if ($ident   = $auth->getIdentity() ) {
+            $this->_role_id   = $ident->role_id;
+            $this->_role_name = $ident->role_name;
+        }
     }
 
 

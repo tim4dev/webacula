@@ -192,7 +192,7 @@ span.mark{
 ------------------------------------------------------*/
 
 .noteclassic {
-  margin: 2em;
+  margin-bottom: 2em;
   width: 40% !important;
   min-height: 40px;
   clear: both;
@@ -205,7 +205,7 @@ span.mark{
   -moz-border-radius: 20px;
   -khtml-border-radius: 20px;
   border-radius: 20px;
-  background-color: #eef;
+  background-color: #DEDEED;
 }
 
 
