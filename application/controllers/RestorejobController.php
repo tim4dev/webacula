@@ -886,8 +886,6 @@ EOF"
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 )
-                $this->logger->log(__METHOD__."  $fileid  $jobidhash", Zend_Log::INFO);
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $tmp_tables->markFile($fileid);
@@ -930,8 +928,6 @@ EOF"
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 )
-                $this->logger->log("unmarkFileAction()  $fileid  $jobidhash", Zend_Log::INFO);
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $tmp_tables->unmarkFile($fileid);
@@ -970,8 +966,6 @@ EOF"
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 )
-                $this->logger->log(__METHOD__." input value:\n$path\n$jobidhash\n", Zend_Log::INFO);
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 1); // isMarked = 1
@@ -986,9 +980,6 @@ EOF"
             $aout['total_files'] = $atotal['total_files'];
             $aout['path']        = $path;
             $aout['allok']       = 1; // действия успешны
-            if ( $this->_config->debug_level >= 9 )
-                $this->logger->log(__METHOD__." return value :\n".$aout['total_size']."\n".$aout['total_files']."\n".
-                        $aout['path']."\n".$aout['allok']."\n".$aout['msg'], Zend_Log::INFO);
             // Преобразование для возвращения клиенту
             $json = Zend_Json::encode($aout);
             // возвращаем данные в javascript
@@ -1017,8 +1008,6 @@ EOF"
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            if ( $this->_config->debug_level >= 9 )
-                $this->logger->log(__METHOD__."  $path  $jobidhash", Zend_Log::INFO);
             // производим действия в БД
             $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 0); // isMarked = 0
@@ -1249,10 +1238,6 @@ EOF"
             $cmd_mount = 'mount "' . $storage . '"';
             $cmd_sleep = '@sleep 7';
         }
-        // получаем каталог куда можно писать файл
-        $config = Zend_Registry::get('config');
-        $tmpdir = $config->tmpdir;
-
         // check access to bconsole
         Zend_Loader::loadClass('Director');
         $director = new Director();
@@ -1264,7 +1249,7 @@ EOF"
 
         // export to a text file (экспорт в текстовый файл)
         $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-        $ares = $tmp_tables->exportMarkFiles($tmpdir);
+        $ares = $tmp_tables->exportMarkFiles(TMP_DIR);
         // unused ? $list = $ares['name']; // имя файла со списком файлов для восстановления
 
         if ( $ares['result'] == TRUE )  {
@@ -1274,10 +1259,8 @@ EOF"
             // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
             //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
             $cmd = 'restore '. $this->getCmdRestore() .
-                ' file=<"/tmp/webacula_restore_' . $this->restoreNamespace->JobHash . '.tmp"' .
+                ' file=<"'.TMP_DIR.'/webacula_restore_' . $this->restoreNamespace->JobHash . '.tmp"' .
                 ' yes';
-
-            //echo $cmd; exit;// !!! debug
             $comment = __METHOD__;
             $astatusdir = $director->execDirector(
 " <<EOF
@@ -1331,11 +1314,8 @@ EOF"
         $this->getParamFromForm();
 
         // export to a text file (экспорт в текстовый файл)
-        // получаем каталог куда можно писать файл
-        $config = Zend_Registry::get('config');
-        $tmpdir = $config->tmpdir;
         $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-        $ares = $tmp_tables->exportMarkFiles($tmpdir);
+        $ares = $tmp_tables->exportMarkFiles(TMP_DIR);
         $list = $ares['name']; // имя файла со списком файлов для восстановления
 
         $date_before = 'current';
@@ -1345,7 +1325,6 @@ EOF"
         // формируем командную строку
         // restore client="local.fd" fileset="test1" before="2009-05-15 14:50:01" file=<"/etc/bacula/webacula_restore.tmp" done yes
         $cmd = 'restore ' . $this->getCmdRestore() .' '.	$date_before .' file=<"'. $list . '" done yes';
-        //echo $cmd; exit; // !!!debug!!!
         $comment = __METHOD__;
         $astatusdir = $director->execDirector(
 " <<EOF

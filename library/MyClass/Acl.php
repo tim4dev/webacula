@@ -1,9 +1,29 @@
 <?php
-
-/*
- * http://www.zftutorials.com/zend-acl/Zend-Acl-and-storing-roles-and-resources-in-a-DB-l183.html
+/**
+ * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ *
+ * Webacula is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Webacula is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ *
  */
-
+/*
+ * Fetch all Roles and all Resources.
+ * And create Zend_Acl_Resource object which contains allow rules for all Roles.
+ */
 require_once 'Zend/Acl.php';
 
 class MyClass_Acl extends Zend_Acl
@@ -20,11 +40,11 @@ class MyClass_Acl extends Zend_Acl
         $roles = $table->fetchAllRoles();
         unset($table);
 
-        //Loop roles and put them in an assoc array by ID
+        // Loop roles and put them in an assoc array by ID
         $roleArray = array();
         foreach($roles as $r)   {
             $role = new Zend_Acl_Role($r['name']);
-            //If inherit_name isn't null, have the role inherit from that, otherwise no inheriting
+            // If inherit_name isn't null, have the role inherit from that, otherwise no inheriting
             if($r['inherit_name'] !== null)
                 $this->addRole($role, $r['inherit_name']);
             else

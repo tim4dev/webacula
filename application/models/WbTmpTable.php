@@ -44,8 +44,6 @@ class WbTmpTable extends Zend_Db_Table
     protected $tmp_file;
     protected $num_tmp_tables = 1; // count of tmp tables (кол-во временных таблиц)
 
-    protected $logger; // for debug
-
 
 
     /**
@@ -77,7 +75,7 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_MYSQL':
                 $sql = 'CREATE TABLE '. $this->_name .' (
                         tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-                        tmpName  CHAR(64) UNIQUE NOT NULL,      
+                        tmpName  CHAR(64) UNIQUE NOT NULL,
                         tmpJobIdHash CHAR(64) NOT NULL,
                         tmpCreate   TIMESTAMP NOT NULL,
                         tmpIsCloneOk INTEGER DEFAULT 0,
@@ -105,12 +103,6 @@ class WbTmpTable extends Zend_Db_Table
             }
             $this->_db->query($sql);
         }
-        // for debug !!!
-        /*Zend_Loader::loadClass('Zend_Log_Writer_Stream');
-        Zend_Loader::loadClass('Zend_Log');
-        $writer = new Zend_Log_Writer_Stream('/tmp/webacula_debug.log');
-        $this->logger = new Zend_Log($writer);*/
-        //$this->logger->log("debug on", Zend_Log::DEBUG);
     }
 
 
@@ -159,7 +151,6 @@ class WbTmpTable extends Zend_Db_Table
      */
     function markDir($path, $label)
     {
-        //$this->logger->log("markDir() input value:\n$path\n$label\n", Zend_Log::DEBUG);// !!! debug
         // проверка $label
         if ( !is_numeric($label) )
             return null;
@@ -170,7 +161,6 @@ class WbTmpTable extends Zend_Db_Table
             INNER JOIN Path AS p
                 ON f.PathId = p.PathId
             WHERE p.Path LIKE ' . $this->_db->quote($path.'%') . ')';
-        //$this->logger->log($query, Zend_Log::DEBUG);// !!! debug
         $res = $this->_db->query($query);
         unset($query);
         unset($res);
@@ -184,7 +174,6 @@ class WbTmpTable extends Zend_Db_Table
             $affected_files = $countf[0]['countf'];
         unset($query);
         unset($stmt);
-        //$this->logger->log(__METHOD__." output values:\n$path\n$affected_files\n", Zend_Log::DEBUG);// !!! debug
         return array('path' => $path, 'files' => $affected_files);
     }
 
@@ -569,7 +558,6 @@ class WbTmpTable extends Zend_Db_Table
      */
     function cloneBaculaToTmp($jobid)
     {
-        //$this->logger->log("Start cloneBaculaToTmp(JobId = $jobid ) ", Zend_Log::DEBUG);// !!! debug
         $bacula = Zend_Registry::get('db_bacula');
         // create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path
         if ( !$this->createTmpTables() )
@@ -594,7 +582,6 @@ class WbTmpTable extends Zend_Db_Table
         // end transaction
         // после успешного клонирования устанавливаем признак
         $this->setCloneOk();
-        //$this->logger->log("Stop cloneBaculaToTmp(JobId = $jobid)", Zend_Log::DEBUG);// !!! debug
         return TRUE;
     }
 
@@ -681,7 +668,6 @@ class WbTmpTable extends Zend_Db_Table
                 LIMIT '. self::ROW_LIMIT_FILES .' OFFSET '. $offset;
             break;
         }
-        //$this->logger->log("listRestoreAction : " . $sql, Zend_Log::INFO); // for !!!debug!!!
         $stmt = $this->_db->query($sql);
         return $stmt->fetchAll();
     }

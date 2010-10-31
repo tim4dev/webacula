@@ -9,6 +9,5 @@
 # @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
 #########################################################################
 
-# see also "tmpdir" in config.ini file
-find /tmp/ -name "webacula*" -type f -mtime -24 -exec rm --force ’{}’ \;
+cd /usr/share/webacula/data/tmp && find . -name "webacula*" -type f -mtime -24 -exec rm --force ’{}’ \;
 

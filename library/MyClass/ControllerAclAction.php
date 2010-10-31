@@ -68,16 +68,18 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         }
         // для переадресаций
         $this->_redirector = $this->_helper->getHelper('Redirector');
-        // ACLs
-        $this->_acl        = new MyClass_Acl();
-        $this->_bacula_acl = new MyClass_BaculaAcl();
-        // debug
-        if ( $this->_config->debug_level > 0 ) {
-            Zend_Loader::loadClass('Zend_Log_Writer_Stream');
-            Zend_Loader::loadClass('Zend_Log');
-            $writer = new Zend_Log_Writer_Stream(self::DEBUG_LOG);
-            $this->logger = new Zend_Log($writer);
+        /*
+         *  ACLs and cache
+         */
+        $cache = Zend_Registry::get('cache');
+        // проверка, есть ли уже запись в кэше:
+        if( !$this->_acl = $cache->load('MyClass_Acl') ) {
+            // промах кэша
+            $this->_acl        = new MyClass_Acl();
+            $cache->save($this->_acl , 'MyClass_Acl');
         }
+
+        $this->_bacula_acl = new MyClass_BaculaAcl();
     }
 
 

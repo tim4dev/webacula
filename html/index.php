@@ -18,10 +18,12 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.29');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.10.31');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
+define('TMP_DIR',  ROOT_DIR.'/data/tmp' );
+define('CACHE_DIR',ROOT_DIR.'/data/cache' );
 
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
@@ -40,6 +42,7 @@ include "Zend/Loader.php";
 
 Zend_Loader::loadClass('Zend_Auth');
 Zend_Loader::loadClass('Zend_Controller_Front');
+Zend_Loader::loadClass('Zend_Cache');
 Zend_Loader::loadClass('Zend_Session');
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Registry');
@@ -182,12 +185,25 @@ try {
     // возможно СУБД не запущена
     throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
-// check Bacula Catalog version
+/*
+ * Check Bacula Catalog version
+ */
 $ver = new Version();
 if ( !$ver->checkVesion(BACULA_VERSION) )   {
     echo '<pre>';
     throw new Zend_Exception("Version error for Catalog database (wanted ".BACULA_VERSION.",".
             " got ". $ver->getVesion().") ");
+}
+/*
+ * Check TMP_DIR, CACHE_DIR is writable
+ */
+if ( !is_writable( TMP_DIR ) ) {
+    echo '<pre>';
+    throw new Zend_Exception('Directory "'.TMP_DIR.'" is not exists or not writable.');
+}
+if ( !is_writable( CACHE_DIR ) ) {
+    echo '<pre>';
+    throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');
 }
 
 Zend_Session::start();
@@ -196,6 +212,27 @@ Zend_Session::start();
 $defNamespace = new Zend_Session_Namespace('Default');
 if (!isset($defNamespace->numLoginFails))
     $defNamespace->numLoginFails = 0; // начальное значение
+
+
+/*
+ * Zend_Cache
+ */
+$frontendOptions = array(
+    'lifetime' => 3600, // время жизни кэша - 1 час
+    'automatic_serialization' => true
+);
+$backendOptions = array(
+    'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
+);
+// получение объекта Zend_Cache_Core
+$cache = Zend_Cache::factory(
+    'Core',
+    'File',
+    $frontendOptions,
+    $backendOptions
+);
+Zend_Registry::set('cache', $cache); // save to Registry
+
 
 // run
 $frontController->dispatch();
