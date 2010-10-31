@@ -58,9 +58,7 @@ your PHP include path. By doing this, you will have access to the Zend Framework
 
 - Configure los parámetros de conexión a la Base de Datos del Catálogo, webacula /var/www/webacula/application/config.ini
 	
-- Configure los parámetros
-   tmpdir = "/tmp"
-  En el directorio "tmpdir" será almacenado el fichero que contiene la lista de archivos a restaurar. 
+- En el directorio "data/tmp/" será almacenado el fichero que contiene la lista de archivos a restaurar. 
 IMPORTANT! Tanto el fichero como el directorio deben poder ser leídos por el servicio Director
 
 - Cree un nuevo grupo (en caso de que no haya sido creado con anterioridad) :

@@ -11,9 +11,7 @@ See INSTALL file.
 After install rpm package specify the parameters to connect to the Catalog
 and Webacula databases in /etc/webacula/config.ini
 	
-- Setup parameter
-   tmpdir = "/tmp"
-  Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
+- Directory "data/tmp/" which will be saved the file, which contains a list of files to restore.
 IMPORTANT! This directory and files in it should be available to read the Director service.	
 
 

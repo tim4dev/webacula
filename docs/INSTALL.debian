@@ -59,9 +59,7 @@ your PHP include path. By doing this, you will have access to the Zend Framework
 
 - Specify the parameters to connect to the Catalog and webacula databases in /var/www/webacula/application/config.ini
 
-- Setup parameter
-   tmpdir = "/tmp"
-  Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
+- Directory "data/tmp/" which will be saved the file, which contains a list of files to restore.
 IMPORTANT! This directory and files in it should be available to read the Director service.
   
 
