@@ -137,12 +137,21 @@ class AuthController extends Zend_Controller_Action
      **/
 	public function logoutAction()
 	{
+        /*
+         * Cleaning cache
+         */
+	    // remove Bacula ACLs
+        $bacula_acl = new MyClass_BaculaAcl();
+        $bacula_acl->removeCache();
+        // remove Webacula ACLs
+        $cache = Zend_Registry::get('cache');
+        $res = $cache->remove('MyClass_WebaculaAcl');
+        /*
+         * Final
+         */
     	/* "Очищаем" данные об идентификации пользоваля */
 		Zend_Auth::getInstance()->clearIdentity();
 		Zend_Session::forgetMe();
-		/* Cleaning cache */
-		$bacula_acl = new MyClass_BaculaAcl();
-		$bacula_acl->cleanCache();
 		/*	Перебрасываем его на главную */
 		$this->_redirect('/');
 	}

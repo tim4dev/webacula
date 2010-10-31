@@ -26,7 +26,7 @@
  */
 require_once 'Zend/Acl.php';
 
-class MyClass_Acl extends Zend_Acl
+class MyClass_WebaculaAcl extends Zend_Acl
 {
 
     public function __construct()

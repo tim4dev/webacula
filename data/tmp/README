@@ -1,6 +1,0 @@
-Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
-
-IMPORTANT!  This directory and files in it should be available to read the Director service.
-            And this directory and files in it must NOT be available to access through the Web-server.
-
-Delete old tmp files: install/wb_clean_tmp.sh script to be run by the cron.

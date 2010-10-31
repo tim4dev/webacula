@@ -75,12 +75,14 @@ class MyClass_BaculaAcl
 
 
 
-	public function cleanCache() {
+	public function removeCache() {
 		/*
          * Cleaning cache. See also MyClass_BaculaAcl
          */
-        $cache = Zend_Registry::get('cache');
-        $cache->remove($this->_cache_id);
+	    if ($this->_cache_id) {
+            $cache = Zend_Registry::get('cache');
+            $cache->remove($this->_cache_id);
+	    }
 	}
 
 
@@ -143,7 +145,7 @@ class MyClass_BaculaAcl
             $stmt = $select->query();
             $acls2dim = $stmt->fetchAll(); // array
             // save to cache
-            $cache->save($acls2dim, $this->_cache_id, array('bacula_acl') );
+            $cache->save($acls2dim, $this->_cache_id);
         }
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
@@ -210,7 +212,7 @@ class MyClass_BaculaAcl
             $stmt = $select->query();
             $acls2dim = $stmt->fetchAll(); // array
             // save to cache
-            $cache->save($acls2dim,  $this->_cache_id, array('bacula_acl') );
+            $cache->save($acls2dim,  $this->_cache_id);
         }
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )

@@ -57,7 +57,7 @@ Zend_Loader::loadClass('Zend_Paginator');
 Zend_Loader::loadClass('Zend_Layout');
 
 // load my ACL classes
-Zend_Loader::loadClass('MyClass_Acl');
+Zend_Loader::loadClass('MyClass_WebaculaAcl');
 Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_BaculaAcl');
 Zend_Loader::loadClass('Wbresources');
