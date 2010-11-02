@@ -42,13 +42,28 @@ class Wbresources extends Zend_Db_Table
 
     public function fetchAllRecources() {
         /*
+         SELECT DISTINCT name
+         FROM webacula_dt_resources;
+         */
+        $select = new Zend_Db_Select($this->db);
+        $select->from('webacula_dt_resources', 'name')
+                ->distinct();
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $result = $select->query();
+        return $result;
+    }
+
+
+
+    public function fetchAllRecourcesAndRoles() {
+        /*
          SELECT res.id, res.role_id, dt.name, dt.description
          FROM webacula_resources AS res
          LEFT JOIN webacula_dt_resources AS dt ON res.dt_id = dt.id
          */
         $select = new Zend_Db_Select($this->db);
-        $select->from(array('res' => 'webacula_resources'), array('id' , 'role_id'));
-        $select->joinLeft(array('dt' => 'webacula_dt_resources'), 'res.dt_id = dt.id', array('name', 'description'));
+        $select->from(array('res' => 'webacula_resources'), array('id', 'role_id'))
+                ->joinLeft(array('dt' => 'webacula_dt_resources'), 'res.dt_id = dt.id', array('resource_name'=>'name'));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $result = $select->query();
         return $result;

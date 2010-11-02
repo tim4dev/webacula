@@ -1,0 +1,10 @@
+<!-- webacula-access-denied.phtml -->
+
+<p>
+<div class="noteclassic">
+    <h1 align="left"><?php echo $this->escape($this->title); ?></h1>
+    <p><?php echo $this->escape($this->msg); ?></p>
+	<p align="center"><b>Webacula ACLs : <?php echo $this->translate->_('Access denied.'); ?></b></p>
+	<p align="center"><input type="button" value="<?php echo $this->translate->_('Back'); ?>" onClick="history.go(-1);"></p>
+</div>
+</p>

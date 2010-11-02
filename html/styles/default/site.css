@@ -193,13 +193,13 @@ span.mark{
 
 .noteclassic {
   margin-bottom: 2em;
-  width: 40% !important;
+  width: 45% !important;
   min-height: 40px;
   clear: both;
   text-align: justify;
   vertical-align: middle;
   border-collapse: collapse;
-  padding: 15px 20px 15px 80px;
+  padding: 15px 20px 15px 20px;
   background-position: 20px 50%;
   background-repeat: no-repeat;
   -moz-border-radius: 20px;

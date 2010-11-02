@@ -31,11 +31,9 @@ class MyClass_WebaculaAcl extends Zend_Acl
 
     public function __construct()
     {
-        // fetch all resources
-        $table = new Wbresources();
-        $resources = $table->fetchAllRecources();
-        unset($table);
-        // fetch all roles
+        /*
+         * fetch all roles
+         */
         $table = new Wbroles();
         $roles = $table->fetchAllRoles();
         unset($table);
@@ -51,13 +49,25 @@ class MyClass_WebaculaAcl extends Zend_Acl
                 $this->addRole($role);
             $roleArray[$r['id']] = $role;
         }
-
+        /*
+         *  fetch all resources
+         *  because the Resource must be unique identifier
+         */
+        $table = new Wbresources();
+        $resources = $table->fetchAllRecources();
         foreach($resources as $r)   {
             $resource = new Zend_Acl_Resource($r['name']);
+            $this->addResource($resource);
+        }
+        /*
+         * establish a correspondence: roles => resources
+         */
+        $resources_roles = $table->fetchAllRecourcesAndRoles();
+        foreach($resources_roles as $r)   {
             if ($r['role_id'] !== null)
                 $role = $roleArray[$r['role_id']];
-            $this->add($resource);
-            $this->allow($role, $resource);
+            // the Resource must be unique identifier
+            $this->allow($role, $r['resource_name']);
         }
         // Администратор не наследует ни от кого, но обладает всеми привилегиями
         $this->allow('root_role');

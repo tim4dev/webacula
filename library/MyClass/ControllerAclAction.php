@@ -34,8 +34,8 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
     public $debug_level;
 
     // ACL
-    protected $_acl;        // webacula acl
-    protected $_bacula_acl; // bacula acl
+    protected $_webacula_acl;   // webacula acl
+    protected $_bacula_acl;     // bacula acl
     protected $_identity;
     protected $_role_name = '';
     protected $_role_id   = null;
@@ -70,10 +70,10 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
              */
             $cache = Zend_Registry::get('cache');
             // проверка, есть ли уже запись в кэше:
-            if( !$this->_acl = $cache->load('MyClass_WebaculaAcl') ) {
+            if( !$this->_webacula_acl = $cache->load('MyClass_WebaculaAcl') ) {
                 // промах кэша
-                $this->_acl        = new MyClass_WebaculaAcl();
-                $cache->save($this->_acl, 'MyClass_WebaculaAcl');
+                $this->_webacula_acl        = new MyClass_WebaculaAcl();
+                $cache->save($this->_webacula_acl, 'MyClass_WebaculaAcl');
             }
         }
         // для переадресаций
@@ -84,15 +84,18 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
 
     public function preDispatch()
     {
-        $this->view->access = 0; // access denied
         // этот контроллер недоступен без регистрации
         if ( !$this->isAuth() ) {
-            $this->_redirector->gotoSimple('login', 'auth', null, array()); // action, controller
+            $this->_redirect('/auth/login');
             return;
         }
+        $controller = $this->getRequest()->getControllerName();
         if ($this->role_name)
-            if( $this->_acl->isAllowed( $this->role_name, 'index') )
-                $this->view->access = 1;
+            if( !$this->_webacula_acl->isAllowed( $this->role_name, $controller) ) {
+                $msg = sprintf( $this->view->translate->_('You try to use Webacula menu "%s".'), $controller );
+                $this->_forward('webacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+                return;
+            }
         parent::preDispatch();
     }
 

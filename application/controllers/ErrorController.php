@@ -24,7 +24,7 @@
 /* Zend_Controller_Action */
 require_once 'Zend/Controller/Action.php';
 
-class ErrorController extends MyClass_ControllerAclAction
+class ErrorController extends Zend_Controller_Action
 {
 
     public function errorAction()
@@ -71,5 +71,19 @@ class ErrorController extends MyClass_ControllerAclAction
             $this->view->err_trace   = __METHOD__ . ' line ' . __LINE__;
         }
     }
+
+
+
+    public function webaculaAccessDeniedAction() {
+        // show "Webacula : access denied."
+        $this->view->msg = $this->_getParam('msg');
+    }
+
+
+    public function baculaAccessDeniedAction() {
+        // show "Access denied."
+        $this->view->msg = $this->_getParam('msg');
+    }
+
 
 }

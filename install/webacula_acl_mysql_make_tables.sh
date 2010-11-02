@@ -68,6 +68,9 @@ INSERT INTO webacula_resources (dt_id, role_id) VALUES (10,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (11,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (12,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (13,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (14,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (15,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (16,2);
 
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (1, 'index',     'Home page');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (2, 'bconsole',  'Webacula bconsole');
@@ -82,6 +85,9 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES (10,'storage', 
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (11,'volume',    'Menu Volume');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (12,'wbjobdesc', 'Menu Job Descriptions');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (13,'wblogbook', 'Menu Logbook');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (14,'help',      'Menu Help');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (15,'feed',      'RSS feed');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (16,'chart',      'Timeline chart');
 
 
 
