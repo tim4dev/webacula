@@ -51,7 +51,7 @@ class ClientController extends MyClass_ControllerAclAction
         // do Bacula ACLs
         $command = 'status';
         if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
-            $msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $command );
+            $msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
         }
