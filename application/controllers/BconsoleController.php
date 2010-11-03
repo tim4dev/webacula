@@ -1,9 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,8 +26,6 @@ require_once 'Zend/Controller/Action.php';
 class BconsoleController extends MyClass_ControllerAclAction
 {
 
-    protected $aNotAvailCmd = array('delete', 'prune', 'purge', 'python', 'setip', 'sqlquery', 'query', 'wait');
-
     function init()
     {
         parent::init();
@@ -51,15 +47,17 @@ class BconsoleController extends MyClass_ControllerAclAction
         if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->disableLayout(); // disable layouts
         }
-        list($cmd) = explode(' ', $bcommand, 1);
-        if ( in_array($cmd, $this->aNotAvailCmd) ) {
-            $this->view->result_error = 'CMD_NOT_AVAIL';
+        list($cmd) = explode(' ', $bcommand);
+        // do Bacula ACLs
+        if ( !$this->_bacula_acl->doOneBaculaAcl($cmd, 'name', 'command') ) {
+            $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $cmd ) .
+                '<p><b>Bacula ACLs : '. $this->view->translate->_('Access denied.') . '</b></p>';
             $this->render();
             return;
         }
         $director = new Director();
         if ( !$director->isFoundBconsole() )    {
-            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->view->msg = '<b>'. $this->view->translate->_('ERROR: bconsole not found.'). '</b>';
             $this->render();
             return;
         }
@@ -72,9 +70,6 @@ EOF"
         $this->view->command_output = $astatusdir['command_output'];
         // check return status of the executed command
         $this->view->return_var = $astatusdir['return_var'];
-        if ( $astatusdir['return_var'] != 0 )   {
-            $this->view->result_error = $astatusdir['result_error'];
-        }
     }
 
 

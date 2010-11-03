@@ -1,43 +1,13 @@
+<!-- bconsole/cmd.phtml -->
 <?php echo '<div  style="color: #0f0;">OK : ', $this->bcommand, '</div><br>'; ?>
-<?php if ( $this->result_error ): ?>
-<div style="">
-    <strong>
-    <?php
-        switch ( $this->result_error )
-        {
-            case 'CMD_NOT_AVAIL':
-                $msg = $this->translate->_('This feature is not available.');
-                break;
-            case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
-                $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
-                break;
-            case 'NOFOUND_BCONSOLE': // bconsole не найден
-                $msg = $this->translate->_('ERROR: bconsole not found.');
-                break;
-            default: $msg = '';
-        }
-        echo $msg;
-        if ( $this->command_output )
-        {
-            foreach ($this->command_output as $line) {
-             echo '<br>', $line, '<br>';
-          }
-        }
-    ?>
-    </strong>
-</div>
-
-<?php else: ?>
 <pre>
 <?php
+    echo $this->msg;
     if ( $this->command_output )
-    {
-        echo '<pre>';
         foreach ($this->command_output as $line) {
-                echo $line, '<br>';
+            echo '<br>', $line;
         }
-    }
 ?>
+<br>
 </pre>
 <?php echo '<div  style="color: #0f0;">return : ', $this->return_var, '</div><br>'; ?>
-<?php endif; ?>

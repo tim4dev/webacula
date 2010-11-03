@@ -57,6 +57,7 @@ INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1000, 'root', PASSW
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typcal role for backup operator');
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (1,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (2,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (3,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (4,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (5,2);

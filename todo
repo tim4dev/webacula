@@ -59,7 +59,7 @@ Director -> Console resource :
 
 Ограничения на запуск команд в bconsole
         // do Bacula ACLs
-        $command = 'list';
+        $command = 'list???';
         if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
             $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $command );
             echo $this->renderScript('bacula-access-denied.phtml');
