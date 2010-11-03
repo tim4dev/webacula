@@ -58,46 +58,6 @@ background-color: #F2F8FF;
 .clear_both { clear: both; }
 </style>
 
-<!-- for bconsole -->
-<script language="javascript" type="text/javascript">
-<!--
-/****************************************************
-     Popup window generator provided for free at Hypergurl
-     Url: http://www.hypergurl.com
-     Author: Eric King
-     Url: http://eak.digitalrice.com
-     This script is free to use as long
-     as this info is left in
-****************************************************/
-var win=null;
-function NewWindow(mypage,myname,w,h,scroll,pos){
-    if (pos=="center") {
-        LeftPosition=(screen.availWidth) ? (screen.availWidth-w)/2 : 50;
-        TopPosition=(screen.availHeight) ? (screen.availHeight-h)/2 : 50;
-    }
-    if (pos=="default") {
-        LeftPosition=50;
-        TopPosition=50;
-    } else if ((pos!="center" && pos!="random" && pos!="default") || pos==null) {
-            LeftPosition=0;
-            TopPosition=20;
-        }
-    settings='width='+w+',height='+h+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no,resizable=no';
-    win=window.open(mypage,myname,settings);
-    if(win.focus){
-        win.focus();
-    }
-}
-
-function CloseNewWin(){
-    if(win!=null && win.open)win.close();
-}
-
-window.onfocus=CloseNewWin;
-
-// -->
-</script>
-
 <script type="text/javascript">
 $(document).ready(function(){
     $('a').tooltip({
@@ -128,7 +88,7 @@ $(document).ready(function(){
    	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
        	<ul>
            <li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
-           <li><a href="<?php echo $this->baseUrl;?>/bconsole/wterminal" onclick="NewWindow(this.href,'Webacula bconsole','800','600','yes','center');return false" onfocus="this.blur()">
+           <li><a href="<?php echo $this->baseUrl;?>/bconsole/wterminal">
                 <?php print $this->translate->_("Bacula Console"); ?>
             </a></li>
 		</ul>

@@ -34,9 +34,6 @@ class BconsoleController extends MyClass_ControllerAclAction
 
     function wterminalAction()
     {
-        if ($this->_helper->hasHelper('layout')) {
-            $this->_helper->layout->disableLayout(); // disable layouts
-        }
     }
 
 
@@ -51,13 +48,13 @@ class BconsoleController extends MyClass_ControllerAclAction
         // do Bacula ACLs
         if ( !$this->_bacula_acl->doOneBaculaAcl($cmd, 'name', 'command') ) {
             $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with  command "%s".'), $cmd ) .
-                '<p><b>Bacula ACLs : '. $this->view->translate->_('Access denied.') . '</b></p>';
+                '<br><b>Bacula ACLs : '. $this->view->translate->_('Access denied.') . '</b><br>';
             $this->render();
             return;
         }
         $director = new Director();
         if ( !$director->isFoundBconsole() )    {
-            $this->view->msg = '<b>'. $this->view->translate->_('ERROR: bconsole not found.'). '</b>';
+            $this->view->msg = '<b>'. $this->view->translate->_('ERROR: bconsole not found.'). '</b><br>';
             $this->render();
             return;
         }

@@ -5,8 +5,7 @@
     font-size: 0.9em;
     font-family: monospace;
     padding: 1px;
-    width: 100%;
-    height: 100%;
+    width: 70%;
     display: block;
     overflow-x: none;
     overflow-y: auto;
@@ -14,10 +13,10 @@
 }
 
 /* TODO: Input Box Width is faulty */
-.wterm_terminal input { background: transparent; border: 0; color: #fff; width: 100%; font-size: 1em; font-family: monospace; outline: none;   }
+.wterm_terminal input { background: transparent; border: 0; color: #fff; width: 70%; font-size: 1em; font-family: monospace; outline: none;   }
 .wterm_terminal div:first { margin-bottom: 0; }
 .wterm_terminal .wterm_prompt { float: left; clear: left;  }
-.wterm_terminal  form { float: left; margin: 0px; width: 75%; }
+.wterm_terminal  form { float: left; margin: 0px; width: 65%; }
 
 /* Themes */
 .wterm_theme_green_on_black {
@@ -25,4 +24,3 @@
     color: #DADACC;
 }
 .wterm_theme_green_on_black input { background: transparent; border: 0; color: #0f0; }
-
