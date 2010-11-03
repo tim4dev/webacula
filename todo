@@ -1,51 +1,8 @@
 
-*** Текущая реализация CommandACL :
-
-Цель: минимизировать количество настроек Bacula и Webacula.
-
-Настройка:
-Необходим общий для Bacula Director и Webacula каталог.
-В конфиге bacula-dir.conf:
-@|"sh -c 'for f in /var/www/webacula/user-console.d/*-console.conf ; do echo @${f} ; done'"
-Там же создать запрещающий .htaccess
-  * Новое поле в таблице webacula_users - пароль к Director для bconsole 
-    (для безопасности - НЕ может совпадать с паролем на логин юзера)
-  * Новый параметр в .ini для хранения полного пути к /sbin/bacula-dir
-
-Алгоритм:
-Webacula тестирует доступность /var/www/webacula/user-console.d/ на запись.
-При изменениях настроек роли (в админке) Webacula перезаписывает файл, содержащий конфигурацию для 
-Director -> Console resource : 
-    /var/www/webacula/user-console.d/<имя роли>-console.conf
-
-Файл <имя роли>-console.conf создается для каждой роли, зарегистрированной в Webacula.
-Причем <имя роли>-console.conf для каждой роли создается на основе данных по всем Bacula ACLs, хранящимся в БД Webacula.
-
-После создания файл <имя роли>-console.conf тестируется с помощью 
-    /sbin/bacula-dir -t -c bacula-dir-fake.conf
-    где bacula-dir-fake.conf - типовой конфиг с подключенным вновь созданным <имя роли>-console.conf
-    
-После проверки <имя роли>-console.conf в Bacula Director посылается команда "reload" для вступления изменений в действие.  
-
-При запуске любой команды Webacula создает во _временном_ каталоге (см. 'tmpdir' в config.ini) xxx-bconsole.conf
-    где "xxx" - имя роли. 
-Далее запускает для тестирования конфига 
-    bconsole -t xxx-bconsole.conf
-и если всё - ок, реально запускаем    
-    bconsole -c xxx-bconsole.conf
-и пусть Bacula сама применяет все свои ACLs.
-После получения вывода от директора - удалить xxx-bconsole.conf из временного каталога.
-
-При этом Webacula выступает в роли Web-interface конфигуратора для Bacula. 
-Пока - с ограниченными (только Console resource) возможностями.
-
-
-
-
-
-
 -------------------------------------------------------------------------------------------------------
 Текущее состояние :
+
+TODO : Парсить вывод в DirectorController (и других) для команды 'status dir'
 
 + ClientACL
 + StorageACL
@@ -123,6 +80,17 @@ Director -> Console resource :
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 -------------------------------------------------------------------------------------------------------
 В будущих версиях:
 
@@ -130,4 +98,43 @@ Director -> Console resource :
 - поле name — это regexp.
 - Кроме того, если в поле name есть строка _LOGIN_ то она заменяется на login юзера.
 
+*** Текущая реализация CommandACL :
+
+Цель: минимизировать количество настроек Bacula и Webacula.
+
+Настройка:
+Необходим общий для Bacula Director и Webacula каталог.
+В конфиге bacula-dir.conf:
+@|"sh -c 'for f in /var/www/webacula/user-console.d/*-console.conf ; do echo @${f} ; done'"
+Там же создать запрещающий .htaccess
+  * Новое поле в таблице webacula_users - пароль к Director для bconsole 
+    (для безопасности - НЕ может совпадать с паролем на логин юзера)
+  * Новый параметр в .ini для хранения полного пути к /sbin/bacula-dir
+
+Алгоритм:
+Webacula тестирует доступность /var/www/webacula/user-console.d/ на запись.
+При изменениях настроек роли (в админке) Webacula перезаписывает файл, содержащий конфигурацию для 
+Director -> Console resource : 
+    /var/www/webacula/user-console.d/<имя роли>-console.conf
+
+Файл <имя роли>-console.conf создается для каждой роли, зарегистрированной в Webacula.
+Причем <имя роли>-console.conf для каждой роли создается на основе данных по всем Bacula ACLs, хранящимся в БД Webacula.
+
+После создания файл <имя роли>-console.conf тестируется с помощью 
+    /sbin/bacula-dir -t -c bacula-dir-fake.conf
+    где bacula-dir-fake.conf - типовой конфиг с подключенным вновь созданным <имя роли>-console.conf
+    
+После проверки <имя роли>-console.conf в Bacula Director посылается команда "reload" для вступления изменений в действие.  
+
+При запуске любой команды Webacula создает во _временном_ каталоге (см. 'tmpdir' в config.ini) xxx-bconsole.conf
+    где "xxx" - имя роли. 
+Далее запускает для тестирования конфига 
+    bconsole -t xxx-bconsole.conf
+и если всё - ок, реально запускаем    
+    bconsole -c xxx-bconsole.conf
+и пусть Bacula сама применяет все свои ACLs.
+После получения вывода от директора - удалить xxx-bconsole.conf из временного каталога.
+
+При этом Webacula выступает в роли Web-interface конфигуратора для Bacula. 
+Пока - с ограниченными (только Console resource) возможностями.
 
