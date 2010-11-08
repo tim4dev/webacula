@@ -40,20 +40,16 @@
 	<td align="center"><?php echo $this->escape($line['pri']);?></td>
 	<td><?php echo $this->escape($line['date']);?></td>
 
-	<?php if ($line['parseok']) : ?>
-		<td><?php echo $this->escape($line['name']);?></td>
-		<td>
-			<?php if ($this->escape($line['vol']) === '*unknown*') : ?>
-				<?php echo $this->escape($line['vol']); ?>
-			<?php else : ?>
-				<a href="<?php echo $this->baseUrl, "/volume/find-name/volname/",
-	   				$this->escape($line['vol']);?>"  title="<?php print $this->translate->_("Detail Volume");?>">
-				<?php echo $this->escape($line['vol']);?></a>
-			<?php endif; ?>
-		</td>
-	<?php else : ?>
-    	<td colspan="3"><?php echo $this->escape($line['name']), ' ', $this->escape($line['vol']);?></td>
-	<?php endif; ?>
+	<td><?php echo $this->escape($line['name']);?></td>
+	<td>
+		<?php if ($this->escape($line['vol']) === '*unknown*') : ?>
+			<?php echo $this->escape($line['vol']); ?>
+		<?php else : ?>
+			<a href="<?php echo $this->baseUrl, "/volume/find-name/volname/",
+   				$this->escape($line['vol']);?>"  title="<?php print $this->translate->_("Detail Volume");?>">
+			<?php echo $this->escape($line['vol']);?></a>
+		<?php endif; ?>
+	</td>
 
 </tr>
 <?php endforeach; ?>

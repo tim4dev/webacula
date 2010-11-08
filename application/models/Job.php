@@ -2,8 +2,6 @@
 /**
  * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
- * This file is part of Webacula.
- *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -25,6 +23,17 @@
 
 class Job extends Zend_Db_Table
 {
+    const BEGIN_LIST = '/^======.*/'; // признак начала списка (не всегда есть)
+    const END_LIST   = '/^====$/';   // признак конца списка (присутствует всегда)
+
+    const RINNING_JOBS    = '/Running Jobs:/';        // начало списка запущенных заданий
+    const NO_JOBS_RUNNING =  '/No Jobs running\./';   // нет запущенных заданий
+
+    const SCHEDULED_JOBS    = '/Scheduled Jobs:/';     // начало списка запланированных заданий
+    const NO_SCHEDULED_JOBS = '/No Scheduled Jobs\./';  // нет запланированных заданий
+
+    const EMPTY_RESULT = 'EMPTY_RESULT';     // если ничего не найдено
+
     public $db;
     public $db_adapter;
 
@@ -401,9 +410,9 @@ EOF', $command_output, $return_var);
 
 
     /**
-	 * Scheduled Jobs (at 24 hours forward)
-	 *
-	 */
+     * Scheduled Jobs (at 24 hours forward)
+     *
+     */
     function GetNextJobs()
     {
     	$config = Zend_Registry::get('config');
@@ -447,74 +456,70 @@ EOF', $command_output, $return_var);
     		return $aresult;
     	}
 
-    	// parsing output
-    	$strs = 'Scheduled Jobs:';
-    	$str_no = 'No Scheduled Jobs.'; // признак того, что нет запланированных заданий
-    	$str_end = '===='; // признак конца списка
-    	$i = $start = 0;
-    	$omit_count = 2; // кол-во строк после $strs, которые нужно пропустить
-    	$aresult = array();
-    	foreach ($command_output as $line) {
+        // parse Director output
+        $begin1 = $begin2 = $begin3 = FALSE;
+        $aresult = array();
 
-			if ( strlen($line) == 0 )
-				continue;
+        $i = 0;
+        foreach ($command_output as $line) {
+            $line = trim($line);
+            // пустая строка
+            if ( $line == '' )
+                continue;
+            // нет запланированных заданий - выход в любом случае
+            if ( preg_match(self::NO_SCHEDULED_JOBS, $line) === 1 )  {
+                $aresult = null;
+                break;
+            }
+            // начало списка запланированных заданий
+            if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::SCHEDULED_JOBS, $line) === 1) )  {
+                $begin1 = TRUE;
+                continue;
+            }
+            if ( $begin1 && (!$begin2) && (!$begin3) && ( preg_match('/^Level /', $line) === 1) )  {
+                $begin2 = TRUE;
+                continue;
+            }
+            if ( $begin1 && $begin2 && (!$begin3) && ( preg_match(self::BEGIN_LIST, $line) === 1) )  {
+                $begin3 = TRUE;
+                continue;
+            }
+            // конец списка
+            if ( $begin1 && $begin2 && $begin3 && ( preg_match(self::END_LIST, $line) == 1) )
+                break;
 
-			if ( ($start == 0) && (!(strpos($line, $strs) === FALSE)) )  {
-				$start = 1;
-				continue;
-			}
-
-			// нет запланированных заданий
-			if ( strpos($line, $str_no) === TRUE )  {
-			    $aresult[] = 'NOJOBS';
-				break;
-			}
-
-			// задания закончились
-			if ( ($start == 1) && ($line === $str_end) )
-				break;
-
-			// парсим 7-мь полей
-			// Level    Type   Pri  Scheduled(date) (time)   Name  Volume
-			if ( ( $start == 1 ) && ( $omit_count <= 0 ) ) {
-				$atmp = preg_split("/[\s]+/", $line);
-				if ( count($atmp) == 7 ) {
-					// вывод Director правильно пропарсился и в имени Job нет пробелов
-					$aresult[$i]['parseok'] = true;
-				} else {
-					// неверно пропарсилось или в имени Job есть пробелы
-					// see also bug#2797123 https://sourceforge.net/tracker/index.php?func=detail&aid=2797123&group_id=201199&atid=976599
-					$aresult[$i]['parseok'] = false;
-				}
-				list($level, $type, $pri, $sched_date, $sched_time, $name, $vol) = preg_split("/[\s]+/", $line, 7);
-			} elseif ( $start == 1 ) {
-			    // пропуск строк
-			    --$omit_count;
-			    continue;
-			}
-
-			if ( $start == 0 )
-				continue;
-
-			$aresult[$i]['name']  = $name;
-			$aresult[$i]['level'] = $level;
-			$aresult[$i]['type']  = $type;
-			$aresult[$i]['pri']   = $pri;
-			$aresult[$i]['date']  = "$sched_date $sched_time";
-			$aresult[$i]['vol']   = $vol;
-			if ( $aresult[$i]['parseok'] ) {
-				// если нет ошибок при парсинге
-				$aresult[$i]['volfree'] = $this->getFreeVolumeCapacity($vol);
-			} else {
-				// если ошибки при парсинге, то имя тома (и свободное место в т.ч.) неизвестно
-				$aresult[$i]['volfree'] = Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
-			}
-
-			$i++;
-		}
-		return $aresult;
+            // парсим - разделитель - пробел :
+            // 0=Level    1=Type   2=Pri  3=Scheduled(date) 4=(time)   5=Name  6=Volume
+            if ( $begin1 && $begin2 && $begin3 )  {
+                // пробуем парсить
+                $acols = preg_split("/[\s]+/", $line, -1, PREG_SPLIT_NO_EMPTY);
+                $count = count($acols);
+                $aresult[$i]['level'] = $acols[0];
+                $aresult[$i]['type']  = $acols[1];
+                $aresult[$i]['pri']   = $acols[2];
+                $aresult[$i]['date']  = $acols[3] . ' ' . $acols[4];
+                $aresult[$i]['vol']   = $acols[ $count-1 ];  // в имени Volume пробелов быть не может, поэтому последнее поле - точно Volume
+                if ( $aresult[$i]['vol'] == '*unknown*')
+                    $aresult[$i]['volfree'] = 'UNKNOWN_VOLUME_CAPACITY';
+                else
+                    $aresult[$i]['volfree'] = $this->getFreeVolumeCapacity($aresult[$i]['vol']);
+                if ( $count == 7 ) {
+                    // в имени Job нет пробелов
+                    $aresult[$i]['name']  = $acols[5];
+                } else {
+                    // в имени Job есть пробелы (в имени Volume пробелов быть не может)
+                    $aresult[$i]['name']  = $acols[5];
+                    for ($j = 6; $j <= $count-2; $j++) {
+                        $aresult[$i]['name']  .= '_' . $acols[$j];
+                    }
+                }
+                $i++;
+            }
+        }
+        return $aresult;
     }
 
+    
 
     /**
      * Jobs with errors/problems (last NN days)

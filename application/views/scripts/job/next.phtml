@@ -20,11 +20,11 @@
 <caption><?php echo $this->escape($this->title); ?></caption>
 <thead>
 <tr>
-	<th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Type"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Priority"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Scheduled"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Type"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Priority"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Scheduled"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Volume"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("% Free space<br /> on Volume"); ?> </th>
 </tr>
@@ -32,51 +32,46 @@
 <tbody>
 <?php foreach($this->result as $line) : ?>
 <tr>
-	<td><?php echo $this->escape($line['level']);?></td>
-	<td><?php echo $this->escape($line['type']);?></td>
-	<td align="center"><?php echo $this->escape($line['pri']);?></td>
-	<td><?php echo $this->escape($line['date']);?></td>
+    <td><?php echo $this->escape($line['level']);?></td>
+    <td><?php echo $this->escape($line['type']);?></td>
+    <td align="center"><?php echo $this->escape($line['pri']);?></td>
+    <td><?php echo $this->escape($line['date']);?></td>
+	
+    <td><?php echo $this->escape($line['name']);?></td>
+    <td>
+        <?php if ($this->escape($line['vol']) === '*unknown*') : ?>
+            <?php echo $this->escape($line['vol']); ?>
+        <?php else : ?>
+            <a href="<?php echo $this->baseUrl, "/volume/find-name/volname/",
+			$this->escape($line['vol']);?>"  title="<?php print $this->translate->_("Detail Volume");?>">
+                <?php echo $this->escape($line['vol']);?></a>
+        <?php endif; ?>
+    </td>
 
-	<?php if ($line['parseok']) : ?>
-		<td><?php echo $this->escape($line['name']);?></td>
-		<td>
-			<?php if ($this->escape($line['vol']) === '*unknown*') : ?>
-				<?php echo $this->escape($line['vol']); ?>
-			<?php else : ?>
-				<a href="<?php echo $this->baseUrl, "/volume/find-name/volname/",
-	   				$this->escape($line['vol']);?>"  title="<?php print $this->translate->_("Detail Volume");?>">
-				<?php echo $this->escape($line['vol']);?></a>
-			<?php endif; ?>
-		</td>
-
-		<?php
-		$class = '';
-		switch ($line['volfree'])  {
-	    	case $this->unknown_volume_capacity:
-	        	$line['volfree'] = $this->translate->_('Unknown');
-		        break;
-		    case $this->err_volume:
-	    	    $class = 'class="err"';
-    			$line['volfree'] = $this->translate->_('Volume with Error(s)');
-	    		break;
-		    case $this->new_volume:
-    			$line['volfree'] = $this->translate->_('New Volume');
-    			break;
-    		default:
-    	    	if ( $line['volfree'] < 3 )
-                	$class = 'class="warn"';
-		        elseif ( $line['volfree'] < 7 )
-        	    	$class = 'class="warn"';
-	            else
-    	            $class = '';
-        	    break;
-		}
-		echo '<td ',$class,' align="right">',$line['volfree'] ,'</td>';
-		?>
-	<?php else : ?>
-    	<td colspan="3"><?php echo $this->escape($line['name']), ' ',
-    						$this->escape($line['vol']), ' &nbsp;&nbsp;', $this->translate->_('Unknown');?></td>
-	<?php endif; ?>
+    <?php
+	$class = '';
+	switch ($line['volfree'])  {
+	case $this->unknown_volume_capacity:
+            $line['volfree'] = $this->translate->_('Unknown');
+	    break;
+	case $this->err_volume:
+            $class = 'class="err"';
+            $line['volfree'] = $this->translate->_('Volume with Error(s)');
+	    break;
+	case $this->new_volume:
+            $line['volfree'] = $this->translate->_('New Volume');
+            break;
+    	default:
+            if ( $line['volfree'] < 3 )
+                $class = 'class="warn"';
+            elseif ( $line['volfree'] < 7 )
+                $class = 'class="warn"';
+	    else
+                $class = '';
+            break;
+	}
+	echo '<td ',$class,' align="right">',$line['volfree'] ,'</td>';
+    ?>
 
 </tr>
 <?php endforeach; ?>
