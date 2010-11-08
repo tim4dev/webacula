@@ -327,58 +327,58 @@ EOF', $command_output, $return_var);
     		return $aresult;
     	}
 
-    	// parsing output
-    	$str_rj = 'Running Jobs';
-    	$str_no = 'No Jobs running.'; // признак того, что нет запущенных заданий
-    	$str_start = '====='; // признак начала списка
-    	$str_end   = '====';  // признак конца списка
-    	$i = 0;
-		$fl_str_rj    = 0;
-		$fl_str_start = 0;
-    	$aresult = array();
-    	foreach ($command_output as $line) {
-			if ( strlen($line) == 0 )
-				continue;
+    	// parsing Director output
+        $begin1 = $begin2 = $begin3 = FALSE;
+        $aresult = array();
 
-			if ( ($fl_str_rj == 0) && !(strpos($line, $str_rj) === FALSE) )  {
-				$fl_str_rj = 1;
-				continue;
-			}
+        $i = 0;
+        foreach ($command_output as $line) {
+            $line = trim($line);
+            // пустая строка
+            if ( $line == '' )
+                continue;
+            // нет запланированных заданий - выход в любом случае
+            if ( preg_match(self::NO_JOBS_RUNNING, $line) === 1 )  {
+                $aresult = null;
+                break;
+            }
+            // начало списка запланированных заданий
+            if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::RINNING_JOBS, $line) === 1) )  {
+                $begin1 = TRUE;
+                continue;
+            }
+            if ( $begin1 && (!$begin2) && (!$begin3) && ( preg_match('/^JobId /', $line) === 1) )  {
+                $begin2 = TRUE;
+                continue;
+            }
+            if ( $begin1 && $begin2 && (!$begin3) && ( preg_match(self::BEGIN_LIST, $line) === 1) )  {
+                $begin3 = TRUE;
+                continue;
+            }
+            // конец списка
+            if ( $begin1 && $begin2 && $begin3 && ( preg_match(self::END_LIST, $line) == 1) )
+                break;
 
-			if ( ($fl_str_rj == 1) && ($fl_str_start == 0) && !(strpos($line, $str_start) === FALSE) )  {
-				$fl_str_start = 1;
-				continue;
-			}
-
-			// нет запланированных заданий
-			if ( strpos($line, $str_no) === TRUE )  {
-				$aresult[] = 'NOJOBS';
-				break;
-			}
-
-			// задания закончились
-			if ( ($fl_str_rj == 1) && ($line === $str_end) )
-				break;
-
-			//echo '<pre>$fl_str_rj=', $fl_str_rj, ' $fl_str_start=', $fl_str_start, '<br>',$line; //!!! debug
-			// парсим
-			if ( ( $fl_str_rj == 1 ) && ( $fl_str_start == 1 ) ) {
-			    // clean spaces
-				$line = trim($line);
-				$line = preg_replace("/[ \t\n\r\f\v]+/", ' ', $line);
-            //echo "<pre>", $line; echo "</pre>"; // !!! debug
-				list($id, $level, $name, $status) = explode(' ', $line, 4);
-
-				$aresult[$i]['id']     = $id;
-				$aresult[$i]['level']  = $level;
-				$aresult[$i]['name']   = $name;
-				$aresult[$i]['status'] = $status;
-
-				$i++;
-			}
-		}
-      //echo "<pre>"; print_r($aresult); exit; // !!! debug
-		return $aresult;
+            // парсим - разделитель - пробел :
+            // 0=JobId  1=Level  2=Name  3=Status
+            if ( $begin1 && $begin2 && $begin3 )  {
+                // парсим
+                $acols = preg_split("/[\s]+/", $line, 4, PREG_SPLIT_NO_EMPTY);
+                $count = count($acols);
+                if ( $count == 4 ) {
+                    $aresult[$i]['id']     = $acols[0];
+                    $aresult[$i]['level']  = $acols[1];
+                    $aresult[$i]['name']   = $acols[2];
+                    $aresult[$i]['status'] = $acols[3];
+                } else {
+                    // неверно пропарсилось (изменения в bacula ?)
+                    $aresult = null;
+                    break;
+                }
+                $i++;
+            }
+        }
+        return $aresult;
     }
 
 
