@@ -103,9 +103,18 @@ class MyClass_BaculaAcl
 	 * Get all Bacula ACLs from Database by current $user_id and apply to all elements of $list
 	 *
 	 * @param  array[0-9][keys]  $list
-	 * @param  string            $field
+	 * @param  string            $field     имя поля, по которому будет проводиться проверка на совпадение с $acl
 	 * @param  string            $acl  one of 'job', 'client', 'storage', etc.
 	 * @return array
+     *
+     * $list as example
+Array
+(
+    [0] => Array
+        (
+            [clientid] => 1
+            [name] => local.fd
+...
 	 */
 	public function doBaculaAcl($list, $field, $acl)
 	{

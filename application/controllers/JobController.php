@@ -45,7 +45,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->GetLastJobs();
+        $this->view->result = $jobs->getTerminatedJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
@@ -60,10 +60,10 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("List of Running Jobs");
         // get data from model
         $jobs = new Job();
-        $this->view->resultRunningJobs = $jobs->GetRunningJobs();
+        $this->view->resultRunningJobs = $jobs->getRunningJobs();
         // получаем информацию от Директора
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
-        $this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+        $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
@@ -77,10 +77,10 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->titleRunningJobs = $this->view->translate->_("Information from DB Catalog : List of Running Jobs");
         // get data from model
         $jobs = new Job();
-        $this->view->resultRunningJobs = $jobs->GetRunningJobs();
+        $this->view->resultRunningJobs = $jobs->getRunningJobs();
         // получаем информацию от Директора
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
-        $this->view->resultDirRunningJobs = $jobs->GetDirRunningJobs();
+        $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         if ( empty($this->view->resultRunningJobs) && empty($this->view->resultDirRunningJobs) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -102,7 +102,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->err_volume = Zend_Registry::get('ERR_VOLUME');
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->GetNextJobs();
+        $this->view->result = $jobs->getScheduledJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
@@ -121,7 +121,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->err_volume = Zend_Registry::get('ERR_VOLUME');
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->GetNextJobs();
+        $this->view->result = $jobs->getScheduledJobs();
         if ( empty($this->view->result) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -275,7 +275,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = sprintf( $this->view->translate->_("Jobs with errors (last %s days)"), $last_days);
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->GetProblemJobs($last_days);
+        $this->view->result = $jobs->getProblemJobs($last_days);
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
@@ -290,7 +290,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = sprintf( $this->view->translate->_("Jobs with errors (last %s days)"), $last_days);
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->GetProblemJobs($last_days);
+        $this->view->result = $jobs->getProblemJobs($last_days);
         if ( empty($this->view->result) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -356,12 +356,18 @@ class JobController extends MyClass_ControllerAclAction
      */
     function runJobAction()
     {
+        // do Bacula ACLs
+/*???        $command = 'run';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }*/
         /*
-         * form
+         * Job run form
          */
         Zend_Loader::loadClass('FormJobrun');
         $form = new formJobrun();
-        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
         $form->setDecorators(array(
             array('ViewScript', array(
                 'viewScript' => 'decorators/formJobrun.phtml',
@@ -469,6 +475,7 @@ EOF"
         echo $this->renderScript('job/terminated.phtml');
     }
 
+    
     /**
      * List last NN Jobs run
      * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
@@ -479,7 +486,7 @@ EOF"
             $this->_helper->layout->setLayout('dashboard');
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         $job = new Job();
-        $this->view->result = $job->GetLastJobs();
+        $this->view->result = $job->getTerminatedJobs();
         if ( empty($this->view->result) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {

@@ -60,7 +60,7 @@ class FileSet extends Zend_Db_Table
         $res = $this->fetchAll(null, $order)
                     ->toArray();
         // do Bacula ACLs
-        return $this->bacula_acl->doBaculaAcl($res, 'name', 'fileset');
+        return $this->bacula_acl->doBaculaAcl($res, 'fileset', 'fileset');
     }
 
 

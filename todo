@@ -1,8 +1,6 @@
 
 -------------------------------------------------------------------------------------------------------
-Текущее состояние :
-
-TODO : Парсить вывод в DirectorController (и других) для команды 'status dir'
+Текущее состояние : Bacula JobACL
 
 + ClientACL
 + StorageACL
@@ -64,6 +62,7 @@ TODO : Парсить вывод в DirectorController (и других) для 
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests
 
+- в админке д.б. кнопка : "Очистить кэш"
 - заполнить остальные поля табл webacula_users
 - реализация восстановления пароля
 - все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)
@@ -97,6 +96,8 @@ TODO : Парсить вывод в DirectorController (и других) для 
 Таблицы *acl
 - поле name — это regexp.
 - Кроме того, если в поле name есть строка _LOGIN_ то она заменяется на login юзера.
+- Парсить stdout вывод для команды 'status dir' в DirectorController (и других)
+
 
 *** Текущая реализация CommandACL :
 

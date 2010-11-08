@@ -89,8 +89,8 @@ class FormRestoreOptions extends Zend_Form
         $client_name->addMultiOption('', $this->translate->_("Default"));
         $client_name_to->addMultiOption('', $this->translate->_("Default"));
         foreach( $clients as $v) {
-            $client_name->addMultiOption($v->name, $v->name);
-            $client_name_to->addMultiOption($v->name, $v->name);
+            $client_name->addMultiOption($v['name'], $v['name']);
+            $client_name_to->addMultiOption($v['name'], $v['name']);
         }
         /*
          * pool
@@ -106,7 +106,7 @@ class FormRestoreOptions extends Zend_Form
         ));
         $pool->addMultiOption('', $this->translate->_("Default"));
         foreach( $pools as $v) {
-            $pool->addMultiOption($v->name, $v->name);
+            $pool->addMultiOption($v['name'], $v['name']);
         }
         /*
          * fileset
@@ -122,7 +122,7 @@ class FormRestoreOptions extends Zend_Form
         ));
         $fileset->addMultiOption('', $this->translate->_("Default"));
         foreach( $filesets as $v) {
-            $fileset->addMultiOption($v->fileset, $v->fileset);
+            $fileset->addMultiOption($v['fileset'], $v['fileset']);
         }
         /*
          * storage
@@ -138,7 +138,7 @@ class FormRestoreOptions extends Zend_Form
         ));
         $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
-            $storage->addMultiOption($v->name, $v->name);
+            $storage->addMultiOption($v['name'], $v['name']);
         }
         /*
          * restore_job_select

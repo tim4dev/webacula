@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,7 +70,7 @@ class FormJobrun extends Zend_Form
          */
         $table_client = new Client();
         $order  = array('ClientId', 'Name');
-        $clients = $table_client->fetchAll(null, $order);
+        $clients = $table_client->aclFetchAll(null, $order);
         // select
         $client = $this->createElement('select', 'client', array(
             'decorators' => $this->elDecorators,
@@ -83,14 +81,14 @@ class FormJobrun extends Zend_Form
         ));
         $client->addMultiOption('', $this->translate->_("Default"));
         foreach( $clients as $v) {
-            $client->addMultiOption($v->name, $v->name);
+            $client->addMultiOption($v['name'], $v['name']);
         }
         /*
          * Fileset
          */
         $table_filesets = new Fileset();
         $order  = array('Fileset');
-        $filesets = $table_filesets->fetchAll(null, $order);
+        $filesets = $table_filesets->aclFetchAll(null, $order);
         // select
         $fileset = $this->createElement('select', 'fileset', array(
             'decorators' => $this->elDecorators,
@@ -101,14 +99,14 @@ class FormJobrun extends Zend_Form
         ));
         $fileset->addMultiOption('', $this->translate->_("Default"));
         foreach( $filesets as $v) {
-            $fileset->addMultiOption($v->fileset, $v->fileset);
+            $fileset->addMultiOption($v['fileset'], $v['fileset']);
         }
         /*
          * Storage
          */
         $table_storages = new Storage();
         $order  = array('Name');
-        $storages = $table_storages->fetchAll(null, $order);
+        $storages = $table_storages->aclFetchAll(null, $order);
         // select
         $storage = $this->createElement('select', 'storage', array(
             'decorators' => $this->elDecorators,
@@ -119,7 +117,7 @@ class FormJobrun extends Zend_Form
         ));
         $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
-            $storage->addMultiOption($v->name, $v->name);
+            $storage->addMultiOption($v['name'], $v['name']);
         }
         /*
          * Level

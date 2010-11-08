@@ -36,11 +36,15 @@ class Job extends Zend_Db_Table
 
     public $db;
     public $db_adapter;
+    protected $bacula_acl; // bacula acl
+
+
 
     public function __construct($config = array())
     {
         $this->db         = Zend_Registry::get('db_bacula');
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        $this->bacula_acl = new MyClass_BaculaAcl();
         parent::__construct($config);
     }
 
@@ -88,7 +92,7 @@ class Job extends Zend_Db_Table
 	 * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
 	 *
 	 */
-    function GetLastJobs()
+    function getTerminatedJobs()
     {
         $select = new Zend_Db_Select($this->db);
         //$select->distinct();
@@ -176,7 +180,8 @@ L   Committing data (last despool)
         $select->order(array("StartTime", "JobId"));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();
-        return $stmt->fetchAll();
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
 
@@ -184,7 +189,7 @@ L   Committing data (last despool)
      * Get data about running Jobs
      * from DB Catalog
      */
-    function GetRunningJobs()
+    function getRunningJobs()
     {
     	$select = new Zend_Db_Select($this->db);
     	$select->distinct();
@@ -276,15 +281,23 @@ L   Committing data (last despool)
     	$select->order(array("StartTime", "JobId"));
     	//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 		$stmt = $select->query();
-		return $stmt->fetchAll();
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
 
+    
     /**
 	 * Running Jobs (from Director)
 	 * Для дополнительной информации. Т.к. информация из БД Каталога не всегда корректна.
+     *
+     * === Замеченные баги ===
+     * 1. Running Jobs - вместо (разделитель м/д полями - пробел) :
+     *          24 Increme  job.name.test.4  2010-11-08_21.56.48_39 running
+     *      Bacula может выдать (разделитель м/д полями - точка) :
+     *          24 Increme  job.name.test.4.2010-11-08_21.56.48_39 running
 	 */
-    function GetDirRunningJobs()
+    function getDirRunningJobs()
     {
     	$config = Zend_Registry::get('config');
 
@@ -378,7 +391,8 @@ EOF', $command_output, $return_var);
                 $i++;
             }
         }
-        return $aresult;
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $aresult, 'name', 'job');
     }
 
 
@@ -413,10 +427,9 @@ EOF', $command_output, $return_var);
      * Scheduled Jobs (at 24 hours forward)
      *
      */
-    function GetNextJobs()
+    function getScheduledJobs()
     {
     	$config = Zend_Registry::get('config');
-
     	// check access to bconsole
     	if ( !file_exists($config->bacula->bconsole))	{
     		$aresult[] = 'NOFOUND';
@@ -510,13 +523,14 @@ EOF', $command_output, $return_var);
                     // в имени Job есть пробелы (в имени Volume пробелов быть не может)
                     $aresult[$i]['name']  = $acols[5];
                     for ($j = 6; $j <= $count-2; $j++) {
-                        $aresult[$i]['name']  .= '_' . $acols[$j];
+                        $aresult[$i]['name']  .= ' ' . $acols[$j];
                     }
                 }
                 $i++;
             }
         }
-        return $aresult;
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $aresult, 'name', 'job');
     }
 
     
@@ -525,7 +539,7 @@ EOF', $command_output, $return_var);
      * Jobs with errors/problems (last NN days)
      *
      */
-    function GetProblemJobs($last_days)
+    function getProblemJobs($last_days)
     {
         $select = new Zend_Db_Select($this->db);
         $select->distinct();
@@ -581,7 +595,8 @@ EOF', $command_output, $return_var);
 
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();
-        return $stmt->fetchAll();
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
 
@@ -615,8 +630,8 @@ EOF"
     		return $aresult;
 		}
 
-    	// parsing Director's output. Example :
-    	/*
+    	/* Parsing Director's output.
+         * Example :
 The defined Job resources are:
      1: restore.files
      2: job.name.test.1
@@ -635,10 +650,10 @@ Select Job resource (1-3):
 				$start = 1;
 				// parsing
 				list($number, $name_job) = preg_split("/:+/", $line, 2);
-				if ( !empty($name_job))	$aresult[]  = trim($name_job);
+				if ( !empty($name_job))
+                    $aresult[]['jobname']  = trim($name_job);
 				continue;
 			}
-
 			// задания закончились
 			if ( ($start == 1) && ( !(strpos($line, $str_end) === FALSE) ) )
 				break;
@@ -646,12 +661,23 @@ Select Job resource (1-3):
 			if ( $start == 1 ) {
 			    // parsing
                 list($number, $name_job) = preg_split("/:+/", $line, 2);
-                if ( !empty($name_job)) $aresult[]  = trim($name_job);
+                if ( !empty($name_job))
+                    $aresult[]['jobname']  = trim($name_job);
 			}
 			else
 				continue;
 		}
-    	return $aresult;
+        // do Bacula ACLs
+        $res2dim = $this->bacula_acl->doBaculaAcl( $aresult, 'jobname', 'job');
+        /*
+         * convert two dimensional $res2dim to one dimension array $res1dim
+         * для корректного отображения в форме нужен ординарный массив
+         */
+        $res1dim = array();
+        foreach($res2dim as $res2) {
+            $res1dim[] = $res2['jobname'];
+        }
+    	return $res1dim;
     }
 
 
@@ -1021,9 +1047,10 @@ Select Job resource (1-3):
 		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
 		$select->where("j.Type = 'B'");
    		$select->order(array("sortStartTime DESC"));
-   		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!DEBUG!!!
+   		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // !!!debug
    		$stmt = $select->query();
-        return $stmt->fetchAll();
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
 
