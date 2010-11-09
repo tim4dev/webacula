@@ -236,10 +236,10 @@ class RestorejobController extends MyClass_ControllerAclAction
         // get data for form
         Zend_Loader::loadClass('Client');
         $clients = new Client();
-        $this->view->clients = $clients->fetchAll();
+        $this->view->clients = $clients->aclFetchAll(); // do Bacula ACLs
         Zend_Loader::loadClass('FileSet');
         $filesets = new FileSet();
-        $this->view->filesets = $filesets->fetchAll();
+        $this->view->filesets = $filesets->aclFetchAll(); // do Bacula ACLs
 
         $this->view->title = $this->view->translate->_("Restore Job");
         $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
@@ -316,7 +316,7 @@ class RestorejobController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('Job');
         $job = new Job();
         // существует ли такое jobid
-        if ( !$job->isJobIdExists($jobid) ) {
+        if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
             // выдача сообщения, что такого joid не существует
             $this->view->title = $this->view->translate->_("Restore Job");
             $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
@@ -351,6 +351,13 @@ class RestorejobController extends MyClass_ControllerAclAction
      */
     function restoreAllAction()
     {
+        // do Bacula ACLs
+        $command = 'restore';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         // session expired ?
         if ( !isset($this->restoreNamespace->isSessionExist) ) {
             echo $this->renderScript('restorejob/msg02session.phtml');
@@ -373,7 +380,7 @@ class RestorejobController extends MyClass_ControllerAclAction
         $from_form = $this->_request->getParam('from_form', 0);
 
         // существует ли такое jobid
-        if ( !$job->isJobIdExists($jobid) ) {
+        if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
             // выдача сообщения, что такого joid не существует
             $this->view->title = $this->view->translate->_("Restore Job");
             $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
@@ -385,16 +392,16 @@ class RestorejobController extends MyClass_ControllerAclAction
             Zend_Loader::loadClass('Pool');
             Zend_Loader::loadClass('FileSet');
 
-            $this->view->clients = $client->fetchAll();
+            $this->view->clients = $client->aclFetchAll();  // do Bacula ACLs
 
             $storages = new Storage();
-            $this->view->storages = $storages->fetchAll();
+            $this->view->storages = $storages->aclFetchAll();  // do Bacula ACLs
 
             $pools = new Pool();
-            $this->view->pools = $pools->fetchAll();
+            $this->view->pools = $pools->aclFetchAll();  // do Bacula ACLs
 
             $filesets = new FileSet();
-            $this->view->filesets = $filesets->fetchAll();
+            $this->view->filesets = $filesets->aclFetchAll();  // do Bacula ACLs
 
             echo $this->renderScript('restorejob/main-form.phtml');
             return;
@@ -484,6 +491,13 @@ EOF"
 
     function restoreRecentAllAction()
     {
+        // do Bacula ACLs
+        $command = 'restore';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         // session expired ?
         if ( !isset($this->restoreNamespace->isSessionExist) ) {
             echo $this->renderScript('restorejob/msg02session.phtml');
@@ -607,16 +621,16 @@ EOF"
                 Zend_Loader::loadClass('Pool');
                 Zend_Loader::loadClass('FileSet');
 
-                $this->view->clients = $client->fetchAll();
+                $this->view->clients = $client->aclFetchAll(); // do Bacula ACLs
 
                 $storages = new Storage();
-                $this->view->storages = $storages->fetchAll();
+                $this->view->storages = $storages->aclFetchAll();  // do Bacula ACLs
 
                 $pools = new Pool();
-                $this->view->pools = $pools->fetchAll();
+                $this->view->pools = $pools->aclFetchAll();  // do Bacula ACLs
 
                 $filesets = new FileSet();
-                $this->view->filesets = $filesets->fetchAll();
+                $this->view->filesets = $filesets->aclFetchAll();  // do Bacula ACLs
 
                 echo $this->renderScript('restorejob/main-form.phtml');
                 return;

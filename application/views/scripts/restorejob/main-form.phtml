@@ -86,7 +86,7 @@ $(function() {
     // create array clients for Form
     if ( $this->clients ) {
     	foreach($this->clients as $client) {
-			$aclients[$this->escape($client->name)] = $this->escape($client->name);
+			$aclients[$this->escape($client['name'])] = $this->escape($client['name']);
     	}
     }
 	if ( empty($aclients) ) { $aclients[] = ''; }
@@ -94,7 +94,7 @@ $(function() {
 	// create array filesets for Form
 	if ( $this->filesets ) {
 		foreach($this->filesets as $fileset) {
-			$afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
+			$afilesets[$this->escape($fileset['fileset'])] = $this->escape($fileset['fileset']);
 		}
 	}
 	if ( empty($afilesets) ) { $afilesets[] = ''; }
