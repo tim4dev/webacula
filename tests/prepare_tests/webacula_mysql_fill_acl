@@ -37,6 +37,7 @@ INSERT INTO webacula_where_acl (name, order_acl, role_id) VALUES ('/tmp/test',  
 
 -- command
 INSERT INTO webacula_command_acl (dt_id, order_acl, role_id) VALUES (290, 1, 2); -- status
+INSERT INTO webacula_command_acl (dt_id, order_acl, role_id) VALUES (240, 2, 2); -- restore
 
 -- job
 INSERT INTO webacula_job_acl (name, order_acl, role_id) VALUES ('job.name.test.1', 1, 2);

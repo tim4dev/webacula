@@ -1208,6 +1208,9 @@ Select Job resource (1-3):
 
 
 
+    /**
+     * with Bacula ACLs
+     */
     function getJobBeforeDate($date_before, $client_id_from, $file_set)
     {
         /* Поиск JobId последнего Full бэкапа для заданных Client, Fileset, Date
@@ -1230,7 +1233,6 @@ Select Job resource (1-3):
             " AND FileSet.FileSet='".$file_set."'" .
             " ORDER BY Job.JobTDate DESC" .
             " LIMIT 1";
-        //var_dump($sql); exit; // for !!!debug!!!
         $stmt = $this->db->query($sql);
         // do Bacula ACLs
         $ajob_full = $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
@@ -1258,11 +1260,9 @@ Select Job resource (1-3):
             " AND FileSet.FileSet='".$file_set."'" .
             " ORDER BY Job.JobTDate DESC" .
             " LIMIT 1";
-        //var_dump($sql); exit; // for !!!debug!!!
         $stmt = $this->db->query($sql);
         $ajob_diff = $stmt->fetchAll();
         unset($stmt);
-        //var_dump($ajob_diff); exit; // for !!!debug!!!
 
         if ( $ajob_diff ) {
             $ajob_all[] .= $ajob_diff[0]['jobid'];
@@ -1311,11 +1311,9 @@ Select Job resource (1-3):
                 " ORDER BY Job.StartTime ASC";
                 break;
         }
-        //echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $this->db->query($sql);
         $ajob_inc = $stmt->fetchAll();
         unset($stmt);
-        //var_dump($ajob_inc); exit; // for !!!debug!!!
 
         // формируем хэш из jobids
         if ( empty($ajob_diff) ) {

@@ -37,6 +37,7 @@ class FormRestoreOptions extends Zend_Form
 
     public function init()
     {
+        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere'); // validator
         $this->translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
@@ -71,7 +72,8 @@ class FormRestoreOptions extends Zend_Form
          *
          */
         $table_client = new Client();
-        $clients = $table_client->fetchAll();
+        $order  = array('Name', 'ClientId');
+        $clients = $table_client->fetchAll(null, $order);
         $client_name = $this->createElement('select', 'client_name', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Client',
@@ -96,7 +98,8 @@ class FormRestoreOptions extends Zend_Form
          * pool
          */
         $table_pool = new Pool();
-   	    $pools = $table_pool->fetchAll();
+        $order  = array('Name', 'PoolId');
+   	    $pools = $table_pool->fetchAll(null, $order);
         $pool = $this->createElement('select', 'pool', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Pool',
@@ -112,7 +115,8 @@ class FormRestoreOptions extends Zend_Form
          * fileset
          */
         $table_fileset = new FileSet();
-   	    $filesets = $table_fileset->fetchAll();
+        $order  = array('Fileset');
+   	    $filesets = $table_fileset->fetchAll(null, $order);
         $fileset = $this->createElement('select', 'fileset', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Fileset',
@@ -128,7 +132,8 @@ class FormRestoreOptions extends Zend_Form
          * storage
          */
         $table_storage = new Storage();
-   	    $storages = $table_storage->fetchAll();
+        $order  = array('Name');
+   	    $storages = $table_storage->fetchAll(null, $order);
         $storage = $this->createElement('select', 'storage', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Storage',
@@ -175,6 +180,7 @@ class FormRestoreOptions extends Zend_Form
             'value'     => ''
         ));
         $where->addValidator('StringLength', false, array(0, 255) );
+        $where->addValidator('MyClass_Validate_BaculaAclWhere');
         /*
          * strip_prefix
          */

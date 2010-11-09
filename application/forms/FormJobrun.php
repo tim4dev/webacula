@@ -70,7 +70,7 @@ class FormJobrun extends Zend_Form
          */
         $table_client = new Client();
         $order  = array('ClientId', 'Name');
-        $clients = $table_client->aclFetchAll(null, $order);
+        $clients = $table_client->fetchAll(null, $order);
         // select
         $client = $this->createElement('select', 'client', array(
             'decorators' => $this->elDecorators,
@@ -88,7 +88,7 @@ class FormJobrun extends Zend_Form
          */
         $table_filesets = new Fileset();
         $order  = array('Fileset');
-        $filesets = $table_filesets->aclFetchAll(null, $order);
+        $filesets = $table_filesets->fetchAll(null, $order);
         // select
         $fileset = $this->createElement('select', 'fileset', array(
             'decorators' => $this->elDecorators,
@@ -106,7 +106,7 @@ class FormJobrun extends Zend_Form
          */
         $table_storages = new Storage();
         $order  = array('Name');
-        $storages = $table_storages->aclFetchAll(null, $order);
+        $storages = $table_storages->fetchAll(null, $order);
         // select
         $storage = $this->createElement('select', 'storage', array(
             'decorators' => $this->elDecorators,

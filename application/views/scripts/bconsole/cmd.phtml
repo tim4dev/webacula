@@ -1,5 +1,6 @@
 <!-- bconsole/cmd.phtml -->
-<?php echo '<div  style="color: #0f0;">OK : ', $this->bcommand, '</div><br>'; ?>
+
+<div  style="color: #0f0;">OK : <?php echo $this->bcommand; ?></div><br>
 <pre>
 <?php
     echo $this->msg;
@@ -10,4 +11,11 @@
 ?>
 <br>
 </pre>
-<?php echo '<div  style="color: #0f0;">return : ', $this->return_var, '</div><br>'; ?>
+<div  style="color: #0f0;">return :
+<?php 
+    if ( $this->return_var )
+            echo $this->return_var;
+    else
+        echo 'null';
+?>
+</div><br>

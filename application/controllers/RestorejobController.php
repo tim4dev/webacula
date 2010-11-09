@@ -101,6 +101,8 @@ class RestorejobController extends MyClass_ControllerAclAction
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         // load model
         Zend_Loader::loadClass('WbTmpTable');
+        // load validator
+        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere'); // for FormRestoreOptions
     }
 
     /*
@@ -232,6 +234,13 @@ class RestorejobController extends MyClass_ControllerAclAction
 
     public function mainFormAction()
     {
+        // do Bacula ACLs
+        $command = 'restore';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         $this->view->unit_test = $this->_request->getParam('test', null); // for tests
         // get data for form
         Zend_Loader::loadClass('Client');
@@ -301,7 +310,7 @@ class RestorejobController extends MyClass_ControllerAclAction
     }
 
     /**
-     * 12: Select full restore to a specified JobId
+     * 12: Select full restore to a specified JobId + Bacula ACLs
      * Manager of action depending on the user's choice
      * Диспетчер действий в зависимости от выбора пользователя
      *
@@ -341,7 +350,7 @@ class RestorejobController extends MyClass_ControllerAclAction
 
 
     /**
-     * Restore All
+     * Restore All + Bacula ACLs
      *
      * see
      * The Restore Command: http://www.bacula.org/rel-manual/Restore_Command.html
@@ -466,7 +475,6 @@ EOF"
              */
             Zend_Loader::loadClass('FormRestoreOptions');
             $form = new formRestoreOptions();
-            // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
             $form->setDecorators(array(
                 array('ViewScript', array(
                     'viewScript' => 'decorators/formRestoreoptions.phtml',
@@ -488,7 +496,9 @@ EOF"
     }
 
 
-
+    /**
+     * Restore all files in the most recent backup for a client + Bacula ACLs
+     */
     function restoreRecentAllAction()
     {
         // do Bacula ACLs
@@ -508,40 +518,44 @@ EOF"
         /* запоминаем "левый" jobid в сессии, чтобы не было ошибок при завершении restore */
         $this->restoreNamespace->JobHash = md5('fake_jobid');
         $this->view->title = $this->view->translate->_("Restore All files");
-
-        // начало отрисовки? т.е. форма выбора client, where уже заполнена?
-        $from_form = intval( $this->_request->getParam('from_form', 0) );
-
+        // bconsole available ?
         $director = new Director();
         if ( !$director->isFoundBconsole() )	{
             $this->view->result_error = 'NOFOUND_BCONSOLE';
             $this->render();
             return;
         }
+        /*
+         * Restore options form
+         */
+        Zend_Loader::loadClass('FormRestoreOptions');
+        $form = new formRestoreOptions();
+        if ( $this->_request->isPost() && $this->_request->getParam('from_form') )  {
+            if ( $form->isValid($this->_getAllParams()) ) {
+                // получаем значения из формы FormRestoreOptions
+                $this->getParamFromForm();
+                // переопределение некоторых переменных
+                $this->client_name = addslashes(
+                        $this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom )
+                    );
+                $this->fileset     = addslashes(
+                        $this->_request->getParam('fileset', $this->restoreNamespace->FileSet)
+                    );
+                $this->restoreNamespace->ClientNameTo = $this->client_name_to;
 
-        // *************************** run restore ************************************************
-        if ( $from_form == 1 )  {
-            // получаем значения из формы FormRestoreOptions
-            $this->getParamFromForm();
-            // переопределение некоторых переменных
-            $this->client_name    = addslashes( $this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
-            $this->fileset = addslashes( $this->_request->getParam('fileset', $this->restoreNamespace->FileSet) );
-            $this->restoreNamespace->ClientNameTo = $this->client_name_to;
+                if ( empty($this->restoreNamespace->DateBefore) )
+                    $cmd_date_before = ' current ';
+                else
+                    $cmd_date_before = ' before="'. $this->restoreNamespace->DateBefore . '" ';
+                //******************************* run job ***************************************
+                // create command / формируем командную строку
+                // restore client="local.fd" restoreclient="local.fd" fileset="test1"  where="/home/test/11111" current select all done yes
+                // restore client="local.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
+                // restore client="local.fd" restoreclient="srv1.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
+                $cmd = 'restore '. $this->getCmdRestore() .' '. $cmd_date_before .' select all done yes';
 
-            if ( empty($this->restoreNamespace->DateBefore) ) {
-                $cmd_date_before = ' current ';
-            } else {
-                $cmd_date_before = ' before="'. $this->restoreNamespace->DateBefore . '" ';
-            }
-            //******************************* run job ***************************************
-            // create command / формируем командную строку
-            // restore client="local.fd" restoreclient="local.fd" fileset="test1"  where="/home/test/11111" current select all done yes
-            // restore client="local.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
-            // restore client="local.fd" restoreclient="srv1.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
-            $cmd = 'restore '. $this->getCmdRestore() .' '. $cmd_date_before .' select all done yes';
-
-            $comment = __METHOD__;
-            $astatusdir = $director->execDirector(
+                $comment = __METHOD__;
+                $astatusdir = $director->execDirector(
 " <<EOF
 @#
 @# $comment
@@ -552,40 +566,35 @@ $this->restore_job_select
 status dir
 @quit
 EOF"
-            );
-            $this->view->command_output = $astatusdir['command_output'];
-            // check return status of the executed command
-            if ( $astatusdir['return_var'] != 0 )	{
-                $this->view->result_error = $astatusdir['result_error'];
+                );
+                $this->view->command_output = $astatusdir['command_output'];
+                // check return status of the executed command
+                if ( $astatusdir['return_var'] != 0 )
+                    $this->view->result_error = $astatusdir['result_error'];
+                $this->renderScript('restorejob/run-restore.phtml');
             }
-            $this->renderScript('restorejob/run-restore.phtml');
-
-        } else {
-            /*
-             * Restore options form
-             */
-            Zend_Loader::loadClass('FormRestoreOptions');
-            $form = new formRestoreOptions();
-            // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
-            $form->setDecorators(array(
-                array('ViewScript', array(
-                    'viewScript' => 'decorators/formRestoreoptions.phtml',
-                    'form'=> $form
-                ))
-            ));
-            $form->init();
-            $form->setAction( $this->view->baseUrl .'/restorejob/restore-recent-all' );
-            $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore-recent' );
-            // fill form
-            $form->populate( array(
-                'client_name'    => $this->restoreNamespace->ClientNameFrom,
-                'client_name_to' => $this->restoreNamespace->ClientNameTo,
-                'fileset'        => $this->restoreNamespace->FileSet,
-                'type_restore'   => $this->restoreNamespace->typeRestore,
-            ));
-            $this->view->form = $form;
-            $this->render();
         }
+        /*
+         * fill Restore options form
+         */
+        $form->setDecorators(array(
+            array('ViewScript', array(
+                  'viewScript' => 'decorators/formRestoreoptions.phtml',
+                  'form'=> $form
+            ))
+        ));
+        $form->init();
+        $form->setAction( $this->view->baseUrl .'/restorejob/restore-recent-all' );
+        $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore-recent' );
+        // fill form
+        $form->populate( array(
+            'client_name'    => $this->restoreNamespace->ClientNameFrom,
+            'client_name_to' => $this->restoreNamespace->ClientNameTo,
+            'fileset'        => $this->restoreNamespace->FileSet,
+            'type_restore'   => $this->restoreNamespace->typeRestore,
+        ));
+        $this->view->form = $form;
+        $this->render();
     }
 
 
@@ -621,16 +630,16 @@ EOF"
                 Zend_Loader::loadClass('Pool');
                 Zend_Loader::loadClass('FileSet');
 
-                $this->view->clients = $client->fetchAll(); // do Bacula ACLs
+                $this->view->clients = $client->fetchAll(); // with Bacula ACLs
 
                 $storages = new Storage();
-                $this->view->storages = $storages->fetchAll();  // do Bacula ACLs
+                $this->view->storages = $storages->fetchAll();  // with Bacula ACLs
 
                 $pools = new Pool();
-                $this->view->pools = $pools->fetchAll();  // do Bacula ACLs
+                $this->view->pools = $pools->fetchAll();  // with Bacula ACLs
 
                 $filesets = new FileSet();
-                $this->view->filesets = $filesets->fetchAll();  // do Bacula ACLs
+                $this->view->filesets = $filesets->fetchAll();  // with Bacula ACLs
 
                 echo $this->renderScript('restorejob/main-form.phtml');
                 return;
@@ -671,6 +680,9 @@ EOF"
     }
 
 
+    /**
+     *  with Bacula ACLs
+     */
     function selectBackupsBeforeDateAction()
     {
         // session expired ?
@@ -691,7 +703,10 @@ EOF"
         }
 
         $job = new Job();
-        $ajobs = $job->getJobBeforeDate($date_before, $this->restoreNamespace->ClientIdFrom, $this->restoreNamespace->FileSet);
+        $ajobs = $job->getJobBeforeDate(
+                $date_before,
+                $this->restoreNamespace->ClientIdFrom,
+                $this->restoreNamespace->FileSet);  // with Bacula ACLs
         if ( !$ajobs ) {
             // сообщение, что не найден Full backup: No Full backup before 2009-05-20 15:19:49 found.
             $this->view->msg = sprintf($this->view->translate->_("No Full backup before %s found."), $this->restoreNamespace->DateBefore);
@@ -1194,7 +1209,6 @@ EOF"
          */
         Zend_Loader::loadClass('FormRestoreOptions');
         $form = new formRestoreOptions();
-        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
         $form->setDecorators(array(
             array('ViewScript', array(
                 'viewScript' => 'decorators/formRestoreoptions.phtml',
@@ -1218,7 +1232,7 @@ EOF"
 
 
     /**
-     * Run Restore Job
+     * Run Restore Job + Bacula ACLs
      * Запуск задания на восстановление
      *
      * see
@@ -1228,6 +1242,13 @@ EOF"
      */
     function runRestoreAction()
     {
+        // do Bacula ACLs
+        $command = 'restore';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         // session expired ?
         if ( !isset($this->restoreNamespace->isSessionExist) ) {
             echo $this->renderScript('restorejob/msg02session.phtml');
@@ -1235,7 +1256,8 @@ EOF"
         }
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) return;
+        if ( !$job->isJobIdExists($this->restoreNamespace->JobId) )   // with Bacula ACLs
+                return;
 
         // получаем значения из формы FormRestoreOptions
         $this->getParamFromForm();
@@ -1308,8 +1330,18 @@ EOF"
 
 
 
+    /**
+     *  with Bacula ACLs
+     */
     function runRestoreRecentAction()
     {
+        // do Bacula ACLs
+        $command = 'restore';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         // session expired ?
         if ( !isset($this->restoreNamespace->isSessionExist) ) {
             echo $this->renderScript('restorejob/msg02session.phtml');
@@ -1394,7 +1426,7 @@ EOF"
 
 
     /**
-     * Restore single file
+     * Restore single file + Bacula ACLs
      */
     function restoreSingleFileAction()
     {
@@ -1415,7 +1447,6 @@ EOF"
          */
         Zend_Loader::loadClass('FormRestoreOptions');
         $form = new formRestoreOptions();
-        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
         $form->setDecorators(array(
             array('ViewScript', array(
                 'viewScript' => 'decorators/formRestoreoptions.phtml',
@@ -1437,11 +1468,18 @@ EOF"
 
 
     /**
-     * Run Restore single File
+     * Run Restore single File + Bacula ACLs
      * http://www.bacula.org/rel-manual/Restore_Command.html
      */
     function runRestoreSingleFileAction()
     {
+        // do Bacula ACLs
+        $command = 'restore';
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         $this->view->title = $this->view->translate->_('Restore Single File');
         // получаем значения из формы FormRestoreOptions
         $this->getParamFromForm();
