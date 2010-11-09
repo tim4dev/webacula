@@ -60,12 +60,16 @@ class Job extends Zend_Db_Table
         parent::_setupTableName();
     }
 
+
+    
     protected function _setupPrimaryKey()
     {
         $this->_primary = 'jobid';
         parent::_setupPrimaryKey();
     }
 
+
+    
 	/**
 	 * If there JobId exist in the database Bacula ...
 	 * Существует ли JobId в БД Bacula
@@ -76,15 +80,15 @@ class Job extends Zend_Db_Table
 	function isJobIdExists($jobid)
 	{
    		$select = new Zend_Db_Select($this->db);
-    	$select->from('Job', 'JobId');
+    	$select->from('Job', array('JobId', 'Name'));
     	$select->where("JobId = ?", $jobid);
     	$select->limit(1);
-    	$res = $this->db->fetchOne($select);
-		if ( $res )
-            return TRUE;
-		else
-            return FALSE;
+        $stmt = $select->query();
+        // do Bacula ACLs
+        $res = $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'name', 'job');
+        return ( empty ($res) ) ? FALSE : TRUE;
 	}
+
 
 
 	/**
@@ -779,9 +783,13 @@ Select Job resource (1-3):
    			}
 
 			$select->order($order);
-			return $select;
+            //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // !!!debug
+            $stmt = $select->query();
+            // do Bacula ACLs
+            return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
    		}
 	}
+
 
 
     function getByJobId($jobid)
@@ -831,9 +839,9 @@ Select Job resource (1-3):
             $select->where("j.JobId = '$jobid'");
             $select->order(array("StartTime", "JobId"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-
             $stmt = $select->query();
-            return $stmt->fetchAll();
+            // do Bacula ACLs
+            return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
         }
     }
 
@@ -890,14 +898,16 @@ Select Job resource (1-3):
    			$select->order(array("StartTime", "j.JobId"));
   			//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
    			$stmt = $select->query();
-			return $stmt->fetchAll();
+            // do Bacula ACLs
+            return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
    		}
 	}
 
+    
 
 	function getDetailByJobId($jobid)
 	{
-    	if ( isset($jobid) )	{
+    	if ( $this->isJobIdExists($jobid) )	{
     		$select = new Zend_Db_Select($this->db);
     		$select->distinct();
 
@@ -1189,7 +1199,8 @@ Select Job resource (1-3):
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         }
         $stmt = $select->query();
-        return $stmt->fetchAll();
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
 
@@ -1202,8 +1213,10 @@ Select Job resource (1-3):
         $ajob_all = array();
 
         $sql =  "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
-            " Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
-            " FROM Client,Job,JobMedia,Media,FileSet WHERE Client.ClientId=$client_id_from" .
+            " Job.StartTime, Media.VolumeName, JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime,
+              Job.Name as jobname " .
+            " FROM Client,Job,JobMedia,Media,FileSet
+              WHERE Client.ClientId=$client_id_from" .
             " AND Job.ClientId=$client_id_from" .
             " $date_before".
             " AND Level='F' AND JobStatus IN ('T','W') AND Type='B'" .
@@ -1216,18 +1229,20 @@ Select Job resource (1-3):
             " LIMIT 1";
         //var_dump($sql); exit; // for !!!debug!!!
         $stmt = $this->db->query($sql);
-        $ajob_full = $stmt->fetchAll();
+        // do Bacula ACLs
+        $ajob_full = $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
         unset($stmt);
 
-        if ( !$ajob_full ) {
+        if ( empty($ajob_full) )
             return;
-        }
+
         $ajob_all[] = $ajob_full[0]['jobid'];
         /* Поиск свежего Differential бэкапа, после Full бэкапа, если есть
          * cats/sql_cmds.c :: uar_dif
          */
         $sql = "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
-            " Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
+            " Job.StartTime, Media.VolumeName, JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime,
+              Job.Name as jobname " .
             " FROM Job,JobMedia,Media,FileSet" .
             " WHERE Job.JobTDate>'".$ajob_full[0]['jobtdate']."'" .
             " $date_before" .
@@ -1263,7 +1278,7 @@ Select Job resource (1-3):
             $sql = "SELECT DISTINCT Job.JobId as jobid, Job.JobTDate as jobtdate, Job.ClientId as clientid, " .
                 " Job.Level as level, Job.JobFiles as jobfiles, Job.JobBytes as jobbytes, " .
                 " Job.StartTime as starttime, Media.VolumeName as volumename, JobMedia.StartFile as startfile, " .
-                " Job.VolSessionId as volsessionid, Job.VolSessionTime as volsessiontime" .
+                " Job.VolSessionId as volsessionid, Job.VolSessionTime as volsessiontime, Job.Name as jobname " .
                 " FROM Job,JobMedia,Media,FileSet" .
                 " WHERE Media.Enabled=1 " .
                 " $jobtdate " .
@@ -1278,7 +1293,8 @@ Select Job resource (1-3):
             break;
         default: // mysql, postgresql
             $sql = "SELECT DISTINCT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
-                " Job.StartTime,Media.VolumeName,JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime" .
+                " Job.StartTime, Media.VolumeName ,JobMedia.StartFile, Job.VolSessionId, Job.VolSessionTime,
+                  Job.Name as jobname " .
                 " FROM Job,JobMedia,Media,FileSet" .
                 " WHERE Media.Enabled=1 " .
                 " $jobtdate " .
@@ -1325,13 +1341,15 @@ Select Job resource (1-3):
             return;
         $select = new Zend_Db_Select($this->db);
         $select->from(array('f' => 'File'), array('FileId', 'LStat'));
-        $select->joinLeft(array('j' => 'Job'),  'j.JobId  = f.JobId',  array('JobId') );
+        $select->joinLeft(array('j' => 'Job'),  'j.JobId  = f.JobId',  array('JobId', 'jobname' => 'Name') );
         $select->joinLeft(array('p' => 'Path'), 'p.PathId = f.PathId', array('PathId', 'Path') );
         $select->joinLeft(array('n' => 'Filename'), 'n.FilenameId = f.FilenameId', array('Filename' => 'Name') );
         $select->where("f.FileId = ?", $fileid);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();
-        return $stmt->fetchAll();
+        // do Bacula ACLs
+        //return $stmt->fetchAll();
+        return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
 

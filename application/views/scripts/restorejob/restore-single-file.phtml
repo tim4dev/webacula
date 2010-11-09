@@ -71,5 +71,11 @@ $(document).ready(function() {
 </table>
 
 <?php else: ?>
-	<p><b><?php print $this->translate->_("No Files found."); ?></b></p>
+<div class="ui-widget" style="float: left;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php print $this->translate->_("No Files found."); ?></strong></p>
+	</div>
+</div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>

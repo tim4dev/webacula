@@ -129,6 +129,8 @@ class JobController extends MyClass_ControllerAclAction
         }
     }
 
+
+
     /**
      * Search Job on attributes : date begin/end, Client, FileSet, etc
      *
@@ -159,10 +161,9 @@ class JobController extends MyClass_ControllerAclAction
         $orderp  = addslashes(trim($this->_request->getParam('order', '')));
 
         $job = new Job();
-        $select = $job->getSelectFilteredJob($date_begin, $time_begin, $date_end, $time_end,
+        $jobs = $job->getSelectFilteredJob($date_begin, $time_begin, $date_end, $time_end,
             $client, $fileset, $jlevel, $jstatus, $jtype, $volname,
             $orderp);
-        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $this->view->date_begin = strtotime($date_begin);
         $this->view->time_begin = strtotime($time_begin);
         $this->view->date_end   = strtotime($date_end);
@@ -174,13 +175,14 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->jtype      = $jtype;
         $this->view->volname    = $volname;
 
-        $paginator = Zend_Paginator::factory($select);
+        $paginator = Zend_Paginator::factory($jobs);
         Zend_Paginator::setDefaultScrollingStyle('Sliding');
         $paginator->setItemCountPerPage(self::ROW_LIMIT_JOBS);
         $paginator->setCurrentPageNumber($this->_getParam('page', 1));
         $this->view->paginator = $paginator;
         $paginator->setView($this->view);
     }
+
 
 
     /**
@@ -475,7 +477,7 @@ EOF"
         echo $this->renderScript('job/terminated.phtml');
     }
 
-    
+
     /**
      * List last NN Jobs run
      * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html

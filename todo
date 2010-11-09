@@ -1,7 +1,9 @@
 
 -------------------------------------------------------------------------------------------------------
-Текущее состояние : Bacula JobACL
+Текущее состояние : Bacula JobACL RestorejobController
 
+- списки в формах
++ JobACL + JobConstroller + Job model
 + ClientACL
 + StorageACL
 + PoolACL

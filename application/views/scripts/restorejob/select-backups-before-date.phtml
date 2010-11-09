@@ -38,6 +38,7 @@ $(document).ready(function() {
 <thead>
 <tr>
      <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
+     <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
@@ -48,6 +49,7 @@ $(document).ready(function() {
 <tbody>
 <tr>
 <td><?php echo $this->ajob_full[0]['jobid']; ?></td>
+<td><?php echo $this->ajob_full[0]['jobname']; ?></td>
 <td><?php echo $this->ajob_full[0]['level']; ?></td>
 <td><?php echo $this->ajob_full[0]['jobfiles']; ?></td>
 <td><?php echo $this->convBytes($this->ajob_full[0]['jobbytes']); ?></td>
@@ -59,6 +61,7 @@ $(document).ready(function() {
 	<?php foreach($this->ajob_diff as $line) : ?>
 	<tr>
 	<td><?php echo $line['jobid']; ?></td>
+    <td><?php echo $line['jobname']; ?></td>
 	<td><?php echo $line['level']; ?></td>
 	<td><?php echo $line['jobfiles']; ?></td>
 	<td><?php echo $this->convBytes($line['jobbytes']); ?></td>
@@ -72,6 +75,7 @@ $(document).ready(function() {
 	<?php foreach($this->ajob_inc as $line) : ?>
 	<tr>
 	<td><?php echo $line['jobid']; ?></td>
+    <td><?php echo $line['jobname']; ?></td>
 	<td><?php echo $line['level']; ?></td>
 	<td><?php echo $line['jobfiles']; ?></td>
 	<td><?php echo $this->convBytes($line['jobbytes']); ?></td>
@@ -84,5 +88,11 @@ $(document).ready(function() {
 </table>
 
 <?php else: ?>
-	<p><b><?php print $this->translate->_("No Jobs found."); ?></b></p>
+<div class="ui-widget" style="float: left;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
+	</div>
+</div>
+<div style="clear: both;"><!--  --></div>
 <?php endif; ?>

@@ -326,8 +326,8 @@ class RestorejobController extends MyClass_ControllerAclAction
         }
         $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
         $job_row = $ajob[0];
-        // store the data in the session / запоминаем данные в сессии
         $this->mySessionStart();
+        // store the data in the session / запоминаем данные в сессии
         $this->restoreNamespace->typeRestore = 'restore_recent';
         $this->restoreNamespace->ClientNameFrom = $job_row['clientname'];
         $this->restoreNamespace->FileSet        = $job_row['fileset'];
@@ -336,7 +336,7 @@ class RestorejobController extends MyClass_ControllerAclAction
             case 'restore_select_full_jobid':
                 $this->_forward('select-backups-before-date', null, null, null);
                 break;
-        }
+        }       
     }
 
 
@@ -1389,7 +1389,11 @@ EOF"
         // get data for form
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        $this->view->file = $job->getByFileId($this->fileid);
+        $this->view->file = $job->getByFileId($this->fileid); // do Bacula ACLs
+        if ( empty($this->view->file) ) {
+            $this->render();
+            return;
+        }
         Zend_Loader::loadClass('Client');
         $clients = new Client();
         /*
@@ -1431,7 +1435,9 @@ EOF"
         // get File data
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        $file = $job->getByFileId($this->fileid);
+        $file = $job->getByFileId($this->fileid); // do Bacula ACL
+        if ( !$file )
+            return;
         // check access to bconsole
         Zend_Loader::loadClass('Director');
         $director = new Director();
