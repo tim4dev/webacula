@@ -48,6 +48,7 @@ class Job extends Zend_Db_Table
         parent::__construct($config);
     }
 
+    
     protected function _setupTableName()
     {
         switch ($this->db_adapter) {
@@ -188,6 +189,7 @@ L   Committing data (last despool)
         return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
     }
 
+    
 
     /**
      * Get data about running Jobs
@@ -684,6 +686,7 @@ Select Job resource (1-3):
     	return $res1dim;
     }
 
+    
 
 	function getSelectFilteredJob($date_begin, $time_begin, $date_end, $time_end,
 								$client, $fileset, $jlevel, $jstatus, $jtype, $volname,

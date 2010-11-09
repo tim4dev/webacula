@@ -53,8 +53,9 @@ class Storage extends Zend_Db_Table
         parent::_setupPrimaryKey();
     }
 
-    public function aclFetchAll($order = '') {
-        $res = $this->fetchAll(null, $order)
+    public function fetchAll($where = null, $order = null, $count = null, $offset = null)
+    {
+        $res = parent::fetchAll($where, $order, $count, $offset)
                     ->toArray();
         // do Bacula ACLs
         return $this->bacula_acl->doBaculaAcl($res, 'name', 'storage');

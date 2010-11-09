@@ -56,8 +56,9 @@ class FileSet extends Zend_Db_Table
     }
 
 
-    public function aclFetchAll($order = null) {
-        $res = $this->fetchAll(null, $order)
+    public function fetchAll($where = null, $order = null, $count = null, $offset = null)
+    {
+        $res = parent::fetchAll($where, $order, $count, $offset)
                     ->toArray();
         // do Bacula ACLs
         return $this->bacula_acl->doBaculaAcl($res, 'fileset', 'fileset');

@@ -2,8 +2,6 @@
 /**
  * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
  *
- * This file is part of Webacula.
- *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -135,7 +133,16 @@ class VolumeController extends MyClass_ControllerAclAction
             // remember old value of poolid for this mediaid
             $old_pool_id = $media->getPoolId($media_id);
             // update Media record
-            $data = array('poolid' => $pool_id , 'volstatus' => trim($this->_request->getPost('volstatus')) , 'volretention' => (int) trim($this->_request->getPost('volretention')) * 86400 , 'recycle' => trim($this->_request->getPost('recycle')) , 'slot' => trim($this->_request->getPost('slot')) , 'inchanger' => trim($this->_request->getPost('inchanger')) , 'maxvoljobs' => trim($this->_request->getPost('maxvoljobs')) , 'maxvolfiles' => trim($this->_request->getPost('maxvolfiles')) , 'comment' => trim($this->_request->getPost('comment')));
+            $data = array(
+                'poolid'        => $pool_id ,
+                'volstatus'     => trim($this->_request->getPost('volstatus')) ,
+                'volretention'  => (int) trim($this->_request->getPost('volretention')) * 86400 ,
+                'recycle'       => trim($this->_request->getPost('recycle')) ,
+                'slot'          => trim($this->_request->getPost('slot')) ,
+                'inchanger'     => trim($this->_request->getPost('inchanger')) ,
+                'maxvoljobs'    => trim($this->_request->getPost('maxvoljobs')) ,
+                'maxvolfiles'   => trim($this->_request->getPost('maxvolfiles')) ,
+                'comment'       => trim($this->_request->getPost('comment')));
             $where = $media->getAdapter()->quoteInto('MediaId = ?', $media_id);
             $res = $media->update($data, $where);
             // if Volume moved to another Pool
@@ -156,7 +163,11 @@ class VolumeController extends MyClass_ControllerAclAction
             // send email
             if ($res) {
                 $email = new MyClass_SendEmail();
-                $email->mySendEmail($this->config_webacula->email->from, $this->config_webacula->email->to_admin, $this->view->translate->_('Media Id') . ': ' . $media_id . "\n" . $this->view->translate->_('Volume Name') . ': ' . $volume_name . "\n\n", $this->view->translate->_('Webacula : Updated Volume parameters'));
+                $email->mySendEmail($this->config_webacula->email->from, 
+                        $this->config_webacula->email->to_admin,
+                        $this->view->translate->_('Media Id') . ': ' . $media_id . "\n" .
+                            $this->view->translate->_('Volume Name') . ': ' . $volume_name . "\n\n",
+                        $this->view->translate->_('Webacula : Updated Volume parameters'));
             }
         }
         $this->_redirect("/volume/detail/mediaid/$media_id");

@@ -46,6 +46,7 @@ class Director
         $this->bconsolecmd = $cmd;
 	}
 
+    
 
 	public function execDirector($cmd)
 	{
@@ -60,11 +61,15 @@ class Director
 		return(array('command_output' => $command_output, 'result_error' => $result_error, 'return_var' => $return_var));
 	}
 
+
+    
 	public function isFoundBconsole()
 	{
 		return file_exists($this->bconsole);
 	}
 
+
+    
     public function getDirectorVersion()
 	{
         $res = $this->execDirector(' <<EOF

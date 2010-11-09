@@ -359,12 +359,12 @@ class JobController extends MyClass_ControllerAclAction
     function runJobAction()
     {
         // do Bacula ACLs
-/*???        $command = 'run';
+        $command = 'run';
         if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
-        }*/
+        }
         /*
          * Job run form
          */

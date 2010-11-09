@@ -44,7 +44,7 @@ class StorageController extends MyClass_ControllerAclAction
         // get data for form
         $storages = new Storage();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
-        $this->view->storages = $storages->aclFetchAll();
+        $this->view->storages = $storages->fetchAll();
     }
 
 

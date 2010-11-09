@@ -3,6 +3,7 @@
 Текущее состояние : Bacula JobACL RestorejobController
 
 - списки в формах
+- Timeline model
 + JobACL + JobConstroller + Job model
 + ClientACL
 + StorageACL

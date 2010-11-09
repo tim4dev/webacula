@@ -39,7 +39,7 @@ class ClientController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Clients");
         $clients = new Client();
         $order  = array('ClientId', 'Name');
-        $this->view->clients = $clients->aclFetchAll($order);
+        $this->view->clients = $clients->fetchAll(null, $order);
     }
 
 

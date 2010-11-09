@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +56,7 @@ class FileController extends MyClass_ControllerAclAction
         }
         $this->view->titleFile = $this->view->translate->_("List Files for JobId") . " " . $jobid;
         $files = new Files();
-        $select = $files->getSelectFilesByJobId($jobid);
+        $select = $files->getSelectFilesByJobId($jobid);  // do Bacula ACKs
         //echo '<pre>',$select->__toString(),'</pre>'; exit; // for !!!debug!!!
         $paginator = Zend_Paginator::factory($select);
         Zend_Paginator::setDefaultScrollingStyle('Sliding');

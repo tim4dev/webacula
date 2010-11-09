@@ -40,7 +40,7 @@ class PoolController extends MyClass_ControllerAclAction
       // to view
       $this->view->meta_refresh = 300; // meta http-equiv="refresh"
       $pools = new Pool();
-      $this->view->pools = $pools->aclFetchAll(null, $order);
+      $this->view->pools = $pools->fetchAll(null, $order);
    }
 
 

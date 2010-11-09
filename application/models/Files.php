@@ -36,6 +36,11 @@ class Files
 
     public function getSelectFilesByJobId($jobid)
     {
+        // do Bacula ACLs
+        Zend_Loader::loadClass('Job');
+		$table = new Job();
+        if ( !$table->isJobIdExists($jobid) )
+                return FALSE;
         // !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
         $select = new Zend_Db_Select($this->db);
         $select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat'));

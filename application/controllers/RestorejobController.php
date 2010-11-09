@@ -236,10 +236,10 @@ class RestorejobController extends MyClass_ControllerAclAction
         // get data for form
         Zend_Loader::loadClass('Client');
         $clients = new Client();
-        $this->view->clients = $clients->aclFetchAll(); // do Bacula ACLs
+        $this->view->clients = $clients->fetchAll(); // do Bacula ACLs
         Zend_Loader::loadClass('FileSet');
         $filesets = new FileSet();
-        $this->view->filesets = $filesets->aclFetchAll(); // do Bacula ACLs
+        $this->view->filesets = $filesets->fetchAll(); // do Bacula ACLs
 
         $this->view->title = $this->view->translate->_("Restore Job");
         $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
@@ -392,16 +392,16 @@ class RestorejobController extends MyClass_ControllerAclAction
             Zend_Loader::loadClass('Pool');
             Zend_Loader::loadClass('FileSet');
 
-            $this->view->clients = $client->aclFetchAll();  // do Bacula ACLs
+            $this->view->clients = $client->fetchAll();  // do Bacula ACLs
 
             $storages = new Storage();
-            $this->view->storages = $storages->aclFetchAll();  // do Bacula ACLs
+            $this->view->storages = $storages->fetchAll();  // do Bacula ACLs
 
             $pools = new Pool();
-            $this->view->pools = $pools->aclFetchAll();  // do Bacula ACLs
+            $this->view->pools = $pools->fetchAll();  // do Bacula ACLs
 
             $filesets = new FileSet();
-            $this->view->filesets = $filesets->aclFetchAll();  // do Bacula ACLs
+            $this->view->filesets = $filesets->fetchAll();  // do Bacula ACLs
 
             echo $this->renderScript('restorejob/main-form.phtml');
             return;
@@ -621,16 +621,16 @@ EOF"
                 Zend_Loader::loadClass('Pool');
                 Zend_Loader::loadClass('FileSet');
 
-                $this->view->clients = $client->aclFetchAll(); // do Bacula ACLs
+                $this->view->clients = $client->fetchAll(); // do Bacula ACLs
 
                 $storages = new Storage();
-                $this->view->storages = $storages->aclFetchAll();  // do Bacula ACLs
+                $this->view->storages = $storages->fetchAll();  // do Bacula ACLs
 
                 $pools = new Pool();
-                $this->view->pools = $pools->aclFetchAll();  // do Bacula ACLs
+                $this->view->pools = $pools->fetchAll();  // do Bacula ACLs
 
                 $filesets = new FileSet();
-                $this->view->filesets = $filesets->aclFetchAll();  // do Bacula ACLs
+                $this->view->filesets = $filesets->fetchAll();  // do Bacula ACLs
 
                 echo $this->renderScript('restorejob/main-form.phtml');
                 return;
