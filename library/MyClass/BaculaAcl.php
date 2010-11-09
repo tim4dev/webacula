@@ -82,6 +82,7 @@ class MyClass_BaculaAcl
 	    if ($this->_cache_id) {
             $cache = Zend_Registry::get('cache');
             $cache->remove($this->_cache_id);
+            $cache->remove($this->_cache_id . '_command');
 	    }
 	}
 
@@ -128,8 +129,16 @@ Array
 	     * Cache
 	     */
 	    $cache = Zend_Registry::get('cache');
+        switch ($acl) {
+            case 'command':
+                $cache_id = $this->_cache_id . '_command';
+                break;
+            default:
+                $cache_id = $this->_cache_id;
+                break;
+        }
         // проверка, есть ли уже запись в кэше:
-        if( !$acls2dim = $cache->load( $this->_cache_id ) ) {
+        if( !$acls2dim = $cache->load( $cache_id ) ) {
             // промах кэша
             // get current role and all parents roles
             $table = new Wbroles();
@@ -154,7 +163,7 @@ Array
             $stmt = $select->query();
             $acls2dim = $stmt->fetchAll(); // array
             // save to cache
-            $cache->save($acls2dim, $this->_cache_id);
+            $cache->save($acls2dim, $cache_id);
         }
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
@@ -195,8 +204,16 @@ Array
          * Cache
          */
         $cache = Zend_Registry::get('cache');
+        switch ($acl) {
+            case 'command':
+                $cache_id = $this->_cache_id . '_command';
+                break;
+            default:
+                $cache_id = $this->_cache_id;
+                break;
+        }
         // проверка, есть ли уже запись в кэше:
-        if( !$acls2dim = $cache->load( $this->_cache_id ) ) {
+        if( !$acls2dim = $cache->load( $cache_id ) ) {
             // промах кэша
             // get current role and all parents roles
             $table = new Wbroles();
@@ -221,7 +238,7 @@ Array
             $stmt = $select->query();
             $acls2dim = $stmt->fetchAll(); // array
             // save to cache
-            $cache->save($acls2dim,  $this->_cache_id);
+            $cache->save($acls2dim,  $cache_id);
         }
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
