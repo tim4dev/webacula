@@ -36,7 +36,7 @@ class HelpController extends MyClass_ControllerAclAction
     function indexAction ()
     {
         if ($this->_helper->hasHelper('layout')) {
-            $this->_helper->layout->setLayout('help');
+            $this->_helper->layout->setLayout('main');
         }
         $this->view->title = "webacula help";
         $namefile = 'help/index_' . $this->view->language . '.phtml';
