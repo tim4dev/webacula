@@ -252,6 +252,7 @@ class RestorejobController extends MyClass_ControllerAclAction
 
         $this->view->title = $this->view->translate->_("Restore Job");
         $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
+        $this->view->msgNoJobId = $this->_request->getParam('msgNoJobId', null); // выдача сообщения, что такого joid не существует
         $this->render();
     }
 
@@ -325,14 +326,13 @@ class RestorejobController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('Job');
         $job = new Job();
         // существует ли такое jobid
-        if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
-            // выдача сообщения, что такого joid не существует
-            $this->view->title = $this->view->translate->_("Restore Job");
-            $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
-            $this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."), $jobid);
-            echo $this->renderScript('restorejob/main-form.phtml');
-            return;
-        }
+        if ( !$job->isJobIdExists($jobid) )   // do Bacula ACLs
+            $this->_redirector->gotoSimple('main-form', 'restorejob', null,
+                    array(
+                        'jobid' => $jobid,
+                        'msgNoJobId' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid)
+                    )); // action, controller, parameters
+            
         $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
         $job_row = $ajob[0];
         $this->mySessionStart();
@@ -389,32 +389,12 @@ class RestorejobController extends MyClass_ControllerAclAction
         $from_form = $this->_request->getParam('from_form', 0);
 
         // существует ли такое jobid
-        if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
-            // выдача сообщения, что такого joid не существует
-            $this->view->title = $this->view->translate->_("Restore Job");
-            $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
-            $this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."), $jobid);
-
-            // TODO сделать формы отдельно + валидаторы
-            // get data for form
-            Zend_Loader::loadClass('Storage');
-            Zend_Loader::loadClass('Pool');
-            Zend_Loader::loadClass('FileSet');
-
-            $this->view->clients = $client->fetchAll();  // do Bacula ACLs
-
-            $storages = new Storage();
-            $this->view->storages = $storages->fetchAll();  // do Bacula ACLs
-
-            $pools = new Pool();
-            $this->view->pools = $pools->fetchAll();  // do Bacula ACLs
-
-            $filesets = new FileSet();
-            $this->view->filesets = $filesets->fetchAll();  // do Bacula ACLs
-
-            echo $this->renderScript('restorejob/main-form.phtml');
-            return;
-        }
+        if ( !$job->isJobIdExists($jobid) )  // do Bacula ACLs
+            $this->_redirector->gotoSimple('main-form', 'restorejob', null,
+                    array(
+                        'jobid' => $jobid,
+                        'msgNoJobId' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid)
+                    )); // action, controller, parameters
 
         // получаем значения из формы FormRestoreOptions
         $this->getParamFromForm();
