@@ -1,10 +1,7 @@
 <?php
-
 /**
- *  *
- * Copyright 2007, 2008 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * 
+ * Copyright 2007, 2008, 2010 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,15 +29,16 @@ require_once 'Zend/Validate.php';
 class MyClass_Validate_LogBookId implements Zend_Validate_Interface
 {
     protected $_messages = array();
+    protected $translate;
 
     public function __construct()
     {
         Zend_Loader::loadClass('Wblogbook');
+        $this->translate = Zend_Registry::get('translate');
     }
 
     public function isValid($logTxt)
     {
-        $this->_messages = array();
         $matches = null;
         $pattern1 = '/LOGBOOK_ID=[\w]+([\s]+|$)/';
         $num1 = preg_match_all($pattern1, $logTxt, $matches);
@@ -54,7 +52,7 @@ class MyClass_Validate_LogBookId implements Zend_Validate_Interface
                 $jobs = new Job();
                 $ret= $jobs->getByJobId($id);
                 if ( !$ret) {
-                    $this->_messages[] = "Logbook $id is not found in Webacula database";
+                    $this->_messages[] = sprintf( $this->translate->_("Logbook %u is not found in Webacula database"), $id );
                     return false;
                 }
             }

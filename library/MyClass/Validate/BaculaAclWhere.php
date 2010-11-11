@@ -29,46 +29,30 @@ require_once 'Zend/Validate.php';
 class MyClass_Validate_BaculaAclWhere implements Zend_Validate_Interface
 {
     protected $_messages = array();
+    protected $translate;
 
-    const ACCESS_DENIED = 'AccessDenied';
-
-
+    
     public function __construct()
     {
+        $this->translate = Zend_Registry::get('translate');
         Zend_Loader::loadClass('Job');
-        $translate = Zend_Registry::get('translate');
-        Zend_Validate_Abstract::setDefaultTranslator($translate);
-        $this->_messageTemplates = array(
-            self::ACCESS_DENIED => $this->translate->_("Bacula ACLs : Where '%value%' access denied.")
-        );
     }
 
     
-    public function isValid($value)
-    {
-        $this->_error(self::ACCESS_DENIED);
+    public function isValid($value)    {
+        //TODO
+        //if (strlen($value) < 8) {
+        $this->_messages[0] = sprintf( $this->translate->_("Bacula ACLs : access denied for Where '%s'"), $value);
         return false;
 		//return true;
     }
 
     
-    /**
-     * See ZF API documentation
-     * Returns an array of messages that explain why a previous isValid() call returned false.
-     * If isValid() was never called or if the most recent isValid() call returned true, then this method returns an empty array.
-     *
-     */
     public function getMessages()
     {
         return $this->_messages;
     }
 
-    /**
-     * See ZF API documentation
-     * Returns an array of errors that explain why a previous isValid() call returned false.
-     * If isValid() was never called or if the most recent isValid() call returned true, then this method returns an empty array.
-     *
-     */
     public function getErrors()
     {
         return $this->_messages;

@@ -101,8 +101,6 @@ class RestorejobController extends MyClass_ControllerAclAction
         $this->restoreNamespace = new Zend_Session_Namespace(self::RESTORE_NAME_SPACE);
         // load model
         Zend_Loader::loadClass('WbTmpTable');
-        // load validator
-        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere'); // for FormRestoreOptions
     }
 
     /*
@@ -135,6 +133,7 @@ class RestorejobController extends MyClass_ControllerAclAction
 
 
     /**
+     * see also getCmdRestore()
      * Get param from FormRestoreOptions
      */
     function getParamFromForm() {
@@ -162,6 +161,9 @@ class RestorejobController extends MyClass_ControllerAclAction
     }
 
 
+    /**
+     * see also getParamFromForm()
+     */
     function getCmdRestore()   {
         $cmd = '';
         if ( !empty($this->jobid) )  $cmd .= ' jobid=' . $this->jobid;
@@ -395,9 +397,6 @@ class RestorejobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Restore All files for JobId");
         $this->view->jobid = $jobid;
 
-        // начало отрисовки? т.е. форма выбора client, where, storage уже заполнена?
-        $from_form = $this->_request->getParam('from_form', 0);
-
         // существует ли такое jobid
         if ( !$job->isJobIdExists($jobid) )  // do Bacula ACLs
             $this->_redirector->gotoSimple('main-form', 'restorejob', null,
@@ -412,32 +411,40 @@ class RestorejobController extends MyClass_ControllerAclAction
         $this->client_name    = $client->getClientName($jobid);
         $this->client_name_to = $this->restoreNamespace->ClientNameTo;
         $this->type_restore   = $this->restoreNamespace->typeRestore;
+        /*
+         * Form Restore options
+         */
+        Zend_Loader::loadClass('FormRestoreOptions');
+        $form = new formRestoreOptions();
+        // validator
+        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
+        $validator = new MyClass_Validate_BaculaAclWhere();
+        /*
+         * run restore
+         */
+        if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) 
+            if ( $validator->isValid( $this->_request->getParam('where') ) ) {
+                // check access to bconsole
+                Zend_Loader::loadClass('Director');
+                $director = new Director();
+                if ( !$director->isFoundBconsole() )	{
+                    $this->view->result_error = 'NOFOUND_BCONSOLE';
+                    $this->render();
+                    return;
+                }
+                $cmd_mount = '';
+                $cmd_sleep = '';
+                if ( (!empty($this->storage)) )    {
+                    $cmd_mount = 'mount "' . $this->storage . '"';
+                    $cmd_sleep = '@sleep 10';
+                }
+                //******************************* run job ***************************************
+                // create command / формируем командную строку
+                // restore client=Rufus select current all done yes
+                $cmd  = 'restore '. $this->getCmdRestore() .' all done yes';
 
-        // *************************** run restore ************************************************
-        if ( $from_form == 1 )  {
-            // форма выбора client, where, storage уже заполнена
-            // check access to bconsole
-            Zend_Loader::loadClass('Director');
-            $director = new Director();
-            if ( !$director->isFoundBconsole() )	{
-                $this->view->result_error = 'NOFOUND_BCONSOLE';
-                $this->render();
-                return;
-            }
-
-            $cmd_mount = '';
-            $cmd_sleep = '';
-            if ( (!empty($this->storage)) )    {
-                $cmd_mount = 'mount "' . $this->storage . '"';
-                $cmd_sleep = '@sleep 10';
-            }
-            //******************************* run job ***************************************
-            // create command / формируем командную строку
-            // restore client=Rufus select current all done yes
-            $cmd  = 'restore '. $this->getCmdRestore() .' all done yes';
-
-            $comment = __METHOD__;
-            $astatusdir = $director->execDirector(
+                $comment = __METHOD__;
+                $astatusdir = $director->execDirector(
 " <<EOF
 @#
 @# $comment
@@ -449,40 +456,37 @@ $this->restore_job_select
 @sleep 3
 status dir
 @quit
-EOF"
-            );
+EOF");
 
-            $this->view->command_output = $astatusdir['command_output'];
-            // check return status of the executed command
-            if ( $astatusdir['return_var'] != 0 )	{
-                $this->view->result_error = $astatusdir['result_error'];
+                $this->view->command_output = $astatusdir['command_output'];
+                // check return status of the executed command
+                if ( $astatusdir['return_var'] != 0 )
+                    $this->view->result_error = $astatusdir['result_error'];
+                $this->renderScript('restorejob/run-restore.phtml');
+                return;
+            } else {
+                // форма не прошла валидацию
+                $messages = $validator->getMessages();
+                $this->view->msgNoValid = $messages[0];
             }
-            $this->renderScript('restorejob/run-restore.phtml');
-
-        } else {
-            /*
-             * Restore options form
-             */
-            Zend_Loader::loadClass('FormRestoreOptions');
-            $form = new formRestoreOptions();
-            $form->setDecorators(array(
-                array('ViewScript', array(
-                    'viewScript' => 'decorators/formRestoreoptions.phtml',
-                    'form'=> $form
-                ))
-            ));
-            $form->init();
-            $form->setAction( $this->view->baseUrl .'/restorejob/restore-all' );
-            $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
-            // fill form
-            $form->populate( array(
-                'jobid'          => $this->view->jobid,
-                'client_name'    => $this->client_name,
-                'type_restore'   => $this->type_restore
-            ));
-            $this->view->form = $form;
-            $this->render();
-        }
+        /*
+         * Form Restore options
+         */
+        $form->setDecorators(array(
+        array('ViewScript', array(
+            'viewScript' => 'decorators/formRestoreoptions.phtml',
+            'form'=> $form
+        ))  ));
+        $form->init();
+        $form->setAction( $this->view->baseUrl .'/restorejob/restore-all' )
+             ->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
+        // fill form
+        $form->populate( array(
+            'jobid'          => $this->view->jobid,
+            'client_name'    => $this->client_name,
+            'type_restore'   => $this->type_restore ));
+        $this->view->form = $form;
+        $this->render();
     }
 
 

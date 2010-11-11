@@ -36,8 +36,7 @@ class FormRestoreOptions extends Zend_Form
 
 
     public function init()
-    {
-        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere'); // validator
+    {       
         $this->translate = Zend_Registry::get('translate');
         Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
@@ -180,7 +179,6 @@ class FormRestoreOptions extends Zend_Form
             'value'     => ''
         ));
         $where->addValidator('StringLength', false, array(0, 255) );
-        $where->addValidator('MyClass_Validate_BaculaAclWhere');
         /*
          * strip_prefix
          */

@@ -1,6 +1,10 @@
 
 -------------------------------------------------------------------------------------------------------
-Текущее : restoreRecentAllAction() validate form
+Текущее :
+MyClass_Validate_BaculaAclWhere
+restoreAllAction (искать где getParamFromForm)
+
+
 
 - списки в формах
 - Timeline model
