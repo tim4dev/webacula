@@ -27,6 +27,15 @@ require_once 'Zend/Controller/Action.php';
 class ErrorController extends Zend_Controller_Action
 {
 
+    public function init()
+    {
+        parent::init();
+        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->translate = Zend_Registry::get('translate');
+    }
+
+
+
     public function errorAction()
     {
         Zend_Loader::loadClass('Zend_Version');
