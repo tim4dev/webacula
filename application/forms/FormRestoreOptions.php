@@ -175,7 +175,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'     => 'Where',
             'required'  => false,
-            'size'      => 34,
+            'size'      => 50,
             'maxlength' => 255,
             'value'     => ''
         ));
