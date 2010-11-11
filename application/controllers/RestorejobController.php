@@ -252,11 +252,20 @@ class RestorejobController extends MyClass_ControllerAclAction
 
         $this->view->title = $this->view->translate->_("Restore Job");
         $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
-        $this->view->msgNoJobId = $this->_request->getParam('msgNoJobId', null); // выдача сообщения, что такого joid не существует
+        /*
+         * перенаправления из др. форм (RestoreAll и т.п.)
+         */
+        // выдача сообщения, что такого joid не существует
+        $this->view->msgNoJobId1 = $this->_request->getParam('msgNoJobId1', null);
+        $this->view->msgNoJobId2 = $this->_request->getParam('msgNoJobId2', null);
+        // какая закладка д.б. активной, def = 0 (first child)
+        $this->view->accordion_active = $this->_request->getParam('accordion_active', 0);
+        // do view
         $this->render();
     }
 
 
+    
     /**
      * Manager of action depending on the user's choice
      * Диспетчер действий в зависимости от выбора пользователя
@@ -330,7 +339,8 @@ class RestorejobController extends MyClass_ControllerAclAction
             $this->_redirector->gotoSimple('main-form', 'restorejob', null,
                     array(
                         'jobid' => $jobid,
-                        'msgNoJobId' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid)
+                        'msgNoJobId2' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid),
+                        'accordion_active' => 1
                     )); // action, controller, parameters
             
         $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
@@ -393,7 +403,7 @@ class RestorejobController extends MyClass_ControllerAclAction
             $this->_redirector->gotoSimple('main-form', 'restorejob', null,
                     array(
                         'jobid' => $jobid,
-                        'msgNoJobId' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid)
+                        'msgNoJobId1' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid)
                     )); // action, controller, parameters
 
         // получаем значения из формы FormRestoreOptions
@@ -588,8 +598,6 @@ EOF"
         }
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        Zend_Loader::loadClass('Client');
-        $client = new Client();
 
         // routing
         $this->routeDrawTreeToRestore();
@@ -598,33 +606,15 @@ EOF"
         if ( $beginr == 1 ) {
             /* Начало отрисовки дерева каталогов */
             // существует ли такое jobid
-            if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) {
-                // TODO сделать формы отдельно + валидаторы
-                // выдача сообщения, что такого jobid не существует
-                $this->view->title = $this->view->translate->_("Restore Job");
-                $this->view->jobid = $this->restoreNamespace->JobId;
-                $this->view->msgNoJobId = sprintf($this->view->translate->_("JobId %u does not exist."),
-                    $this->restoreNamespace->JobId);
-                // get data for form
-                Zend_Loader::loadClass('Storage');
-                Zend_Loader::loadClass('Pool');
-                Zend_Loader::loadClass('FileSet');
+            if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) // do Bacula ACLs
+                $this->_redirector->gotoSimple('main-form', 'restorejob', null,
+                    array(
+                        'jobid' => $this->restoreNamespace->JobId,
+                        'msgNoJobId1' => sprintf($this->view->translate->_("JobId %u does not exist."), $this->restoreNamespace->JobId)
+                    )); // action, controller, parameters
 
-                $this->view->clients = $client->fetchAll(); // with Bacula ACLs
-
-                $storages = new Storage();
-                $this->view->storages = $storages->fetchAll();  // with Bacula ACLs
-
-                $pools = new Pool();
-                $this->view->pools = $pools->fetchAll();  // with Bacula ACLs
-
-                $filesets = new FileSet();
-                $this->view->filesets = $filesets->fetchAll();  // with Bacula ACLs
-
-                echo $this->renderScript('restorejob/main-form.phtml');
-                return;
-            }
-
+            Zend_Loader::loadClass('Client');
+            $client = new Client();
             $this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);
 
             // tmp таблицы существуют ?

@@ -77,7 +77,8 @@ $(function() {
 <script type="text/javascript">
 $(function() {
     $("#accordion").accordion({
-            autoHeight: false
+            autoHeight: false,
+            active : <?php echo $this->accordion_active; ?>
         });
 });
 </script>
@@ -110,11 +111,11 @@ $(function() {
 <!--    Restore files for JobId -->
 <h3><a href="#"><?php print $this->translate->_("Restore to a specified JobId"); ?></a></h3>
 <div>
-<?php if ( !empty($this->msgNoJobId) ) : ?>
+<?php if ( !empty($this->msgNoJobId1) ) : ?>
 <div class="ui-widget">
 	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
 		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php echo $this->msgNoJobId; ?></strong></p>
+		<strong><?php echo $this->msgNoJobId1; ?></strong></p>
 	</div>
 </div>
 <?php endif;?>
@@ -157,11 +158,11 @@ $(function() {
 <!--    full restore to a specified JobId  -->
 <h3><a href="#"><?php print $this->translate->_("Full restore to a specified JobId"); ?></a></h3>
 <div>
-<?php if ( !empty($this->msgNoJobId) ) : ?>
+<?php if ( !empty($this->msgNoJobId2) ) : ?>
 <div class="ui-widget">
     <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
         <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-        <strong><?php echo $this->msgNoJobId; ?></strong></p>
+        <strong><?php echo $this->msgNoJobId2; ?></strong></p>
     </div>
 </div>
 <?php endif;?>
