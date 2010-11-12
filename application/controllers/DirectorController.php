@@ -37,7 +37,7 @@ class DirectorController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Status Director");
         // do Bacula ACLs
         $command = 'status';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
@@ -70,7 +70,7 @@ EOF"
         $this->view->title = $this->view->translate->_("List of Job Totals");
         // do Bacula ACLs
         $command = 'list';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
             $msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;

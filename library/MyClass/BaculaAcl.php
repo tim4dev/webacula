@@ -194,12 +194,12 @@ Array
      * @param  string  $acl  one of 'job', 'client', 'storage', etc.
      * @return boolean
      */
-    public function doOneBaculaAcl($resource, $field, $acl)
+    public function doOneBaculaAcl($resource, $acl)
     {
         // check input parameters
-        if ( empty($resource) ) return TRUE;
-        if ( empty($field))
-           throw new Exception(__METHOD__.' : "$field can not be empty"');
+        if ( empty($resource) ) return FALSE;
+        if ( empty($acl))
+           throw new Exception(__METHOD__.' : "$acl can not be empty"');
         /*
          * Cache
          */

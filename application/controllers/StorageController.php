@@ -54,7 +54,7 @@ class StorageController extends MyClass_ControllerAclAction
         $storage_id = intval($this->_request->getParam('id'));
         $storage_name = addslashes($this->_request->getParam('name'));
         // do bacula  acl
-        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'name', 'storage') ) {
+        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'storage') ) {
             $this->view->result_error = 'BACULA_ACCESS_DENIED';
             $this->view->command_output = null;
             $this->render();
@@ -120,7 +120,7 @@ EOF");
 
         $storage_name = addslashes($this->_request->getParam('name'));
         // do bacula acl
-        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'name', 'storage') ) {
+        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'storage') ) {
             $this->view->result_error = 'BACULA_ACCESS_DENIED';
             $this->view->command_output = null;
             $this->render();
@@ -174,7 +174,7 @@ EOF");
 
         $storage_name = addslashes($this->_request->getParam('name'));
         // do bacula acl
-        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'name', 'storage') ) {
+        if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'storage') ) {
             $this->view->result_error = 'BACULA_ACCESS_DENIED';
             $this->view->command_output = null;
             echo $this->renderScript('storage/status-id.phtml');

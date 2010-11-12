@@ -238,7 +238,7 @@ class RestorejobController extends MyClass_ControllerAclAction
     {
         // do Bacula ACLs
         $command = 'restore';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
@@ -374,7 +374,7 @@ class RestorejobController extends MyClass_ControllerAclAction
     {
         // do Bacula ACLs
         $command = 'restore';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
@@ -497,7 +497,7 @@ EOF");
     {
         // do Bacula ACLs
         $command = 'restore';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
@@ -1218,7 +1218,7 @@ EOF"
     {
         // do Bacula ACLs
         $command = 'restore';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
@@ -1311,7 +1311,7 @@ EOF"
     {
         // do Bacula ACLs
         $command = 'restore';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
@@ -1449,7 +1449,7 @@ EOF"
     {
         // do Bacula ACLs
         $command = 'restore';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
         	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;

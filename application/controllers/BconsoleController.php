@@ -46,7 +46,7 @@ class BconsoleController extends MyClass_ControllerAclAction
         }
         list($cmd) = explode(' ', $bcommand);
         // do Bacula ACLs
-        if ( !$this->_bacula_acl->doOneBaculaAcl($cmd, 'name', 'command') ) {
+        if ( !$this->_bacula_acl->doOneBaculaAcl($cmd, 'command') ) {
             $this->view->msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $cmd ) .
                 '<br><b>Bacula ACLs : '. $this->view->translate->_('Access denied.') . '</b><br>';
             $this->render();

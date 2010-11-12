@@ -30,21 +30,25 @@ class MyClass_Validate_BaculaAclWhere implements Zend_Validate_Interface
 {
     protected $_messages = array();
     protected $translate;
+    protected $bacula_acl;
 
     
     public function __construct()
     {
         $this->translate = Zend_Registry::get('translate');
         Zend_Loader::loadClass('Job');
+        $this->bacula_acl = new MyClass_BaculaAcl();
     }
 
     
     public function isValid($value)    {
-        //TODO
-        //if (strlen($value) < 8) {
-        $this->_messages[0] = sprintf( $this->translate->_("Bacula ACLs : access denied for Where '%s'"), $value);
-        return false;
-		//return true;
+        // do Bacula ACLs
+        if ( $this->bacula_acl->doOneBaculaAcl($value, 'where') )
+                return TRUE;
+        else {
+            $this->_messages[0] = sprintf( $this->translate->_("Bacula ACLs : access denied for Where '%s'"), $value);
+            return FALSE;
+        }
     }
 
     
