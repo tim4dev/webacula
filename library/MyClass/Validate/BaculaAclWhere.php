@@ -42,9 +42,11 @@ class MyClass_Validate_BaculaAclWhere implements Zend_Validate_Interface
 
     
     public function isValid($value)    {
+        if ( empty($value) )  // OK to restore to default "Where" location
+            return TRUE;
         // do Bacula ACLs
         if ( $this->bacula_acl->doOneBaculaAcl($value, 'where') )
-                return TRUE;
+            return TRUE;
         else {
             $this->_messages[0] = sprintf( $this->translate->_("Bacula ACLs : access denied for Where '%s'"), $value);
             return FALSE;

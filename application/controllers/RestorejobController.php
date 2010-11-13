@@ -337,13 +337,15 @@ class RestorejobController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('Job');
         $job = new Job();
         // существует ли такое jobid
-        if ( !$job->isJobIdExists($jobid) )   // do Bacula ACLs
-            $this->_redirector->gotoSimple('main-form', 'restorejob', null,
+        if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
+            $this->_forward('main-form', 'restorejob', null,
                     array(
                         'jobid' => $jobid,
                         'msgNoJobId2' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid),
                         'accordion_active' => 1
-                    )); // action, controller, parameters
+                    )); // action, controller, null, parameters
+            return;
+        }
             
         $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
         $job_row = $ajob[0];
@@ -398,31 +400,34 @@ class RestorejobController extends MyClass_ControllerAclAction
         $this->view->jobid = $jobid;
 
         // существует ли такое jobid
-        if ( !$job->isJobIdExists($jobid) )  // do Bacula ACLs
-            $this->_redirector->gotoSimple('main-form', 'restorejob', null,
+        if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
+            $this->_forward('main-form', 'restorejob', null,
                     array(
                         'jobid' => $jobid,
                         'msgNoJobId1' => sprintf($this->view->translate->_("JobId %u does not exist."), $jobid)
-                    )); // action, controller, parameters
-
-        // получаем значения из формы FormRestoreOptions
-        $this->getParamFromForm();
-        // переопределяем некоторые переменные
-        $this->client_name    = $client->getClientName($jobid);
-        $this->client_name_to = $this->restoreNamespace->ClientNameTo;
-        $this->type_restore   = $this->restoreNamespace->typeRestore;
+                    )); // action, controller, null, parameters
+            return;
+        }
         /*
          * Form Restore options
          */
         Zend_Loader::loadClass('FormRestoreOptions');
         $form = new formRestoreOptions();
-        // validator
+        // validator "Where"
         Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
         $validator_where = new MyClass_Validate_BaculaAclWhere();
         /*
          * run restore
          */
-        if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) 
+        if ( $this->_request->isPost() && $this->_request->getParam('from_form') )
+        {
+            // получаем значения из формы FormRestoreOptions
+            $this->getParamFromForm();
+            // переопределяем некоторые переменные
+            $this->client_name    = $client->getClientName($jobid);
+            $this->client_name_to = $this->restoreNamespace->ClientNameTo;
+            $this->type_restore   = $this->restoreNamespace->typeRestore;
+            // validator "Where"
             if ( $validator_where->isValid( $this->where ) ) {
                 // check access to bconsole
                 Zend_Loader::loadClass('Director');
@@ -467,6 +472,7 @@ EOF");
                 $messages = $validator_where->getMessages();
                 $this->view->msgNoValid = $messages[0];
             }
+        }
         /*
          * Form Restore options
          */
@@ -516,25 +522,28 @@ EOF");
             $this->view->result_error = 'NOFOUND_BCONSOLE';
             $this->render();
             return;
-        }
+        }       
         /*
-         * Restore options form
+         * Form Restore options
          */
         Zend_Loader::loadClass('FormRestoreOptions');
         $form = new formRestoreOptions();
-        if ( $this->_request->isPost() && $this->_request->getParam('from_form') )  {
-            if ( $form->isValid($this->_getAllParams()) ) {
-                // получаем значения из формы FormRestoreOptions
-                $this->getParamFromForm();
-                // переопределение некоторых переменных
-                $this->client_name = addslashes(
-                        $this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom )
-                    );
-                $this->fileset     = addslashes(
-                        $this->_request->getParam('fileset', $this->restoreNamespace->FileSet)
-                    );
-                $this->restoreNamespace->ClientNameTo = $this->client_name_to;
-
+        // validator "Where"
+        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
+        $validator_where = new MyClass_Validate_BaculaAclWhere();
+        /*
+         * run restore
+         */
+        if ( $this->_request->isPost() && $this->_request->getParam('from_form') )
+        {
+            // получаем значения из формы FormRestoreOptions
+            $this->getParamFromForm();
+            // переопределение некоторых переменных
+            $this->client_name = addslashes($this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
+            $this->fileset     = addslashes($this->_request->getParam('fileset', $this->restoreNamespace->FileSet));
+            $this->restoreNamespace->ClientNameTo = $this->client_name_to;
+            // validator "Where"
+            if ( $validator_where->isValid( $this->where ) ) {
                 if ( empty($this->restoreNamespace->DateBefore) )
                     $cmd_date_before = ' current ';
                 else
@@ -562,10 +571,15 @@ EOF"
                 if ( $astatusdir['return_var'] != 0 )
                     $this->view->result_error = $astatusdir['result_error'];
                 $this->renderScript('restorejob/run-restore.phtml');
+                return;
+            } else {
+                // форма не прошла валидацию
+                $messages = $validator_where->getMessages();
+                $this->view->msgNoValid = $messages[0];
             }
         }
         /*
-         * fill Restore options form
+         * Form Restore options
          */
         $form->setDecorators(array(
             array('ViewScript', array(
@@ -606,12 +620,14 @@ EOF"
         if ( $beginr == 1 ) {
             /* Начало отрисовки дерева каталогов */
             // существует ли такое jobid
-            if ( !$job->isJobIdExists($this->restoreNamespace->JobId) ) // do Bacula ACLs
-                $this->_redirector->gotoSimple('main-form', 'restorejob', null,
+            if ( !$job->isJobIdExists($this->restoreNamespace->JobId) )  {  // do Bacula ACLs
+                $this->_forward('main-form', 'restorejob', null,
                     array(
                         'jobid' => $this->restoreNamespace->JobId,
                         'msgNoJobId1' => sprintf($this->view->translate->_("JobId %u does not exist."), $this->restoreNamespace->JobId)
-                    )); // action, controller, parameters
+                    )); // action, controller, null, parameters
+                return;
+            }
 
             Zend_Loader::loadClass('Client');
             $client = new Client();
@@ -1061,6 +1077,7 @@ EOF"
                         $this->cloneBaculaTables($this->restoreNamespace->JobHash);
                     }
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
+                    return;
                     break;
                 case 'continue_tmp': // работать со старыми
                     // update timestamp
@@ -1068,9 +1085,11 @@ EOF"
                     $tmp_tables->updateTimestamp();
                     // продолжить
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
+                    return;
                     break;
                 case 'goto_homepage': // на главную страницу
                     $this->_redirect('index');
+                    return;
                     break;
             }
         }
@@ -1116,13 +1135,29 @@ EOF"
 
         $offset = self::ROW_LIMIT_FILES * ($page - 1);
         $this->view->result = $tmp_tables->getListToRestore($offset);
-
         /*
-         * Restore options form
+         * Form Restore options
          */
         Zend_Loader::loadClass('FormRestoreOptions');
         $form = new formRestoreOptions();
-        // http://framework.zend.com/manual/ru/zend.form.standardDecorators.html#zend.form.standardDecorators.viewScript
+        // validator "Where"
+        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
+        $validator_where = new MyClass_Validate_BaculaAclWhere();
+        if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) {
+            // получаем значения из формы FormRestoreOptions
+            $this->getParamFromForm();
+            if ( $validator_where->isValid( $this->where ) ) {
+                $this->_forward( 'run-restore', 'restorejob', null, $this->_request->getParams() );
+                return;
+            } else {
+                // форма не прошла валидацию
+                $messages = $validator_where->getMessages();
+                $this->view->msgNoValid = $messages[0];
+            }
+        }
+        /*
+         * Form Restore options
+         */
         $form->setDecorators(array(
             array('ViewScript', array(
                 'viewScript' => 'decorators/formRestoreoptions.phtml',
@@ -1130,7 +1165,7 @@ EOF"
             ))
         ));
         $form->init();
-        $form->setAction( $this->view->baseUrl .'/restorejob/run-restore' );
+        $form->setAction( $this->view->baseUrl .'/restorejob/list-restore' );
         $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore' );
         // fill form
         $form->populate( array(
@@ -1173,12 +1208,29 @@ EOF"
 
         $offset = self::ROW_LIMIT_FILES * ($page - 1);
         $this->view->result = $tmp_tables->getListToRestore($offset);
-
         /*
-         * Restore options form
+         * Form Restore options
          */
         Zend_Loader::loadClass('FormRestoreOptions');
         $form = new formRestoreOptions();
+        // validator "Where"
+        Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
+        $validator_where = new MyClass_Validate_BaculaAclWhere();
+        if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) {
+            // получаем значения из формы FormRestoreOptions
+            $this->getParamFromForm();
+            if ( $validator_where->isValid( $this->where ) ) {
+                $this->_forward( 'run-restore-recent', 'restorejob', null, $this->_request->getParams() );
+                return;
+            } else {
+                // форма не прошла валидацию
+                $messages = $validator_where->getMessages();
+                $this->view->msgNoValid = $messages[0];
+            }
+        }
+        /*
+         * Form Restore options
+         */
         $form->setDecorators(array(
             array('ViewScript', array(
                 'viewScript' => 'decorators/formRestoreoptions.phtml',
@@ -1186,7 +1238,7 @@ EOF"
             ))
         ));
         $form->init();
-        $form->setAction( $this->view->baseUrl .'/restorejob/run-restore-recent' );
+        $form->setAction( $this->view->baseUrl .'/restorejob/list-recent-restore' );
         $form->setActionCancel( $this->view->baseUrl .'/restorejob/cancel-restore-recent' );
         // fill form
         $form->populate( array(

@@ -10,7 +10,18 @@
 ?>
 
 <div style="margin-top: 1em; margin-bottom: 2em;">
+    <?php if ( !empty($this->msgNoValid) ) : ?>
+    <div class="ui-widget" style="float: left;">
+        <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+    		<strong><?php echo $this->msgNoValid; ?></strong></p>
+        </div>
+    </div>
+    <div style="clear: both;"><!--  --></div>
+    <?php endif;?>
+
 <?php echo $this->form;?>
+    
 </div>
 
 <table id="box-table-minimalist" border="0">
