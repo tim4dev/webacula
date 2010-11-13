@@ -73,4 +73,5 @@ class MyClass_WebaculaAcl extends Zend_Acl
         $this->allow('root_role');
     }
 
+
 }

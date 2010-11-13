@@ -45,7 +45,7 @@ class FormLogin extends Zend_Form
         $this->setDecorators(array(
             array('ViewScript', array('viewScript' => 'login.phtml'))
         ));
-
+        
         // username
         $login = $this->createElement('text', 'login', array(
             'decorators' => $this->elDecorators,

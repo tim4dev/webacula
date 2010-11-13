@@ -53,23 +53,25 @@ class MyClass_BaculaAcl
         'command',
         'where'
     );
-    protected $_role_name = '';
-    protected $_role_id   = null;
-    protected $_cache_id  = null;
+    protected $ident;
+    protected $cache;
+    protected $cache_id;
+    protected $cache_tag;
 
 
-	public function __construct()
+    public function __construct()
 	{
 		$this->config     = Zend_Registry::get('config');
         $this->db         = Zend_Registry::get('db_bacula');
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        $this->cache     = Zend_Registry::get('cache');
         Zend_Loader::loadClass('Wbroles');
         // Get current role_id, role_name
         $auth    = Zend_Auth::getInstance();
-        if ($ident   = $auth->getIdentity() ) {
-            $this->_role_id   = $ident->role_id;
-            $this->_role_name = $ident->role_name;
-            $this->_cache_id  = $this->_role_id.'_acls2dim';
+        $this->ident     = $auth->getIdentity();
+        if ($this->ident) {
+            $this->cache_id  = $this->ident->role_id . '_bacula_acl_';
+            $this->cache_tag = $this->ident->role_id . '_bacula_acl_tag';
         }
 	}
 
@@ -79,11 +81,10 @@ class MyClass_BaculaAcl
 		/*
          * Cleaning cache. See also MyClass_BaculaAcl
          */
-	    if ($this->_cache_id) {
-            $cache = Zend_Registry::get('cache');
-            $cache->remove($this->_cache_id);
-            $cache->remove($this->_cache_id . '_command');
-	    }
+        $this->cache->clean(
+                Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
+                array($this->cache_tag)
+        );
 	}
 
 
@@ -99,7 +100,50 @@ class MyClass_BaculaAcl
 
 
 
-	/**
+    /**
+     *
+     * @param string $acl
+     * @return array (2 dimensional) of ACLs
+     */
+    protected function getAcl( $acl )
+    {
+        if ( !in_array($acl, $this->bacula_acls) )
+	       throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+        $cache_id = $this->cache_id . $acl;
+        // проверка, есть ли уже запись в кэше:
+        if( !$acls2dim = $this->cache->load( $cache_id ) ) {
+            // промах кэша
+            // get current role and all parents roles
+            $table = new Wbroles();
+            $roles = $table->getParents( $this->ident->role_id );
+            // get all Bacula ACLs and all parents Bacula ACLs
+            switch ($acl) {
+                case 'command':
+                    $select = $this->db->select()
+                              ->from( array('c'=> $this->getAclTableName($acl) ), array() )
+                              ->joinInner( array('dt'=>'webacula_dt_commands'), 'dt.id = c.dt_id', array('name'))
+                              ->where('c.role_id IN (?)', $roles)
+                              ->order('c.order_acl');
+                break;
+
+                default:
+                    $select = $this->db->select()
+                              ->from( $this->getAclTableName($acl), array('name') )
+                              ->where('role_id IN (?)', $roles)
+                              ->order('order_acl');
+                break;
+            }
+            $stmt = $select->query();
+            $acls2dim = $stmt->fetchAll(); // array
+            // save to cache
+            $this->cache->save($acls2dim, $cache_id, array($this->cache_tag));
+        }
+        return $acls2dim;
+    }
+
+
+
+    /**
 	 * Main function of BaculaAcl
 	 * Get all Bacula ACLs from Database by current $user_id and apply to all elements of $list
 	 *
@@ -125,46 +169,8 @@ Array
 	       throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
 	    if ( empty($field))
 	       throw new Exception(__METHOD__.' : "$field can not be empty"');
-	    /*
-	     * Cache
-	     */
-	    $cache = Zend_Registry::get('cache');
-        switch ($acl) {
-            case 'command':
-                $cache_id = $this->_cache_id . '_command';
-                break;
-            default:
-                $cache_id = $this->_cache_id;
-                break;
-        }
-        // проверка, есть ли уже запись в кэше:
-        if( !$acls2dim = $cache->load( $cache_id ) ) {
-            // промах кэша
-            // get current role and all parents roles
-            $table = new Wbroles();
-            $roles = $table->getParents( $this->_role_id );
-            // get all Bacula ACLs and all parents Bacula ACLs
-            switch ($acl) {
-                case 'command':
-                    $select = $this->db->select()
-                              ->from( array('c'=> $this->getAclTableName($acl) ), array() )
-                              ->joinInner( array('dt'=>'webacula_dt_commands'), 'dt.id = c.dt_id', array('name'))
-                              ->where('c.role_id IN (?)', $roles)
-                              ->order('c.order_acl');
-                break;
-
-                default:
-                    $select = $this->db->select()
-                              ->from( $this->getAclTableName($acl), array('name') )
-                              ->where('role_id IN (?)', $roles)
-                              ->order('order_acl');
-                break;
-            }
-            $stmt = $select->query();
-            $acls2dim = $stmt->fetchAll(); // array
-            // save to cache
-            $cache->save($acls2dim, $cache_id);
-        }
+        // get ACLs
+        $acls2dim = $this->getAcl( $acl );
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
          */
@@ -200,46 +206,8 @@ Array
         if ( empty($resource) ) return FALSE;
         if ( empty($acl))
            throw new Exception(__METHOD__.' : "$acl can not be empty"');
-        /*
-         * Cache
-         */
-        $cache = Zend_Registry::get('cache');
-        switch ($acl) {
-            case 'command':
-                $cache_id = $this->_cache_id . '_command';
-                break;
-            default:
-                $cache_id = $this->_cache_id;
-                break;
-        }
-        // проверка, есть ли уже запись в кэше:
-        if( !$acls2dim = $cache->load( $cache_id ) ) {
-            // промах кэша
-            // get current role and all parents roles
-            $table = new Wbroles();
-            $roles = $table->getParents( $this->_role_id );
-            // get all Bacula ACLs and all parents Bacula ACLs
-            switch ($acl) {
-            	case 'command':
-                    $select = $this->db->select()
-                              ->from( array('c'=> $this->getAclTableName($acl) ), array() )
-                              ->joinInner( array('dt'=>'webacula_dt_commands'), 'dt.id = c.dt_id', array('name'))
-                              ->where('c.role_id IN (?)', $roles)
-                              ->order('c.order_acl');
-            	break;
-
-                default:
-                    $select = $this->db->select()
-                              ->from( $this->getAclTableName($acl), array('name') )
-                              ->where('role_id IN (?)', $roles)
-                              ->order('order_acl');
-                break;
-            }
-            $stmt = $select->query();
-            $acls2dim = $stmt->fetchAll(); // array
-            // save to cache
-            $cache->save($acls2dim,  $cache_id);
-        }
+        // get ACLs
+        $acls2dim = $this->getAcl( $acl );
         /* convert $acls2dim to one dimension array $acls1dim
          * and check '*' keyword ( '*all*' - allowed everything all )
          */

@@ -128,6 +128,8 @@ class AuthController extends Zend_Controller_Action
            }
         }
         /* Если данные не передавались или неверный логин, то выводим форму для авторизации */
+        $this->view->caption = $this->view->translate->_('Login with your <font color="#00008B">We</font><font color="#A80000">bacula</font> account');
+        $this->view->title   = $this->view->translate->_('Login with your Webacula account');
         $this->view->form = $form;
     }
 

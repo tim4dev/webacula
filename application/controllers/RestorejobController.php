@@ -418,12 +418,12 @@ class RestorejobController extends MyClass_ControllerAclAction
         $form = new formRestoreOptions();
         // validator
         Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
-        $validator = new MyClass_Validate_BaculaAclWhere();
+        $validator_where = new MyClass_Validate_BaculaAclWhere();
         /*
          * run restore
          */
         if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) 
-            if ( $validator->isValid( $this->_request->getParam('where') ) ) {
+            if ( $validator_where->isValid( $this->where ) ) {
                 // check access to bconsole
                 Zend_Loader::loadClass('Director');
                 $director = new Director();
@@ -453,8 +453,6 @@ $cmd_mount
 $cmd_sleep
 $cmd
 $this->restore_job_select
-@sleep 3
-status dir
 @quit
 EOF");
 
@@ -466,7 +464,7 @@ EOF");
                 return;
             } else {
                 // форма не прошла валидацию
-                $messages = $validator->getMessages();
+                $messages = $validator_where->getMessages();
                 $this->view->msgNoValid = $messages[0];
             }
         /*
@@ -556,8 +554,6 @@ EOF");
 @#
 $cmd
 $this->restore_job_select
-@sleep 3
-status dir
 @quit
 EOF"
                 );
@@ -1281,8 +1277,6 @@ $cmd_mount
 $cmd_sleep
 $cmd
 $this->restore_job_select
-@sleep 3
-status dir
 quit
 EOF"
             );
@@ -1353,8 +1347,6 @@ EOF"
 @#
 $cmd
 $this->restore_job_select
-@sleep 3
-status dir
 @quit
 EOF"
         );
@@ -1489,8 +1481,6 @@ EOF"
 @# $comment
 @#
 $cmd
-@sleep 3
-status dir
 quit
 EOF");
         $this->view->command_output = $astatusdir['command_output'];
