@@ -2,15 +2,11 @@
 -------------------------------------------------------------------------------------------------------
 Текущее :
 
-
-
-
-
 - подчищать файлы в data/tmp при logout action
 - сделать одну страницу для Help Controller
 + Timeline model
 + списки в формах
-+ JobACL + JobConstroller + Job model
++ JobACL
 + ClientACL
 + StorageACL
 + PoolACL
@@ -37,12 +33,12 @@
 
 - в админке д.б. кнопка : "Очистить кэш"
 - заполнить остальные поля табл webacula_users
-- реализация восстановления пароля
+- реализация восстановления пароля в Login form
 - все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)
 - в табл webacula_dt_resources добавить доступ в меню адмики
 - убрать отладочный код в SQL скриптах install/
 - пароли в SQL скриптах install/
-- в логин форм увеличить sleep(7);  // TODO
+- в логин форм увеличить sleep(7)
 - создать SQL индексы, если нужно
 - unit тесты для других СУБД
 - локализация отображаемых даты/времени с помощью Zend_Filter см. раздел "Standard Filter Classes --> Localization for date and time"

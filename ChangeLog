@@ -2,7 +2,10 @@ Webacula ChangeLog
 ------------------
 
 === 5.5.0
-    Remove 'tmpdir' from config.ini Use 'data/' directory instead. 
+    Implemented Bacula ACLs : JobACL, ClientACL, StorageACL, PoolACL, FileSetACL, WhereACL.
+    Implemented Webacula ACLs - access to main menu.
+    Remove 'tmpdir' from config.ini. Use 'data/' directory instead.
+    Automatic delete old temporary files in 'data/tmp'.
 
 === 5.0.2 (Wed Aug 11 2010)
     Fresh Portuguese Brazil translation by Samuel Rios Carvalho

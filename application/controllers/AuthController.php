@@ -134,6 +134,21 @@ class AuthController extends Zend_Controller_Action
     }
 
 
+
+    /**
+     * Delete old tmp files
+     */
+    public function deleteOldTmpFiles()
+    {
+        foreach ( glob(TMP_DIR. '/webacula*.tmp', GLOB_NOSORT) as $filename ) {
+            $diff = time() - filemtime($filename);
+            if ( ($diff > 86400) )
+                @ unlink($filename);
+        }
+    }
+
+
+    
     /**
      * "Выход" пользователя
      **/
@@ -148,6 +163,10 @@ class AuthController extends Zend_Controller_Action
         // remove Webacula ACLs
         $cache = Zend_Registry::get('cache');
         $res = $cache->remove('MyClass_WebaculaAcl');
+        /*
+         * Delete old tmp files
+         */
+        $this->deleteOldTmpFiles();
         /*
          * Final
          */
