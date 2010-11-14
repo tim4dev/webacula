@@ -28,7 +28,7 @@ class Timeline
 {
 
     public $db_adapter;
-    protected $atime;
+    protected $atime;       // main array
     // graphics data
     protected $img_width;
     protected $img_height;
@@ -43,6 +43,7 @@ class Timeline
     protected $margin_right;  // справа до оси X
     protected $margin_text_left; // отступ текста от начала полосы
     protected $fixfont;
+    protected $bacula_acl; // bacula acl
 
 
 
@@ -55,6 +56,7 @@ class Timeline
         $this->font_size = 10;
         $this->bar_height = ceil($this->font_size * 2);
         $this->bar_space  = ceil($this->bar_height * 0.7);
+        $this->bacula_acl = new MyClass_BaculaAcl();
     }
 
     /**
@@ -346,7 +348,8 @@ class Timeline
             $select->reset();
             unset($select);
             unset($stmt);
-            //echo '<pre>'; print_r($this->atime); echo '</pre>'; exit(); // debud !!!
+            // do Bacula ACLs
+            $this->atime = $this->bacula_acl->doBaculaAcl( $this->atime, 'name', 'job');
         }
     }
 

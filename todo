@@ -4,10 +4,12 @@
 
 
 
-- списки в формах
-- Timeline model
+
+
 - подчищать файлы в data/tmp при logout action
 - сделать одну страницу для Help Controller
++ Timeline model
++ списки в формах
 + JobACL + JobConstroller + Job model
 + ClientACL
 + StorageACL
