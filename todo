@@ -2,16 +2,7 @@
 -------------------------------------------------------------------------------------------------------
 Текущее :
 
-- подчищать файлы в data/tmp при logout action
 - сделать одну страницу для Help Controller
-+ Timeline model
-+ списки в формах
-+ JobACL
-+ ClientACL
-+ StorageACL
-+ PoolACL
-+ FileSetACL
-+ WhereACL
   * ScheduleACL not used in Webacula, not implemented
   * CatalogACL  not used in Webacula, not implemented
     
@@ -33,7 +24,7 @@
 
 - в админке д.б. кнопка : "Очистить кэш"
 - заполнить остальные поля табл webacula_users
-- реализация восстановления пароля в Login form
++ реализация восстановления пароля в Login form
 - все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)
 - в табл webacula_dt_resources добавить доступ в меню адмики
 - убрать отладочный код в SQL скриптах install/

@@ -252,14 +252,17 @@ class WblogbookController extends MyClass_ControllerAclAction
         $this->id_insert = $logbook->insert($data);
         if ( $this->id_insert ) {
             $email = new MyClass_SendEmail();
+            // $from_email, $from_name, $to_email, $to_name, $subj, $body
             $email->mySendEmail(
                 $this->config_webacula->email->from,
+                $this->view->translate->_('Webacula Logbook'),
                 $this->config_webacula->email->to_admin,
+                $this->view->translate->_('Webacula admin'),
+                $this->view->translate->_('Webacula Logbook Add record'),
                 $this->view->translate->_('Create record :') . " " . $data['logDateCreate'] . "\n" .
-                $this->view->translate->_('Type record :')   . " " . $data['logTypeId'] . "\n" .
-                $this->view->translate->_("Text :")          ."\n-------\n" . $data['logTxt'] . "\n-------\n\n" ,
-                $this->view->translate->_('Webacula Logbook Add record')
-            );
+                    $this->view->translate->_('Type record :')   . " " . $data['logTypeId'] . "\n" .
+                    $this->view->translate->_("Text :")          ."\n-------\n" . $data['logTxt'] . "\n-------\n\n"
+                );
         }
     }
 
@@ -294,12 +297,15 @@ class WblogbookController extends MyClass_ControllerAclAction
         $res = $table->update($data, $where);
         if ( $res ) {
             $email = new MyClass_SendEmail();
+            // $from_email, $from_name, $to_email, $to_name, $subj, $body
             $email->mySendEmail(
                 $this->config_webacula->email->from,
+                $this->view->translate->_('Webacula Logbook'),
                 $this->config_webacula->email->to_admin,
-                $this->view->translate->_('Job Id') ." ". $jobid ."\n". $msg_job,
-                $this->view->translate->_('Bacula Job Reviewed')
-            );
+                $this->view->translate->_('Webacula admin'),
+                $this->view->translate->_('Bacula Job Reviewed'),
+                $this->view->translate->_('Job Id') ." ". $jobid ."\n". $msg_job
+                );
         }
         unset($table);
         // add record in Log table
@@ -479,14 +485,18 @@ class WblogbookController extends MyClass_ControllerAclAction
 				// send email
 				if ( $res ) {
 				    $email = new MyClass_SendEmail();
+                    // $from_email, $from_name, $to_email, $to_name, $subj, $body
                     $email->mySendEmail(
                         $this->config_webacula->email->from,
+                        $this->view->translate->_('Webacula Logbook'),
                         $this->config_webacula->email->to_admin,
+                        $this->view->translate->_('Webacula admin'),
+                        $this->view->translate->_('Webacula Logbook Update record'),
                         $this->view->translate->_('Create record :') . ' ' . $data['logDateCreate'] . "\n" .
-                        $this->view->translate->_('Update record :') . ' ' . $data['logDateLast'] . "\n" .
-                        $this->view->translate->_('Type record :')   . ' ' . $data['logTypeId'] . "\n" .
-                        $this->view->translate->_("Text :") . "\n-------\n" . $data['logTxt'] . "\n-------\n\n" ,
-                        $this->view->translate->_('Webacula Logbook Update record') );
+                            $this->view->translate->_('Update record :') . ' ' . $data['logDateLast'] . "\n" .
+                            $this->view->translate->_('Type record :')   . ' ' . $data['logTypeId'] . "\n" .
+                            $this->view->translate->_("Text :") . "\n-------\n" . $data['logTxt'] . "\n-------\n\n"
+                    );
 				}
     			$this->_redirect('/wblogbook/index');
     			return;
@@ -511,11 +521,15 @@ class WblogbookController extends MyClass_ControllerAclAction
             // send email
             if ( $res ) {
                 $email = new MyClass_SendEmail();
+                // $from_email, $from_name, $to_email, $to_name, $subj, $body
                 $email->mySendEmail(
                     $this->config_webacula->email->from,
+                    $this->view->translate->_('Webacula Logbook'),
                     $this->config_webacula->email->to_admin,
-                    $this->view->translate->_("LogId record :") ." " . $logid . "\n",
-                    $this->view->translate->_('Webacula Logbook Delete record') );
+                    $this->view->translate->_('Webacula admin'),
+                    $this->view->translate->_('Webacula Logbook Delete record'),
+                    $this->view->translate->_("LogId record :") ." " . $logid . "\n"
+                );
 			}
 
     		$this->_redirect('/wblogbook/index');
@@ -535,11 +549,15 @@ class WblogbookController extends MyClass_ControllerAclAction
 			// send email
             if ( $res ) {
                 $email = new MyClass_SendEmail();
+                // $from_email, $from_name, $to_email, $to_name, $subj, $body
                 $email->mySendEmail(
                     $this->config_webacula->email->from,
+                    $this->view->translate->_('Webacula Logbook'),
                     $this->config_webacula->email->to_admin,
-                    $this->view->translate->_("LogId record :") . " " . $logid . "\n",
-                    $this->view->translate->_('Webacula Logbook UnDelete record') );
+                    $this->view->translate->_('Webacula admin'),
+                    $this->view->translate->_('Webacula Logbook UnDelete record'),
+                    $this->view->translate->_("LogId record :") . " " . $logid . "\n"
+                );
 			}
 
     		$this->_redirect('/wblogbook/index');

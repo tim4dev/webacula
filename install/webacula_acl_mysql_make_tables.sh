@@ -53,7 +53,8 @@ CREATE TABLE IF NOT EXISTS webacula_dt_resources (
 
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
-INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1000, 'root', PASSWORD('1'), 1);
+INSERT INTO webacula_users (id, login, pwd, active, create_login, role_id)
+    VALUES (1000, 'root', MD5('1'), 1, NOW(), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typcal role for backup operator');
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (1,2);

@@ -8,8 +8,10 @@ if mysql -u root -f bacula <<END-OF-DATA
 INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (3, 'user_role', 'for tests', NULL);
 
 -- user
-INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1001, 'user2', PASSWORD('1'), 2);
-INSERT INTO webacula_users (id, login, pwd, role_id) VALUES (1002, 'user3', PASSWORD('1'), 3);
+INSERT INTO webacula_users (id, login, pwd, email, active, create_login, role_id)
+    VALUES (1001, 'user2', MD5('1'), 'root@localhost',   1, NOW(), 2);
+INSERT INTO webacula_users (id, login, pwd, email, active, create_login, role_id)
+    VALUES (1002, 'user3', MD5('1'), 'nobody@localhost', 1, NOW(), 3);
 
 
 -- Bacula ACLs

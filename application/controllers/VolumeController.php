@@ -163,11 +163,15 @@ class VolumeController extends MyClass_ControllerAclAction
             // send email
             if ($res) {
                 $email = new MyClass_SendEmail();
-                $email->mySendEmail($this->config_webacula->email->from, 
+                // $from_email, $from_name, $to_email, $to_name, $subj, $body
+                $email->mySendEmail(
+                        $this->config_webacula->email->from,
+                        'Webacula Volume controller',
                         $this->config_webacula->email->to_admin,
+                        'Webacula admin',
+                        $this->view->translate->_('Webacula : Updated Volume parameters'),
                         $this->view->translate->_('Media Id') . ': ' . $media_id . "\n" .
-                            $this->view->translate->_('Volume Name') . ': ' . $volume_name . "\n\n",
-                        $this->view->translate->_('Webacula : Updated Volume parameters'));
+                            $this->view->translate->_('Volume Name') . ': ' . $volume_name . "\n\n" );
             }
         }
         $this->_redirect("/volume/detail/mediaid/$media_id");

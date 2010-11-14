@@ -71,24 +71,28 @@ class AuthController extends Zend_Controller_Action
     public function loginAction()
     {
         if ( $this->isAuth() ) {
-            $this->_redirector->gotoSimple('index', 'index', null, array()); // если уже залогинен: action, controller
+            $this->_forward('index', 'index'); // если уже залогинен: action, controller
             return;
         }
         $form = new formLogin();
-        if( $this->_request->isPost() ) {
+        if ( $this->_request->isPost() && !$this->_request->getParam('from_forgot') ) {
             /* Проверяем валидность данных формы */
             if ( $form->isValid($this->_getAllParams()) )
             {
-                $db          = Zend_Registry::get('db_bacula');
-                $authAdapter = new Zend_Auth_Adapter_DbTable($db);
+                $db = Zend_Registry::get('db_bacula');
                 /**
                  * Настраиваем правила выборки пользователей из БД
                  * имя таблицы, название поля с идентификатором пользователя, название поля пароля
+                 *
+                 * [ $zendDb = null], [string $tableName = null], [string $identityColumn = null],
+                 * [string $credentialColumn = null], [string $credentialTreatment = null])
                  */
-                $authAdapter->setTableName('webacula_users')
-                             ->setIdentityColumn('login')
-                             ->setCredentialColumn('pwd')
-                             ->setCredentialTreatment('PASSWORD(?)');
+                $authAdapter = new Zend_Auth_Adapter_DbTable(
+                    $db, 
+                    'webacula_users',
+                    'login',
+                    'pwd',
+                    'MD5(?) AND active = 1' );
                 /* Передаем в адаптер данные пользователя */
                 $authAdapter->setIdentity($form->getValue('login'));
                 $authAdapter->setCredential($form->getValue('pwd'));
@@ -103,7 +107,8 @@ class AuthController extends Zend_Controller_Action
                     $data = $authAdapter->getResultRowObject(array(
                         'id',
                         'login',
-                        'role_id'
+                        'role_id',
+                        'email'
                     ));
                     // find role name
                     $table = new Wbroles();
@@ -178,5 +183,89 @@ class AuthController extends Zend_Controller_Action
 	}
 
 
+    protected function emailForgotPassword($user_email, $user_name = '', $pwd)
+    {
+        Zend_Loader::loadClass('MyClass_SendEmail');
+        $config = Zend_Registry::get('config_webacula');
+        $email = new MyClass_SendEmail();
+        $body = $this->view->translate->_( sprintf(
+"Hello,
+
+This is an automated message from site %s, please do not reply!
+
+You have or someone impersonating you has requested to change your password
+from IP : %s
+
+New Password: %s
+
+Once logged in you can change your password.
+
+If you are not the person who made this request
+send email to the site admin : %s
+
+Thanks! \n",
+            $this->_request->getServer('SERVER_NAME'),
+            $this->_request->getServer('REMOTE_ADDR'),
+            $pwd,
+            $config->email->to_admin) );
+        // $from_email, $from_name, $to_email, $to_name, $subj, $body
+        return $email->mySendEmail(
+            $config->email->from,
+            $this->view->translate->_('Webacula password manager'),
+            $user_email,
+            $user_name,
+            $this->view->translate->_('New Webacula password'),
+            $body
+        );
+        
+    }
+
+
+    
+    public function forgotPasswordAction()
+	{
+        Zend_Loader::loadClass('FormForgotPassword');
+        $form = new formForgotPassword();
+        if( $this->_request->isPost() ) {
+            /* Проверяем валидность данных формы */
+            if ( $form->isValid($this->_getAllParams()) )
+            {
+                $db = Zend_Registry::get('db_bacula');
+                Zend_Loader::loadClass('Wbusers');
+                $table = new Wbusers();
+                // ищем email
+                $select  = $table->select()->where('login = ?', $this->_getParam('login'))
+                                ->where('email = ?', $this->_getParam('email'));
+                $row = $table->fetchRow($select);
+                /* login + email найдены ? */
+                if( $row )
+                {
+                    // генерируем новый пароль
+                    $new_password = md5( uniqid( rand() ) );
+                    // высылаем пароль
+                    $res = $this->emailForgotPassword($row->email, $row->name, $new_password);
+                    if ( $res ) {
+                        // сохраняем пароль в БД
+                        $data = array(
+                            'pwd' => md5( $new_password )
+                        );
+                        $where = $table->getAdapter()->quoteInto('id = ?', $row->id);
+                        $table->update($data, $where);
+                        // goto home page
+                        $this->view->msg = $this->view->translate->_("New password set");
+                        $this->_forward('login', 'auth', null, array('from_forgot' => 1)); // action, controller
+                    } else {
+                        $this->view->msg = $this->view->translate->_("Error while sending email. Email not send");
+                    }
+                } else {
+                    sleep(2);  // TODO increase this value
+                    $this->view->msg = $this->view->translate->_("Username or email is incorrect");
+                }
+           }
+        }
+        /* Если данные не передавались или неверный логин, то выводим форму для авторизации */
+        $this->view->title = $this->view->translate->_('Reconstruct password');
+        $this->view->form  = $form;
+    }
 
 }
