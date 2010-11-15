@@ -34,13 +34,12 @@ class ClientControllerTest extends ControllerTestCase
         $this->_isLogged($this->response->outputBody());
         $this->assertController('client');
         $this->assertAction('status-client-id');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
         $this->assertQueryContentRegex('td', "/local.fd Version:.*linux/");
-        $this->assertQueryContentRegex('td', "/Daemon started.*run since started/");
+        $this->assertQueryContentRegex('td', "/Daemon started/");
     }
 
 }

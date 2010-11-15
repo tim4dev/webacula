@@ -64,6 +64,7 @@ fi
 ##-- 	DROP USER wbuser;
 ##-- END-OF-DATA
 
-#rm -f /tmp/webacula_restore_*.tmp
+rm -f  ../../data/cache/zend_cache*
+rm -f  ../../data/tmp/webacula*
 
 echo -e "\nCLEAN ALL done OK."

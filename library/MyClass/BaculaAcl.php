@@ -68,7 +68,7 @@ class MyClass_BaculaAcl
         Zend_Loader::loadClass('Wbroles');
         // Get current role_id, role_name
         $auth    = Zend_Auth::getInstance();
-        $this->ident     = $auth->getIdentity();
+        $this->ident  = $auth->getIdentity();
         if ($this->ident) {
             $this->cache_id  = $this->ident->role_id . '_bacula_acl_';
             $this->cache_tag = $this->ident->role_id . '_bacula_acl_tag';

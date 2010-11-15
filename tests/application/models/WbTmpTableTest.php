@@ -15,7 +15,7 @@ class WbTmpTableTest extends ModelTestCase {
 	const _PREFIX_RECENT = '_recent_'; // для восстановления типа Restore recent backup. только в нижнем регистре
 	protected $restoreNamespace;
 	const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
-	protected $ttl_restore_session = 600; // time to live session (10 min)
+	protected $ttl_restore_session = 1800; // time to live session (30 min)
 	protected $jobid = 2;
 	protected $jobHashRecent;
 

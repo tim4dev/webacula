@@ -23,11 +23,6 @@ class ModelTestCase extends PHPUnit_Framework_TestCase {
         echo ' (login as '.$data->login.') ';
     }
 
-    protected function _isLogged($body) {
-        if ( empty($body) )
-            throw new RuntimeException('Login failed!');
-    }
-
     protected function _logout()    {
         Zend_Auth::getInstance()->clearIdentity();
         Zend_Session::forgetMe();

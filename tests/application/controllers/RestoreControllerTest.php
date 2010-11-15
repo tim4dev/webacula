@@ -3,7 +3,7 @@ class RestoreControllerTest extends ControllerTestCase
 {
 
     const _PREFIX = 'webacula_'; // только в нижнем регистре see RestoreController.php
-    protected $ttl_restore_session = 600; // time to live session (10 min)
+    protected $ttl_restore_session = 1800; // time to live session (30 min)
 
 
     /**

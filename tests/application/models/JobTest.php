@@ -15,7 +15,6 @@ class JobTest extends ModelTestCase {
      */
     protected function setUp() {
         parent::setUp ();
-        $this->job = new Job();
     }
 
     /**
@@ -31,6 +30,7 @@ class JobTest extends ModelTestCase {
      */
     public function __construct() {
         // empty
+        parent::__construct();
     }
 
 
@@ -44,6 +44,7 @@ class JobTest extends ModelTestCase {
         // test
         // getByFileName($path, $namefile, $client, $limit, $type_search)
         echo "\n\t* Ordinary search";  // $result = id 5, 8
+        $this->job = new Job();
         $result = $this->job->getByFileName('/tmp/webacula/test/1/', 'file_new11.dat', '', $limit, 'ordinary');
         $this->assertEquals(2, sizeof($result), 'error');
         echo " - OK";
