@@ -183,6 +183,7 @@ class AuthController extends Zend_Controller_Action
 	}
 
 
+
     protected function emailForgotPassword($user_email, $user_name = '', $pwd)
     {
         Zend_Loader::loadClass('MyClass_SendEmail');
@@ -264,7 +265,7 @@ Thanks! \n",
            }
         }
         /* Если данные не передавались или неверный логин, то выводим форму для авторизации */
-        $this->view->title = $this->view->translate->_('Reconstruct password');
+        $this->view->title = $this->view->translate->_('Reset password');
         $this->view->form  = $form;
     }
 
