@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS webacula_users (
     last_login DATETIME,
     last_ip  char(15),
     active   integer,
-    role_id  integer,
+    role_id  integer NOT NULL,
     PRIMARY KEY (id),
     INDEX (login)
 );
@@ -56,7 +56,7 @@ INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Defa
 INSERT INTO webacula_users (id, login, pwd, active, create_login, role_id)
     VALUES (1000, 'root', MD5('1'), 1, NOW(), 1);
 
-INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typcal role for backup operator');
+INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (1,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (2,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (3,2);

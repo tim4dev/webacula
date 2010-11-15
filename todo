@@ -17,11 +17,12 @@
 
 -------------------------------------------------------------------------------------------------------
 
-- в каталоге install создать подкаталоги для разных СУБД, перенести скрипты
-- unit тесты
+- кэшировать Timeline
+- unit тесты для проверки доступа. См также
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests
 
+- в админке предусмотреть вход админа (только для root) под другим юзером
 - в админке д.б. кнопка : "Очистить кэш"
 - заполнить остальные поля табл webacula_users
 + реализация восстановления пароля в Login form
