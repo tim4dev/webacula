@@ -12,7 +12,8 @@
 - Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
 - Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
 - Create separate database "webacula" for use Logbook features.
-- http://php.net/dom for RSS feed
+- Installed http://php.net/dom for RSS feed.
+- Browser compatibility: all jQuery UI plugins are tested for IE 6.0+, Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome.
 
 Run docs/check_system_requirements.php to verify.
 

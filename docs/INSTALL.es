@@ -17,6 +17,7 @@
 - Módulo  GD (php-gd package) de PHP. GD es una librería de código abierto que permite la creación dinámica de imágenes por los programadores.
 - Gestor de Bases de Datos MySQL, PostgreSQL para poder usar las funcionalidades: Libro de Logs.
 - http://php.net/dom para subscripciones RSS
+- Browser compatibility: all jQuery UI plugins are tested for IE 6.0+, Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome.
 
 Ejecute el script install/check_system_requirements.php antes de continuar lo que le permitirá comprobar los requerimientos.
 

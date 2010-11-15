@@ -10,7 +10,8 @@
 - Apache и mod_rewrite, либо эквивалентный веб-сервер. Например, nginx и ngx_http_rewrite_module.
 - Установленный пакет php-gd для графики.
 - Создание отдельной БД "webacula" для ведения Журнала.
-- http://php.net/dom для RSS ленты
+- Установленный пакет http://php.net/dom для RSS ленты.
+- Совместимость с браузерами: все jQuery UI плагины тестированы для IE 6.0+, Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome.
 
 Запустите install/check_system_requirements.php для проверки.
 
