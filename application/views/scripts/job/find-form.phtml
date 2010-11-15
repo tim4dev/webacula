@@ -44,14 +44,14 @@ $(function() {
 // create array clients for Form
 $aclients[''] = $this->translate->_('ANY');
 foreach($this->clients as $client) :
-    $aclients[$this->escape($client->name)] = $this->escape($client->name);
+    $aclients[ $this->escape($client['name']) ] = $this->escape($client['name']);
 endforeach;
 $aclients[''] = $this->translate->_('ANY');	// if empty client exists in database
 
 // create array filesets for Form
 $afilesets[''] = $this->translate->_('ANY');
 foreach($this->filesets as $fileset) :
-    $afilesets[$this->escape($fileset->fileset)] = $this->escape($fileset->fileset);
+    $afilesets[ $this->escape($fileset['fileset']) ] = $this->escape($fileset['fileset']);
 endforeach;
 $afilesets[''] = $this->translate->_('ANY');	// if empty FileSet exists in database
 
