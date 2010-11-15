@@ -6,7 +6,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * Job model test case.
  */
-class JobTest extends PHPUnit_Framework_TestCase {
+class JobTest extends ModelTestCase {
 
     private $job;
 
@@ -39,10 +39,11 @@ class JobTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetByFileName() {
         print "\n".__METHOD__.' ';
+        $this->_rootLogin();
         $limit = 100;
         // test
         // getByFileName($path, $namefile, $client, $limit, $type_search)
-       echo "\n\t* Ordinary search";  // $result = id 5, 8
+        echo "\n\t* Ordinary search";  // $result = id 5, 8
         $result = $this->job->getByFileName('/tmp/webacula/test/1/', 'file_new11.dat', '', $limit, 'ordinary');
         $this->assertEquals(2, sizeof($result), 'error');
         echo " - OK";

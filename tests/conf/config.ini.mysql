@@ -1,6 +1,6 @@
 ; tests
 ; config.ini
-; Webacula 5.x
+; Webacula 5.5
 ;
 
 [general]
@@ -24,16 +24,9 @@ bacula.sudo = "/usr/bin/sudo"
 bacula.bconsole = "/sbin/bconsole"
 bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
 
-; Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
-; This directory and files in it should be available to read the Director service.
-tmpdir = "/tmp"
-
 ; time to live data (session and temporary data tables) for restore files (sec)
 ; default = 1h, minimum = 600sec.
 ; ttl_restore_session = 3600
-
-; for debug only (default = 0)
-; debug = 1
 
 ; the text, which will be placed in the header of the page
 ; head_title = "webacula :: domain.tld"

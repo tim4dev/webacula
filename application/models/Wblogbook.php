@@ -63,19 +63,6 @@ class Wblogbook extends Zend_Db_Table
     }
 
 
-    public function init ()
-    {
-        switch ($this->db_adapter) {
-            case 'PDO_MYSQL':
-                $this->db->query('SET NAMES utf8');
-                $this->db->query('SET CHARACTER SET utf8');
-                break;
-            case 'PDO_PGSQL':
-                $this->db->query("SET NAMES 'UTF8'");
-                break;
-        }
-    }
-
 
     /**
      * LogBook view

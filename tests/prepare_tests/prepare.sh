@@ -18,7 +18,7 @@ BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
 INSTALL_DIR="../../install/"
-DELAYJ=1
+DELAYJ=3
 LINE1="*********************************************************************************************"
 
 #########################################################
@@ -66,13 +66,13 @@ my_check_rc() {
 # Main program
 #
 
-my_log "Check PostgreSql..."
-psql -l
-if test $? -ne 0; then
-	echo "Can't connect to postgresql."
-	/sbin/service postgresql start
-   sleep 5
-fi
+##-- my_log "Check PostgreSql..."
+##-- psql -l
+##-- if test $? -ne 0; then
+##-- 	echo "Can't connect to postgresql."
+##-- 	/sbin/service postgresql start
+##--    sleep 5
+##-- fi
 
 my_log "Check MySql..."
 /usr/bin/mysqlshow mysql
@@ -130,18 +130,25 @@ cp -f $SRC      $DST
 my_log "Create Bacula and Webacula databases ..."
 
 cd ${BASEDIR}
-sh ./bacula_mysql_make_tables
-sh ./bacula_sqlite_make_tables
+sh ./MySql/10_bacula_make_tables
+##-- sh ./SqLite/10_bacula_make_tables
 
 cd ${INSTALL_DIR}
 
-sh ./webacula_mysql_create_database.sh
-sh ./webacula_mysql_make_tables.sh
-sh ./webacula_postgresql_create_database.sh
-sh ./webacula_postgresql_make_tables.sh
-sh ./webacula_sqlite_create_database.sh "/tmp/webacula/sqlite/webacula.db"
-chmod a+rwx /tmp/webacula/sqlite
-sh ./webacula_acl_mysql_make_tables.sh
+my_log "MySQL"
+sh ./MySql/10_webacula_create_database.sh
+sh ./MySql/20_webacula_make_tables.sh
+sh ./MySql/30_webacula_acl_make_tables.sh
+
+##-- my_log "PostgreSQL"
+##-- cd /PostgreSql
+##-- sh ./10_webacula_create_database.sh
+##-- sh ./20_webacula_make_tables.sh
+##-- cd ${INSTALL_DIR}
+
+##-- my_log "SqLite"
+##-- sh ./SqLite/10_webacula_create_database.sh "/tmp/webacula/sqlite/webacula.db"
+##-- chmod a+rwx /tmp/webacula/sqlite
 
 
 my_log "Create fake autochanger..."
@@ -336,52 +343,51 @@ fi
 
 
 
-my_log "Create Bacula PostgreSQL tables"
+##-- my_log "Create Bacula PostgreSQL tables"
 
-createdb -T template0 -E SQL_ASCII bacula
-if test $? -ne 0; then
-   echo "PGSQL : Creation of bacula database failed."
-   exit
-fi
+##-- createdb -T template0 -E SQL_ASCII bacula
+##-- if test $? -ne 0; then
+##--    echo "PGSQL : Creation of bacula database failed."
+##--    exit
+##-- fi
 
-if psql -f - -d bacula <<END-OF-DATA
-ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
-END-OF-DATA
-then
-   echo "PGSQL : Creation of bacula database succeeded."
-else
-   echo "PGSQL : Creation of bacula database failed."
-   exit
-fi
+##-- if psql -f - -d bacula <<END-OF-DATA
+##-- ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
+##-- END-OF-DATA
+##-- then
+##--    echo "PGSQL : Creation of bacula database succeeded."
+##-- else
+##--    echo "PGSQL : Creation of bacula database failed."
+##--    exit
+##-- fi
 
-cd ${BASEDIR}
-sh ./bacula_postgresql_make_tables
-sh ./bacula_postgresql_grant_privileges
+##-- cd ${BASEDIR}
+##-- sh ./PostgreSql/10_bacula_make_tables
+##-- sh ./PostgreSql/20_bacula_grant_privileges
 
 
 
-my_log "Copy DB from MySQL to PGSQL ..."
-cd ${BASEDIR}
-php ./bacula_DBcopy_MySQL2PGSQL.php
+##-- my_log "Copy DB from MySQL to PGSQL ..."
+##-- cd ${BASEDIR}
+##-- php ./bacula_DBcopy_MySQL2PGSQL.php
 
-my_log "Copy DB from MySQL to Sqlite ..."
-cd ${BASEDIR}
-php ./bacula_DBcopy_MySQL2sqlite.php
+##-- my_log "Copy DB from MySQL to Sqlite ..."
+##-- cd ${BASEDIR}
+##-- php ./bacula_DBcopy_MySQL2sqlite.php
 
 my_log "MySQL : fill webacula logbook"
 cd ${BASEDIR}
-sh ./webacula_mysql_fill_logbook
-sh ./webacula_mysql_fill_acl
-sh ./bacula_mysql_fill_log
+sh ./MySql/20_webacula_fill_logbook
+sh ./MySql/30_webacula_fill_acl
+sh ./MySql/40_bacula_fill_log
 
-my_log "PostgreSQL : fill webacula logbook"
-cd ${BASEDIR}
-sh ./webacula_postgresql_fill_logbook
+##-- my_log "PostgreSQL : fill webacula logbook"
+##-- cd ${BASEDIR}
+##-- sh ./PostgreSql/webacula_fill_logbook
 
-my_log "Sqlite : fill webacula logbook"
-cd ${BASEDIR}
-sh ./webacula_sqlite_fill_logbook
-echo "Done."
+##-- my_log "Sqlite : fill webacula logbook"
+##-- cd ${BASEDIR}
+##-- sh ./SqLite/webacula_fill_logbook
+##-- echo "Done."
 
-echo "PREPARE: all done OK."
-
+echo -e "\nPREPARE all done OK.\n"

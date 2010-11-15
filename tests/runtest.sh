@@ -72,39 +72,39 @@ then
 fi
 
 ## Prepare testing other DBMS
-#echo -e "\n\n${LINE1}"
-#echo "Prepare testing other DBMS"
-#echo -e "${LINE1}\n"
-#cd prepare_tests
-#sudo ./sync_bacula_db_from_mysql2others.sh
-#cd ..
+##-- echo -e "\n\n${LINE1}"
+##-- echo "Prepare testing other DBMS"
+##-- echo -e "${LINE1}\n"
+##-- cd prepare_tests
+##-- sudo ./sync_bacula_db_from_mysql2others.sh
+##-- cd ..
 
 ## Test Postgresql
-#echo -e "\n\n${LINE1}"
-#echo "Test Postgresql"
-#echo -e "${LINE1}\n"
-#cp -f conf/config.ini.pgsql  ../application/config.ini
-#phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
-#ret=$?
-#if [ $ret -ne 0 ]
-#then
-#    cp -f ../application/config.ini.original  ../application/config.ini
-#    exit $ret
-#fi
+##-- echo -e "\n\n${LINE1}"
+##-- echo "Test Postgresql"
+##-- echo -e "${LINE1}\n"
+##-- cp -f conf/config.ini.pgsql  ../application/config.ini
+##-- phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+##-- ret=$?
+##-- if [ $ret -ne 0 ]
+##-- then
+##--     cp -f ../application/config.ini.original  ../application/config.ini
+##--     exit $ret
+##-- fi
 
 
 ## Test Sqlite
-#echo -e "\n\n${LINE1}"
-#echo "Test Sqlite"
-#echo -e "${LINE1}\n"
-#cp -f conf/config.ini.sqlite  ../application/config.ini
-#phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
-#ret=$?
-#if [ $ret -ne 0 ]
-#then
-#    cp -f ../application/config.ini.original  ../application/config.ini
-#    exit $ret
-#fi
+##-- echo -e "\n\n${LINE1}"
+##-- echo "Test Sqlite"
+##-- echo -e "${LINE1}\n"
+##-- cp -f conf/config.ini.sqlite  ../application/config.ini
+##-- phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+##-- ret=$?
+##-- if [ $ret -ne 0 ]
+##-- then
+##--     cp -f ../application/config.ini.original  ../application/config.ini
+##--     exit $ret
+##-- fi
 
 cp -f ../application/config.ini.original  ../application/config.ini
 
@@ -113,7 +113,7 @@ cp -f ../application/config.ini.original  ../application/config.ini
 echo -e "\n\n"
 sh ./locale-test.sh
 
-sudo service postgresql stop
+##-- sudo service postgresql stop
 
 sudo rm -f /tmp/webacula_restore_*
 

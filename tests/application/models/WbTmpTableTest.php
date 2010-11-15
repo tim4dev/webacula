@@ -8,7 +8,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * WbTmpTable test case.
  */
-class WbTmpTableTest extends PHPUnit_Framework_TestCase {
+class WbTmpTableTest extends ModelTestCase {
 
 	// from controllers/RestorejobController.php
 	const _PREFIX = '_'; // только в нижнем регистре
@@ -129,9 +129,11 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
 
 	/**
     * @group restore
+    * @group clone_recent_bacula_tmp
     */
 	public function testCloneRecentBaculaToTmp() {
 		print "\n".__METHOD__.' ';
+        $this->_rootLogin();
 		// запоминаем данные в сессии
 		$this->restoreNamespace->typeRestore = 'restore_recent';
 		$this->restoreNamespace->JobId = null;
@@ -173,6 +175,7 @@ class WbTmpTableTest extends PHPUnit_Framework_TestCase {
     */
 	public function testCloneBeforeDateBaculaToTmp() {
 		print "\n".__METHOD__.' ';
+        $this->_rootLogin();
 		// запоминаем данные в сессии
 		$this->restoreNamespace->typeRestore = 'restore_recent';
 		$this->restoreNamespace->JobId = null;

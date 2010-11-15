@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS wbLogBook (
 
 	PRIMARY KEY(logId),
 	INDEX (logDateCreate)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 CREATE INDEX wbidx1 ON wbLogBook(logDateCreate);
 CREATE FULLTEXT INDEX idxTxt ON wbLogBook(logTxt);
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS wbLogType (
 	typeDesc TINYBLOB NOT NULL,
 
 	PRIMARY KEY(typeId)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 INSERT INTO wbLogType (typeId,typeDesc) VALUES
 	(10, 'Info'),
@@ -48,12 +48,12 @@ CREATE TABLE IF NOT EXISTS wbJobDesc (
     description     TEXT NOT NULL,
     PRIMARY KEY(desc_id),
     INDEX (name_job)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 
 CREATE TABLE IF NOT EXISTS wbVersion (
    versionId INTEGER UNSIGNED NOT NULL
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 INSERT INTO wbVersion (versionId) VALUES (5);
 
@@ -66,7 +66,7 @@ CREATE TABLE wbtmptablelist (
         tmpCreate   TIMESTAMP NOT NULL,
         tmpIsCloneOk INTEGER DEFAULT 0,					/* is clone bacula tables OK */
         PRIMARY KEY(tmpId)
-)  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 END-OF-DATA
 then

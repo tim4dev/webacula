@@ -95,7 +95,7 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         //echo $this->response->outputBody();exit; // for debug !!!
         // check button action
-        $this->assertQueryContentContains('div', '<form method="POST" action="/restorejob/list-restore">');
+        $this->assertQueryContentContains('table', '<form method="POST" action="/restorejob/list-restore">');
         $this->resetRequest()
              ->resetResponse();
 

@@ -32,7 +32,7 @@ $astatus = array(
 );
 // Pools
 foreach($this->pools as $pool) {
-    $apool[$this->escape($pool->poolid)] = $this->escape($pool->name);
+    $apool[ $this->escape($pool['poolid']) ] = $this->escape($pool['name']);
 }
 // Recycle Flag
 $arecucle = array(

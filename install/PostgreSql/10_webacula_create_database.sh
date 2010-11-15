@@ -13,7 +13,7 @@ db_user="wbuser"
 db_password="wbpass"
 
 psql -f - -d template1 $* <<END-OF-DATA
-CREATE DATABASE ${db_name} ENCODING 'UTF8';
+CREATE DATABASE ${db_name};
 ALTER DATABASE ${db_name} SET datestyle TO 'ISO, YMD';
 END-OF-DATA
 

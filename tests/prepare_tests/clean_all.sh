@@ -10,12 +10,12 @@ echo -e "\n\n*** WARNING!!! All Bacula, Webacula databases and files will be era
 echo -e "*** Press Enter to continue ...\n\n"
 read
 
-/usr/bin/psql -l
-if test $? -ne 0; then
-  echo "Can't connect to postgresql."
-  /sbin/service postgresql start
-   sleep 7
-fi
+##-- /usr/bin/psql -l
+##-- if test $? -ne 0; then
+##--   echo "Can't connect to postgresql."
+##--   /sbin/service postgresql start
+##--    sleep 7
+##-- fi
 
 /usr/bin/mysqlshow mysql
 if test $? -ne 0; then
@@ -46,24 +46,24 @@ else
 fi
 
 
-if /usr/bin/dropdb bacula
-then
-   echo "Drop PGSQL bacula database succeeded."
-else
-   echo "Drop PGSQL bacula database failed."
-fi
+##-- if /usr/bin/dropdb bacula
+##-- then
+##--    echo "Drop PGSQL bacula database succeeded."
+##-- else
+##--    echo "Drop PGSQL bacula database failed."
+##-- fi
 
-if /usr/bin/dropdb webacula
-then
-   echo "Drop PGSQL webacula database succeeded."
-else
-   echo "Drop PGSQL webacula database failed."
-fi
+##-- if /usr/bin/dropdb webacula
+##-- then
+##--    echo "Drop PGSQL webacula database succeeded."
+##-- else
+##--    echo "Drop PGSQL webacula database failed."
+##-- fi
 
-/usr/bin/psql -f - -d template1 <<END-OF-DATA
-	DROP USER wbuser;
-END-OF-DATA
+##-- /usr/bin/psql -f - -d template1 <<END-OF-DATA
+##-- 	DROP USER wbuser;
+##-- END-OF-DATA
 
-rm -f /tmp/webacula_restore_*.tmp
+#rm -f /tmp/webacula_restore_*.tmp
 
-
+echo -e "\nCLEAN ALL done OK."

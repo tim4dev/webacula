@@ -14,9 +14,7 @@ db_password="wbpass"
 host="localhost"
 
 if mysql $* -f <<END-OF-DATA
-CREATE DATABASE ${db_name}
-	DEFAULT CHARACTER SET utf8
-	DEFAULT COLLATE utf8_general_ci;
+CREATE DATABASE ${db_name};
 
 GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${host} IDENTIFIED BY '${db_password}';
 FLUSH PRIVILEGES;

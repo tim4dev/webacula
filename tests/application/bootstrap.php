@@ -27,12 +27,19 @@ Zend_Loader_Autoloader::getInstance();
 /*
  * from index.php
  */
-define('WEBACULA_VERSION', '5.x, build for tests');
+define('WEBACULA_VERSION', '5.5.x, build for tests');
 define('BACULA_VERSION', 12); // Bacula Catalog version
+define('ROOT_DIR', $appRoot );
+define('TMP_DIR',  ROOT_DIR.'/data/tmp' );
+define('CACHE_DIR',ROOT_DIR.'/data/cache' );
 
-// load my class
-Zend_Loader::loadClass('MyClass_Acl');
+// load my ACL classes
+Zend_Loader::loadClass('MyClass_WebaculaAcl');
 Zend_Loader::loadClass('MyClass_ControllerAclAction');
+Zend_Loader::loadClass('MyClass_BaculaAcl');
+Zend_Loader::loadClass('Wbresources');
+Zend_Loader::loadClass('Wbroles');
+// other my classes
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 Zend_Loader::loadClass('Version');
@@ -149,7 +156,27 @@ try {
 	$db->getConnection();
 } catch (Zend_Db_Adapter_Exception $e) {
 	// возможно СУБД не запущена
-	//throw new Zend_Exception("Fatal error: Can't connect to SQL server");
+	throw new Zend_Exception("Fatal error: Can't connect to SQL server");
+}
+/*
+ * Check Bacula Catalog version
+ */
+$ver = new Version();
+if ( !$ver->checkVesion(BACULA_VERSION) )   {
+    echo '<pre>';
+    throw new Zend_Exception("Version error for Catalog database (wanted ".BACULA_VERSION.",".
+            " got ". $ver->getVesion().") ");
+}
+/*
+ * Check TMP_DIR, CACHE_DIR is writable
+ */
+if ( !is_writable( TMP_DIR ) ) {
+    echo '<pre>';
+    throw new Zend_Exception('Directory "'.TMP_DIR.'" is not exists or not writable.');
+}
+if ( !is_writable( CACHE_DIR ) ) {
+    echo '<pre>';
+    throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');
 }
 
 Zend_Session::start();
@@ -160,10 +187,31 @@ if (!isset($defNamespace->numLoginFails))
     $defNamespace->numLoginFails = 0; // начальное значение
 
 /*
+ * Zend_Cache
+ */
+$frontendOptions = array(
+    'lifetime' => 3600, // время жизни кэша - 1 час
+    'automatic_serialization' => true
+);
+$backendOptions = array(
+    'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
+);
+// получение объекта Zend_Cache_Core
+$cache = Zend_Cache::factory(
+    'Core',
+    'File',
+    $frontendOptions,
+    $backendOptions
+);
+Zend_Registry::set('cache', $cache); // save to Registry
+
+
+/***************************************
  * end from index.php
- ********************************/
+ ***************************************/
 
 
 /* Zend_Application */
 require_once 'Zend/Application.php';
 require_once 'ControllerTestCase.php';
+require_once 'ModelTestCase.php';
