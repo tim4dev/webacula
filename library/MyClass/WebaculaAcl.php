@@ -64,10 +64,11 @@ class MyClass_WebaculaAcl extends Zend_Acl
          */
         $resources_roles = $table->fetchAllRecourcesAndRoles();
         foreach($resources_roles as $r)   {
-            if ($r['role_id'] !== null)
+            if ($r['role_id'] !== null) {
                 $role = $roleArray[$r['role_id']];
-            // the Resource must be unique identifier
-            $this->allow($role, $r['resource_name']);
+                // the Resource must be unique identifier
+                $this->allow($role, $r['resource_name']);
+            }
         }
         // Администратор не наследует ни от кого, но обладает всеми привилегиями
         $this->allow('root_role');

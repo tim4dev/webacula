@@ -40,6 +40,7 @@ class ClientController extends MyClass_ControllerAclAction
         $clients = new Client();
         $order  = array('ClientId', 'Name');
         $this->view->clients = $clients->fetchAll(null, $order);
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 
@@ -50,7 +51,7 @@ class ClientController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Client") . " " . $client_name;
         // do Bacula ACLs
         $command = 'status';
-        if ( !$this->_bacula_acl->doOneBaculaAcl($command, 'command') ) {
+        if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
             $msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;

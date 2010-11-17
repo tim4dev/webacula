@@ -57,39 +57,41 @@ INSERT INTO webacula_users (id, login, pwd, active, create_login, role_id)
     VALUES (1000, 'root', MD5('1'), 1, NOW(), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (1,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (2,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (3,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (4,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (5,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (6,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (7,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (8,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (9,2);
 INSERT INTO webacula_resources (dt_id, role_id) VALUES (10,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (11,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (12,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (13,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (14,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (15,2);
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (16,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (20,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (30,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (40,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (50,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (60,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (70,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (80,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (90,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (100,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (110,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (120,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (130,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (140,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (150,2);
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (160,2);
 
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (1, 'index',     'Home page');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (2, 'bconsole',  'Webacula bconsole');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (3, 'client',    'Menu Client');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (4, 'director',  'Menu Director');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (5, 'file',      'List Files for JobId');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (6, 'job',       'Menu Job');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (7, 'log',       'View console log for Job');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (8, 'pool',      'Menu Pool');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (9, 'restorejob','Menu Restore Job');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (10,'storage',   'Menu Storage');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (11,'volume',    'Menu Volume');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (12,'wbjobdesc', 'Menu Job Descriptions');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (13,'wblogbook', 'Menu Logbook');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (14,'help',      'Menu Help');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (15,'feed',      'RSS feed');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (16,'chart',      'Timeline chart');
+-- Controller names only
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (10, 'index',     'Home page');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (20, 'bconsole',  'Webacula bconsole');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (30, 'client',    'Menu Client');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (40, 'director',  'Menu Director');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (50, 'file',      'List Files for JobId');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (60, 'job',       'Menu Job');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (70, 'log',       'View console log for Job');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (80, 'pool',      'Menu Pool');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (90, 'restorejob','Menu Restore Job');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (100,'storage',   'Menu Storage');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (110,'volume',    'Menu Volume');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (120,'wbjobdesc', 'Menu Job Descriptions');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (130,'wblogbook', 'Menu Logbook');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (140,'help',      'Menu Help');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (150,'feed',      'RSS feed');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (160,'chart',     'Timeline chart');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (500,'admin',     'Menu Admin panel');
 
 
 

@@ -43,8 +43,8 @@ class StorageController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Storages");
         // get data for form
         $storages = new Storage();
-        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->storages = $storages->fetchAll();
+        $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 
 

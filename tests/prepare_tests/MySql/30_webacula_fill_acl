@@ -48,9 +48,9 @@ INSERT INTO webacula_job_acl (name, order_acl, role_id) VALUES ('job name test 2
 
 -- Webacula ACLs
 
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (1, 3);  -- index
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (3, 3);  -- Menu Client
-INSERT INTO webacula_resources (dt_id, role_id) VALUES (10,3);  -- Menu Storage
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (10, 3);  -- index
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (30, 3);  -- Menu Client
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (100,3);  -- Menu Storage
 
 
 

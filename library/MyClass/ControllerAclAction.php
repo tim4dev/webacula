@@ -34,11 +34,9 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
     public $debug_level;
 
     // ACL
-    protected $_webacula_acl;   // webacula acl
-    protected $_bacula_acl;     // bacula acl
-    protected $_identity;
-    protected $_role_name = '';
-    protected $_role_id   = null;
+    protected $webacula_acl;   // webacula acl
+    protected $bacula_acl;     // bacula acl
+    protected $identity;
 
 
     public function init()
@@ -50,35 +48,25 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
 
         $this->_config = Zend_Registry::get('config');
         // authentication
-        $this->view->identity  = '';
-        $this->view->role_name = '';
         if ( $this->isAuth() )  {
-            $this->_identity  = Zend_Auth::getInstance()->getIdentity();
-            // find current user ACL role
-            $table = new Wbroles();
-            $row   = $table->find($this->_identity->role_id);
-            if ($row->count() == 1) {
-                $this->role_name = $row[0]['name'];
-                $this->role_id   = $row[0]['id'];
-            }
+            $this->identity  = Zend_Auth::getInstance()->getIdentity();
             // for view
-            $this->view->role_name = $this->_role_name;
-            $this->view->role_id   = $this->_role_id;
-            $this->view->identity  = $this->_identity;
+            $this->view->identity  = $this->identity;
             /*
              *  ACLs and cache
              */
             $cache = Zend_Registry::get('cache');
             // проверка, есть ли уже запись в кэше:
-            if( !$this->_webacula_acl = $cache->load('MyClass_WebaculaAcl') ) {
+            if( !$this->webacula_acl = $cache->load('MyClass_WebaculaAcl') ) {
                 // промах кэша
-                $this->_webacula_acl        = new MyClass_WebaculaAcl();
-                $cache->save($this->_webacula_acl, 'MyClass_WebaculaAcl');
+                $this->webacula_acl        = new MyClass_WebaculaAcl();
+                $cache->save($this->webacula_acl, 'MyClass_WebaculaAcl');
             }
+            $this->view->webacula_acl  = $this->webacula_acl;
         }
         // для переадресаций
         $this->_redirector = $this->_helper->getHelper('Redirector');
-        $this->_bacula_acl = new MyClass_BaculaAcl();
+        $this->bacula_acl = new MyClass_BaculaAcl();
     }
 
 
@@ -90,8 +78,8 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
             return;
         }
         $controller = $this->getRequest()->getControllerName();
-        if ($this->role_name)
-            if( !$this->_webacula_acl->isAllowed( $this->role_name, $controller) ) {
+        if ($this->identity->role_name)
+            if( !$this->webacula_acl->isAllowed( $this->identity->role_name, $controller) ) {
                 $msg = sprintf( $this->view->translate->_('You try to use Webacula menu "%s".'), $controller );
                 $this->_forward('webacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
                 return;

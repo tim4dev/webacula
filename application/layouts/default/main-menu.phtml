@@ -1,4 +1,5 @@
 <!-- layouts/dafault/main-menu.phtml -->
+<?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'index') ) : ?>
 <ul id="main-menu" class="sf-menu">
    	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
        	<ul>
@@ -8,7 +9,12 @@
             </a></li>
 		</ul>
 	</li>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'director') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'job') ) : ?>
     <li class="current"><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Job"); ?></a>
 		<ul>
         	<li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Terminated"); ?></a></li>
@@ -20,17 +26,32 @@
 		</ul>
 	</li>
     <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'restorejob') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a></li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'pool') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Pool/Volume"); ?></a>
     	<ul>
         	<li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a></li>
 		</ul>
 	</li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'client') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a>
     </li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'storage') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a>
     </li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'wblogbook') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
         <ul>
             <li><a href="<?php echo $this->baseUrl;?>/wblogbook/add"><?php print $this->translate->_("Add New Record"); ?></a></li>
@@ -38,12 +59,22 @@
             <li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
         </ul>
     </li>
+    <?php endif; ?>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'help') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a>
     </li>
+    <?php endif; ?>
+
     <li><a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">
         <?php print $this->translate->_("Logout"); ?></a>
     </li>
 </ul>
+<?php else : ?>
+    <a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">
+        <?php print $this->translate->_("Logout"); ?></a>
+<?php endif; ?>
+
 <div style="clear: both;"><!--  --></div>
 
 

@@ -25,8 +25,7 @@ class AuthController extends Zend_Controller_Action
 {
     protected $defNamespace;
     const MAX_LOGIN_ATTEMPT = 3;
-    protected $_role_name = '';
-    protected $_role_id   = null;
+    protected $identity;
 
 
 
@@ -46,10 +45,8 @@ class AuthController extends Zend_Controller_Action
         $this->defNamespace = new Zend_Session_Namespace('Default');
         // Get current role_id, role_name
         $auth    = Zend_Auth::getInstance();
-        if ($ident   = $auth->getIdentity() ) {
-            $this->_role_id   = $ident->role_id;
-            $this->_role_name = $ident->role_name;
-        }
+        if ($ident   = $auth->getIdentity() )
+            $this->identity = $ident;
     }
 
 
@@ -108,6 +105,7 @@ class AuthController extends Zend_Controller_Action
                         'id',
                         'login',
                         'role_id',
+                        'role_name',
                         'email'
                     ));
                     // find role name
