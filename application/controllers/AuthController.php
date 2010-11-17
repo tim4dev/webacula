@@ -151,25 +151,33 @@ class AuthController extends Zend_Controller_Action
     }
 
 
-    
     /**
-     * "Выход" пользователя
-     **/
-	public function logoutAction()
-	{
-        /*
-         * Cleaning cache
-         */
+     * Cleaning cache : Zend_Cache and data/tmp files
+     */
+    protected function clearAllCache()
+    {
 	    // remove Bacula ACLs
         $bacula_acl = new MyClass_BaculaAcl();
         $bacula_acl->removeCache();
         // remove Webacula ACLs
         $cache = Zend_Registry::get('cache');
         $res = $cache->remove('MyClass_WebaculaAcl');
+        // main menu cache
+        $cache->remove($this->identity->role_id . '_main_menu');
         /*
          * Delete old tmp files
          */
         $this->deleteOldTmpFiles();
+    }
+
+
+    
+    /**
+     * "Выход" пользователя
+     **/
+	public function logoutAction()
+	{
+        $this->clearAllCache();
         /*
          * Final
          */

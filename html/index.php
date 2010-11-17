@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.13');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.17');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -232,7 +232,6 @@ $cache = Zend_Cache::factory(
     $backendOptions
 );
 Zend_Registry::set('cache', $cache); // save to Registry
-
 
 // run
 $frontController->dispatch();

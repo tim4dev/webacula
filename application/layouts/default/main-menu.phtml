@@ -1,4 +1,27 @@
 <!-- layouts/dafault/main-menu.phtml -->
+<!-- Current time : <?php echo date('r'); ?> -->
+<?php
+/*
+ * Zend_Cache
+ */
+$frontendOptions = array(
+    'lifetime' => 1800, // время жизни кэша - 30 минут
+    'automatic_serialization' => true
+);
+$backendOptions = array(
+    'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
+);
+// получение объекта Zend_Cache_Output
+$cache = Zend_Cache::factory(
+    'Output',
+    'File',
+    $frontendOptions,
+    $backendOptions
+);
+if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
+?>
+<!-- main-menu.phtml cached by Zend_Cache : <?php echo date('r'); ?> -->
+
 <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'index') ) : ?>
 <ul id="main-menu" class="sf-menu">
    	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
@@ -85,4 +108,7 @@
     <?php print $this->translate->_("Enable JavaScript please..."); ?>
 </div>
 </noscript>
+
+    <?php $cache->end(); ?>
+<?php endif; ?>
 <!-- end layouts/dafault/main-menu.phtml -->
