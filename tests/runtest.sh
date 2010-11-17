@@ -115,8 +115,6 @@ sh ./locale-test.sh
 
 ##-- sudo service postgresql stop
 
-sudo rm -f /tmp/webacula_restore_*
-
 # restore original conf
 cp -f ../application/config.ini.original  ../application/config.ini
 

@@ -8,13 +8,16 @@
 #
 
 LINE1="*********************************************************************************************"
+LINE2="********************************"
 
 ###########################################################
 # Functions
 ###########################################################
 
 my_login() {
+    LOCALE1="${1}"
     wget --quiet --no-proxy --save-cookies cookies.txt \
+        --header="Accept-Language: ${LOCALE1}"   \
         --post-data 'login=root&pwd=1&rememberme=1&submit=Log+In' \
         -O /dev/null \
         http://localhost/webacula/auth/login
@@ -23,12 +26,27 @@ my_login() {
         echo -e "ERROR!\n"
         exit 10
     fi
-    echo -ne "OK\n"
+}
+
+
+my_logout() {
+    LOCALE1="${1}"
+    wget --quiet --no-proxy --header='Accept-Charset: UTF-8' \
+        --header="Accept-Language: ${LOCALE1}"   \
+        --load-cookies cookies.txt \
+        -O - \
+       http://localhost/webacula/auth/logout > /dev/null
+    if [ ${?} -ne 0 ]
+    then
+        echo -e "ERROR!\n"
+        exit 10
+    fi
 }
 
 
 # for auto determination locales
 my_wget() {
+    my_login "${1}"
     LOCALE1="${1}"
     URL1="${2}"
     STR1="${3}"
@@ -45,11 +63,13 @@ my_wget() {
         exit 10
     fi
     echo -ne "OK\n"
+    my_logout "${1}"
 }
 
 
 # for user defined locales
 my_wget_def() {
+    my_login "${4}"
     LOCALE1="${1}"
     URL1="${2}"
     STR1="${3}"
@@ -69,6 +89,7 @@ my_wget_def() {
         exit 10
     fi
     echo -ne "OK\n"
+    my_logout "${4}"
 }
 
 
@@ -89,7 +110,8 @@ then
     sleep 5
 fi
 
-echo -e "\n\n"
+trap 'echo "clean and exit"; cp -f ../application/config.ini.original  ../application/config.ini; rm -f cookies.txt'  0 1 2 3 10 11 15
+
 diff -q ../application/config.ini  ../application/config.ini.original
 if [ $? == 0 ]
    then
@@ -99,14 +121,13 @@ if [ $? == 0 ]
       exit 11
 fi
 
-echo -ne "\n\nLog in as root "
-my_login
-
-echo -e "\n\n${LINE1}"
+echo -e "\n${LINE1}"
 echo "Testing locales and languages"
 echo -e "${LINE1}\n"
 
-echo -e "\n*** Testing auto determination\n"
+echo -e "${LINE2}"
+echo "Testing auto determination"
+echo -e "${LINE2}\n"
 
 my_wget "en" "http://localhost/webacula/" "Desktop"
 my_wget "en-us" "http://localhost/webacula/" "Desktop"
@@ -123,12 +144,13 @@ my_wget "eo" "http://localhost/webacula/" "Desktop"
 # real multi locales
 my_wget "en,ru;q=0.9,de;q=0.7,en-us;q=0.6,it;q=0.4,pt-br;q=0.3,eo;q=0.1" "http://localhost/webacula/" "Desktop"
 
-echo -e "\n---------------\nAll tests - OK\n\n"
+echo -e '\n\E[30;42m Auto determination tests - OK                    '
+tput sgr0
 
 
-
-
-echo -e "\n*** Testing user-defined locales\n"
+echo -e "\n${LINE2}"
+echo "Testing user-defined locales"
+echo -e "${LINE2}\n"
 
 APPINI="../application/config.ini"
 
@@ -156,9 +178,7 @@ my_wget_def "en" "http://localhost/webacula/" "Панель" "ru"
 cp -f conf/locale/config.ini.fake_locale  "${APPINI}"
 my_wget_def "ru" "http://localhost/webacula/" "Desktop" "fake"
 
-# restore original conf
-cp -f ../application/config.ini.original  ../application/config.ini
-rm -f cookies.txt
-
-echo -e "\n---------------\nAll tests - OK\n\n"
+echo -en '\n\E[30;42m User-defined locales tests - OK                    '
+tput sgr0
+echo -e "\n\n"
 

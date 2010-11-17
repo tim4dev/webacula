@@ -36,6 +36,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
     /**
      * Test login form
      * @group login-form
+     * @group login-wrong
      */
     public function testWrongLogin()
     {
@@ -46,14 +47,38 @@ class WebaculaAclControllerTest extends ControllerTestCase
                  'pwd'   => '123' ) )
              ->setMethod('POST');
         $this->dispatch('auth/login');
-        //echo $this->response->outputBody(); exit; // for debug !!!
         $this->assertController('auth');
         $this->assertAction('login');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         // zend form validate and error decorator output
         $this->assertQueryContentContains('div', 'Username or password is incorrect');
+        // get captcha
+        echo ".";
+        $this->dispatch('auth/login');
+        echo ".";
+        $this->dispatch('auth/login');
+        echo ".";
+        $this->dispatch('auth/login');
+        echo ".";
+        $this->assertQueryContentContains('td', 'Type the characters');
     }
 
 
+
+    /**
+     * @group menu-access-denied
+     */
+    public function testMenuAccessDenied()
+    {
+        print "\n".__METHOD__.' ';
+        $this->_user3Login();
+        //$this->dispatch('index/index');
+        $this->dispatch('log/view-log-id');
+        //echo $this->response->outputBody();  // for debug !!!
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertQueryContentRegex('div', '/We.*bacula.* : Access denied/');
+        // TODO доступно только Menu Client, Menu Storage
+        // см также LogControllerTest
+    }
 
 }

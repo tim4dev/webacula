@@ -59,13 +59,32 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
         echo ' (login as '.$data->login.') ';
     }
 
+
+
+    protected function _user3Login() {
+		// php array to object
+        $data = (object)$arr = array(
+          'id'        => 1002,
+          'login'     => 'user3',
+          'role_id'   => 3,
+          'role_name' => 'user_role'
+        );
+        // wtite session
+        $auth = Zend_Auth::getInstance();
+        $storage = $auth->getStorage();
+        $storage->write($data);
+        Zend_Session::rememberMe();
+        echo ' (login as '.$data->login.') ';
+    }
+
+
+
     protected function _isLogged($body) {
         if ( empty($body) )
             throw new RuntimeException('Login failed!');
     }
 
     protected function _logout()    {
-        Zend_Auth::getInstance()->clearIdentity();
-        Zend_Session::forgetMe();
+        $this->dispatch('auth/logout');
     }
 }

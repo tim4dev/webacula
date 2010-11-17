@@ -10,7 +10,6 @@ class LogControllerTest extends ControllerTestCase
         print "\n" . __METHOD__ . ' ';
         $this->_rootLogin();
         $this->dispatch('log/view-log-id/jobid/3/jobname/job name test 2');
-        //echo $this->response->outputBody(); exit; // for debug !!!
         $body = $this->response->outputBody();
         $this->_isLogged($body);
         if ( preg_match('/символы в кодировке utf8.*������� � ��������� cp1251/', $body) )
@@ -23,8 +22,7 @@ class LogControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Console messages found');
         $this->assertQueryContentRegex('table', '/Termination:.*Backup OK/');
-        // non-english chars
-        // phpunit not worked !!!
+        // non-english chars - phpunit not worked !!!
         //$this->assertQueryContentRegex('table', '/символы в кодировке utf8/');
         //$this->assertQueryContentRegex('table', '/������� � ��������� cp1251/');
     }
