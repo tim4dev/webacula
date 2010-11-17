@@ -1,0 +1,57 @@
+<!-- layouts/dafault/main-menu.phtml -->
+<ul id="main-menu" class="sf-menu">
+   	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
+       	<ul>
+           	<li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
+           	<li><a href="<?php echo $this->baseUrl;?>/bconsole/wterminal">
+                <?php print $this->translate->_("Bacula Console"); ?>
+            </a></li>
+		</ul>
+	</li>
+    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></li>
+    <li class="current"><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Job"); ?></a>
+		<ul>
+        	<li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Terminated"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
+    <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a></li>
+    <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Pool/Volume"); ?></a>
+    	<ul>
+        	<li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem"); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a>
+    </li>
+    <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a>
+    </li>
+    <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
+        <ul>
+            <li><a href="<?php echo $this->baseUrl;?>/wblogbook/add"><?php print $this->translate->_("Add New Record"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
+        </ul>
+    </li>
+    <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("Help"); ?></a>
+    </li>
+    <li><a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">
+        <?php print $this->translate->_("Logout"); ?></a>
+    </li>
+</ul>
+<div style="clear: both;"><!--  --></div>
+
+
+<script type="text/javascript">
+</script>
+<noscript>
+<div style="font-weight: bold; padding: 5px; background-color: red; color: white;">
+    <?php print $this->translate->_("Enable JavaScript please..."); ?>
+</div>
+</noscript>
+<!-- end layouts/dafault/main-menu.phtml -->

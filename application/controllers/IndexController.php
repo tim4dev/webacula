@@ -46,7 +46,7 @@ class IndexController extends MyClass_ControllerAclAction
         $this->_helper->actionStack('timeline-dashboard', 'job');
         $config = Zend_Registry::get('config');
         if (empty($config->head_title)) {
-            $this->view->titleDashboard = "webacula Main Page";
+            $this->view->titleDashboard = $this->view->translate('Webacula Main Page');
         } else {
             $this->view->titleDashboard = $config->head_title;
         }

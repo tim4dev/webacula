@@ -1,0 +1,103 @@
+<?php
+header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");               // Date in the past
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");  // Always modified
+header("Cache-Control: no-cache, must-revalidate");             // HTTP/1.1
+header("Pragma: no-cache");                                     // HTTP/1.0
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<?php if ( $this->meta_refresh ) : ?>
+    <meta http-equiv="refresh" content="<?php echo $this->meta_refresh; ?>" />
+<?php endif; ?>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="<?php echo $this->baseUrl; ?>/favicon.ico" />
+    <title>
+        <?php
+            if ( $this->titleDashboard )
+                echo $this->escape($this->titleDashboard);
+            else
+                echo $this->escape($this->title);
+        ?>
+    </title>
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/wbjobdesc.css" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
+
+<!-- main menu -->
+<!-- http://users.tpg.com.au/j_birch/plugins/superfish/ -->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/superfish.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/ui.selectmenu.css" media="screen" />
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/hoverIntent.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/superfish.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.8.6.custom.css");</style>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.8.6.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.selectmenu.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.confirm-1.2.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.tooltip.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('ul.sf-menu').superfish({
+            delay:       500,                            // second delay on mouseout
+            animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation
+            speed:       'fast',                         // faster animation speed
+            autoArrows:  true,                           // disable generation of arrow mark-up
+            dropShadows: true                            // disable drop shadows
+        });
+    });
+</script>
+<!-- END main menu -->
+
+<?php echo $this->MainmenuFloat($this); ?>
+
+<style type="text/css">
+.float_panel
+{
+/*width: 48%;*/
+float: left;
+margin: 10px 10px 0px 0px;
+padding: 5px;
+border: 1px solid #8DA0D5;
+background-color: #F2F8FF;
+}
+.clear_both { clear: both; }
+</style>
+
+<script type="text/javascript">
+  // round corners
+  $(function(){
+    $('div.roundcorner1').corner();
+    $('div.roundcorner2').corner();
+  });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('a').tooltip({
+        track: true,
+        delay: 0,
+        showURL: false
+    });
+    // for image maps
+    $('area').tooltip({
+        track: true,
+        delay: 0,
+        showURL: false
+    });
+    // for images
+    $('img').tooltip({
+        track: true,
+        delay: 0,
+        showURL: false
+    });
+});
+</script>
+
+</head>
