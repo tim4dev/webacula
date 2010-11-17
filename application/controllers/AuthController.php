@@ -36,7 +36,9 @@ class AuthController extends Zend_Controller_Action
         Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
         Zend_Loader::loadClass('Wbroles');
         $this->view->baseUrl = $this->_request->getBaseUrl();
-        $this->_helper->layout->setLayout('login');
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('login');
         // translate
         $this->view->translate = Zend_Registry::get('translate');
         // для переадресаций
@@ -70,7 +72,7 @@ class AuthController extends Zend_Controller_Action
         if ( $this->isAuth() ) {
             $this->_forward('index', 'index'); // если уже залогинен: action, controller
             return;
-        }
+        }                    
         $form = new formLogin();
         if ( $this->_request->isPost() && !$this->_request->getParam('from_forgot') ) {
             /* Проверяем валидность данных формы */
@@ -134,6 +136,10 @@ class AuthController extends Zend_Controller_Action
         $this->view->caption = $this->view->translate->_('Login with your <font color="#00008B">We</font><font color="#A80000">bacula</font> account');
         $this->view->title   = $this->view->translate->_('Login with your Webacula account');
         $this->view->form = $form;
+
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ( !$this->_helper->hasHelper('layout') )
+            $this->render();
     }
 
 
