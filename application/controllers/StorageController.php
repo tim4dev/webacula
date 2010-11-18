@@ -94,6 +94,12 @@ EOF");
             $this->_forward('storage', null, null, null);
             return;
         }
+        // do Bacula ACLs
+        if ( !$this->bacula_acl->doOneBaculaAcl($action, 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $action );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         /* autochanger commands :
          *
          * mount storage=<storage-name> [ slot=<num> ] [ drive=<num> ]
@@ -173,6 +179,13 @@ EOF");
         $changer = '';
 
         $storage_name = addslashes($this->_request->getParam('name'));
+        // do Bacula ACLs
+        $command = 'status';
+        if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         // do bacula acl
         if ( !$this->bacula_acl->doOneBaculaAcl($storage_name, 'storage') ) {
             $this->view->result_error = 'BACULA_ACCESS_DENIED';
