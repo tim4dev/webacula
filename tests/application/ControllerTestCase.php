@@ -79,6 +79,24 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 
 
 
+    protected function _user2Login() {
+		// php array to object
+        $data = (object)$arr = array(
+          'id'        => 1001,
+          'login'     => 'user2',
+          'role_id'   => 3,
+          'role_name' => 'operator_role'
+        );
+        // wtite session
+        $auth = Zend_Auth::getInstance();
+        $storage = $auth->getStorage();
+        $storage->write($data);
+        Zend_Session::rememberMe();
+        echo ' (login as '.$data->login.') ';
+    }
+
+
+
     protected function _isLogged($body) {
         if ( empty($body) )
             throw new RuntimeException('Login failed!');

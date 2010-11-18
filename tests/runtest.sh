@@ -12,7 +12,7 @@
 # ./runtest.sh --exclude-group job-nonreusable,restore,logbook
 # ./runtest.sh --group test-test
 # ./runtest.sh --filter testJobFindByVolumeName
-# phpunit --group test-test --stop-on-failure AllTests.php
+# sudo LANG=C phpunit --group test-test --stop-on-failure AllTests.php
 #
 #############################################################
 
@@ -50,8 +50,8 @@ fi
 sudo rm -f /tmp/webacula_restore_*
 
 cd prepare_tests
-sudo ./clean_all.sh
-sudo ./prepare.sh
+sudo LANG=C ./clean_all.sh
+sudo LANG=C ./prepare.sh
 if test $? -ne 0; then
     exit
 fi
@@ -63,7 +63,7 @@ echo "Main tests"
 echo -e "${LINE1}\n"
 # phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
 cp -f conf/config.ini.mysql  ../application/config.ini
-phpunit --colors --stop-on-failure AllTests.php
+LANG=C phpunit --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
