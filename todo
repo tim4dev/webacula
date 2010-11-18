@@ -3,8 +3,7 @@
 Текущее :
 
 - сделать одну страницу для Help Controller
-  * ScheduleACL not used in Webacula, not implemented
-  * CatalogACL  not used in Webacula, not implemented
+
     
 
 
@@ -17,7 +16,6 @@
 
 -------------------------------------------------------------------------------------------------------
 
-- кэшировать Timeline
 - unit тесты для проверки доступа. См также
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://efreedom.com/Question/1-3411110/Zend-Test-PHPUnit-ControllerTestCase-Zend-Layout-Unable-Find-Layout-Plugin-Running-Tests
@@ -36,7 +34,7 @@
 - заполнить остальные поля табл webacula_users
 + реализация восстановления пароля в Login form
 - все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)
-- в табл webacula_dt_resources добавить доступ в меню адмики
++ в табл webacula_dt_resources добавить доступ в меню админки
 - убрать отладочный код в SQL скриптах install/
 - пароли в SQL скриптах install/
 - в логин форм увеличить sleep(7)

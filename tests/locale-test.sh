@@ -144,8 +144,9 @@ my_wget "eo" "http://localhost/webacula/" "Desktop"
 # real multi locales
 my_wget "en,ru;q=0.9,de;q=0.7,en-us;q=0.6,it;q=0.4,pt-br;q=0.3,eo;q=0.1" "http://localhost/webacula/" "Desktop"
 
-echo -e '\n\E[30;42m Auto determination tests - OK                    '
+echo -en '\n\E[30;42m Auto determination tests - OK                    '
 tput sgr0
+echo -e "\n"
 
 
 echo -e "\n${LINE2}"

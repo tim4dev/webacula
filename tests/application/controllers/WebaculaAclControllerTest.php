@@ -99,7 +99,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
      * @group webacula-acl
      * @group webacula-acl-u3
      */
-    public function testWebaculaAcl3()
+    public function testWebaculaAclUser3()
     {
         print "\n".__METHOD__.' ';
         $this->_user3Login();  // logon as 'user3'
@@ -108,7 +108,6 @@ class WebaculaAclControllerTest extends ControllerTestCase
          */
         print "a";
         $this->dispatch('client/all');
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertNotQueryContentRegex('div', '/We.*bacula.* : Access denied/');
         $this->assertQueryContentContains('h1', 'Clients');
@@ -134,9 +133,9 @@ class WebaculaAclControllerTest extends ControllerTestCase
 
     /**
      * @group bacula-acl
-     * @group bacula-acl-u2
+     * @group bacula-acl-command-u2
      */
-    public function testBaculaAcl2()
+    public function testBaculaAclCommandUser2()
     {
         print "\n".__METHOD__.' ';
         $this->_user2Login();  // logon as 'user2' -- operator role
@@ -151,5 +150,158 @@ class WebaculaAclControllerTest extends ControllerTestCase
         }
     }
 
-    
+
+
+    /**
+     * @group bacula-acl
+     * @group bacula-acl-job-u2
+     */
+    public function testBaculaAclJobUser2()
+    {
+        print "\n".__METHOD__.' ';
+        $this->_user2Login();  // logon as 'user2' -- operator role
+
+        $actions = array(
+            'job/terminated',
+            'job/next'
+        );
+        foreach ($actions as $act) {
+            echo ".";
+            $this->dispatch($act);
+            $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+            // allowed
+            $this->assertQueryContentContains('td', 'job.name.test.1');
+            $this->assertQueryContentContains('td', 'job name test 2');
+            // not allowed
+            $this->assertNotQueryContentContains('td', 'job-name-test-3');
+            $this->assertNotQueryContentContains('td', 'job.name.test.4');
+            $this->assertNotQueryContentContains('td', 'job.name.test.autochanger.1');
+            $this->assertNotQueryContentContains('td', 'restore.files');
+        }
+        // detail JobId
+        $this->dispatch('job/detail/jobid/4');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertQueryContentContains('div', 'No Jobs found');
+    }
+
+
+    /**
+     * @group bacula-acl
+     * @group bacula-acl-storage-u2
+     */
+    public function testBaculaAclStorageUser2()
+    {
+        print "\n".__METHOD__.' ';
+        $this->_user2Login();  // logon as 'user2' -- operator role
+        $this->dispatch('storage/storage');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        // allowed
+        $this->assertQueryContentContains('td', 'storage.file.2');
+        $this->assertQueryContentContains('td', 'LTO1');
+        // not allowed
+        $this->assertNotQueryContentContains('td', 'storage.file.1');
+        $this->assertNotQueryContentContains('td', 'LTO2');
+    }
+
+
+
+    /**
+     * @group bacula-acl
+     * @group bacula-acl-pool-u2
+     */
+    public function testBaculaAclPoolUser2()
+    {
+        print "\n".__METHOD__.' ';
+        $this->_user2Login();  // logon as 'user2' -- operator role
+        $this->dispatch('pool/all');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        // allowed
+        $this->assertQueryContentContains('td', 'Default');
+        // not allowed
+        $this->assertNotQueryContentContains('td', 'pool.file.7d');
+    }
+
+
+
+    /**
+     * @group bacula-acl
+     * @group bacula-acl-client-u2
+     */
+    public function testBaculaAclClientUser2()
+    {
+        print "\n".__METHOD__.' ';
+        $this->_user2Login();  // logon as 'user2' -- operator role
+        $this->dispatch('client/all');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        // allowed
+        $this->assertQueryContentContains('td', 'local.fd');
+        // not allowed
+        $this->assertNotQueryContentContains('td', 'win32.fd');
+    }
+
+
+
+    /**
+     * @group bacula-acl
+     * @group bacula-acl-fileset-u2
+     */
+    public function testBaculaAclFilesetUser2()
+    {
+        print "\n".__METHOD__.' ';
+        $this->_user2Login();  // logon as 'user2' -- operator role
+        $this->dispatch('job/find-form');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        // allowed
+        $this->assertQueryContentContains('option', 'fileset.test.1');
+        // not allowed
+        $this->assertNotQueryContentContains('option', 'fileset test 2');
+        $this->assertNotQueryContentContains('option', 'fileset_test_3');
+        $this->assertNotQueryContentContains('option', 'fileset.test.4');
+    }
+
+
+
+    /**
+     * @group bacula-acl
+     * @group bacula-acl-where-u2
+     */
+    public function testBaculaAclWhereUser2()
+    {
+        print "\n".__METHOD__.' ';
+        $jobid = 3;
+
+        $this->_user2Login();  // logon as 'user2' -- operator role
+        // start restore session
+        $this->getRequest()
+             ->setParams(array(
+                'choice' => 'restore_all',
+                'jobid'  => $jobid,
+                'beginr' => 1
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/restore-choice');
+        $this->assertController('restorejob');
+        $this->resetRequest()
+             ->resetResponse();
+        // restore options
+        $this->getRequest()
+             ->setParams(array(
+                'where' => '/tmp/webacula_test_access_denied',
+                'from_form' => 1,
+                'jobid'  => $jobid
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/restore-all');
+        $this->assertController('restorejob');
+        $this->assertAction('restore-all');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        //echo $this->response->outputBody();exit; // for debug !!!
+        $this->assertQueryContentContains('div', 'Bacula ACLs : access denied for Where');
+        $this->assertNotQueryContentContains('div', 'Session of Restore backup is expired');
+    }
+
+
+
+
+
 }

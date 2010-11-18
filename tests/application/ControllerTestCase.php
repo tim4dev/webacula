@@ -51,7 +51,7 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
           'role_id'   => 1,
           'role_name' => 'root_role'
         );
-        // wtite session
+        // write session
         $auth = Zend_Auth::getInstance();
         $storage = $auth->getStorage();
         $storage->write($data);
@@ -69,7 +69,7 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
           'role_id'   => 3,
           'role_name' => 'user_role'
         );
-        // wtite session
+        // write session
         $auth = Zend_Auth::getInstance();
         $storage = $auth->getStorage();
         $storage->write($data);
@@ -84,10 +84,10 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
         $data = (object)$arr = array(
           'id'        => 1001,
           'login'     => 'user2',
-          'role_id'   => 3,
+          'role_id'   => 2,
           'role_name' => 'operator_role'
         );
-        // wtite session
+        // write session
         $auth = Zend_Auth::getInstance();
         $storage = $auth->getStorage();
         $storage->write($data);
