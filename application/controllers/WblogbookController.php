@@ -32,7 +32,6 @@ class WblogbookController extends MyClass_ControllerAclAction
     protected $aAllowedTags = array('pre','b', 'h1', 'h2', 'h3', 'p', 'i', 'em', 'u', 'br', 'code', 'del', 'sub',
         'sup', 'tt', 'a');
     protected $aAllowedAttrs = array('href');
-    protected $config_webacula;
     protected $id_insert = 0; // id вставленной записи
 
 
@@ -48,7 +47,6 @@ class WblogbookController extends MyClass_ControllerAclAction
 		Zend_Loader::loadClass('Zend_Validate_Digits');
 		Zend_Loader::loadClass('Zend_Validate_NotEmpty');
 		Zend_Loader::loadClass('MyClass_SendEmail');
-		$this->config_webacula = Zend_Registry::get('config_webacula');
 	}
 
     /**
@@ -254,9 +252,9 @@ class WblogbookController extends MyClass_ControllerAclAction
             $email = new MyClass_SendEmail();
             // $from_email, $from_name, $to_email, $to_name, $subj, $body
             $email->mySendEmail(
-                $this->config_webacula->email->from,
+                $this->view->config->webacula->email->from,
                 $this->view->translate->_('Webacula Logbook'),
-                $this->config_webacula->email->to_admin,
+                $this->view->config->webacula->email->to_admin,
                 $this->view->translate->_('Webacula admin'),
                 $this->view->translate->_('Webacula Logbook Add record'),
                 $this->view->translate->_('Create record :') . " " . $data['logDateCreate'] . "\n" .
@@ -299,9 +297,9 @@ class WblogbookController extends MyClass_ControllerAclAction
             $email = new MyClass_SendEmail();
             // $from_email, $from_name, $to_email, $to_name, $subj, $body
             $email->mySendEmail(
-                $this->config_webacula->email->from,
+                $this->view->config->webacula->email->from,
                 $this->view->translate->_('Webacula Logbook'),
-                $this->config_webacula->email->to_admin,
+                $this->view->config->webacula->email->to_admin,
                 $this->view->translate->_('Webacula admin'),
                 $this->view->translate->_('Bacula Job Reviewed'),
                 $this->view->translate->_('Job Id') ." ". $jobid ."\n". $msg_job
@@ -487,9 +485,9 @@ class WblogbookController extends MyClass_ControllerAclAction
 				    $email = new MyClass_SendEmail();
                     // $from_email, $from_name, $to_email, $to_name, $subj, $body
                     $email->mySendEmail(
-                        $this->config_webacula->email->from,
+                        $this->view->config->webacula->email->from,
                         $this->view->translate->_('Webacula Logbook'),
-                        $this->config_webacula->email->to_admin,
+                        $this->view->config->webacula->email->to_admin,
                         $this->view->translate->_('Webacula admin'),
                         $this->view->translate->_('Webacula Logbook Update record'),
                         $this->view->translate->_('Create record :') . ' ' . $data['logDateCreate'] . "\n" .
@@ -523,9 +521,9 @@ class WblogbookController extends MyClass_ControllerAclAction
                 $email = new MyClass_SendEmail();
                 // $from_email, $from_name, $to_email, $to_name, $subj, $body
                 $email->mySendEmail(
-                    $this->config_webacula->email->from,
+                    $this->view->config->webacula->email->from,
                     $this->view->translate->_('Webacula Logbook'),
-                    $this->config_webacula->email->to_admin,
+                    $this->view->config->webacula->email->to_admin,
                     $this->view->translate->_('Webacula admin'),
                     $this->view->translate->_('Webacula Logbook Delete record'),
                     $this->view->translate->_("LogId record :") ." " . $logid . "\n"
@@ -551,9 +549,9 @@ class WblogbookController extends MyClass_ControllerAclAction
                 $email = new MyClass_SendEmail();
                 // $from_email, $from_name, $to_email, $to_name, $subj, $body
                 $email->mySendEmail(
-                    $this->config_webacula->email->from,
+                    $this->view->config->webacula->email->from,
                     $this->view->translate->_('Webacula Logbook'),
-                    $this->config_webacula->email->to_admin,
+                    $this->view->config->webacula->email->to_admin,
                     $this->view->translate->_('Webacula admin'),
                     $this->view->translate->_('Webacula Logbook UnDelete record'),
                     $this->view->translate->_("LogId record :") . " " . $logid . "\n"

@@ -44,12 +44,11 @@ class FeedController extends MyClass_ControllerAclAction
         $test = $this->_request->getParam('test');
         if (empty($test))
             $this->_helper->layout->setLayout('printable'); // not test
-        $config_feed = new Zend_Config_Ini('../application/config.ini', 'feed');
         // create array for feed
-        $afeed = array('title' => $config_feed->feed_title ,
+        $afeed = array('title' => $this->view->config->feed->feed_title ,
             'link' => $this->view->baseUrl .
             '/feed/feed' ,
-            'description' => $config_feed->feed_desc ,
+            'description' => $this->view->config->feed->feed_desc ,
             'charset' => "UTF-8" ,
             'entries' => array()
         );

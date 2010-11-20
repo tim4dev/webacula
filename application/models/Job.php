@@ -308,17 +308,18 @@ L   Committing data (last despool)
     	$config = Zend_Registry::get('config');
 
     	// check access to bconsole
-    	if ( !file_exists($config->bacula->bconsole))	{
+    	if ( !file_exists($config->general->bacula->bconsole))	{
     		$aresult[] = 'NOFOUND';
     		return $aresult;
     	}
 
     	$bconsolecmd = '';
-        if ( isset($config->bacula->sudo))	{
+        if ( isset($config->general->bacula->sudo))	{
             // run with sudo
-            $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
+            $bconsolecmd = $config->general->bacula->sudo . ' ' . $config->general->bacula->bconsole . ' ' .
+                    $config->general->bacula->bconsolecmd;
         } else {
-            $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
+            $bconsolecmd = $config->general->bacula->bconsole . ' ' . $config->general->bacula->bconsolecmd;
         }
 
     	// run bconsole
@@ -437,17 +438,18 @@ EOF', $command_output, $return_var);
     {
     	$config = Zend_Registry::get('config');
     	// check access to bconsole
-    	if ( !file_exists($config->bacula->bconsole))	{
+    	if ( !file_exists($config->general->bacula->bconsole))	{
     		$aresult[] = 'NOFOUND';
     		return $aresult;
     	}
 
     	$bconsolecmd = '';
-        if ( isset($config->bacula->sudo))	{
+        if ( isset($config->general->bacula->sudo))	{
             // run with sudo
-            $bconsolecmd = $config->bacula->sudo . ' ' . $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
+            $bconsolecmd = $config->general->bacula->sudo . ' ' . $config->general->bacula->bconsole .
+                    ' ' . $config->general->bacula->bconsolecmd;
         } else {
-            $bconsolecmd = $config->bacula->bconsole . ' ' . $config->bacula->bconsolecmd;
+            $bconsolecmd = $config->general->bacula->bconsole . ' ' . $config->general->bacula->bconsolecmd;
         }
 
     	// run bconsole

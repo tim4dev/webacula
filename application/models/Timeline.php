@@ -44,12 +44,15 @@ class Timeline
     protected $margin_text_left; // отступ текста от начала полосы
     protected $fixfont;
     protected $bacula_acl; // bacula acl
+    protected $config;
+
 
 
 
     public function __construct()
     {
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        $this->config = Zend_Registry::get('config');
         $this->atime = array();
         // graphics data
         $this->img_width = 780;
@@ -364,12 +367,11 @@ class Timeline
     {
         $this->bar_count = count($this->atime);    // кол-во полос (т.е. кол-во отображаемых Jobs)
         // fonts from .ini configuration
-        $config = new Zend_Config_Ini('../application/config.ini', 'timeline');
-        if ( empty($config->fontname)) {
+        if ( empty($this->config->timeline->fontname)) {
             $this->font_name = null;
         } else {
-            putenv('GDFONTPATH='. $config->gdfontpath);
-            $this->font_name = $config->fontname;
+            putenv('GDFONTPATH='. $this->config->timeline->gdfontpath);
+            $this->font_name = $this->config->timeline->fontname;
         }
         switch ($img_type) {
             case 'small':
@@ -386,10 +388,10 @@ class Timeline
             break;
 
             default:
-                if ( empty($config->fontname)) {
+                if ( empty($this->config->timeline->fontname)) {
                     $this->font_size = 10;
                 } else {
-                    $this->font_size = $config->fontsize;
+                    $this->font_size = $this->config->timeline->fontsize;
                 }
                 $this->img_width = 780;
                 $this->bar_height = ceil($this->font_size * 2);  // высота одной полосы графика

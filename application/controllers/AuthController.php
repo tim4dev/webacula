@@ -199,7 +199,7 @@ class AuthController extends Zend_Controller_Action
     protected function emailForgotPassword($user_email, $user_name = '', $pwd)
     {
         Zend_Loader::loadClass('MyClass_SendEmail');
-        $config = Zend_Registry::get('config_webacula');
+        $config = Zend_Registry::get('config');
         $email = new MyClass_SendEmail();
         $body = $this->view->translate->_( sprintf(
 "Hello,
@@ -220,10 +220,10 @@ Thanks! \n",
             $this->_request->getServer('SERVER_NAME'),
             $this->_request->getServer('REMOTE_ADDR'),
             $pwd,
-            $config->email->to_admin) );
+            $config->webacula->email->to_admin) );
         // $from_email, $from_name, $to_email, $to_name, $subj, $body
         return $email->mySendEmail(
-            $config->email->from,
+            $config->webacula->email->from,
             $this->view->translate->_('Webacula password manager'),
             $user_email,
             $user_name,

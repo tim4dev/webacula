@@ -108,11 +108,10 @@ class RestorejobController extends MyClass_ControllerAclAction
      */
     function setTtlRestoreSession() {
         // set ttl_restore_session
-        $config_ini = Zend_Registry::get('config');
-        if ( empty($config_ini->ttl_restore_session) ) {
+        if ( empty($this->view->config->general->ttl_restore_session) ) {
             $this->ttl_restore_session = 3900;
         } else {
-            $this->ttl_restore_session = intval($config_ini->ttl_restore_session);
+            $this->ttl_restore_session = intval($this->view->config->general->ttl_restore_session);
         }
     }
 

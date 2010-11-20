@@ -26,8 +26,6 @@ require_once 'Zend/Controller/Action.php';
 class VolumeController extends MyClass_ControllerAclAction
 {
 
-    protected $config_webacula;
-
     function init ()
     {
         parent::init();
@@ -35,7 +33,6 @@ class VolumeController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('Media');
         Zend_Loader::loadClass('Pool');
         Zend_Loader::loadClass('MyClass_SendEmail');
-        $this->config_webacula = Zend_Registry::get('config_webacula');
     }
 
     function findNameAction ()
@@ -165,9 +162,9 @@ class VolumeController extends MyClass_ControllerAclAction
                 $email = new MyClass_SendEmail();
                 // $from_email, $from_name, $to_email, $to_name, $subj, $body
                 $email->mySendEmail(
-                        $this->config_webacula->email->from,
+                        $this->view->config->webacula->email->from,
                         'Webacula Volume controller',
-                        $this->config_webacula->email->to_admin,
+                        $this->view->config->webacula->email->to_admin,
                         'Webacula admin',
                         $this->view->translate->_('Webacula : Updated Volume parameters'),
                         $this->view->translate->_('Media Id') . ': ' . $media_id . "\n" .

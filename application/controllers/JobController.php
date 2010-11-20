@@ -261,12 +261,13 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->resultVol = $adetail['volume'];
     }
 
+
     public function getLastDays() {
-        $config = Zend_Registry::get('config');
-        if ( empty($config->days_to_show_jobs_with_errors) )
+        if ( empty($this->view->config->general->days_to_show_jobs_with_errors) )
             return 7;
-        return $config->days_to_show_jobs_with_errors;
+        return $this->view->config->general->days_to_show_jobs_with_errors;
     }
+
 
     /**
      * Jobs with errors/problems (last 14 days)

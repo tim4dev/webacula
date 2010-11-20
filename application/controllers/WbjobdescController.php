@@ -34,7 +34,6 @@ class WbjobdescController extends MyClass_ControllerAclAction
         parent::init();
         Zend_Loader::loadClass('Wbjobdesc'); // load model
         Zend_Loader::loadClass('FormJobdesc');
-        $this->config_webacula = Zend_Registry::get('config_webacula');
     }
 
 

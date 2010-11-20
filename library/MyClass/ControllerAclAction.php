@@ -29,10 +29,6 @@ require_once 'Zend/Controller/Action.php';
 class MyClass_ControllerAclAction extends Zend_Controller_Action
 {
 
-	const DEBUG_LOG = '/tmp/webacula_debug.log';
-    protected $_config;
-    public $debug_level;
-
     // ACL
     protected $webacula_acl;   // webacula acl
     protected $bacula_acl;     // bacula acl
@@ -46,7 +42,7 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         $this->view->translate = Zend_Registry::get('translate');
         $this->view->language  = Zend_Registry::get('language');
 
-        $this->_config = Zend_Registry::get('config');
+        $this->view->config = Zend_Registry::get('config');
         // authentication
         if ( $this->isAuth() )  {
             $this->identity  = Zend_Auth::getInstance()->getIdentity();

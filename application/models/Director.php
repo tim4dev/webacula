@@ -33,9 +33,9 @@ class Director
 	public function __construct()
 	{
 		$this->config      = Zend_Registry::get('config');
-		$this->sudo 	   = $this->config->bacula->sudo;
-		$this->bconsole    = $this->config->bacula->bconsole;
-		$this->bconsolecmd = $this->config->bacula->bconsolecmd;
+		$this->sudo 	   = $this->config->general->bacula->sudo;
+		$this->bconsole    = $this->config->general->bacula->bconsole;
+		$this->bconsolecmd = $this->config->general->bacula->bconsolecmd;
 		$cmd = '';
         if ( isset($this->sudo))	{
             // run with sudo

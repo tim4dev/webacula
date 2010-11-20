@@ -44,15 +44,11 @@ Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
 Zend_Loader::loadClass('Version');
 
-// load configuration
-$config = new Zend_Config_Ini($appRoot . '/application/config.ini', 'general');
-$config_webacula = new Zend_Config_Ini($appRoot . '/application/config.ini', 'webacula');
-$config_layout   = new Zend_Config_Ini($appRoot . '/application/config.ini', 'layout');
-
+// load all configuration sections and save to registry
+$config = new Zend_Config_Ini('../application/config.ini');
 $registry = Zend_Registry::getInstance();
-// assign the $config object to the registry so that it can be retrieved elsewhere in the application
 $registry->set('config', $config);
-$registry->set('config_webacula', $config_webacula);
+
 // set timezone
 if ( isset($config->def->timezone) )
     date_default_timezone_set($config->def->timezone);
@@ -81,30 +77,26 @@ Zend_Registry::set('ERR_VOLUME', -1);
  */
 
 // setup database bacula
-Zend_Registry::set('DB_ADAPTER', strtoupper($config->db->adapter) );
-$params = $config->db->config->toArray();
+Zend_Registry::set('DB_ADAPTER', strtoupper($config->general->db->adapter) );
+$params = $config->general->db->config->toArray();
 // for cross database compatibility with PDO, MySQL, PostgreSQL
 $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB::AUTO_QUOTE_IDENTIFIERS => FALSE);
-$db_bacula = Zend_Db::factory($config->db->adapter, $params);
+$db_bacula = Zend_Db::factory($config->general->db->adapter, $params);
 Zend_Db_Table::setDefaultAdapter($db_bacula);
 Zend_Registry::set('db_bacula', $db_bacula);
 
 unset($params);
 // setup database WEbacula
-Zend_Registry::set('DB_ADAPTER_WEBACULA', strtoupper($config_webacula->db->adapter) );
-$params = $config_webacula->db->config->toArray();
+Zend_Registry::set('DB_ADAPTER_WEBACULA', strtoupper($config->webacula->db->adapter) );
+$params = $config->webacula->db->config->toArray();
 $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB::AUTO_QUOTE_IDENTIFIERS => FALSE);
-$db_webacula = Zend_Db::factory($config_webacula->db->adapter, $params);
+$db_webacula = Zend_Db::factory($config->webacula->db->adapter, $params);
 Zend_Registry::set('db_webacula', $db_webacula);
 
 // setup controller, exceptions handler
 $frontController = Zend_Controller_Front::getInstance();
 $frontController->setControllerDirectory($appRoot . '/application/controllers');
-if ( $config->debug == 1 ) {
-	$frontController->throwExceptions(true);
-} else {
-	$frontController->throwExceptions(false);
-}
+$frontController->throwExceptions(false);
 
 // translate
 //auto scan lang files may be have bug in ZF ? $translate = new Zend_Translate('gettext', '../languages', null, array('scan' => Zend_Translate::LOCALE_DIRECTORY));
@@ -120,9 +112,9 @@ $translate->addTranslation('../languages/pt/webacula_pt_BR.mo', 'pt_BR');
 $translate->addTranslation('../languages/it/webacula_it.mo', 'it');
 $translate->addTranslation('../languages/es/webacula_es.mo', 'es');
 
-if ( isset($config->locale) ) {
+if ( isset($config->general->locale) ) {
     // locale is user defined
-    $locale = new Zend_Locale(trim($config->locale));
+    $locale = new Zend_Locale(trim($config->general->locale));
 } else {
     // autodetect locale
     // Search order is: given Locale, HTTP Client, Server Environment, Framework Standard
@@ -147,7 +139,7 @@ $registry->set('locale',    $locale);
 $registry->set('language',  $locale->getLanguage());
 
 Zend_Layout::startMvc(array(
-    'layoutPath' => $appRoot . '/application/layouts/' . $config_layout->path,
+    'layoutPath' => $appRoot . '/application/layouts/' . $config->layout->path,
     'layout' => 'main'
 ));
 
