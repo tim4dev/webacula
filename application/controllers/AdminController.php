@@ -20,8 +20,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
  */
-
-
 require_once 'Zend/Controller/Action.php';
 
 class AdminController extends MyClass_ControllerAclAction
@@ -32,8 +30,15 @@ class AdminController extends MyClass_ControllerAclAction
         parent::init();
         Zend_Loader::loadClass('Wbroles');
         Zend_Loader::loadClass('Wbusers');
+        // workaround for unit tests 'Action Helper by name Layout not found'
+        if ($this->_helper->hasHelper('layout'))
+            $this->_helper->layout->setLayout('admin');
     }
 
 
+
+    public function indexAction() {
+
+    }
 
 }

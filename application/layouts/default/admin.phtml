@@ -1,0 +1,15 @@
+<!-- layouts/default/admin-panel.phtml -->
+<?php echo $this->render('header.phtml') ?>
+
+<body style="margin-top: 34px; margin-left: 3em;">
+
+<?php echo $this->render('main-menu.phtml') ?>
+<?php echo $this->render('admin-menu.phtml') ?>
+
+<div style="position: absolute; top: 6em; left: 20em;">
+    <?php echo $this->layout()->content ?>
+</div>
+
+</body>
+<?php echo $this->render('footer.phtml') ?>
+<!-- end layouts/default/admin-panel.phtml -->

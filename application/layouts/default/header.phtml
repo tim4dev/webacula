@@ -20,22 +20,23 @@ header("Pragma: no-cache");                                     // HTTP/1.0
                 echo $this->escape($this->title);
         ?>
     </title>
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/wblogbook.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/wbjobdesc.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/site.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/wblogbook.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/wbjobdesc.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/admin.css" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
 
 <!-- main menu -->
 <!-- http://users.tpg.com.au/j_birch/plugins/superfish/ -->
-<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/superfish.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/ui.selectmenu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/superfish.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/ui.selectmenu.css" media="screen" />
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/hoverIntent.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/superfish.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
-<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/default/jquery-ui-1.8.6.custom.css");</style>
+<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/jquery-ui-1.8.6.custom.css");</style>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui-1.8.6.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.selectmenu.js"></script>
@@ -97,6 +98,28 @@ $(document).ready(function(){
         delay: 0,
         showURL: false
     });
+});
+</script>
+
+<script type="text/javascript">
+// use :
+// <a href="/" id="confirm" class="confirm"> TEST2 </a>
+$(document).ready(
+	function() {
+	$('a.confirm').click(function() {
+	document.location = $(this).attr("href");
+	return false;
+	})
+
+	$('a.confirm').confirm({
+		msg:' ? ',
+  		timeout:7000,
+  		buttons: {
+			ok:'<?php echo $this->translate->_('Yes'); ?>',
+			cancel:'<?php echo $this->translate->_('No'); ?>',
+			separator:' | '
+		}
+	});
 });
 </script>
 

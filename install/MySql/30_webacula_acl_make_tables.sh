@@ -91,7 +91,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES (130,'wblogbook
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (140,'help',      'Menu Help');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (150,'feed',      'RSS feed');
 INSERT INTO webacula_dt_resources (id, name, description) VALUES (160,'chart',     'Timeline chart');
-INSERT INTO webacula_dt_resources (id, name, description) VALUES (500,'admin',     'Menu Admin panel');
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (500,'admin',     'Menu Administrator');
 
 
 
