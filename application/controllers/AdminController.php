@@ -41,4 +41,12 @@ class AdminController extends MyClass_ControllerAclAction
 
     }
 
+
+    public function roleIndexAction() {
+        $roles = new Wbroles();
+        $this->view->result = $roles->fetchAllRoles();
+        $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Roles');
+    }
+
+
 }

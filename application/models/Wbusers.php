@@ -39,4 +39,3 @@ class Wbusers extends Zend_Db_Table
 
 
 }
-?>

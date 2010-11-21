@@ -59,21 +59,23 @@ class Wbroles extends Zend_Db_Table
             $this->_getAllParents($row->inherit_id);
     }
 
+
     public function fetchAllRoles() {
         /*
            SELECT roles.id, roles.name, inherits.name AS inherit_name
            FROM webacula_roles AS roles
            LEFT JOIN webacula_roles AS inherits ON inherits.id = roles.inherit_id
-           ORDER BY roles.inherit_id, roles.order_roles ASC
+           ORDER BY roles.inherit_id, roles.order_role ASC
         */
         $select = new Zend_Db_Select($this->db);
-        $select->from(array('roles' => 'webacula_roles'), array('id' , 'name'));
+        $select->from(array('roles' => 'webacula_roles'), array('id' , 'name', 'description', 'order_role'));
         $select->joinLeft(array('inherits' => 'webacula_roles'), 'inherits.id = roles.inherit_id', array('inherit_name' => 'name'));
         $select->order(array('roles.inherit_id, roles.order_role ASC'));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-        $result = $select->query();
+        $stmt   = $select->query();
+        $result = $stmt->fetchAll();
         return $result;
     }
 
+    
 }
-?>

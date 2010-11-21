@@ -1,0 +1,65 @@
+<!-- /admin/role-index.phtml -->
+<?php if ($this->result): ?>
+
+<div class="ui-widget">
+	<h3><?php echo $this->escape($this->title); ?></h3>
+
+    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/role-add">
+        <input type="submit" name="name1" value="<?php echo $this->translate->_('Create new role') ?>" class="ui-button ui-state-default ui-corner-all" />
+    </form>
+</div>
+
+<table id="box-table-admin" border="0">
+<thead>
+<tr>
+    <th scope="col">id</th>
+    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Description'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Inherited role'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
+    <th scope="col">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->result as $line) : ?>
+    <tr>
+        <td>
+            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['description']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['inherit_name']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['order_role']);?>&nbsp;
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl;?>/admin/role-update">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+            <?php if ($line['id'] != 1) : ?>
+                <a href="<?php echo $this->baseUrl;?>/admin/role-delete" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                    <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                </a>
+            <?php endif; ?>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+<?php else: ?>
+<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php print $this->translate->_("No Roles found."); ?></strong></p>
+	</div>
+</div>
+<?php endif; ?>
+
+<!-- end /admin/role-index.phtml -->
