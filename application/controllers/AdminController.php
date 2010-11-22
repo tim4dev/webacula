@@ -55,18 +55,33 @@ class AdminController extends MyClass_ControllerAclAction
     {
         $role_id = $this->_request->getParam('role_id', 0);
         /*
-         * get Role name
+         * get Role name, inherited id
          */
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
-        $row   = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
-        $role_name = $row->name;
+        $role  = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
         unset ($table);
-        /*
-         * form
-         */
+        /**********************************
+         * Role form
+         **********************************/
         Zend_Loader::loadClass('FormRole');
-        $form = new FormRole();
+        $form_role = new FormRole();
+        // fill form
+        $form_role->populate( array(
+                'action_id'  => 'update',
+                'role_id'    => $role_id,
+                'name_role'  => $role->name,
+                'description_role' => $role->description,
+                'order_role' => $role->order_role,
+                'inherit_id' => $role->inherit_id
+            ));
+        $form_role->setAction( $this->view->url() );
+        $this->view->form_role      = $form_role;
+        /**********************************
+         * WebaculaACL form
+         **********************************/
+        Zend_Loader::loadClass('FormWebaculaACL');
+        $form_webacula = new FormWebaculaACL();
         // get resources
         Zend_Loader::loadClass('WbDtResources');
         $table = new Wbresources();
@@ -76,30 +91,28 @@ class AdminController extends MyClass_ControllerAclAction
             $webacula_resources[] = $v->dt_id;
         }
         // fill form
-        $form->populate( array(
-                'role_id' => $role_id
+        $form_webacula->populate( array(
+                'role_id'    => $role_id,
+                'action_id'  => 'update',
+                'role_id'    => $role_id
             ));
         if ( isset($webacula_resources) )
-            $form->populate( array(
+            $form_webacula->populate( array(
                 'webacula_resources' => $webacula_resources,
                 'role_id'            => $role_id
             ));
-        // form
-        $form->setDecorators(array(
-            array('ViewScript', array(
-                'viewScript' => 'decorators/formRole.phtml',
-                'form'=> $form
-            ))
-        ));
-        // view
-        // roles names
+        $form_webacula->setAction( $this->view->url() );
+        $this->view->form_webacula  = $form_webacula;
+        /**********************************
+         * view
+         **********************************/
+        // Inherited roles name
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
         $this->view->roles = $table->getParentNames( $role_id );
-        // other
+        // title
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role update') .
-                ' :: [' . $role_id . '] ' . $role_name;
-        $this->view->form  = $form;
+                ' :: [' . $role_id . '] ' . $role->name;
     }
 
 

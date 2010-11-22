@@ -42,9 +42,6 @@ class FormLogin extends Zend_Form
     	$use_captcha = ($defNamespace->numLoginFails >= self::MAX_LOGIN_ATTEMPT) ? TRUE : FALSE;
 
         $this->setMethod('post');
-        $this->setDecorators(array(
-            array('ViewScript', array('viewScript' => 'login.phtml'))
-        ));
         
         // username
         $login = $this->createElement('text', 'login', array(

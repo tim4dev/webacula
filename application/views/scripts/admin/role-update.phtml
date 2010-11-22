@@ -18,9 +18,32 @@
 </p>
 
 </div>
+
+<!-- role form -->
 <div class="ui-widget-content ui-corner-all" style="padding: 2em;">
-<?php
-    $this->form->setAction( $this->url() );
-    echo $this->form;
-?>
+    <form  action="<?php echo $this->form_role->getAction();  ?>"
+            method="<?php echo $this->form_role->getMethod();  ?>">
+        <?php echo $this->form_role->role_id; ?>
+        <?php echo $this->form_role->action_id; ?>
+        <?php echo $this->form_role->order_role; ?>
+        <?php echo $this->form_role->name_role; ?>
+        <?php echo $this->form_role->description_role; ?>
+        <?php echo $this->form_role->inherit_id; ?>
+        <?php echo $this->form_role->submit; ?>
+        <?php echo $this->form_role->reset; ?>
+    </form>
 </div>
+<!-- end role form -->
+
+<!-- webacula ACLs -->
+<div class="ui-widget-content ui-corner-all" style="padding: 2em;">
+    <form  action="<?php echo $this->form_webacula->getAction();  ?>"
+            method="<?php echo $this->form_webacula->getMethod();  ?>">
+        <?php echo $this->form_webacula->role_id; ?>
+        <?php echo $this->form_webacula->action_id; ?>
+        <?php echo $this->form_webacula->webacula_resources; ?>
+        <?php echo $this->form_webacula->submit; ?>
+        <?php echo $this->form_webacula->reset; ?>
+    </form>
+</div>
+<!-- end webacula ACLs -->

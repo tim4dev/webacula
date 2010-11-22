@@ -67,6 +67,8 @@ class AuthController extends Zend_Controller_Action
 		return $auth->hasIdentity();
     }
 
+
+    
     public function loginAction()
     {
         if ( $this->isAuth() ) {

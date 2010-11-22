@@ -25,7 +25,7 @@ require_once 'Zend/Form/Element/Submit.php';
 require_once 'Zend/Form/Element/Reset.php';
 
 
-class FormRole extends Zend_Form
+class FormStorageACL extends Zend_Form
 {
 
     protected $translate;
@@ -38,80 +38,33 @@ class FormRole extends Zend_Form
         //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
         $this->setMethod('post');
+        // decorator
+        $this->setDecorators(array(
+            array('ViewScript', array('viewScript' => 'form-role.phtml'))
+        ));
         /*
          * hidden fields
          */
         $role_id = $this->addElement('hidden', 'role_id', array(
             'decorators' => $this->elDecorators
         ));
-        $action_id = $this->addElement('hidden', 'action_id', array(
-            'decorators' => $this->elDecorators
-        ));
         /*
-         * Order role
+         * StorageACL
          */
-        $order_role = $this->createElement('text', 'order_role', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Order'),
-            'required'  => true,
-            'size'      => 3,
-            'maxlength' => 5
-        ));
-        /*
-         * TODO добавить валидаторы :
-         * Int
-         * обязательное поле
-         */
-
-        /*
-         * Name role
-         */
-        $name_role = $this->createElement('text', 'name_role', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Name'),
-            'required'  => true,
-            'size'      => 30,
-            'maxlength' => 50
-        ));
-        /*
-         * TODO добавить валидаторы :
-         * макс длина 50 симв.
-         * только буквы и подчеркивание
-         * обязательное поле
-         */
-
-        /*
-         * Description role
-         */
-        $description_role = $this->createElement('textarea', 'description_role', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Description'),
-            'required'  => true,
-            'cols' => 50,
-            'rows' => 3
-        ));
-        /*
-         * TODO добавить валидаторы :
-         * обязательное поле
-         */
-
-        /*
-         * Inherited role id
-         */       
-        Zend_Loader::loadClass('Wbroles');
-        $table = new Wbroles();
-        $rows  = $table->fetchAll(null, 'id');
+        Zend_Loader::loadClass('WbStorageACL');
+        $table = new WbStorageACL();
+        $wbStorageACL = $table->fetchAll(null, 'id');
         // create element
-        $inherit_id = $this->createElement('select', 'inherit_id', array(
-            'label'    => $this->translate->_('Inherited role'),
+        $storage_acl = $this->createElement('multiselect', 'storage_acl', array(
+            'label'    => $this->translate->_('Storage ACL'),
             'class' => 'ui-select',
             'size' => 10
         ));
-        $inherit_id->addMultiOption('', '');
-        foreach( $rows as $v) {
-            $inherit_id->addMultiOption( $v['id'], $v['name'] );
-        }
+/*        foreach( $wbStorageACL as $v ) {
+            $storage_acl->addMultiOptions(array( $v->id => $v->name . ' => ' . $v->description ));
+        }*/
         unset ($table);
+
         /*
          * submit button
          */
@@ -133,10 +86,6 @@ class FormRole extends Zend_Form
          *  add elements to form
          */
         $this->addElements( array(
-            $order_role,
-            $name_role,
-            $description_role,
-            $inherit_id,
             $submit,
             $reset
         ));

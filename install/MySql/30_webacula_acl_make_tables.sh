@@ -105,7 +105,8 @@ CREATE TABLE IF NOT EXISTS webacula_storage_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
 );
 
 
@@ -116,7 +117,8 @@ CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
 );
 
 
@@ -127,7 +129,8 @@ CREATE TABLE IF NOT EXISTS webacula_command_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (dt_id, role_id)
 );
 
 CREATE TABLE IF NOT EXISTS webacula_dt_commands (
@@ -190,7 +193,8 @@ CREATE TABLE IF NOT EXISTS webacula_client_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
 );
 
 
@@ -201,7 +205,8 @@ CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
 );
 
 
@@ -212,7 +217,8 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
 );
 
 
@@ -223,7 +229,8 @@ CREATE TABLE IF NOT EXISTS webacula_job_acl (
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
-    INDEX (id, order_acl)
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
 );
 
 

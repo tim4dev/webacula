@@ -25,7 +25,7 @@ require_once 'Zend/Form/Element/Submit.php';
 require_once 'Zend/Form/Element/Reset.php';
 
 
-class FormRole extends Zend_Form
+class FormWebaculaACL extends Zend_Form
 {
 
     protected $translate;
@@ -48,68 +48,19 @@ class FormRole extends Zend_Form
             'decorators' => $this->elDecorators
         ));
         /*
-         * Order role
+         * Webacula resources
          */
-        $order_role = $this->createElement('text', 'order_role', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Order'),
-            'required'  => true,
-            'size'      => 3,
-            'maxlength' => 5
-        ));
-        /*
-         * TODO добавить валидаторы :
-         * Int
-         * обязательное поле
-         */
-
-        /*
-         * Name role
-         */
-        $name_role = $this->createElement('text', 'name_role', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Name'),
-            'required'  => true,
-            'size'      => 30,
-            'maxlength' => 50
-        ));
-        /*
-         * TODO добавить валидаторы :
-         * макс длина 50 симв.
-         * только буквы и подчеркивание
-         * обязательное поле
-         */
-
-        /*
-         * Description role
-         */
-        $description_role = $this->createElement('textarea', 'description_role', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Description'),
-            'required'  => true,
-            'cols' => 50,
-            'rows' => 3
-        ));
-        /*
-         * TODO добавить валидаторы :
-         * обязательное поле
-         */
-
-        /*
-         * Inherited role id
-         */       
-        Zend_Loader::loadClass('Wbroles');
-        $table = new Wbroles();
-        $rows  = $table->fetchAll(null, 'id');
+        Zend_Loader::loadClass('WbDtResources');
+        $table = new WbDtResources();
+        $wbDtResources = $table->fetchAll(null, 'id');
         // create element
-        $inherit_id = $this->createElement('select', 'inherit_id', array(
-            'label'    => $this->translate->_('Inherited role'),
+        $webacula_resources = $this->createElement('multiselect', 'webacula_resources', array(
+            'label'    => $this->translate->_('Webacula resources'),
             'class' => 'ui-select',
-            'size' => 10
+            'size' => 18
         ));
-        $inherit_id->addMultiOption('', '');
-        foreach( $rows as $v) {
-            $inherit_id->addMultiOption( $v['id'], $v['name'] );
+        foreach( $wbDtResources as $v ) {
+            $webacula_resources->addMultiOptions(array( $v->id => $v->name . ' => ' . $v->description ));
         }
         unset ($table);
         /*
@@ -133,10 +84,7 @@ class FormRole extends Zend_Form
          *  add elements to form
          */
         $this->addElements( array(
-            $order_role,
-            $name_role,
-            $description_role,
-            $inherit_id,
+            $webacula_resources,
             $submit,
             $reset
         ));
