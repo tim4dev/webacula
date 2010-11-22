@@ -41,10 +41,10 @@ class FormRole extends Zend_Form
         /*
          * hidden fields
          */
-        $role_id = $this->addElement('hidden', 'role_id', array(
+        $action_id = $this->addElement('hidden', 'action_id', array(
             'decorators' => $this->elDecorators
         ));
-        $action_id = $this->addElement('hidden', 'action_id', array(
+        $role_id = $this->addElement('hidden', 'role_id', array(
             'decorators' => $this->elDecorators
         ));
         /*
@@ -117,7 +117,7 @@ class FormRole extends Zend_Form
          */
         $submit = new Zend_Form_Element_Submit('submit',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'ok1',
+            'id'    => 'ok_'.__CLASS__,
             'class' => 'prefer_btn',
             'label' => $this->translate->_('Submit Form')
         ));
@@ -126,7 +126,7 @@ class FormRole extends Zend_Form
          */
         $reset = new Zend_Form_Element_Reset('reset',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'reset1',
+            'id'    => 'reset_'.__CLASS__,
             'label' => $this->translate->_('Cancel')
         ));
         /*

@@ -38,54 +38,70 @@ class FormStorageACL extends Zend_Form
         //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
         $this->setMethod('post');
-        // decorator
-        $this->setDecorators(array(
-            array('ViewScript', array('viewScript' => 'form-role.phtml'))
-        ));
         /*
          * hidden fields
          */
+        $action_id = $this->addElement('hidden', 'action_id', array(
+            'decorators' => $this->elDecorators
+        ));
         $role_id = $this->addElement('hidden', 'role_id', array(
             'decorators' => $this->elDecorators
         ));
         /*
-         * StorageACL
+         * Order
          */
-        Zend_Loader::loadClass('WbStorageACL');
-        $table = new WbStorageACL();
-        $wbStorageACL = $table->fetchAll(null, 'id');
-        // create element
-        $storage_acl = $this->createElement('multiselect', 'storage_acl', array(
-            'label'    => $this->translate->_('Storage ACL'),
-            'class' => 'ui-select',
-            'size' => 10
+        $order = $this->createElement('text', 'order', array(
+            //'decorators' => $this->elDecorators,
+            'label'     => $this->translate->_('Order'),
+            'required'  => true,
+            'size'      => 3,
+            'maxlength' => 5
         ));
-/*        foreach( $wbStorageACL as $v ) {
-            $storage_acl->addMultiOptions(array( $v->id => $v->name . ' => ' . $v->description ));
-        }*/
-        unset ($table);
+        /*
+         * TODO добавить валидаторы :
+         * Int
+         * обязательное поле
+         */
+
+        /*
+         * Name
+         */
+        $name = $this->createElement('text', 'name', array(
+            //'decorators' => $this->elDecorators,
+            'label'     => $this->translate->_('Name'),
+            'required'  => true,
+            'size'      => 50,
+            'maxlength' => 127
+        ));
+        /*
+         * TODO добавить валидаторы :
+         * макс длина 50 симв.
+         * обязательное поле
+         */
 
         /*
          * submit button
          */
         $submit = new Zend_Form_Element_Submit('submit',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'ok1',
+            'id'    => 'ok_'.__CLASS__,
             'class' => 'prefer_btn',
-            'label' => $this->translate->_('Submit Form')
+            'label' => $this->translate->_('Add')
         ));
         /*
          * reset button
          */
-        $reset = new Zend_Form_Element_Reset('reset',array(
+        $reset = new Zend_Form_Element_Reset('reset', array(
             'decorators' => $this->elDecorators,
-            'id'    => 'reset1',
+            'id'    => 'reset_'.__CLASS__,
             'label' => $this->translate->_('Cancel')
         ));
         /*
          *  add elements to form
          */
         $this->addElements( array(
+            $order,
+            $name,
             $submit,
             $reset
         ));

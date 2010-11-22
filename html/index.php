@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.21');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.22');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -183,8 +183,8 @@ try {
 $ver = new Version();
 if ( !$ver->checkVesion(BACULA_VERSION) )   {
     echo '<pre>';
-    throw new Zend_Exception("Version error for Catalog database (wanted ".BACULA_VERSION.",".
-            " got ". $ver->getVesion().") ");
+    throw new Zend_Exception("Bacula version mismatch for the Catalog database. ". 
+            "Wanted ".BACULA_VERSION.", got ". $ver->getVesion().". ");
 }
 /*
  * Check TMP_DIR, CACHE_DIR is writable

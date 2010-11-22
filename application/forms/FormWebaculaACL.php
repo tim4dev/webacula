@@ -68,7 +68,7 @@ class FormWebaculaACL extends Zend_Form
          */
         $submit = new Zend_Form_Element_Submit('submit',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'ok1',
+            'id'    => 'ok_'.__CLASS__,
             'class' => 'prefer_btn',
             'label' => $this->translate->_('Submit Form')
         ));
@@ -77,7 +77,7 @@ class FormWebaculaACL extends Zend_Form
          */
         $reset = new Zend_Form_Element_Reset('reset',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'reset1',
+            'id'    => 'reset_'.__CLASS__,
             'label' => $this->translate->_('Cancel')
         ));
         /*

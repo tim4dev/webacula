@@ -53,17 +53,17 @@ class AdminController extends MyClass_ControllerAclAction
 
     public function roleUpdateAction() 
     {
+        // TODO если были изменения, то очистить все кэши
         $role_id = $this->_request->getParam('role_id', 0);
-        /*
-         * get Role name, inherited id
-         */
+        /**********************************
+         * Role form
+         **********************************/
+        // get Role name, inherited id
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
         $role  = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
         unset ($table);
-        /**********************************
-         * Role form
-         **********************************/
+        // form
         Zend_Loader::loadClass('FormRole');
         $form_role = new FormRole();
         // fill form
@@ -78,21 +78,20 @@ class AdminController extends MyClass_ControllerAclAction
         $form_role->setAction( $this->view->url() );
         $this->view->form_role      = $form_role;
         /**********************************
-         * WebaculaACL form
+         * Webacula ACL form
          **********************************/
         Zend_Loader::loadClass('FormWebaculaACL');
         $form_webacula = new FormWebaculaACL();
         // get resources
-        Zend_Loader::loadClass('WbDtResources');
         $table = new Wbresources();
         $wbresources = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'id');
+        unset ($table);
         $webacula_resources = null;
         foreach( $wbresources as $v) {
             $webacula_resources[] = $v->dt_id;
         }
         // fill form
         $form_webacula->populate( array(
-                'role_id'    => $role_id,
                 'action_id'  => 'update',
                 'role_id'    => $role_id
             ));
@@ -104,12 +103,60 @@ class AdminController extends MyClass_ControllerAclAction
         $form_webacula->setAction( $this->view->url() );
         $this->view->form_webacula  = $form_webacula;
         /**********************************
+         * Storage ACL form
+         **********************************/
+        Zend_Loader::loadClass('WbStorageACL');
+        $table = new WbStorageACL();
+        $this->view->rows_storage = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id));
+        unset ($table);
+        // form
+        Zend_Loader::loadClass('FormStorageACL');
+        $form_storage = new FormStorageACL();
+        // fill form
+        $form_storage->populate( array(
+                'action_id' => 'add',
+                'role_id'   => $role_id
+            ));
+        $form_storage->setAction( $this->view->baseUrl . '/admin/storage-add' );
+        $this->view->form_storage = $form_storage;
+        /**********************************
+         * Pool ACL form
+         **********************************/
+        // TODO как и Storage ACL
+
+        /**********************************
+         * Client ACL form
+         **********************************/
+        // TODO как и Storage ACL
+
+        /**********************************
+         * Fileset ACL form
+         **********************************/
+        // TODO как и Storage ACL
+
+        /**********************************
+         * Where ACL form
+         **********************************/
+        // TODO как и Storage ACL
+
+        /**********************************
+         * Job ACL form
+         **********************************/
+        // TODO как и Storage ACL
+
+        /**********************************
+         * Command ACL form
+         **********************************/
+        // TODO как и Webacula ACL
+        
+        /**********************************
          * view
          **********************************/
         // Inherited roles name
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
         $this->view->roles = $table->getParentNames( $role_id );
+        unset ($table);
         // title
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role update') .
                 ' :: [' . $role_id . '] ' . $role->name;
