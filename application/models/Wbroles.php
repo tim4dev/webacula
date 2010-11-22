@@ -25,7 +25,8 @@ class Wbroles extends Zend_Db_Table
 {
 	protected $_name    = 'webacula_roles';
     protected $_primary = 'id';
-    protected $_parents = array();
+    protected $parentIds   = array();
+    protected $parentNames = array();
 
     public $db;
     public $db_adapter;
@@ -43,20 +44,36 @@ class Wbroles extends Zend_Db_Table
     /*
      * возвращает одномерный массив id всех родителей данного $id, включая его самого
      */
-    public function getParents($id) {
-        $this->_getAllParents($id);
-        return (! empty($this->parents) ? $this->parents : FALSE);
+    public function getParentIds($id) {
+        $this->parentIds = null;
+        $this->_getAllParentIds($id);
+        return (! empty($this->parentIds) ? $this->parentIds : FALSE);
     }
 
 
-    protected function _getAllParents($id) {
+    /*
+     * возвращает одномерный массив id и имен всех родителей данного $id, НЕ включая его самого:
+     * key[role_id] => role_name
+     */
+    public function getParentNames($id) {
+        $this->parentNames = null;
+        $this->_getAllParentIds($id);
+        // исключаем самого себя
+        if ( $this->parentNames )
+            unset($this->parentNames[$id]);
+        return (! empty($this->parentNames) ? $this->parentNames : FALSE);
+    }
+
+
+    protected function _getAllParentIds($id) {
         $select = $this->select();
         $select->where('id = ?', $id)
            ->order('id');
         $row = $this->fetchRow($select);
-        $this->parents[] = $row->id;
+        $this->parentIds[]   = $row->id;
+        $this->parentNames[$row->id] = $row->name;
         if ($row->inherit_id != NULL)
-            $this->_getAllParents($row->inherit_id);
+            $this->_getAllParentIds($row->inherit_id);
     }
 
 
@@ -76,6 +93,7 @@ class Wbroles extends Zend_Db_Table
         $result = $stmt->fetchAll();
         return $result;
     }
+
 
     
 }

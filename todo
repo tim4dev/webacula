@@ -30,7 +30,7 @@
         }
 
 
-
+- облагородить формы в админке http://plugins.jquery.com/plugin-tags/multiple-select
 - заполнить остальные поля табл webacula_users
 + реализация восстановления пароля в Login form
 - все таблицы из БД webacula разместить в БД bacula (с префиксом webacula_*)

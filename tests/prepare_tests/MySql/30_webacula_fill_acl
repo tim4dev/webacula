@@ -6,14 +6,18 @@ if mysql -u root -f bacula <<END-OF-DATA
 
 -- roles
 INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (3, 'user_role',  'for tests', NULL);
-INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (4, 'user2_role', 'for Roles tests', 3);
-INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (5, 'user3_role', 'for Roles tests', 4);
+INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (4, 'user4_role', 'for Roles tests', 3);
+INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (5, 'user5_role', 'for Roles tests', 4);
 
 -- users
 INSERT INTO webacula_users (id, login, pwd, email, active, create_login, role_id)
     VALUES (1001, 'user2', MD5('1'), 'root@localhost',   1, NOW(), 2);
 INSERT INTO webacula_users (id, login, pwd, email, active, create_login, role_id)
     VALUES (1002, 'user3', MD5('1'), 'nobody@localhost', 1, NOW(), 3);
+INSERT INTO webacula_users (id, login, pwd, email, active, create_login, role_id)
+    VALUES (1003, 'user4', MD5('1'), 'nobody@localhost', 1, NOW(), 4);
+INSERT INTO webacula_users (id, login, pwd, email, active, create_login, role_id)
+    VALUES (1004, 'user5', MD5('1'), 'nobody@localhost', 1, NOW(), 5);
 
 
 -- Bacula ACLs

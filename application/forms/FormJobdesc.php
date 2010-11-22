@@ -74,7 +74,7 @@ class FormJobdesc extends Zend_Form
         // submit button
         $submit = new Zend_Form_Element_Submit('submit',array(
             'class' => 'prefer_btn',
-            'label'=>'Submit Form'
+            'label' => 'Submit Form'
         ));
 
         // add elements to form

@@ -42,11 +42,66 @@ class AdminController extends MyClass_ControllerAclAction
     }
 
 
+
     public function roleIndexAction() {
         $roles = new Wbroles();
         $this->view->result = $roles->fetchAllRoles();
         $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Roles');
     }
+
+
+
+    public function roleUpdateAction() 
+    {
+        $role_id = $this->_request->getParam('role_id', 0);
+        /*
+         * get Role name
+         */
+        Zend_Loader::loadClass('Wbroles');
+        $table = new Wbroles();
+        $row   = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
+        $role_name = $row->name;
+        unset ($table);
+        /*
+         * form
+         */
+        Zend_Loader::loadClass('FormRole');
+        $form = new FormRole();
+        // get resources
+        Zend_Loader::loadClass('WbDtResources');
+        $table = new Wbresources();
+        $wbresources = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'id');
+        $webacula_resources = null;
+        foreach( $wbresources as $v) {
+            $webacula_resources[] = $v->dt_id;
+        }
+        // fill form
+        $form->populate( array(
+                'role_id' => $role_id
+            ));
+        if ( isset($webacula_resources) )
+            $form->populate( array(
+                'webacula_resources' => $webacula_resources,
+                'role_id'            => $role_id
+            ));
+        // form
+        $form->setDecorators(array(
+            array('ViewScript', array(
+                'viewScript' => 'decorators/formRole.phtml',
+                'form'=> $form
+            ))
+        ));
+        // view
+        // roles names
+        Zend_Loader::loadClass('Wbroles');
+        $table = new Wbroles();
+        $this->view->roles = $table->getParentNames( $role_id );
+        // other
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role update') .
+                ' :: [' . $role_id . '] ' . $role_name;
+        $this->view->form  = $form;
+    }
+
 
 
 }

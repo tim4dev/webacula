@@ -115,7 +115,7 @@ class MyClass_BaculaAcl
             // промах кэша
             // get current role and all parents roles
             $table = new Wbroles();
-            $roles = $table->getParents( $this->ident->role_id );
+            $roles = $table->getParentIds( $this->ident->role_id );
             // get all Bacula ACLs and all parents Bacula ACLs
             switch ($acl) {
                 case 'command':
