@@ -50,51 +50,38 @@ class FormRole extends Zend_Form
         /*
          * Order role
          */
-        $order_role = $this->createElement('text', 'order_role', array(
+        $order = $this->createElement('text', 'order_role', array(
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Order'),
             'required'  => true,
             'size'      => 3,
             'maxlength' => 5
         ));
-        /*
-         * TODO добавить валидаторы :
-         * Int
-         * обязательное поле
-         */
-
+        $order->addValidator('Int');
+        $order->addValidator('NotEmpty');
         /*
          * Name role
          */
-        $name_role = $this->createElement('text', 'name_role', array(
+        $name = $this->createElement('text', 'role_name', array(
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Name'),
             'required'  => true,
             'size'      => 30,
             'maxlength' => 50
         ));
-        /*
-         * TODO добавить валидаторы :
-         * макс длина 50 симв.
-         * только буквы и подчеркивание
-         * обязательное поле
-         */
-
+        $name->addValidator('StringLength', false, array(2, 50));
+        $name->addValidator('NotEmpty');
         /*
          * Description role
          */
-        $description_role = $this->createElement('textarea', 'description_role', array(
+        $description = $this->createElement('textarea', 'description_role', array(
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Description'),
             'required'  => true,
             'cols' => 50,
             'rows' => 3
         ));
-        /*
-         * TODO добавить валидаторы :
-         * обязательное поле
-         */
-
+        $description->addValidator('NotEmpty');
         /*
          * Inherited role id
          */       
@@ -133,9 +120,9 @@ class FormRole extends Zend_Form
          *  add elements to form
          */
         $this->addElements( array(
-            $order_role,
-            $name_role,
-            $description_role,
+            $order,
+            $name,
+            $description,
             $inherit_id,
             $submit,
             $reset

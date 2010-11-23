@@ -25,7 +25,7 @@ require_once 'Zend/Form/Element/Submit.php';
 require_once 'Zend/Form/Element/Reset.php';
 
 
-class FormStorageACL extends Zend_Form
+class FormClientACL extends Zend_Form
 {
 
     protected $translate;

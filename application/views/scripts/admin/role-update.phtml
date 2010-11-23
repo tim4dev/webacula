@@ -21,17 +21,139 @@
 
 
 
+<!-- Fileset ACL form -->
+<div class="ui-widget-content ui-corner-all" style="padding: 2em;">
+
+<?php echo $this->render('decorators/formFilesetACL.phtml'); ?>
+    
+<table id="box-table-admin" border="0">
+<thead>
+<tr>
+    <th scope="col">id</th>
+    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
+    <th scope="col">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->rows_fileset as $line) : ?>
+    <tr>
+        <td>
+            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl;?>/admin/fileset-update/role_id/<?php echo $this->role_id ?>/fileset_id/<?php echo $line['id'] ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+            <a href="<?php echo $this->baseUrl;?>/admin/fileset-delete/role_id/<?php echo $this->role_id ?>/fileset_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+<!-- end Fileset ACL form -->
+
+
+
+<!-- Client ACL form -->
+<div class="ui-widget-content ui-corner-all" style="padding: 2em;">
+
+<?php echo $this->render('decorators/formClientACL.phtml'); ?>
+
+<table id="box-table-admin" border="0">
+<thead>
+<tr>
+    <th scope="col">id</th>
+    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
+    <th scope="col">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->rows_client as $line) : ?>
+    <tr>
+        <td>
+            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl;?>/admin/client-update/client_id/<?php echo $line['id'] ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+            <a href="<?php echo $this->baseUrl;?>/admin/client-delete/client_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+<!-- end Client ACL form -->
+
+
+
+<!-- Pool ACL form -->
+<div class="ui-widget-content ui-corner-all" style="padding: 2em;">
+
+<?php echo $this->render('decorators/formPoolACL.phtml'); ?>    
+
+<table id="box-table-admin" border="0">
+<thead>
+<tr>
+    <th scope="col">id</th>
+    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
+    <th scope="col">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->rows_pool as $line) : ?>
+    <tr>
+        <td>
+            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+        </td>
+        <td>
+            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl;?>/admin/pool-update/pool_id/<?php echo $line['id'] ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+            <a href="<?php echo $this->baseUrl;?>/admin/pool-delete/pool_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+<!-- end Pool ACL form -->
+
+
+
 <!-- Storage ACL form -->
 <div class="ui-widget-content ui-corner-all" style="padding: 2em;">
-    <form  action="<?php echo $this->form_storage->getAction();  ?>"
-            method="<?php echo $this->form_storage->getMethod();  ?>">
-        <?php echo $this->form_storage->role_id; ?>
-        <?php echo $this->form_storage->action_id; ?>
-        <?php echo $this->form_storage->order; ?>
-        <?php echo $this->form_storage->name; ?>
-        <?php echo $this->form_storage->submit; ?>
-        <?php echo $this->form_storage->reset; ?>
-    </form>
+
+<?php echo $this->render('decorators/formStorageACL.phtml'); ?>
 
 <table id="box-table-admin" border="0">
 <thead>
@@ -73,17 +195,7 @@
 
 <!-- role form -->
 <div class="ui-widget-content ui-corner-all" style="padding: 2em;">
-    <form  action="<?php echo $this->form_role->getAction();  ?>"
-            method="<?php echo $this->form_role->getMethod();  ?>">
-        <?php echo $this->form_role->role_id; ?>
-        <?php echo $this->form_role->action_id; ?>
-        <?php echo $this->form_role->order_role; ?>
-        <?php echo $this->form_role->name_role; ?>
-        <?php echo $this->form_role->description_role; ?>
-        <?php echo $this->form_role->inherit_id; ?>
-        <?php echo $this->form_role->submit; ?>
-        <?php echo $this->form_role->reset; ?>
-    </form>
+    <?php echo $this->render('decorators/formRole.phtml'); ?>
 </div>
 <!-- end role form -->
 
@@ -91,13 +203,6 @@
 
 <!-- webacula ACLs -->
 <div class="ui-widget-content ui-corner-all" style="padding: 2em;">
-    <form  action="<?php echo $this->form_webacula->getAction();  ?>"
-            method="<?php echo $this->form_webacula->getMethod();  ?>">
-        <?php echo $this->form_webacula->role_id; ?>
-        <?php echo $this->form_webacula->action_id; ?>
-        <?php echo $this->form_webacula->webacula_resources; ?>
-        <?php echo $this->form_webacula->submit; ?>
-        <?php echo $this->form_webacula->reset; ?>
-    </form>
+    <?php echo $this->render('decorators/formWebaculaACL.phtml'); ?>
 </div>
 <!-- end webacula ACLs -->

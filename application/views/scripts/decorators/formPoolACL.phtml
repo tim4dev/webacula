@@ -1,0 +1,12 @@
+<!-- decorators/formPoolACL.phtml -->
+    <form  action="<?php echo $this->form_pool->getAction();  ?>"
+            method="<?php echo $this->form_pool->getMethod();  ?>">
+        <?php echo $this->form_pool->role_id; ?>
+        <?php echo $this->form_pool->role_name; ?>
+        <?php echo $this->form_pool->action_id; ?>
+        <?php echo $this->form_pool->order; ?>
+        <?php echo $this->form_pool->name; ?>
+        <?php echo $this->form_pool->submit; ?>
+        <?php echo $this->form_pool->reset; ?>
+    </form>
+<!-- end decorators/formPoolACL.phtml -->
