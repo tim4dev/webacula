@@ -60,6 +60,9 @@ class AdminController extends MyClass_ControllerAclAction
 
 
 
+    /***************************************************************************
+     * Fileset
+     ***************************************************************************/
     public function filesetAddAction()
     {
         if ( $this->_request->isPost() ) {
@@ -100,7 +103,6 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_name' => $role_name )); // action, controller
         }
     }
-
     
 
     public function filesetUpdateAction()
@@ -172,6 +174,125 @@ class AdminController extends MyClass_ControllerAclAction
 
 
 
+    /***************************************************************************
+     * Client
+     ***************************************************************************/
+    public function clientAddAction()
+    {
+        if ( $this->_request->isPost() ) {
+            $role_id   = $this->_request->getParam('role_id');
+            $role_name = $this->_request->getParam('role_name');
+            if ( empty ($role_id) ) {
+                throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
+                return;
+            }
+            $form_client = new FormClientACL();
+            // Проверяем валидность данных формы
+            if ( $form_client->isValid($this->_getAllParams()) )
+            {
+                // insert data to table
+                $table = new WbClientACL();
+                $data = array(
+                    'name'      => $this->_request->getParam('name'),
+                    'order_acl' => $this->_request->getParam('order'),
+                    'role_id'   => $role_id
+                );
+                try {
+                    $table->insert($data);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
+                        "<br>Message: " . $e->getMessage() . "<br>";
+                }
+            } else {
+                $this->view->errors = $form_client->getMessages();
+                $form_client->setAction( $this->view->baseUrl . '/admin/client-add' );
+                $this->view->form_client = $form_client;
+                $this->view->title = 'Webacula :: ' . $this->view->translate->_('Client ACL add') .
+                    ' :: [' . $role_id . '] ' . $role_name;
+                $this->renderScript('admin/form-client.phtml');
+                return;
+            }
+            $this->_forward('role-update', 'admin', null, array(
+                'role_id'   => $role_id,
+                'role_name' => $role_name )); // action, controller
+        }
+    }
+
+
+    public function clientUpdateAction()
+    {
+        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
+        $client_id = $this->_request->getParam('client_id');
+        $role_id    = $this->_request->getParam('role_id', null);
+        if ( empty($client_id) || empty($role_id) ) {
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+            return;
+        }
+        $form_client = new FormClientACL();
+        $table = new WbClientACL();
+        if ( $this->_request->isPost() ) {
+            // Проверяем валидность данных формы
+            if ( $form_client->isValid($this->_getAllParams()) )
+            {
+                // update data
+                $data = array(
+                    'name'      => $this->_request->getParam('name'),
+                    'order_acl' => $this->_request->getParam('order')
+                );
+                $where = $table->getAdapter()->quoteInto('id = ?', $client_id);
+                try {
+                    $table->update($data, $where);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
+                        "<br>Message: " . $e->getMessage() . "<br>";
+                }
+                $this->_forward('role-update', 'admin', null, array(
+                    'role_id' => $role_id
+                )); // action, controller
+                return;
+            }
+        }
+        // create form
+        $row = $table->find($client_id)->current();
+        // fill form
+        $form_client->populate( array(
+            'action_id' => 'update',
+            'client_id'=> $client_id,
+            'name'      => $row->name,
+            'order'     => $row->order_acl,
+            'role_id'   => $role_id
+        ));
+        $form_client->submit->setLabel($this->view->translate->_('Update'));
+        $form_client->setAction( $this->view->baseUrl . '/admin/client-update' );
+        $this->view->form_client = $form_client;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Client ACL update');
+        $this->renderScript('admin/form-client.phtml');
+    }
+
+
+    public function clientDeleteAction()
+    {
+        $client_id = $this->_request->getParam('client_id');
+        $role_id    = $this->_request->getParam('role_id', null);
+        if ( empty($client_id) || empty($role_id) ) {
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+            return;
+        }
+        $table = new WbClientACL();
+        $where = $table->getAdapter()->quoteInto('id = ?', $client_id);
+        $table->delete($where);
+        $this->_forward('role-update', 'admin', null, array(
+            'role_id' => $role_id
+        )); // action, controller
+    }
+
+
+
+
+
+    /***************************************************************************
+     * Role update
+     ***************************************************************************/
     public function roleUpdateAction() 
     {
         // TODO если были изменения, то очистить все кэши
