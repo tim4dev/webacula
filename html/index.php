@@ -18,12 +18,13 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.22');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.24');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
-define('TMP_DIR',  ROOT_DIR.'/data/tmp' );
-define('CACHE_DIR',ROOT_DIR.'/data/cache' );
+define('TMP_DIR',    ROOT_DIR.'/data/tmp' );
+define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
+define('SESSION_DIR',ROOT_DIR.'/data/session' );
 
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
@@ -187,7 +188,7 @@ if ( !$ver->checkVesion(BACULA_VERSION) )   {
             "Wanted ".BACULA_VERSION.", got ". $ver->getVesion().". ");
 }
 /*
- * Check TMP_DIR, CACHE_DIR is writable
+ * Check TMP_DIR, CACHE_DIR, SESSION_DIR is writable
  */
 if ( !is_writable( TMP_DIR ) ) {
     echo '<pre>';
@@ -197,8 +198,20 @@ if ( !is_writable( CACHE_DIR ) ) {
     echo '<pre>';
     throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');
 }
-
+if ( !is_writable( SESSION_DIR ) ) {
+    echo '<pre>';
+    throw new Zend_Exception('Directory "'.SESSION_DIR.'" is not exists or not writable.');
+}
+/*
+ * Start session
+ */
+Zend_Session::setOptions(array(
+    'use_only_cookies' => 1,
+    'name'      => 'WBSESSID',
+    'save_path' => SESSION_DIR
+));
 Zend_Session::start();
+Zend_Session::regenerateId();
 
 // для подсчета кол-ва неудачных логинов для вывода капчи
 $defNamespace = new Zend_Session_Namespace('Default');

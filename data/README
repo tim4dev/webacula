@@ -1,7 +1,7 @@
 
 data/cache/      Cache directory for Zend_Cache
 
-
+data/session/    Storage for PHP session
 
 data/tmp/        Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
                  IMPORTANT!  This directory and files in it should be available to read the Director service.
