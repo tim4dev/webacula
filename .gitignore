@@ -9,3 +9,4 @@ library/Zend.arc/
 tests/report/*
 data/cache/*
 data/tmp/*
+data/session/*
