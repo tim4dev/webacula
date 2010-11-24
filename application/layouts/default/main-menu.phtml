@@ -25,7 +25,12 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
 <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'index') ) : ?>
 <ul id="main-menu" class="sf-menu">
     <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'admin') ) : ?>
-    <li><a href="<?php echo $this->baseUrl;?>/admin/index"><?php print $this->translate->_("Administrator"); ?></a></li>
+    <li><a href="<?php echo $this->baseUrl;?>/admin/role-index"><?php print $this->translate->_("Administrator"); ?></a>
+        <ul>
+            <li><a href="<?php echo $this->baseUrl;?>/admin/role-index"><?php print $this->translate->_("Roles"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/admin/#"><?php print $this->translate->_("Users"); ?></a></li>
+        </ul>
+    </li>
     <?php endif; ?>
    	<li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
        	<ul>

@@ -42,9 +42,6 @@ class AdminController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('FormPoolACL');
         Zend_Loader::loadClass('FormClientACL');
         Zend_Loader::loadClass('FormFilesetACL');
-        // workaround for unit tests 'Action Helper by name Layout not found'
-        if ($this->_helper->hasHelper('layout'))
-            $this->_helper->layout->setLayout('admin');
     }
 
 
