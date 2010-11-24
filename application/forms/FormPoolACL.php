@@ -50,6 +50,9 @@ class FormPoolACL extends Zend_Form
         $role_name = $this->addElement('hidden', 'role_name', array(
             'decorators' => $this->elDecorators
         ));
+        $pool_id = $this->addElement('hidden', 'pool_id', array(
+            'decorators' => $this->elDecorators
+        ));
         /*
          * Order
          */

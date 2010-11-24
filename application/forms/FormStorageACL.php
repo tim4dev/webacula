@@ -50,6 +50,9 @@ class FormStorageACL extends Zend_Form
         $role_name = $this->addElement('hidden', 'role_name', array(
             'decorators' => $this->elDecorators
         ));
+        $storage_id = $this->addElement('hidden', 'storage_id', array(
+            'decorators' => $this->elDecorators
+        ));
         /*
          * Order
          */

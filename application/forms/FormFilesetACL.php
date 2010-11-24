@@ -31,6 +31,7 @@ class FormFilesetACL extends Zend_Form
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
 
+    
 
     public function init()
     {       
@@ -48,6 +49,9 @@ class FormFilesetACL extends Zend_Form
             'decorators' => $this->elDecorators
         ));
         $role_name = $this->addElement('hidden', 'role_name', array(
+            'decorators' => $this->elDecorators
+        ));
+        $fileset_id = $this->addElement('hidden', 'fileset_id', array(
             'decorators' => $this->elDecorators
         ));
         /*

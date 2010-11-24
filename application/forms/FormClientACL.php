@@ -50,6 +50,9 @@ class FormClientACL extends Zend_Form
         $role_name = $this->addElement('hidden', 'role_name', array(
             'decorators' => $this->elDecorators
         ));
+        $client_id = $this->addElement('hidden', 'client_id', array(
+            'decorators' => $this->elDecorators
+        ));
         /*
          * Order
          */

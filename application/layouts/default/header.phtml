@@ -32,7 +32,7 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <!-- http://users.tpg.com.au/j_birch/plugins/superfish/ -->
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/superfish.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/ui.selectmenu.css" media="screen" />
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/hoverIntent.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/superfish.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
@@ -107,8 +107,8 @@ $(document).ready(function(){
 $(document).ready(
 	function() {
 	$('a.confirm').click(function() {
-	document.location = $(this).attr("href");
-	return false;
+        document.location = $(this).attr("href");
+        return false;
 	})
 
 	$('a.confirm').confirm({

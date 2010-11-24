@@ -108,20 +108,16 @@ class AdminController extends MyClass_ControllerAclAction
 
     public function filesetUpdateAction()
     {
-        if ( $this->_request->isPost() ) {  // ???
-            $fileset_id   = $this->_request->getParam('fileset_id');
-            if ( empty ($fileset_id) ) {
-                throw new Exception(__METHOD__.' : "Empty $fileset_id parameter"');
-                return;
-            }
-            $role_id = $this->_request->getParam('role_id', null);
-            if ( empty ($role_id) ) {
-                throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
-                return;
-            }
-            // data from form
-            $form_fileset = new FormFilesetACL();
-            $table = new WbFilesetACL();
+        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
+        $fileset_id = $this->_request->getParam('fileset_id');
+        $role_id    = $this->_request->getParam('role_id', null);
+        if ( empty($fileset_id) || empty($role_id) ) {
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+            return;
+        }
+        $form_fileset = new FormFilesetACL();
+        $table = new WbFilesetACL();
+        if ( $this->_request->isPost() ) {
             // Проверяем валидность данных формы
             if ( $form_fileset->isValid($this->_getAllParams()) )
             {
@@ -132,30 +128,48 @@ class AdminController extends MyClass_ControllerAclAction
                 );
                 $where = $table->getAdapter()->quoteInto('id = ?', $fileset_id);
                 try {
-                    $table->insert($data);
+                    $table->update($data, $where);
                 } catch (Zend_Exception $e) {
                     $this->view->exception = "<br>Caught exception: " . get_class($e) .
                         "<br>Message: " . $e->getMessage() . "<br>";
                 }
-            } else {
-                // create form
-                $this->view->rows_fileset = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
-                // fill form
-                $form_fileset->populate( array(
-                    'action_id' => 'update',
-                    'id'        => $fileset_id,
-                    'name'      => $this->_request->getParam('name'),
-                    'order_acl' => $this->_request->getParam('order')
-                ));
-                $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-update' );
-                $this->view->form_fileset = $form_fileset;
-                $this->view->title = 'Webacula :: ' . $this->view->translate->_('Fileset ACL update');
+                $this->_forward('role-update', 'admin', null, array(
+                    'role_id' => $role_id
+                )); // action, controller
+                return;
             }
-            $this->renderScript('admin/form-fileset.phtml');
+        }
+        // create form
+        $row = $table->find($fileset_id)->current();
+        // fill form
+        $form_fileset->populate( array(
+            'action_id' => 'update',
+            'fileset_id'=> $fileset_id,
+            'name'      => $row->name,
+            'order'     => $row->order_acl,
+            'role_id'   => $role_id
+        ));
+        $form_fileset->submit->setLabel($this->view->translate->_('Update'));
+        $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-update' );
+        $this->view->form_fileset = $form_fileset;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Fileset ACL update');
+        $this->renderScript('admin/form-fileset.phtml');
+    }
+
+    
+    public function filesetDeleteAction()
+    {
+        $fileset_id = $this->_request->getParam('fileset_id');
+        $role_id    = $this->_request->getParam('role_id', null);
+        if ( empty($fileset_id) || empty($role_id) ) {
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
             return;
         }
+        $table = new WbFilesetACL();
+        $where = $table->getAdapter()->quoteInto('id = ?', $fileset_id);
+        $table->delete($where);
         $this->_forward('role-update', 'admin', null, array(
-            'role_id'   => $role_id
+            'role_id' => $role_id
         )); // action, controller
     }
 
