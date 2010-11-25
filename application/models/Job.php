@@ -180,7 +180,7 @@ a   SD despooling attributes
 l   Doing data despooling
 L   Committing data (last despool)
          */
-        $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
+        $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W', 'D')");
         $select->where("j.EndTime > ?", $last1day);
         $select->order(array("StartTime", "JobId"));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -241,7 +241,7 @@ L   Committing data (last despool)
         	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 	       	$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
     		$select->where("(j.EndTime = 0) OR (j.EndTime IS NULL) OR ".
-                "(j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
+                "(j.JobStatus IN ('C','R','B','e','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
 	        $select->where("j.StartTime > ?", $last7day);
 			break;
     	case 'PDO_PGSQL':
@@ -258,7 +258,7 @@ L   Committing data (last despool)
         	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 	       	$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
    			$select->where("(j.EndTime IS NULL) OR ".
-                "(j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
+                "(j.JobStatus IN ('C','R','B','e','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
     		$select->where("j.StartTime > ( NOW() - INTERVAL '7 days' )");
             break;
 		case 'PDO_SQLITE':
@@ -280,7 +280,7 @@ L   Committing data (last despool)
 			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 			$select->joinLeft(array('p' => 'Pool'), 'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
 			$select->where("(datetime(j.EndTime) IS NULL) OR ".
-                "(j.JobStatus IN ('C','R','B','e','D','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
+                "(j.JobStatus IN ('C','R','B','e','F','S','m','M','s','j','c','d','t','p','i','a','l','L'))");
 			$select->where("j.StartTime > datetime('now','-7 days')");
 			break;
         }
@@ -596,7 +596,7 @@ EOF', $command_output, $return_var);
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('fileset'=>'FileSet'));
 
         $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
-        $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I')))");
+        $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I','D')))");
         $select->where("j.EndTime > ?", $last7day);
         $select->where("j.Reviewed = 0");
         $select->order(array("StartTime", "JobId"));
@@ -764,7 +764,7 @@ Select Job resource (1-3):
    				break;
     		case "t":
 				// Terminated in Error
-   				$select->where("j.JobStatus  IN ('E', 'e', 'f', 'I')");
+   				$select->where("j.JobStatus  IN ('E', 'e', 'f', 'I', 'D')");
    				break;
    			case "A":
 				// Canceled by the user
@@ -1059,7 +1059,7 @@ Select Job resource (1-3):
 				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('jobstatuslong'=>'JobStatusLong'));
 			break;
         }
-		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W')");
+		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W', 'D')");
 		$select->where("j.Type = 'B'");
    		$select->order(array("sortStartTime DESC"));
    		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // !!!debug
