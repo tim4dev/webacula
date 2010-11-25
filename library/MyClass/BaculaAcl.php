@@ -70,6 +70,10 @@ class MyClass_BaculaAcl
         $auth    = Zend_Auth::getInstance();
         $this->ident  = $auth->getIdentity();
         if ($this->ident) {
+            if ( empty ($this->ident->role_id) ) {
+                throw new Exception(__METHOD__.' : "Empty session parameter"');
+                return;
+            }
             $this->cache_id  = $this->ident->role_id . '_bacula_acl_';
             $this->cache_tag = $this->ident->role_id . '_bacula_acl_tag';
         }
