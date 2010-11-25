@@ -61,7 +61,17 @@ $(function() {
 
 <!-- Client ACL form -->
 <div id="tab-client">
-<?php echo $this->render('decorators/formClientACL.phtml'); ?>
+<form  action="<?php echo $this->form_client->getAction(); ?>"
+       method="<?php echo $this->form_client->getMethod(); ?>">
+    <?php echo $this->form_client->role_id;   ?>
+    <?php echo $this->form_client->role_name; ?>
+    <?php echo $this->form_client->action_id; ?>
+    <?php echo $this->form_client->order; ?>
+    <?php echo $this->form_client->name;  ?>
+    <?php echo $this->form_client->id;    ?>
+    <?php echo $this->form_client->submit;?>
+    <?php echo $this->form_client->reset; ?>
+</form>
 
 <table id="box-table-admin" border="0">
 <thead>
@@ -85,10 +95,10 @@ $(function() {
             &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
         </td>
         <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/client-update/role_id/<?php echo $this->role_id ?>/client_id/<?php echo $line['id'] ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/client-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/client-delete/role_id/<?php echo $this->role_id ?>/client_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/client-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
         </td>
@@ -111,7 +121,17 @@ $(function() {
 
 <!-- Fileset ACL form -->
 <div id="tab-fileset">
-<?php echo $this->render('decorators/formFilesetACL.phtml'); ?>
+<form  action="<?php echo $this->form_fileset->getAction(); ?>"
+       method="<?php echo $this->form_fileset->getMethod(); ?>">
+    <?php echo $this->form_fileset->role_id;   ?>
+    <?php echo $this->form_fileset->role_name; ?>
+    <?php echo $this->form_fileset->action_id; ?>
+    <?php echo $this->form_fileset->order; ?>
+    <?php echo $this->form_fileset->name;  ?>
+    <?php echo $this->form_fileset->id;    ?>
+    <?php echo $this->form_fileset->submit;?>
+    <?php echo $this->form_fileset->reset; ?>
+</form>
     
 <table id="box-table-admin" border="0">
 <thead>
@@ -135,10 +155,10 @@ $(function() {
             &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
         </td>
         <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/fileset-update/role_id/<?php echo $this->role_id ?>/fileset_id/<?php echo $line['id'] ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/fileset-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/fileset-delete/role_id/<?php echo $this->role_id ?>/fileset_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/fileset-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
         </td>
@@ -161,7 +181,17 @@ $(function() {
 
 <!-- Pool ACL form -->
 <div id="tab-pool">
-<?php echo $this->render('decorators/formPoolACL.phtml'); ?>    
+<form  action="<?php echo $this->form_pool->getAction(); ?>"
+       method="<?php echo $this->form_pool->getMethod(); ?>">
+    <?php echo $this->form_pool->role_id;   ?>
+    <?php echo $this->form_pool->role_name; ?>
+    <?php echo $this->form_pool->action_id; ?>
+    <?php echo $this->form_pool->order; ?>
+    <?php echo $this->form_pool->name;  ?>
+    <?php echo $this->form_pool->id;    ?>
+    <?php echo $this->form_pool->submit;?>
+    <?php echo $this->form_pool->reset; ?>
+</form>
 
 <table id="box-table-admin" border="0">
 <thead>
@@ -185,10 +215,10 @@ $(function() {
             &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
         </td>
         <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/pool-update/role_id/<?php echo $this->role_id ?>/pool_id/<?php echo $line['id'] ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/pool-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/pool-delete/role_id/<?php echo $this->role_id ?>/pool_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/pool-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
         </td>
@@ -203,7 +233,17 @@ $(function() {
 
 <!-- Storage ACL form -->
 <div id="tab-storage">
-<?php echo $this->render('decorators/formStorageACL.phtml'); ?>
+<form  action="<?php echo $this->form_storage->getAction(); ?>"
+       method="<?php echo $this->form_storage->getMethod(); ?>">
+    <?php echo $this->form_storage->role_id;   ?>
+    <?php echo $this->form_storage->role_name; ?>
+    <?php echo $this->form_storage->action_id; ?>
+    <?php echo $this->form_storage->order; ?>
+    <?php echo $this->form_storage->name;  ?>
+    <?php echo $this->form_storage->id;    ?>
+    <?php echo $this->form_storage->submit;?>
+    <?php echo $this->form_storage->reset; ?>
+</form>
 
 <table id="box-table-admin" border="0">
 <thead>
@@ -227,10 +267,10 @@ $(function() {
             &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
         </td>
         <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/storage-update/role_id/<?php echo $this->role_id ?>/storage_id/<?php echo $line['id'] ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/storage-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/storage-delete/role_id/<?php echo $this->role_id ?>/storage_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/storage-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
         </td>

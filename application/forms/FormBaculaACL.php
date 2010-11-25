@@ -25,7 +25,7 @@ require_once 'Zend/Form/Element/Submit.php';
 require_once 'Zend/Form/Element/Reset.php';
 
 
-class FormFilesetACL extends Zend_Form
+class FormBaculaACL extends Zend_Form
 {
 
     protected $translate;
@@ -51,7 +51,7 @@ class FormFilesetACL extends Zend_Form
         $role_name = $this->addElement('hidden', 'role_name', array(
             'decorators' => $this->elDecorators
         ));
-        $fileset_id = $this->addElement('hidden', 'fileset_id', array(
+        $id = $this->addElement('hidden', 'id', array(
             'decorators' => $this->elDecorators
         ));
         /*

@@ -38,10 +38,7 @@ class AdminController extends MyClass_ControllerAclAction
         // forms
         Zend_Loader::loadClass('FormRole');
         Zend_Loader::loadClass('FormWebaculaACL');
-        Zend_Loader::loadClass('FormStorageACL');
-        Zend_Loader::loadClass('FormPoolACL');
-        Zend_Loader::loadClass('FormClientACL');
-        Zend_Loader::loadClass('FormFilesetACL');
+        Zend_Loader::loadClass('FormBaculaACL');
     }
 
 
@@ -58,26 +55,44 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Roles');
     }
 
+    
 
-
-    /***************************************************************************
-     * Fileset
-     ***************************************************************************/
-    public function filesetAddAction()
+    /*
+     * Add dispatcher for :
+     * Client, FileSet, Job, Pool, Storage ACLs
+     */
+    public function aclAddDispatcher($acl)
     {
+        switch ($acl) {
+            case 'client':
+                $table = new WbClientACL();
+                break;
+            case 'fileset':
+                $table = new WbFilesetACL();
+                break;
+            case 'job':
+                $table = new WbJobACL();
+                break;
+            case 'pool':
+                $table = new WbPoolACL();
+                break;
+            case 'storage':
+                $table = new WbStorageACL();
+                break;
+            default:
+                throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+                break;
+        }
         if ( $this->_request->isPost() ) {
             $role_id   = $this->_request->getParam('role_id');
             $role_name = $this->_request->getParam('role_name');
-            if ( empty ($role_id) ) {
+            if ( empty ($role_id) )
                 throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
-                return;
-            }
-            $form_fileset = new FormFilesetACL();
-            // Проверяем валидность данных формы
-            if ( $form_fileset->isValid($this->_getAllParams()) )
+            $form = new FormBaculaACL();
+            // validate form
+            if ( $form->isValid($this->_getAllParams()) )
             {
                 // insert data to table
-                $table = new WbFilesetACL();
                 $data = array(
                     'name'      => $this->_request->getParam('name'),
                     'order_acl' => $this->_request->getParam('order'),
@@ -90,12 +105,12 @@ class AdminController extends MyClass_ControllerAclAction
                         "<br>Message: " . $e->getMessage() . "<br>";
                 }
             } else {
-                $this->view->errors = $form_fileset->getMessages();
-                $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-add' );
-                $this->view->form_fileset = $form_fileset;
-                $this->view->title = 'Webacula :: ' . $this->view->translate->_('Fileset ACL add') .
+                $this->view->errors = $form->getMessages();
+                $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-add' );
+                $this->view->form = $form;
+                $this->view->title = 'Webacula :: ' . $this->view->translate->_(ucfirst($acl).' ACL add') .
                     ' :: [' . $role_id . '] ' . $role_name;
-                $this->renderScript('admin/form-fileset.phtml');
+                $this->renderScript('admin/form-bacula-acl.phtml');
                 return;
             }
             $this->_forward('role-update', 'admin', null, array(
@@ -103,29 +118,51 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_name' => $role_name )); // action, controller
         }
     }
+
     
 
-    public function filesetUpdateAction()
+    /*
+     * Update dispatcher for :
+     * Client, FileSet, Job, Pool, Storage ACLs
+     */
+    public function aclUpdateDispatcher($acl)
     {
-        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
-        $fileset_id = $this->_request->getParam('fileset_id');
-        $role_id    = $this->_request->getParam('role_id', null);
-        if ( empty($fileset_id) || empty($role_id) ) {
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
-            return;
+        switch ($acl) {
+            case 'client':
+                $table = new WbClientACL();
+                break;
+            case 'fileset':
+                $table = new WbFilesetACL();
+                break;
+            case 'job':
+                $table = new WbJobACL();
+                break;
+            case 'pool':
+                $table = new WbPoolACL();
+                break;
+            case 'storage':
+                $table = new WbStorageACL();
+                break;
+            default:
+                throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+                break;
         }
-        $form_fileset = new FormFilesetACL();
-        $table = new WbFilesetACL();
+        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
+        $id = $this->_request->getParam('id');
+        $role_id    = $this->_request->getParam('role_id', null);
+        if ( empty($id) || empty($role_id) )
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+        $form = new FormBaculaACL();
         if ( $this->_request->isPost() ) {
             // Проверяем валидность данных формы
-            if ( $form_fileset->isValid($this->_getAllParams()) )
+            if ( $form->isValid($this->_getAllParams()) )
             {
                 // update data
                 $data = array(
                     'name'      => $this->_request->getParam('name'),
                     'order_acl' => $this->_request->getParam('order')
                 );
-                $where = $table->getAdapter()->quoteInto('id = ?', $fileset_id);
+                $where = $table->getAdapter()->quoteInto('id = ?', $id);
                 try {
                     $table->update($data, $where);
                 } catch (Zend_Exception $e) {
@@ -139,37 +176,81 @@ class AdminController extends MyClass_ControllerAclAction
             }
         }
         // create form
-        $row = $table->find($fileset_id)->current();
+        $row = $table->find($id)->current();
         // fill form
-        $form_fileset->populate( array(
+        $form->populate( array(
             'action_id' => 'update',
-            'fileset_id'=> $fileset_id,
+            'id'        => $id,
             'name'      => $row->name,
             'order'     => $row->order_acl,
             'role_id'   => $role_id
         ));
-        $form_fileset->submit->setLabel($this->view->translate->_('Update'));
-        $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-update' );
-        $this->view->form_fileset = $form_fileset;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Fileset ACL update');
-        $this->renderScript('admin/form-fileset.phtml');
+        $form->submit->setLabel($this->view->translate->_('Update'));
+        $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-update' );
+        $this->view->form = $form;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_(ucfirst($acl).' ACL update');
+        $this->renderScript('admin/form-bacula-acl.phtml');
     }
 
-    
-    public function filesetDeleteAction()
+
+
+    /*
+     * Delete dispatcher for :
+     * Client, FileSet, Job, Pool, Storage ACLs
+     */
+    public function aclDeleteDispatcher($acl)
     {
-        $fileset_id = $this->_request->getParam('fileset_id');
-        $role_id    = $this->_request->getParam('role_id', null);
-        if ( empty($fileset_id) || empty($role_id) ) {
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
-            return;
+        switch ($acl) {
+            case 'client':
+                $table = new WbClientACL();
+                break;
+            case 'fileset':
+                $table = new WbFilesetACL();
+                break;
+            case 'job':
+                $table = new WbJobACL();
+                break;
+            case 'pool':
+                $table = new WbPoolACL();
+                break;
+            case 'storage':
+                $table = new WbStorageACL();
+                break;
+            default:
+                throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+                break;
         }
-        $table = new WbFilesetACL();
-        $where = $table->getAdapter()->quoteInto('id = ?', $fileset_id);
+        $id = $this->_request->getParam('id');
+        $role_id    = $this->_request->getParam('role_id', null);
+        if ( empty($id) || empty($role_id) )
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+        $where = $table->getAdapter()->quoteInto('id = ?', $id);
         $table->delete($where);
         $this->_forward('role-update', 'admin', null, array(
             'role_id' => $role_id
         )); // action, controller
+    }
+
+
+
+
+
+    /***************************************************************************
+     * Fileset
+     ***************************************************************************/
+    public function filesetAddAction()
+    {
+        $this->aclAddDispatcher('fileset');
+    }
+    
+    public function filesetUpdateAction()
+    {
+        $this->aclUpdateDispatcher('fileset');
+    }
+    
+    public function filesetDeleteAction()
+    {
+        $this->aclDeleteDispatcher('fileset');
     }
 
 
@@ -179,113 +260,18 @@ class AdminController extends MyClass_ControllerAclAction
      ***************************************************************************/
     public function clientAddAction()
     {
-        if ( $this->_request->isPost() ) {
-            $role_id   = $this->_request->getParam('role_id');
-            $role_name = $this->_request->getParam('role_name');
-            if ( empty ($role_id) ) {
-                throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
-                return;
-            }
-            $form_client = new FormClientACL();
-            // Проверяем валидность данных формы
-            if ( $form_client->isValid($this->_getAllParams()) )
-            {
-                // insert data to table
-                $table = new WbClientACL();
-                $data = array(
-                    'name'      => $this->_request->getParam('name'),
-                    'order_acl' => $this->_request->getParam('order'),
-                    'role_id'   => $role_id
-                );
-                try {
-                    $table->insert($data);
-                } catch (Zend_Exception $e) {
-                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
-                        "<br>Message: " . $e->getMessage() . "<br>";
-                }
-            } else {
-                $this->view->errors = $form_client->getMessages();
-                $form_client->setAction( $this->view->baseUrl . '/admin/client-add' );
-                $this->view->form_client = $form_client;
-                $this->view->title = 'Webacula :: ' . $this->view->translate->_('Client ACL add') .
-                    ' :: [' . $role_id . '] ' . $role_name;
-                $this->renderScript('admin/form-client.phtml');
-                return;
-            }
-            $this->_forward('role-update', 'admin', null, array(
-                'role_id'   => $role_id,
-                'role_name' => $role_name )); // action, controller
-        }
+        $this->aclAddDispatcher('client');
     }
-
 
     public function clientUpdateAction()
     {
-        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
-        $client_id = $this->_request->getParam('client_id');
-        $role_id    = $this->_request->getParam('role_id', null);
-        if ( empty($client_id) || empty($role_id) ) {
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
-            return;
-        }
-        $form_client = new FormClientACL();
-        $table = new WbClientACL();
-        if ( $this->_request->isPost() ) {
-            // Проверяем валидность данных формы
-            if ( $form_client->isValid($this->_getAllParams()) )
-            {
-                // update data
-                $data = array(
-                    'name'      => $this->_request->getParam('name'),
-                    'order_acl' => $this->_request->getParam('order')
-                );
-                $where = $table->getAdapter()->quoteInto('id = ?', $client_id);
-                try {
-                    $table->update($data, $where);
-                } catch (Zend_Exception $e) {
-                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
-                        "<br>Message: " . $e->getMessage() . "<br>";
-                }
-                $this->_forward('role-update', 'admin', null, array(
-                    'role_id' => $role_id
-                )); // action, controller
-                return;
-            }
-        }
-        // create form
-        $row = $table->find($client_id)->current();
-        // fill form
-        $form_client->populate( array(
-            'action_id' => 'update',
-            'client_id'=> $client_id,
-            'name'      => $row->name,
-            'order'     => $row->order_acl,
-            'role_id'   => $role_id
-        ));
-        $form_client->submit->setLabel($this->view->translate->_('Update'));
-        $form_client->setAction( $this->view->baseUrl . '/admin/client-update' );
-        $this->view->form_client = $form_client;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Client ACL update');
-        $this->renderScript('admin/form-client.phtml');
+        $this->aclUpdateDispatcher('client');
     }
-
 
     public function clientDeleteAction()
     {
-        $client_id = $this->_request->getParam('client_id');
-        $role_id    = $this->_request->getParam('role_id', null);
-        if ( empty($client_id) || empty($role_id) ) {
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
-            return;
-        }
-        $table = new WbClientACL();
-        $where = $table->getAdapter()->quoteInto('id = ?', $client_id);
-        $table->delete($where);
-        $this->_forward('role-update', 'admin', null, array(
-            'role_id' => $role_id
-        )); // action, controller
+        $this->aclDeleteDispatcher('client');
     }
-
 
 
 
@@ -297,10 +283,8 @@ class AdminController extends MyClass_ControllerAclAction
     {
         // TODO если были изменения, то очистить все кэши
         $role_id = $this->_request->getParam('role_id', null);
-        if ( empty ($role_id) ) {
+        if ( empty ($role_id) )
             throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
-            return;
-        }
         /**********************************
          * Role form
          **********************************/
@@ -353,7 +337,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->rows_storage = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
         unset ($table);
         // form
-        $form_storage = new FormStorageACL();
+        $form_storage = new FormBaculaACL();
         // fill form
         $form_storage->populate( array(
                 'action_id' => 'add',
@@ -369,7 +353,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->rows_pool = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
         unset ($table);
         // form
-        $form_pool = new FormPoolACL();
+        $form_pool = new FormBaculaACL();
         // fill form
         $form_pool->populate( array(
                 'action_id' => 'add',
@@ -385,7 +369,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->rows_client = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
         unset ($table);
         // form       
-        $form_client = new FormClientACL();
+        $form_client = new FormBaculaACL();
         // fill form
         $form_client->populate( array(
                 'action_id' => 'add',
@@ -401,7 +385,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->rows_fileset = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
         unset ($table);
         // form        
-        $form_fileset = new FormFilesetACL();
+        $form_fileset = new FormBaculaACL();
         // fill form
         $form_fileset->populate( array(
                 'action_id' => 'add',
