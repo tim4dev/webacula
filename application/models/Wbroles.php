@@ -97,8 +97,22 @@ class Wbroles extends Zend_Db_Table
     }
 
 
+    public function update(array $data, $where)
+    {
+        $row = $this->fetchRow($where);
+        // Не должно быть : role id != inherit_id в одной и той же записи
+        if ( isset($row->id) && isset($data['inherit_id']) )
+            if ( $row->id == $data['inherit_id'] ) {
+                $translate = Zend_Registry::get('translate');
+                throw new Zend_Exception( $translate->_('Role Id and Inherited Role Id must not be identical') );
+                return 0;
+            }
+        return parent::update($data, $where);
+    }
 
-    public function  delete($where) {
+
+    public function  delete($where)
+    {
         /*
          * если есть ссылки из таблиц: webacula_roles или webacula_users
          * то удаление не производить

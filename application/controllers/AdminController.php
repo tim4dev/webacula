@@ -68,7 +68,7 @@ class AdminController extends MyClass_ControllerAclAction
         $role_name  = $this->_request->getParam('role_name');
         if ( empty($role_id) )
             throw new Exception(__METHOD__.' : "Empty input parameters"');
-        $form = new FormRole();
+        $form = new FormRole(null, $role_id);
         $table = new Wbroles();
         if ( $this->_request->isPost() ) {
             // Проверяем валидность данных формы
@@ -85,8 +85,7 @@ class AdminController extends MyClass_ControllerAclAction
                 try {
                     $table->update($data, $where);
                 } catch (Zend_Exception $e) {
-                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
-                        "<br>Message: " . $e->getMessage() . "<br>";
+                    $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
                 }
                 $this->_forward('role-main-form', 'admin', null, array(
                     'role_id'  => $role_id,
@@ -403,7 +402,7 @@ class AdminController extends MyClass_ControllerAclAction
     public function roleMainFormAction()
     {
         // TODO если были изменения, то очистить все кэши
-        $role_id = $this->_request->getParam('role_id', null);
+        $role_id = $this->_request->getParam('role_id');
         if ( empty ($role_id) )
             throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
         /**********************************
@@ -414,7 +413,7 @@ class AdminController extends MyClass_ControllerAclAction
         $role  = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
         unset ($table);
         // form
-        $form_role = new FormRole();
+        $form_role = new FormRole(null, $role_id);
         // fill form
         $form_role->populate( array(
                 'action_id'  => 'update',

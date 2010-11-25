@@ -30,6 +30,17 @@ class FormRole extends Zend_Form
 
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
+    protected $_roleid;
+
+
+    
+    public function __construct($options = null, $roleid = null) {
+        if ( empty($roleid) )
+            throw new Exception(__METHOD__.' : "Empty input parameter"');
+        // The init() method is called inside parent::__construct($options)
+        $this->_roleid = $roleid;
+        parent::__construct($options);
+    }
 
 
     public function init()
@@ -87,7 +98,8 @@ class FormRole extends Zend_Form
          */       
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
-        $rows  = $table->fetchAll(null, 'id');
+        $where = $table->getAdapter()->quoteInto('id != ?', $this->_roleid);
+        $rows  = $table->fetchAll($where, 'id');
         // create element
         $inherit_id = $this->createElement('select', 'inherit_id', array(
             'label'    => $this->translate->_('Inherited role'),
