@@ -35,6 +35,8 @@ class AdminController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('WbPoolACL');
         Zend_Loader::loadClass('WbClientACL');
         Zend_Loader::loadClass('WbFilesetACL');
+        Zend_Loader::loadClass('WbJobACL');
+        Zend_Loader::loadClass('WbWhereACL');
         // forms
         Zend_Loader::loadClass('FormRole');
         Zend_Loader::loadClass('FormWebaculaACL');
@@ -59,7 +61,7 @@ class AdminController extends MyClass_ControllerAclAction
 
     /*
      * Add dispatcher for :
-     * Client, FileSet, Job, Pool, Storage ACLs
+     * Client, FileSet, Job, Pool, Storage, Where ACLs
      */
     public function aclAddDispatcher($acl)
     {
@@ -78,6 +80,9 @@ class AdminController extends MyClass_ControllerAclAction
                 break;
             case 'storage':
                 $table = new WbStorageACL();
+                break;
+            case 'where':
+                $table = new WbWhereACL();
                 break;
             default:
                 throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
@@ -123,7 +128,7 @@ class AdminController extends MyClass_ControllerAclAction
 
     /*
      * Update dispatcher for :
-     * Client, FileSet, Job, Pool, Storage ACLs
+     * Client, FileSet, Job, Pool, Storage, Where ACLs
      */
     public function aclUpdateDispatcher($acl)
     {
@@ -142,6 +147,9 @@ class AdminController extends MyClass_ControllerAclAction
                 break;
             case 'storage':
                 $table = new WbStorageACL();
+                break;
+            case 'where':
+                $table = new WbWhereACL();
                 break;
             default:
                 throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
@@ -196,7 +204,7 @@ class AdminController extends MyClass_ControllerAclAction
 
     /*
      * Delete dispatcher for :
-     * Client, FileSet, Job, Pool, Storage ACLs
+     * Client, FileSet, Job, Pool, Storage, Where ACLs
      */
     public function aclDeleteDispatcher($acl)
     {
@@ -215,6 +223,9 @@ class AdminController extends MyClass_ControllerAclAction
                 break;
             case 'storage':
                 $table = new WbStorageACL();
+                break;
+            case 'where':
+                $table = new WbWhereACL();
                 break;
             default:
                 throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
@@ -271,6 +282,44 @@ class AdminController extends MyClass_ControllerAclAction
     public function clientDeleteAction()
     {
         $this->aclDeleteDispatcher('client');
+    }
+
+
+    /***************************************************************************
+     * Job
+     ***************************************************************************/
+    public function jobAddAction()
+    {
+        $this->aclAddDispatcher('job');
+    }
+
+    public function jobUpdateAction()
+    {
+        $this->aclUpdateDispatcher('job');
+    }
+
+    public function jobDeleteAction()
+    {
+        $this->aclDeleteDispatcher('job');
+    }
+
+
+    /***************************************************************************
+     * Where
+     ***************************************************************************/
+    public function whereAddAction()
+    {
+        $this->aclAddDispatcher('where');
+    }
+
+    public function whereUpdateAction()
+    {
+        $this->aclUpdateDispatcher('where');
+    }
+
+    public function whereDeleteAction()
+    {
+        $this->aclDeleteDispatcher('where');
     }
 
 
@@ -397,13 +446,35 @@ class AdminController extends MyClass_ControllerAclAction
         /**********************************
          * Where ACL form
          **********************************/
-        // TODO как и Storage ACL
-
+        $table = new WbWhereACL();
+        $this->view->rows_where = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
+        unset ($table);
+        // form
+        $form_where = new FormBaculaACL();
+        // fill form
+        $form_where->populate( array(
+                'action_id' => 'add',
+                'role_id'   => $role_id,
+                'role_name'  => $role->name
+            ));
+        $form_where->setAction( $this->view->baseUrl . '/admin/where-add' );
+        $this->view->form_where = $form_where;
         /**********************************
          * Job ACL form
          **********************************/
-        // TODO как и Storage ACL
-
+        $table = new WbJobACL();
+        $this->view->rows_job = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
+        unset ($table);
+        // form
+        $form_job = new FormBaculaACL();
+        // fill form
+        $form_job->populate( array(
+                'action_id' => 'add',
+                'role_id'   => $role_id,
+                'role_name'  => $role->name
+            ));
+        $form_job->setAction( $this->view->baseUrl . '/admin/job-add' );
+        $this->view->form_job = $form_job;
         /**********************************
          * Command ACL form
          **********************************/
