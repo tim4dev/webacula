@@ -1,4 +1,14 @@
 <!-- admin/role-index.phtml -->
+<?php if ( !empty($this->exception) ) : ?>
+<!-- database, and other errors-->
+<div class="ui-widget" style="width: 58em;">
+    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php echo $this->exception; ?></strong></p>
+    </div>
+</div>
+<?php endif;?>
+
 <?php if ($this->result): ?>
 
 <div class="ui-widget">
@@ -39,7 +49,7 @@
             &nbsp;<?php echo $this->escape($line['order_role']);?>&nbsp;
         </td>
         <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/role-update/role_id/<?php echo $line['id'] ?>">
+            <a href="<?php echo $this->baseUrl;?>/admin/role-main-form/role_id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>
             <?php if ($line['id'] != 1) : ?>

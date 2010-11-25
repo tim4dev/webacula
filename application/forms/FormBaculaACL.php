@@ -59,7 +59,7 @@ class FormBaculaACL extends Zend_Form
          */
         $order = $this->createElement('text', 'order', array(
             //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Order'),
+            'label'     => $this->translate->_('Order').'*',
             'required'  => true,
             'size'      => 3,
             'maxlength' => 5
@@ -71,7 +71,7 @@ class FormBaculaACL extends Zend_Form
          */
         $name = $this->createElement('text', 'name', array(
             //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Name'),
+            'label'     => $this->translate->_('Name').'*',
             'required'  => true,
             'size'      => 50,
             'maxlength' => 127

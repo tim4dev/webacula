@@ -40,7 +40,7 @@ class Wbresources extends Zend_Db_Table
 
 
 
-    public function fetchAllRecources() {
+    public function fetchAllResources() {
         /*
          SELECT DISTINCT name
          FROM webacula_dt_resources;
@@ -55,7 +55,7 @@ class Wbresources extends Zend_Db_Table
 
 
 
-    public function fetchAllRecourcesAndRoles() {
+    public function fetchAllResourcesAndRoles() {
         /*
          SELECT res.id, res.role_id, dt.name, dt.description
          FROM webacula_resources AS res

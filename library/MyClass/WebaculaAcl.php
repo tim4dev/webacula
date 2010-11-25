@@ -54,7 +54,7 @@ class MyClass_WebaculaAcl extends Zend_Acl
          *  because the Resource must be unique identifier
          */
         $table = new Wbresources();
-        $resources = $table->fetchAllRecources();
+        $resources = $table->fetchAllResources();
         foreach($resources as $r)   {
             $resource = new Zend_Acl_Resource($r['name']);
             $this->addResource($resource);
@@ -62,7 +62,7 @@ class MyClass_WebaculaAcl extends Zend_Acl
         /*
          * establish a correspondence: roles => resources
          */
-        $resources_roles = $table->fetchAllRecourcesAndRoles();
+        $resources_roles = $table->fetchAllResourcesAndRoles();
         foreach($resources_roles as $r)   {
             if ($r['role_id'] !== null) {
                 $role = $roleArray[$r['role_id']];

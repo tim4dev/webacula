@@ -24,6 +24,7 @@
 class Wbroles extends Zend_Db_Table
 {
 	protected $_name    = 'webacula_roles';
+
     protected $_primary = 'id';
     protected $parentIds   = array();
     protected $parentNames = array();
@@ -49,6 +50,7 @@ class Wbroles extends Zend_Db_Table
         $this->_getAllParentIds($id);
         return (! empty($this->parentIds) ? $this->parentIds : FALSE);
     }
+
 
 
     /*
@@ -94,6 +96,21 @@ class Wbroles extends Zend_Db_Table
         return $result;
     }
 
+
+
+    public function  delete($where) {
+        /*
+         * если есть ссылки из таблиц: webacula_roles или webacula_users
+         * то удаление не производить
+         */
+        Zend_Loader::loadClass('Wbusers');
+        $table = new Wbusers();
+        if ( $table->fetchAll($where) || $this->fetchAll($where) ) {
+            $translate = Zend_Registry::get('translate');
+            throw new Zend_Exception( $translate->_('Can not delete record. Role is used.') );
+        } else
+            return parent::delete($where);
+    }
 
     
 }

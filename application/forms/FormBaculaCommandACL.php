@@ -25,7 +25,7 @@ require_once 'Zend/Form/Element/Submit.php';
 require_once 'Zend/Form/Element/Reset.php';
 
 
-class FormRole extends Zend_Form
+class FormBaculaCommandACL extends Zend_Form
 {
 
     protected $translate;
@@ -41,62 +41,29 @@ class FormRole extends Zend_Form
         /*
          * hidden fields
          */
-        $action_id = $this->addElement('hidden', 'action_id', array(
-            'decorators' => $this->elDecorators
-        ));
         $role_id = $this->addElement('hidden', 'role_id', array(
             'decorators' => $this->elDecorators
         ));
-        /*
-         * Order role
-         */
-        $order = $this->createElement('text', 'order', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Order').'*',
-            'required'  => true,
-            'size'      => 3,
-            'maxlength' => 5
+        $role_name = $this->addElement('hidden', 'role_name', array(
+            'decorators' => $this->elDecorators
         ));
-        $order->addValidator('Int');
-        $order->addValidator('NotEmpty');
-        /*
-         * Name role
-         */
-        $name = $this->createElement('text', 'role_name', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Name').'*',
-            'required'  => true,
-            'size'      => 30,
-            'maxlength' => 50
+        $action_id = $this->addElement('hidden', 'action_id', array(
+            'decorators' => $this->elDecorators
         ));
-        $name->addValidator('StringLength', false, array(2, 50));
-        $name->addValidator('NotEmpty');
         /*
-         * Description role
+         * Bacula resources
          */
-        $description = $this->createElement('textarea', 'description', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Description').'*',
-            'required'  => true,
-            'cols' => 50,
-            'rows' => 3
-        ));
-        $description->addValidator('NotEmpty');
-        /*
-         * Inherited role id
-         */       
-        Zend_Loader::loadClass('Wbroles');
-        $table = new Wbroles();
-        $rows  = $table->fetchAll(null, 'id');
+        Zend_Loader::loadClass('WbDtCommands');
+        $table = new WbDtCommands();
+        $wbDtCommands = $table->fetchAll(null, 'id');
         // create element
-        $inherit_id = $this->createElement('select', 'inherit_id', array(
-            'label'    => $this->translate->_('Inherited role'),
+        $bacula_commands = $this->createElement('multiselect', 'bacula_commands', array(
+            'label'    => $this->translate->_('Bacula commands'),
             'class' => 'ui-select',
-            'size' => 10
+            'size' => 18
         ));
-        $inherit_id->addMultiOption('', '');
-        foreach( $rows as $v) {
-            $inherit_id->addMultiOption( $v['id'], $v['name'] );
+        foreach( $wbDtCommands as $v ) {
+            $bacula_commands->addMultiOptions(array( $v->id => $v->name . ' => ' . $v->description ));
         }
         unset ($table);
         /*
@@ -120,10 +87,7 @@ class FormRole extends Zend_Form
          *  add elements to form
          */
         $this->addElements( array(
-            $order,
-            $name,
-            $description,
-            $inherit_id,
+            $bacula_commands,
             $submit,
             $reset
         ));

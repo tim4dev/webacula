@@ -1,13 +1,13 @@
 <!-- decorators/formRole.phtml -->
-    <form  action="<?php echo $this->form_role->getAction();  ?>"
-            method="<?php echo $this->form_role->getMethod();  ?>">
-        <?php echo $this->form_role->role_id; ?>
-        <?php echo $this->form_role->action_id; ?>
-        <?php echo $this->form_role->order_role; ?>
-        <?php echo $this->form_role->role_name; ?>
-        <?php echo $this->form_role->description_role; ?>
-        <?php echo $this->form_role->inherit_id; ?>
-        <?php echo $this->form_role->submit; ?>
-        <?php echo $this->form_role->reset; ?>
-    </form>
-<!-- end decorators/formRoleACL.phtml -->
+<form  action="<?php echo $this->form->getAction();  ?>"
+       method="<?php echo $this->form->getMethod();  ?>">
+    <?php echo $this->form->role_id; ?>
+    <?php echo $this->form->action_id; ?>
+    <?php echo $this->form->order; ?>
+    <?php echo $this->form->role_name; ?>
+    <?php echo $this->form->description; ?>
+    <?php echo $this->form->inherit_id; ?>
+    <?php echo $this->form->submit; ?>
+    <?php echo $this->form->reset; ?>
+</form>
+<!-- end decorators/formRole.phtml -->

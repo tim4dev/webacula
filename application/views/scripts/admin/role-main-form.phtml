@@ -1,10 +1,11 @@
-<!-- admin/role-update.phtml -->
+<!-- admin/role-main-form.phtml -->
 <script type="text/javascript">
 $(function() {
 	// tabs
     $("#tabs").tabs();
 });
 </script>
+
 
 <div class="ui-widget">
 	<h3><?php echo $this->escape($this->title); ?></h3>
@@ -14,7 +15,7 @@ $(function() {
     <?php
         $str = '';
         foreach($this->roles as  $role_id => $role_name) {
-            $str .= '<a href="' . $this->baseUrl . '/admin/role-update/role_id/' . $role_id . '">';
+            $str .= '<a href="' . $this->baseUrl . '/admin/role-main-from/role_id/' . $role_id . '">';
             $str .= $this->escape($role_name) . '</a>, ';
         }
         echo substr_replace($str, '', -2); // удалить оставшийся разделитель
@@ -26,6 +27,16 @@ $(function() {
 
 </div>
 
+
+<?php if ( !empty($this->exception) ) : ?>
+<!-- database, and other errors-->
+<div class="ui-widget" style="width: 58em;">
+    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php echo $this->exception; ?></strong></p>
+    </div>
+</div>
+<?php endif;?>
 
 
 <div id="tabs" style="width: 62em;">
@@ -45,7 +56,17 @@ $(function() {
 
 <!-- role form -->
 <div id="tab-role">
-    <?php echo $this->render('decorators/formRole.phtml'); ?>
+<form  action="<?php echo $this->form_role->getAction();  ?>"
+       method="<?php echo $this->form_role->getMethod();  ?>">
+    <?php echo $this->form_role->role_id; ?>
+    <?php echo $this->form_role->action_id; ?>
+    <?php echo $this->form_role->order; ?>
+    <?php echo $this->form_role->role_name; ?>
+    <?php echo $this->form_role->description; ?>
+    <?php echo $this->form_role->inherit_id; ?>
+    <?php echo $this->form_role->submit; ?>
+    <?php echo $this->form_role->reset; ?>
+</form>
 </div>
 <!-- end role form -->
 
@@ -113,7 +134,7 @@ $(function() {
 
 <!-- Command ACLs -->
 <div id="tab-command">
-    TODO
+    <?php echo $this->render('decorators/formBaculaCommandACL.phtml'); ?>
 </div>
 <!-- end Clent ACLs -->
 

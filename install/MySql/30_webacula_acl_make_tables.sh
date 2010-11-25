@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS webacula_dt_commands (
 );
 
 -- see src/dird/ua_cmds.c
-INSERT INTO webacula_dt_commands (id, name, description) VALUES (1,   "*all*",       "All command");
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (1,   "*all*",       "All commands");
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (10,  "add",         "Add media to a pool");
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (20,  "autodisplay", "Autodisplay console messages");
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (30,  "automount",   "Automount after label");
@@ -218,14 +218,14 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
+    UNIQUE INDEX (name(256), role_id)
 );
 
 
 
 CREATE TABLE IF NOT EXISTS webacula_job_acl (
     id        integer not null auto_increment,
-    name      TEXT NOT NULL,
+    name      char(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
