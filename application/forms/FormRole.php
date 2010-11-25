@@ -35,9 +35,7 @@ class FormRole extends Zend_Form
 
     
     public function __construct($options = null, $roleid = null) {
-        if ( empty($roleid) )
-            throw new Exception(__METHOD__.' : "Empty input parameter"');
-        // The init() method is called inside parent::__construct($options)
+        // The init() method is called inside parent::__construct()
         $this->_roleid = $roleid;
         parent::__construct($options);
     }
@@ -98,7 +96,10 @@ class FormRole extends Zend_Form
          */       
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
-        $where = $table->getAdapter()->quoteInto('id != ?', $this->_roleid);
+        if ($this->_roleid)
+            $where = $table->getAdapter()->quoteInto('id != ?', $this->_roleid);
+        else
+            $where = null;
         $rows  = $table->fetchAll($where, 'id');
         // create element
         $inherit_id = $this->createElement('select', 'inherit_id', array(

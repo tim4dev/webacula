@@ -37,6 +37,7 @@ class AdminController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('WbFilesetACL');
         Zend_Loader::loadClass('WbJobACL');
         Zend_Loader::loadClass('WbWhereACL');
+        Zend_Loader::loadClass('WbCommandACL');
         // forms
         Zend_Loader::loadClass('FormRole');
         Zend_Loader::loadClass('FormWebaculaACL');
@@ -62,12 +63,47 @@ class AdminController extends MyClass_ControllerAclAction
     }
 
 
+    public function roleAddAction()
+    {
+        $form = new FormRole();
+        $table = new Wbroles();
+        $role_name = $this->_request->getParam('role_name');
+        if ( $this->_request->isPost() && isset($role_name) ) {
+            // validate form
+            if ( $form->isValid($this->_getAllParams()) )
+            {
+                // insert data to table
+                $data = array(
+                    'name'        => $role_name,
+                    'order_role'  => $this->_request->getParam('order'),
+                    'description' => $this->_request->getParam('description'),
+                    'inherit_id'  => $this->_request->getParam('inherit_id')
+                );
+                try {
+                    $role_id = $table->insert($data);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
+                }
+                $this->_forward('role-main-form', 'admin', null, array(
+                    'role_id'  => $role_id,
+                    'role_name'=> $role_name
+                )); // action, controller
+                return;
+            }
+        }
+        $form->setAction( $this->view->baseUrl . '/admin/role-add' );
+        $this->view->form = $form;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role add');
+        $this->renderScript('admin/form-role.phtml');
+    }
+
+
     public function roleUpdateAction()
     {
         $role_id    = $this->_request->getParam('role_id');
         $role_name  = $this->_request->getParam('role_name');
-        if ( empty($role_id) )
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
+        if ( empty($role_id) || empty ($role_name) )
+            throw new Exception(__METHOD__.' : Empty input parameters');
         $form = new FormRole(null, $role_id);
         $table = new Wbroles();
         if ( $this->_request->isPost() ) {
@@ -117,17 +153,68 @@ class AdminController extends MyClass_ControllerAclAction
     {
         $role_id    = $this->_request->getParam('role_id');
         if ( empty($role_id) )
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
+            throw new Exception(__METHOD__.' : Empty input parameters');
         $table = new Wbroles();
         $where = $table->getAdapter()->quoteInto('id = ?', $role_id);
         try {
-            $table->delete($where);
+            $table->delete($where, $role_id);
         } catch (Zend_Exception $e) {
             $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
         }
         $this->_forward('role-index', 'admin'); // action, controller
     }
 
+
+
+    /***************************************************************************
+     * Webacula ACLs actions
+     ***************************************************************************/
+    public function webaculaUpdateAction()
+    {
+        $role_id    = $this->_request->getParam('role_id');
+        $role_name  = $this->_request->getParam('role_name');
+        if ( empty($role_id) || empty ($role_name) )
+            throw new Exception(__METHOD__.' : Empty input parameters');
+        $form  = new FormWebaculaACL();
+        $table = new Wbresources();
+        if ( $this->_request->isPost() ) {
+            // Проверяем валидность данных формы
+            if ( $form->isValid($this->_getAllParams()) )
+            {
+                // update data               
+                try {
+                    $table->updateResources($this->_request->getParam('webacula_resources'), $role_id);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
+                }
+                $this->_forward('role-main-form', 'admin', null, array(
+                    'role_id'  => $role_id,
+                    'role_name'=> $role_name
+                )); // action, controller
+                return;
+            }
+        }
+        // create form
+        // get resources
+        $wbresources = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'id');
+        $webacula_resources = null;
+        foreach( $wbresources as $v) {
+            $webacula_resources[] = $v->dt_id;
+        }
+        // fill form
+        $form->populate( array(
+            'action_id'  => 'update',
+            'role_id'    => $role_id,
+            'role_name'  => $role_name
+        ));
+        if ( isset($webacula_resources) )
+            $form->populate( array(
+                'webacula_resources' => $webacula_resources
+            ));
+        $form->setAction( $this->view->baseUrl . '/admin/role-main-form' );
+        $this->view->form = $form;
+        $this->renderScript('admin/role-main-form.phtml');
+    }
 
     
 
@@ -157,14 +244,14 @@ class AdminController extends MyClass_ControllerAclAction
                 $table = new WbWhereACL();
                 break;
             default:
-                throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+                throw new Exception(__METHOD__.' : Invalid $acl parameter');
                 break;
         }
         if ( $this->_request->isPost() ) {
             $role_id   = $this->_request->getParam('role_id');
             $role_name = $this->_request->getParam('role_name');
             if ( empty ($role_id) )
-                throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
+                throw new Exception(__METHOD__.' : Empty $role_id parameter');
             $form = new FormBaculaACL();
             // validate form
             if ( $form->isValid($this->_getAllParams()) )
@@ -223,14 +310,14 @@ class AdminController extends MyClass_ControllerAclAction
                 $table = new WbWhereACL();
                 break;
             default:
-                throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+                throw new Exception(__METHOD__.' : Invalid $acl parameter');
                 break;
         }
         $this->_helper->viewRenderer->setNoRender(); // disable autorendering
         $id = $this->_request->getParam('id');
         $role_id    = $this->_request->getParam('role_id', null);
         if ( empty($id) || empty($role_id) )
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
+            throw new Exception(__METHOD__.' : Empty input parameters');
         $form = new FormBaculaACL();
         if ( $this->_request->isPost() ) {
             // Проверяем валидность данных формы
@@ -299,13 +386,13 @@ class AdminController extends MyClass_ControllerAclAction
                 $table = new WbWhereACL();
                 break;
             default:
-                throw new Exception(__METHOD__.' : "Invalid $acl parameter"');
+                throw new Exception(__METHOD__.' : Invalid $acl parameter');
                 break;
         }
         $id = $this->_request->getParam('id');
         $role_id    = $this->_request->getParam('role_id', null);
         if ( empty($id) || empty($role_id) )
-            throw new Exception(__METHOD__.' : "Empty input parameters"');
+            throw new Exception(__METHOD__.' : Empty input parameters');
         $where = $table->getAdapter()->quoteInto('id = ?', $id);
         $table->delete($where);
         $this->_forward('role-update', 'admin', null, array(
@@ -404,7 +491,7 @@ class AdminController extends MyClass_ControllerAclAction
         // TODO если были изменения, то очистить все кэши
         $role_id = $this->_request->getParam('role_id');
         if ( empty ($role_id) )
-            throw new Exception(__METHOD__.' : "Empty $role_id parameter"');
+            throw new Exception(__METHOD__.' : Empty $role_id parameter');
         /**********************************
          * Role form
          **********************************/
@@ -448,8 +535,33 @@ class AdminController extends MyClass_ControllerAclAction
                 'webacula_resources' => $webacula_resources,
                 'role_id'            => $role_id
             ));
-        $form_webacula->setAction( $this->view->url() );
+        $form_webacula->setAction( $this->view->baseUrl . '/admin/webacula-update' );
         $this->view->form_webacula  = $form_webacula;
+        /**********************************
+         * Command ACL form
+         **********************************/
+        $form_commands = new FormBaculaCommandACL();
+        // get resources
+        $table = new WbCommandACL();
+        $wbcommands = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'id');
+        unset ($table);
+        $bacula_commands = null;
+        foreach( $wbcommands as $v) {
+            $bacula_commands[] = $v->dt_id;
+        }
+        // fill form
+        $form_commands->populate( array(
+                'action_id'  => 'update',
+                'role_id'    => $role_id,
+                'role_name'  => $role->name
+            ));
+        if ( isset($bacula_commands) )
+            $form_commands->populate( array(
+                'bacula_commands' => $bacula_commands,
+                'role_id'         => $role_id
+            ));
+        $form_commands->setAction( $this->view->url() );
+        $this->view->form_commands  = $form_commands;
         /**********************************
          * Storage ACL form
          **********************************/
@@ -546,31 +658,6 @@ class AdminController extends MyClass_ControllerAclAction
             ));
         $form_job->setAction( $this->view->baseUrl . '/admin/job-add' );
         $this->view->form_job = $form_job;
-        /**********************************
-         * Command ACL form
-         **********************************/
-        $form_commands = new FormBaculaCommandACL();
-        // get resources
-        $table = new Wbresources();
-        $wbcommands = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'id');
-        unset ($table);
-        $bacula_commands = null;
-        foreach( $wbcommands as $v) {
-            $bacula_commands[] = $v->dt_id;
-        }
-        // fill form
-        $form_commands->populate( array(
-                'action_id'  => 'update',
-                'role_id'    => $role_id,
-                'role_name'  => $role->name
-            ));
-        if ( isset($bacula_commands) )
-            $form_commands->populate( array(
-                'bacula_commands' => $bacula_commands,
-                'role_id'         => $role_id
-            ));
-        $form_commands->setAction( $this->view->url() );
-        $this->view->form_commands  = $form_commands;
         /**********************************
          * view
          **********************************/

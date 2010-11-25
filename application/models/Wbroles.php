@@ -89,7 +89,7 @@ class Wbroles extends Zend_Db_Table
         $select = new Zend_Db_Select($this->db);
         $select->from(array('roles' => 'webacula_roles'), array('id' , 'name', 'description', 'order_role'));
         $select->joinLeft(array('inherits' => 'webacula_roles'), 'inherits.id = roles.inherit_id', array('inherit_name' => 'name'));
-        $select->order(array('roles.inherit_id, roles.order_role ASC'));
+        $select->order(array('roles.order_role, roles.id ASC'));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt   = $select->query();
         $result = $stmt->fetchAll();
@@ -111,19 +111,46 @@ class Wbroles extends Zend_Db_Table
     }
 
 
-    public function  delete($where)
+    public function delete($where, $role_id = null)
     {
+        if ( empty($role_id) )
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
         /*
          * если есть ссылки из таблиц: webacula_roles или webacula_users
          * то удаление не производить
          */
         Zend_Loader::loadClass('Wbusers');
-        $table = new Wbusers();
-        if ( $table->fetchAll($where) || $this->fetchAll($where) ) {
+        $users = new Wbusers();
+        if ( 
+            $users->fetchRow($this->getAdapter()->quoteInto('role_id = ?',    $role_id)) ||
+            $this->fetchRow( $this->getAdapter()->quoteInto('inherit_id = ?', $role_id)) )
+        {
             $translate = Zend_Registry::get('translate');
-            throw new Zend_Exception( $translate->_('Can not delete record. Role is used.') );
-        } else
+            throw new Zend_Exception( $translate->_('Can not delete. Role is used.') );
+        } else {
+            /*
+             * delete cascade
+             */
+            $arr_table = array(
+                'WbCommandACL',
+                'Wbresources',
+                'WbStorageACL',
+                'WbPoolACL',
+                'WbClientACL',
+                'WbFilesetACL',
+                'WbJobACL',
+                'WbWhereACL'
+            );
+            $where_tbl = $this->getAdapter()->quoteInto('role_id = ?', $role_id);
+            foreach ($arr_table as $tbl) {
+                Zend_Loader::loadClass($tbl);
+                $table = new $tbl();
+                $table->delete($where_tbl);
+                unset($table);
+            }
+            // delete main record
             return parent::delete($where);
+        }
     }
 
     

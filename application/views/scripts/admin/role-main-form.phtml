@@ -15,7 +15,7 @@ $(function() {
     <?php
         $str = '';
         foreach($this->roles as  $role_id => $role_name) {
-            $str .= '<a href="' . $this->baseUrl . '/admin/role-main-from/role_id/' . $role_id . '">';
+            $str .= '<a href="' . $this->baseUrl . '/admin/role-main-form/role_id/' . $role_id . '">';
             $str .= $this->escape($role_name) . '</a>, ';
         }
         echo substr_replace($str, '', -2); // удалить оставшийся разделитель
@@ -74,7 +74,15 @@ $(function() {
 
 <!-- webacula ACLs -->
 <div id="tab-webacula">
-    <?php echo $this->render('decorators/formWebaculaACL.phtml'); ?>
+<form  action="<?php echo $this->form_webacula->getAction();  ?>"
+       method="<?php echo $this->form_webacula->getMethod();  ?>">
+    <?php echo $this->form_webacula->role_id; ?>
+    <?php echo $this->form_webacula->role_name; ?>
+    <?php echo $this->form_webacula->action_id; ?>
+    <?php echo $this->form_webacula->webacula_resources; ?>
+    <?php echo $this->form_webacula->submit; ?>
+    <?php echo $this->form_webacula->reset; ?>
+</form>
 </div>
 <!-- end webacula ACLs -->
 
