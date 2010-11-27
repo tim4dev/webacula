@@ -47,7 +47,7 @@ class FormWebaculaACL extends Zend_Form
         $role_name = $this->addElement('hidden', 'role_name', array(
             'decorators' => $this->elDecorators
         ));
-        $action_id = $this->addElement('hidden', 'action_id', array(
+        $acl = $this->addElement('hidden', 'acl', array(
             'decorators' => $this->elDecorators
         ));
         /*

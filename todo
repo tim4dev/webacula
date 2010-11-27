@@ -3,11 +3,20 @@
 Текущее :
 
 + при удалении Role - каскадное удаление всех ACLs
+
 - ломает авторизацию
     INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (6, 'rolezzzz', 'zzz', 6);
+
 - в таблице Roles обрезАть слишком длинные Description
-- форма role-main-form должна открываться на нужной вкладке
+
++ форма role-main-form должна открываться на нужной вкладке
+    $('.selector').tabs({ selected: 3 });
+    или
+    $('.selector').tabs('option', 'selected', 3);
+
 - для root_role заблокировать от изменения все вкладки
+    { disabled: [1, 2] }
+
 - получение списка client, Fileset, Job, pool, storage из БД Bacula в отдельном (немодальном) окне,
   для заполнения полей Roles
 

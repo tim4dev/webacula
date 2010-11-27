@@ -42,7 +42,7 @@ class FormBaculaACL extends Zend_Form
         /*
          * hidden fields
          */
-        $action_id = $this->addElement('hidden', 'action_id', array(
+        $acl = $this->addElement('hidden', 'acl', array(
             'decorators' => $this->elDecorators
         ));
         $role_id = $this->addElement('hidden', 'role_id', array(

@@ -2,7 +2,12 @@
 <script type="text/javascript">
 $(function() {
 	// tabs
-    $("#tabs").tabs();
+    $("#tabs").tabs(
+<?php
+    if ($this->tabs_selected)
+        echo '{ selected: ', $this->tabs_selected, ' }';
+?>
+    );
 });
 </script>
 
@@ -59,7 +64,7 @@ $(function() {
 <form  action="<?php echo $this->form_role->getAction();  ?>"
        method="<?php echo $this->form_role->getMethod();  ?>">
     <?php echo $this->form_role->role_id; ?>
-    <?php echo $this->form_role->action_id; ?>
+    <?php echo $this->form_role->acl; ?>
     <?php echo $this->form_role->order; ?>
     <?php echo $this->form_role->role_name; ?>
     <?php echo $this->form_role->description; ?>
@@ -78,7 +83,7 @@ $(function() {
        method="<?php echo $this->form_webacula->getMethod();  ?>">
     <?php echo $this->form_webacula->role_id; ?>
     <?php echo $this->form_webacula->role_name; ?>
-    <?php echo $this->form_webacula->action_id; ?>
+    <?php echo $this->form_webacula->acl; ?>
     <?php echo $this->form_webacula->webacula_resources; ?>
     <?php echo $this->form_webacula->submit; ?>
     <?php echo $this->form_webacula->reset; ?>
@@ -94,7 +99,7 @@ $(function() {
        method="<?php echo $this->form_client->getMethod(); ?>">
     <?php echo $this->form_client->role_id;   ?>
     <?php echo $this->form_client->role_name; ?>
-    <?php echo $this->form_client->action_id; ?>
+    <?php echo $this->form_client->acl; ?>
     <?php echo $this->form_client->order; ?>
     <?php echo $this->form_client->name;  ?>
     <?php echo $this->form_client->id;    ?>
@@ -142,7 +147,15 @@ $(function() {
 
 <!-- Command ACLs -->
 <div id="tab-command">
-    <?php echo $this->render('decorators/formBaculaCommandACL.phtml'); ?>
+<form  action="<?php echo $this->form_commands->getAction();  ?>"
+       method="<?php echo $this->form_commands->getMethod();  ?>">
+    <?php echo $this->form_commands->role_id; ?>
+    <?php echo $this->form_commands->role_name; ?>
+    <?php echo $this->form_commands->acl; ?>
+    <?php echo $this->form_commands->bacula_commands; ?>
+    <?php echo $this->form_commands->submit; ?>
+    <?php echo $this->form_commands->reset; ?>
+</form>
 </div>
 <!-- end Clent ACLs -->
 
@@ -154,7 +167,7 @@ $(function() {
        method="<?php echo $this->form_fileset->getMethod(); ?>">
     <?php echo $this->form_fileset->role_id;   ?>
     <?php echo $this->form_fileset->role_name; ?>
-    <?php echo $this->form_fileset->action_id; ?>
+    <?php echo $this->form_fileset->acl; ?>
     <?php echo $this->form_fileset->order; ?>
     <?php echo $this->form_fileset->name;  ?>
     <?php echo $this->form_fileset->id;    ?>
@@ -206,7 +219,7 @@ $(function() {
        method="<?php echo $this->form_job->getMethod(); ?>">
     <?php echo $this->form_job->role_id;   ?>
     <?php echo $this->form_job->role_name; ?>
-    <?php echo $this->form_job->action_id; ?>
+    <?php echo $this->form_job->acl; ?>
     <?php echo $this->form_job->order; ?>
     <?php echo $this->form_job->name;  ?>
     <?php echo $this->form_job->id;    ?>
@@ -258,7 +271,7 @@ $(function() {
        method="<?php echo $this->form_pool->getMethod(); ?>">
     <?php echo $this->form_pool->role_id;   ?>
     <?php echo $this->form_pool->role_name; ?>
-    <?php echo $this->form_pool->action_id; ?>
+    <?php echo $this->form_pool->acl; ?>
     <?php echo $this->form_pool->order; ?>
     <?php echo $this->form_pool->name;  ?>
     <?php echo $this->form_pool->id;    ?>
@@ -310,7 +323,7 @@ $(function() {
        method="<?php echo $this->form_storage->getMethod(); ?>">
     <?php echo $this->form_storage->role_id;   ?>
     <?php echo $this->form_storage->role_name; ?>
-    <?php echo $this->form_storage->action_id; ?>
+    <?php echo $this->form_storage->acl; ?>
     <?php echo $this->form_storage->order; ?>
     <?php echo $this->form_storage->name;  ?>
     <?php echo $this->form_storage->id;    ?>
@@ -362,7 +375,7 @@ $(function() {
        method="<?php echo $this->form_where->getMethod(); ?>">
     <?php echo $this->form_where->role_id;   ?>
     <?php echo $this->form_where->role_name; ?>
-    <?php echo $this->form_where->action_id; ?>
+    <?php echo $this->form_where->acl; ?>
     <?php echo $this->form_where->order; ?>
     <?php echo $this->form_where->name;  ?>
     <?php echo $this->form_where->id;    ?>

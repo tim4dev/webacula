@@ -34,6 +34,31 @@ class WbCommandACL extends Zend_Db_Table
         parent::__construct($config);
     }
 
-    
+
+
+    /**
+     * Update Bacula Command ACLs
+     * @param <type> $commands FK to 'webacula_dt_commands' table
+     * @param <type> $role_id
+     * @return int affected rows
+     */
+    public function updateCommands($commands, $role_id)
+    {
+        // delete all ACLs
+        $where = $this->getAdapter()->quoteInto('role_id = ?', $role_id);
+        $this->delete($where);
+        // set ACLs again
+        $i = 0;
+        foreach( $commands as $v ) {
+            $data = array(
+                'role_id' => $role_id,
+    			'dt_id'   => $v );
+            $this->insert($data);
+            $i++;
+        }
+    	return $i;
+    }
+
+
 
 }

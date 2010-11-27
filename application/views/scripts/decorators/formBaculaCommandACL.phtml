@@ -1,11 +1,11 @@
 <!-- decorators/formBaculaCommandACL.phtml -->
-    <form  action="<?php echo $this->form_commands->getAction();  ?>"
-            method="<?php echo $this->form_commands->getMethod();  ?>">
-        <?php echo $this->form_commands->role_id; ?>
-        <?php echo $this->form_commands->role_name; ?>
-        <?php echo $this->form_commands->action_id; ?>
-        <?php echo $this->form_commands->bacula_commands; ?>
-        <?php echo $this->form_commands->submit; ?>
-        <?php echo $this->form_commands->reset; ?>
-    </form>
+<form  action="<?php echo $this->form->getAction();  ?>"
+       method="<?php echo $this->form->getMethod();  ?>">
+    <?php echo $this->form->role_id; ?>
+    <?php echo $this->form->role_name; ?>
+    <?php echo $this->form->acl; ?>
+    <?php echo $this->form->bacula_commands; ?>
+    <?php echo $this->form->submit; ?>
+    <?php echo $this->form->reset; ?>
+</form>
 <!-- end decorators/formBaculaCommandACL.phtml -->

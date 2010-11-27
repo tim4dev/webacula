@@ -24,7 +24,26 @@ require_once 'Zend/Controller/Action.php';
 
 class AdminController extends MyClass_ControllerAclAction
 {
+    /*
+     * jQuery UI Tabs, Options, selected:
+     * Zero-based index of the tab to be selected on initialization.
+     * To set all tabs to unselected pass -1 as value.
+     * $('.selector').tabs({ selected: 3 });
+     */
+    private $_jQueryUItabSelected = array(
+        'role'     => 0,
+        'webacula' => 1,
+        'client'   => 2,
+        'command'  => 3,
+        'fileset'  => 4,
+        'job'      => 5,
+        'pool'     => 6,
+        'storage'  => 7,
+        'where'    => 8
+    );
 
+
+    
     function init()
     {
         parent::init();
@@ -134,7 +153,7 @@ class AdminController extends MyClass_ControllerAclAction
         $row = $table->find($role_id)->current();
         // fill form
         $form->populate( array(
-            'action_id'  => 'update',
+            'acl'        => 'role',
             'role_id'    => $role_id,
             'name'       => $row->name,
             'order'      => $row->order_role,
@@ -188,8 +207,9 @@ class AdminController extends MyClass_ControllerAclAction
                     $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
                 }
                 $this->_forward('role-main-form', 'admin', null, array(
-                    'role_id'  => $role_id,
-                    'role_name'=> $role_name
+                    'role_id'       => $role_id,
+                    'role_name'     => $role_name,
+                    'tabs_selected' => 'webacula'
                 )); // action, controller
                 return;
             }
@@ -203,9 +223,9 @@ class AdminController extends MyClass_ControllerAclAction
         }
         // fill form
         $form->populate( array(
-            'action_id'  => 'update',
-            'role_id'    => $role_id,
-            'role_name'  => $role_name
+            'acl'       => 'webacula',
+            'role_id'   => $role_id,
+            'role_name' => $role_name
         ));
         if ( isset($webacula_resources) )
             $form->populate( array(
@@ -213,11 +233,66 @@ class AdminController extends MyClass_ControllerAclAction
             ));
         $form->setAction( $this->view->baseUrl . '/admin/role-main-form' );
         $this->view->form = $form;
+        $this->view->tabs_selected = $this->_jQueryUItabSelected['webacula']; // jQuery UI Tabs
         $this->renderScript('admin/role-main-form.phtml');
     }
 
-    
 
+
+    /***************************************************************************
+     * Commands Bacula actions
+     ***************************************************************************/
+    public function commandsUpdateAction()
+    {
+        $role_id    = $this->_request->getParam('role_id');
+        $role_name  = $this->_request->getParam('role_name');
+        if ( empty($role_id) || empty ($role_name) )
+            throw new Exception(__METHOD__.' : Empty input parameters');
+        $form  = new FormBaculaCommandACL();
+        $table = new WbCommandACL();
+        if ( $this->_request->isPost() ) {
+            // Проверяем валидность данных формы
+            if ( $form->isValid($this->_getAllParams()) )
+            {
+                // update data
+                try {
+                    $table->updateCommands($this->_request->getParam('bacula_commands'), $role_id);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
+                }
+                $this->_forward('role-main-form', 'admin', null, array(
+                    'role_id'       => $role_id,
+                    'role_name'     => $role_name,
+                    'tabs_selected' => 'command'
+                )); // action, controller
+                return;
+            }
+        }
+        // create form
+        // get resources
+        $commands = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'id');
+        $bacula_commands = null;
+        foreach( $commands as $v) {
+            $bacula_commands[] = $v->dt_id;
+        }
+        // fill form
+        $form->populate( array(
+            'acl'       => 'command',
+            'role_id'   => $role_id,
+            'role_name' => $role_name
+        ));
+        if ( isset($bacula_commands) )
+            $form->populate( array(
+                'bacula_commands' => $bacula_commands
+            ));
+        $form->setAction( $this->view->baseUrl . '/admin/role-main-form' );
+        $this->view->form = $form;
+        $this->view->tabs_selected = $this->_jQueryUItabSelected['command']; // jQuery UI Tabs
+        $this->renderScript('admin/role-main-form.phtml');
+    }
+
+
+    
     /*
      * Add dispatcher for :
      * Client, FileSet, Job, Pool, Storage, Where ACLs
@@ -278,8 +353,9 @@ class AdminController extends MyClass_ControllerAclAction
                 return;
             }
             $this->_forward('role-main-form', 'admin', null, array(
-                'role_id'   => $role_id,
-                'role_name' => $role_name )); // action, controller
+                'role_id'       => $role_id,
+                'role_name'     => $role_name,
+                'tabs_selected' => $acl) ); // action, controller
         }
     }
     
@@ -336,7 +412,8 @@ class AdminController extends MyClass_ControllerAclAction
                         "<br>Message: " . $e->getMessage() . "<br>";
                 }
                 $this->_forward('role-main-form', 'admin', null, array(
-                    'role_id' => $role_id
+                    'role_id' => $role_id,
+                    'tabs_selected' => $acl
                 )); // action, controller
                 return;
             }
@@ -345,11 +422,11 @@ class AdminController extends MyClass_ControllerAclAction
         $row = $table->find($id)->current();
         // fill form
         $form->populate( array(
-            'action_id' => 'update',
-            'id'        => $id,
-            'name'      => $row->name,
-            'order'     => $row->order_acl,
-            'role_id'   => $role_id
+            'acl'    => $acl,
+            'id'     => $id,
+            'name'   => $row->name,
+            'order'  => $row->order_acl,
+            'role_id'=> $role_id
         ));
         $form->submit->setLabel($this->view->translate->_('Update'));
         $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-update' );
@@ -395,9 +472,9 @@ class AdminController extends MyClass_ControllerAclAction
             throw new Exception(__METHOD__.' : Empty input parameters');
         $where = $table->getAdapter()->quoteInto('id = ?', $id);
         $table->delete($where);
-        $this->_forward('role-update', 'admin', null, array(
-            'role_id' => $role_id
-        )); // action, controller
+        $this->_forward('role-main-form', 'admin', null, array(
+                'role_id'       => $role_id,
+                'tabs_selected' => $acl) ); // action, controller
     }
 
 
@@ -463,6 +540,44 @@ class AdminController extends MyClass_ControllerAclAction
 
 
     /***************************************************************************
+     * Pool
+     ***************************************************************************/
+    public function poolAddAction()
+    {
+        $this->aclAddDispatcher('pool');
+    }
+
+    public function poolUpdateAction()
+    {
+        $this->aclUpdateDispatcher('pool');
+    }
+
+    public function poolDeleteAction()
+    {
+        $this->aclDeleteDispatcher('pool');
+    }
+
+
+    /***************************************************************************
+     * Storage
+     ***************************************************************************/
+    public function storageAddAction()
+    {
+        $this->aclAddDispatcher('storage');
+    }
+
+    public function storageUpdateAction()
+    {
+        $this->aclUpdateDispatcher('storage');
+    }
+
+    public function storageDeleteAction()
+    {
+        $this->aclDeleteDispatcher('storage');
+    }
+
+
+    /***************************************************************************
      * Where
      ***************************************************************************/
     public function whereAddAction()
@@ -503,7 +618,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form_role = new FormRole(null, $role_id);
         // fill form
         $form_role->populate( array(
-                'action_id'  => 'update',
+                'acl'        => 'role',
                 'role_id'    => $role_id,
                 'role_name'  => $role->name,
                 'description'=> $role->description,
@@ -526,7 +641,7 @@ class AdminController extends MyClass_ControllerAclAction
         }
         // fill form
         $form_webacula->populate( array(
-                'action_id'  => 'update',
+                'acl'        => 'webacula',
                 'role_id'    => $role_id,
                 'role_name'  => $role->name
             ));
@@ -551,7 +666,7 @@ class AdminController extends MyClass_ControllerAclAction
         }
         // fill form
         $form_commands->populate( array(
-                'action_id'  => 'update',
+                'acl'        => 'command',
                 'role_id'    => $role_id,
                 'role_name'  => $role->name
             ));
@@ -560,7 +675,7 @@ class AdminController extends MyClass_ControllerAclAction
                 'bacula_commands' => $bacula_commands,
                 'role_id'         => $role_id
             ));
-        $form_commands->setAction( $this->view->url() );
+        $form_commands->setAction( $this->view->baseUrl . '/admin/commands-update' );
         $this->view->form_commands  = $form_commands;
         /**********************************
          * Storage ACL form
@@ -572,9 +687,9 @@ class AdminController extends MyClass_ControllerAclAction
         $form_storage = new FormBaculaACL();
         // fill form
         $form_storage->populate( array(
-                'action_id' => 'add',
+                'acl'       => 'storage',
                 'role_id'   => $role_id,
-                'role_name'  => $role->name
+                'role_name' => $role->name
             ));
         $form_storage->setAction( $this->view->baseUrl . '/admin/storage-add' );
         $this->view->form_storage = $form_storage;
@@ -588,9 +703,9 @@ class AdminController extends MyClass_ControllerAclAction
         $form_pool = new FormBaculaACL();
         // fill form
         $form_pool->populate( array(
-                'action_id' => 'add',
+                'acl'       => 'pool',
                 'role_id'   => $role_id,
-                'role_name'  => $role->name
+                'role_name' => $role->name
             ));
         $form_pool->setAction( $this->view->baseUrl . '/admin/pool-add' );
         $this->view->form_pool = $form_pool;
@@ -604,7 +719,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form_client = new FormBaculaACL();
         // fill form
         $form_client->populate( array(
-                'action_id' => 'add',
+                'acl'       => 'client',
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
@@ -620,7 +735,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form_fileset = new FormBaculaACL();
         // fill form
         $form_fileset->populate( array(
-                'action_id' => 'add',
+                'acl'       => 'fileset',
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
@@ -636,9 +751,9 @@ class AdminController extends MyClass_ControllerAclAction
         $form_where = new FormBaculaACL();
         // fill form
         $form_where->populate( array(
-                'action_id' => 'add',
+                'acl'       => 'where',
                 'role_id'   => $role_id,
-                'role_name'  => $role->name
+                'role_name' => $role->name
             ));
         $form_where->setAction( $this->view->baseUrl . '/admin/where-add' );
         $this->view->form_where = $form_where;
@@ -652,9 +767,9 @@ class AdminController extends MyClass_ControllerAclAction
         $form_job = new FormBaculaACL();
         // fill form
         $form_job->populate( array(
-                'action_id' => 'add',
+                'acl'       => 'job',
                 'role_id'   => $role_id,
-                'role_name'  => $role->name
+                'role_name' => $role->name
             ));
         $form_job->setAction( $this->view->baseUrl . '/admin/job-add' );
         $this->view->form_job = $form_job;
@@ -670,6 +785,9 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role') .
                 ' :: [' . $role_id . '] ' . $role->name;
         $this->view->role_id = $role_id;
+        // jQuery UI Tabs
+        $tabs_selected = $this->_request->getParam('tabs_selected', 'role');
+        $this->view->tabs_selected = $this->_jQueryUItabSelected[$tabs_selected];
     }
 
 
