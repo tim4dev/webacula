@@ -74,7 +74,7 @@ class Wbroles extends Zend_Db_Table
         $row = $this->fetchRow($select);
         $this->parentIds[]   = $row->id;
         $this->parentNames[$row->id] = $row->name;
-        if ($row->inherit_id != NULL)
+        if ( isset($row->inherit_id) && ($row->inherit_id != 0) )
             $this->_getAllParentIds($row->inherit_id);
     }
 
@@ -100,6 +100,8 @@ class Wbroles extends Zend_Db_Table
     public function update(array $data, $where)
     {
         $row = $this->fetchRow($where);
+        if ( empty($data['inherit_id']) )
+            $data['inherit_id'] = null;
         // Не должно быть : role id != inherit_id в одной и той же записи
         if ( isset($row->id) && isset($data['inherit_id']) )
             if ( $row->id == $data['inherit_id'] ) {

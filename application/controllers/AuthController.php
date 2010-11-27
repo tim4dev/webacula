@@ -147,45 +147,13 @@ class AuthController extends Zend_Controller_Action
 
 
     /**
-     * Delete old tmp files
-     */
-    public function deleteOldTmpFiles()
-    {
-        foreach ( glob(TMP_DIR. '/webacula*.tmp', GLOB_NOSORT) as $filename ) {
-            $diff = time() - filemtime($filename);
-            if ( ($diff > 86400) )
-                @ unlink($filename);
-        }
-    }
-
-
-    /**
-     * Cleaning cache : Zend_Cache and data/tmp files
-     */
-    protected function clearAllCache()
-    {
-	    // remove Bacula ACLs
-        $bacula_acl = new MyClass_BaculaAcl();
-        $bacula_acl->removeCache();
-        // remove Webacula ACLs
-        $cache = Zend_Registry::get('cache');
-        $res = $cache->remove('MyClass_WebaculaAcl');
-        // main menu cache
-        $cache->remove($this->identity->role_id . '_main_menu');
-        /*
-         * Delete old tmp files
-         */
-        $this->deleteOldTmpFiles();
-    }
-
-
-    
-    /**
      * "Выход" пользователя
      **/
 	public function logoutAction()
 	{
-        $this->clearAllCache();
+        $cache_helper = $this->_helper->getHelper('MyCache');
+        $cache_helper->clearAllCacheRole($this->identity->role_id);
+        $cache_helper->deleteOldTmpFiles();
         /*
          * Final
          */

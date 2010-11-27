@@ -24,6 +24,10 @@ require_once 'Zend/Controller/Action.php';
 
 class AdminController extends MyClass_ControllerAclAction
 {
+    
+    private $cache_helper;
+
+
     /*
      * jQuery UI Tabs, Options, selected:
      * Zero-based index of the tab to be selected on initialization.
@@ -62,6 +66,8 @@ class AdminController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('FormWebaculaACL');
         Zend_Loader::loadClass('FormBaculaACL');
         Zend_Loader::loadClass('FormBaculaCommandACL');
+        // helpers
+        $this->cache_helper = $this->_helper->getHelper('MyCache');
     }
 
 
@@ -103,6 +109,9 @@ class AdminController extends MyClass_ControllerAclAction
                 } catch (Zend_Exception $e) {
                     $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
                 }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
                 $this->_forward('role-main-form', 'admin', null, array(
                     'role_id'  => $role_id,
                     'role_name'=> $role_name
@@ -142,6 +151,9 @@ class AdminController extends MyClass_ControllerAclAction
                 } catch (Zend_Exception $e) {
                     $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
                 }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
                 $this->_forward('role-main-form', 'admin', null, array(
                     'role_id'  => $role_id,
                     'role_name'=> $role_name
@@ -180,6 +192,9 @@ class AdminController extends MyClass_ControllerAclAction
         } catch (Zend_Exception $e) {
             $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
         }
+        // clear all cache
+        $this->cache_helper->clearAllCache();
+        // render
         $this->_forward('role-index', 'admin'); // action, controller
     }
 
@@ -206,6 +221,9 @@ class AdminController extends MyClass_ControllerAclAction
                 } catch (Zend_Exception $e) {
                     $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
                 }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
                 $this->_forward('role-main-form', 'admin', null, array(
                     'role_id'       => $role_id,
                     'role_name'     => $role_name,
@@ -260,6 +278,9 @@ class AdminController extends MyClass_ControllerAclAction
                 } catch (Zend_Exception $e) {
                     $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
                 }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
                 $this->_forward('role-main-form', 'admin', null, array(
                     'role_id'       => $role_id,
                     'role_name'     => $role_name,
@@ -343,6 +364,8 @@ class AdminController extends MyClass_ControllerAclAction
                     $this->view->exception = "<br>Caught exception: " . get_class($e) .
                         "<br>Message: " . $e->getMessage() . "<br>";
                 }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
             } else {
                 $this->view->errors = $form->getMessages();
                 $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-add' );
@@ -411,6 +434,9 @@ class AdminController extends MyClass_ControllerAclAction
                     $this->view->exception = "<br>Caught exception: " . get_class($e) .
                         "<br>Message: " . $e->getMessage() . "<br>";
                 }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
                 $this->_forward('role-main-form', 'admin', null, array(
                     'role_id' => $role_id,
                     'tabs_selected' => $acl
@@ -442,7 +468,7 @@ class AdminController extends MyClass_ControllerAclAction
      * Client, FileSet, Job, Pool, Storage, Where ACLs
      */
     public function aclDeleteDispatcher($acl)
-    {
+    {       
         switch ($acl) {
             case 'client':
                 $table = new WbClientACL();
@@ -472,6 +498,9 @@ class AdminController extends MyClass_ControllerAclAction
             throw new Exception(__METHOD__.' : Empty input parameters');
         $where = $table->getAdapter()->quoteInto('id = ?', $id);
         $table->delete($where);
+        // clear all cache
+        $this->cache_helper->clearAllCache();
+        // render
         $this->_forward('role-main-form', 'admin', null, array(
                 'role_id'       => $role_id,
                 'tabs_selected' => $acl) ); // action, controller
@@ -603,7 +632,6 @@ class AdminController extends MyClass_ControllerAclAction
      ***************************************************************************/
     public function roleMainFormAction()
     {
-        // TODO если были изменения, то очистить все кэши
         $role_id = $this->_request->getParam('role_id');
         if ( empty ($role_id) )
             throw new Exception(__METHOD__.' : Empty $role_id parameter');

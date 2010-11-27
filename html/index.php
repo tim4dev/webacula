@@ -63,6 +63,8 @@ Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_BaculaAcl');
 Zend_Loader::loadClass('Wbresources');
 Zend_Loader::loadClass('Wbroles');
+// helpers
+Zend_Controller_Action_HelperBroker::addPrefix('MyClass_Action_Helper');
 // other my classes
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');

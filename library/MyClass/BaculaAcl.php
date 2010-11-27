@@ -127,7 +127,7 @@ class MyClass_BaculaAcl
                               ->from( array('c'=> $this->getAclTableName($acl) ), array() )
                               ->joinInner( array('dt'=>'webacula_dt_commands'), 'dt.id = c.dt_id', array('name'))
                               ->where('c.role_id IN (?)', $roles)
-                              ->order('c.order_acl');
+                              ->order('dt.id');
                 break;
 
                 default:
