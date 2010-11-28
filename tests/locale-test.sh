@@ -23,7 +23,7 @@ my_login() {
         http://localhost/webacula/auth/login
     if [ ${?} -ne 0 ]
     then
-        echo -e "ERROR!\n"
+        echo -e "Login ERROR!\n"
         exit 10
     fi
 }
@@ -38,7 +38,7 @@ my_logout() {
        http://localhost/webacula/auth/logout > /dev/null
     if [ ${?} -ne 0 ]
     then
-        echo -e "ERROR!\n"
+        echo -e "Logout ERROR!\n"
         exit 10
     fi
 }
@@ -92,6 +92,15 @@ my_wget_def() {
     my_logout "${4}"
 }
 
+my_on_exit() {
+    echo "clean and exit"
+    cp -f ../application/config.ini.original  ../application/config.ini
+    cp -f ../html/.htaccess_original  ../html/.htaccess
+    rm -f cookies.txt
+    rm -f  ../data/cache/zend_cache*
+    rm -f  ../data/tmp/webacula*
+    rm -f  ../data/session/ses*
+}
 
 
 
@@ -110,7 +119,7 @@ then
     sleep 5
 fi
 
-trap 'echo "clean and exit"; cp -f ../application/config.ini.original  ../application/config.ini; rm -f cookies.txt'  0 1 2 3 10 11 15
+trap my_on_exit  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 
 diff -q ../application/config.ini  ../application/config.ini.original
 if [ $? == 0 ]
@@ -120,6 +129,18 @@ if [ $? == 0 ]
       echo -e "\nMake cp ../application/config.ini ../application/config.ini.original\n\n"
       exit 11
 fi
+
+echo "copy production .htaccess"
+cp -f conf/.htaccess_development  ../html/.htaccess
+if test $? -ne 0; then
+    exit
+fi
+
+echo -en "clean Zend cache, session, tmp files : login as root ..."
+my_login  "en"
+echo -en " logout ... "
+my_logout "en"
+echo -en "OK\n\n"
 
 echo -e "\n${LINE1}"
 echo "Testing locales and languages"

@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.27');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2010.11.28');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -32,6 +32,9 @@ if ( APPLICATION_ENV == 'development') {
     ini_set('display_errors','1');
     ini_set('display_startup_errors','1');
     error_reporting(E_ALL|E_STRICT);
+} else {
+    ini_set('display_errors','0');
+    ini_set('display_startup_errors','0');
 }
 
 // PATH_SEPARATOR  ":"
@@ -213,7 +216,9 @@ Zend_Session::setOptions(array(
     'save_path' => SESSION_DIR
 ));
 Zend_Session::start();
-Zend_Session::regenerateId();
+if ( APPLICATION_ENV == 'production') {
+    Zend_Session::regenerateId();
+}
 
 // для подсчета кол-ва неудачных логинов для вывода капчи
 $defNamespace = new Zend_Session_Namespace('Default');

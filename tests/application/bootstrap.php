@@ -19,7 +19,9 @@ set_include_path(implode(PATH_SEPARATOR, $path));
 
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', $appRoot . '/application');
-//echo "APPLICATION_PATH = ",APPLICATION_PATH, "\n", 'appRoot = ',$appRoot, "\n", 'libDir = ', $libDir, "\n", var_dump($path), "\n"; exit; // debug !!!
+
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
 require_once "Zend/Loader/Autoloader.php";
 Zend_Loader_Autoloader::getInstance();
@@ -40,6 +42,8 @@ Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_BaculaAcl');
 Zend_Loader::loadClass('Wbresources');
 Zend_Loader::loadClass('Wbroles');
+// helpers
+Zend_Controller_Action_HelperBroker::addPrefix('MyClass_Action_Helper');
 // other my classes
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
@@ -184,7 +188,9 @@ Zend_Session::setOptions(array(
     'save_path' => SESSION_DIR
 ));
 Zend_Session::start();
-Zend_Session::regenerateId();
+if ( APPLICATION_ENV == 'production') {
+    Zend_Session::regenerateId();
+}
 
 // для подсчета кол-ва неудачных логинов для вывода капчи
 $defNamespace = new Zend_Session_Namespace('Default');

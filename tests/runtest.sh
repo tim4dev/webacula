@@ -16,6 +16,7 @@
 #
 #############################################################
 
+
 SRC_DIR=".."
 F_INDEX_PHP="${SRC_DIR}/html/index.php"
 F_README="${SRC_DIR}/README"
@@ -25,6 +26,26 @@ LINE1="*************************************************************************
 VERSION=`grep -e "^.*define('WEBACULA_VERSION.*$" ${F_INDEX_PHP} | awk -F "'" '{print($4)}'`
 VER_README=`grep -e "^Version:" ${F_README} | awk '{print($2)}'`
 VER_SPEC=`grep -e "^Version:" ${F_SPEC} | awk '{print($2)}'`
+
+
+
+
+my_on_exit() {
+    echo "clean and exit"
+    cp -f ../application/config.ini.original  ../application/config.ini
+    cp -f ../html/.htaccess_original  ../html/.htaccess
+    rm -f cookies.txt
+    rm -f  ../data/cache/zend_cache*
+    rm -f  ../data/tmp/webacula*
+    rm -f  ../data/session/ses*
+}
+
+
+
+
+###########################################################
+# Main program
+###########################################################
 
 if [ ${VERSION} == ${VER_SPEC} ] && [ ${VERSION} == ${VER_README} ]
    then
@@ -47,6 +68,17 @@ if [ $? == 0 ]
       exit 11
 fi
 
+diff -q ../html/.htaccess  ../html/.htaccess_original
+if [ $? == 0 ]
+   then
+      echo "OK. .htaccess"
+   else
+      echo -e "\nMake html/.htaccess and html/.htaccess_original to be identical\n\n"
+      exit 11
+fi
+
+trap my_on_exit  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
 sudo rm -f /tmp/webacula_restore_*
 
 cd prepare_tests
@@ -67,7 +99,6 @@ LANG=C phpunit --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
-    cp -f ../application/config.ini.original  ../application/config.ini
     exit $ret
 fi
 
@@ -88,7 +119,6 @@ fi
 ##-- ret=$?
 ##-- if [ $ret -ne 0 ]
 ##-- then
-##--     cp -f ../application/config.ini.original  ../application/config.ini
 ##--     exit $ret
 ##-- fi
 
@@ -102,19 +132,12 @@ fi
 ##-- ret=$?
 ##-- if [ $ret -ne 0 ]
 ##-- then
-##--     cp -f ../application/config.ini.original  ../application/config.ini
 ##--     exit $ret
 ##-- fi
 
 cp -f ../application/config.ini.original  ../application/config.ini
 
-
-
 echo -e "\n\n"
 sh ./locale-test.sh
 
 ##-- sudo service postgresql stop
-
-# restore original conf
-cp -f ../application/config.ini.original  ../application/config.ini
-

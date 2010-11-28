@@ -1,5 +1,24 @@
 #!/bin/bash
 
+my_on_exit() {
+    echo "clean and exit"
+    cp -f ../application/config.ini.original  ../application/config.ini
+    cp -f conf/.htaccess_original  ../html/.htaccess
+    rm -f cookies.txt
+    rm -f  ../../data/cache/zend_cache*
+    rm -f  ../../data/tmp/webacula*
+    rm -f  ../../data/session/ses*
+}
+
+
+
+
+###########################################################
+# Main program
+###########################################################
+
+trap my_on_exit  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
 if [ "$UID" -ne 0 ]
 then
         echo -e "\nYou must be root to run this test.\nExit.\n"
@@ -66,5 +85,6 @@ fi
 
 rm -f  ../../data/cache/zend_cache*
 rm -f  ../../data/tmp/webacula*
+rm -f  ../../data/session/ses*
 
 echo -e "\nCLEAN ALL done OK."
