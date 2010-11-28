@@ -2,20 +2,10 @@
 -------------------------------------------------------------------------------------------------------
 Текущее :
 
-+ при удалении Role - каскадное удаление всех ACLs
-
 - ломает авторизацию
     INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (6, 'rolezzzz', 'zzz', 6);
 
 - в таблице Roles обрезАть слишком длинные Description
-
-+ форма role-main-form должна открываться на нужной вкладке
-    $('.selector').tabs({ selected: 3 });
-    или
-    $('.selector').tabs('option', 'selected', 3);
-
-- для root_role заблокировать от изменения все вкладки
-    { disabled: [1, 2] }
 
 - получение списка client, Fileset, Job, pool, storage из БД Bacula в отдельном (немодальном) окне,
   для заполнения полей Roles
@@ -36,6 +26,13 @@
 - unit тесты для проверки доступа. См также
   http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
   http://stackoverflow.com/questions/3411110
+
+- для тестов админки :
+    - при удалении Role - если роль используется, то роль удалить нельзя и выдается соотв. сообщение
+    - при удалении Role - каскадное удаление всех ACLs.
+        роль для  удаления id=6, name='user6_role'
+    - форма role-main-form должна открываться на нужной вкладке
+
 
 - в админке д.б. кнопка : "Очистить кэш"
         $cache = Zend_Registry::get('cache');

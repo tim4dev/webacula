@@ -84,13 +84,14 @@ class Wbresources extends Zend_Db_Table
         $this->delete($where);
         // set ACLs again
         $i = 0;
-        foreach( $resources as $v ) {
-            $data = array(
-                'role_id' => $role_id,
-    			'dt_id'   => $v );
-            $this->insert($data);
-            $i++;
-        }
+        if ($resources)
+            foreach( $resources as $v ) {
+                $data = array(
+                    'role_id' => $role_id,
+                    'dt_id'   => $v );
+                $this->insert($data);
+                $i++;
+            }
     	return $i;
     }
 

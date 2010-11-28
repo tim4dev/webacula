@@ -99,19 +99,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES (500,'admin',  
 
 
 
-CREATE TABLE IF NOT EXISTS webacula_storage_acl (
-    id        integer not null auto_increment,
-    name      char(127),
-    order_acl integer,
-    role_id   integer,
-    PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
-);
-
-
-
-CREATE TABLE IF NOT EXISTS webacula_pool_acl (
+CREATE TABLE IF NOT EXISTS webacula_client_acl (
     id        integer not null auto_increment,
     name      char(127),
     order_acl integer,
@@ -185,7 +173,7 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES (420, "wait",   
 
 
 
-CREATE TABLE IF NOT EXISTS webacula_client_acl (
+CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
     id        integer not null auto_increment,
     name      char(127),
     order_acl integer,
@@ -197,7 +185,31 @@ CREATE TABLE IF NOT EXISTS webacula_client_acl (
 
 
 
-CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
+CREATE TABLE IF NOT EXISTS webacula_job_acl (
+    id        integer not null auto_increment,
+    name      char(127),
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS webacula_pool_acl (
+    id        integer not null auto_increment,
+    name      char(127),
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name, role_id)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS webacula_storage_acl (
     id        integer not null auto_increment,
     name      char(127),
     order_acl integer,
@@ -217,18 +229,6 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
     PRIMARY KEY (id),
     INDEX (id, order_acl),
     UNIQUE INDEX (name(256), role_id)
-);
-
-
-
-CREATE TABLE IF NOT EXISTS webacula_job_acl (
-    id        integer not null auto_increment,
-    name      char(127),
-    order_acl integer,
-    role_id   integer,
-    PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
 );
 
 

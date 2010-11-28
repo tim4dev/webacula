@@ -49,13 +49,14 @@ class WbCommandACL extends Zend_Db_Table
         $this->delete($where);
         // set ACLs again
         $i = 0;
-        foreach( $commands as $v ) {
-            $data = array(
-                'role_id' => $role_id,
-    			'dt_id'   => $v );
-            $this->insert($data);
-            $i++;
-        }
+        if ($commands)
+            foreach( $commands as $v ) {
+                $data = array(
+                    'role_id' => $role_id,
+                    'dt_id'   => $v );
+                $this->insert($data);
+                $i++;
+            }
     	return $i;
     }
 
