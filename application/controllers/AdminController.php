@@ -63,6 +63,7 @@ class AdminController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('WbCommandACL');
         // forms
         Zend_Loader::loadClass('FormRole');
+        Zend_Loader::loadClass('FormUser');
         Zend_Loader::loadClass('FormWebaculaACL');
         Zend_Loader::loadClass('FormBaculaACL');
         Zend_Loader::loadClass('FormBaculaCommandACL');
@@ -816,6 +817,73 @@ class AdminController extends MyClass_ControllerAclAction
         // jQuery UI Tabs
         $tabs_selected = $this->_request->getParam('tabs_selected', 'role');
         $this->view->tabs_selected = $this->_jQueryUItabSelected[$tabs_selected];
+    }
+
+
+
+    /***************************************************************************
+     * Users
+     **************************************************************************/
+    public function userIndexAction() {
+        $users = new Wbusers();
+        $this->view->result = $users->fetchAllUsers();
+        $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Users');
+    }
+
+
+
+    public function userUpdateAction()
+    {
+        $user_id = $this->_request->getParam('user_id');
+        if ( empty($user_id) )
+            throw new Exception(__METHOD__.' : Empty input parameters');
+        $form = new FormUser(null, $user_id);
+        $table = new Wbusers();
+        if ( $this->_request->isPost() ) {
+            // Проверяем валидность данных формы
+            if ( $form->isValid($this->_getAllParams()) )
+            {
+                // update data
+                $data = array(
+                    'login'   => $this->_request->getParam('login'),
+                    'name'    => $this->_request->getParam('name'),
+                    'email'   => $this->_request->getParam('email'),
+                    'active'  => intval( $this->_request->getParam('active') ),
+                    'role_id' => $this->_request->getParam('role_id')
+                );
+                // password
+                $pwd = trim( $this->_request->getParam('pwd') );
+                if (isset($pwd))
+                    $data['pwd'] = md5($pwd);
+                $where = $table->getAdapter()->quoteInto('id = ?', $user_id);
+                try {
+                    $table->update($data, $where);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
+                }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
+                $this->_forward('user-index', 'admin'); // action, controller
+                return;
+            }
+        }
+        // create form
+        $row = $table->find($user_id)->current();
+        // fill form
+        $form->populate( array(
+            'user_id' => $user_id,
+            'login'   => $row->login,
+            'name'    => $row->name,
+            'email'   => $row->email,
+            'active'  => $row->active,
+            'role_id' => $row->role_id
+        ));
+        $form->submit->setLabel($this->view->translate->_('Update'));
+        $form->setAction( $this->view->baseUrl . '/admin/user-update' );
+        $this->view->form = $form;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('User update');
+        $this->renderScript('admin/form-user.phtml');
     }
 
 

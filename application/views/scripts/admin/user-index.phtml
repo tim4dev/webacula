@@ -1,0 +1,89 @@
+<!-- admin/user-index.phtml -->
+<?php if ( !empty($this->exception) ) : ?>
+<!-- database, and other errors-->
+<div class="ui-widget" style="width: 58em;">
+    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+        <strong><?php echo $this->exception; ?></strong></p>
+    </div>
+</div>
+<?php endif;?>
+
+<?php if ($this->result): ?>
+
+<div class="ui-widget">
+	<h3><?php echo $this->escape($this->title); ?></h3>
+
+    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/user-add">
+        <input type="submit" name="name1" value="<?php echo $this->translate->_('Create new user') ?>" class="ui-button ui-state-default ui-corner-all" />
+    </form>
+</div>
+
+<table id="box-table-admin" border="0">
+<thead>
+<tr>
+    <th scope="col">id</th>
+    <th scope="col"> <?php echo $this->translate->_('Login'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Email'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Role'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Created'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Last login'); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_('Last IP'); ?> </th>   
+    <th scope="col">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->result as $line) : ?>
+    <?php $td_class = ($line['active'] == 0) ? 'class="td_inactive"' : ''; ?>
+    <tr>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['login']);?>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['email']);?>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>&nbsp;
+            <a href="<?php echo $this->baseUrl;?>/admin/role-main-form/role_id/<?php echo $line['role_id'] ?>">
+                <?php echo $this->escape($line['role_name']);?>
+            </a>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['create_login']);?>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['last_login']);?>&nbsp;
+        </td>
+        <td <?php echo $td_class; ?>>
+            &nbsp;<?php echo $this->escape($line['last_ip']);?>&nbsp;
+        </td>        
+        <td>
+        <?php if ($line['id'] != 1) : ?>
+            <a href="<?php echo $this->baseUrl;?>/admin/user-update/user_id/<?php echo $line['id'] ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>           
+            <a href="<?php echo $this->baseUrl;?>/admin/user-delete/user_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
+        <?php endif; ?>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+<?php else: ?>
+<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php print $this->translate->_("No Users found."); ?></strong></p>
+	</div>
+</div>
+<?php endif; ?>
+<!-- end /admin/user-index.phtml -->

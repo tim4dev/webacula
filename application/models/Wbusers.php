@@ -38,4 +38,34 @@ class Wbusers extends Zend_Db_Table
     }
 
 
+
+    public function updateLoginStat($login)
+    {
+        if ( empty($login) )
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+        $where = $this->getAdapter()->quoteInto('login = ?', $login);
+        $data = array(
+            'last_login' => date("Y-m-d H:i:s", time()),
+            'last_ip'    => $_SERVER['REMOTE_ADDR']
+        );
+        $this->update($data, $where);
+    }
+
+
+
+    public function fetchAllUsers()
+    {
+        $select = new Zend_Db_Select($this->db);
+        $select->from(array('user' => 'webacula_users'),
+                array('id' , 'login', 'name', 'email', 'create_login', 'last_login', 'last_ip', 'active', 'role_id'));
+        $select->joinLeft(array('role' => 'webacula_roles'), 'user.role_id = role.id',
+                array('role_name' => 'name', 'role_id' => 'id'));
+        $select->order(array('user.name, user.id ASC'));
+        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        $stmt   = $select->query();
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
+
 }

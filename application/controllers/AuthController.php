@@ -35,6 +35,7 @@ class AuthController extends Zend_Controller_Action
         Zend_Loader::loadClass('FormLogin');
         Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
         Zend_Loader::loadClass('Wbroles');
+        Zend_Loader::loadClass('Wbusers');
         $this->view->baseUrl = $this->_request->getBaseUrl();
         // workaround for unit tests 'Action Helper by name Layout not found'
         if ($this->_helper->hasHelper('layout'))
@@ -124,10 +125,13 @@ class AuthController extends Zend_Controller_Action
                     // remember me
                     if ($form->getValue('rememberme'))
                         Zend_Session::rememberMe();
+                    // update statistics
+                    $users = new Wbusers();
+                    $users->updateLoginStat($data->login);
                     // goto home page
                     $this->_redirect('index/index');
                 } else {
-                    sleep(2);  // TODO increase this value
+                    sleep(3);  // TODO increase this value
                     $this->view->msg = $this->view->translate->_("Username or password is incorrect");
                     // включаем счетчик, если кол-во неудачных логинов большое то включаем капчу
                     $this->defNamespace->numLoginFails++;

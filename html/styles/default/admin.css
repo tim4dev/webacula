@@ -101,3 +101,7 @@
 {
    color:#FFFF77;
 }
+
+.td_inactive {
+    text-decoration: line-through;
+}

@@ -3,7 +3,7 @@
 Текущее :
 
 - ломает авторизацию
-    INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (6, 'rolezzzz', 'zzz', 6);
+    INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (99, 'rolezzzz', 'zzz', 99);
 
 - в таблице Roles обрезАть слишком длинные Description
 

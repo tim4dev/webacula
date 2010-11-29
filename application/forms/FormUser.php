@@ -25,91 +25,109 @@ require_once 'Zend/Form/Element/Submit.php';
 require_once 'Zend/Form/Element/Reset.php';
 
 
-class FormRole extends Zend_Form
+class FormUser extends Zend_Form
 {
 
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
-    protected $_roleid;
+    protected $_userid;
+    protected $_action;
 
 
-    
-    public function __construct($options = null, $roleid = null) {
+    /**
+     *
+     * @param <type> $options
+     * @param <type> $userid
+     * @param <type> $action update | add
+     */
+    public function __construct($options = null, $userid = null, $action = 'update') {
         // The init() method is called inside parent::__construct()
-        $this->_roleid = $roleid;
+        $this->_userid = $userid;
+        $this->_action = $action;
         parent::__construct($options);
     }
 
 
     public function init()
-    {       
+    {
+        Zend_Loader::loadClass('Zend_Validate_Regex');
         $this->translate = Zend_Registry::get('translate');
         //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
         $this->setMethod('post');
         /*
          * hidden fields
-         */
-        $acl = $this->addElement('hidden', 'acl', array(
-            'decorators' => $this->elDecorators
-        ));
-        $role_id = $this->addElement('hidden', 'role_id', array(
+         */        
+        $user_id = $this->addElement('hidden', 'user_id', array(
             'decorators' => $this->elDecorators
         ));
         /*
-         * Order role
+         * Login
          */
-        $order = $this->createElement('text', 'order', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Order').'*',
-            'required'  => true,
-            'size'      => 3,
-            'maxlength' => 5
-        ));
-        $order->addValidator('Int')
-              ->setRequired(true);
-        /*
-         * Name role
-         */
-        $name = $this->createElement('text', 'role_name', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Name').'*',
+        $login = $this->createElement('text', 'login', array(
+            'label'     => $this->translate->_('Login').'*',
             'required'  => true,
             'size'      => 30,
             'maxlength' => 50
         ));
-        $name->addValidator('StringLength', false, array(2, 50))
+        $login->addValidator('StringLength', false, array(2, 50))
              ->setRequired(true);
         /*
-         * Description role
+         * Password
          */
-        $description = $this->createElement('textarea', 'description', array(
-            //'decorators' => $this->elDecorators,
-            'label'     => $this->translate->_('Description').'*',
-            'required'  => true,
-            'cols' => 50,
-            'rows' => 3
+        $pwd = $this->createElement('password', 'pwd', array(
+            'label' => $this->translate->_('Password'),
+            'size' => 25,
+            'maxlength' => 50
         ));
-        $description->setRequired(true);
+        $pwd->addValidator('StringLength', false, array(1, 50));
+        if ($this->_action == 'add')
+            $pwd->setRequired(true);
         /*
-         * Inherited role id
+         * Name
+         */
+        $name = $this->createElement('text', 'name', array(
+            'label'     => $this->translate->_('Name'),
+            'required'  => false,
+            'size'      => 40,
+            'maxlength' => 150
+        ));
+        $name->addValidator('StringLength', false, array(2, 150));
+        /*
+         * Email
+         */
+        $email = $this->createElement('text', 'email', array(
+            'label'     => $this->translate->_('Email'),
+            'required'  => false,
+            'size'      => 30,
+            'maxlength' => 50
+        ));
+        $email_validator = new Zend_Validate_Regex('/^(.+)@([^@]+)$/');
+        $email_validator->setMessage( $this->translate->_('Email incorrect.'));
+        $email->addValidator('StringLength', false, array(3, 50))
+              ->addValidator($email_validator);
+        /*
+         *  active
+         */
+        $active = $this->createElement('checkbox', 'active', array(
+            'label' => $this->translate->_('Active'),
+            'checked'  => 1
+        ));
+        /*
+         * Role id
          */       
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
-        if ($this->_roleid)
-            $where = $table->getAdapter()->quoteInto('id != ?', $this->_roleid);
-        else
-            $where = null;
+        $where = $table->getAdapter()->quoteInto('id != ?', $this->_userid);
         $rows  = $table->fetchAll($where, 'id');
         // create element
-        $inherit_id = $this->createElement('select', 'inherit_id', array(
-            'label'    => $this->translate->_('Inherited role'),
+        $role_id = $this->createElement('select', 'role_id', array(
+            'label'    => $this->translate->_('Role'),
             'class' => 'ui-select',
             'size' => 10
         ));
-        $inherit_id->addMultiOption('', '');
         foreach( $rows as $v) {
-            $inherit_id->addMultiOption( $v['id'], $v['name'] );
+            $role_id->addMultiOption( $v['id'], $v['name'] );
         }
         unset ($table);
         /*
@@ -133,10 +151,12 @@ class FormRole extends Zend_Form
          *  add elements to form
          */
         $this->addElements( array(
-            $order,
+            $login,
+            $pwd,
             $name,
-            $description,
-            $inherit_id,
+            $email,
+            $active,
+            $role_id,
             $submit,
             $reset
         ));

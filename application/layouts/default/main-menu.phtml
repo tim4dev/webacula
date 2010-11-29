@@ -28,7 +28,7 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
     <li><a href="<?php echo $this->baseUrl;?>/admin/role-index"><?php print $this->translate->_("Administrator"); ?></a>
         <ul>
             <li><a href="<?php echo $this->baseUrl;?>/admin/role-index"><?php print $this->translate->_("Roles"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/admin/#"><?php print $this->translate->_("Users"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/admin/user-index"><?php print $this->translate->_("Users"); ?></a></li>
         </ul>
     </li>
     <?php endif; ?>

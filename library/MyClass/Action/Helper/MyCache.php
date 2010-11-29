@@ -55,15 +55,14 @@ class MyClass_Action_Helper_MyCache extends Zend_Controller_Action_Helper_Abstra
      */
     public function clearAllCacheRole($role_id)
     {
-        if ( empty ($role_id) )
-            throw new Exception(__METHOD__.' : Empty $role_id parameter');
 	    // remove Bacula ACLs
         $bacula_acl = new MyClass_BaculaAcl();
         $bacula_acl->removeCache();
         // remove Webacula ACLs        
         $this->cache->remove('MyClass_WebaculaAcl');
         // main menu cache
-        $this->cache->remove($role_id . '_main_menu');
+        if ($role_id)
+            $this->cache->remove($role_id . '_main_menu');
     }
 
 
