@@ -837,7 +837,7 @@ class AdminController extends MyClass_ControllerAclAction
         $user_id = $this->_request->getParam('user_id');
         if ( empty($user_id) )
             throw new Exception(__METHOD__.' : Empty input parameters');
-        $form = new FormUser(null, $user_id);
+        $form = new FormUser(null, 'update');
         $table = new Wbusers();
         if ( $this->_request->isPost() ) {
             // Проверяем валидность данных формы
@@ -884,6 +884,63 @@ class AdminController extends MyClass_ControllerAclAction
         $this->view->form = $form;
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('User update');
         $this->renderScript('admin/form-user.phtml');
+    }
+
+
+    public function userAddAction()
+    {
+        $form = new FormUser(null, 'add');
+        $table = new Wbusers();
+        if ( $this->_request->isPost() && ( $this->_request->getParam('action_id') == 'add' ) ) {
+            // validate form
+            if ( $form->isValid($this->_getAllParams()) )
+            {
+                // insert data to table
+                $data = array(
+                    'login'   => $this->_request->getParam('login'),
+                    'name'    => $this->_request->getParam('name'),
+                    'pwd'     => md5($this->_request->getParam('pwd')),
+                    'email'   => $this->_request->getParam('email'),
+                    'active'  => intval( $this->_request->getParam('active') ),
+                    'role_id' => $this->_request->getParam('role_id')
+                );
+                try {
+                    $user_id = $table->insert($data);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
+                }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                // render
+                $this->_forward('user-index', 'admin'); // action, controller
+                return;
+            }
+        }
+        $form->populate( array('action_id' => 'add') );
+        $form->submit->setLabel($this->view->translate->_('Add'));
+        $form->setAction( $this->view->baseUrl . '/admin/user-add' );
+        $this->view->form = $form;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('User add');
+        $this->renderScript('admin/form-user.phtml');
+    }
+
+
+    public function userDeleteAction()
+    {
+        $user_id    = $this->_request->getParam('user_id');
+        if ( empty($user_id) )
+            throw new Exception(__METHOD__.' : Empty input parameters');
+        $table = new Wbusers();
+        $where = $table->getAdapter()->quoteInto('id = ?', $user_id);
+        try {
+            $table->delete($where);
+        } catch (Zend_Exception $e) {
+            $this->view->exception = $this->view->translate->_('Exception') . ' : ' . $e->getMessage();
+        }
+        // clear all cache
+        $this->cache_helper->clearAllCache();
+        // render
+        $this->_forward('user-index', 'admin'); // action, controller
     }
 
 

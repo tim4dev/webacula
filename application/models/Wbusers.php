@@ -68,4 +68,12 @@ class Wbusers extends Zend_Db_Table
     }
 
 
+
+    public function insert(array $data)
+    {
+        $data['create_login'] = date("Y-m-d H:i:s", time());
+        parent::insert($data);
+    }
+
+
 }

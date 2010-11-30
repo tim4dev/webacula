@@ -64,7 +64,7 @@
             &nbsp;<?php echo $this->escape($line['last_ip']);?>&nbsp;
         </td>        
         <td>
-        <?php if ($line['id'] != 1) : ?>
+        <?php if ($line['id'] != 1000) : ?>
             <a href="<?php echo $this->baseUrl;?>/admin/user-update/user_id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>           

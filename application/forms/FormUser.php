@@ -30,7 +30,6 @@ class FormUser extends Zend_Form
 
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
-    protected $_userid;
     protected $_action;
 
 
@@ -40,9 +39,8 @@ class FormUser extends Zend_Form
      * @param <type> $userid
      * @param <type> $action update | add
      */
-    public function __construct($options = null, $userid = null, $action = 'update') {
+    public function __construct($options = null, $action = 'update') {
         // The init() method is called inside parent::__construct()
-        $this->_userid = $userid;
         $this->_action = $action;
         parent::__construct($options);
     }
@@ -61,6 +59,9 @@ class FormUser extends Zend_Form
         $user_id = $this->addElement('hidden', 'user_id', array(
             'decorators' => $this->elDecorators
         ));
+        $action_id = $this->addElement('hidden', 'action_id', array(
+            'decorators' => $this->elDecorators
+        ));
         /*
          * Login
          */
@@ -70,18 +71,24 @@ class FormUser extends Zend_Form
             'size'      => 30,
             'maxlength' => 50
         ));
+        $login_validator = new Zend_Validate_Regex('/^[a-zA-Z0-9_]+$/');
+        $login_validator->setMessage( $this->translate->_('Login incorrect. Login contains only english alphabetical characters, digits and underscore.'));
         $login->addValidator('StringLength', false, array(2, 50))
-             ->setRequired(true);
+              ->addValidator($login_validator)
+              ->setRequired(true);
         /*
          * Password
          */
+        $pwd_label = $this->translate->_('Password');
+        if ($this->_action != 'update')
+                $pwd_label .= '*';
         $pwd = $this->createElement('password', 'pwd', array(
-            'label' => $this->translate->_('Password'),
+            'label' => $pwd_label,
             'size' => 25,
             'maxlength' => 50
         ));
         $pwd->addValidator('StringLength', false, array(1, 50));
-        if ($this->_action == 'add')
+        if ($this->_action != 'update')
             $pwd->setRequired(true);
         /*
          * Name
@@ -118,17 +125,17 @@ class FormUser extends Zend_Form
          */       
         Zend_Loader::loadClass('Wbroles');
         $table = new Wbroles();
-        $where = $table->getAdapter()->quoteInto('id != ?', $this->_userid);
-        $rows  = $table->fetchAll($where, 'id');
+        $rows  = $table->fetchAll(null, 'id');
         // create element
         $role_id = $this->createElement('select', 'role_id', array(
-            'label'    => $this->translate->_('Role'),
+            'label'    => $this->translate->_('Role').'*',
             'class' => 'ui-select',
             'size' => 10
         ));
         foreach( $rows as $v) {
             $role_id->addMultiOption( $v['id'], $v['name'] );
         }
+        $role_id->setRequired(true);
         unset ($table);
         /*
          * submit button
@@ -157,6 +164,7 @@ class FormUser extends Zend_Form
             $email,
             $active,
             $role_id,
+            $action_id,
             $submit,
             $reset
         ));
