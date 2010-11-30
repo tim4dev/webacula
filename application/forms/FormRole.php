@@ -42,7 +42,8 @@ class FormRole extends Zend_Form
 
 
     public function init()
-    {       
+    {
+        Zend_Loader::loadClass('Zend_Validate_Regex');
         $this->translate = Zend_Registry::get('translate');
         //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // set method to POST
@@ -78,7 +79,10 @@ class FormRole extends Zend_Form
             'size'      => 30,
             'maxlength' => 50
         ));
+        $name_validator = new Zend_Validate_Regex('/^[a-zA-Z0-9_]+$/');
+        $name_validator->setMessage( $this->translate->_('Role name incorrect. This contains only english alphabetical characters, digits and underscore.'));
         $name->addValidator('StringLength', false, array(2, 50))
+             ->addValidator($name_validator)
              ->setRequired(true);
         /*
          * Description role
