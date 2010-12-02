@@ -72,6 +72,10 @@ INSERT INTO webacula_storage_acl (name, order_acl, role_id) VALUES ('storage', 9
 INSERT INTO webacula_where_acl   (name, order_acl, role_id) VALUES ('where',   99, 6);
 
 
+-- probe infinite recursion of roles
+INSERT INTO webacula_roles (id, name, description, order_role, inherit_id) VALUES (99, 'rolezzz', 'crack', 99, 99);
+
+
 
 END-OF-DATA
 then
