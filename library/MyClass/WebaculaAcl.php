@@ -37,13 +37,12 @@ class MyClass_WebaculaAcl extends Zend_Acl
         $table = new Wbroles();
         $roles = $table->fetchAllRoles();
         unset($table);
-
         // Loop roles and put them in an assoc array by ID
         $roleArray = array();
         foreach($roles as $r)   {
             $role = new Zend_Acl_Role($r['name']);
             // If inherit_name isn't null, have the role inherit from that, otherwise no inheriting
-            if($r['inherit_name'] !== null)
+            if ( ( $r['inherit_name'] !== null) && ($r['inherit_name'] !== $r['name']) )
                 $this->addRole($role, $r['inherit_name']);
             else
                 $this->addRole($role);

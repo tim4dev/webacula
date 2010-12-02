@@ -2,16 +2,11 @@
 -------------------------------------------------------------------------------------------------------
 Текущее :
 
-- ломает авторизацию
-    INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (99, 'rolezzzz', 'zzz', 99);
-
 - в таблице Roles обрезАть слишком длинные Description
 
 - получение списка client, Fileset, Job, pool, storage из БД Bacula в отдельном (немодальном) окне,
   для заполнения полей Roles
-
-
-    
+   
 
 
 
@@ -32,6 +27,8 @@
     - при удалении Role - каскадное удаление всех ACLs.
         роль для  удаления id=6, name='user6_role'
     - форма role-main-form должна открываться на нужной вкладке
+    - ломает авторизацию
+        INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (99, 'rolezzzz', 'zzz', 99);
 
 
 - в админке д.б. кнопка : "Очистить кэш"

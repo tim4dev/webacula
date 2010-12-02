@@ -74,7 +74,7 @@ class Wbroles extends Zend_Db_Table
         $row = $this->fetchRow($select);
         $this->parentIds[]   = $row->id;
         $this->parentNames[$row->id] = $row->name;
-        if ( isset($row->inherit_id) && ($row->inherit_id != 0) )
+        if ( isset($row->inherit_id) && ($row->inherit_id != 0) && ($row->inherit_id != $row->id) )
             $this->_getAllParentIds($row->inherit_id);
     }
 
