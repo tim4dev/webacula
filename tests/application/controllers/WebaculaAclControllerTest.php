@@ -48,6 +48,8 @@ class WebaculaAclControllerTest extends ControllerTestCase
     public function testLoginForm()
     {
         print "\n".__METHOD__.' ';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['SERVER_NAME'] = 'localhost';
         $this->getRequest()
              ->setParams(array(
                  'login' => 'user3',
@@ -55,6 +57,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
                  'rememberme' => '1') )
              ->setMethod('POST');
         $this->dispatch('auth/login');
+        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertController('auth');
         $this->assertAction('login');
         $this->assertRedirectTo('/index/index');
@@ -295,7 +298,6 @@ class WebaculaAclControllerTest extends ControllerTestCase
         $this->assertController('restorejob');
         $this->assertAction('restore-all');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertQueryContentContains('div', 'Bacula ACLs : access denied for Where');
         $this->assertNotQueryContentContains('div', 'Session of Restore backup is expired');
     }

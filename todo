@@ -18,12 +18,6 @@
 
 -------------------------------------------------------------------------------------------------------
 
-- unit тесты для проверки доступа. См также
-  http://anton.shevchuk.name/php/unit-tests-zend-framework-application/
-  http://stackoverflow.com/questions/3411110
-
-- для тестов админки :
-
 - в админке д.б. кнопка : "Очистить кэш"
         $cache = Zend_Registry::get('cache');
         $all_ids = $cache->getIds();
