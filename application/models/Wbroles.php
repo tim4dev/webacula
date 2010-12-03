@@ -123,9 +123,12 @@ class Wbroles extends Zend_Db_Table
          */
         Zend_Loader::loadClass('Wbusers');
         $users = new Wbusers();
-        if ( 
-            $users->fetchRow($this->getAdapter()->quoteInto('role_id = ?',    $role_id)) ||
-            $this->fetchRow( $this->getAdapter()->quoteInto('inherit_id = ?', $role_id)) )
+        //
+        $select = $this->select()->where('inherit_id = ?', $role_id)
+                        ->where('inherit_id != id');
+        $rows = $this->fetchAll($select);
+        if ( $users->fetchRow($this->getAdapter()->quoteInto('role_id = ?',    $role_id)) ||
+             ($rows->count() > 0) )
         {
             $translate = Zend_Registry::get('translate');
             throw new Zend_Exception( $translate->_('Can not delete. Role is used.') );
