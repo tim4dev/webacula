@@ -67,6 +67,7 @@ class AdminController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('FormWebaculaACL');
         Zend_Loader::loadClass('FormBaculaACL');
         Zend_Loader::loadClass('FormBaculaCommandACL');
+        Zend_Loader::loadClass('FormBaculaFill');
         // helpers
         $this->cache_helper = $this->_helper->getHelper('MyCache');
     }
@@ -509,6 +510,60 @@ class AdminController extends MyClass_ControllerAclAction
 
 
 
+    /*
+     * Fill data from Bacula database dispatcher for :
+     * Client, FileSet, Job, Pool, Storage
+     */
+    public function fillAction()
+    {
+        $acl = trim( $this->_request->getParam('acl') );
+        switch ($acl) {
+            case 'client':
+                $table_webacula = 'WbClientACL';
+                break;
+            case 'fileset':
+                $table_webacula = 'WbFilesetACL';
+                break;
+            case 'job':
+                $table_webacula = 'WbJobACL';
+                break;
+            case 'pool':
+                $table_webacula = 'WbPoolACL';
+                break;
+            case 'storage':
+                $table_webacula = 'WbStorageACL';
+                break;
+            default:
+                throw new Exception(__METHOD__.' : Invalid input parameter.');
+                break;
+        }
+        if ( $this->_request->isPost() ) {
+            $role_id     = $this->_request->getParam('role_id');
+            $role_name   = $this->_request->getParam('role_name');
+            $bacula_fill = $this->_request->getParam('bacula_fill');
+            if ( empty ($role_id) )
+                throw new Exception(__METHOD__.' : Empty $role_id parameter');
+            if ( !empty($bacula_fill) ) {
+                $table = new Wbroles();
+                // insert data to table
+                try {
+                    // inserts data
+                    $table->insertBaculaFill($table_webacula, $role_id, $bacula_fill);
+                } catch (Zend_Exception $e) {
+                    $this->view->exception = "<br>Caught exception: " . get_class($e) .
+                        "<br>Message: " . $e->getMessage() . "<br>";
+                }
+                // clear all cache
+                $this->cache_helper->clearAllCache();
+                $this->_forward('role-main-form', 'admin', null, array(
+                    'role_id'       => $role_id,
+                    'role_name'     => $role_name,
+                    'tabs_selected' => $acl) ); // action, controller
+            }
+        }
+    }
+
+
 
 
     /***************************************************************************
@@ -549,6 +604,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->aclDeleteDispatcher('client');
     }
 
+    
 
     /***************************************************************************
      * Job
@@ -625,7 +681,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->aclDeleteDispatcher('where');
     }
 
-
+    
 
 
     /***************************************************************************
@@ -707,44 +763,12 @@ class AdminController extends MyClass_ControllerAclAction
         $form_commands->setAction( $this->view->baseUrl . '/admin/commands-update' );
         $this->view->form_commands  = $form_commands;
         /**********************************
-         * Storage ACL form
-         **********************************/
-        $table = new WbStorageACL();
-        $this->view->rows_storage = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
-        unset ($table);
-        // form
-        $form_storage = new FormBaculaACL();
-        // fill form
-        $form_storage->populate( array(
-                'acl'       => 'storage',
-                'role_id'   => $role_id,
-                'role_name' => $role->name
-            ));
-        $form_storage->setAction( $this->view->baseUrl . '/admin/storage-add' );
-        $this->view->form_storage = $form_storage;
-        /**********************************
-         * Pool ACL form
-         **********************************/        
-        $table = new WbPoolACL();
-        $this->view->rows_pool = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
-        unset ($table);
-        // form
-        $form_pool = new FormBaculaACL();
-        // fill form
-        $form_pool->populate( array(
-                'acl'       => 'pool',
-                'role_id'   => $role_id,
-                'role_name' => $role->name
-            ));
-        $form_pool->setAction( $this->view->baseUrl . '/admin/pool-add' );
-        $this->view->form_pool = $form_pool;
-        /**********************************
          * Client ACL form
-         **********************************/        
+         **********************************/
         $table = new WbClientACL();
         $this->view->rows_client = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
         unset ($table);
-        // form       
+        // form
         $form_client = new FormBaculaACL();
         // fill form
         $form_client->populate( array(
@@ -754,13 +778,16 @@ class AdminController extends MyClass_ControllerAclAction
             ));
         $form_client->setAction( $this->view->baseUrl . '/admin/client-add' );
         $this->view->form_client = $form_client;
+        // Fill data from Bacula database
+        $this->view->form_bacula_fill_client = new FormBaculaFill('Client', 'webacula_client_acl', $role_id, $role->name);
+        $this->view->form_bacula_fill_client->setAction( $this->view->baseUrl . '/admin/fill/acl/client' );
         /**********************************
          * Fileset ACL form
-         **********************************/       
+         **********************************/
         $table = new WbFilesetACL();
         $this->view->rows_fileset = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
         unset ($table);
-        // form        
+        // form
         $form_fileset = new FormBaculaACL();
         // fill form
         $form_fileset->populate( array(
@@ -770,22 +797,9 @@ class AdminController extends MyClass_ControllerAclAction
             ));
         $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-add' );
         $this->view->form_fileset = $form_fileset;
-        /**********************************
-         * Where ACL form
-         **********************************/
-        $table = new WbWhereACL();
-        $this->view->rows_where = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
-        unset ($table);
-        // form
-        $form_where = new FormBaculaACL();
-        // fill form
-        $form_where->populate( array(
-                'acl'       => 'where',
-                'role_id'   => $role_id,
-                'role_name' => $role->name
-            ));
-        $form_where->setAction( $this->view->baseUrl . '/admin/where-add' );
-        $this->view->form_where = $form_where;
+        // Fill data from Bacula database
+        $this->view->form_bacula_fill_fileset = new FormBaculaFill('FileSet', 'webacula_fileset_acl', $role_id, $role->name);
+        $this->view->form_bacula_fill_fileset->setAction( $this->view->baseUrl . '/admin/fill/acl/fileset' );
         /**********************************
          * Job ACL form
          **********************************/
@@ -802,6 +816,64 @@ class AdminController extends MyClass_ControllerAclAction
             ));
         $form_job->setAction( $this->view->baseUrl . '/admin/job-add' );
         $this->view->form_job = $form_job;
+        // Fill data from Bacula database
+        $this->view->form_bacula_fill_job = new FormBaculaFill('Job', 'webacula_job_acl', $role_id, $role->name);
+        $this->view->form_bacula_fill_job->setAction( $this->view->baseUrl . '/admin/fill/acl/job' );
+        /**********************************
+         * Pool ACL form
+         **********************************/
+        $table = new WbPoolACL();
+        $this->view->rows_pool = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
+        unset ($table);
+        // form
+        $form_pool = new FormBaculaACL();
+        // fill form
+        $form_pool->populate( array(
+                'acl'       => 'pool',
+                'role_id'   => $role_id,
+                'role_name' => $role->name
+            ));
+        $form_pool->setAction( $this->view->baseUrl . '/admin/pool-add' );
+        $this->view->form_pool = $form_pool;
+        // Fill data from Bacula database
+        $this->view->form_bacula_fill_pool = new FormBaculaFill('Pool', 'webacula_pool_acl', $role_id, $role->name);
+        $this->view->form_bacula_fill_pool->setAction( $this->view->baseUrl . '/admin/fill/acl/pool' );
+        /**********************************
+         * Storage ACL form
+         **********************************/
+        $table = new WbStorageACL();
+        $this->view->rows_storage = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
+        unset ($table);
+        // form
+        $form_storage = new FormBaculaACL();
+        // fill form
+        $form_storage->populate( array(
+                'acl'       => 'storage',
+                'role_id'   => $role_id,
+                'role_name' => $role->name
+            ));
+        $form_storage->setAction( $this->view->baseUrl . '/admin/storage-add' );
+        $this->view->form_storage = $form_storage;
+        // Fill data from Bacula database
+        $this->view->form_bacula_fill_storage = new FormBaculaFill('Storage', 'webacula_storage_acl', $role_id, $role->name);
+        $this->view->form_bacula_fill_storage->setAction( $this->view->baseUrl . '/admin/fill/acl/storage' );
+        /**********************************
+         * Where ACL form
+         **********************************/
+        $table = new WbWhereACL();
+        $this->view->rows_where = $table->fetchAll($table->getAdapter()->quoteInto('role_id = ?', $role_id), 'order_acl');
+        unset ($table);
+        // form
+        $form_where = new FormBaculaACL();
+        // fill form
+        $form_where->populate( array(
+                'acl'       => 'where',
+                'role_id'   => $role_id,
+                'role_name' => $role->name
+            ));
+        $form_where->setAction( $this->view->baseUrl . '/admin/where-add' );
+        $this->view->form_where = $form_where;
+        
         /**********************************
          * view
          **********************************/

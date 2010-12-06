@@ -34,7 +34,6 @@ class FormUser extends Zend_Form
 
 
     /**
-     *
      * @param <type> $options
      * @param <type> $userid
      * @param <type> $action update | add

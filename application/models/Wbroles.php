@@ -127,7 +127,7 @@ class Wbroles extends Zend_Db_Table
         $select = $this->select()->where('inherit_id = ?', $role_id)
                         ->where('inherit_id != id');
         $rows = $this->fetchAll($select);
-        if ( $users->fetchRow($this->getAdapter()->quoteInto('role_id = ?',    $role_id)) ||
+        if ( $users->fetchRow($this->getAdapter()->quoteInto('role_id = ?', $role_id)) ||
              ($rows->count() > 0) )
         {
             $translate = Zend_Registry::get('translate');
@@ -158,5 +158,65 @@ class Wbroles extends Zend_Db_Table
         }
     }
 
-    
+
+
+    public function getBaculaFill($table_bacula, $table_webacula, $role_id)
+    {
+        if ( $table_bacula === 'FileSet') {
+            $stmt = $this->db->query(
+           'SELECT DISTINCT Fileset AS name
+            FROM '. $this->db->quoteIdentifier($table_bacula) .'
+            WHERE NOT Fileset IN
+            (
+                SELECT DISTINCT name FROM '. $this->db->quoteIdentifier($table_webacula) .
+                ' WHERE role_id = '. $this->db->quote($role_id) .'
+            )' );
+        } else {
+            $stmt = $this->db->query(
+                'SELECT DISTINCT Name
+                FROM '. $this->db->quoteIdentifier($table_bacula) .'
+                WHERE NOT Name IN
+                (
+                    SELECT DISTINCT name FROM '. $this->db->quoteIdentifier($table_webacula) .
+                    ' WHERE role_id = '. $this->db->quote($role_id) .'
+                )' );
+        }
+        return $stmt->fetchAll();
+    }
+
+
+
+    public function insertBaculaFill($webacula, $role_id, $data)
+    {
+        Zend_Loader::loadClass($webacula);
+        $table = new $webacula();
+        foreach ($data as $v) {
+            $select = $table->select()->where('name = ?', $v)
+                        ->where('role_id = ?', $role_id);
+            $rows = $table->fetchAll($select);
+            unset($select);
+            if ($rows->count() == 0) {
+                /*
+                 *  select MAX order_acl : select max(order_acl) from webacula_client_acl where role_id=2;
+                 */
+                $select = $table->select();
+                $select->from($table, array('MAX(order_acl) AS '. $this->db->quoteIdentifier('max_order')) )
+                      ->where('role_id = ?', $role_id);
+                $row = $table->fetchRow($select);
+                // insert data
+                $data = array(
+                    'role_id' => $role_id,
+                    'name'    => $v
+                );
+                if ( $row->max_order )
+                    $data['order_acl'] = round( ($row->max_order + 10)/10, 0 ) * 10;
+                $table->insert($data);
+            }
+        }
+        unset($table);
+    }
+
+
+
+
 }

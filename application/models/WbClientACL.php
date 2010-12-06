@@ -30,7 +30,7 @@ class WbClientACL extends Zend_Db_Table
 
     public function __construct ($config = array())
     {
-        $this->db         = Zend_Registry::get('db_bacula');
+        $this->db = Zend_Registry::get('db_bacula');
         parent::__construct($config);
     }
 
