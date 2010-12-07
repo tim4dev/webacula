@@ -87,7 +87,7 @@ class Wbroles extends Zend_Db_Table
            ORDER BY roles.inherit_id, roles.order_role ASC
         */
         $select = new Zend_Db_Select($this->db);
-        $select->from(array('roles' => 'webacula_roles'), array('id' , 'name', 'description', 'order_role'));
+        $select->from(array('roles' => 'webacula_roles'), array('id' , 'name', 'description', 'order_role', 'inherit_id'));
         $select->joinLeft(array('inherits' => 'webacula_roles'), 'inherits.id = roles.inherit_id', array('inherit_name' => 'name'));
         $select->order(array('roles.order_role, roles.id ASC'));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!

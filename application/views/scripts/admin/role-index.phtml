@@ -39,11 +39,28 @@
         <td>
             &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
         </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['description']);?>&nbsp;
+        <td>&nbsp;
+            <?php
+                $description = $this->escape($line['description']);
+                if ( strlen($description) <= 70 )
+                    echo $description;
+                else
+                    echo substr($description, 0, 70), ' ',
+                        '<a href="'. $this->baseUrl .'/admin/role-main-form/role_id/'. $line['id'] .'">',
+                        '[...]',
+                        '</a>';
+            ?>
+            &nbsp;
         </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['inherit_name']);?>&nbsp;
+        <td>&nbsp;
+            <?php
+                $inherit_name = $this->escape($line['inherit_name']);
+                if ($inherit_name)
+                    echo '<a href="'. $this->baseUrl .'/admin/role-main-form/role_id/'. $line['inherit_id'] .'">',
+                        $inherit_name,
+                        '</a>';
+            ?>
+            &nbsp;
         </td>
         <td>
             &nbsp;<?php echo $this->escape($line['order_role']);?>&nbsp;
