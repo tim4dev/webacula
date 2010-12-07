@@ -4,16 +4,6 @@
 
 - в таблице Roles обрезАть слишком длинные Description
 
-+ получение списка client, Fileset, Job, pool, storage из БД Bacula в отдельном (немодальном) окне,
-  для заполнения полей Roles
-
-+ select distinct Name from Client where NOT Name IN (select name from webacula_client_acl where role_id=2);
-+ select distinct Fileset AS name from FileSet where NOT FileSet IN (select name from webacula_fileset_acl where role_id=2);
-+ select distinct Name from Job    where NOT Name IN (select name from webacula_job_acl    where role_id=2);
-+ select distinct Name from Pool   where NOT Name IN (select name from webacula_pool_acl   where role_id=2);
-+ select distinct Name from Storage where NOT Name IN (select name from webacula_storage_acl   where role_id=2);
-
-
 
 
 -------------------------------------------------------------------------------------------------------

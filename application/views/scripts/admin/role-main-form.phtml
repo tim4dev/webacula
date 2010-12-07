@@ -141,13 +141,15 @@ $(function() {
 </tbody>
 </table>
 
-<form  action="<?php echo $this->form_bacula_fill_client->getAction();  ?>"
-        method="<?php echo $this->form_bacula_fill_client->getMethod();  ?>">
-    <?php echo $this->form_bacula_fill_client->role_id; ?>
-    <?php echo $this->form_bacula_fill_client->role_name; ?>
-    <?php echo $this->form_bacula_fill_client->bacula_fill; ?>
-    <?php echo $this->form_bacula_fill_client->submit; ?>
-</form>
+    <div class="div-bacula-fill">
+        <form  action="<?php echo $this->form_bacula_fill_client->getAction();  ?>"
+                method="<?php echo $this->form_bacula_fill_client->getMethod();  ?>">
+            <?php echo $this->form_bacula_fill_client->role_id; ?>
+            <?php echo $this->form_bacula_fill_client->role_name; ?>
+            <?php echo $this->form_bacula_fill_client->bacula_fill; ?>
+            <?php echo $this->form_bacula_fill_client->submit; ?>
+        </form>
+    </div>
 </div>
 <!-- end Client ACL form -->
 
@@ -217,13 +219,15 @@ $(function() {
 </tbody>
 </table>
 
-<form  action="<?php echo $this->form_bacula_fill_fileset->getAction();  ?>"
-        method="<?php echo $this->form_bacula_fill_fileset->getMethod();  ?>">
-    <?php echo $this->form_bacula_fill_fileset->role_id; ?>
-    <?php echo $this->form_bacula_fill_fileset->role_name; ?>
-    <?php echo $this->form_bacula_fill_fileset->bacula_fill; ?>
-    <?php echo $this->form_bacula_fill_fileset->submit; ?>
-</form>
+    <div class="div-bacula-fill">
+        <form  action="<?php echo $this->form_bacula_fill_fileset->getAction();  ?>"
+                method="<?php echo $this->form_bacula_fill_fileset->getMethod();  ?>">
+            <?php echo $this->form_bacula_fill_fileset->role_id; ?>
+            <?php echo $this->form_bacula_fill_fileset->role_name; ?>
+            <?php echo $this->form_bacula_fill_fileset->bacula_fill; ?>
+            <?php echo $this->form_bacula_fill_fileset->submit; ?>
+        </form>
+    </div>
 </div>
 <!-- end Fileset ACL form -->
 
@@ -277,13 +281,15 @@ $(function() {
 </tbody>
 </table>
 
-<form  action="<?php echo $this->form_bacula_fill_job->getAction();  ?>"
-       method="<?php echo $this->form_bacula_fill_job->getMethod();  ?>">
-    <?php echo $this->form_bacula_fill_job->role_id; ?>
-    <?php echo $this->form_bacula_fill_job->role_name; ?>
-    <?php echo $this->form_bacula_fill_job->bacula_fill; ?>
-    <?php echo $this->form_bacula_fill_job->submit; ?>
-</form>
+    <div class="div-bacula-fill">
+        <form  action="<?php echo $this->form_bacula_fill_job->getAction();  ?>"
+               method="<?php echo $this->form_bacula_fill_job->getMethod();  ?>">
+            <?php echo $this->form_bacula_fill_job->role_id; ?>
+            <?php echo $this->form_bacula_fill_job->role_name; ?>
+            <?php echo $this->form_bacula_fill_job->bacula_fill; ?>
+            <?php echo $this->form_bacula_fill_job->submit; ?>
+        </form>
+    </div>
 </div>
 <!-- end Job ACLs -->
 
@@ -337,13 +343,15 @@ $(function() {
 </tbody>
 </table>
 
-<form  action="<?php echo $this->form_bacula_fill_pool->getAction();  ?>"
-       method="<?php echo $this->form_bacula_fill_pool->getMethod();  ?>">
-    <?php echo $this->form_bacula_fill_pool->role_id; ?>
-    <?php echo $this->form_bacula_fill_pool->role_name; ?>
-    <?php echo $this->form_bacula_fill_pool->bacula_fill; ?>
-    <?php echo $this->form_bacula_fill_pool->submit; ?>
-</form>
+    <div class="div-bacula-fill">
+        <form  action="<?php echo $this->form_bacula_fill_pool->getAction();  ?>"
+               method="<?php echo $this->form_bacula_fill_pool->getMethod();  ?>">
+            <?php echo $this->form_bacula_fill_pool->role_id; ?>
+            <?php echo $this->form_bacula_fill_pool->role_name; ?>
+            <?php echo $this->form_bacula_fill_pool->bacula_fill; ?>
+            <?php echo $this->form_bacula_fill_pool->submit; ?>
+        </form>
+    </div>
 </div>
 <!-- end Pool ACL form -->
 
@@ -397,13 +405,15 @@ $(function() {
 </tbody>
 </table>
 
-<form  action="<?php echo $this->form_bacula_fill_storage->getAction();  ?>"
-       method="<?php echo $this->form_bacula_fill_storage->getMethod();  ?>">
-    <?php echo $this->form_bacula_fill_storage->role_id; ?>
-    <?php echo $this->form_bacula_fill_storage->role_name; ?>
-    <?php echo $this->form_bacula_fill_storage->bacula_fill; ?>
-    <?php echo $this->form_bacula_fill_storage->submit; ?>
-</form>
+    <div class="div-bacula-fill">
+        <form  action="<?php echo $this->form_bacula_fill_storage->getAction();  ?>"
+               method="<?php echo $this->form_bacula_fill_storage->getMethod();  ?>">
+            <?php echo $this->form_bacula_fill_storage->role_id; ?>
+            <?php echo $this->form_bacula_fill_storage->role_name; ?>
+            <?php echo $this->form_bacula_fill_storage->bacula_fill; ?>
+            <?php echo $this->form_bacula_fill_storage->submit; ?>
+        </form>
+    </div>
 </div>
 <!-- end Storage ACL form -->
 

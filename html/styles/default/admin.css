@@ -1,52 +1,4 @@
 /*--------------------------------------------------------------------------*/
-/*    left menu                                                             */
-/*--------------------------------------------------------------------------*/
-.aclmenu{
-	width: 11em;
-}
-
-.aclmenu .aclheader{
-	font-family: arial, verdana, sans-serif;
-	font-weight: bold;
-	font-size: 1em;
-	color: white;
-	background: #C49D7E;
-	margin-bottom: 0;
-	padding: 9px 0 9px 1em;
-}
-
-.aclmenu ul{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	margin-bottom: 0; /* between UL and content */
-}
-
-.aclmenu ul li{
-	padding-bottom: 1px; /* between menu item */
-}
-
-.aclmenu ul li a{
-	font-family: arial, verdana, sans-serif;
-	font-weight: normal;
-	font-size: 13px;
-	color: #1133AA;
-	background: #F2E7B0;
-	display: block;
-	padding: 5px 0;
-	line-height: 18px;
-	padding-left: 2em;
-	text-decoration: none;
-}
-
-.aclmenu ul li a:hover{
-	color: blue;
-	background: #FFF3B9;
-}
-
-
-
-/*--------------------------------------------------------------------------*/
 /*    tables                                                                */
 /*--------------------------------------------------------------------------*/
 #box-table-admin
@@ -104,4 +56,11 @@
 
 .td_inactive {
     text-decoration: line-through;
+}
+
+
+.div-bacula-fill {
+    position: absolute;
+    top:   4em;
+    right: 2em;
 }
