@@ -23,7 +23,8 @@ CREATE INDEX wbidx1 ON webacula_logbook(logDateCreate);
 CREATE FULLTEXT INDEX idxTxt ON webacula_logbook(logTxt);
 
 
-CREATE TABLE IF NOT EXISTS webacula_logtype (
+DROP TABLE IF EXISTS webacula_logtype;
+CREATE TABLE webacula_logtype (
 	typeId	INTEGER UNSIGNED NOT NULL,
 	typeDesc TINYBLOB NOT NULL,
 
@@ -49,7 +50,8 @@ CREATE TABLE IF NOT EXISTS webacula_jobdesc (
 );
 
 
-CREATE TABLE IF NOT EXISTS webacula_version (
+DROP TABLE IF EXISTS webacula_version;
+CREATE TABLE webacula_version (
    versionId INTEGER UNSIGNED NOT NULL
 );
 

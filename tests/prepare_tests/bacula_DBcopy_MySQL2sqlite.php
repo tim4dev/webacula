@@ -59,8 +59,8 @@ function my_MySQL_db_connect()
 
     $db = mysql_connect($dblocation, $dbuser, $dbpassword)
         or die("[MySQL]: Could not connect.\n" . mysql_error());
-    mysql_query("SET CHARACTER SET 'utf8';", $db);
-    mysql_query("SET NAMES utf8;", $db);
+//    mysql_query("SET CHARACTER SET 'utf8';", $db);
+//    mysql_query("SET NAMES utf8;", $db);
     mysql_select_db($dbname, $db)
         or die("[MySQL]: Could not select database.\n" . mysql_error());
     echo "Connect [MySQL] '$dbname' OK.\n";

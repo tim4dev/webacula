@@ -1,6 +1,6 @@
 #!/bin/sh
 
-db_name="/var/lib/sqlite/webacula.db"
+db_name="/var/bacula/working/bacula.db"
 
 if [ $# -eq 1 ]
 then
@@ -9,7 +9,7 @@ fi
 
 sqlite3 ${db_name} <<END-OF-DATA
 
-CREATE TABLE wbLogBook (
+CREATE TABLE webacula_logbook (
 	logId		INTEGER,
 	logDateCreate	DATETIME NOT NULL,
 	logDateLast	DATETIME,
@@ -19,47 +19,38 @@ CREATE TABLE wbLogBook (
 	PRIMARY KEY(logId)
 );
 
-CREATE INDEX wbidx1 ON wbLogBook(logDateCreate);
-CREATE INDEX idxTxt ON wbLogBook(logTxt);
+CREATE INDEX webacula_idx1 ON webacula_logbook(logDateCreate);
+CREATE INDEX webacula_idxTxt ON webacula_logbook(logTxt);
 
 
-CREATE TABLE wbLogType (
+CREATE TABLE webacula_logtype (
 	typeId	INTEGER,
 	typeDesc VARCHAR(255) NOT NULL,
 	PRIMARY KEY(typeId)
 );
 
-INSERT INTO wbLogType (typeId,typeDesc) VALUES (10, 'Info');
-INSERT INTO wbLogType (typeId,typeDesc) VALUES (20, 'OK');
-INSERT INTO wbLogType (typeId,typeDesc) VALUES (30, 'Warning');
-INSERT INTO wbLogType (typeId,typeDesc) VALUES (255, 'Error');
+INSERT INTO webacula_logtype (typeId,typeDesc) VALUES (10, 'Info');
+INSERT INTO webacula_logtype (typeId,typeDesc) VALUES (20, 'OK');
+INSERT INTO webacula_logtype (typeId,typeDesc) VALUES (30, 'Warning');
+INSERT INTO webacula_logtype (typeId,typeDesc) VALUES (255, 'Error');
 
 /* Job descriptions */
-CREATE TABLE wbJobDesc (
+CREATE TABLE webacula_jobdesc (
     desc_id     INTEGER,
     name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
     description      TEXT NOT NULL,
     PRIMARY KEY(desc_id)
 );
-CREATE INDEX wbidx2 ON wbJobDesc(name_job);
+CREATE INDEX webacula_idx2 ON webacula_jobdesc(name_job);
 
 
-CREATE TABLE wbVersion (
+CREATE TABLE webacula_version (
    versionId INTEGER UNSIGNED NOT NULL
 );
 
-INSERT INTO wbVersion (versionId) VALUES (3);
+INSERT INTO webacula_version (versionId) VALUES (5);
 
-
-CREATE TABLE wbtmptablelist (
-        tmpId    INTEGER,
-        tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
-        tmpJobIdHash CHAR(64) NOT NULL,
-        tmpCreate   TIMESTAMP NOT NULL,
-        tmpIsCloneOk INTEGER DEFAULT 0,					/* is clone bacula tables OK */
-        PRIMARY KEY(tmpId)
-);
 
 END-OF-DATA
 

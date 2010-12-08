@@ -58,10 +58,6 @@ echo -e "\n\n"
 rm -r -f /tmp/webacula/sqlite/bacula.db
 echo "Drop Sqlite bacula database succeeded."
 
-psql -f - -d template0 <<END-OF-DATA
-   DROP USER wbuser;
-END-OF-DATA
-
 if dropdb bacula
 then
    echo "Drop PGSQL bacula database succeeded."

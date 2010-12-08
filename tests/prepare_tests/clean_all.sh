@@ -79,10 +79,6 @@ fi
 ##--    echo "Drop PGSQL webacula database failed."
 ##-- fi
 
-##-- /usr/bin/psql -f - -d template1 <<END-OF-DATA
-##-- 	DROP USER wbuser;
-##-- END-OF-DATA
-
 rm -f  ../../data/cache/zend_cache*
 rm -f  ../../data/tmp/webacula*
 rm -f  ../../data/session/ses*

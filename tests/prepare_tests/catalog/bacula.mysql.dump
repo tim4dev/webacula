@@ -30,7 +30,7 @@ CREATE TABLE `BaseFiles` (
   `FileIndex` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`BaseId`),
   KEY `basefiles_jobid_idx` (`JobId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `CDImages` (
   `MediaId` int(10) unsigned NOT NULL,
   `LastBurn` datetime NOT NULL,
   PRIMARY KEY (`MediaId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +81,7 @@ CREATE TABLE `Client` (
   `JobRetention` bigint(20) unsigned DEFAULT '0',
   PRIMARY KEY (`ClientId`),
   UNIQUE KEY `Name` (`Name`(128))
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `Counters` (
   `CurrentValue` int(11) DEFAULT '0',
   `WrapCounter` tinyblob NOT NULL,
   PRIMARY KEY (`Counter`(128))
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `Device` (
   `CleaningDate` datetime DEFAULT '0000-00-00 00:00:00',
   `CleaningPeriod` bigint(20) unsigned DEFAULT '0',
   PRIMARY KEY (`DeviceId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +175,7 @@ CREATE TABLE `File` (
   PRIMARY KEY (`FileId`),
   KEY `JobId` (`JobId`),
   KEY `JobId_2` (`JobId`,`PathId`,`FilenameId`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +201,7 @@ CREATE TABLE `FileSet` (
   `MD5` tinyblob,
   `CreateTime` datetime DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`FileSetId`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,7 +226,7 @@ CREATE TABLE `Filename` (
   `Name` blob NOT NULL,
   PRIMARY KEY (`FilenameId`),
   KEY `Name` (`Name`(255))
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +276,7 @@ CREATE TABLE `Job` (
   `Comment` blob,
   PRIMARY KEY (`JobId`),
   KEY `Name` (`Name`(128))
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +325,7 @@ CREATE TABLE `JobHisto` (
   `Reviewed` tinyint(4) DEFAULT '0',
   `Comment` blob,
   KEY `StartTime` (`StartTime`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,7 +357,7 @@ CREATE TABLE `JobMedia` (
   `VolIndex` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`JobMediaId`),
   KEY `JobId` (`JobId`,`MediaId`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +383,7 @@ CREATE TABLE `Location` (
   `Cost` int(11) DEFAULT '0',
   `Enabled` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`LocationId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -411,7 +411,7 @@ CREATE TABLE `LocationLog` (
   `NewVolStatus` enum('Full','Archive','Append','Recycle','Purged','Read-Only','Disabled','Error','Busy','Used','Cleaning') NOT NULL,
   `NewEnabled` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`LocLogId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,7 +437,7 @@ CREATE TABLE `Log` (
   `LogText` blob NOT NULL,
   PRIMARY KEY (`LogId`),
   KEY `JobId` (`JobId`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -503,7 +503,7 @@ CREATE TABLE `Media` (
   PRIMARY KEY (`MediaId`),
   UNIQUE KEY `VolumeName` (`VolumeName`(128)),
   KEY `PoolId` (`PoolId`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -528,7 +528,7 @@ CREATE TABLE `MediaType` (
   `MediaType` tinyblob NOT NULL,
   `ReadOnly` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`MediaTypeId`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -553,7 +553,7 @@ CREATE TABLE `Path` (
   `Path` blob NOT NULL,
   PRIMARY KEY (`PathId`),
   KEY `Path` (`Path`(255))
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -578,7 +578,7 @@ CREATE TABLE `PathHierarchy` (
   `PPathId` int(11) NOT NULL,
   PRIMARY KEY (`PathId`),
   KEY `pathhierarchy_ppathid` (`PPathId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -604,7 +604,7 @@ CREATE TABLE `PathVisibility` (
   `Files` int(11) DEFAULT '0',
   PRIMARY KEY (`JobId`,`PathId`),
   KEY `pathvisibility_jobid` (`JobId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -651,7 +651,7 @@ CREATE TABLE `Pool` (
   `MigrationTime` bigint(20) unsigned DEFAULT '0',
   PRIMARY KEY (`PoolId`),
   UNIQUE KEY `Name` (`Name`(128))
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -676,7 +676,7 @@ CREATE TABLE `Status` (
   `JobStatusLong` blob,
   `Severity` int(11) DEFAULT NULL,
   PRIMARY KEY (`JobStatus`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -701,7 +701,7 @@ CREATE TABLE `Storage` (
   `Name` tinyblob NOT NULL,
   `AutoChanger` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`StorageId`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -727,7 +727,7 @@ CREATE TABLE `UnsavedFiles` (
   `PathId` int(10) unsigned NOT NULL,
   `FilenameId` int(10) unsigned NOT NULL,
   PRIMARY KEY (`UnsavedId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -747,8 +747,8 @@ DROP TABLE IF EXISTS `Version`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Version` (
-  `VersionId` int(10) unsigned NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `VersionId` int(12) unsigned NOT NULL
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

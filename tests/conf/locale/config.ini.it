@@ -50,14 +50,6 @@ fontsize   = 10
 
 
 [webacula]
-; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE
-db.adapter = PDO_MYSQL
-db.config.host = localhost
-db.config.username = wbuser
-db.config.password = "wbpass"
-db.config.dbname = webacula
-; for Sqlite db.config.dbname = "/var/lib/sqlite/webacula.db"
-
 email.to_admin = root@localhost
 email.from = webacula@localhost
 

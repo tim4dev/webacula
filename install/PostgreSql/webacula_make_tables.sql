@@ -1,5 +1,5 @@
 
-CREATE TABLE wbLogBook (
+CREATE TABLE webacula_logbook (
    logId    SERIAL NOT NULL,
    logDateCreate  timestamp without time zone,
    logDateLast timestamp without time zone,
@@ -8,16 +8,16 @@ CREATE TABLE wbLogBook (
    logIsDel SMALLINT,
    PRIMARY KEY (logId)
 );
-CREATE INDEX wbidx1 ON wbLogBook (logDateCreate);
-CREATE INDEX logtxt_idx ON wblogbook USING gin(to_tsvector('english', logtxt));
+CREATE INDEX webacula_idx1 ON webacula_logbook (logDateCreate);
+CREATE INDEX webacula_logtxt_idx ON webacula_logbook USING gin(to_tsvector('english', logtxt));
 
-CREATE TABLE wbLogType (
+CREATE TABLE webacula_logtype (
    typeId   SERIAL,
    typeDesc VARCHAR(256) NOT NULL,
    PRIMARY KEY(typeId)
 );
 
-INSERT INTO wbLogType (typeId,typeDesc) VALUES
+INSERT INTO webacula_logtype (typeId,typeDesc) VALUES
    (10, 'Info'),
    (20, 'OK'),
    (30, 'Warning'),
@@ -25,19 +25,19 @@ INSERT INTO wbLogType (typeId,typeDesc) VALUES
 ;
 
 -- Job descriptions
-CREATE TABLE wbJobDesc (
+CREATE TABLE webacula_jobdesc (
     desc_id  SERIAL,
     name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
     description     TEXT NOT NULL,
     PRIMARY KEY(desc_id)
 );
-CREATE INDEX wbidx2 ON wbJobDesc (name_job);
+CREATE INDEX webacula_idx2 ON webacula_jobdesc (name_job);
 
-CREATE TABLE  wbVersion (
+CREATE TABLE webacula_version (
    versionId INTEGER NOT NULL
 );
-INSERT INTO wbVersion (versionId) VALUES (3);
+INSERT INTO webacula_version (versionId) VALUES (5);
 
 -- Eliminate "Unique violation: duplicate key value violates unique constraint"
 -- file:///usr/share/doc/postgresql-8.3.7/html/plpgsql-control-structures.html
@@ -45,7 +45,7 @@ INSERT INTO wbVersion (versionId) VALUES (3);
 
 CREATE LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION my_clone_file(vTbl TEXT, vFileId INT, vPathId INT, vFilenameId INT, vLStat TEXT, vMD5 TEXT, visMarked INT, vFileSize INT) RETURNS VOID AS
+CREATE OR REPLACE FUNCTION webacula_clone_file(vTbl TEXT, vFileId INT, vPathId INT, vFilenameId INT, vLStat TEXT, vMD5 TEXT, visMarked INT, vFileSize INT) RETURNS VOID AS
 $$
 BEGIN
    BEGIN
@@ -59,4 +59,3 @@ BEGIN
 END;
 $$
 LANGUAGE 'plpgsql';
-
