@@ -30,7 +30,6 @@ class HelpController extends MyClass_ControllerAclAction
     {
         parent::init();
         $this->view->locale = Zend_Registry::get('locale');
-        $this->_helper->viewRenderer->setNoRender(); // disable autorendering
     }
 
     function indexAction ()
@@ -38,11 +37,7 @@ class HelpController extends MyClass_ControllerAclAction
         if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->setLayout('main');
         }
-        $this->view->title = "webacula help";
-        $namefile = 'help/index_' . $this->view->language . '.phtml';
-        if (! file_exists("../application/views/scripts/" . $namefile)) {
-            $namefile = 'help/index_en.phtml'; // default language
-        }
+        $this->view->title = $this->view->translate('Webacula help');
         Zend_Loader::loadClass('Zend_Version');
         $this->view->zend_version = Zend_Version::VERSION;
         $this->view->db_adapter_bacula = Zend_Registry::get('DB_ADAPTER');
@@ -57,20 +52,9 @@ class HelpController extends MyClass_ControllerAclAction
         $dir = new Director();
         $this->view->director_version = $dir->getDirectorVersion();
         $this->view->bconsole_version = $dir->getBconsoleVersion();
-        echo $this->renderScript($namefile);
-        return;
     }
 
-    function myPhpInfoAction ()
-    {
-        echo $this->render();
-        return;
-    }
-
-    function myIdAction ()
-    {
-        echo $this->render();
-        return;
+    function myPhpInfoAction ()    {
     }
 
 
