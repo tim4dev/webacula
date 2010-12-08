@@ -36,7 +36,8 @@ class WbTmpTable extends Zend_Db_Table
 
     protected $jobidhash;
 
-    protected $_name    = 'webacula_tmptablelist'; // список всех временных таблиц, имя только в нижнем регистре
+    protected $_name    = 'webacula_tmptablelist'; // list of temporary tables.
+                                                   //список всех временных таблиц, имя только в нижнем регистре
     protected $_primary = 'tmpid';
     protected $ttl_restore_session = 3600; // time to live temp tables (1 hour)
 
@@ -80,7 +81,7 @@ class WbTmpTable extends Zend_Db_Table
                         tmpCreate   TIMESTAMP NOT NULL,
                         tmpIsCloneOk INTEGER DEFAULT 0,
                         PRIMARY KEY(tmpId)
-                        ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM; ';
+                        )';
                 break;
             case 'PDO_PGSQL':
                 $sql = 'CREATE TABLE '. $this->_name .' (
@@ -340,7 +341,7 @@ class WbTmpTable extends Zend_Db_Table
                     isMarked INTEGER  UNSIGNED DEFAULT 0,
                     FileSize INTEGER  UNSIGNED DEFAULT 0,
                     PRIMARY KEY(FileId)
-                ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ENGINE=MyISAM");
+                )");
                 break;
             case 'PDO_PGSQL':
                 $res_file = $this->_db->query("

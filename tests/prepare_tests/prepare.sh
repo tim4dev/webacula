@@ -127,7 +127,7 @@ cp -f $SRC      $DST
 
 
 
-my_log "Create Bacula and Webacula databases ..."
+my_log "Create tables ..."
 
 cd ${BASEDIR}
 sh ./MySql/10_bacula_make_tables
@@ -136,9 +136,8 @@ sh ./MySql/10_bacula_make_tables
 cd ${INSTALL_DIR}
 
 my_log "MySQL"
-sh ./MySql/10_webacula_create_database.sh
-sh ./MySql/20_webacula_make_tables.sh
-sh ./MySql/30_webacula_acl_make_tables.sh
+sh ./MySql/10_webacula_make_tables.sh
+sh ./MySql/20_webacula_acl_make_tables.sh
 
 ##-- my_log "PostgreSQL"
 ##-- cd /PostgreSql

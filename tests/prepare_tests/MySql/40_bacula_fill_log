@@ -1,7 +1,5 @@
 #!/bin/sh
 
-db_name="bacula"
-
 mysql -f <<END-OF-DATA
 
 USE bacula;

@@ -3,13 +3,11 @@
 # Script to create webacula tables
 #
 
-db_name="webacula"
-
 if mysql $* -f <<END-OF-DATA
 
-USE webacula;
+USE bacula;
 
-CREATE TABLE IF NOT EXISTS wbLogBook (
+CREATE TABLE IF NOT EXISTS webacula_logbook (
 	logId		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 	logDateCreate	DATETIME NOT NULL,
 	logDateLast	DATETIME,
@@ -21,18 +19,18 @@ CREATE TABLE IF NOT EXISTS wbLogBook (
 	INDEX (logDateCreate)
 );
 
-CREATE INDEX wbidx1 ON wbLogBook(logDateCreate);
-CREATE FULLTEXT INDEX idxTxt ON wbLogBook(logTxt);
+CREATE INDEX wbidx1 ON webacula_logbook(logDateCreate);
+CREATE FULLTEXT INDEX idxTxt ON webacula_logbook(logTxt);
 
 
-CREATE TABLE IF NOT EXISTS wbLogType (
+CREATE TABLE IF NOT EXISTS webacula_logtype (
 	typeId	INTEGER UNSIGNED NOT NULL,
 	typeDesc TINYBLOB NOT NULL,
 
 	PRIMARY KEY(typeId)
 );
 
-INSERT INTO wbLogType (typeId,typeDesc) VALUES
+INSERT INTO webacula_logtype (typeId,typeDesc) VALUES
 	(10, 'Info'),
 	(20, 'OK'),
 	(30, 'Warning'),
@@ -41,7 +39,7 @@ INSERT INTO wbLogType (typeId,typeDesc) VALUES
 
 
 /* Job descriptions */
-CREATE TABLE IF NOT EXISTS wbJobDesc (
+CREATE TABLE IF NOT EXISTS webacula_jobdesc (
     desc_id  INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
@@ -51,22 +49,12 @@ CREATE TABLE IF NOT EXISTS wbJobDesc (
 );
 
 
-CREATE TABLE IF NOT EXISTS wbVersion (
+CREATE TABLE IF NOT EXISTS webacula_version (
    versionId INTEGER UNSIGNED NOT NULL
 );
 
-INSERT INTO wbVersion (versionId) VALUES (5);
+INSERT INTO webacula_version (versionId) VALUES (5);
 
-
-/* list of temporary tables */
-CREATE TABLE wbtmptablelist (
-        tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-        tmpName  CHAR(64) UNIQUE NOT NULL,              /* name temporary table */
-        tmpJobIdHash CHAR(64) NOT NULL,
-        tmpCreate   TIMESTAMP NOT NULL,
-        tmpIsCloneOk INTEGER DEFAULT 0,					/* is clone bacula tables OK */
-        PRIMARY KEY(tmpId)
-);
 
 END-OF-DATA
 then

@@ -89,14 +89,7 @@ $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB
 $db_bacula = Zend_Db::factory($config->general->db->adapter, $params);
 Zend_Db_Table::setDefaultAdapter($db_bacula);
 Zend_Registry::set('db_bacula', $db_bacula);
-
 unset($params);
-// setup database WEbacula
-Zend_Registry::set('DB_ADAPTER_WEBACULA', strtoupper($config->webacula->db->adapter) );
-$params = $config->webacula->db->config->toArray();
-$params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB::AUTO_QUOTE_IDENTIFIERS => FALSE);
-$db_webacula = Zend_Db::factory($config->webacula->db->adapter, $params);
-Zend_Registry::set('db_webacula', $db_webacula);
 
 // setup controller, exceptions handler
 $frontController = Zend_Controller_Front::getInstance();

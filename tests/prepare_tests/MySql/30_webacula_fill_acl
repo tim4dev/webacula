@@ -1,7 +1,5 @@
 #!/bin/sh
 
-db_name="bacula"
-
 if mysql -u root -f bacula <<END-OF-DATA
 
 -- roles

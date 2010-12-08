@@ -48,10 +48,7 @@ class HelpController extends MyClass_ControllerAclAction
         $this->view->db_adapter_bacula = Zend_Registry::get('DB_ADAPTER');
         $db = Zend_Registry::get('db_bacula');
         $this->view->db_server_version_bacula = $db->getServerVersion();
-        $this->view->db_adapter_webacula = Zend_Registry::get('DB_ADAPTER_WEBACULA');
-        $db_webacula = Zend_Registry::get('db_webacula');
-        $this->view->db_server_version_webacula = $db_webacula->getServerVersion();
-
+        
         Zend_Loader::loadClass('Version');
         $ver = new Version();
         $this->view->catalog_version_bacula = $ver->getVesion();
