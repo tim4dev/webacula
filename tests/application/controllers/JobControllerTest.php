@@ -137,6 +137,7 @@ class JobControllerTest extends ControllerTestCase
     /**
      * run job.name.test.1
      * @group job-nonreusable
+     * @group run-job1
      */
     public function testRunJob1()
     {
@@ -180,6 +181,7 @@ class JobControllerTest extends ControllerTestCase
     /**
      * run 'job name test 2'
      * @group job-nonreusable
+     * @group run-job2
      */
     public function testRunJob2()
     {
