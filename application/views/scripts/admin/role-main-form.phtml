@@ -12,24 +12,14 @@ $(function() {
 </script>
 
 
+
 <div class="ui-widget">
-	<h3><?php echo $this->escape($this->title); ?></h3>
-
-<p><b><?php echo $this->translate->_('Inherited roles'); ?> :</b>
-<?php if ($this->roles) : ?>
-    <?php
-        $str = '';
-        foreach($this->roles as  $role_id => $role_name) {
-            $str .= '<a href="' . $this->baseUrl . '/admin/role-main-form/role_id/' . $role_id . '">';
-            $str .= $this->escape($role_name) . '</a>, ';
-        }
-        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
-    ?>
-<?php else : ?>
-    <?php echo $this->translate->_('none'); ?>
-<?php endif; ?>
-</p>
-
+	<h3>
+        <?php echo $this->escape($this->title);?>
+    </h3>
+    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/role-more-info/role_id/<?php echo $this->role_id; ?>" style="margin-bottom: 1em;">
+        <input type="submit" name="name1" value="<?php echo $this->translate->_('More info') ?>" class="ui-button ui-state-default ui-corner-all" />
+    </form>    
 </div>
 
 

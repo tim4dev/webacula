@@ -1,0 +1,75 @@
+<!-- admin/role-more-info.phtml -->
+<script type="text/javascript">
+$(function() {
+	$("#accordion").accordion({
+			autoHeight: false
+		});
+});
+</script>
+
+
+<div class="ui-widget">
+	<h3><?php echo $this->escape($this->title); ?></h3>
+</div>
+
+<div id="accordion" style="text-align: left; width: 58em;">
+<h3><a href="#"><?php print $this->translate->_("More info"); ?></a></h3>
+<div>
+
+<p>
+    <b>id :</b> <?php echo $this->escape($this->role_id); ?>
+</p>
+
+<p>
+    <b><?php echo $this->translate->_('Inherited role(s)'); ?> :</b>
+<?php if ($this->inherited_roles) : ?>
+    <?php
+        $str = '';
+        foreach($this->inherited_roles as  $role_id => $role_name) {
+            $str .= '<a href="' . $this->baseUrl . '/admin/role-main-form/role_id/' . $role_id . '">';
+            $str .= $this->escape($role_name) . '</a>, ';
+        }
+        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
+    ?>
+<?php else : ?>
+    <?php echo $this->translate->_('none'); ?>
+<?php endif; ?>
+</p>
+
+<br>
+<div class="ui-widget">
+    <h3><?php echo $this->translate->_('Who use this role'); ?> </h3>
+</div>
+
+<p>
+    <b><?php echo $this->translate->_('Role(s)'); ?> :</b>
+<?php
+    // roles
+    if ( $this->roles->count() > 0 ) {
+        $str = '';
+        foreach( $this->roles as $v) {
+            $str .= $v->name. ', ';
+        }
+        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
+    } else
+        echo $this->translate->_('none');
+?>
+</p>
+
+<p>
+    <b><?php echo $this->translate->_('User(s)'); ?> :</b>
+<?php
+    // users
+    if ( $this->users->count() > 0 )  {
+        $str = '';
+        foreach( $this->users as $v) {
+            $str .= $v->login. ', ';
+        }
+        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
+    } else
+        echo $this->translate->_('none');
+?>
+</p>
+
+</div>
+</div>

@@ -218,5 +218,33 @@ class Wbroles extends Zend_Db_Table
 
 
 
+    /**
+     * List users of those who use this role
+     * @param <type> $role_id
+     */
+    public function listWhoUsersUseRole($role_id) {
+        if ( empty($role_id) )
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+        Zend_Loader::loadClass('Wbusers');
+        $user_table = new Wbusers();
+        return $user_table->fetchAll($this->getAdapter()->quoteInto('role_id = ?', $role_id));
+    }
+
+
+
+    /**
+     * List roles of those who use this role
+     * @param <type> $role_id
+     */
+    public function listWhoRolesUseRole($role_id) {
+        if ( empty($role_id) )
+            throw new Exception(__METHOD__.' : "Empty input parameters"');
+        $select = $this->select()->where('inherit_id = ?', $role_id)
+                                 ->where('inherit_id != id');
+        return $this->fetchAll($select);
+    }
+
+
+
 
 }

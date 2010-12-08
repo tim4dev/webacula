@@ -877,18 +877,31 @@ class AdminController extends MyClass_ControllerAclAction
         /**********************************
          * view
          **********************************/
-        // Inherited roles name
-        Zend_Loader::loadClass('Wbroles');
-        $table = new Wbroles();
-        $this->view->roles = $table->getParentNames( $role_id );
-        unset ($table);
         // title
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role') .
-                ' :: [' . $role_id . '] ' . $role->name;
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role') .' :: '. $role->name;
         $this->view->role_id = $role_id;
         // jQuery UI Tabs
         $tabs_selected = $this->_request->getParam('tabs_selected', 'role');
         $this->view->tabs_selected = $this->_jQueryUItabSelected[$tabs_selected];
+    }
+
+
+    public function roleMoreInfoAction()
+    {
+        $role_id = $this->_request->getParam('role_id');
+        if ( empty ($role_id) )
+            throw new Exception(__METHOD__.' : Empty $role_id parameter');
+        $this->view->role_id = $role_id;
+        // get Role name
+        $table = new Wbroles();
+        $role  = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
+        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role') .' :: '. $role->name;
+        // inherited roles
+        $this->view->inherited_roles = $table->getParentNames( $role_id );
+        // who use
+        $this->view->roles = $table->listWhoRolesUseRole($role_id);
+        $this->view->users = $table->listWhoUsersUseRole($role_id);
+        
     }
 
 

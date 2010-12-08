@@ -67,6 +67,9 @@
         </td>
         <td>
         <?php if ($line['id'] != 1) : ?>
+            <a href="<?php echo $this->baseUrl;?>/admin/role-more-info/role_id/<?php echo $line['id'] ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/documentinfo.png" alt="<?php echo $this->translate->_("More info") ?>" title="<?php echo $this->translate->_("More info") ?>" border="0" hspace="2" align="absmiddle" />
+            </a>
             <a href="<?php echo $this->baseUrl;?>/admin/role-main-form/role_id/<?php echo $line['id'] ?>">
                 <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
             </a>           
