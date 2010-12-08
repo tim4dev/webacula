@@ -77,7 +77,7 @@ class AuthController extends Zend_Controller_Action
             return;
         }                    
         $form = new formLogin();
-        if ( $this->_request->isPost() && !$this->_request->getParam('from_forgot') ) {
+        if ( $this->_request->isPost() ) {
             /* Проверяем валидность данных формы */
             if ( $form->isValid($this->_getAllParams()) )
             {
@@ -240,7 +240,7 @@ Thanks! \n",
                         $table->update($data, $where);
                         // goto home page
                         $this->view->msg = $this->view->translate->_("New password set");
-                        $this->_forward('login', 'auth', null, array('from_forgot' => 1)); // action, controller
+                        $this->_redirector->gotoSimple('login', 'auth', null, array('from_forgot' => 1)); // action, controller
                     } else {
                         $this->view->msg = $this->view->translate->_("Error while sending email. Email not send");
                     }
