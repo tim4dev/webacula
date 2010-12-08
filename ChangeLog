@@ -6,6 +6,7 @@ Webacula ChangeLog
     Implemented Webacula ACLs - access to main menu.
     Remove 'tmpdir' from config.ini. Use 'data/' directory instead.
     Automatic delete old temporary files in 'data/tmp'.
+    Move all Webacula tables to Bacula database.
 
 === 5.0.2 (Wed Aug 11 2010)
     Fresh Portuguese Brazil translation by Samuel Rios Carvalho
