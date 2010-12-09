@@ -12,13 +12,13 @@ USE bacula;
 
 CREATE TABLE IF NOT EXISTS webacula_users (
     id       integer not null auto_increment,
-    login    char(50) UNIQUE not null,
-    pwd      char(50) not null,
-    name     char(150),
-    email    char(50),
+    login    varchar(50) UNIQUE not null,
+    pwd      varchar(50) not null,
+    name     varchar(150),
+    email    varchar(50),
     create_login DATETIME NOT NULL,
     last_login DATETIME,
-    last_ip  char(15),
+    last_ip  varchar(15),
     active   integer,
     role_id  integer NOT NULL,
     PRIMARY KEY (id),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS webacula_users (
 CREATE TABLE IF NOT EXISTS webacula_roles (
     id      integer not null auto_increment,
     order_role  integer not null DEFAULT 1,
-    name    char(50) UNIQUE not null,
+    name    varchar(50) UNIQUE not null,
     description TEXT,
     inherit_id  integer,
     primary key (id)
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS webacula_resources (
 
 CREATE TABLE IF NOT EXISTS webacula_dt_resources (
     id      integer not null auto_increment,
-    name    char(50) UNIQUE not null,
+    name    varchar(50) UNIQUE not null,
     description TEXT NOT NULL,
     primary key (id)
 );
@@ -104,7 +104,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
 
 CREATE TABLE IF NOT EXISTS webacula_client_acl (
     id        integer not null auto_increment,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS webacula_command_acl (
 
 CREATE TABLE IF NOT EXISTS webacula_dt_commands (
     id      integer not null auto_increment,
-    name    char(127) UNIQUE not null,
+    name    varchar(127) UNIQUE not null,
     description TEXT NOT NULL,
     primary key (id)
 );
@@ -179,7 +179,7 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
 
 CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
     id        integer not null auto_increment,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
 
 CREATE TABLE IF NOT EXISTS webacula_job_acl (
     id        integer not null auto_increment,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS webacula_job_acl (
 
 CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     id        integer not null auto_increment,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS webacula_pool_acl (
 
 CREATE TABLE IF NOT EXISTS webacula_storage_acl (
     id        integer not null auto_increment,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id),

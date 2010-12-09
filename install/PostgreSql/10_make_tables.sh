@@ -8,7 +8,7 @@
 
 db_user="root"
 
-psql -f make_tables.sql  -d bacula $*
+psql -q -f make_tables.sql  -d bacula $*
 res=$?
 if test $res = 0;
 then
@@ -20,7 +20,7 @@ fi
 
 
 
-psql -f - -d bacula $* <<END-OF-DATA
+psql -q -f - -d bacula $* <<END-OF-DATA
 
 GRANT all ON webacula_logbook TO ${db_user};
 GRANT all ON webacula_logtype TO ${db_user};
@@ -46,7 +46,7 @@ fi
 
 
 
-psql -f make_acl_tables.sql  -d bacula $*
+psql -q -f make_acl_tables.sql  -d bacula $*
 res=$?
 if test $res = 0;
 then

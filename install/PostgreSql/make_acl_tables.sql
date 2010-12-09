@@ -1,13 +1,13 @@
 
 CREATE TABLE webacula_users (
     id       SERIAL NOT NULL,
-    login    char(50) UNIQUE NOT NULL,
-    pwd      char(50) NOT NULL,
-    name     char(150),
-    email    char(50),
+    login    varchar(50) UNIQUE NOT NULL,
+    pwd      varchar(50) NOT NULL,
+    name     varchar(150),
+    email    varchar(50),
     create_login timestamp without time zone,
     last_login timestamp without time zone,
-    last_ip  char(15),
+    last_ip  varchar(15),
     active   integer,
     role_id  integer NOT NULL,
     PRIMARY KEY (id)
@@ -18,7 +18,7 @@ CREATE INDEX webacula_user_idx1 ON webacula_users (login);
 CREATE TABLE webacula_roles (
     id      SERIAL NOT NULL,
     order_role  integer not null DEFAULT 1,
-    name    char(50) UNIQUE not null,
+    name    varchar(50) UNIQUE not null,
     description TEXT,
     inherit_id  integer,
     primary key (id)
@@ -35,7 +35,7 @@ CREATE TABLE webacula_resources (
 
 CREATE TABLE webacula_dt_resources (
     id      SERIAL NOT NULL,
-    name    char(50) UNIQUE not null,
+    name    varchar(50) UNIQUE not null,
     description TEXT NOT NULL,
     primary key (id)
 );
@@ -93,7 +93,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
 
 CREATE TABLE webacula_client_acl (
     id        SERIAL NOT NULL,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id)
@@ -115,7 +115,7 @@ CREATE UNIQUE INDEX webacula_command_acl_idx1 ON webacula_command_acl (dt_id, ro
 
 CREATE TABLE webacula_dt_commands (
     id      SERIAL NOT NULL,
-    name    char(127) UNIQUE not null,
+    name    varchar(127) UNIQUE not null,
     description TEXT NOT NULL,
     primary key (id)
 );
@@ -172,7 +172,7 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
 
 CREATE TABLE webacula_fileset_acl (
     id        SERIAL NOT NULL,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id)
@@ -184,7 +184,7 @@ CREATE        INDEX webacula_fileset_acl_idx2 ON webacula_fileset_acl (id, order
 
 CREATE TABLE webacula_job_acl (
     id        SERIAL NOT NULL,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id)
@@ -196,7 +196,7 @@ CREATE        INDEX webacula_job_acl_idx2 ON webacula_job_acl (id, order_acl);
 
 CREATE TABLE webacula_pool_acl (
     id        SERIAL NOT NULL,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id)
@@ -208,7 +208,7 @@ CREATE        INDEX webacula_pool_acl_idx2 ON webacula_pool_acl (id, order_acl);
 
 CREATE TABLE webacula_storage_acl (
     id        SERIAL NOT NULL,
-    name      char(127),
+    name      varchar(127),
     order_acl integer,
     role_id   integer,
     PRIMARY KEY (id)
