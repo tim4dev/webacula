@@ -139,7 +139,8 @@ class AuthController extends Zend_Controller_Action
            }
         }
         /* Если данные не передавались или неверный логин, то выводим форму для авторизации */
-        $this->view->caption = $this->view->translate->_('Login with your <font color="#00008B">We</font><font color="#A80000">bacula</font> account');
+        $this->view->caption = sprintf( $this->view->translate->_("Login with your %sWe%sbacula%s account"),
+                        '<font color="#00008B">', '</font><font color="#A80000">', '</font>');
         $this->view->title   = $this->view->translate->_('Login with your Webacula account');
         $this->view->form = $form;
 
@@ -175,7 +176,7 @@ class AuthController extends Zend_Controller_Action
         Zend_Loader::loadClass('MyClass_SendEmail');
         $config = Zend_Registry::get('config');
         $email = new MyClass_SendEmail();
-        $body = $this->view->translate->_( sprintf(
+        $body = sprintf( $this->view->translate->_(
 "Hello,
 
 This is an automated message from site %s, please do not reply!
@@ -190,11 +191,11 @@ Once logged in you can change your password.
 If you are not the person who made this request
 send email to the site admin : %s
 
-Thanks! \n",
+Thanks! \n"),
             $this->_request->getServer('SERVER_NAME'),
             $this->_request->getServer('REMOTE_ADDR'),
             $pwd,
-            $config->webacula->email->to_admin) );
+            $config->webacula->email->to_admin);
         // $from_email, $from_name, $to_email, $to_name, $subj, $body
         return $email->mySendEmail(
             $config->webacula->email->from,
