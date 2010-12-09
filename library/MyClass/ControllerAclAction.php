@@ -55,7 +55,7 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
             // проверка, есть ли уже запись в кэше:
             if( !$this->webacula_acl = $cache->load('MyClass_WebaculaAcl') ) {
                 // промах кэша
-                $this->webacula_acl        = new MyClass_WebaculaAcl();
+                $this->webacula_acl  = new MyClass_WebaculaAcl();
                 $cache->save($this->webacula_acl, 'MyClass_WebaculaAcl');
             }
             $this->view->webacula_acl  = $this->webacula_acl;

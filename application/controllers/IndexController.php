@@ -26,12 +26,6 @@ require_once 'Zend/Controller/Action.php';
 class IndexController extends MyClass_ControllerAclAction
 {
 
-    function init ()
-    {
-        parent::init();
-        // load model
-        Zend_Loader::loadClass('Job');
-    }
 
     function indexAction ()
     {
