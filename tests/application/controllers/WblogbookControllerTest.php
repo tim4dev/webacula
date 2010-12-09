@@ -17,8 +17,8 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/filterbydate');
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('filterbydate');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
@@ -45,6 +45,7 @@ class WblogbookControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('add');
         $this->assertQueryContentRegex('div', '/ERROR: Record has not been added. Reason.*is not of the format/');
@@ -70,9 +71,9 @@ class WblogbookControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('add');
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertQueryContentRegex('div', '/ERROR: Record has not been added. Reason .*Logbook.*is not found in Webacula database/');
     }
 
@@ -96,9 +97,9 @@ class WblogbookControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('add');
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertQueryContentRegex('div', '/ERROR: Record has not been added. Reason.*JobId.*is not found in Bacula database/');
     }
 
@@ -124,10 +125,10 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('add');
         $this->assertRedirectTo('/wblogbook/index');
-        //echo $this->response->outputBody();exit; // for debug !!!
     }
 
 
@@ -150,6 +151,7 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('add');
         //echo $this->response->outputBody();exit; // for debug !!!
@@ -166,12 +168,12 @@ class WblogbookControllerTest extends ControllerTestCase
             $this->assertTrue(FALSE, "\nComment of Job Reviewed fail!\n");
         // проверить, что запись теперь не показывается в job/problem
         $this->dispatch('job/problem');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('problem');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        //echo $this->response->outputBody();//exit; // for debug !!!
         $this->assertNotQueryContentContains('td', '/job/detail/jobid/3"');
         // возвращаем все назад
         $data = array(

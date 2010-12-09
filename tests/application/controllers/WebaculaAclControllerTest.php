@@ -57,7 +57,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
                  'rememberme' => '1') )
              ->setMethod('POST');
         $this->dispatch('auth/login');
-        //echo $this->response->outputBody();exit; // for debug !!!
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('auth');
         $this->assertAction('login');
         $this->assertRedirectTo('/index/index');
@@ -80,6 +80,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
                  'pwd'   => '123' ) )
              ->setMethod('POST');
         $this->dispatch('auth/login');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('auth');
         $this->assertAction('login');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
@@ -88,10 +89,13 @@ class WebaculaAclControllerTest extends ControllerTestCase
         // get captcha
         echo ".";
         $this->dispatch('auth/login');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         echo ".";
         $this->dispatch('auth/login');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         echo ".";
         $this->dispatch('auth/login');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         echo ".";
         $this->assertQueryContentContains('td', 'Type the characters');
     }
@@ -111,6 +115,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
          */
         print "a";
         $this->dispatch('client/all');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertNotQueryContentRegex('div', '/We.*bacula.* : Access denied/');
         $this->assertQueryContentContains('h1', 'Clients');
@@ -119,6 +124,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
          */
         print "a";
         $this->dispatch('storage/storage');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertNotQueryContentRegex('div', '/We.*bacula.* : Access denied/');
         $this->assertQueryContentContains('h1', 'Storages');
@@ -128,6 +134,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
         foreach ($this->arr_u3_webacula_denied as $menu) {
             print "d";
             $this->dispatch($menu);
+            $this->logBody( $this->response->outputBody(), 'a' ); // debug log
             $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
             $this->assertQueryContentRegex('div', '/We.*bacula.* : Access denied/');
         }
@@ -145,9 +152,11 @@ class WebaculaAclControllerTest extends ControllerTestCase
         /*
          * закрыто Bacula ACLs
          */
+        $this->logBody( '' ); // debug log
         foreach ($this->arr_u2_bacula_denied as $menu) {
             print "d";
             $this->dispatch($menu);
+            $this->logBody( $this->response->outputBody(), 'a' ); // debug log
             $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
             $this->assertQueryContentRegex('div', '/Bacula ACLs : Access denied/');
         }
@@ -168,9 +177,11 @@ class WebaculaAclControllerTest extends ControllerTestCase
             'job/terminated',
             'job/next'
         );
+        $this->logBody( '' ); // debug log
         foreach ($actions as $act) {
             echo ".";
             $this->dispatch($act);
+            $this->logBody( $this->response->outputBody(), 'a' ); // debug log
             $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
             // allowed
             $this->assertQueryContentContains('td', 'job.name.test.1');
@@ -183,6 +194,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
         }
         // detail JobId
         $this->dispatch('job/detail/jobid/4');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertQueryContentContains('div', 'No Jobs found');
     }
@@ -197,6 +209,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
         print "\n".__METHOD__.' ';
         $this->_user2Login();  // logon as 'user2' -- operator role
         $this->dispatch('storage/storage');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         // allowed
         $this->assertQueryContentContains('td', 'storage.file.2');
@@ -217,6 +230,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
         print "\n".__METHOD__.' ';
         $this->_user2Login();  // logon as 'user2' -- operator role
         $this->dispatch('pool/all');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         // allowed
         $this->assertQueryContentContains('td', 'Default');
@@ -235,6 +249,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
         print "\n".__METHOD__.' ';
         $this->_user2Login();  // logon as 'user2' -- operator role
         $this->dispatch('client/all');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         // allowed
         $this->assertQueryContentContains('td', 'local.fd');
@@ -253,6 +268,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
         print "\n".__METHOD__.' ';
         $this->_user2Login();  // logon as 'user2' -- operator role
         $this->dispatch('job/find-form');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         // allowed
         $this->assertQueryContentContains('option', 'fileset.test.1');
@@ -283,6 +299,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/restore-choice');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('restorejob');
         $this->resetRequest()
              ->resetResponse();
@@ -295,6 +312,7 @@ class WebaculaAclControllerTest extends ControllerTestCase
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/restore-all');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         $this->assertController('restorejob');
         $this->assertAction('restore-all');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework

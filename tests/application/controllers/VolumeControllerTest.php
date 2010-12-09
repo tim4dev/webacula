@@ -11,8 +11,8 @@ class VolumeControllerTest extends ControllerTestCase
         print "\n" . __METHOD__ . ' ';
         $this->_rootLogin();
         $this->dispatch('volume/find-pool-id/id/1/name/pool.file.7d');
-        //echo $this->response->outputBody(); exit; // for debug !!!
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('volume');
         $this->assertAction('find-pool-id');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
@@ -32,6 +32,7 @@ class VolumeControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('volume/detail/mediaid/1');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('volume');
         $this->assertAction('detail');
         $this->assertResponseCode(200);
@@ -67,7 +68,7 @@ class VolumeControllerTest extends ControllerTestCase
             'comment' => "\n\nmoved\nLorem ipsum dolor sit amet\n"));
         $this->request->setMethod('POST');
         $this->dispatch('volume/update');
-        //$this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('volume');
         $this->assertAction('update');
         // back
@@ -83,7 +84,7 @@ class VolumeControllerTest extends ControllerTestCase
             'comment' => "\n\nback\nLorem ipsum dolor sit amet\n"));
         $this->request->setMethod('POST');
         $this->dispatch('volume/update');
-        //$this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         $this->assertController('volume');
         $this->assertAction('update');
     }

@@ -105,4 +105,13 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
     protected function _logout()    {
         $this->dispatch('auth/logout');
     }
+
+
+    protected function logBody($body, $mode = 'w')  {
+        $fout = fopen('report/outputBody.html', $mode);
+        fwrite($fout, $body);
+        fclose($fout);
+    }
+
+
 }

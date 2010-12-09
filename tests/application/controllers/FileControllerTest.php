@@ -11,9 +11,9 @@ class FileControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('file/list/jobid/3/page/1');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('file');
         $this->assertAction('list');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Files found');

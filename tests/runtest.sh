@@ -94,9 +94,10 @@ fi
 cd ..
 
 
-
+################################################################
 # Main tests
-echo -e "\n\n${LINE1}"
+################################################################
+echo -e "\n\n\n\n\n${LINE1}"
 echo "Main tests"
 echo -e "${LINE1}\n"
 # phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
@@ -108,7 +109,9 @@ then
     exit $ret
 fi
 
-## Prepare testing other DBMS
+################################################################
+# Prepare testing other DBMS
+################################################################
 echo -e "\n\n${LINE1}"
 echo "Prepare testing other DBMS"
 echo -e "${LINE1}\n"
@@ -116,25 +119,28 @@ cd prepare_tests
 sudo ./sync_bacula_db_from_mysql2others.sh
 cd ..
 
+################################################################
 # Test Postgresql
+################################################################
 echo -e "\n\n${LINE1}"
 echo "Test Postgresql"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
-phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
     exit $ret
 fi
 
-
-## Test Sqlite
+################################################################
+# Test Sqlite
+################################################################
 ##-- echo -e "\n\n${LINE1}"
 ##-- echo "Test Sqlite"
 ##-- echo -e "${LINE1}\n"
 ##-- cp -f conf/config.ini.sqlite  ../application/config.ini
-##-- phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+##-- LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
 ##-- ret=$?
 ##-- if [ $ret -ne 0 ]
 ##-- then

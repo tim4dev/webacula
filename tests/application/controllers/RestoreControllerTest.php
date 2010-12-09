@@ -24,7 +24,7 @@ class RestoreControllerTest extends ControllerTestCase
         print "\n" . __METHOD__ . ' ';
         $this->_rootLogin();
         $this->dispatch('restorejob/main-form/test/1');
-        //echo $this->response->outputBody();exit; // for debug !!!
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('main-form');

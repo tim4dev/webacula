@@ -14,19 +14,24 @@ echo -e "\n\n*** WARNING!!! All Bacula, Webacula databases and files will be era
 echo -e "*** Press Enter to continue ...\n\n"
 read
 
-/usr/bin/psql -l
-if test $? -ne 0; then
-    echo "Can't connect to postgresql."
-    /sbin/service postgresql start
-    sleep 7
-fi
-
-/usr/bin/mysqlshow mysql
+/usr/bin/mysqlshow -u root mysql > /dev/null
 if test $? -ne 0; then
 	echo "Can't connect to mysqld."
 	/sbin/service mysqld start
    sleep 7
+else
+    echo "Connect MySql OK"
 fi
+
+/usr/bin/psql -l > /dev/null
+if test $? -ne 0; then
+    echo "Can't connect to postgresql."
+    /sbin/service postgresql start
+    sleep 7
+else
+    echo "Connect PostgreSql OK"
+fi
+
 
 cd /etc/bacula
 ./bacula stop
@@ -38,7 +43,7 @@ rm -r -f /tmp/webacula/sqlite/*
 rm -r -f /tmp/webacula/*
 rmdir /tmp/webacula
 
-/usr/bin/mysql -f <<END-OF-DATA
+/usr/bin/mysql -u root -f <<END-OF-DATA
 	DROP DATABASE IF EXISTS bacula;
 END-OF-DATA
 

@@ -10,7 +10,7 @@ class ErrorControllerTest extends ControllerTestCase
       print "\n".__METHOD__.' ';
       $this->_rootLogin();
       $this->dispatch('index/fake_action');
-      //echo $this->response->outputBody(); // for debug !!!
+      $this->logBody( $this->response->outputBody() ); // debug log
       $this->assertModule('default');
       $this->assertController('error');
       $this->assertAction('error');
@@ -25,7 +25,7 @@ class ErrorControllerTest extends ControllerTestCase
       print "\n".__METHOD__.' ';
       $this->_rootLogin();
       $this->dispatch('fake_controller/fake_action');
-      //echo $this->response->outputBody(); // for debug !!!
+      $this->logBody( $this->response->outputBody() ); // debug log
       $this->assertModule('default');
       $this->assertController('error');
       $this->assertAction('error');

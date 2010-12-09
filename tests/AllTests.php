@@ -4,9 +4,16 @@ require_once dirname(__FILE__) . '/application/controllers/AllTests.php';
 require_once dirname(__FILE__) . '/application/models/AllTests.php';
 
 /* какие каталоги учитывать при построении отчета */
-PHPUnit_Util_Filter::addDirectoryToWhitelist("../application");
-PHPUnit_Util_Filter::removeFileFromWhitelist("../application/views/helpers");
-//PHPUnit_Util_Filter::removeFileFromWhitelist("../library/MyClass/GaugeTime.php"); // not used
+if ( PHPUnit_Runner_Version::id() >= '3.5.0' ) {
+    // PHPUnit 3.5.5
+    PHP_CodeCoverage_Filter::getInstance()->addDirectoryToWhitelist('../application');
+    PHP_CodeCoverage_Filter::getInstance()->removeFileFromWhitelist('../application/views/helpers');
+} else {
+    // PHPUnit 3.4
+    PHPUnit_Util_Filter::addDirectoryToWhitelist('../application');
+    PHPUnit_Util_Filter::removeFileFromWhitelist('../application/views/helpers');
+}
+
 
 class AllTests
 {

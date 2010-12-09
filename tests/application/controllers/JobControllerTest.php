@@ -30,10 +30,10 @@ class JobControllerTest extends ControllerTestCase
       $this->_rootLogin();
       $this->dispatch('job/terminated');
       $this->_isLogged($this->response->outputBody());
+      $this->logBody( $this->response->outputBody() ); // debug log
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('terminated');
-      //echo $this->response->outputBody(); // for debug !!!
       $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -50,10 +50,10 @@ class JobControllerTest extends ControllerTestCase
       $this->_rootLogin();
       $this->dispatch('job/running');
       $this->_isLogged($this->response->outputBody());
+      $this->logBody( $this->response->outputBody() ); // debug log
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('running');
-      //echo $this->response->outputBody(); // for debug !!!
       $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertQueryContentContains('div', 'Information from Director : No Running Jobs found');
@@ -71,10 +71,10 @@ class JobControllerTest extends ControllerTestCase
       $this->_rootLogin();
       $this->dispatch('job/next');
       $this->_isLogged($this->response->outputBody());
+      $this->logBody( $this->response->outputBody() ); // debug log
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('next');
-      //echo $this->response->outputBody(); // for debug !!!
       $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Scheduled Jobs found');
@@ -93,10 +93,10 @@ class JobControllerTest extends ControllerTestCase
       $this->_rootLogin();
       $this->dispatch('job/problem');
       $this->_isLogged($this->response->outputBody());
+      $this->logBody( $this->response->outputBody() ); // debug log
       $this->assertModule('default');
       $this->assertController('job');
       $this->assertAction('problem');
-      //echo $this->response->outputBody(); // for debug !!!
       $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -123,10 +123,10 @@ class JobControllerTest extends ControllerTestCase
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         // zend form validate and error decorator output
@@ -160,15 +160,15 @@ class JobControllerTest extends ControllerTestCase
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
-        $this->assertAction('run-job');
+        $this->assertAction('run-job');        
         $this->mySleep(); // подождать пока выполнится
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        //echo $this->response->outputBody();// for debug !!!
         // http://php.net/manual/en/function.preg-match.php
         $pattern = '/Increme.*job.name.test.1.*is running|'.
                    'Increme.*job.name.test.1.*has terminated|'.
@@ -195,11 +195,11 @@ class JobControllerTest extends ControllerTestCase
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
         $this->mySleep(); // подождать пока выполнится
-        //echo $this->response->outputBody();// for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
@@ -235,11 +235,11 @@ class JobControllerTest extends ControllerTestCase
              ->setMethod('POST');
         $this->dispatch('job/run-job');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('run-job');
         $this->mySleep(); // подождать пока выполнится
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
@@ -266,6 +266,7 @@ class JobControllerTest extends ControllerTestCase
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-job-id');
@@ -286,10 +287,10 @@ class JobControllerTest extends ControllerTestCase
              ->setMethod('POST');
         $this->dispatch('job/find-job-id');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-job-id');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -315,10 +316,10 @@ class JobControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('job/find-filters');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-filters');
-        //echo $this->response->outputBody(); exit; // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -342,10 +343,10 @@ class JobControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('job/find-volume-name');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-volume-name');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -367,10 +368,10 @@ class JobControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('job/list-last-jobs-run');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('list-last-jobs-run');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
@@ -392,6 +393,7 @@ class JobControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('job/find-file-name');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('find-file-name');
@@ -411,6 +413,7 @@ class JobControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('job/detail/jobid/3');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('job');
         $this->assertAction('detail');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework

@@ -10,6 +10,7 @@ class LogControllerTest extends ControllerTestCase
         print "\n" . __METHOD__ . ' ';
         $this->_rootLogin();
         $this->dispatch('log/view-log-id/jobid/3/jobname/job name test 2');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $body = $this->response->outputBody();
         $this->_isLogged($body);
         if ( preg_match('/символы в кодировке utf8.*������� � ��������� cp1251/', $body) )

@@ -21,13 +21,14 @@ class WbjobdescControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wbjobdesc/add');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wbjobdesc');
         $this->assertAction('add');
         // check
         $this->resetRequest();
         $this->resetResponse();
         $this->dispatch('wbjobdesc/index');
-        // echo $this->response->outputBody(); // for debug !!!
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
         $this->assertModule('default');
         $this->assertController('wbjobdesc');
         $this->assertAction('index');

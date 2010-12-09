@@ -30,9 +30,9 @@ class AdminControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('admin/role-delete');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('admin');
         $this->assertAction('role-index');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertQueryContentContains('div', 'Exception : Can not delete. Role is used');
     }
@@ -53,6 +53,7 @@ class AdminControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('admin/role-delete');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('admin');
         $this->assertAction('role-index');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
@@ -103,13 +104,22 @@ class AdminControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('admin/client-add');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('admin');
         $this->assertAction('role-main-form');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertQueryContentContains('script', '{ selected: 2 }');
         // check Duplicate entry
         $this->dispatch('admin/client-add');
-        $this->assertQueryContentContains('div', 'Integrity constraint violation');
+        $this->logBody( $this->response->outputBody(), 'a' ); // debug log
+        /*
+         * MySql :
+         *      ...Integrity constraint violation...
+         * PgSql :
+         *      SQLSTATE[23505]: Unique violation: 7 ERROR: duplicate key value violates unique
+         *      constraint "webacula_client_acl_idx1"
+         */
+        $this->assertQueryContentRegex('div', '/Integrity constraint violation|duplicate key value violates unique/i');
     }
 
 

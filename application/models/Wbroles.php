@@ -162,7 +162,9 @@ class Wbroles extends Zend_Db_Table
 
     public function getBaculaFill($table_bacula, $table_webacula, $role_id)
     {
-        if ( $table_bacula === 'FileSet') {
+        if ($this->db_adapter == 'PDO_PGSQL')
+            $table_bacula = strtolower($table_bacula);
+        if ( ($table_bacula === 'FileSet') || $table_bacula === 'fileset' ) {
             $stmt = $this->db->query(
            'SELECT DISTINCT Fileset AS name
             FROM '. $this->db->quoteIdentifier($table_bacula) .'

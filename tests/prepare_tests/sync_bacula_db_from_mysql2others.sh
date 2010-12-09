@@ -41,20 +41,24 @@ my_log() {
 # Main program
 #########################################################
 
-
-/usr/bin/psql -l
-if test $? -ne 0; then
-  echo "Can't connect to postgresql."
-  /sbin/service postgresql start
-fi
-
-/usr/bin/mysqlshow mysql
+/usr/bin/mysqlshow -u root mysql > /dev/null
 if test $? -ne 0; then
 	echo "Can't connect to mysqld."
 	/sbin/service mysqld start
+   sleep 7
+else
+    echo "Connect MySql OK"
 fi
 
-echo -e "\n\n"
+/usr/bin/psql -l > /dev/null
+if test $? -ne 0; then
+    echo "Can't connect to postgresql."
+    /sbin/service postgresql start
+    sleep 7
+else
+    echo "Connect PostgreSql OK"
+fi
+
 
 rm -r -f /tmp/webacula/sqlite/bacula.db
 echo "Drop Sqlite bacula database succeeded."

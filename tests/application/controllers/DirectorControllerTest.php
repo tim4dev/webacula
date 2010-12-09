@@ -13,6 +13,7 @@ class DirectorControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('/director/listjobtotals');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         //echo $body;exit; // for debug !!!
         $this->assertModule('default');
         $this->assertController('director');
@@ -31,6 +32,7 @@ class DirectorControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch ( 'director/statusdir' );
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule ( 'default' );
         $this->assertController ( 'director' );
         $this->assertAction ( 'statusdir' );

@@ -11,9 +11,9 @@ class StorageControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('storage/storage');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('storage');
         $this->assertAction('storage');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', 'storage.file.1');
@@ -31,10 +31,10 @@ class StorageControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('storage/status-id/id/1/name/storage.file.1');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('status-id');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', '1000 OK: main.dir');
@@ -54,6 +54,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('storage/act-mount/act/umount/name/storage.file.1');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
@@ -75,6 +76,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->_rootLogin();
         $this->dispatch('storage/act-mount/act/mount/name/storage.file.1');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
@@ -102,6 +104,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('storage/act-mount');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
@@ -132,6 +135,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->request->setMethod('POST');
         $this->dispatch('storage/act-mount');
         $this->_isLogged($this->response->outputBody());
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('storage');
         $this->assertAction('act-mount');
