@@ -8,6 +8,7 @@
 BACULADIR="etc/bacula"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
+INSTALL_DIR="../../install/"
 LINE1="*********************************************************************************************"
 
 if [ "$UID" -ne 0 ]
@@ -38,7 +39,7 @@ my_log() {
 
 #########################################################
 # Main program
-#
+#########################################################
 
 
 /usr/bin/psql -l
@@ -69,32 +70,36 @@ fi
 createdb -T template0 -E SQL_ASCII bacula
 if test $? -ne 0; then
    echo "PGSQL : Creation of bacula database failed."
-   exit
+   exit 2
 fi
 
-if psql -f - -d bacula <<END-OF-DATA
+if psql -q -f - -d bacula <<END-OF-DATA
 ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
 END-OF-DATA
 then
    echo "Creation of bacula database succeeded."
 else
    echo "Creation of bacula database failed."
+   exit 2
 fi
 
 cd ${BASEDIR}
-sh ./bacula_postgresql_make_tables
-sh ./bacula_postgresql_grant_privileges
+sh ./PostgreSql/10_bacula_make_tables
+sh ./PostgreSql/20_bacula_grant_privileges
+cd ${INSTALL_DIR}/PostgreSql
+sh ./10_make_tables.sh
+cd ${BASEDIR}
+sh ./PostgreSql/30_webacula_fill_logbook
+sh ./PostgreSql/40_webacula_fill_acl
 
-sh ./bacula_sqlite_make_tables
+##-- sh ./bacula_sqlite_make_tables
 
 my_log "Copy DB from MySQL to PGSQL ..."
 cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2PGSQL.php
 
-my_log "Copy DB from MySQL to Sqlite ..."
-cd ${BASEDIR}
-php ./bacula_DBcopy_MySQL2sqlite.php
+##-- my_log "Copy DB from MySQL to Sqlite ..."
+##-- cd ${BASEDIR}
+##-- php ./bacula_DBcopy_MySQL2sqlite.php
 
-chmod -R a+rwx /tmp/webacula/sqlite
-
-
+##-- chmod -R a+rwx /tmp/webacula/sqlite

@@ -5,7 +5,7 @@
 bindir="/usr/bin"
 db_name="bacula"
 
-$bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
+$bindir/psql -q -f - -d ${db_name} $* <<END-OF-DATA
 
 CREATE TABLE filename
 (

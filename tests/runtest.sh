@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+#
 #############################################################
 #
 # Main script for unit tests
@@ -17,6 +18,7 @@
 #############################################################
 
 
+BASEDIR=`pwd`
 SRC_DIR=".."
 F_INDEX_PHP="${SRC_DIR}/html/index.php"
 F_README="${SRC_DIR}/README"
@@ -31,6 +33,8 @@ VER_SPEC=`grep -e "^Version:" ${F_SPEC} | awk '{print($2)}'`
 
 
 my_on_exit() {
+    cd $BASEDIR
+    echo "$0 output:"
     echo "clean and exit"
     cp -f ../application/config.ini.original  ../application/config.ini
     cp -f ../html/.htaccess_original  ../html/.htaccess
@@ -89,6 +93,8 @@ if test $? -ne 0; then
 fi
 cd ..
 
+
+
 # Main tests
 echo -e "\n\n${LINE1}"
 echo "Main tests"
@@ -103,24 +109,24 @@ then
 fi
 
 ## Prepare testing other DBMS
-##-- echo -e "\n\n${LINE1}"
-##-- echo "Prepare testing other DBMS"
-##-- echo -e "${LINE1}\n"
-##-- cd prepare_tests
-##-- sudo ./sync_bacula_db_from_mysql2others.sh
-##-- cd ..
+echo -e "\n\n${LINE1}"
+echo "Prepare testing other DBMS"
+echo -e "${LINE1}\n"
+cd prepare_tests
+sudo ./sync_bacula_db_from_mysql2others.sh
+cd ..
 
-## Test Postgresql
-##-- echo -e "\n\n${LINE1}"
-##-- echo "Test Postgresql"
-##-- echo -e "${LINE1}\n"
-##-- cp -f conf/config.ini.pgsql  ../application/config.ini
-##-- phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
-##-- ret=$?
-##-- if [ $ret -ne 0 ]
-##-- then
-##--     exit $ret
-##-- fi
+# Test Postgresql
+echo -e "\n\n${LINE1}"
+echo "Test Postgresql"
+echo -e "${LINE1}\n"
+cp -f conf/config.ini.pgsql  ../application/config.ini
+phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+ret=$?
+if [ $ret -ne 0 ]
+then
+    exit $ret
+fi
 
 
 ## Test Sqlite
@@ -140,4 +146,4 @@ cp -f ../application/config.ini.original  ../application/config.ini
 echo -e "\n\n"
 sh ./locale-test.sh
 
-##-- sudo service postgresql stop
+sudo service postgresql stop

@@ -60,19 +60,35 @@ my_check_rc() {
 }
 
 
+my_on_exit() {
+    cd $BASEDIR
+    echo "$0 output:"
+    echo "clean and exit"
+    cp -f ../../application/config.ini.original  ../../application/config.ini
+    cp -f ../../html/.htaccess_original  ../../html/.htaccess
+    rm -f cookies.txt
+    rm -f  ../../data/cache/zend_cache*
+    rm -f  ../../data/tmp/webacula*
+    rm -f  ../../data/session/ses*
+}
+
+
+
 
 
 #########################################################
 # Main program
-#
+#########################################################
 
-##-- my_log "Check PostgreSql..."
-##-- psql -l
-##-- if test $? -ne 0; then
-##-- 	echo "Can't connect to postgresql."
-##-- 	/sbin/service postgresql start
-##--    sleep 5
-##-- fi
+trap my_on_exit  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
+my_log "Check PostgreSql..."
+psql -l
+if test $? -ne 0; then
+    echo "Can't connect to postgresql."
+ 	/sbin/service postgresql start
+    sleep 5
+fi
 
 my_log "Check MySql..."
 /usr/bin/mysqlshow mysql
@@ -135,14 +151,36 @@ sh ./MySql/10_bacula_make_tables
 
 cd ${INSTALL_DIR}
 
+
+
 my_log "MySQL"
 sh ./MySql/10_make_tables.sh
 sh ./MySql/20_acl_make_tables.sh
 
-##-- my_log "PostgreSQL"
-##-- cd /PostgreSql
-##-- sh ./10_make_tables.sh
-##-- cd ${INSTALL_DIR}
+
+
+my_log "PostgreSQL"
+
+my_log "Create Bacula PostgreSQL database"
+createdb -T template0 -E SQL_ASCII bacula
+if test $? -ne 0; then
+   echo "PGSQL : Creation of bacula database failed."
+   exit 2
+fi
+
+if psql -f - -d bacula <<END-OF-DATA
+ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
+END-OF-DATA
+then
+   echo "PGSQL : Creation of bacula database succeeded."
+else
+   echo "PGSQL : Creation of bacula database failed."
+   exit 2
+fi
+
+cd ./PostgreSql
+sh ./10_make_tables.sh
+cd ${INSTALL_DIR}
 
 ##-- my_log "SqLite"
 ##-- sh ./SqLite/10_make_tables.sh "/tmp/webacula/sqlite/bacula.db"
@@ -341,33 +379,16 @@ fi
 
 
 
-##-- my_log "Create Bacula PostgreSQL tables"
-
-##-- createdb -T template0 -E SQL_ASCII bacula
-##-- if test $? -ne 0; then
-##--    echo "PGSQL : Creation of bacula database failed."
-##--    exit
-##-- fi
-
-##-- if psql -f - -d bacula <<END-OF-DATA
-##-- ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
-##-- END-OF-DATA
-##-- then
-##--    echo "PGSQL : Creation of bacula database succeeded."
-##-- else
-##--    echo "PGSQL : Creation of bacula database failed."
-##--    exit
-##-- fi
-
-##-- cd ${BASEDIR}
-##-- sh ./PostgreSql/10_bacula_make_tables
-##-- sh ./PostgreSql/20_bacula_grant_privileges
+my_log "Create Bacula PostgreSQL tables"
+cd ${BASEDIR}
+sh ./PostgreSql/10_bacula_make_tables
+sh ./PostgreSql/20_bacula_grant_privileges
 
 
 
-##-- my_log "Copy DB from MySQL to PGSQL ..."
-##-- cd ${BASEDIR}
-##-- php ./bacula_DBcopy_MySQL2PGSQL.php
+my_log "Copy DB from MySQL to PGSQL ..."
+cd ${BASEDIR}
+php ./bacula_DBcopy_MySQL2PGSQL.php
 
 ##-- my_log "Copy DB from MySQL to Sqlite ..."
 ##-- cd ${BASEDIR}
@@ -379,9 +400,9 @@ sh ./MySql/20_webacula_fill_logbook
 sh ./MySql/30_webacula_fill_acl
 sh ./MySql/40_bacula_fill_log
 
-##-- my_log "PostgreSQL : fill webacula logbook"
-##-- cd ${BASEDIR}
-##-- sh ./PostgreSql/webacula_fill_logbook
+my_log "PostgreSQL : fill webacula logbook"
+cd ${BASEDIR}
+sh ./PostgreSql/30_webacula_fill_logbook
 
 ##-- my_log "Sqlite : fill webacula logbook"
 ##-- cd ${BASEDIR}

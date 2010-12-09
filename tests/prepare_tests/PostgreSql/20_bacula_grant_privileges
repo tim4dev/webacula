@@ -6,9 +6,9 @@ db_user="root"
 bindir="/usr/bin"
 db_name="bacula"
 
-if $bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
+if $bindir/psql -q -f - -d ${db_name} $* <<END-OF-DATA
 
-create user ${db_user};
+-- create user ${db_user};
 
 -- for tables
 grant all on unsavedfiles to ${db_user};
