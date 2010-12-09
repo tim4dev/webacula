@@ -2,11 +2,12 @@
 Текущее :
 - SQL для других СУБД
 - unit тесты для других СУБД
-
+- пользователь у которого active == 0
 
 -------------------------------------------------------------------------------------------------------
 
 - batch INSERT
+    http://stackoverflow.com/questions/779986/insert-multiple-rows-via-a-php-array-into-mysql
     http://stackoverflow.com/questions/1444191/insert-50-thousand-record-in-mysql
 PostgreSQL and MySQL :
 INSERT
