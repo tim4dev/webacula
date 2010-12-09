@@ -8,14 +8,14 @@
 
 db_user="root"
 
-psql -f webacula_make_tables.sql  -d bacula $*
+psql -f make_tables.sql  -d bacula $*
 res=$?
 if test $res = 0;
 then
-   echo "Create of webacula PostgreSQL tables succeeded."
+   echo "Create of Webacula PostgreSQL tables succeeded."
 else
-   echo "Create of webacula PostgreSQL tables failed. Exit."
-	exit 1
+   echo "Create of Webacula PostgreSQL tables failed. Exit."
+   exit 1
 fi
 
 
@@ -39,10 +39,21 @@ END-OF-DATA
 res=$?
 if test $res = 0;
 then
-   echo "Grant of webacula PostgreSQL tables succeeded."
+   echo "Grant of Webacula PostgreSQL tables succeeded."
 else
-   echo "Grant of webacula PostgreSQL tables failed."
+   echo "Grant of Webacula PostgreSQL tables failed."
+fi
+
+
+
+psql -f make_acl_tables.sql  -d bacula $*
+res=$?
+if test $res = 0;
+then
+   echo "Create of Webacula ACL PostgreSQL tables succeeded."
+else
+   echo "Create of Webacula ACL PostgreSQL tables failed. Exit."
+   exit 1
 fi
 
 exit 0
-

@@ -136,17 +136,16 @@ sh ./MySql/10_bacula_make_tables
 cd ${INSTALL_DIR}
 
 my_log "MySQL"
-sh ./MySql/10_webacula_make_tables.sh
-sh ./MySql/20_webacula_acl_make_tables.sh
+sh ./MySql/10_make_tables.sh
+sh ./MySql/20_acl_make_tables.sh
 
 ##-- my_log "PostgreSQL"
 ##-- cd /PostgreSql
-##-- sh ./10_webacula_create_database.sh
-##-- sh ./20_webacula_make_tables.sh
+##-- sh ./10_make_tables.sh
 ##-- cd ${INSTALL_DIR}
 
 ##-- my_log "SqLite"
-##-- sh ./SqLite/10_webacula_create_database.sh "/tmp/webacula/sqlite/webacula.db"
+##-- sh ./SqLite/10_make_tables.sh "/tmp/webacula/sqlite/bacula.db"
 ##-- chmod a+rwx /tmp/webacula/sqlite
 
 

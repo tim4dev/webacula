@@ -6,6 +6,19 @@
 
 -------------------------------------------------------------------------------------------------------
 
+- batch INSERT
+    http://stackoverflow.com/questions/1444191/insert-50-thousand-record-in-mysql
+PostgreSQL and MySQL :
+INSERT
+INTO    mytable
+VALUES
+        (value1),
+        (value2),
+        ...
+
+
+
+- юзер может менять свой пароль (+ уведомление по емайл)
 - убрать отладочный код в SQL скриптах install/
 - пароли в SQL скриптах install/
 
