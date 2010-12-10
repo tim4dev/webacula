@@ -89,12 +89,22 @@ class AuthController extends Zend_Controller_Action
                  * [ $zendDb = null], [string $tableName = null], [string $identityColumn = null],
                  * [string $credentialColumn = null], [string $credentialTreatment = null])
                  */
-                $authAdapter = new Zend_Auth_Adapter_DbTable(
-                    $db, 
-                    'webacula_users',
-                    'login',
-                    'pwd',
-                    'MD5(?) AND active = 1' );
+                if ( Zend_Registry::get('DB_ADAPTER') == 'PDO_SQLITE') {
+                    // Sqlite do not have MD5 function
+                    $authAdapter = new Zend_Auth_Adapter_DbTable(
+                        $db,
+                        'webacula_users',
+                        'login',
+                        'pwd',
+                        '? AND active = 1' );
+                } else {
+                    $authAdapter = new Zend_Auth_Adapter_DbTable(
+                        $db,
+                        'webacula_users',
+                        'login',
+                        'pwd',
+                        'MD5(?) AND active = 1' );
+                }
                 /* Передаем в адаптер данные пользователя */
                 $authAdapter->setIdentity($form->getValue('login'));
                 $authAdapter->setCredential($form->getValue('pwd'));
@@ -234,8 +244,10 @@ Thanks! \n"),
                     $res = $this->emailForgotPassword($row->email, $row->name, $new_password);
                     if ( $res ) {
                         // сохраняем пароль в БД
+                        if ( Zend_Registry::get('DB_ADAPTER') != 'PDO_SQLITE') // Sqlite do not have MD5 function
+                            $new_password = md5( $new_password );
                         $data = array(
-                            'pwd' => md5( $new_password )
+                            'pwd' => $new_password
                         );
                         $where = $table->getAdapter()->quoteInto('id = ?', $row->id);
                         $table->update($data, $where);

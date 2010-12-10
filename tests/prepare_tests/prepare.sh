@@ -149,7 +149,7 @@ my_log "Create tables ..."
 
 cd ${BASEDIR}
 sh ./MySql/10_bacula_make_tables
-##-- sh ./SqLite/10_bacula_make_tables
+sh ./SqLite/10_bacula_make_tables
 
 cd ${INSTALL_DIR}
 

@@ -1,20 +1,20 @@
 #!/bin/sh
 
-db_name="/tmp/webacula/sqlite/webacula.db"
+db_name="/tmp/webacula/sqlite/bacula.db"
 
 /usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
    VALUES (datetime('now', '-4 day'),NULL,'Текст по русски.',20,NULL);
 
 
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
    VALUES (datetime('now', '-2 day'),NULL,'The weather today is good ;)',20,NULL);
 
 
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
    VALUES (datetime('now', '-15 hour'),NULL,
 '<b>Error</b> record (for example).
 
@@ -22,7 +22,7 @@ Serious errors in  BACULA_JOBID=2',255,0);
 
 
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
    VALUES (datetime('now', '-10 hour'),NULL,
 '<b>Warning</b> record (for example).
 
@@ -30,7 +30,7 @@ See BACULA_JOBID=1 for more details.',30,0);
 
 
 
-INSERT INTO wbLogBook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
+INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, logIsDel)
 	VALUES (datetime('now', '-1 hour'), datetime('now'),
 '<h1>Header 1</h1>
 <h2>Header 2</h2>

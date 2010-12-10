@@ -18,12 +18,11 @@ INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, log
 	VALUES ((NOW() - time '01:10:55'), NOW(), E'<h1>Header 1</h1>\r\n<h2>Header 2</h2>\r\n<h3>Header 3</h3>\r\n<pre>Preformatted text</pre>\r\n<i>Italic text</i>\r\n\r\nBACULA_JOBID=1\r\n\r\nLOGBOOK_ID=1\r\n\r\n<a href=\"http://webacula.sourceforge.net/\">External link</a>',10,0);
 
 
-
 END-OF-DATA
 then
-   echo "succeeded."
+   echo "PgSql : Fill logbook succeeded"
 else
-   echo "failed."
+   echo "PgSql : Fill logbook failed !"
 fi
 
 exit 0

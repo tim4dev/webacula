@@ -60,16 +60,6 @@ else
 fi
 
 
-rm -r -f /tmp/webacula/sqlite/bacula.db
-echo "Drop Sqlite bacula database succeeded."
-
-if dropdb bacula
-then
-   echo "Drop PGSQL bacula database succeeded."
-else
-   echo "Drop PGSQL bacula database failed."
-fi
-
 
 createdb -T template0 -E SQL_ASCII bacula
 if test $? -ne 0; then
@@ -96,14 +86,21 @@ cd ${BASEDIR}
 sh ./PostgreSql/30_webacula_fill_logbook
 sh ./PostgreSql/40_webacula_fill_acl
 
-##-- sh ./bacula_sqlite_make_tables
+cd ${BASEDIR}
+sh ./SqLite/10_bacula_make_tables
+cd ${INSTALL_DIR}/SqLite
+sh ./10_make_tables.sh      /tmp/webacula/sqlite/bacula.db
+sh ./20_acl_make_tables.sh  /tmp/webacula/sqlite/bacula.db
+cd ${BASEDIR}
+sh ./SqLite/20_webacula_fill_logbook
+sh ./SqLite/30_webacula_fill_acl
 
 my_log "Copy DB from MySQL to PGSQL ..."
 cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2PGSQL.php
 
-##-- my_log "Copy DB from MySQL to Sqlite ..."
-##-- cd ${BASEDIR}
-##-- php ./bacula_DBcopy_MySQL2sqlite.php
+my_log "Copy DB from MySQL to Sqlite ..."
+cd ${BASEDIR}
+php ./bacula_DBcopy_MySQL2sqlite.php
 
-##-- chmod -R a+rwx /tmp/webacula/sqlite
+chmod -R a+rwx /tmp/webacula/sqlite

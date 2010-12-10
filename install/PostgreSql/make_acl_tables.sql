@@ -12,7 +12,7 @@ CREATE TABLE webacula_users (
     role_id  integer NOT NULL,
     PRIMARY KEY (id)
 );
-CREATE INDEX webacula_user_idx1 ON webacula_users (login);
+CREATE INDEX webacula_users_idx1 ON webacula_users (login);
 
 
 CREATE TABLE webacula_roles (
@@ -43,8 +43,8 @@ CREATE TABLE webacula_dt_resources (
 
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
-INSERT INTO webacula_users (id, login, pwd, active, create_login, role_id)
-    VALUES (1000, 'root', MD5('1'), 1, NOW(), 1);
+INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
+    VALUES (1000, 'root', MD5('1'), 'root', 1, NOW(), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 

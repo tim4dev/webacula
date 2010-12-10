@@ -939,7 +939,11 @@ class AdminController extends MyClass_ControllerAclAction
                 // password
                 $pwd = trim( $this->_request->getParam('pwd') );
                 if (isset($pwd))
-                    $data['pwd'] = md5($pwd);
+                    if ( Zend_Registry::get('DB_ADAPTER') == 'PDO_SQLITE')
+                        // Sqlite do not have MD5 function
+                        $data['pwd'] = $pwd;
+                    else
+                        $data['pwd'] = md5($pwd);
                 $where = $table->getAdapter()->quoteInto('id = ?', $user_id);
                 try {
                     $table->update($data, $where);

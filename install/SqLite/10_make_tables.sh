@@ -18,7 +18,6 @@ CREATE TABLE webacula_logbook (
 	logIsDel	INTEGER,
 	PRIMARY KEY(logId)
 );
-
 CREATE INDEX webacula_idx1 ON webacula_logbook(logDateCreate);
 CREATE INDEX webacula_idxTxt ON webacula_logbook(logTxt);
 
@@ -57,4 +56,7 @@ END-OF-DATA
 # access by apache
 chgrp apache ${db_name}
 chmod g+rw ${db_name}
+
+echo "Webacula Logbook Sqlite created"
+
 exit 0

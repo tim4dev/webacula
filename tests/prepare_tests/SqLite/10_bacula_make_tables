@@ -4,8 +4,7 @@
 
 db_name="/tmp/webacula/sqlite/bacula.db"
 
-mkdir /tmp/webacula
-mkdir /tmp/webacula/sqlite
+mkdir -p /tmp/webacula/sqlite
 
 /usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
 
@@ -426,5 +425,7 @@ END-OF-DATA
 
 # access by apache
 chmod 666 ${db_name}
+
+echo "Sqlite bacula make tables"
 
 exit 0
