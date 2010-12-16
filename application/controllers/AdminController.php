@@ -910,8 +910,9 @@ class AdminController extends MyClass_ControllerAclAction
      * Users
      **************************************************************************/
     public function userIndexAction() {
+        $order  = addslashes( $this->_request->getParam('order') );
         $users = new Wbusers();
-        $this->view->result = $users->fetchAllUsers();
+        $this->view->result = $users->fetchAllUsers($order);
         $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Users');
     }
 

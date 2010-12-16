@@ -53,15 +53,16 @@ class Wbusers extends Zend_Db_Table
 
 
 
-    public function fetchAllUsers()
+    public function fetchAllUsers($order = 'id')
     {
         $select = new Zend_Db_Select($this->db);
         $select->from(array('user' => 'webacula_users'),
                 array('id' , 'login', 'name', 'email', 'create_login', 'last_login', 'last_ip', 'active', 'role_id'));
         $select->joinLeft(array('role' => 'webacula_roles'), 'user.role_id = role.id',
                 array('role_name' => 'name', 'role_id' => 'id'));
-        $select->order(array('user.name, user.id ASC'));
-        //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+        if ($order)
+            $select->order(array($order.' ASC'));
+        //$sql = $select->__toString(); var_dump($sql); exit; // for !!!debug!!!
         $stmt   = $select->query();
         $result = $stmt->fetchAll();
         return $result;
