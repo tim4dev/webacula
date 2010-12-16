@@ -92,8 +92,7 @@ class Wbroles extends Zend_Db_Table
         $select->order(array('roles.order_role, roles.id ASC'));
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt   = $select->query();
-        $result = $stmt->fetchAll();
-        return $result;
+        return $stmt->fetchAll();
     }
 
 

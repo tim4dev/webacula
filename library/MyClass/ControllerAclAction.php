@@ -62,6 +62,7 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         }
         // для переадресаций
         $this->_redirector = $this->_helper->getHelper('Redirector');
+        // acl
         $this->bacula_acl = new MyClass_BaculaAcl();
     }
 
@@ -71,6 +72,10 @@ class MyClass_ControllerAclAction extends Zend_Controller_Action
         // этот контроллер недоступен без регистрации
         if ( !$this->isAuth() ) {
             $this->_redirect('/auth/login');
+            return;
+        }
+        if ( !$this->webacula_acl->hasRole('root_role') ) {
+            throw new Exception( $this->view->translate->_('Webacula error. Role mechanism is broken. Check Webacula tables.') );
             return;
         }
         $controller = $this->getRequest()->getControllerName();
