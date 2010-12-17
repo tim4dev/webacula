@@ -4,9 +4,9 @@ Webacula ChangeLog
 === 5.5.0
     Implemented Bacula ACLs : JobACL, ClientACL, StorageACL, PoolACL, FileSetACL, WhereACL.
     Implemented Webacula ACLs - access to main menu.
+    Move all Webacula tables to Bacula database. Now a separate database is not needed.
     Remove 'tmpdir' from config.ini. Use 'data/' directory instead.
-    Automatic delete old temporary files in 'data/tmp'.
-    Move all Webacula tables to Bacula database.
+    Automatic delete old temporary files in 'data/tmp'.   
 
 === 5.0.2 (Wed Aug 11 2010)
     Fresh Portuguese Brazil translation by Samuel Rios Carvalho

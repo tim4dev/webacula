@@ -141,7 +141,7 @@ class AuthController extends Zend_Controller_Action
                     // goto home page
                     $this->_redirect('index/index');
                 } else {
-                    sleep(3);  // TODO increase this value
+                    sleep(7);
                     $this->view->msg = $this->view->translate->_("Username or password is incorrect");
                     // включаем счетчик, если кол-во неудачных логинов большое то включаем капчу
                     $this->defNamespace->numLoginFails++;

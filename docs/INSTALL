@@ -11,11 +11,10 @@
   http://framework.zend.com/manual/en/requirements.html
 - Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
 - Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
-- Create separate database "webacula" for use Logbook features.
 - Installed http://php.net/dom for RSS feed.
 - Browser compatibility: all jQuery UI plugins are tested for IE 6.0+, Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome.
 
-Run docs/check_system_requirements.php to verify.
+To verify, run 'docs/check_system_requirements.php' from command line.
 
 
     Install & Setup
@@ -55,11 +54,11 @@ your PHP include path. By doing this, you will have access to the Zend Framework
 
 
 
-- Specify the parameters to connect to the Catalog and webacula databases in /var/www/webacula/application/config.ini
+- Specify the parameters to connect to the Catalog and webacula databases in 'application/config.ini'
 	
 - Directory "data/tmp/" which will be saved the file, which contains a list of files to restore.
-IMPORTANT! This directory and files in it should be available to read the Director service.	
-
+IMPORTANT! This directory and files must be accessible to web server for writing
+and Bacula Director service for reading.
 
 - Creates system group account (if not yet created) :
     groupadd bacula
@@ -68,7 +67,7 @@ IMPORTANT! This directory and files in it should be available to read the Direct
     usermod -aG bacula apache
 
 - Next, bconsole file can be executed by Apache web server :
-  NOTE. /usr/sbin/bconsole -- binary ELF file (not a shell script!)
+  IMPORTANT. Check '/usr/sbin/bconsole' it should be the binary ELF file, not a shell script!
 
   variant 1:
     chown root:bacula /usr/sbin/bconsole
@@ -127,14 +126,21 @@ Alias "/webacula"  "/var/www/webacula/html"
 
 
 ----------- /var/www/webacula/html/.htaccess
+SetEnv APPLICATION_ENV production
 
 php_flag magic_quotes_gpc off
 php_flag register_globals off
-RewriteEngine On
 
+RewriteEngine On
 # edit RewriteBase if necessary
 RewriteBase   /webacula
-RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+-----------
+
 
 For testing mod_rewrite change 'RewriteBase' (if necessary) in webacula/html/test_mod_rewrite/.htaccess
 And use URL like
@@ -176,34 +182,22 @@ cd /etc/bacula
 ./bacula start
 
 
-Delete old tmp files: wb_clean_tmp.sh script to be run by the cron.
-
 If necessary change a name and the password of the user in a files in install/ directory:
-    webacula_mysql_create_database.sh
-    webacula_postgresql_create_database.sh
-    webacula_postgresql_make_tables.sh
-
+TODO
 
 Create database, tables and user :
    cd install
 
 for MySQL:
-    ./webacula_mysql_create_database.sh
-    ./webacula_mysql_make_tables.sh
+TODO
 
 for PostgreSQL:
-    ./webacula_postgresql_create_database.sh
-    ./webacula_postgresql_make_tables.sh
+TODO
 
 for Sqlite:
-    sudo mkdir /var/lib/sqlite/
-    sudo chown root.apache /var/lib/sqlite
-    sudo chmod g+rw /var/lib/sqlite
-    sudo ./webacula_sqlite_create_database.sh
-    sudo chgrp apache /var/lib/sqlite/webacula.db
-    sudo chmod g+rw /var/lib/sqlite/webacula.db
+TODO
 
-
+TODO production .htaccess
 
 
     LogBook
@@ -212,21 +206,14 @@ for Sqlite:
 Records can contain links (usual web-links on which it is possible to click) to Bacula Jobs or links to other records of this logbook.
 In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
 See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
-Logbook stored in a separate database "webacula", now it is supported  MySQL and PostgreSQL.
 
 
 
     Update
     ~~~~~~
+TODO
+Кратко описать как перенести таблицы logbook, и т.п.
+Изменения в config.ini
    Download latest tarball.
    Save in safe place your "config.ini", remove directory "webacula", extract Webacula source code and replace "config.ini" back.
    Run necessary script from update/ directory.
-
-    If necessary (full text search not worked) run mysqldump, drop DB webacula and create with :
-
-CREATE DATABASE webacula
-    DEFAULT CHARACTER SET utf8
-    DEFAULT COLLATE utf8_general_ci;
-
-    and load data from dump again.
-
