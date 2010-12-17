@@ -37,7 +37,7 @@
 <body>
 
 <h1 align="center">
-<?
+<?php
 if ( isset($_GET['testlink']) )  {
    if ( $_GET['testlink'] == 1) {
       echo "mod_rewrite test PASSED";
