@@ -426,6 +426,6 @@ END-OF-DATA
 # access by apache
 chmod 666 ${db_name}
 
-echo "Sqlite bacula make tables"
+echo "Sqlite : Bacula make tables OK"
 
 exit 0

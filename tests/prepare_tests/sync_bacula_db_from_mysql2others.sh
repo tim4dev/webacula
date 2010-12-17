@@ -63,7 +63,7 @@ fi
 
 createdb -T template0 -E SQL_ASCII bacula
 if test $? -ne 0; then
-   echo "PGSQL : Creation of bacula database failed."
+   echo "PostgreSql : creation of bacula database failed."
    exit 2
 fi
 
@@ -71,9 +71,9 @@ if psql -q -f - -d bacula <<END-OF-DATA
 ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
 END-OF-DATA
 then
-   echo "Creation of bacula database succeeded."
+   echo "PostgreSql : creation of Bacula database succeeded."
 else
-   echo "Creation of bacula database failed."
+   echo "PostgreSql : creation of Bacula database failed."
    exit 2
 fi
 
@@ -82,6 +82,7 @@ sh ./PostgreSql/10_bacula_make_tables
 sh ./PostgreSql/20_bacula_grant_privileges
 cd ${INSTALL_DIR}/PostgreSql
 sh ./10_make_tables.sh
+sh ./20_acl_make_tables.sh
 cd ${BASEDIR}
 sh ./PostgreSql/30_webacula_fill_logbook
 sh ./PostgreSql/40_webacula_fill_acl

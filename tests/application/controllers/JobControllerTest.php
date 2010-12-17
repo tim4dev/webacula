@@ -174,7 +174,8 @@ class JobControllerTest extends ControllerTestCase
                    'Increme.*job.name.test.1.*is waiting for Client|'.
                    'Increme.*job.name.test.1.*has terminated|'.
                    '1[0-9]  Incr.*0.*0.*OK.*job.name.test.1|'.
-                   '1[1-9].*Increme.*job.name.test.1.*is waiting on Storage/';
+                   '1[1-9].*Increme.*job.name.test.1.*is waiting on Storage|'.
+                   '1[1-9].*Increme.*job.name.test.1.*SD despooling Attributes/';
         $this->assertQueryContentRegex('td', $pattern);
     }
 

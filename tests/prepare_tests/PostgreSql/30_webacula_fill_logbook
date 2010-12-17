@@ -20,9 +20,9 @@ INSERT INTO webacula_logbook (logDateCreate, logDateLast, logTxt, logTypeId, log
 
 END-OF-DATA
 then
-   echo "PgSql : Fill logbook succeeded"
+   echo "PostgreSql : fill logbook succeeded"
 else
-   echo "PgSql : Fill logbook failed !"
+   echo "PostgreSql : fill logbook failed !"
 fi
 
 exit 0

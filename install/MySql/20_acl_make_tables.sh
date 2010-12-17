@@ -1,14 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Script to create Webacula ACLs tables in Bacula database
 #
 
-db_name="bacula"
+.   ../db.conf
 
-if mysql $* -f <<END-OF-DATA
 
-USE bacula;
 
+if mysql $db_name -f <<END-OF-DATA
 
 CREATE TABLE IF NOT EXISTS webacula_users (
     id       integer not null auto_increment,
@@ -54,7 +53,7 @@ CREATE TABLE IF NOT EXISTS webacula_dt_resources (
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
 INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', MD5('1'), 'root', 1, NOW(), 1);
+    VALUES (1000, 'root', MD5('$webacula_root_pwd'), 'root', 1, NOW(), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 

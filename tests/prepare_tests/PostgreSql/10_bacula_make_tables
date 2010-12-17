@@ -2,10 +2,12 @@
 #
 # shell script to create Bacula PostgreSQL tables
 #
-bindir="/usr/bin"
+
 db_name="bacula"
 
-$bindir/psql -q -f - -d ${db_name} $* <<END-OF-DATA
+psql -q -f - -d ${db_name} $* <<END-OF-DATA
+
+SET client_min_messages=WARNING;
 
 CREATE TABLE filename
 (
@@ -419,8 +421,8 @@ END-OF-DATA
 pstat=$?
 if test $pstat = 0; 
 then
-   echo "Creation of Bacula PostgreSQL tables succeeded."
+   echo "PostgreSql : creation of Bacula tables succeeded."
 else
-   echo "Creation of Bacula PostgreSQL tables failed."
+   echo "PostgreSql : creation of Bacula tables failed!"
 fi
 exit $pstat

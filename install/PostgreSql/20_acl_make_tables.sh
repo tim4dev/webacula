@@ -1,3 +1,15 @@
+#!/bin/bash
+#
+# Script to create webacula tables
+#
+
+.   ../db.conf
+
+
+psql -q -f - -d $db_name  <<END-OF-DATA
+
+
+SET client_min_messages=WARNING;
 
 CREATE TABLE webacula_users (
     id       SERIAL NOT NULL,
@@ -44,11 +56,11 @@ CREATE TABLE webacula_dt_resources (
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
 INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', MD5('1'), 'root', 1, NOW(), 1);
+    VALUES (1000, 'root', MD5('$webacula_root_pwd'), 'root', 1, NOW(), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 
-INSERT INTO webacula_resources (dt_id, role_id) VALUES 
+INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (10,2),
     (20,2),
     (30,2),
@@ -123,7 +135,7 @@ CREATE TABLE webacula_dt_commands (
 
 
 -- see src/dird/ua_cmds.c
-INSERT INTO webacula_dt_commands (id, name, description) VALUES 
+INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (1,   '*all*',       'All commands'),
     (10,  'add',         'Add media to a pool'),
     (20,  'autodisplay', 'Autodisplay console messages'),
@@ -238,3 +250,18 @@ INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1,
 INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 1);
 INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+
+
+END-OF-DATA
+
+
+res=$?
+if test $res = 0;
+then
+   echo "PostgreSql : create of Webacula ACL tables succeeded."
+else
+   echo "PostgreSql : create of Webacula ACL tables failed!"
+   exit 1
+fi
+
+exit 0

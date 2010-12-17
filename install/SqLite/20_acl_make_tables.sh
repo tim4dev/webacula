@@ -3,14 +3,16 @@
 # Script to create Webacula ACLs tables in Bacula database
 #
 
-db_name="/var/bacula/working/bacula.db"
+.   ../db.conf
+
+
 
 if [ $# -eq 1 ]
 then
-   db_name="${1}"
+   db_name_sqlite="${1}"
 fi
 
-sqlite3 ${db_name} <<END-OF-DATA
+sqlite3 $db_name_sqlite <<END-OF-DATA
 
 
 CREATE TABLE webacula_users (
@@ -57,7 +59,7 @@ CREATE TABLE webacula_dt_resources (
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
 INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', '1', 'root', 1, datetime('now'), 1);
+    VALUES (1000, 'root', '$webacula_root_pwd', 'root', 1, datetime('now'), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 
@@ -253,9 +255,9 @@ INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1,
 END-OF-DATA
 
 # access by apache
-chgrp apache ${db_name}
-chmod g+rw ${db_name}
+chgrp apache ${db_name_sqlite}
+chmod g+rw ${db_name_sqlite}
 
-echo "Webacula ACLs Sqlite created"
+echo "Sqlite : Webacula ACLs created"
 
 exit 0

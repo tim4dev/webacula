@@ -149,10 +149,10 @@ my_log "Create tables ..."
 
 cd ${BASEDIR}
 sh ./MySql/10_bacula_make_tables
-cd ${INSTALL_DIR}
+cd ${INSTALL_DIR}/MySql
 my_log "MySQL"
-sh ./MySql/10_make_tables.sh
-sh ./MySql/20_acl_make_tables.sh
+sh ./10_make_tables.sh
+sh ./20_acl_make_tables.sh
 
 
 

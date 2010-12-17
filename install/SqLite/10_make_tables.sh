@@ -1,13 +1,14 @@
 #!/bin/sh
 
-db_name="/var/bacula/working/bacula.db"
+.   ../db.conf
+
 
 if [ $# -eq 1 ]
 then
-   db_name="${1}"
+   db_name_sqlite="${1}"
 fi
 
-sqlite3 ${db_name} <<END-OF-DATA
+sqlite3 $db_name_sqlite <<END-OF-DATA
 
 CREATE TABLE webacula_logbook (
 	logId		INTEGER,
@@ -54,9 +55,9 @@ INSERT INTO webacula_version (versionId) VALUES (5);
 END-OF-DATA
 
 # access by apache
-chgrp apache ${db_name}
-chmod g+rw ${db_name}
+chgrp apache ${db_name_sqlite}
+chmod g+rw ${db_name_sqlite}
 
-echo "Webacula Logbook Sqlite created"
+echo "Sqlite : Webacula Logbook created"
 
 exit 0

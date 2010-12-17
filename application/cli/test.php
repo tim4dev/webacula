@@ -44,4 +44,6 @@ Zend_Registry::set('db_bacula', $db_bacula);
 $params = $config->general->db->config->toArray();
 var_dump($params);
 
+echo "\n", getcwd(), "\n";
+
 ?>
