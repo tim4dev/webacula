@@ -1,30 +1,43 @@
 
-    System Requirements
-    ~~~~~~~~~~~~~~~~~~~
+  About this manual
+  ~~~~~~~~~~~~~~~~~
+  Webacula basic features see in README file.
+  This manual should give you to install or upgrade Webacula installation.
+  If you find errors, typos or just think there are things missing please file a bug report at 
+    http://sourceforge.net/tracker/?group_id=201199
+  Thanks.
 
+
+
+  System Requirements
+  ~~~~~~~~~~~~~~~~~~~
+
+Run from command line:
+  docs/check_system_requirements.php
+
+Webacula also requires:
 - Bacula 5.0 or later.
-- Full supported MySQL, PostgreSQL and Sqlite databases.
 - Zend Framework version 1.10.0 or later.
 - Zend Framework is built with object-oriented PHP 5 and requires
   PHP 5.2.4 or later with PDO extension active. Please see the system requirements appendix for
   more detailed information:
   http://framework.zend.com/manual/en/requirements.html
 - Apache and mod_rewrite or equivalent web-server. For example, nginx and ngx_http_rewrite_module.
-- Installed php-gd package. GD is an open source code library for the dynamic creation of images by programmers.
-- Installed http://php.net/dom for RSS feed.
+- Installed php-gd package. GD is an open source code library for the dynamic creation of images.
+- Installed http://php.net/dom for use RSS feed.
 - Browser compatibility: all jQuery UI plugins are tested for IE 6.0+, Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome.
 
-To verify, run 'docs/check_system_requirements.php' from command line.
 
 
-    Install & Setup
-    ~~~~~~~~~~~~~~~
+    Install
+    ~~~~~~~
 
-- login as root
-- mkdir /var/www/webacula
-- Copy this distribution to directory /var/www/webacula
+- Login as root
+- Make directory '/var/www/webacula', for example.
+- Copy this distribution to directory '/var/www/webacula'
 
-- Download Zend Framework from http://framework.zend.com/ and extract the contents from library/ directory.
+- Download minimal Zend Framework package from http://framework.zend.com/ and extract.
+  Copy the contents from directory 'ZendFramework-*.*.*-minimal/library/Zend' to 'webacula/library/Zend'
 
 NOTE. If you use the Zend Framework for multiple sites, then you can place it in a folder that is part of 
 your PHP include path. By doing this, you will have access to the Zend Framework components in all PHP scripts.
@@ -36,30 +49,34 @@ your PHP include path. By doing this, you will have access to the Zend Framework
 |   |-- controllers
 |   |-- models
 |   `-- views
+...
+|-- data
+|   |-- cache
+|   |-- session
+|   `-- tmp
+...
 |-- docs
 |-- install
 |-- html
 |-- languages
 `-- library
-    |-- Other
     |-- MyClass
-    |
-    `-- Zend (this is Zend Framework package)
+    `-- Zend (here is Zend Framework package)
         |-- Acl
         |-- Auth
         |-- Cache
-        |-- Config
        ...
 
 
+Some directory description:
+  data/           This directory and files in it must NOT be available to access through the client Web-browser.
+  data/cache/     Cache directory for Zend_Cache. Should be available to writing the Web-server.
+  data/session/   Storage for PHP session. Should be available to writing the Web-server.
+  data/tmp/       Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
+                  IMPORTANT!  This directory and files in it should be available to read the Director service and
+                              to writing the Web-server.
 
-
-- Specify the parameters to connect to the Catalog and webacula databases in 'application/config.ini'
-	
-- Directory "data/tmp/" which will be saved the file, which contains a list of files to restore.
-IMPORTANT! This directory and files must be accessible to web server for writing
-and Bacula Director service for reading.
-
+- Specify the parameters to connect to the Catalog database, timezone and other in 'application/config.ini'
 - Creates system group account (if not yet created) :
     groupadd bacula
 
@@ -69,7 +86,8 @@ and Bacula Director service for reading.
 - Next, bconsole file can be executed by Apache web server :
   IMPORTANT. Check '/usr/sbin/bconsole' it should be the binary ELF file, not a shell script!
 
-  variant 1:
+  Variant 1
+  ~~~~~~~~~
     chown root:bacula /usr/sbin/bconsole
     chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
 
@@ -81,7 +99,8 @@ and Bacula Director service for reading.
        bacula.bconsole = "/usr/sbin/bconsole"
 
 
-  variant 2:
+  Variant 2
+  ~~~~~~~~~
     edit application/config.ini
        bacula.sudo = "/usr/bin/sudo"
        bacula.bconsole = "/usr/sbin/bconsole"
@@ -90,77 +109,36 @@ and Bacula Director service for reading.
         # (!!! comment here !!!) Defaults requiretty
         apache ALL=NOPASSWD: /usr/sbin/bconsole
 
-  Check :
+- Check this :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
-IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists). 
-           See Bacula documentation "The Console Resource" chapter for details.
-
-- Create configuration for Apache /etc/httpd/conf.d/webacula.conf
+- Configuration for Apache see 'install/apache/webacula.conf'
   NOTE. Specific directories on your system may be different.
 
-LoadModule rewrite_module modules/mod_rewrite.so
-AccessFileName .htaccess
-# for DEBUG # RewriteLog "/var/log/httpd/rewrite.log"
-# for DEBUG # RewriteLogLevel 3
+- Next,  restart your Web-server.
 
-Alias "/webacula"  "/var/www/webacula/html"
-<Directory "/var/www/webacula/html">
-    RewriteEngine on
-    Options FollowSymLinks
-    AllowOverride All
-    Order deny,allow
-    Allow from 127.0.0.1
-    # your network
-    Allow from 192.161.150.0/255.255.255.0
-
-    AuthType Basic
-    AuthName "Webacula"
-    AuthUserFile       /etc/httpd/conf/webacula.users
-    Require valid-user
-</Directory>
-
-
-- setup mod_rewrite :
+  mod_rewrite
+  ~~~~~~~~~~~
+- Setup mod_rewrite see 'html/.htaccess'. Edit 'RewriteBase' if necessary.
   NOTE. Specific directories on your system may be different.
 
+- Check mod_rewrite installed :
+apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
+rewrite_module (shared)
 
------------ /var/www/webacula/html/.htaccess
-SetEnv APPLICATION_ENV production
-
-php_flag magic_quotes_gpc off
-php_flag register_globals off
-
-RewriteEngine On
-# edit RewriteBase if necessary
-RewriteBase   /webacula
-RewriteCond %{REQUEST_FILENAME} -s [OR]
-RewriteCond %{REQUEST_FILENAME} -l [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^.*$ - [NC,L]
-RewriteRule ^.*$ index.php [NC,L]
------------
-
-
-For testing mod_rewrite change 'RewriteBase' (if necessary) in webacula/html/test_mod_rewrite/.htaccess
+For testing mod_rewrite change 'RewriteBase', if necessary, in webacula/html/test_mod_rewrite/.htaccess
 And use URL like
    http://localhost/webacula/test_mod_rewrite/
 for test mod_rewrite
 
-
-
-- increase values in /etc/php.ini :
+  PHP
+  ~~~
+- increase values in '/etc/php.ini' :
   memory_limit = 32M
   max_execution_time = 3600
 
-- Next (NOTE. Specific commands on your system may be different) :
-/sbin/service httpd restart
 
-- Check mod_rewrite :
-apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
-rewrite_module (shared)
-
-
+TODO
 
 - To show messages of the Job output, you must add a line :
 
