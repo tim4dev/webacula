@@ -5,8 +5,8 @@ Webacula terminal
 Webacula provides an ajax interface to Bacula Console (bconsole) - Webacula
 terminal.
 
-Important to understand that you need to write commands to 'bconsole' in the CLI
-style. Webacula terminal is not fully interactive.
+Important to understand that you need to write commands to 'bconsole' in 
+the command-line-style. Webacula terminal is not fully interactive.
 
 For example, you do not have to write in terminal:
     status
@@ -24,7 +24,3 @@ an so on.
 
 See Bacula documentation "Running the Console from a Shell Script" chapter for
 details.
-
-IMPORTANT! The Bacula Console have a flexible ACLs (Access Control Lists).
-    See Bacula documentation "The Console Resource" chapter for details.
-

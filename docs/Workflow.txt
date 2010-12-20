@@ -1,5 +1,6 @@
 
 Webacula workflow
+~~~~~~~~~~~~~~~~~
 
 - Feature releases are numbered (and tagged) as 'X.Y' and are meant to
   contain bugfixes and enhancements, including functionality,
@@ -41,4 +42,3 @@ Maintenance releases are numbered (and tagged) as 'X.Y.Z'
   'maintainer-gpg-public-key' to verify the signature tags.
 
 - 'web' - it is a separate branch for developing the website.
-
