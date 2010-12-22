@@ -1,18 +1,17 @@
 
-  About this manual
-  ~~~~~~~~~~~~~~~~~
-  Webacula basic features see in README file.
+====== About this manual ======
+
+  The basic features of Webacula see in README file.
   This manual should give you to install or upgrade Webacula installation.
-  If you find errors, typos or just think there are things missing please file a bug report at 
+  If you find errors or typos please send a bug report at
     http://sourceforge.net/tracker/?group_id=201199
   Thanks.
 
 
 
-  System Requirements
-  ~~~~~~~~~~~~~~~~~~~
+======  System Requirements ======
 
-Run from command line:
+To check the installed system packages, run from command line:
   docs/check_system_requirements.php
 
 Webacula also requires:
@@ -29,15 +28,16 @@ Webacula also requires:
 
 
 
-    Install
-    ~~~~~~~
+====== Install ======
+
+===== Make directory tree =====
 
 - Login as root
 - Make directory '/var/www/webacula', for example.
-- Copy this distribution to directory '/var/www/webacula'
+- Copy this distribution to this directory
 
 - Download minimal Zend Framework package from http://framework.zend.com/ and extract.
-  Copy the contents from directory 'ZendFramework-*.*.*-minimal/library/Zend' to 'webacula/library/Zend'
+  Copy the contents from directory 'ZendFramework-*-minimal/library/Zend' to 'webacula/library/Zend'
 
 NOTE. If you use the Zend Framework for multiple sites, then you can place it in a folder that is part of 
 your PHP include path. By doing this, you will have access to the Zend Framework components in all PHP scripts.
@@ -69,14 +69,34 @@ your PHP include path. By doing this, you will have access to the Zend Framework
 
 
 Some directory description:
-  data/           This directory and files in it must NOT be available to access through the client Web-browser.
-  data/cache/     Cache directory for Zend_Cache. Should be available to writing the Web-server.
-  data/session/   Storage for PHP session. Should be available to writing the Web-server.
-  data/tmp/       Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
-                  IMPORTANT!  This directory and files in it should be available to read the Director service and
-                              to writing the Web-server.
+  application/    All source code. 
+                  Should be available to reading for the Web-server and
+                  no access through the client Web-browser.
+
+  html/           Public code.
+                  Should be available to reading for the Web-server and for the client Web-browser.
+
+  data/           IMPORTANT. This directory, subdirectory and files in it
+                  must NOT be available to access through the client Web-browser.
+
+  data/cache/     Cache directory for Zend_Cache. Should be available to writing the Web-server and
+                  no access through the client Web-browser.
+
+  data/session/   Storage for PHP session. Should be available to writing the Web-server and
+                  no access through the client Web-browser.
+
+  data/tmp/       Directory "tmpdir" which will be saved the file, which contains a list of files to Job restore.
+                  This directory and files in it should be available to read from the Bacula Director and
+                  to writing from the Web-server. And no access through the client Web-browser.
+
+
+===== config.ini =====
 
 - Specify the parameters to connect to the Catalog database, timezone and other in 'application/config.ini'
+
+
+=====  Setting up to run bconsole from under Webacula =====
+
 - Creates system group account (if not yet created) :
     groupadd bacula
 
@@ -86,8 +106,8 @@ Some directory description:
 - Next, bconsole file can be executed by Apache web server :
   IMPORTANT. Check '/usr/sbin/bconsole' it should be the binary ELF file, not a shell script!
 
-  Variant 1
-  ~~~~~~~~~
+==== Variant 1 (without using sudo) ====
+
     chown root:bacula /usr/sbin/bconsole
     chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
 
@@ -99,8 +119,8 @@ Some directory description:
        bacula.bconsole = "/usr/sbin/bconsole"
 
 
-  Variant 2
-  ~~~~~~~~~
+==== Variant 2 (sudo) ====
+
     edit application/config.ini
        bacula.sudo = "/usr/bin/sudo"
        bacula.bconsole = "/usr/sbin/bconsole"
@@ -109,16 +129,17 @@ Some directory description:
         # (!!! comment here !!!) Defaults requiretty
         apache ALL=NOPASSWD: /usr/sbin/bconsole
 
-- Check this :
+Check out the run bconsole :
 # su -l apache -s /bin/sh -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
 
+===== Apache =====
 - Configuration for Apache see 'install/apache/webacula.conf'
   NOTE. Specific directories on your system may be different.
 
 - Next,  restart your Web-server.
 
-  mod_rewrite
-  ~~~~~~~~~~~
+==== mod_rewrite ====
+
 - Setup mod_rewrite see 'html/.htaccess'. Edit 'RewriteBase' if necessary.
   NOTE. Specific directories on your system may be different.
 
@@ -131,14 +152,13 @@ And use URL like
    http://localhost/webacula/test_mod_rewrite/
 for test mod_rewrite
 
-  PHP
-  ~~~
+===== PHP =====
+
 - increase values in '/etc/php.ini' :
   memory_limit = 32M
   max_execution_time = 3600
 
-
-TODO
+===== Bacula =====
 
 - To show messages of the Job output, you must add a line :
 
@@ -154,14 +174,13 @@ Messages {
 
 See also manual of Bacula "Chapter 15. Messages Resource".
 
-- Next :
-cd /etc/bacula
-./bacula stop
-./bacula start
+Next, restart Bacula services.
 
 
-If necessary change a name and the password of the user in a files in install/ directory:
-TODO
+===== Webacula =====
+
+If necessary change settings in 'install/db.conf' file.
+IMPORTANT. Change passwords in a file 'install/db.conf'
 
 Create database, tables and user :
    cd install
@@ -176,6 +195,8 @@ for Sqlite:
 TODO
 
 TODO production .htaccess
+
+TODO Первый логин. Какое имя, пароль.
 
 
     LogBook
