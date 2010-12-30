@@ -39,7 +39,7 @@ Webacula also requires:
 - Download minimal Zend Framework package from http://framework.zend.com/ and extract.
   Copy the contents from directory 'ZendFramework-*-minimal/library/Zend' to 'webacula/library/Zend'
 
-NOTE. If you use the Zend Framework for multiple sites, then you can place it in a folder that is part of 
+NOTE. If you use the Zend Framework for multiple sites, then you can place it in a folder that is part of
 your PHP include path. By doing this, you will have access to the Zend Framework components in all PHP scripts.
 
 - The tree which should turn out as a result :
@@ -69,7 +69,7 @@ your PHP include path. By doing this, you will have access to the Zend Framework
 
 
 Some directory description:
-  application/    All source code. 
+  application/    All source code.
                   Should be available to reading for the Web-server and
                   no access through the client Web-browser.
 
@@ -182,21 +182,35 @@ Next, restart Bacula services.
 If necessary change settings in 'install/db.conf' file.
 IMPORTANT. Change passwords in a file 'install/db.conf'
 
-Create database, tables and user :
-   cd install
+Create Webacula tables, Webacula built-in roles and Webacula built-in users.
 
-for MySQL:
+For MySQL:
+  cd install/MySql
+
+For PostgreSQL:
+  cd install/PostgreSql
+
+For Sqlite:
+  cd install/SqLite
+
+And further run scripts for your DBMS:
+  ./10_make_tables.sh
+  ./20_acl_make_tables.sh
+
+Change file 'html/.htaccess' :
+  SetEnv APPLICATION_ENV production
+  RewriteBase   /webacula
+
+After that, you can login under the username 'root' and the password which specified in a file 'install/db.conf'
+in parameter 'webacula_root_pwd'.
+
+
+====== Users and roles ======
+
 TODO
 
-for PostgreSQL:
-TODO
 
-for Sqlite:
-TODO
 
-TODO production .htaccess
-
-TODO Первый логин. Какое имя, пароль.
 
 
     LogBook
