@@ -10,3 +10,4 @@ tests/report/*
 data/cache/*
 data/tmp/*
 data/session/*
+*.tex.backup

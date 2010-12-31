@@ -1,0 +1,70 @@
+#!/bin/sh
+
+
+my_clean()
+{
+    rm -f *.aux
+    rm -f *.log
+    rm -f *.out
+}
+
+
+
+my_pdflatex()
+{
+    my_clean
+    rm -f $1.pdf
+    pdflatex -interaction=nonstopmode  $1.tex > /dev/null
+    rc=$?
+    if [[ $rc -eq 0 ]] ; then
+        echo "pdflatex Ok"
+    else
+        echo $rc
+        echo "pdflatex ERROR"
+    fi
+}
+
+
+
+my_latex2html()
+{
+    latex2html -no_subdir -noinfo -no_images -white -no_navigation -split 0 $1.tex  >$1_latex2html.out 2>&1
+    rc=$?
+    if [[ $rc -eq 0 ]] ; then
+        echo "latex2html Ok"
+    else
+        echo $rc
+        echo "latex2html ERROR"
+    fi
+}
+
+
+
+my_pdf2txt()
+{
+    links -dump -dump-width 80 -no-references  $1.html > $1.txt
+    rc=$?
+    if [[ $rc -eq 0 ]] ; then
+        echo "pdf2txt Ok"
+    else
+        echo $rc
+        echo "pdf2txt ERROR"
+    fi
+}
+
+
+
+
+
+########################################################
+# MAIN PROGRAM
+########################################################
+
+my_clean
+
+my_pdflatex   "install"
+my_latex2html "install"
+my_pdf2txt    "install"
+
+my_clean
+
