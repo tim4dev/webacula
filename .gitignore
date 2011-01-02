@@ -7,7 +7,23 @@ nbproject/
 library/Zend/
 library/Zend.arc/
 tests/report/*
+#
+# data : cache, tmp, session
+#
 data/cache/*
 data/tmp/*
 data/session/*
+#
+# latex
+#
 *.tex.backup
+docs/src/*.aux
+docs/src/*.dvi
+docs/src/*.lof
+docs/src/*.log
+docs/src/*.out
+docs/src/*.toc
+docs/src/*.pdf
+docs/html/*
+docs/txt/*
+docs/pdf/*

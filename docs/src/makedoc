@@ -3,9 +3,7 @@
 
 my_clean()
 {
-    rm -f *.aux
-    rm -f *.log
-    rm -f *.out
+    rm -f *.aux *.log *.out *.html *.pdf *.txt *.toc WARNINGS *.pl *.css
 }
 
 
@@ -21,7 +19,9 @@ my_pdflatex()
     else
         echo $rc
         echo "pdflatex ERROR"
+        exit 2
     fi
+    cp $1.pdf ../pdf/
 }
 
 
@@ -32,6 +32,9 @@ my_latex2html()
     rc=$?
     if [[ $rc -eq 0 ]] ; then
         echo "latex2html Ok"
+        cp $1.html ../html/
+        mv -f *.css   ../html/
+        mv -f *.png   ../html/
     else
         echo $rc
         echo "latex2html ERROR"
@@ -46,6 +49,7 @@ my_pdf2txt()
     rc=$?
     if [[ $rc -eq 0 ]] ; then
         echo "pdf2txt Ok"
+        cp $1.txt ../txt/
     else
         echo $rc
         echo "pdf2txt ERROR"
@@ -63,6 +67,8 @@ my_pdf2txt()
 my_clean
 
 my_pdflatex   "install"
+#exit
+
 my_latex2html "install"
 my_pdf2txt    "install"
 

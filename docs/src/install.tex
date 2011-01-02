@@ -2,8 +2,8 @@
 % \documentclass[a4paper,12pt,onecolumn,oneside]{book}
 \documentclass[12pt]{article}
 \usepackage[unicode,colorlinks]{hyperref}
-\usepackage{html}
-\hypersetup{unicode=true} % Makes bookmarks work in Russian
+%\usepackage{html}
+%\hypersetup{unicode=true} % Makes bookmarks work in Russian
 
 % подавление висячих строк
 \clubpenalty=10000
@@ -35,16 +35,17 @@
     Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev \htmladdnormallink{tim4dev@gmail.com}{mailto:tim4dev@gmail.com}
   \end{small}
 }
-%\date{Dec 2010}
+%\date{Jan 2011}
 
 \begin{document}
 \maketitle
+\newpage
 
 \tableofcontents
 \newpage
 
 \section{About this manual}
-\label{About this manual}
+\label{About}
 
 The basic features of Webacula see in README file.
 
@@ -156,6 +157,165 @@ Some directory description:
 \label{Install:config.ini}
 
 Specify the parameters to connect to the Catalog database, timezone and other in \texttt{application/config.ini}
+
+
+
+
+\subsection{Setting up to run bconsole under Webacula}
+\label{Install:Setting up to run bconsole under Webacula}
+
+Creates system group account (if not yet created) : \\
+\texttt{groupadd bacula}
+
+Add apache to group: \\
+\texttt{usermod -aG bacula apache}
+
+\textbf{IMPORTANT}. Check \texttt{/usr/sbin/bconsole} it should be the binary ELF file, not a shell script!
+
+Next, setup \texttt{bconsole} can be executed under Apache webserver.
+
+
+
+\subsubsection{Variant 1 - without using sudo}
+\label{Install:Setting up to run bconsole from under Webacula:without sudo}
+
+\begin{verbatim}
+chown root:bacula /usr/sbin/bconsole
+chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+
+chown root:bacula /etc/bacula/bconsole.conf
+chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+\end{verbatim}
+
+Edit \texttt{application/config.ini}
+\begin{verbatim}
+bacula.sudo = ""
+bacula.bconsole = "/usr/sbin/bconsole"
+\end{verbatim}
+
+
+
+\subsubsection{Variant 2 - with using sudo}
+\label{Install:Setting up to run bconsole from under Webacula:with sudo}
+
+Edit \texttt{application/config.ini}
+\begin{verbatim}
+bacula.sudo = "/usr/bin/sudo"
+bacula.bconsole = "/usr/sbin/bconsole"
+\end{verbatim}
+
+Run \texttt{visudo} and changes
+\begin{verbatim}
+# (!!! comment here !!!) Defaults requiretty
+apache ALL=NOPASSWD: /usr/sbin/bconsole
+\end{verbatim}
+
+Check out the run bconsole :
+\begin{verbatim}
+# su -l apache -s /bin/sh \
+     -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+\end{verbatim}
+
+
+
+\subsection{Apache}
+\label{Install:Apache}
+
+Configuration for Apache see in \texttt{install/apache/webacula.conf} file.
+
+\textbf{NOTE}. Specific directories on your system may be different.
+
+Next, restart your Webserver.
+
+
+
+\subsubsection{mod\_rewrite}
+\label{Install:Apache:mod rewrite}
+
+Setup \texttt{mod\_rewrite} see \texttt{html/.htaccess}. Edit \texttt{RewriteBase} parameter if necessary.
+
+\textbf{NOTE}. Specific directories on your system may be different.
+
+Check \texttt{mod\_rewrite} installed :
+\begin{verbatim}
+$ apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
+
+rewrite_module (shared)
+\end{verbatim}
+
+For testing \texttt{mod\_rewrite} change \texttt{RewriteBase} parameter, if necessary, in \texttt{webacula/html/test\_mod\_rewrite/.htaccess} file.
+
+And use URL like
+\htmladdnormallink{http://localhost/webacula/test\_mod\_rewrite/}{http://localhost/webacula/test_mod_rewrite/}
+for test \texttt{mod\_rewrite}.
+
+
+\subsection{PHP}
+\label{Install:PHP}
+
+Increase values in \texttt{/etc/php.ini} :
+\begin{verbatim}
+memory_limit = 32M
+max_execution_time = 3600
+\end{verbatim}
+
+
+
+\subsection{Bacula setup}
+\label{Install:Bacula setup}
+
+To show messages of the Job output, you must make changes in \texttt{bacula-dir.conf} file :
+\begin{verbatim}
+Messages {
+  Name = Standard
+  ...
+  catalog = all, !skipped, !saved
+}
+\end{verbatim}
+and restart Bacula Director.
+
+See also manual of Bacula "Chapter 15. Messages Resource".
+
+
+
+\subsection{Webacula setup}
+\label{Install:Webacula setup}
+
+If necessary change settings in \texttt{install/db.conf} file.
+
+\textbf{IMPORTANT}. Change passwords in a file \texttt{install/db.conf}.
+
+Next create Webacula tables, Webacula built-in roles and Webacula built-in users.
+
+For MySQL:
+\begin{verbatim}
+cd install/MySql
+\end{verbatim}
+
+For PostgreSQL:
+\begin{verbatim}
+cd install/PostgreSql
+\end{verbatim}
+
+For Sqlite:
+\begin{verbatim}
+cd install/SqLite
+\end{verbatim}
+
+And further run scripts for your DBMS:
+\begin{verbatim}
+./10_make_tables.sh
+./20_acl_make_tables.sh
+\end{verbatim}
+
+Change file \texttt{html/.htaccess} :
+\begin{verbatim}
+SetEnv APPLICATION_ENV production
+RewriteBase   /webacula
+\end{verbatim}
+
+After that, you can login under the username \texttt{root} and the password which specified in a file \texttt{install/db.conf}
+in parameter \texttt{webacula\_root\_pwd}.
 
 
 \end{document}
