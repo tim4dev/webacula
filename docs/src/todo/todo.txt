@@ -14,13 +14,3 @@ Records can contain links (usual web-links on which it is possible to click) to 
 In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
 See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
 
-
-
-    Update
-    ~~~~~~
-TODO
-Кратко описать как перенести таблицы logbook, и т.п.
-Изменения в config.ini
-   Download latest tarball.
-   Save in safe place your "config.ini", remove directory "webacula", extract Webacula source code and replace "config.ini" back.
-   Run necessary script from update/ directory.

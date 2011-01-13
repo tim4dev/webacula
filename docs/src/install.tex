@@ -2,7 +2,7 @@
 % \documentclass[a4paper,12pt,onecolumn,oneside]{book}
 \documentclass[12pt]{article}
 \usepackage[unicode,colorlinks]{hyperref}
-%\usepackage{html}
+\usepackage{html}
 %\hypersetup{unicode=true} % Makes bookmarks work in Russian
 
 % подавление висячих строк
@@ -32,7 +32,8 @@
 }
 \author{
   \begin{small}
-    Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev \htmladdnormallink{tim4dev@gmail.com}{mailto:tim4dev@gmail.com}
+    Copyright 2007, 2008, 2009, 2010, 2011 
+    Yuri Timofeev \htmladdnormallink{tim4dev@gmail.com}{mailto:tim4dev@gmail.com}
   \end{small}
 }
 %\date{Jan 2011}
@@ -278,8 +279,8 @@ See also manual of Bacula "Chapter 15. Messages Resource".
 
 
 
-\subsection{Webacula setup}
-\label{Install:Webacula setup}
+\subsection{Webacula install}
+\label{Install:Webacula install}
 
 If necessary change settings in \texttt{install/db.conf} file.
 
@@ -314,8 +315,106 @@ SetEnv APPLICATION_ENV production
 RewriteBase   /webacula
 \end{verbatim}
 
-After that, you can login under the username \texttt{root} and the password which specified in a file \texttt{install/db.conf}
+After that, you can login under the superuser \texttt{root} and the password which specified in a file \texttt{install/db.conf}
 in parameter \texttt{webacula\_root\_pwd}.
+
+
+
+\section{Webacula setup}
+\label{Setup}
+
+
+
+\subsection{Webacula and Bacula ACLs}
+\label{Setup:Webacula and Bacula ACLs}
+
+\textbf{Bacula ACLs} --- Bacula Console Access Control List --- 
+it is necessary to understand as it is described in the original documentation in section 
+''Bacula Main Reference'', ''Configuring the Director'', ''The Console Resource''.
+
+In Webacula are implemented following Bacula ACLs :
+\begin{itemize}
+  \item JobACL
+  \item ClientACL
+  \item StorageACL
+  \item PoolACL
+  \item FileSetACL
+  \item WhereACL
+\end{itemize}
+
+Special keyword \texttt{*all*} when is present, any resource or command name will be accepted.
+
+\textbf{Webacula ACLs} --- it as a matter of fact access to certain menu items of Webacula.
+
+Bacula and Webacula ACLs can conflict.
+For example, usage of a Bacula command \texttt{status} is allowed to the user, 
+but access to Webacula menu item \texttt{Director} at the same time is forbidden.
+
+In this case the user sees the message like :
+\begin{verbatim}
+You try to use Webacula menu "director".
+Webacula ACLs : Access denied.
+\end{verbatim}
+
+And on the contrary.
+Access to Webacula menu item \texttt{Director} can be allowed. And usage of a Bacula command \texttt{status} can be forbidden.
+
+In this case the user sees the message like :
+\begin{verbatim}
+You try to run Bacula Console with command "status".
+Bacula ACLs : Access denied.
+\end{verbatim}
+
+\textbf{NOTE}.
+Pay attention that in the first case access has been forbidden by a \textit{Webacula} ACL rule, 
+and in the second a \textit{Bacula} ACL rule.
+
+
+\subsection{Users and roles}
+\label{Setup:Users and roles}
+
+In Webacula the concept of users and roles is used.
+Each user has the role. There is no user without a role.
+
+In other words you should create a role at first, and then create the user and assign to it a certain role.
+
+The role can inherit from other role.
+
+After install, Webacula has two built in roles :
+
+\begin{itemize}
+  \item \textbf{root\_role} --- default built-in superuser role. 
+  \item \textbf{operator\_role} --- typical built-in role for backup operator.
+\end{itemize}
+
+Users by whom the role \textbf{root\_role} is assigned are superusers, they have all rights to all.
+This role cannot be deleted and the role name cannot be changed.
+
+After installation \textbf{root\_role} is assigned to the user with a login name \textbf{root}.
+
+The role \textbf{operator\_role} can fulfill any operations except of the administarators functions : 
+creation, change, assignment of roles, users.
+
+
+
+\section{Update from prior version}
+\label{Update}
+
+\textbf{IMPORTANT}. Now there is no separate Webacula database.
+All Webacula tables are allocated in a Bacula database and have a prefix\texttt{ webacula\_}.
+
+Therefore, if you conducted Webacula \textit{LogBook}, you need to take care to transfer \texttt{wbLogBook} table 
+to a Bacula database in \texttt{webacula\_logbook} table.
+
+Precisely also transfer the data from Webacula database \texttt{wbJobDesc} table 
+to Bacula database to table \texttt{webacula\_jobdesc}.
+
+From a file \texttt{config.ini} delete from \texttt{[webacula]} sections lines with the connection 
+description to a Webacula database.
+
+Also remove \texttt{tmpdir} from \texttt{config.ini}. Use 'data/' directory instead.
+
+The script \texttt{webacula\_clean\_tmp\_files.sh} is not necessary now.
 
 
 \end{document}
