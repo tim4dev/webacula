@@ -1,0 +1,645 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Webacula v.5.5 Installation Manual </TITLE>
+<META NAME="description" CONTENT="Webacula v.5.5 Installation Manual ">
+<META NAME="keywords" CONTENT="install">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="install.css">
+
+</HEAD>
+
+<BODY >
+
+<P>
+<H1 ALIGN="CENTER">
+  <FONT SIZE="+4">Webacula v.5.5
+  </FONT>
+<DIV ALIGN="CENTER"><FONT SIZE="+4"><FONT SIZE="+1">Installation Manual
+  </FONT></FONT></DIV></H1>
+<DIV>
+
+<P ALIGN="CENTER"><STRONG><FONT SIZE="-1">Copyright 2007, 2008, 2009, 2010, 2011 
+    Yuri Timofeev <A NAME="tex2html1"
+  HREF="mailto:tim4dev@gmail.com">tim4dev@gmail.com</A>
+</FONT></STRONG></P>
+</DIV>
+
+<P>
+<BR>
+
+<H2><A NAME="SECTION00010000000000000000">
+Contents</A>
+</H2>
+<!--Table of Contents-->
+
+<UL>
+<LI><A NAME="tex2html27"
+  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
+<LI><A NAME="tex2html28"
+  HREF="install.html#SECTION00030000000000000000">About this manual</A>
+<LI><A NAME="tex2html29"
+  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+<LI><A NAME="tex2html30"
+  HREF="install.html#SECTION00050000000000000000">Install</A>
+<UL>
+<LI><A NAME="tex2html31"
+  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
+<LI><A NAME="tex2html32"
+  HREF="install.html#SECTION00052000000000000000">config.ini</A>
+<LI><A NAME="tex2html33"
+  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
+<LI><A NAME="tex2html34"
+  HREF="install.html#SECTION00054000000000000000">Apache</A>
+<LI><A NAME="tex2html35"
+  HREF="install.html#SECTION00055000000000000000">PHP</A>
+<LI><A NAME="tex2html36"
+  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+<LI><A NAME="tex2html37"
+  HREF="install.html#SECTION00057000000000000000">Webacula install</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html38"
+  HREF="install.html#SECTION00060000000000000000">Webacula setup</A>
+<UL>
+<LI><A NAME="tex2html39"
+  HREF="install.html#SECTION00061000000000000000">Webacula and Bacula ACLs</A>
+<LI><A NAME="tex2html40"
+  HREF="install.html#SECTION00062000000000000000">Users and roles</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html41"
+  HREF="install.html#SECTION00070000000000000000">Update from prior version</A>
+</UL>
+<!--End of Table of Contents-->
+
+<P>
+<BR>
+
+<H2><A NAME="SECTION00020000000000000000">
+List of Figures</A>
+</H2><OL>
+<LI><A NAME="tex2html7"
+  HREF="install.html#142">Webacula ACLs</A></OL>
+
+<P>
+
+<H1><A NAME="SECTION00030000000000000000"></A>
+<A NAME="About"></A>
+<BR>
+About this manual
+</H1>
+
+<P>
+The basic features of Webacula see in README file.
+
+<P>
+This manual should give you to install or upgrade Webacula installation.
+
+<P>
+If you find errors or typos please
+<A NAME="tex2html2"
+  HREF="http://sourceforge.net/tracker/?group_id=201199">send a bug report</A>.
+
+<P>
+Thanks.
+
+<P>
+
+<H1><A NAME="SECTION00040000000000000000"></A>
+<A NAME="System_Requirements"></A>
+<BR>
+System Requirements
+</H1>
+
+<P>
+To check the installed system packages, run from command line:
+<PRE>docs/check_system_requirements.php
+</PRE>
+
+<P>
+<B>NOTE</B>. The successful execution of the script does not indicate that your system is fully ready to work with Webacula.
+
+<P>
+Webacula also requires:
+
+<UL>
+<LI>Bacula 5.0 or later
+</LI>
+<LI>Zend Framework version 1.10.0 or later
+</LI>
+<LI>Zend Framework is built with object-oriented PHP 5 and requires PHP 5.2.4 or later with PDO extension active.
+        <A NAME="tex2html3"
+  HREF="http://framework.zend.com/manual/en/requirements.html">Please see the system requirements appendix</A>
+for more detailed information.
+</LI>
+<LI>Apache and <TT>mod_rewrite</TT>. Or equivalent web-server, for example, nginx and <TT>ngx_http_rewrite_module</TT>
+</LI>
+<LI>Installed <TT>php-gd</TT> package
+</LI>
+<LI>Installed <A NAME="tex2html4"
+  HREF="http://php.net/dom">http://php.net/dom</A>
+for use the RSS feed
+</LI>
+<LI>Browser compatibility: all jQuery UI plugins are tested for IE 6.0+, Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome
+</LI>
+</UL>
+
+<P>
+
+<H1><A NAME="SECTION00050000000000000000"></A>
+<A NAME="Install"></A>
+<BR>
+Install
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00051000000000000000"></A>
+<A NAME="Install:Make_directory_tree"></A>
+<BR>
+Make directory tree
+</H2>
+
+<P>
+Login as root and make directory <TT>/var/www/webacula</TT> (for example).
+Copy Webacula distribution to this directory.
+
+<P>
+<A NAME="tex2html5"
+  HREF="http://framework.zend.com/">Download minimal Zend Framework package</A>
+and extract.
+Copy the contents from directory 
+<BR><TT>ZendFramework-*-minimal/library/Zend</TT> 
+<BR>
+to 
+<BR><TT>webacula/library/Zend</TT>
+
+<P>
+<B>NOTE</B>. If you use the Zend Framework for multiple sites, then you can place it in a folder that is part of
+your PHP include path. By doing this, you will have access to the Zend Framework components in all PHP scripts.
+
+<P>
+The tree which should turn out as a result :
+
+<P>
+<PRE>
+/var/www/webacula/
+|-- application
+|   |-- controllers
+|   |-- models
+|   `-- views
+...
+|-- data
+|   |-- cache
+|   |-- session
+|   `-- tmp
+...
+|-- docs
+|-- install
+|-- html
+|-- languages
+`-- library
+    |-- MyClass
+    `-- Zend (here is Zend Framework package)
+        |-- Acl
+        |-- Auth
+        |-- Cache
+       ...
+</PRE>
+
+<P>
+Some directory description:
+
+<P>
+<TT>application/</TT>    All source code. Should be available to reading for the Web-server and
+                  no access through the client Web-browser.
+
+<P>
+<TT>html/</TT>    Public code. Should be available to reading for the Web-server and for the client Web-browser.
+
+<P>
+<TT>data/</TT>    <B>IMPORTANT</B>. This directory, subdirectory and files in it
+                  must NOT be available to access through the client Web-browser.
+
+<P>
+<TT>data/cache/</TT>  Cache directory for Zend_Cache. Should be available to writing the Web-server and
+                  no access through the client Web-browser.
+
+<P>
+<TT>data/session/</TT>   Storage for PHP session. Should be available to writing the Web-server and
+                  no access through the client Web-browser.
+
+<P>
+<TT>data/tmp/</TT>   This directory which will be saved the file, which contains a list of files to Job restore.
+                  This directory and files in it should be available to read from the Bacula Director and
+                  to writing from the Web-server. And no access through the client Web-browser.
+
+<P>
+
+<H2><A NAME="SECTION00052000000000000000"></A>
+<A NAME="Install:config.ini"></A>
+<BR>
+config.ini
+</H2>
+
+<P>
+Specify the parameters to connect to the Catalog database, timezone and other in <TT>application/config.ini</TT>
+
+<P>
+
+<H2><A NAME="SECTION00053000000000000000"></A>
+<A NAME="Install:Setting_up_to_run_bconsole_under_Webacula"></A>
+<BR>
+Setting up to run bconsole under Webacula
+</H2>
+
+<P>
+Creates system group account (if not yet created) : 
+<BR><TT>groupadd bacula</TT>
+
+<P>
+Add apache to group: 
+<BR><TT>usermod -aG bacula apache</TT>
+
+<P>
+<B>IMPORTANT</B>. Check <TT>/usr/sbin/bconsole</TT> it should be the binary ELF file, not a shell script!
+
+<P>
+Next, setup <TT>bconsole</TT> can be executed under Apache webserver.
+
+<P>
+
+<H3><A NAME="SECTION00053100000000000000"></A>
+<A NAME="Install:Setting_up_to_run_bconsole_from_under_Webacula:without_sudo"></A>
+<BR>
+Without using sudo
+</H3>
+
+<P>
+<PRE>
+chown root:bacula /usr/sbin/bconsole
+chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+
+chown root:bacula /etc/bacula/bconsole.conf
+chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+</PRE>
+
+<P>
+Edit <TT>application/config.ini</TT>
+<PRE>
+bacula.sudo = ""
+bacula.bconsole = "/usr/sbin/bconsole"
+</PRE>
+
+<P>
+
+<H3><A NAME="SECTION00053200000000000000"></A>
+<A NAME="Install:Setting_up_to_run_bconsole_from_under_Webacula:with_sudo"></A>
+<BR>
+With sudo
+</H3>
+
+<P>
+Edit <TT>application/config.ini</TT>
+<PRE>
+bacula.sudo = "/usr/bin/sudo"
+bacula.bconsole = "/usr/sbin/bconsole"
+</PRE>
+
+<P>
+Run <TT>visudo</TT> and changes
+<PRE>
+# (!!! comment here !!!) Defaults requiretty
+apache ALL=NOPASSWD: /usr/sbin/bconsole
+</PRE>
+
+<P>
+Check out the run bconsole :
+<PRE>
+# su -l apache -s /bin/sh \
+     -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00054000000000000000"></A>
+<A NAME="Install:Apache"></A>
+<BR>
+Apache
+</H2>
+
+<P>
+Configuration for Apache see in <TT>install/apache/webacula.conf</TT> file.
+
+<P>
+<B>NOTE</B>. Specific directories on your system may be different.
+
+<P>
+Next, restart your Webserver.
+
+<P>
+
+<H3><A NAME="SECTION00054100000000000000"></A>
+<A NAME="Install:Apache:mod_rewrite"></A>
+<BR>
+mod_rewrite
+</H3>
+
+<P>
+Setup <TT>mod_rewrite</TT> see <TT>html/.htaccess</TT>. Edit <TT>RewriteBase</TT> parameter if necessary.
+
+<P>
+<B>NOTE</B>. Specific directories on your system may be different.
+
+<P>
+Check <TT>mod_rewrite</TT> installed :
+<PRE>
+$ apachectl -t -D DUMP_MODULES 2&gt;&amp;1 | grep rewrite
+
+rewrite_module (shared)
+</PRE>
+
+<P>
+For testing <TT>mod_rewrite</TT> change <TT>RewriteBase</TT> parameter, if necessary, in <TT>webacula/html/test_mod_rewrite/.htaccess</TT> file.
+
+<P>
+And use URL like
+<A NAME="tex2html6"
+  HREF="http://localhost/webacula/test_mod_rewrite/">http://localhost/webacula/test_mod_rewrite/</A>
+for test <TT>mod_rewrite</TT>.
+
+<P>
+
+<H2><A NAME="SECTION00055000000000000000"></A>
+<A NAME="Install:PHP"></A>
+<BR>
+PHP
+</H2>
+
+<P>
+Increase values in <TT>/etc/php.ini</TT> :
+<PRE>
+memory_limit = 32M
+max_execution_time = 3600
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00056000000000000000"></A>
+<A NAME="Install:Bacula_setup"></A>
+<BR>
+Bacula setup
+</H2>
+
+<P>
+To show messages of the Job output, you must make changes in <TT>bacula-dir.conf</TT> file :
+<PRE>
+Messages {
+  Name = Standard
+  ...
+  catalog = all, !skipped, !saved
+}
+</PRE>
+and restart Bacula Director.
+
+<P>
+See also manual of Bacula "Chapter 15. Messages Resource".
+
+<P>
+
+<H2><A NAME="SECTION00057000000000000000"></A>
+<A NAME="Install:Webacula_install"></A>
+<BR>
+Webacula install
+</H2>
+
+<P>
+If necessary change settings in <TT>install/db.conf</TT> file.
+
+<P>
+<B>IMPORTANT</B>. Change passwords in a file <TT>install/db.conf</TT>.
+
+<P>
+Next create Webacula tables, Webacula built-in roles and Webacula built-in users.
+
+<P>
+For MySQL:
+<PRE>
+cd install/MySql
+</PRE>
+
+<P>
+For PostgreSQL:
+<PRE>
+cd install/PostgreSql
+</PRE>
+
+<P>
+For Sqlite:
+<PRE>
+cd install/SqLite
+</PRE>
+
+<P>
+And further run scripts for your DBMS:
+<PRE>
+./10_make_tables.sh
+./20_acl_make_tables.sh
+</PRE>
+
+<P>
+Change file <TT>html/.htaccess</TT> :
+<PRE>
+SetEnv APPLICATION_ENV production
+RewriteBase   /webacula
+</PRE>
+
+<P>
+After that, you can login under the superuser <TT>root</TT> and the password which specified in a file <TT>install/db.conf</TT>
+in parameter <TT>webacula_root_pwd</TT>.
+
+<P>
+
+<H1><A NAME="SECTION00060000000000000000"></A>
+<A NAME="Setup"></A>
+<BR>
+Webacula setup
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00061000000000000000"></A>
+<A NAME="Setup:Webacula_and_Bacula_ACLs"></A>
+<BR>
+Webacula and Bacula ACLs
+</H2>
+
+<P>
+<B>Bacula ACLs</B> -- Bacula Console Access Control List -- 
+it is necessary to understand as it is described in the original documentation in section 
+''Bacula Main Reference'', ''Configuring the Director'', ''The Console Resource''.
+
+<P>
+In Webacula are implemented following Bacula ACLs :
+
+<UL>
+<LI>JobACL
+</LI>
+<LI>ClientACL
+</LI>
+<LI>StorageACL
+</LI>
+<LI>PoolACL
+</LI>
+<LI>FileSetACL
+</LI>
+<LI>WhereACL
+</LI>
+</UL>
+
+<P>
+Special keyword <TT>*all*</TT> when is present, any resource or command name will be accepted.
+
+<P>
+<B>Webacula ACLs</B> -- it as a matter of fact access to certain menu items of Webacula.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="142"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
+Webacula ACLs</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">  <IMG
+  WIDTH="369" HEIGHT="436" ALIGN="BOTTOM" BORDER="0"
+ SRC="./ACLs.png"
+ ALT="Image ACLs">
+  </DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+If the user (more precisely -- a role) does not have any a ACL rule, that user has no rights.
+
+<P>
+ACL rules are applied in the order which is defined by field value ''order''.
+
+<P>
+Bacula and Webacula ACLs can conflict.
+For example, usage of a Bacula command <TT>status</TT> is allowed to the user, 
+but access to Webacula menu item <TT>Director</TT> at the same time is forbidden.
+
+<P>
+In this case the user sees the message like :
+<PRE>
+You try to use Webacula menu "director".
+Webacula ACLs : Access denied.
+</PRE>
+
+<P>
+And on the contrary.
+Access to Webacula menu item <TT>Director</TT> can be allowed. And usage of a Bacula command <TT>status</TT> can be forbidden.
+
+<P>
+In this case the user sees the message like :
+<PRE>
+You try to run Bacula Console with command "status".
+Bacula ACLs : Access denied.
+</PRE>
+
+<P>
+<B>NOTE</B>.
+Pay attention that in the first case access has been forbidden by a <I>Webacula</I> ACL rule, 
+and in the second a <I>Bacula</I> ACL rule.
+
+<P>
+
+<H2><A NAME="SECTION00062000000000000000"></A>
+<A NAME="Setup:Users_and_roles"></A>
+<BR>
+Users and roles
+</H2>
+
+<P>
+In Webacula the concept of users and roles is used.
+Each user has the role. There is no user without a role.
+
+<P>
+In other words you should create a role at first, and then create the user and assign to it a certain role.
+
+<P>
+The role can inherit from other role.
+
+<P>
+After install, Webacula has two built in roles :
+
+<P>
+
+<UL>
+<LI><B>root_role</B> -- default built-in superuser role. 
+</LI>
+<LI><B>operator_role</B> -- typical built-in role for backup operator.
+</LI>
+</UL>
+
+<P>
+Users by whom the role <B>root_role</B> is assigned are superusers, they have all rights to all.
+This role cannot be deleted and the role name cannot be changed.
+
+<P>
+After installation <B>root_role</B> is assigned to the user with a login name <B>root</B>.
+
+<P>
+The role <B>operator_role</B> can fulfill any operations except of the administarators functions : 
+creation, change, assignment of roles, users.
+
+<P>
+
+<H1><A NAME="SECTION00070000000000000000"></A>
+<A NAME="Update"></A>
+<BR>
+Update from prior version
+</H1>
+
+<P>
+<B>IMPORTANT</B>. Now there is no separate Webacula database.
+All Webacula tables are allocated in a Bacula database and have a prefix<TT> webacula_</TT>.
+
+<P>
+Therefore, if you conducted Webacula <I>LogBook</I>, you need to take care to transfer <TT>wbLogBook</TT> table 
+to a Bacula database in <TT>webacula_logbook</TT> table.
+
+<P>
+Precisely also transfer the data from Webacula database <TT>wbJobDesc</TT> table 
+to Bacula database to table <TT>webacula_jobdesc</TT>.
+
+<P>
+From a file <TT>config.ini</TT> delete from <TT>[webacula]</TT> sections lines with the connection 
+description to a Webacula database.
+
+<P>
+Also remove <TT>tmpdir</TT> from <TT>config.ini</TT>. Use 'data/' directory instead.
+
+<P>
+The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
+
+<P>
+<BR><HR>
+<ADDRESS>
+
+2011-01-15
+</ADDRESS>
+</BODY>
+</HTML>

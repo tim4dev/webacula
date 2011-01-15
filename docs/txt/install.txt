@@ -1,0 +1,361 @@
+                                 Webacula v.5.5
+                              Installation Manual
+
+   Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev [1]tim4dev@gmail.com
+
+Contents
+
+     * [2]List of Figures
+     * [3]About this manual
+     * [4]System Requirements
+     * [5]Install
+
+          * [6]Make directory tree
+          * [7]config.ini
+          * [8]Setting up to run bconsole under Webacula
+          * [9]Apache
+          * [10]PHP
+          * [11]Bacula setup
+          * [12]Webacula install
+
+     * [13]Webacula setup
+
+          * [14]Webacula and Bacula ACLs
+          * [15]Users and roles
+
+     * [16]Update from prior version
+
+List of Figures
+
+    1. [17]Webacula ACLs
+
+                               About this manual
+
+   The basic features of Webacula see in README file.
+
+   This manual should give you to install or upgrade Webacula installation.
+
+   If you find errors or typos please [18]send a bug report.
+
+   Thanks.
+
+                              System Requirements
+
+   To check the installed system packages, run from command line:
+
+ docs/check_system_requirements.php
+
+   NOTE. The successful execution of the script does not indicate that your
+   system is fully ready to work with Webacula.
+
+   Webacula also requires:
+
+     * Bacula 5.0 or later
+     * Zend Framework version 1.10.0 or later
+     * Zend Framework is built with object-oriented PHP 5 and requires PHP
+       5.2.4 or later with PDO extension active. [19]Please see the system
+       requirements appendix for more detailed information.
+     * Apache and mod_rewrite. Or equivalent web-server, for example, nginx
+       and ngx_http_rewrite_module
+     * Installed php-gd package
+     * Installed [20]http://php.net/dom for use the RSS feed
+     * Browser compatibility: all jQuery UI plugins are tested for IE 6.0+,
+       Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome
+
+                                    Install
+
+Make directory tree
+
+   Login as root and make directory /var/www/webacula (for example). Copy
+   Webacula distribution to this directory.
+
+   [21]Download minimal Zend Framework package and extract. Copy the contents
+   from directory
+   ZendFramework-*-minimal/library/Zend
+   to
+   webacula/library/Zend
+
+   NOTE. If you use the Zend Framework for multiple sites, then you can place
+   it in a folder that is part of your PHP include path. By doing this, you
+   will have access to the Zend Framework components in all PHP scripts.
+
+   The tree which should turn out as a result :
+
+ /var/www/webacula/
+ |-- application
+ |   |-- controllers
+ |   |-- models
+ |   `-- views
+ ...
+ |-- data
+ |   |-- cache
+ |   |-- session
+ |   `-- tmp
+ ...
+ |-- docs
+ |-- install
+ |-- html
+ |-- languages
+ `-- library
+     |-- MyClass
+     `-- Zend (here is Zend Framework package)
+         |-- Acl
+         |-- Auth
+         |-- Cache
+        ...
+
+   Some directory description:
+
+   application/ All source code. Should be available to reading for the
+   Web-server and no access through the client Web-browser.
+
+   html/ Public code. Should be available to reading for the Web-server and
+   for the client Web-browser.
+
+   data/ IMPORTANT. This directory, subdirectory and files in it must NOT be
+   available to access through the client Web-browser.
+
+   data/cache/ Cache directory for Zend_Cache. Should be available to writing
+   the Web-server and no access through the client Web-browser.
+
+   data/session/ Storage for PHP session. Should be available to writing the
+   Web-server and no access through the client Web-browser.
+
+   data/tmp/ This directory which will be saved the file, which contains a
+   list of files to Job restore. This directory and files in it should be
+   available to read from the Bacula Director and to writing from the
+   Web-server. And no access through the client Web-browser.
+
+config.ini
+
+   Specify the parameters to connect to the Catalog database, timezone and
+   other in application/config.ini
+
+Setting up to run bconsole under Webacula
+
+   Creates system group account (if not yet created) :
+   groupadd bacula
+
+   Add apache to group:
+   usermod -aG bacula apache
+
+   IMPORTANT. Check /usr/sbin/bconsole it should be the binary ELF file, not
+   a shell script!
+
+   Next, setup bconsole can be executed under Apache webserver.
+
+  Without using sudo
+
+ chown root:bacula /usr/sbin/bconsole
+ chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+
+ chown root:bacula /etc/bacula/bconsole.conf
+ chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+
+   Edit application/config.ini
+
+ bacula.sudo = ""
+ bacula.bconsole = "/usr/sbin/bconsole"
+
+  With sudo
+
+   Edit application/config.ini
+
+ bacula.sudo = "/usr/bin/sudo"
+ bacula.bconsole = "/usr/sbin/bconsole"
+
+   Run visudo and changes
+
+ # (!!! comment here !!!) Defaults requiretty
+ apache ALL=NOPASSWD: /usr/sbin/bconsole
+
+   Check out the run bconsole :
+
+ # su -l apache -s /bin/sh \
+      -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+
+Apache
+
+   Configuration for Apache see in install/apache/webacula.conf file.
+
+   NOTE. Specific directories on your system may be different.
+
+   Next, restart your Webserver.
+
+  mod_rewrite
+
+   Setup mod_rewrite see html/.htaccess. Edit RewriteBase parameter if
+   necessary.
+
+   NOTE. Specific directories on your system may be different.
+
+   Check mod_rewrite installed :
+
+ $ apachectl -t -D DUMP_MODULES 2>&1 | grep rewrite
+
+ rewrite_module (shared)
+
+   For testing mod_rewrite change RewriteBase parameter, if necessary, in
+   webacula/html/test_mod_rewrite/.htaccess file.
+
+   And use URL like [22]http://localhost/webacula/test_mod_rewrite/ for test
+   mod_rewrite.
+
+PHP
+
+   Increase values in /etc/php.ini :
+
+ memory_limit = 32M
+ max_execution_time = 3600
+
+Bacula setup
+
+   To show messages of the Job output, you must make changes in
+   bacula-dir.conf file :
+
+ Messages {
+   Name = Standard
+   ...
+   catalog = all, !skipped, !saved
+ }
+
+   and restart Bacula Director.
+
+   See also manual of Bacula "Chapter 15. Messages Resource".
+
+Webacula install
+
+   If necessary change settings in install/db.conf file.
+
+   IMPORTANT. Change passwords in a file install/db.conf.
+
+   Next create Webacula tables, Webacula built-in roles and Webacula built-in
+   users.
+
+   For MySQL:
+
+ cd install/MySql
+
+   For PostgreSQL:
+
+ cd install/PostgreSql
+
+   For Sqlite:
+
+ cd install/SqLite
+
+   And further run scripts for your DBMS:
+
+ ./10_make_tables.sh
+ ./20_acl_make_tables.sh
+
+   Change file html/.htaccess :
+
+ SetEnv APPLICATION_ENV production
+ RewriteBase   /webacula
+
+   After that, you can login under the superuser root and the password which
+   specified in a file install/db.conf in parameter webacula_root_pwd.
+
+                                 Webacula setup
+
+Webacula and Bacula ACLs
+
+   Bacula ACLs -- Bacula Console Access Control List -- it is necessary to
+   understand as it is described in the original documentation in section
+   ''Bacula Main Reference'', ''Configuring the Director'', ''The Console
+   Resource''.
+
+   In Webacula are implemented following Bacula ACLs :
+
+     * JobACL
+     * ClientACL
+     * StorageACL
+     * PoolACL
+     * FileSetACL
+     * WhereACL
+
+   Special keyword *all* when is present, any resource or command name will
+   be accepted.
+
+   Webacula ACLs -- it as a matter of fact access to certain menu items of
+   Webacula.
+
+                                   Figure 1:
+                                 Webacula ACLs
+                                 [23]Image ACLs
+
+
+
+   If the user (more precisely -- a role) does not have any a ACL rule, that
+   user has no rights.
+
+   ACL rules are applied in the order which is defined by field value
+   ''order''.
+
+   Bacula and Webacula ACLs can conflict. For example, usage of a Bacula
+   command status is allowed to the user, but access to Webacula menu item
+   Director at the same time is forbidden.
+
+   In this case the user sees the message like :
+
+ You try to use Webacula menu "director".
+ Webacula ACLs : Access denied.
+
+   And on the contrary. Access to Webacula menu item Director can be allowed.
+   And usage of a Bacula command status can be forbidden.
+
+   In this case the user sees the message like :
+
+ You try to run Bacula Console with command "status".
+ Bacula ACLs : Access denied.
+
+   NOTE. Pay attention that in the first case access has been forbidden by a
+   Webacula ACL rule, and in the second a Bacula ACL rule.
+
+Users and roles
+
+   In Webacula the concept of users and roles is used. Each user has the
+   role. There is no user without a role.
+
+   In other words you should create a role at first, and then create the user
+   and assign to it a certain role.
+
+   The role can inherit from other role.
+
+   After install, Webacula has two built in roles :
+
+     * root_role -- default built-in superuser role.
+     * operator_role -- typical built-in role for backup operator.
+
+   Users by whom the role root_role is assigned are superusers, they have all
+   rights to all. This role cannot be deleted and the role name cannot be
+   changed.
+
+   After installation root_role is assigned to the user with a login name
+   root.
+
+   The role operator_role can fulfill any operations except of the
+   administarators functions : creation, change, assignment of roles, users.
+
+                           Update from prior version
+
+   IMPORTANT. Now there is no separate Webacula database. All Webacula tables
+   are allocated in a Bacula database and have a prefix webacula_.
+
+   Therefore, if you conducted Webacula LogBook, you need to take care to
+   transfer wbLogBook table to a Bacula database in webacula_logbook table.
+
+   Precisely also transfer the data from Webacula database wbJobDesc table to
+   Bacula database to table webacula_jobdesc.
+
+   From a file config.ini delete from [webacula] sections lines with the
+   connection description to a Webacula database.
+
+   Also remove tmpdir from config.ini. Use 'data/' directory instead.
+
+   The script webacula_clean_tmp_files.sh is not necessary now.
+
+   --------------------------------------------------------------------------
+
+    2011-01-15

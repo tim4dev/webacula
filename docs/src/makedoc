@@ -3,14 +3,13 @@
 
 my_clean()
 {
-    rm -f *.aux *.log *.out *.html *.pdf *.txt *.toc WARNINGS *.pl *.css
+    rm -f *.aux *.lof *.log *.out *.html *.pdf *.txt *.toc WARNINGS *.pl *.css
 }
 
 
 
 my_pdflatex()
 {
-    my_clean
     rm -f $1.pdf
     pdflatex -interaction=nonstopmode  $1.tex > /dev/null
     rc=$?
@@ -21,7 +20,7 @@ my_pdflatex()
         echo "pdflatex ERROR"
         exit 2
     fi
-    cp $1.pdf ../pdf/
+    mv -f $1.pdf ../pdf/
 }
 
 
@@ -67,7 +66,6 @@ my_pdf2txt()
 my_clean
 
 my_pdflatex   "install"
-#exit
 
 my_latex2html "install"
 my_pdf2txt    "install"

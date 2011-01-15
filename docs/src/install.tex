@@ -1,8 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
-% \documentclass[a4paper,12pt,onecolumn,oneside]{book}
-\documentclass[12pt]{article}
+%\documentclass[a4paper,10pt,onecolumn,oneside]{book}
+\documentclass[10pt]{article}
 \usepackage[unicode,colorlinks]{hyperref}
 \usepackage{html}
+\usepackage{url}
+\usepackage{graphicx}
 %\hypersetup{unicode=true} % Makes bookmarks work in Russian
 
 % подавление висячих строк
@@ -38,12 +40,20 @@
 }
 %\date{Jan 2011}
 
+
+
 \begin{document}
+
+
+
 \maketitle
-\newpage
+\clearpage
 
 \tableofcontents
-\newpage
+\clearpage
+
+\listoffigures
+\clearpage
 
 \section{About this manual}
 \label{About}
@@ -177,7 +187,7 @@ Next, setup \texttt{bconsole} can be executed under Apache webserver.
 
 
 
-\subsubsection{Variant 1 - without using sudo}
+\subsubsection{Without using sudo}
 \label{Install:Setting up to run bconsole from under Webacula:without sudo}
 
 \begin{verbatim}
@@ -196,7 +206,7 @@ bacula.bconsole = "/usr/sbin/bconsole"
 
 
 
-\subsubsection{Variant 2 - with using sudo}
+\subsubsection{With sudo}
 \label{Install:Setting up to run bconsole from under Webacula:with sudo}
 
 Edit \texttt{application/config.ini}
@@ -345,6 +355,17 @@ In Webacula are implemented following Bacula ACLs :
 Special keyword \texttt{*all*} when is present, any resource or command name will be accepted.
 
 \textbf{Webacula ACLs} --- it as a matter of fact access to certain menu items of Webacula.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[totalheight=0.45\textheight,keepaspectratio=true]{./pics/ACLs.png}
+  \caption[Webacula ACLs]{Webacula ACLs}
+  \label{Webacula ACLs}
+\end{figure}
+
+If the user (more precisely --- a role) does not have any a ACL rule, that user has no rights.
+
+ACL rules are applied in the order which is defined by field value ''order''.
 
 Bacula and Webacula ACLs can conflict.
 For example, usage of a Bacula command \texttt{status} is allowed to the user, 

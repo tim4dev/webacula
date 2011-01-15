@@ -1,16 +1,7 @@
 
-====== Users and roles ======
-
-TODO
-
-
-
-
-
     LogBook
     ~~~~~~~
     Logbook - is simple electronic journal of backups. Records in logbook are insert, modify, delete manually by the operator.
 Records can contain links (usual web-links on which it is possible to click) to Bacula Jobs or links to other records of this logbook.
 In logbook insert  records, for example, about Jobs, failures of the equipment, supernumerary situations, etc.
-See screenshots http://webacula.sourceforge.net/ Webacula Web site for details.
 
