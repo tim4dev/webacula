@@ -1,13 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Script to create webacula tables
 #
 
 .   ../db.conf
 
+if [ -n "$db_pwd" ]
+then
+    pwd="-p$db_pwd"
+else
+    pwd=""
+fi
 
 
-if mysql -u $db_user -p$db_pwd  $db_name -f <<END-OF-DATA
+if mysql -u $db_user $pwd  $db_name -f <<END-OF-DATA
 
 CREATE TABLE IF NOT EXISTS webacula_logbook (
 	logId		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
