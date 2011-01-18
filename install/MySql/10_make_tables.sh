@@ -7,7 +7,7 @@
 
 
 
-if mysql $db_name -f <<END-OF-DATA
+if mysql $db_name $* -u $db_user -f <<END-OF-DATA
 
 CREATE TABLE IF NOT EXISTS webacula_logbook (
 	logId		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS webacula_logbook (
 
 	PRIMARY KEY(logId),
 	INDEX (logDateCreate)
-);
+) ENGINE=MyISAM;
 
 CREATE INDEX wbidx1 ON webacula_logbook(logDateCreate);
 CREATE FULLTEXT INDEX idxTxt ON webacula_logbook(logTxt);
