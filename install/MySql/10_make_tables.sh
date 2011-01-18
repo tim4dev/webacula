@@ -7,7 +7,7 @@
 
 
 
-if mysql $db_name $* -u $db_user -f <<END-OF-DATA
+if mysql -u $db_user -p$db_pwd  $db_name -f <<END-OF-DATA
 
 CREATE TABLE IF NOT EXISTS webacula_logbook (
 	logId		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
