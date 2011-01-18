@@ -133,7 +133,7 @@ config.ini
 
 Setting up to run bconsole under Webacula
 
-   Creates system group account (if not yet created) :
+   Create system group account (if not yet created) :
    groupadd bacula
 
    Add apache to group:
@@ -358,4 +358,4 @@ Users and roles
 
    --------------------------------------------------------------------------
 
-    2011-01-15
+    tim 2011-01-18
