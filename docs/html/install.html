@@ -626,6 +626,22 @@ Precisely also transfer the data from Webacula database <TT>wbJobDesc</TT> table
 to Bacula database to table <TT>webacula_jobdesc</TT>.
 
 <P>
+For example
+
+<P>
+<PRE>
+-- old Webacula database
+USE webacula;
+SELECT * FROM wbJobDesc INTO OUTFILE '/tmp/webacula_wbJobDesc';
+SELECT * FROM wbLogBook INTO OUTFILE '/tmp/webacula_wbLogBook';
+
+-- now Bacula database
+USE bacula;
+LOAD DATA INFILE '/tmp/webacula_wbJobDesc' INTO TABLE webacula_jobdesc;
+LOAD DATA INFILE '/tmp/webacula_wbLogBook' INTO TABLE webacula_logbook;
+</PRE>
+
+<P>
 From a file <TT>config.ini</TT> delete from <TT>[webacula]</TT> sections lines with the connection
 description to a Webacula database.
 

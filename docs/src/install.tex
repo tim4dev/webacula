@@ -430,6 +430,20 @@ to a Bacula database in \texttt{webacula\_logbook} table.
 Precisely also transfer the data from Webacula database \texttt{wbJobDesc} table
 to Bacula database to table \texttt{webacula\_jobdesc}.
 
+For example
+
+\begin{verbatim}
+-- old Webacula database
+USE webacula;
+SELECT * FROM wbJobDesc INTO OUTFILE '/tmp/webacula_wbJobDesc';
+SELECT * FROM wbLogBook INTO OUTFILE '/tmp/webacula_wbLogBook';
+
+-- now Bacula database
+USE bacula;
+LOAD DATA INFILE '/tmp/webacula_wbJobDesc' INTO TABLE webacula_jobdesc;
+LOAD DATA INFILE '/tmp/webacula_wbLogBook' INTO TABLE webacula_logbook;
+\end{verbatim}
+
 From a file \texttt{config.ini} delete from \texttt{[webacula]} sections lines with the connection
 description to a Webacula database.
 
