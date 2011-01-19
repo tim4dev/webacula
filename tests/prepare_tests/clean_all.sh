@@ -50,7 +50,9 @@ END-OF-DATA
 if test $? -eq 0 ; then
 	echo "Drop MySQL databases succeeded."
 else
-	echo "Drop MySQL databases failed."
+    echo -en '\E[37;41m Drop MySQL databases failed.'
+    tput sgr0
+    echo -e "\n"
 fi
 
 
@@ -58,7 +60,9 @@ if /usr/bin/dropdb bacula
 then
    echo "Drop PGSQL bacula database succeeded."
 else
-   echo "Drop PGSQL bacula database failed."
+   echo -en '\E[37;41m Drop PGSQL bacula database failed.'
+   tput sgr0
+   echo -e "\n"
 fi
 
 rm -f  ../../data/cache/zend_cache*
