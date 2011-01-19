@@ -152,9 +152,9 @@ class WbTmpTableTest extends ModelTestCase {
         $this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
         $this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) &&
             ( $ajobs['ajob_all'][1] == 8)  &&
-            ( $ajobs['ajob_all'][2] == 14) &&
+            ( $ajobs['ajob_all'][2] == 15) &&
             (sizeof($ajobs['ajob_all']) == 3 )  ) ,
-            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 14 Inc' expected");
+            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 15 Inc' expected");
         $sjobids = implode(",", $this->restoreNamespace->aJobId);
 
         // собственно клонирование
@@ -196,9 +196,9 @@ class WbTmpTableTest extends ModelTestCase {
    		$this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
    		$this->assertTrue( ( ($ajobs['ajob_all'][0] == 2) &&
             ( $ajobs['ajob_all'][1] == 8)  &&
-            ( $ajobs['ajob_all'][2] == 14) &&
+            ( $ajobs['ajob_all'][2] == 15) &&
             (sizeof($ajobs['ajob_all']) == 3 )  ) ,
-            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 14 Inc' expected");
+            __FUNCTION__." 'Id=2  Full, Id=8  Diff, Id = 15 Inc' expected");
 		$sjobids = implode(",", $this->restoreNamespace->aJobId);
 
 		// собственно клонирование

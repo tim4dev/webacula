@@ -97,6 +97,8 @@ if test $? -ne 0; then
     /sbin/service postgresql start
     sleep 7
 else
+    # clean all other connections
+    /sbin/service postgresql restart
     echo "Connect PostgreSql OK"
 fi
 
@@ -300,6 +302,8 @@ run job="job-name-test-3" level=Incremental yes
 run job="job.name.test.4" level=Incremental yes
 @sleep 1
 run job="job.name.test.4" level=Incremental yes
+@sleep 1
+run job="job.name.test.5.single" level=Full yes
 wait
 messages
 @output ${TMPDIR}/log/volumes.log
