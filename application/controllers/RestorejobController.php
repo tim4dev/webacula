@@ -793,8 +793,7 @@ EOF"
                     ON f.PathId = p.PathId
                 INNER JOIN " . $tmp_tables->getTableNameFile() . " AS t
                     ON t.FileId = f.FileId
-                WHERE (f.MD5 = '0')
-                ORDER BY p.Path
+                GROUP BY p.Path
             ");
             // get a list of directories on the current (получаем список каталогов относительно текущего)
             while($line = $stmt->fetch())   {
