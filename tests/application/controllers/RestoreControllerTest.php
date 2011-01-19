@@ -55,7 +55,6 @@ class RestoreControllerTest extends ControllerTestCase
         $client_name = 'local.fd';
         $tsleep = 25; // sec. wait to restore
 
-        $jobidhash = md5($jobid);
         // clear all tmp-tables
         $this->WbTmpTable = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
         $this->WbTmpTable->deleteAllTmpTables();
@@ -70,6 +69,7 @@ class RestoreControllerTest extends ControllerTestCase
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/restore-choice');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('draw-file-tree');
@@ -88,12 +88,12 @@ class RestoreControllerTest extends ControllerTestCase
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/draw-file-tree');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('draw-file-tree');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        //echo $this->response->outputBody();exit; // for debug !!!
         // check button action
         $this->assertQueryContentContains('table', '<form method="POST" action="/restorejob/list-restore">');
         $this->resetRequest()
@@ -189,6 +189,7 @@ class RestoreControllerTest extends ControllerTestCase
              ->resetResponse();
         // goto restorejob/list-restore
         $this->dispatch('/restorejob/list-restore');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('list-restore');
@@ -204,7 +205,7 @@ class RestoreControllerTest extends ControllerTestCase
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/run-restore');
-        //echo $this->response->outputBody();exit; // for debug !!!
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('run-restore');
@@ -255,12 +256,12 @@ class RestoreControllerTest extends ControllerTestCase
              ))
              ->setMethod('POST');
         $this->dispatch('restorejob/restore-single-file');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('restore-single-file');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        //echo $this->response->outputBody(); exit; // for debug !!!
         $this->assertQueryContentContains('td', $file_full);
         $this->resetRequest()
              ->resetResponse();
@@ -280,10 +281,10 @@ class RestoreControllerTest extends ControllerTestCase
             ))
             ->setMethod('POST');
         $this->dispatch('restorejob/run-restore-single-file');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('restorejob');
         $this->assertAction('run-restore-single-file');
-        //echo $this->response->outputBody(); // for debug !!!
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
         $this->assertQueryContentContains('td', 'Connecting to Director');
@@ -298,6 +299,98 @@ class RestoreControllerTest extends ControllerTestCase
         }
         echo "\n\t* Restore single file exists - OK.\n";
         unlink($file_restore);
+    }
+
+
+
+    /**
+     * @group restore
+     */
+    public function testDrawFileTreeWithSingleFiles() {
+        print "\n".__METHOD__;
+        $this->_rootLogin();
+        // setup
+        $jobid = 13;
+        $jobidhash = md5($jobid);
+        
+        // clear all tmp-tables
+        $this->WbTmpTable = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+        $this->WbTmpTable->deleteAllTmpTables();
+        $this->assertTrue(TRUE);
+        // choice select to restore
+        $this->getRequest()
+             ->setParams(array(
+                'choice' => 'restore_select',
+                'jobid'  => $jobid,
+                'beginr' => 1
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/restore-choice');
+        $this->logBody( $this->response->outputBody() ); // debug log
+        $this->assertModule('default');
+        $this->assertController('restorejob');
+        $this->assertAction('draw-file-tree');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains('html', $jobidhash); // jobidhash for jobid = 3
+        $this->resetRequest()
+             ->resetResponse();
+
+        // change directory
+        $this->getRequest()
+             ->setParams(array(
+                'curdir' => '/tmp/webacula/test/',
+                'beginr' => 0
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/draw-file-tree');
+        $this->logBody( $this->response->outputBody() ); // debug log
+        $this->assertController('restorejob');
+        $this->assertAction('draw-file-tree');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains( 'td', '3' );
+        $this->assertQueryContentContains( 'td', '4' );
+        $this->resetRequest()
+             ->resetResponse();
+
+        // change directory
+        $this->getRequest()
+             ->setParams(array(
+                'curdir' => '/tmp/webacula/test/3/subdir/',
+                'beginr' => 0
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/draw-file-tree');
+        $this->logBody( $this->response->outputBody() ); // debug log
+        $this->assertController('restorejob');
+        $this->assertAction('draw-file-tree');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains( 'td', 'file_test41.dat' );
+        $this->assertQueryContentContains( 'td', 'file_test42.dat' );
+        $this->resetRequest()
+             ->resetResponse();
+
+        // change directory
+        $this->getRequest()
+             ->setParams(array(
+                'curdir' => '/tmp/webacula/test/4/',
+                'beginr' => 0
+             ))
+             ->setMethod('POST');
+        $this->dispatch('restorejob/draw-file-tree');
+        $this->logBody( $this->response->outputBody() ); // debug log
+        $this->assertController('restorejob');
+        $this->assertAction('draw-file-tree');
+        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertResponseCode(200);
+        $this->assertQueryContentContains( 'td', 'test41.txt' );
+        $this->resetRequest()
+             ->resetResponse();
+
+        $this->dispatch('restorejob/cancel-restore');
+        $this->logBody( $this->response->outputBody() ); // debug log
     }
 
 
