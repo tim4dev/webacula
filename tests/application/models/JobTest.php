@@ -57,7 +57,7 @@ class JobTest extends ModelTestCase {
         if ( $this->job->db_adapter != 'PDO_SQLITE' ) {
             echo "\n\t* REGEXP search"; // $result = id 2
             $result = $this->job->getByFileName("", "^f.*dat$", '', $limit, 'regexp');
-            $this->assertEquals(32, sizeof($result), 'error'); // only terminated jobs
+            $this->assertEquals(34, sizeof($result), 'error'); // only terminated jobs
             echo " - OK";
         }
     }

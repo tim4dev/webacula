@@ -97,6 +97,8 @@ if test $? -ne 0; then
     /sbin/service postgresql start
     sleep 7
 else
+    # clean all other connections
+    /sbin/service postgresql restart
     echo "Connect PostgreSql OK"
 fi
 
@@ -120,6 +122,7 @@ mkdir "${TMPDIR}/test/1"
 mkdir "${TMPDIR}/test/2"
 mkdir "${TMPDIR}/test/3"
 mkdir "${TMPDIR}/test/3/subdir"
+mkdir "${TMPDIR}/test/4"
 echo "Done."
 
 
@@ -213,6 +216,8 @@ dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test41.dat" bs=1024 count=600 >
 my_check_rc
 dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500 > /dev/null 2>&1
 my_check_rc
+dd if=/dev/zero of="${TMPDIR}/test/4/test41.txt" bs=1024 count=5 > /dev/null 2>&1
+my_check_rc
 echo "Done."
 
 
@@ -300,6 +305,8 @@ run job="job-name-test-3" level=Incremental yes
 run job="job.name.test.4" level=Incremental yes
 @sleep 1
 run job="job.name.test.4" level=Incremental yes
+@sleep 1
+run job="job.name.test.5.single" level=Full yes
 wait
 messages
 @output ${TMPDIR}/log/volumes.log

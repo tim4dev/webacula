@@ -13,8 +13,10 @@ LINE1="*************************************************************************
 
 if [ "$UID" -ne 0 ]
 then
-        echo -e "\nYou must be root to run this test.\nExit.\n"
-        exit
+    echo -en '\E[37;41m You must be root to run this test. Exit.'
+    tput sgr0
+    echo -e "\n"
+    exit
 fi
 
 #echo -e "\n\n*** WARNING!!! Postgresql, Sqlite  Bacula database will be dropped!!!\n"
@@ -63,7 +65,9 @@ fi
 
 createdb -T template0 -E SQL_ASCII bacula
 if test $? -ne 0; then
-   echo "PostgreSql : creation of bacula database failed."
+   echo -en '\E[37;41m PostgreSql : creation of bacula database failed.'
+   tput sgr0
+   echo -e "\n"
    exit 2
 fi
 
@@ -73,7 +77,9 @@ END-OF-DATA
 then
    echo "PostgreSql : creation of Bacula database succeeded."
 else
-   echo "PostgreSql : creation of Bacula database failed."
+   echo -en '\E[37;41m PostgreSql : creation of Bacula database failed.'
+   tput sgr0
+   echo -e "\n"
    exit 2
 fi
 
@@ -99,6 +105,14 @@ sh ./SqLite/30_webacula_fill_acl
 my_log "Copy DB from MySQL to PGSQL ..."
 cd ${BASEDIR}
 php ./bacula_DBcopy_MySQL2PGSQL.php
+
+my_log "fix PostgreSQL sequence ids"
+psql -q -f - -d bacula <<END-OF-DATA
+    SET client_min_messages=WARNING;
+    select setval('job_jobid_seq', (select max(jobid) + 1 from job));
+    select setval('log_logid_seq', (select max(logid) + 1 from log));
+END-OF-DATA
+
 
 my_log "Copy DB from MySQL to Sqlite ..."
 cd ${BASEDIR}
