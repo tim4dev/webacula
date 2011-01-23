@@ -22,6 +22,18 @@ INSERT INTO webacula_users (id, login, pwd, name, email, active, create_login, r
     VALUES (1004, 'user5', '1', 'Имя пользователя', 'nobody@localhost', 1, datetime('now'), 5);
 
 
+
+-- clean 'operator_role' Bacula ACLs
+DELETE FROM webacula_storage_acl WHERE role_id=2;
+DELETE FROM webacula_pool_acl    WHERE role_id=2;
+DELETE FROM webacula_client_acl  WHERE role_id=2;
+DELETE FROM webacula_fileset_acl WHERE role_id=2;
+DELETE FROM webacula_where_acl   WHERE role_id=2;
+DELETE FROM webacula_command_acl WHERE role_id=2;
+DELETE FROM webacula_job_acl     WHERE role_id=2;
+
+
+
 -- Bacula ACLs
 
 -- storage

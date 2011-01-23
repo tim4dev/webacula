@@ -252,6 +252,15 @@ INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1,
 INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 1);
 INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 
+-- 'operator_role' Bacula ACLs
+INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 2);
+INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+
 
 
 END-OF-DATA
