@@ -1,4 +1,7 @@
 <!-- application/views/scripts/decorators/formRestoreoptions.phtml -->
+
+<?php $this->translate = Zend_Registry::get('translate'); ?>
+
 <style type="text/css">
     #link_dialog {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
     #link_dialog span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
@@ -28,7 +31,7 @@ $(function() {
 $(document).ready(function() {
 	$('#ok1').click(function() {
     	$.blockUI({
-        	message: '<h2><?php print $this->translate("Please wait"); ?>...</h2>',
+        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
         	css: { backgroundColor: '#f3fcf2' },
         	centerX: true,
         	centerY: true
@@ -51,8 +54,8 @@ $(document).ready(function() {
 
 <div id="tabs" style="width: 62em;">
 <ul>
-    <li><a href="#tabs-standard-options"><?php print $this->translate("Standard options"); ?></a></li>
-    <li><a href="#tabs-advanced-options"><?php print $this->translate("Advanced options"); ?></a></li>
+    <li><a href="#tabs-standard-options"><?php print $this->translate->_("Standard options"); ?></a></li>
+    <li><a href="#tabs-advanced-options"><?php print $this->translate->_("Advanced options"); ?></a></li>
 </ul>
 
 
@@ -75,14 +78,14 @@ $(document).ready(function() {
 <tr>
     <!-- client -->
     <td align="right">
-        <label for="client_name" class="ui-select"><b><?php print $this->translate("Client"); ?></b></label>
+        <label for="client_name" class="ui-select"><b><?php print $this->translate->_("Client"); ?></b></label>
     </td>
     <td align="left">
         <?php echo $this->form->client_name;?>
     </td>
 
     <td align="right">
-        <label for="pool" class="ui-select"><?php print $this->translate("Pool"); ?></label>
+        <label for="pool" class="ui-select"><?php print $this->translate->_("Pool"); ?></label>
     </td>
     <td align="left">
         <?php echo $this->form->pool;?>
@@ -91,7 +94,7 @@ $(document).ready(function() {
 <tr>
     <!-- restoreclient -->
     <td align="right">
-        <label for="client_name_to" class="ui-select"><b><?php print $this->translate("Restore client"); ?></b></label>
+        <label for="client_name_to" class="ui-select"><b><?php print $this->translate->_("Restore client"); ?></b></label>
     </td>
     <td align="left">
         <?php echo $this->form->client_name_to;?>
@@ -99,7 +102,7 @@ $(document).ready(function() {
 
     <!-- Fileset -->
     <td align="right">
-        <label for="fileset" class="ui-select"><?php print $this->translate("Fileset"); ?></label>
+        <label for="fileset" class="ui-select"><?php print $this->translate->_("Fileset"); ?></label>
     </td>
     <td align="left">
         <?php echo $this->form->fileset;?>
@@ -109,7 +112,7 @@ $(document).ready(function() {
     <?php if ( $this->form->restore_job_select ) : ?>
         <!-- if have multiple Restore Job resources -->
         <td align="right">
-            <label for="restore_job_select" class="ui-select"><b><?php print $this->translate("Restore Job Resource"); ?></b></label>
+            <label for="restore_job_select" class="ui-select"><b><?php print $this->translate->_("Restore Job Resource"); ?></b></label>
         </td>
         <td align="left">
             <?php echo $this->form->restore_job_select;?>
@@ -120,7 +123,7 @@ $(document).ready(function() {
 
     <!-- Storage -->
     <td align="right">
-        <label for="storage" class="ui-select"><?php print $this->translate("Storage"); ?></label>
+        <label for="storage" class="ui-select"><?php print $this->translate->_("Storage"); ?></label>
     </td>
     <td align="left">
         <?php echo $this->form->storage;?>
@@ -137,42 +140,42 @@ $(document).ready(function() {
 
 <p><a href="#" id="link_dialog" class="ui-state-default ui-corner-all">
     <span class="ui-icon ui-icon-info"></span>
-    <?php print $this->translate("Help"); ?>
+    <?php print $this->translate->_("Help"); ?>
 </a></p>
 
 <table border="0" cellpadding="4" cellspacing="0" align="center" width="100%">
 <tr>
     <!-- Where -->
-    <td align="right" valign="middle"> <label for="where"><?php print $this->translate("Where"); ?></label> </td>
+    <td align="right" valign="middle"> <label for="where"><?php print $this->translate->_("Where"); ?></label> </td>
     <td align="left"  valign="middle"> <?php echo $this->form->where;?> </td>
-    <td><?php print $this->translate("Restore files in <b>where</b> directory."); ?></td>
+    <td><?php print $this->translate->_("Restore files in <b>where</b> directory."); ?></td>
 </tr><tr>
     <!-- strip_prefix -->
-    <td align="right" valign="middle"> <label for="strip_prefix"><?php print $this->translate("Strip&nbsp;prefix"); ?></label> </td>
+    <td align="right" valign="middle"> <label for="strip_prefix"><?php print $this->translate->_("Strip&nbsp;prefix"); ?></label> </td>
     <td align="left"  valign="middle"> <?php echo $this->form->strip_prefix;?> </td>
-    <td><?php print $this->translate("Remove a part of the filename when restoring."); ?></td>
+    <td><?php print $this->translate->_("Remove a part of the filename when restoring."); ?></td>
 </tr><tr>
     <!-- add_prefix -->
-    <td align="right" valign="middle"> <label for="add_prefix"><?php print $this->translate("Add&nbsp;prefix"); ?></label> </td>
+    <td align="right" valign="middle"> <label for="add_prefix"><?php print $this->translate->_("Add&nbsp;prefix"); ?></label> </td>
     <td align="left"  valign="middle"> <?php echo $this->form->add_prefix; ?> </td>
-    <td><?php print $this->translate("Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."); ?></td>
+    <td><?php print $this->translate->_("Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."); ?></td>
 </tr><tr>
     <!-- add_suffix -->
-    <td align="right" valign="middle"> <label for="add_suffix"><?php print $this->translate("Add&nbsp;suffix"); ?></label> </td>
+    <td align="right" valign="middle"> <label for="add_suffix"><?php print $this->translate->_("Add&nbsp;suffix"); ?></label> </td>
     <td align="left"  valign="middle"> <?php echo $this->form->add_suffix; ?> </td>
-    <td><?php print $this->translate("Add a suffix to all your files."); ?></td>
+    <td><?php print $this->translate->_("Add a suffix to all your files."); ?></td>
 </tr><tr>
     <!-- regexwhere -->
-    <td align="right" valign="middle"> <label for="regexwhere"><?php print $this->translate("RegexWhere"); ?></label> </td>
+    <td align="right" valign="middle"> <label for="regexwhere"><?php print $this->translate->_("RegexWhere"); ?></label> </td>
     <td align="left"  valign="middle"> <?php echo $this->form->regexwhere; ?> </td>
-    <td><?php print $this->translate("Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."); ?></td>
+    <td><?php print $this->translate->_("Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."); ?></td>
 </tr>
 </table>
 </div>
 <!-- END tabs-advanced-options -->
 
 <!-- From Bacula manuals main/Restore_Command.html -->
-<div id="info_dialog" title="<?php echo $this->translate("Help"); ?>">
+<div id="info_dialog" title="<?php echo $this->translate->_("Help"); ?>">
 
 <h3>Using File Relocation</h3>
 <p>For example, many users use OS snapshot features so that file

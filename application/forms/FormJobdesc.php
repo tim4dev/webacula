@@ -33,7 +33,7 @@ class FormJobdesc extends Zend_Form
     public function init()
     {
         $this->translate = Zend_Registry::get('translate');
-        Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
+        //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // Set the method for the display form to POST
         $this->setMethod('post');
 
@@ -44,7 +44,7 @@ class FormJobdesc extends Zend_Form
         $hidden_desc_id->removeDecorator('Label');
 
         $name_job = $this->createElement('text', 'name_job', array(
-            'label'      => "Job Name",
+            'label'      => $this->translate->_('Job Name'),
             'required'   => true,
             'size' => 30,
             'maxlength' => 64
@@ -55,7 +55,7 @@ class FormJobdesc extends Zend_Form
 
         $description = $this->createElement(
             'textarea', 'description', array(
-            'label'      => "Job Description",
+            'label'      => $this->translate->_('Job Description'),
             'required'   => true,
             'cols' => 50,
             'rows' => 3
@@ -64,7 +64,7 @@ class FormJobdesc extends Zend_Form
 
         $retention_period = $this->createElement(
             'text', 'retention_period', array(
-            'label'      => "Retention period",
+            'label'      => 'Retention period',
             'required'   => false,
             'size' => 16,
             'maxlength' => 32
@@ -74,7 +74,7 @@ class FormJobdesc extends Zend_Form
         // submit button
         $submit = new Zend_Form_Element_Submit('submit',array(
             'class' => 'prefer_btn',
-            'label' => 'Submit Form'
+            'label' => $this->translate->_('Submit Form')
         ));
 
         // add elements to form

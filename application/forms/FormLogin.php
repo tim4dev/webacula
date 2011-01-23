@@ -36,7 +36,7 @@ class FormLogin extends Zend_Form
         Zend_Loader::loadClass('Zend_Validate_Regex');
     	// translate
     	$this->translate = Zend_Registry::get('translate');
-        Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
+        //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // login attempt
         $defNamespace = new Zend_Session_Namespace('Default');
     	$use_captcha = ($defNamespace->numLoginFails >= self::MAX_LOGIN_ATTEMPT) ? TRUE : FALSE;

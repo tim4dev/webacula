@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@ class FormJobrun extends Zend_Form
 
     protected $translate;
 
+
+
     public  $elDecorators = array(
         'ViewHelper',
         'Errors'
@@ -38,7 +40,7 @@ class FormJobrun extends Zend_Form
     public function init()
     {
         $this->translate = Zend_Registry::get('translate');
-        Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
+        //Zend_Form::setDefaultTranslator( Zend_Registry::get('translate') );
         // Set the method for the display form to POST
         $this->setMethod('post');
         $from_form = $this->addElement('hidden', 'from_form', array(
@@ -57,7 +59,7 @@ class FormJobrun extends Zend_Form
         // select
         $jobname = $this->createElement('select', 'jobname', array(
             'decorators' => $this->elDecorators,
-            'label'    => 'Job Name',
+            'label'    => $this->translate->_('Job Name'),
             'required' => true,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
@@ -74,7 +76,7 @@ class FormJobrun extends Zend_Form
         // select
         $client = $this->createElement('select', 'client', array(
             'decorators' => $this->elDecorators,
-            'label'    => 'Client',
+            'label'    => $this->translate->_('Client'),
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
@@ -92,7 +94,7 @@ class FormJobrun extends Zend_Form
         // select
         $fileset = $this->createElement('select', 'fileset', array(
             'decorators' => $this->elDecorators,
-            'label'    => 'Fileset',
+            'label'    => $this->translate->_('Fileset'),
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
@@ -110,7 +112,7 @@ class FormJobrun extends Zend_Form
         // select
         $storage = $this->createElement('select', 'storage', array(
             'decorators' => $this->elDecorators,
-            'label'    => 'Storage',
+            'label'    => $this->translate->_('Storage'),
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 25em;'
@@ -125,7 +127,7 @@ class FormJobrun extends Zend_Form
         // select
         $level = $this->createElement('select', 'level', array(
             'decorators' => $this->elDecorators,
-            'label'    => 'Level',
+            'label'    => $this->translate->_('Level'),
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 20em;'
@@ -142,7 +144,7 @@ class FormJobrun extends Zend_Form
         // select
         $spool = $this->createElement('select', 'spool', array(
             'decorators' => $this->elDecorators,
-            'label'    => 'Spool',
+            'label'    => $this->translate->_('Spool'),
             'required' => false,
             'class' => 'ui-select',
             'style' => 'width: 15em;'
@@ -193,7 +195,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'id'    => 'ok1',
             'class' => 'prefer_btn',
-            'label'=>'Run Job'
+            'label' => $this->translate->_('Run Job')
         ));
         /*
          *  add elements to form

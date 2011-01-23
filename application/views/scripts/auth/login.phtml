@@ -15,7 +15,7 @@
         <span class="ui-icon ui-icon-person"></span>
     </td>
     <td>
-        <b><?php echo $this->translate('Username'); ?></b>
+        <b><?php echo $this->translate->_('Username'); ?></b>
     </td>
     <td align="left" colspan="2">
         <?php echo $this->form->login; ?>
@@ -26,13 +26,13 @@
         <span class="ui-icon ui-icon-locked"></span>
     </td>
     <td>
-        <b><?php echo $this->translate('Password'); ?></b>
+        <b><?php echo $this->translate->_('Password'); ?></b>
     </td>
     <td align="left">
         <?php echo $this->form->pwd; ?>
     </td>
     <td align="left">
-        <a href="<?php echo $this->baseUrl; ?>/auth/forgot-password">Forgot?</a>
+        <a href="<?php echo $this->baseUrl; ?>/auth/forgot-password"><?php echo $this->translate->_('Forgot?'); ?></a>
     </td>
 </tr>
 <tr>
@@ -40,7 +40,7 @@
         <span class="ui-icon ui-icon-tag"></span>
     </td>
     <td align="left" colspan="3">
-        <?php echo $this->translate('Remember me'); ?><span style="vertical-align: middle;"><?php echo $this->form->rememberme; ?></span>
+        <?php echo $this->translate->_('Remember me'); ?><span style="vertical-align: middle;"><?php echo $this->form->rememberme; ?></span>
     </td>
 </tr>
 <tr>
