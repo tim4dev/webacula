@@ -305,6 +305,7 @@ class RestoreControllerTest extends ControllerTestCase
 
     /**
      * @group restore
+     * @group restore-draw-single
      */
     public function testDrawFileTreeWithSingleFiles() {
         print "\n".__METHOD__;
@@ -349,11 +350,11 @@ class RestoreControllerTest extends ControllerTestCase
         $this->assertAction('draw-file-tree');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains( 'td', '3' );
-        $this->assertQueryContentContains( 'td', '4' );
+        $this->assertQueryContentContains( 'td', 'value="/tmp/webacula/test/3/"' );
+        $this->assertQueryContentContains( 'td', 'value="/tmp/webacula/test/4/"' );
         $this->resetRequest()
              ->resetResponse();
-
+        
         // change directory
         $this->getRequest()
              ->setParams(array(

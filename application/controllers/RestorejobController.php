@@ -787,13 +787,13 @@ EOF"
             $db = $tmp_tables->getDb();
             // $this->_db->quote();
             $stmt = $db->query("
-                SELECT p.Path, t.isMarked, f.FileId, f.PathId, f.LStat
+                SELECT p.Path, t.isMarked, f.FileId, f.PathId, f.LStat, f.MD5
                 FROM Path AS p
                 INNER JOIN File AS f
                     ON f.PathId = p.PathId
                 INNER JOIN " . $tmp_tables->getTableNameFile() . " AS t
                     ON t.FileId = f.FileId
-                GROUP BY p.Path
+                ORDER BY p.Path
             ");
             // get a list of directories on the current (получаем список каталогов относительно текущего)
             while($line = $stmt->fetch())   {
@@ -813,13 +813,25 @@ EOF"
                         $atmp = explode("/", $nextdir, 3);
                         $dir = $atmp[0];
                         if ( !empty($dir) ) {
-                            if (isset($atmp[2]))
-                                $adir[$dir]['lstat'] = '';  // данных LStat нет, это просто часть пути
-                            else
-                                $adir[$dir]['lstat'] = $line['lstat']; // точное совпадение, зн. есть данные об LStat
-                            $adir[$dir]['pathid']   = $line['pathid'];
-                            $adir[$dir]['dir']      = $dir;
-                            $adir[$dir]['ismarked'] = $line['ismarked'];
+                            if ($line['md5'] === 0)  {
+                                // это однозначно каталог
+                                if ( isset($atmp[2]) )    {
+                                    $adir[$dir]['lstat'] = '';  // данных LStat нет, это просто часть пути
+                                } else {
+                                    $adir[$dir]['lstat'] = $line['lstat']; // точное совпадение, зн. есть данные об LStat
+                                }
+                                $adir[$dir]['pathid']   = $line['pathid'];
+                                $adir[$dir]['dir']      = $dir;
+                                $adir[$dir]['ismarked'] = $line['ismarked'];
+                            } else {
+                                // возможно это каталог
+                                if ( empty($adir[$dir]) ) {
+                                    $adir[$dir]['lstat'] = '';  // данные LStat будут от файла, что не нужно
+                                    $adir[$dir]['pathid']   = $line['pathid'];
+                                    $adir[$dir]['dir']      = $dir;
+                                    $adir[$dir]['ismarked'] = $line['ismarked'];
+                                }
+                            }
                         }
                     }
                 }
