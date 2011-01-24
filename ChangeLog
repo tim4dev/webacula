@@ -1,13 +1,16 @@
 Webacula ChangeLog
 ------------------
 
-=== 5.0.2
+=== 5.0.3 (Mon Jan 24 2011)
+    Fix bug #3151906 -- "Single" files missing from "Select Files for Restore" 
+
+=== 5.0.2 (Tue Aug 10 2010)
     Fresh Portuguese Brazil translation by Samuel Rios Carvalho
 
-=== 5.0.1
+=== 5.0.1 (Thu May 12 2010)
     fix bug #3000461 Restore selected files
 
-=== 5.0
+=== 5.0 (Thu Feb 20 2010)
     Important : required Bacula 5.0 or later.
     Important : now database 'webacula' NOT required for Restore Jobs. Now create a tree of files to Job Restore is faster at 30%--50%
     Add few options into restore pages.

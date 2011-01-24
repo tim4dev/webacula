@@ -31,4 +31,10 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 		$this->_application->bootstrap ();
 	}
 
+    protected function logBody($body, $mode = 'w')  {
+        $fout = fopen('report/outputBody.html', $mode);
+        fwrite($fout, $body);
+        fclose($fout);
+    }
+
 }

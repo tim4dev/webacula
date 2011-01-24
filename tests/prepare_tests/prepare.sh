@@ -98,6 +98,7 @@ mkdir "${TMPDIR}/test/1"
 mkdir "${TMPDIR}/test/2"
 mkdir "${TMPDIR}/test/3"
 mkdir "${TMPDIR}/test/3/subdir"
+mkdir "${TMPDIR}/test/4"
 echo "Done."
 
 
@@ -195,6 +196,8 @@ my_check_rc
 dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test41.dat" bs=1024 count=600 > /dev/null 2>&1
 my_check_rc
 dd if=/dev/zero of="${TMPDIR}/test/3/subdir/file_test42.dat" bs=1024 count=500 > /dev/null 2>&1
+my_check_rc
+dd if=/dev/zero of="${TMPDIR}/test/4/test41.txt" bs=1024 count=5 > /dev/null 2>&1
 my_check_rc
 echo "Done."
 

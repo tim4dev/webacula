@@ -151,9 +151,9 @@ class WblogbookControllerTest extends ControllerTestCase
         ));
         $this->request->setMethod('POST');
         $this->dispatch('wblogbook/add');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('wblogbook');
         $this->assertAction('add');
-        //echo $this->response->outputBody();exit; // for debug !!!
         $this->assertRedirectTo('/wblogbook/index');
         $this->resetRequest()
             ->resetResponse();
@@ -167,6 +167,7 @@ class WblogbookControllerTest extends ControllerTestCase
             $this->assertTrue(FALSE, "\nComment of Job Reviewed fail!\n");
         // проверить, что запись теперь не показывается в job/problem
         $this->dispatch('job/problem');
+        $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertModule('default');
         $this->assertController('job');
         $this->assertAction('problem');
