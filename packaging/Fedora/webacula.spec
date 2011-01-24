@@ -111,6 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt) %{_datadir}/%{name}/languages/pt
 %lang(ru) %{_datadir}/%{name}/languages/ru
 %lang(it) %{_datadir}/%{name}/languages/it
+%lang(es) %{_datadir}/%{name}/languages/es
 
 
 

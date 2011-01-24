@@ -107,13 +107,12 @@ rpmlint ${RPM_RPMS}/noarch/webacula-
 Install rpm and testing.
 rpm -ihv ${RPM_RPMS}/noarch/webacula-\n
 
-mock -r fedora-11-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
-mock -r fedora-12-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
+mock -r fedora-14-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 mock -r epel-5-i386    rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 
 see result:
 
-ls -la /var/lib/mock/fedora-11-i386/result/
+ls -la /var/lib/mock/fedora-14-i386/result/
 
 Add sign
 
