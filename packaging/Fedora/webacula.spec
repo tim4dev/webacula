@@ -116,8 +116,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Oct 14 2010 Yuri Timofeev <tim4dev@gmail.com> 5.5.0-1
+* Mon Jan 24 2011 Yuri Timofeev <tim4dev@gmail.com> 5.5.0-1
 - Version 5.5.0
+
+* Mon Jan 24 2011 Yuri Timofeev <tim4dev@gmail.com> 5.0.3-1
+- Version 5.0.3
 
 * Tue Aug 10 2010 Yuri Timofeev <tim4dev@gmail.com> 5.0.2-1
 - Version 5.0.2
