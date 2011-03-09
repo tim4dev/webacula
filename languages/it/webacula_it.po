@@ -33,11 +33,11 @@ msgstr ""
 #: application/controllers/StorageController.php:185
 #, php-format
 msgid "You try to run Bacula Console with command \"%s\"."
-msgstr ""
+msgstr "Stai tentando di eseguire Bacula Console col comando \"%s\"."
 
 #: application/controllers/BconsoleController.php:51
 msgid "Access denied."
-msgstr ""
+msgstr "Accesso negato."
 
 #: application/controllers/BconsoleController.php:57
 msgid "ERROR: bconsole not found."
@@ -117,7 +117,7 @@ msgstr "Ripristina tutti i file"
 
 #: application/controllers/AdminController.php:89
 msgid "Roles"
-msgstr ""
+msgstr "Ruoli"
 
 #: application/controllers/AdminController.php:112
 #: application/controllers/AdminController.php:154
@@ -128,50 +128,50 @@ msgstr ""
 #: application/controllers/AdminController.php:1000
 #: application/controllers/AdminController.php:1028
 msgid "Exception"
-msgstr ""
+msgstr "Eccezioni"
 
 #: application/controllers/AdminController.php:126
 msgid "Role add"
-msgstr ""
+msgstr "Agg. Ruoli"
 
 #: application/controllers/AdminController.php:177
 #: application/controllers/AdminController.php:459
 #: application/controllers/AdminController.php:972
 msgid "Update"
-msgstr ""
+msgstr "Aggiorna"
 
 #: application/controllers/AdminController.php:180
 msgid "Role update"
-msgstr ""
+msgstr "Aggiorna Ruoli"
 
 #: application/controllers/AdminController.php:375
 msgid " ACL add"
-msgstr ""
+msgstr "ACL aggiungi"
 
 #: application/controllers/AdminController.php:462
 msgid " ACL update"
-msgstr ""
+msgstr "ACL aggiorna"
 
 #: application/controllers/AdminController.php:881
 #: application/controllers/AdminController.php:898
 msgid "Role"
-msgstr ""
+msgstr "Ruolo"
 
 #: application/controllers/AdminController.php:916
 msgid "Users"
-msgstr ""
+msgstr "Utenti"
 
 #: application/controllers/AdminController.php:975
 msgid "User update"
-msgstr ""
+msgstr "Aggiorna Utente"
 
 #: application/controllers/AdminController.php:1010
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: application/controllers/AdminController.php:1013
 msgid "User add"
-msgstr ""
+msgstr "Aggiungi Utente"
 
 #: application/controllers/FeedController.php:62
 #: application/controllers/WblogbookController.php:305
@@ -389,7 +389,7 @@ msgstr "Webacula Diario aggiungi record"
 #: application/controllers/WblogbookController.php:527
 #: application/controllers/WblogbookController.php:555
 msgid "Webacula admin"
-msgstr ""
+msgstr "Webacula admin"
 
 #: application/controllers/WblogbookController.php:259
 msgid "Webacula Logbook Add record"
@@ -412,11 +412,11 @@ msgstr "Testo :"
 
 #: application/controllers/WblogbookController.php:280
 msgid "Bacula Job Reviewed. See Webacula LOGBOOK_ID="
-msgstr ""
+msgstr "Bacula Job Analizzato. Vedi Webacula LOGBOOK_ID="
 
 #: application/controllers/WblogbookController.php:304
 msgid "Bacula Job Reviewed"
-msgstr ""
+msgstr "Bacula Job Analizzato"
 
 #: application/controllers/WblogbookController.php:327
 #: application/controllers/WblogbookController.php:603
@@ -425,7 +425,7 @@ msgstr "Diario: aggiungi nuovo record"
 
 #: application/controllers/WblogbookController.php:383
 msgid "See also Webacula LOGBOOK_ID="
-msgstr ""
+msgstr "Vedi anche Webacula LOGBOOK_ID="
 
 #: application/controllers/WblogbookController.php:420
 msgid "Logbook: modify record"
@@ -508,16 +508,16 @@ msgstr "Console messaggi per Job %s, JobId %u"
 
 #: application/controllers/AuthController.php:145
 msgid "Username or password is incorrect"
-msgstr ""
+msgstr "Nome utente e password non validi."
 
 #: application/controllers/AuthController.php:152
 #, php-format
 msgid "Login with your %sWe%sbacula%s account"
-msgstr ""
+msgstr "Accesso col tuo %sWe%sbacula%s utente"
 
 #: application/controllers/AuthController.php:154
 msgid "Login with your Webacula account"
-msgstr ""
+msgstr "Accesso col tuo utente Webacula"
 
 #: application/controllers/AuthController.php:190
 #, php-format
@@ -538,26 +538,41 @@ msgid ""
 "\n"
 "Thanks! \n"
 msgstr ""
+"Ciao,\n"
+"\n"
+"Ciao questo e' un messagio automatico dal sito %s, prego non rispondere!\n"
+"\n"
+"Hai cambiato oppure qualcun'altro ha richiesto di cambiare la tua password \n"
+"dall' IP : %s\n"
+"\n"
+"Nuova Password: %s\n"
+"\n"
+"Una volta eseguito l'accesso potra cambiare la password.\n"
+"\n"
+"Se non sei la persona che ha eseguito questa richiesta\n"
+"prego invia una email all'ammistratore del sito : %s\n"
+"\n"
+"Grazie! \n"
 
 #: application/controllers/AuthController.php:212
 msgid "Webacula password manager"
-msgstr ""
+msgstr "Webacula password manager"
 
 #: application/controllers/AuthController.php:215
 msgid "New Webacula password"
-msgstr ""
+msgstr "Nuova password Webacula"
 
 #: application/controllers/AuthController.php:255
 msgid "New password set"
-msgstr ""
+msgstr "Nuovo set password"
 
 #: application/controllers/AuthController.php:258
 msgid "Error while sending email. Email not send"
-msgstr ""
+msgstr "Errore durante l'invio email. Email non inviata"
 
 #: application/controllers/AuthController.php:262
 msgid "Username or email is incorrect"
-msgstr ""
+msgstr "Nome utente o email non corretti"
 
 #: application/controllers/AuthController.php:267
 #, fuzzy
@@ -566,11 +581,11 @@ msgstr "Annulla"
 
 #: application/models/Wbroles.php:108
 msgid "Role Id and Inherited Role Id must not be identical"
-msgstr ""
+msgstr "Id Ruolo e Ruolo ereditato non possone essere identici"
 
 #: application/models/Wbroles.php:133
 msgid "Can not delete. Role is used."
-msgstr ""
+msgstr "Non posso cancellare. Ruolo utilizzato."
 
 #: application/models/Timeline.php:516
 msgid "Hours"
@@ -578,19 +593,19 @@ msgstr "Ore"
 
 #: application/forms/FormForgotPassword.php:50
 msgid "Username"
-msgstr ""
+msgstr "Utente"
 
 #: application/forms/FormForgotPassword.php:59
 msgid "Login characters incorrect. Allowed: alphabetical characters, digits, and \"- . _ @\" characters."
-msgstr ""
+msgstr "Login caratteri errati. Permessi: caratteri alfanumerici, numeri e \"- . _ @\" caratteri."
 
 #: application/forms/FormForgotPassword.php:70
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: application/forms/FormForgotPassword.php:78
 msgid "Email address incorrect."
-msgstr ""
+msgstr "Indirizzo Email errato."
 
 #: application/forms/FormForgotPassword.php:88
 #, fuzzy
@@ -599,11 +614,11 @@ msgstr "Conferma"
 
 #: application/forms/FormForgotPassword.php:94
 msgid "Type the characters:"
-msgstr ""
+msgstr "Digita i caratteri:"
 
 #: application/forms/FormWebaculaACL.php:61
 msgid "Webacula resources"
-msgstr ""
+msgstr "Risorse Webacula"
 
 #: application/forms/FormWebaculaACL.php:76
 #: application/forms/FormRole.php:126
@@ -624,12 +639,12 @@ msgstr "Cancella"
 
 #: application/forms/FormBaculaFill.php:79
 msgid "From Bacula database"
-msgstr ""
+msgstr "Dal database Bacula"
 
 #: application/forms/FormRole.php:65
 #: application/forms/FormBaculaACL.php:62
 msgid "Order"
-msgstr ""
+msgstr "Ordine"
 
 #: application/forms/FormRole.php:77
 #: application/forms/FormBaculaACL.php:74
@@ -639,7 +654,7 @@ msgstr "Nome"
 
 #: application/forms/FormRole.php:83
 msgid "Role name incorrect. This contains only english alphabetical characters, digits and underscore."
-msgstr ""
+msgstr "Nome Ruolo errato. Il nome ruolo puo' contere solo caratteri inglesi, numeri e underscore."
 
 #: application/forms/FormRole.php:92
 #, fuzzy
@@ -648,7 +663,7 @@ msgstr "Descrizione Job"
 
 #: application/forms/FormRole.php:110
 msgid "Inherited role"
-msgstr ""
+msgstr "Ruolo ereditato"
 
 #: application/forms/FormJobrun.php:84
 #: application/forms/FormJobrun.php:102
@@ -704,32 +719,32 @@ msgstr "Descrizione Job"
 
 #: application/forms/FormUser.php:68
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: application/forms/FormUser.php:74
 msgid "Login incorrect. Login contains only english alphabetical characters, digits and underscore."
-msgstr ""
+msgstr "Accesso errato. Il Login puo' contere solo caratteri inglesi, numeri e underscore."
 
 #: application/forms/FormUser.php:81
 #: application/forms/FormLogin.php:69
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: application/forms/FormUser.php:112
 msgid "Email incorrect."
-msgstr ""
+msgstr "Email errata"
 
 #: application/forms/FormUser.php:119
 msgid "Active"
-msgstr ""
+msgstr "Attivo"
 
 #: application/forms/FormLogin.php:79
 msgid "Remember me"
-msgstr ""
+msgstr "Ricordami"
 
 #: application/forms/FormLogin.php:88
 msgid "Log In"
-msgstr ""
+msgstr "Entra"
 
 #: application/forms/FormRestoreOptions.php:85
 #, fuzzy
@@ -747,15 +762,15 @@ msgstr "Dove"
 
 #: application/forms/FormRestoreOptions.php:187
 msgid "Strip&nbsp;prefix"
-msgstr ""
+msgstr "Togli&nbsp;prefisso"
 
 #: application/forms/FormRestoreOptions.php:199
 msgid "Add&nbsp;prefix"
-msgstr ""
+msgstr "Aggiungi&nbsp;prefiso"
 
 #: application/forms/FormRestoreOptions.php:211
 msgid "Add&nbsp;suffix"
-msgstr ""
+msgstr "Aggiungi&nbsp;suffisso"
 
 #: application/forms/FormRestoreOptions.php:223
 #, fuzzy
@@ -773,37 +788,37 @@ msgstr "Bacula Console"
 
 #: library/MyClass/ControllerAclAction.php:78
 msgid "Webacula error. Role mechanism is broken. Check Webacula tables."
-msgstr ""
+msgstr "Errore Webacula. Gestione Ruoli non funzionante. Prego verificare le tabelle Webacula."
 
 #: library/MyClass/ControllerAclAction.php:84
 #, php-format
 msgid "You try to use Webacula menu \"%s\"."
-msgstr ""
+msgstr "Stai cercando di usare il menu Webacula \"%s\"."
 
 #: library/MyClass/Validate/Datetime.php:56
 #, php-format
 msgid "'%s' is not of the format YYYY-MM-DD HH:MM:SS"
-msgstr ""
+msgstr "'%s' non e' nel formato YYYY-MM-DD HH:MM:SS"
 
 #: library/MyClass/Validate/Datetime.php:63
 #, php-format
 msgid "'%s' does not appear to be a valid date"
-msgstr ""
+msgstr "'%s' non sembra essere una data valida"
 
 #: library/MyClass/Validate/BaculaAclWhere.php:51
 #, php-format
 msgid "Bacula ACLs : access denied for Where '%s'"
-msgstr ""
+msgstr "Bacula ACL : accesso negato Dove '%s'"
 
 #: library/MyClass/Validate/LogBookId.php:55
 #, php-format
 msgid "Logbook %u is not found in Webacula database"
-msgstr ""
+msgstr "Diario %u non trovato nel database Webacula"
 
 #: library/MyClass/Validate/BaculaJobId.php:54
 #, php-format
 msgid "JobId %u is not found in Bacula database"
-msgstr ""
+msgstr "JobId %u non trovato nel Bacula database"
 
 #: application/layouts/default/dashboard.phtml:8
 #, php-format
@@ -817,7 +832,7 @@ msgstr "Aggiorna record:"
 
 #: application/layouts/default/main-menu.phtml:28
 msgid "Administrator"
-msgstr ""
+msgstr "Amministratore"
 
 #: application/layouts/default/main-menu.phtml:35
 msgid "Desktop"
@@ -896,7 +911,7 @@ msgstr "Aiuto"
 #: application/layouts/default/main-menu.phtml:101
 #: application/layouts/default/main-menu.phtml:106
 msgid "Logout"
-msgstr ""
+msgstr "Esci"
 
 #: application/layouts/default/main-menu.phtml:116
 msgid "Enable JavaScript please..."
@@ -975,7 +990,7 @@ msgstr "Director output:"
 #: application/views/scripts/storage/status-id.phtml:20
 #: application/views/scripts/storage/act-mount.phtml:20
 msgid "Bacula ACLs : Access denied."
-msgstr ""
+msgstr "Bacula ACLs : Accesso negato."
 
 #: application/views/scripts/storage/status-id.phtml:55
 msgid "No Storage status found."
@@ -1084,15 +1099,15 @@ msgstr "Nessun File trovato."
 
 #: application/views/scripts/help/index.phtml:9
 msgid "web interface of a"
-msgstr ""
+msgstr "interfaccia web di un"
 
 #: application/views/scripts/help/index.phtml:13
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 #: application/views/scripts/help/index.phtml:15
 msgid "Yellow color"
-msgstr ""
+msgstr "Colore Giallo"
 
 #: application/views/scripts/help/index.phtml:15
 #, fuzzy
@@ -1101,7 +1116,7 @@ msgstr "Pulizia"
 
 #: application/views/scripts/help/index.phtml:18
 msgid "Red color"
-msgstr ""
+msgstr "Colore Rosso"
 
 #: application/views/scripts/help/index.phtml:18
 #, fuzzy
@@ -1115,15 +1130,15 @@ msgstr "Durata"
 
 #: application/views/scripts/help/index.phtml:29
 msgid "You successfully logged in as"
-msgstr ""
+msgstr "Sei loggato come"
 
 #: application/views/scripts/help/index.phtml:30
 msgid "DB Bacula"
-msgstr ""
+msgstr "DB Bacula"
 
 #: application/views/scripts/help/index.phtml:31
 msgid "Version for Bacula Catalog database"
-msgstr ""
+msgstr "Versione del Bacula Catalog database"
 
 #: application/views/scripts/help/index.phtml:33
 #, fuzzy
@@ -1132,19 +1147,19 @@ msgstr "Bacula Console"
 
 #: application/views/scripts/help/index.phtml:34
 msgid "Zend Framework"
-msgstr ""
+msgstr "Zend Framework"
 
 #: application/views/scripts/help/index.phtml:35
 msgid "Locale"
-msgstr ""
+msgstr "Locale"
 
 #: application/views/scripts/help/index.phtml:36
 msgid "PHP info"
-msgstr ""
+msgstr "PHP info"
 
 #: application/views/scripts/help/index.phtml:37
 msgid "PHP system id"
-msgstr ""
+msgstr "PHP system id"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:34
 msgid "Please wait"
@@ -1152,31 +1167,31 @@ msgstr "Attendere prego"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:57
 msgid "Standard options"
-msgstr ""
+msgstr "Opzioni standard"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:58
 msgid "Advanced options"
-msgstr ""
+msgstr "Opzioni avanzate"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:151
 msgid "Restore files in <b>where</b> directory."
-msgstr ""
+msgstr "Restore file in <b>dove</b> directory."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:156
 msgid "Remove a part of the filename when restoring."
-msgstr ""
+msgstr "Rimuovi una parte del file durante il ripristino."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:161
 msgid "Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."
-msgstr ""
+msgstr "Aggiungi un prefisso a tutti i file durante il ripristino (come dove) (non puo' essere usato con <b>dove</b>)."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:166
 msgid "Add a suffix to all your files."
-msgstr ""
+msgstr "Aggiugi un suffisso a tutti i tuoi file."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:171
 msgid "Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."
-msgstr ""
+msgstr "Usa complesse manipolazioni del nome file come col comando sed in unix. Sovrascrivera' altri sistemi di manipolazione del nome del file."
 
 #: application/views/scripts/decorators/formJobrun.phtml:35
 #, fuzzy
@@ -1445,7 +1460,7 @@ msgstr "Ora di partenza dei Job con"
 #: application/views/scripts/job/find-form.phtml:113
 #: application/views/scripts/job/find-form.phtml:121
 msgid "HH:MM:SS"
-msgstr ""
+msgstr "HH:MM:SS"
 
 #: application/views/scripts/job/find-form.phtml:115
 msgid "up to"
@@ -1526,7 +1541,7 @@ msgstr "Ultima azione: attendere prego..."
 #: application/views/scripts/restorejob/draw-file-tree.phtml:107
 #: application/views/scripts/restorejob/draw-file-tree.phtml:138
 msgid "The system was a problem. Please try again after some time."
-msgstr ""
+msgstr "Il sistema ha un problema. Prego provare tra qualche minuto."
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:71
 msgid "Last action: mark"
@@ -1647,11 +1662,11 @@ msgstr "<sup>*</sup>Tipo"
 
 #: application/views/scripts/wblogbook/add.phtml:61
 msgid "Reviewed "
-msgstr ""
+msgstr "Analizzato"
 
 #: application/views/scripts/wblogbook/add.phtml:63
 msgid "Don't show this Job in 'Jobs with errors' list in future"
-msgstr ""
+msgstr "Non mostrare questo Job in 'Job con errori' in futuro"
 
 #: application/views/scripts/wblogbook/add.phtml:71
 #: application/views/scripts/wblogbook/modify.phtml:85
@@ -2009,11 +2024,11 @@ msgstr "Informazione dal DB Catalog : Tutti i Volumi sono OK."
 
 #: application/views/scripts/auth/login.phtml:35
 msgid "Forgot?"
-msgstr ""
+msgstr "Dimenticato?"
 
 #: application/views/scripts/auth/forgot-password.phtml:6
 msgid "Forgot your password? Enter your user name and email below."
-msgstr ""
+msgstr "Hai dimenticato la tua password? Inserisci utente e password qui di seguito."
 
 #: application/views/scripts/admin/user-index.phtml:18
 #, fuzzy
@@ -2044,11 +2059,11 @@ msgstr "Nessun dato trovato"
 #: application/views/scripts/admin/role-index.phtml:71
 #: application/views/scripts/admin/role-more-info.phtml:16
 msgid "More info"
-msgstr ""
+msgstr "Piu' Informazioni"
 
 #: application/views/scripts/admin/role-main-form.phtml:40
 msgid "Webacula ACL"
-msgstr ""
+msgstr "Webacula ACL"
 
 #: application/views/scripts/admin/role-main-form.phtml:42
 #, fuzzy
@@ -2072,17 +2087,17 @@ msgstr "Nessun Volume trovato."
 
 #: application/views/scripts/admin/role-more-info.phtml:24
 msgid "Inherited role(s)"
-msgstr ""
+msgstr "Ruolo(i) ereditato"
 
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
 msgid "none"
-msgstr ""
+msgstr "nulla"
 
 #: application/views/scripts/admin/role-more-info.phtml:41
 msgid "Who use this role"
-msgstr ""
+msgstr "Chi usa questo ruolo"
 
 #: application/views/scripts/admin/role-more-info.phtml:45
 #, fuzzy
@@ -2091,7 +2106,7 @@ msgstr "Volume(i)"
 
 #: application/views/scripts/admin/role-more-info.phtml:60
 msgid "User(s)"
-msgstr ""
+msgstr "Utente(i)"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s cartelle, %s file ricercati)"
