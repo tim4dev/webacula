@@ -237,7 +237,7 @@ CREATE TABLE webacula_where_acl (
     role_id   integer,
     PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX webacula_where_acl_idx1 ON webacula_where_acl (name(256), role_id);
+CREATE UNIQUE INDEX webacula_where_acl_idx1 ON webacula_where_acl (substring(name from 0 for 256), role_id);
 CREATE        INDEX webacula_where_acl_idx2 ON webacula_where_acl (id, order_acl);
 
 
