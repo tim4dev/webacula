@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -339,17 +337,17 @@ class WbTmpTable extends Zend_Db_Table
                     FileId BIGINT UNSIGNED NOT NULL,
                     FileIndex INTEGER UNSIGNED DEFAULT 0,
                     isMarked INTEGER  UNSIGNED DEFAULT 0,
-                    FileSize INTEGER  UNSIGNED DEFAULT 0,
+                    FileSize BIGINT  UNSIGNED DEFAULT 0,
                     PRIMARY KEY(FileId)
                 )");
                 break;
             case 'PDO_PGSQL':
                 $res_file = $this->_db->query("
                 CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_file) . " (
-                    FileId INTEGER NOT NULL,
+                    FileId BIGINT NOT NULL,
                     fileindex integer not null  default 0,
                     isMarked SMALLINT  DEFAULT 0,
-                    FileSize INTEGER  DEFAULT 0,
+                    FileSize BIGINT  DEFAULT 0,
                     PRIMARY KEY(FileId)
                 )");
                 break;
