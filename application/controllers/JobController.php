@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
@@ -175,12 +175,14 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->jtype      = $jtype;
         $this->view->volname    = $volname;
 
-        $paginator = Zend_Paginator::factory($jobs);
-        Zend_Paginator::setDefaultScrollingStyle('Sliding');
-        $paginator->setItemCountPerPage(self::ROW_LIMIT_JOBS);
-        $paginator->setCurrentPageNumber($this->_getParam('page', 1));
-        $this->view->paginator = $paginator;
-        $paginator->setView($this->view);
+        if ($jobs) {
+            $paginator = Zend_Paginator::factory($jobs);
+            Zend_Paginator::setDefaultScrollingStyle('Sliding');
+            $paginator->setItemCountPerPage(self::ROW_LIMIT_JOBS);
+            $paginator->setCurrentPageNumber($this->_getParam('page', 1));
+            $this->view->paginator = $paginator;
+            $paginator->setView($this->view);
+        }
     }
 
 
