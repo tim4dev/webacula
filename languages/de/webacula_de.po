@@ -1351,7 +1351,7 @@ msgid "All File records purged"
 msgstr ""
 
 #: application/views/scripts/job/detail.phtml:165
-msgid "Volume(s)"
+msgid "Volumes"
 msgstr "Datenträger"
 
 #: application/views/scripts/job/detail.phtml:175
@@ -1471,7 +1471,7 @@ msgid "Unknown"
 msgstr "Unbekannt"
 
 #: application/views/scripts/job/next.phtml:59
-msgid "Volume with Error(s)"
+msgid "Volume with Errors"
 msgstr "Datenträger mit Fehler(n)"
 
 #: application/views/scripts/job/next.phtml:62
@@ -2051,10 +2051,6 @@ msgstr "Neue Rolle hinzufügen"
 msgid "No Roles found."
 msgstr "Keine Rollen gefunden."
 
-#: application/views/scripts/admin/role-more-info.phtml:24
-msgid "Inherited role(s)"
-msgstr ""
-
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
@@ -2065,12 +2061,8 @@ msgstr ""
 msgid "Who use this role"
 msgstr ""
 
-#: application/views/scripts/admin/role-more-info.phtml:45
-msgid "Role(s)"
-msgstr "Rolle(n)"
-
 #: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User(s)"
+msgid "User"
 msgstr ""
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"

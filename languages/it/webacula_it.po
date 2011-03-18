@@ -1385,8 +1385,8 @@ msgid "All File records purged"
 msgstr "Tutti i file record eliminati"
 
 #: application/views/scripts/job/detail.phtml:165
-msgid "Volume(s)"
-msgstr "Volume(i)"
+msgid "Volumes"
+msgstr "Volumi"
 
 #: application/views/scripts/job/detail.phtml:175
 msgid "No Volumes found."
@@ -1505,8 +1505,8 @@ msgid "Unknown"
 msgstr "Sconosciuto"
 
 #: application/views/scripts/job/next.phtml:59
-msgid "Volume with Error(s)"
-msgstr "Volume con Errore(i)"
+msgid "Volume with Errors"
+msgstr "Volume con Errori"
 
 #: application/views/scripts/job/next.phtml:62
 msgid "New Volume"
@@ -2085,10 +2085,6 @@ msgstr "Crea record :"
 msgid "No Roles found."
 msgstr "Nessun Volume trovato."
 
-#: application/views/scripts/admin/role-more-info.phtml:24
-msgid "Inherited role(s)"
-msgstr "Ruolo(i) ereditato"
-
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
@@ -2099,14 +2095,9 @@ msgstr "nulla"
 msgid "Who use this role"
 msgstr "Chi usa questo ruolo"
 
-#: application/views/scripts/admin/role-more-info.phtml:45
-#, fuzzy
-msgid "Role(s)"
-msgstr "Volume(i)"
-
 #: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User(s)"
-msgstr "Utente(i)"
+msgid "User"
+msgstr "Utente"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s cartelle, %s file ricercati)"

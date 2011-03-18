@@ -1349,8 +1349,8 @@ msgid "All File records purged"
 msgstr "Все сведения о файлах очищены"
 
 #: application/views/scripts/job/detail.phtml:165
-msgid "Volume(s)"
-msgstr "Том(а)"
+msgid "Volumes"
+msgstr "Тома"
 
 #: application/views/scripts/job/detail.phtml:175
 msgid "No Volumes found."
@@ -1469,8 +1469,8 @@ msgid "Unknown"
 msgstr "Неизвестно"
 
 #: application/views/scripts/job/next.phtml:59
-msgid "Volume with Error(s)"
-msgstr "Сбойный Том"
+msgid "Volume with Errors"
+msgstr "Сбойные Тома"
 
 #: application/views/scripts/job/next.phtml:62
 msgid "New Volume"
@@ -2046,10 +2046,6 @@ msgstr "Создать новую роль"
 msgid "No Roles found."
 msgstr "Роли не найдены."
 
-#: application/views/scripts/admin/role-more-info.phtml:24
-msgid "Inherited role(s)"
-msgstr "Унаследованные роли"
-
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
@@ -2060,13 +2056,9 @@ msgstr "пусто"
 msgid "Who use this role"
 msgstr "Кто использует эту роль"
 
-#: application/views/scripts/admin/role-more-info.phtml:45
-msgid "Role(s)"
-msgstr "Роль(и)"
-
 #: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User(s)"
-msgstr "Пользователь(и)"
+msgid "User"
+msgstr "Пользователь"
 
 #~ msgid "Running Jobs"
 #~ msgstr "Текущие"

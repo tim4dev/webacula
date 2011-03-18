@@ -1335,7 +1335,7 @@ msgid "All File records purged"
 msgstr ""
 
 #: application/views/scripts/job/detail.phtml:165
-msgid "Volume(s)"
+msgid "Volumes"
 msgstr ""
 
 #: application/views/scripts/job/detail.phtml:175
@@ -1455,7 +1455,7 @@ msgid "Unknown"
 msgstr ""
 
 #: application/views/scripts/job/next.phtml:59
-msgid "Volume with Error(s)"
+msgid "Volume with Errors"
 msgstr ""
 
 #: application/views/scripts/job/next.phtml:62
@@ -2032,10 +2032,6 @@ msgstr ""
 msgid "No Roles found."
 msgstr ""
 
-#: application/views/scripts/admin/role-more-info.phtml:24
-msgid "Inherited role(s)"
-msgstr ""
-
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
@@ -2046,11 +2042,7 @@ msgstr ""
 msgid "Who use this role"
 msgstr ""
 
-#: application/views/scripts/admin/role-more-info.phtml:45
-msgid "Role(s)"
-msgstr ""
-
 #: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User(s)"
+msgid "User"
 msgstr ""
 

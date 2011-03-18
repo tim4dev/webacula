@@ -21,7 +21,7 @@ $(function() {
 </p>
 
 <p>
-    <b><?php echo $this->translate->_('Inherited role(s)'); ?> :</b>
+    <b><?php echo $this->translate->_('Inherited roles'); ?> :</b>
 <?php if ($this->inherited_roles) : ?>
     <?php
         $str = '';
@@ -42,7 +42,7 @@ $(function() {
 </div>
 
 <p>
-    <b><?php echo $this->translate->_('Role(s)'); ?> :</b>
+    <b><?php echo $this->translate->_('Roles'); ?> :</b>
 <?php
     // roles
     if ( $this->roles->count() > 0 ) {
@@ -57,7 +57,7 @@ $(function() {
 </p>
 
 <p>
-    <b><?php echo $this->translate->_('User(s)'); ?> :</b>
+    <b><?php echo $this->translate->_('Users'); ?> :</b>
 <?php
     // users
     if ( $this->users->count() > 0 )  {

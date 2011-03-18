@@ -1355,8 +1355,8 @@ msgid "All File records purged"
 msgstr "Tous les enregistrements de fichiers sont purgés"
 
 #: application/views/scripts/job/detail.phtml:165
-msgid "Volume(s)"
-msgstr "Volume(s)"
+msgid "Volumes"
+msgstr "Volumes"
 
 #: application/views/scripts/job/detail.phtml:175
 msgid "No Volumes found."
@@ -1475,7 +1475,7 @@ msgid "Unknown"
 msgstr "Inconnu"
 
 #: application/views/scripts/job/next.phtml:59
-msgid "Volume with Error(s)"
+msgid "Volume with Errors"
 msgstr "Volume avec Erreur"
 
 #: application/views/scripts/job/next.phtml:62
@@ -2055,10 +2055,6 @@ msgstr "Créer l'entrée :"
 msgid "No Roles found."
 msgstr "Aucun volume trouvé."
 
-#: application/views/scripts/admin/role-more-info.phtml:24
-msgid "Inherited role(s)"
-msgstr ""
-
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
@@ -2069,13 +2065,8 @@ msgstr ""
 msgid "Who use this role"
 msgstr ""
 
-#: application/views/scripts/admin/role-more-info.phtml:45
-#, fuzzy
-msgid "Role(s)"
-msgstr "Volume(s)"
-
 #: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User(s)"
+msgid "User"
 msgstr ""
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
