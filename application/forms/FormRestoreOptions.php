@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ class FormRestoreOptions extends Zend_Form
          * if have multiple Restore Job resources
          */
         $config = Zend_Registry::get('config');
-        if ( $config->bacula_restore_job )  {
+        if ( $config->general->bacula_restore_job )  {
             $restore_job_select = $this->createElement('select', 'restore_job_select', array(
                 'decorators' => $this->elDecorators,
                 'label'    => $this->translate->_('Restore Job Resource'),
@@ -157,7 +157,7 @@ class FormRestoreOptions extends Zend_Form
                 'class'    => 'ui-select',
                 'style'    => 'width: 18em;'
             ));
-            $bacula_restore_jobs = $config->bacula_restore_job->toArray();
+            $bacula_restore_jobs = $config->general->bacula_restore_job->toArray();
             $i = 1;
             foreach( $bacula_restore_jobs as $v) {
                 $restore_job_select->addMultiOption($i++, $v);

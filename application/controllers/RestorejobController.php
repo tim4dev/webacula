@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,8 +66,6 @@ class RestorejobController extends MyClass_ControllerAclAction
     protected $restoreNamespace;
     const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
     protected $ttl_restore_session = 3900; // time to live session (65 min)
-
-    protected $bacula_restore_job; // from ini. if have multiple Restore Job resources
 
     /*
      * for Restore Form options
