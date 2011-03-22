@@ -510,12 +510,14 @@ EOF"
         $namefile = $this->_request->getParam('namefile'); // NO trim!!
         // $namefile required
         if ( empty($namefile) ) {
-            $this->_forward('find-form', null, null, null);
+            $this->view->msg = $this->view->translate->_("Filename is required field.");
+            //$this->_forward('find-form', null, null, null);
             return;
         }
         // $path will be with trailing slash
         if ( !empty($path) && ( substr($path, -1) != '/') ) {
-            $this->_forward('find-form', null, null, null);
+            $this->view->msg = $this->view->translate->_("Path must have a trailing slash.");
+            //$this->_forward('find-form', null, null, null);
             return;
         }
         $client   = addslashes( trim( $this->_request->getParam('client_nf') ));

@@ -1,5 +1,15 @@
 <!-- job/find-file-name.phtml -->
 
+<?php if ($this->msg): ?>
+<div class="ui-widget" style="float: left;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
+		<strong><?php echo $this->msg; ?></strong></p>
+	</div>
+</div>
+<div style="clear: both;"><!--  --></div>
+<?php endif; ?>
+
 <?php if ($this->result): ?>
 
 <table id="box-table-minimalist" border="0">
