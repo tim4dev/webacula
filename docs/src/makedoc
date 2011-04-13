@@ -12,6 +12,8 @@ my_pdflatex()
 {
     rm -f $1.pdf
     pdflatex -interaction=nonstopmode  $1.tex > /dev/null
+    # second pass for build Table Of Contents
+    pdflatex -interaction=nonstopmode  $1.tex > /dev/null
     rc=$?
     if [[ $rc -eq 0 ]] ; then
         echo "pdflatex Ok"
