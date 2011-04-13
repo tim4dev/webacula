@@ -75,7 +75,6 @@ sudo mkdir /usr/share/webacula/
   ...
   |-- data
   | |-- cache
-  | |-- session
   | `-- tmp
   ...
   |-- docs
@@ -90,6 +89,8 @@ sudo mkdir /usr/share/webacula/
   |-- Cache
   ...
 
+PHP session is stored in the table "webacula_php_session".
+
 Some directory description:
 
      * application/ All source code. Should be available to reading for the
@@ -100,8 +101,6 @@ Some directory description:
        be available to access through the client Web-browser. 
      * data/cache/ Cache directory for Zend Cache. Should be available to
        writing the Web-server and no access through the client Web-browser. 
-     * data/session/ Storage for PHP session. Should be available to writing
-       the Web-server and no access through the client Web-browser. 5 
      * data/tmp/ This directory which will be saved the le, which contains a
        list of les to Job restore. This directory and les in it should be
        available to read from the Bacula Director and to writing from the
