@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ class AuthController extends Zend_Controller_Action
                         $this->defNamespace->numLoginFails = 0;
                     // remember me
                     if ($form->getValue('rememberme'))
-                        Zend_Session::rememberMe();
+                        Zend_Session::rememberMe(259200); // 3 days
                     // update statistics
                     $users = new Wbusers();
                     $users->updateLoginStat($data->login);

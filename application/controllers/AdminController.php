@@ -1017,9 +1017,14 @@ class AdminController extends MyClass_ControllerAclAction
 
     public function userDeleteAction()
     {
-        $user_id    = $this->_request->getParam('user_id');
+        $user_id = $this->_request->getParam('user_id');
         if ( empty($user_id) )
             throw new Exception(__METHOD__.' : Empty input parameters');
+        // clear session data
+        Zend_Loader::loadClass('Wbphpsession');
+        $table_session = new Wbphpsession();
+        $table_session->deleteSession($user_id);
+        // delete user account
         $table = new Wbusers();
         $where = $table->getAdapter()->quoteInto('id = ?', $user_id);
         try {

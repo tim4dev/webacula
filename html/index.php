@@ -18,13 +18,12 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2011.03.22');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2011.04.14');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 define('TMP_DIR',    ROOT_DIR.'/data/tmp' );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
-define('SESSION_DIR',ROOT_DIR.'/data/session' );
 
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
@@ -38,7 +37,7 @@ if ( APPLICATION_ENV == 'development') {
 }
 
 // PATH_SEPARATOR  ":"
-set_include_path('.' . PATH_SEPARATOR . '../library' . PATH_SEPARATOR . '../application/models/' .
+set_include_path('.' . PATH_SEPARATOR . __DIR__ . '/../library' . PATH_SEPARATOR . '../application/models/' .
     PATH_SEPARATOR . '../application/forms/' .
     PATH_SEPARATOR . get_include_path() );
 
@@ -48,6 +47,7 @@ Zend_Loader::loadClass('Zend_Auth');
 Zend_Loader::loadClass('Zend_Controller_Front');
 Zend_Loader::loadClass('Zend_Cache');
 Zend_Loader::loadClass('Zend_Session');
+Zend_Loader::loadClass('MyClass_Session_SaveHandler_DbTable'); // PHP session storage
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Registry');
 Zend_Loader::loadClass('Zend_Db');
@@ -66,6 +66,7 @@ Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_BaculaAcl');
 Zend_Loader::loadClass('Wbresources');
 Zend_Loader::loadClass('Wbroles');
+
 // helpers
 Zend_Controller_Action_HelperBroker::addPrefix('MyClass_Action_Helper');
 // other my classes
@@ -196,34 +197,44 @@ if ( !is_writable( CACHE_DIR ) ) {
     echo '<pre>';
     throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');
 }
-if ( !is_writable( SESSION_DIR ) ) {
-    echo '<pre>';
-    throw new Zend_Exception('Directory "'.SESSION_DIR.'" is not exists or not writable.');
-}
+
 /*
  * Start session
  */
 Zend_Session::setOptions(array(
-    'use_only_cookies' => 1,
-    'name'      => 'WBSESSID',
-    'save_path' => SESSION_DIR
+    'use_only_cookies' => 1
 ));
+
+//create your Zend_Session_SaveHandler_DbTable and
+//set the save handler for Zend_Session
+$config_session = array(
+    'name'           => 'webacula_php_session',
+    'primary'        => 'id',
+    'modifiedColumn' => 'modified',
+    'lifetimeColumn' => 'lifetime',
+    'dataColumn'     => 'data_session'
+);
+Zend_Session::setSaveHandler(new MyClass_Session_SaveHandler_DbTable($config_session));
+
 Zend_Session::start();
+
 if ( APPLICATION_ENV == 'production') {
     Zend_Session::regenerateId();
 }
 
-// для подсчета кол-ва неудачных логинов для вывода капчи
+/*
+ * для подсчета кол-ва неудачных логинов для вывода капчи
+ */
 $defNamespace = new Zend_Session_Namespace('Default');
 if (!isset($defNamespace->numLoginFails))
-    $defNamespace->numLoginFails = 0; // начальное значение
+    $defNamespace->numLoginFails = 0; // initial value
 
 
 /*
  * Zend_Cache
  */
 $frontendOptions = array(
-    'lifetime' => 3600, // время жизни кэша - 1 час
+    'lifetime' => 3600, // cache lifetime - 1 hour
     'automatic_serialization' => true
 );
 $backendOptions = array(

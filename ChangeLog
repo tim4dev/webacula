@@ -7,7 +7,9 @@ Webacula ChangeLog
     Move all Webacula tables to Bacula database. Now a separate database is not needed.
     Remove 'tmpdir' from config.ini. Use 'data/' directory instead.
     Automatic delete old temporary files in 'data/tmp'.   
-    Fix bug #3151906 -- "Single" files missing from "Select Files for Restore" 
+    Fix bug #3151906 -- "Single" files missing from "Select Files for Restore".
+    Documentation to install Webacula on Ubuntu/Debian based.
+    PHP session is stored in the table.
 
 === 5.0.3 (Mon Jan 24 2011)
     Fix bug #3151906 -- "Single" files missing from "Select Files for Restore" 

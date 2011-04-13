@@ -34,9 +34,9 @@ define('BACULA_VERSION', 12); // Bacula Catalog version
 define('ROOT_DIR',   $appRoot );
 define('TMP_DIR',    ROOT_DIR.'/data/tmp' );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
-define('SESSION_DIR',ROOT_DIR.'/data/session' );
 
 // load my ACL classes
+Zend_Loader::loadClass('MyClass_Session_SaveHandler_DbTable'); // PHP session storage
 Zend_Loader::loadClass('MyClass_WebaculaAcl');
 Zend_Loader::loadClass('MyClass_ControllerAclAction');
 Zend_Loader::loadClass('MyClass_BaculaAcl');
@@ -158,7 +158,7 @@ if ( !$ver->checkVesion(BACULA_VERSION) )   {
             " got ". $ver->getVesion().") ");
 }
 /*
- * Check TMP_DIR, CACHE_DIR, SESSION_DIR is writable
+ * Check TMP_DIR, CACHE_DIR is writable
  */
 if ( !is_writable( TMP_DIR ) ) {
     echo '<pre>';
@@ -168,19 +168,26 @@ if ( !is_writable( CACHE_DIR ) ) {
     echo '<pre>';
     throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');
 }
-if ( !is_writable( SESSION_DIR ) ) {
-    echo '<pre>';
-    throw new Zend_Exception('Directory "'.SESSION_DIR.'" is not exists or not writable.');
-}
 /*
  * Start session
  */
 Zend_Session::setOptions(array(
-    'use_only_cookies' => 1,
-    'name'      => 'WBSESSID',
-    'save_path' => SESSION_DIR
+    'use_only_cookies' => 1
 ));
+
+//create your Zend_Session_SaveHandler_DbTable and
+//set the save handler for Zend_Session
+$config_session = array(
+    'name'           => 'webacula_php_session',
+    'primary'        => 'id',
+    'modifiedColumn' => 'modified',
+    'lifetimeColumn' => 'lifetime',
+    'dataColumn'     => 'data_session'
+);
+Zend_Session::setSaveHandler(new MyClass_Session_SaveHandler_DbTable($config_session));
+
 Zend_Session::start();
+
 if ( APPLICATION_ENV == 'production') {
     Zend_Session::regenerateId();
 }
