@@ -203,7 +203,6 @@ The tree which should turn out as a result :
 ...
 |-- data
 |   |-- cache
-|   |-- session
 |   `-- tmp
 ...
 |-- docs
@@ -218,6 +217,9 @@ The tree which should turn out as a result :
         |-- Cache
        ...
 </PRE>
+
+<P>
+PHP session is stored in the table <TT>webacula_php_session</TT>.
 
 <P>
 Some directory description:
@@ -235,10 +237,6 @@ Some directory description:
 
 <P>
 <TT>data/cache/</TT>  Cache directory for Zend_Cache. Should be available to writing the Web-server and
-                  no access through the client Web-browser.
-
-<P>
-<TT>data/session/</TT>   Storage for PHP session. Should be available to writing the Web-server and
                   no access through the client Web-browser.
 
 <P>
@@ -654,8 +652,8 @@ The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
 <P>
 <BR><HR>
 <ADDRESS>
-tim
-2011-01-18
+
+2011-04-13
 </ADDRESS>
 </BODY>
 </HTML>

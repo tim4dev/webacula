@@ -124,7 +124,6 @@ The tree which should turn out as a result :
 ...
 |-- data
 |   |-- cache
-|   |-- session
 |   `-- tmp
 ...
 |-- docs
@@ -140,6 +139,7 @@ The tree which should turn out as a result :
        ...
 \end{verbatim}
 
+PHP session is stored in the table \texttt{webacula\_php\_session}.
 
 Some directory description:
 
@@ -152,9 +152,6 @@ Some directory description:
                   must NOT be available to access through the client Web-browser.
 
 \texttt{data/cache/}  Cache directory for Zend\_Cache. Should be available to writing the Web-server and
-                  no access through the client Web-browser.
-
-\texttt{data/session/}   Storage for PHP session. Should be available to writing the Web-server and
                   no access through the client Web-browser.
 
 \texttt{data/tmp/}   This directory which will be saved the file, which contains a list of files to Job restore.
