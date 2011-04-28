@@ -28,13 +28,13 @@ class WbTmpTable extends Zend_Db_Table
     // for pager
     const ROW_LIMIT_FILES = 500;
     // for names of tmp tables (для формирования имен временных таблиц)
-    const _PREFIX = 'webacula_'; // только в нижнем регистре
+    const _PREFIX = 'webacula_tmp_'; // только в нижнем регистре
 
     public $db_adapter;
 
     protected $jobidhash;
 
-    protected $_name    = 'webacula_tmptablelist'; // list of temporary tables.
+    protected $_name    = 'webacula_tmp_tablelist'; // list of temporary tables.
                                                    //список всех временных таблиц, имя только в нижнем регистре
     protected $_primary = 'tmpid';
     protected $ttl_restore_session = 3600; // time to live temp tables (1 hour)
@@ -49,13 +49,13 @@ class WbTmpTable extends Zend_Db_Table
      * @param string $prefix для формирования имен tmp таблиц
      * @param string $jobidHash хэш-индекс для массива jobid
      */
-    public function __construct($prefix, $jobidhash, $ttl_restore_session)
+    public function __construct($jobidhash, $ttl_restore_session)
     {
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         $this->jobidhash = $jobidhash;
         $this->ttl_restore_session = $ttl_restore_session;
         // формируем имена временных таблиц
-        $this->tmp_file     = $prefix . 'file_'     . $this->jobidhash;
+        $this->tmp_file    = self::_PREFIX . 'file_'     . $this->jobidhash;
         $config['db']      = Zend_Registry::get('db_bacula'); // database
         $config['name']    = $this->_name;      // name table
         $config['primary'] = $this->_primary;   // primary key
@@ -210,12 +210,12 @@ class WbTmpTable extends Zend_Db_Table
     /**
      * Fast INSERT INTO tmp_file_ VALUES ()
      */
-    function insertRowFile($FileId, $FileIndex, $FileSize, $isMarked=0)
+    function insertRowFile($jobid, $FileId, $FileIndex, $FileSize, $isMarked=0)
     {
         try {
             $this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
-                " (FileId, FileIndex, isMarked, FileSize) " .
-                " VALUES ($FileId, $FileIndex, $isMarked, $FileSize)");
+                " (FileId, FileIndex, isMarked, FileSize, JobId) " .
+                " VALUES ($FileId, $FileIndex, $isMarked, $FileSize, $jobid)");
             return TRUE; // all ok
         } catch (Zend_Exception $e) {
             echo '<br><br>', __METHOD__,'<br>Caught exception: ', get_class($e), '<br>', 'Message: ', $e->getMessage(), '<br>';
@@ -303,11 +303,11 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Создание временных таблиц : File, Filename, Path
+     * Создание временной таблицы File
      *
      * @return TRUE if all ok
      */
-    function createTmpTables()
+    function createTmpTable()
     {
         // удаляем старые таблицы с такими же именами
         $this->dropTmpTable($this->tmp_file);
@@ -334,6 +334,7 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_MYSQL':
                 $res_file = $this->_db->query("
                 CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_file) . " (
+                    JobId  BIGINT UNSIGNED NOT NULL,
                     FileId BIGINT UNSIGNED NOT NULL,
                     FileIndex INTEGER UNSIGNED DEFAULT 0,
                     isMarked INTEGER  UNSIGNED DEFAULT 0,
@@ -344,6 +345,7 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_PGSQL':
                 $res_file = $this->_db->query("
                 CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_file) . " (
+                    JobId  BIGINT NOT NULL,
                     FileId BIGINT NOT NULL,
                     fileindex integer not null  default 0,
                     isMarked SMALLINT  DEFAULT 0,
@@ -354,6 +356,7 @@ class WbTmpTable extends Zend_Db_Table
             case 'PDO_SQLITE':
                 $res_file = $this->_db->query("
                 CREATE TABLE " . $this->_db->quoteIdentifier($this->tmp_file) . " (
+                    JobId  INTEGER,
                     FileId INTEGER,
                     FileIndex INTEGER UNSIGNED NOT NULL,
                     isMarked INTEGER  UNSIGNED DEFAULT 0,
@@ -499,58 +502,6 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Экспорт помеченных записей в текстовый файл (для восстановления)
-     */
-    function exportMarkFiles($dir)
-    {
-        $name = $dir . "/webacula_restore_" . $this->jobidhash . ".tmp";
-        $ares = array('result' => FALSE, 'name' => $name);
-
-        $file = fopen($name, 'w');
-        if( !$file ) {
-            $ares['msg'] = "Unable to write file $name";
-            return $ares;
-        }
-        switch ($this->db_adapter) {
-        case 'PDO_PGSQL':
-            $sql = "SELECT n.Name, p.Path
-                FROM " . $this->_db->quoteIdentifier($this->tmp_file) . " AS t,
-                File AS f,
-                Filename AS n,
-                Path AS p
-                WHERE (t.isMarked = 1) AND (f.FileId=t.FileId) AND (f.PathId=p.PathId) AND (f.FilenameId=n.FilenameId)
-                ORDER BY Path ASC";
-            break;
-        //case 'PDO_MYSQL':
-        //case 'PDO_SQLITE':
-        default:
-            $sql = 'SELECT n.Name, p.Path
-                FROM  ' . $this->_db->quoteIdentifier($this->tmp_file) . ' AS t
-                INNER JOIN File AS f
-                INNER JOIN Path AS p
-                INNER JOIN Filename AS n
-                WHERE (t.isMarked = 1) AND (f.FileId=t.FileId) AND (f.PathId=p.PathId) AND (f.FilenameId=n.FilenameId)
-                ORDER BY p.Path ASC';
-            break;
-        }
-        $stmt = $this->_db->query($sql);
-
-        $i = 0;
-        while ( $line = $stmt->fetch() )  {
-            fwrite($file, $line['path'] . $line['name'] . "\n");
-            $i++;
-        }
-        fclose($file);
-
-        $ares['result'] = TRUE;
-        $ares['msg'] = 'Export file is completed successfully';
-        $ares['count'] = $i;
-        return $ares;
-    }
-
-
-
-    /**
      * Clone Bacula table : File
      *
      * @return TRUE if ok
@@ -559,7 +510,7 @@ class WbTmpTable extends Zend_Db_Table
     {
         $bacula = Zend_Registry::get('db_bacula');
         // create temporary tables: File, Filename, Path. создаем временные таблицы File, Filename, Path
-        if ( !$this->createTmpTables() )
+        if ( !$this->createTmpTable() )
             return FALSE; // view exception from WbTmpTable.php->createTmpTables()
         $decode = new MyClass_HomebrewBase64;
         // clone File
@@ -575,7 +526,7 @@ class WbTmpTable extends Zend_Db_Table
             list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
                 $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
             $file_size = $decode->homebrewBase64($st_size);
-            if ( !$this->insertRowFile($line['fileid'], $line['fileindex'], $file_size) )
+            if ( !$this->insertRowFile($jobid, $line['fileid'], $line['fileindex'], $file_size) )
                 return FALSE; // show exception from WbTmpTable.php->insertRowFile()
         }
         // end transaction
@@ -590,16 +541,14 @@ class WbTmpTable extends Zend_Db_Table
      *
      * @return TRUE if ok
      */
-    function cloneRecentBaculaToTmp($jobidhash, $sjobids)
+    function cloneRecentBaculaToTmp($sjobids)
     {
         $bacula = Zend_Registry::get('db_bacula');
-        // create temporary table: File   // создаем временные таблицы File
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
-        $this->createTmpTables();
+        $this->createTmpTable();
         $decode = new MyClass_HomebrewBase64;
         // clone File
         // dird/ua_restore.c :: build_directory_tree
-        $sql = "SELECT File.FileId, File.FileIndex, File.LStat
+        $sql = "SELECT File.JobId, File.FileId, File.FileIndex, File.LStat
                 FROM (
                     SELECT max(FileId) as FileId, PathId, FilenameId
                     FROM (
@@ -623,7 +572,7 @@ class WbTmpTable extends Zend_Db_Table
             list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
                 $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
             $file_size = $decode->homebrewBase64($st_size);
-            $this->insertRowFile($line['fileid'], $line['fileindex'], $file_size);
+            $this->insertRowFile($line['jobid'], $line['fileid'], $line['fileindex'], $file_size);
         }
         // end transaction // после успешного клонирования устанавливаем признак
         $this->setCloneOk();

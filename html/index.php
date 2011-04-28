@@ -18,11 +18,10 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.0' . ', build 2011.04.14');
+define('WEBACULA_VERSION', '5.5.0' . ', build 2011.04.28');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
-define('TMP_DIR',    ROOT_DIR.'/data/tmp' );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
 
 defined('APPLICATION_ENV')
@@ -187,12 +186,8 @@ if ( !$ver->checkVesion(BACULA_VERSION) )   {
             "Wanted ".BACULA_VERSION.", got ". $ver->getVesion().". ");
 }
 /*
- * Check TMP_DIR, CACHE_DIR, SESSION_DIR is writable
+ * Check CACHE_DIR is writable
  */
-if ( !is_writable( TMP_DIR ) ) {
-    echo '<pre>';
-    throw new Zend_Exception('Directory "'.TMP_DIR.'" is not exists or not writable.');
-}
 if ( !is_writable( CACHE_DIR ) ) {
     echo '<pre>';
     throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');

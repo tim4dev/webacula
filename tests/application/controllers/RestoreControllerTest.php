@@ -2,7 +2,6 @@
 class RestoreControllerTest extends ControllerTestCase
 {
 
-    const _PREFIX = 'webacula_'; // только в нижнем регистре see RestoreController.php
     protected $ttl_restore_session = 1800; // time to live session (30 min)
 
 
@@ -37,6 +36,7 @@ class RestoreControllerTest extends ControllerTestCase
     /**
      * @group restore-ajax
      * @group restore
+     * @group restore-select-job-id
      */
     public function testRestoreSelectJobId() {
         print "\n".__METHOD__;
@@ -56,7 +56,7 @@ class RestoreControllerTest extends ControllerTestCase
         $tsleep = 25; // sec. wait to restore
 
         // clear all tmp-tables
-        $this->WbTmpTable = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+        $this->WbTmpTable = new WbTmpTable($jobidhash, $this->ttl_restore_session);
         $this->WbTmpTable->deleteAllTmpTables();
         $this->assertTrue(TRUE);
         // choice select to restore
@@ -315,7 +315,7 @@ class RestoreControllerTest extends ControllerTestCase
         $jobidhash = md5($jobid);
         
         // clear all tmp-tables
-        $this->WbTmpTable = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+        $this->WbTmpTable = new WbTmpTable($jobidhash, $this->ttl_restore_session);
         $this->WbTmpTable->deleteAllTmpTables();
         $this->assertTrue(TRUE);
         // choice select to restore

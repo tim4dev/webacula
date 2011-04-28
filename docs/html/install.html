@@ -91,7 +91,7 @@ Contents</A>
 List of Figures</A>
 </H2><OL>
 <LI><A NAME="tex2html7"
-  HREF="install.html#142">Webacula ACLs</A></OL>
+  HREF="install.html#141">Webacula ACLs</A></OL>
 
 <P>
 
@@ -202,8 +202,7 @@ The tree which should turn out as a result :
 |   `-- views
 ...
 |-- data
-|   |-- cache
-|   `-- tmp
+|   `-- cache
 ...
 |-- docs
 |-- install
@@ -238,11 +237,6 @@ Some directory description:
 <P>
 <TT>data/cache/</TT>  Cache directory for Zend_Cache. Should be available to writing the Web-server and
                   no access through the client Web-browser.
-
-<P>
-<TT>data/tmp/</TT>   This directory which will be saved the file, which contains a list of files to Job restore.
-                  This directory and files in it should be available to read from the Bacula Director and
-                  to writing from the Web-server. And no access through the client Web-browser.
 
 <P>
 
@@ -515,7 +509,7 @@ Special keyword <TT>*all*</TT> when is present, any resource or command name wil
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="142"></A>
+<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="141"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
 Webacula ACLs</CAPTION>
@@ -644,7 +638,7 @@ From a file <TT>config.ini</TT> delete from <TT>[webacula]</TT> sections lines w
 description to a Webacula database.
 
 <P>
-Also remove <TT>tmpdir</TT> from <TT>config.ini</TT>. Use 'data/' directory instead.
+Also remove <TT>tmpdir</TT> from <TT>config.ini</TT>, is not necessary now.
 
 <P>
 The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
@@ -652,8 +646,8 @@ The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
 <P>
 <BR><HR>
 <ADDRESS>
-
-2011-04-13
+tim
+2011-04-28
 </ADDRESS>
 </BODY>
 </HTML>

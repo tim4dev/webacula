@@ -168,7 +168,6 @@ class AuthController extends Zend_Controller_Action
 	{
         $cache_helper = $this->_helper->getHelper('MyCache');
         $cache_helper->clearAllCacheRole($this->identity->role_id);
-        $cache_helper->deleteOldTmpFiles();
         /*
          * Final
          */

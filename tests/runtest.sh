@@ -126,7 +126,7 @@ echo -e "\n\n${LINE1}"
 echo "Test Postgresql"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
-LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger,restore-select-job-id --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -140,7 +140,7 @@ echo -e "\n\n${LINE1}"
 echo "Test Sqlite"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
-LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger --colors --stop-on-failure AllTests.php
+LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger,restore-select-job-id --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then

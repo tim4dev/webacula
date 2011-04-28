@@ -57,9 +57,6 @@ class RestorejobController extends MyClass_ControllerAclAction
 {
     // for pager
     const ROW_LIMIT_FILES = 500;
-    // for names of tmp tables (для формирования имен временных таблиц)
-    const _PREFIX = 'webacula_'; // только в нижнем регистре
-
     public $db_adapter;
 
     // для хранения данных для Restore
@@ -192,7 +189,7 @@ class RestorejobController extends MyClass_ControllerAclAction
     {
         /* извлекаем данные о jobid из сессии */
         $jobid = $this->restoreNamespace->JobId;
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+        $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
         $tmp_tables->cloneBaculaToTmp($jobid);
     }
 
@@ -207,8 +204,8 @@ class RestorejobController extends MyClass_ControllerAclAction
     {
         /* извлекаем данные обо всех jobids из сессии */
         $sjobids = implode(",", $this->restoreNamespace->aJobId);
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
-        $tmp_tables->cloneRecentBaculaToTmp($jobidhash, $sjobids);
+        $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
+        $tmp_tables->cloneRecentBaculaToTmp($sjobids);
     }
 
     /**
@@ -217,7 +214,7 @@ class RestorejobController extends MyClass_ControllerAclAction
      */
     public function deleteTmpTables()
     {
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         $tmp_tables->deleteAllTmpTables();
     }
 
@@ -631,7 +628,7 @@ EOF"
             $this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);
 
             // tmp таблицы существуют ?
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
             if ( $tmp_tables->isAllTmpTablesExists() )	{
                 // tmp таблицы устарели ?
                 if ( $tmp_tables->isOldTmpTables() )    {
@@ -727,7 +724,7 @@ EOF"
             /* начало отрисовки дерева каталогов. */
             // данные в сессии уже запомнены в selectBackupsBeforeDateAction()
             // tmp таблицы существуют ?
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
             if ( $tmp_tables->isAllTmpTablesExists() ) {
                 // tmp таблицы устарели ?
                 if ( $tmp_tables->isOldTmpTables() )    {
@@ -781,7 +778,7 @@ EOF"
         if ( $this->restoreNamespace->JobHash )    {
             $this->routeDrawTreeToRestore();
             //************ get a list of all directories + LStat (получаем список всех каталогов + их атрибуты LStat) ******
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
             // $this->_db->quote();
             $stmt = $db->query("
@@ -839,7 +836,7 @@ EOF"
             //****** получаем список файлов в текущем каталоге ******
             $afile = array();
             if ( $curdir )	{
-                $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+                $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
                 $db = $tmp_tables->getDb();
                 $select = $db->select();
                 switch ($this->db_adapter) {
@@ -910,7 +907,7 @@ EOF"
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
             // производим действия в БД
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $tmp_tables->markFile($fileid);
             $filename = $tmp_tables->getFileName($fileid);
             // получаем суммарную статистику
@@ -952,7 +949,7 @@ EOF"
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
             // производим действия в БД
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $tmp_tables->unmarkFile($fileid);
             $filename = $tmp_tables->getFileName($fileid);
             // получаем суммарную статистику
@@ -990,7 +987,7 @@ EOF"
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
             // производим действия в БД
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 1); // isMarked = 1
             if ( $res )
                 $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
@@ -1032,7 +1029,7 @@ EOF"
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
             // производим действия в БД
-            $tmp_tables = new WbTmpTable(self::_PREFIX, $jobidhash, $this->ttl_restore_session);
+            $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 0); // isMarked = 0
             if ( $res )
                 $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
@@ -1076,8 +1073,8 @@ EOF"
             switch ( $choice )
             {
                 case 'recreate_tmp': // выбор: пересоздать временные таблицы
-                    $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-                    $tmp_tables->createTmpTables();
+                    $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
+                    $tmp_tables->createTmpTable();
                     // перенаправление в зависимости от typeRestore
                     if ( $this->restoreNamespace->typeRestore == 'restore_recent' ) {
                         $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash);
@@ -1089,7 +1086,7 @@ EOF"
                     break;
                 case 'continue_tmp': // работать со старыми
                     // update timestamp
-                    $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+                    $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
                     $tmp_tables->updateTimestamp();
                     // продолжить
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
@@ -1129,7 +1126,7 @@ EOF"
 
         if ( !$this->restoreNamespace->JobHash )
             $this->view->result = null;
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         // get total info
         $atotal = $tmp_tables->getTotalSummaryMark();
         $this->view->total_size = $atotal['total_size'];
@@ -1202,7 +1199,7 @@ EOF"
         if ( !$this->restoreNamespace->JobHash )	{
         	$this->view->result = null;
         }
-		$tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+		$tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         // get total info
         $atotal = $tmp_tables->getTotalSummaryMark();
         $this->view->total_size = $atotal['total_size'];
@@ -1313,22 +1310,25 @@ EOF"
             return;
         }
 
-        // export to a text file (экспорт в текстовый файл)
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-        $ares = $tmp_tables->exportMarkFiles(TMP_DIR);
-        // unused ? $list = $ares['name']; // имя файла со списком файлов для восстановления
-
-        if ( $ares['result'] == TRUE )  {
-            //******************************* run job ***************************************
-            // perform the command line  (формируем командную строку)
-            // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
-            // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
-            //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
-            $cmd = 'restore '. $this->getCmdRestore() .
-                ' file=<"'.TMP_DIR.'/webacula_restore_' . $this->restoreNamespace->JobHash . '.tmp"' .
-                ' yes';
-            $comment = __METHOD__;
-            $astatusdir = $director->execDirector(
+        /* create table for restore (создание таблицы для восстановления)
+         * see also
+         * http://www.bacula.org/5.0.x-manuals/en/main/main/Restore_Command.html
+         * 7: Enter a list of files to restore
+         * If you prefix the filename with a question mark (?), then the filename will be interpreted as an SQL table name,
+         * and Bacula will include the rows of that table in the list to be restored.
+         * The table must contain the JobId in the first column and the FileIndex in the second column.
+         */
+        $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        //******************************* run job ***************************************
+        // perform the command line  (формируем командную строку)
+        // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
+        // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
+        //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
+        $cmd = 'restore '. $this->getCmdRestore() .
+               ' file=?"'.$tmp_tables->getTableNameFile(). '"' .
+               ' yes';
+        $comment = __METHOD__;
+        $astatusdir = $director->execDirector(
 " <<EOF
 @#
 @# $comment
@@ -1339,19 +1339,14 @@ $cmd
 $this->restore_job_select
 quit
 EOF"
-            );
-            $this->view->command_output = $astatusdir['command_output'];
-            // check return status of the executed command
-            if ( $astatusdir['return_var'] == 0 )	{
-                $this->deleteTmpTables();
-                $this->mySessionStop();
-            } else {
-                $this->view->result_error = $astatusdir['result_error'];
-            }
-            //echo "<pre>3 command_output:<br>" . print_r($command_output) . "<br><br>return_var = " . $return_var . "</pre>"; exit;
-        }   else {
-            // выдать сообщение
-            $this->view->result_error = 'ERROR_EXPORT';
+        );
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] == 0 )	{
+            $this->deleteTmpTables();
+            $this->mySessionStop();
+        } else {
+            $this->view->result_error = $astatusdir['result_error'];
         }
         $this->render();
     }
@@ -1387,10 +1382,15 @@ EOF"
         // получаем значения из формы FormRestoreOptions
         $this->getParamFromForm();
 
-        // export to a text file (экспорт в текстовый файл)
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-        $ares = $tmp_tables->exportMarkFiles(TMP_DIR);
-        $list = $ares['name']; // имя файла со списком файлов для восстановления
+        /* create table for restore (создание таблицы для восстановления)
+         * see also
+         * http://www.bacula.org/5.0.x-manuals/en/main/main/Restore_Command.html
+         * 7: Enter a list of files to restore
+         * If you prefix the filename with a question mark (?), then the filename will be interpreted as an SQL table name,
+         * and Bacula will include the rows of that table in the list to be restored.
+         * The table must contain the JobId in the first column and the FileIndex in the second column.
+         */
+        $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
 
         $date_before = 'current';
         if ( !empty($this->restoreNamespace->DateBefore) )
@@ -1398,7 +1398,8 @@ EOF"
         //******************************* запуск задания ***************************************
         // формируем командную строку
         // restore client="local.fd" fileset="test1" before="2009-05-15 14:50:01" file=<"/etc/bacula/webacula_restore.tmp" done yes
-        $cmd = 'restore ' . $this->getCmdRestore() .' '.	$date_before .' file=<"'. $list . '" done yes';
+        $cmd = 'restore ' . $this->getCmdRestore() .' '.	$date_before .
+               ' file=?"'. $tmp_tables->getTableNameFile() . '" done yes';
         $comment = __METHOD__;
         $astatusdir = $director->execDirector(
 " <<EOF
@@ -1429,7 +1430,7 @@ EOF"
      */
     function cancelRestoreAction()
     {
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         $tmp_tables->deleteAllTmpTables();
         $this->mySessionStop();
         // goto home (переадресуем на главную страницу)
@@ -1442,7 +1443,7 @@ EOF"
      */
     function cancelRestoreRecentAction()
     {
-        $tmp_tables = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         $tmp_tables->deleteAllTmpTables();
         $this->mySessionStop();
         // goto home (переадресуем на главную страницу)

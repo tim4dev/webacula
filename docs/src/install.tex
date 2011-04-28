@@ -123,8 +123,7 @@ The tree which should turn out as a result :
 |   `-- views
 ...
 |-- data
-|   |-- cache
-|   `-- tmp
+|   `-- cache
 ...
 |-- docs
 |-- install
@@ -154,9 +153,6 @@ Some directory description:
 \texttt{data/cache/}  Cache directory for Zend\_Cache. Should be available to writing the Web-server and
                   no access through the client Web-browser.
 
-\texttt{data/tmp/}   This directory which will be saved the file, which contains a list of files to Job restore.
-                  This directory and files in it should be available to read from the Bacula Director and
-                  to writing from the Web-server. And no access through the client Web-browser.
 
 
 
@@ -444,7 +440,7 @@ LOAD DATA INFILE '/tmp/webacula_wbLogBook' INTO TABLE webacula_logbook;
 From a file \texttt{config.ini} delete from \texttt{[webacula]} sections lines with the connection
 description to a Webacula database.
 
-Also remove \texttt{tmpdir} from \texttt{config.ini}. Use 'data/' directory instead.
+Also remove \texttt{tmpdir} from \texttt{config.ini}, is not necessary now.
 
 The script \texttt{webacula\_clean\_tmp\_files.sh} is not necessary now.
 

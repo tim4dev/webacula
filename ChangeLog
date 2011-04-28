@@ -5,8 +5,8 @@ Webacula ChangeLog
     Implemented Bacula ACLs : JobACL, ClientACL, StorageACL, PoolACL, FileSetACL, WhereACL.
     Implemented Webacula ACLs - access to main menu.
     Move all Webacula tables to Bacula database. Now a separate database is not needed.
-    Remove 'tmpdir' from config.ini. Use 'data/' directory instead.
-    Automatic delete old temporary files in 'data/tmp'.   
+    Greatly increased performance when restoring the file list : implemented receive a list of files to restore from temporary table (trac ticket #40).
+    Remove 'tmpdir' from config.ini. Now 'tmpdir' is not needed.
     Fix bug #3151906 -- "Single" files missing from "Select Files for Restore".
     Documentation to install Webacula on Ubuntu/Debian based.
     PHP session is stored in the table.

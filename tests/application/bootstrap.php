@@ -32,7 +32,6 @@ Zend_Loader_Autoloader::getInstance();
 define('WEBACULA_VERSION', '5.5.x, build for tests');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 define('ROOT_DIR',   $appRoot );
-define('TMP_DIR',    ROOT_DIR.'/data/tmp' );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
 
 // load my ACL classes
@@ -158,12 +157,8 @@ if ( !$ver->checkVesion(BACULA_VERSION) )   {
             " got ". $ver->getVesion().") ");
 }
 /*
- * Check TMP_DIR, CACHE_DIR is writable
+ * Check CACHE_DIR is writable
  */
-if ( !is_writable( TMP_DIR ) ) {
-    echo '<pre>';
-    throw new Zend_Exception('Directory "'.TMP_DIR.'" is not exists or not writable.');
-}
 if ( !is_writable( CACHE_DIR ) ) {
     echo '<pre>';
     throw new Zend_Exception('Directory "'.CACHE_DIR.'" is not exists or not writable.');

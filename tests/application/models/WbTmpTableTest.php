@@ -11,8 +11,6 @@ require_once 'PHPUnit/Framework/TestCase.php';
 class WbTmpTableTest extends ModelTestCase {
 
 	// from controllers/RestorejobController.php
-	const _PREFIX = '_'; // только в нижнем регистре
-	const _PREFIX_RECENT = '_recent_'; // для восстановления типа Restore recent backup. только в нижнем регистре
 	protected $restoreNamespace;
 	const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
 	protected $ttl_restore_session = 1800; // time to live session (30 min)
@@ -35,7 +33,7 @@ class WbTmpTableTest extends ModelTestCase {
 		$this->restoreNamespace->typeRestore = 'restore';
 		$this->restoreNamespace->JobId = $this->jobid;
 		$this->restoreNamespace->JobHash = md5($this->jobid);
-		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid), $this->ttl_restore_session);
+		$this->WbTmpTable = new WbTmpTable(md5($this->jobid), $this->ttl_restore_session);
 	}
 
 	/**
@@ -108,16 +106,6 @@ class WbTmpTableTest extends ModelTestCase {
 	/**
     * @group restore
     */
-	function testExportMarkFiles() {
-		print "\n".__METHOD__.' ';
-		$ares = $this->WbTmpTable->exportMarkFiles('/tmp');
-		$this->assertTrue( ( $ares['result'] && ($ares['count'] == 1207) ), 'error export marked files '.$ares['count']);
-		unlink( '/tmp/'.$this->WbTmpTable->getFilenameToExportMarkFiles() );
-	}
-
-	/**
-    * @group restore
-    */
 	public function testUnMarkDir() {
 		print "\n".__METHOD__.' ';
 		$this->WbTmpTable->markDir("/tmp/webacula/test/1/0 Каталог'tmp/", 0);
@@ -158,8 +146,8 @@ class WbTmpTableTest extends ModelTestCase {
         $sjobids = implode(",", $this->restoreNamespace->aJobId);
 
         // собственно клонирование
-        $this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-        $this->WbTmpTableRecent->cloneRecentBaculaToTmp($this->restoreNamespace->JobHash, $sjobids);
+        $this->WbTmpTableRecent = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $this->WbTmpTableRecent->cloneRecentBaculaToTmp($sjobids);
 
 		// проверяем кол-во файлов и т.д.
 		$res = $this->WbTmpTableRecent->getCountFile();
@@ -202,8 +190,8 @@ class WbTmpTableTest extends ModelTestCase {
 		$sjobids = implode(",", $this->restoreNamespace->aJobId);
 
 		// собственно клонирование
-		$this->WbTmpTableRecent = new WbTmpTable(self::_PREFIX, $this->restoreNamespace->JobHash, $this->ttl_restore_session);
-		$this->WbTmpTableRecent->cloneRecentBaculaToTmp($this->restoreNamespace->JobHash, $sjobids);
+		$this->WbTmpTableRecent = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
+		$this->WbTmpTableRecent->cloneRecentBaculaToTmp($sjobids);
 
 		// проверяем кол-во файлов и т.д.
 		$res = $this->WbTmpTableRecent->getCountFile();
@@ -220,7 +208,7 @@ class WbTmpTableTest extends ModelTestCase {
 	 */
 	public function testDeleteAllTmpTables() {
 		print "\n".__METHOD__.' ';
-		$this->WbTmpTable = new WbTmpTable(self::_PREFIX, md5($this->jobid), $this->ttl_restore_session);
+		$this->WbTmpTable = new WbTmpTable(md5($this->jobid), $this->ttl_restore_session);
 		$this->WbTmpTable->deleteAllTmpTables();
 		$this->assertTrue(TRUE);
 	}

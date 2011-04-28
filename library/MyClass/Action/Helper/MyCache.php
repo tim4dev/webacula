@@ -38,19 +38,6 @@ class MyClass_Action_Helper_MyCache extends Zend_Controller_Action_Helper_Abstra
 
 
     /**
-     * Delete old tmp files
-     */
-    public function deleteOldTmpFiles()
-    {
-        foreach ( glob(TMP_DIR. '/webacula*.tmp', GLOB_NOSORT) as $filename ) {
-            $diff = time() - filemtime($filename);
-            if ( ($diff > 86400) )
-                @ unlink($filename);
-        }
-    }
-
-
-    /**
      * Cleaning cache by specified role_id : Zend_Cache and data/tmp files
      */
     public function clearAllCacheRole($role_id)
@@ -73,8 +60,6 @@ class MyClass_Action_Helper_MyCache extends Zend_Controller_Action_Helper_Abstra
     {
         // remove all cache for all users
         $this->cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-        // Delete old tmp files
-        $this->deleteOldTmpFiles();
     }
 
 
