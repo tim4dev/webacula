@@ -1319,6 +1319,7 @@ EOF"
          * The table must contain the JobId in the first column and the FileIndex in the second column.
          */
         $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
+        $tmp_tables->prepareTmpTableForRestore();
         //******************************* run job ***************************************
         // perform the command line  (формируем командную строку)
         // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
@@ -1391,7 +1392,7 @@ EOF"
          * The table must contain the JobId in the first column and the FileIndex in the second column.
          */
         $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
-
+        $tmp_tables->prepareTmpTableForRestore();
         $date_before = 'current';
         if ( !empty($this->restoreNamespace->DateBefore) )
             $date_before = 'before="'. $this->restoreNamespace->DateBefore . '"';

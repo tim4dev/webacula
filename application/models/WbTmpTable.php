@@ -629,5 +629,15 @@ class WbTmpTable extends Zend_Db_Table
         return $countf[0]['num'];
     }
 
+    /*
+     * For Bacula should leave only files that are to be restored
+     * Для Bacula надо оставить только записи о файлах, которые будут восстанавливаться
+     */
+    public function prepareTmpTableForRestore() {
+        $sql = 'DELETE FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . ' '.
+               'WHERE isMarked != 1';
+        $stmt = $this->_db->query($sql);
+    }
+
 
 }
