@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-23 22:01+0300\n"
-"PO-Revision-Date: 2011-04-28 17:03+0200\n"
+"PO-Revision-Date: 2011-04-28 18:05+0200\n"
 "Last-Translator: Mauro Colorio <mauro.colorio@gmail.com>\n"
 "Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "Language: Italian\n"
@@ -301,11 +301,11 @@ msgstr "Ordinario"
 #: application/controllers/JobController.php:238
 #: application/controllers/JobController.php:243
 msgid "LIKE operator"
-msgstr "LIKE operatore"
+msgstr "operatore LIKE"
 
 #: application/controllers/JobController.php:244
 msgid "Regular expression"
-msgstr "Espressioni regolari"
+msgstr "Espressione regolare"
 
 #: application/controllers/JobController.php:255
 msgid "Detail JobId"
@@ -750,19 +750,19 @@ msgstr "Dove"
 
 #: application/forms/FormRestoreOptions.php:187
 msgid "Strip&nbsp;prefix"
-msgstr ""
+msgstr "Elimina&nbsp;prefisso"
 
 #: application/forms/FormRestoreOptions.php:199
 msgid "Add&nbsp;prefix"
-msgstr ""
+msgstr "Aggiunge&nbsp;prefisso"
 
 #: application/forms/FormRestoreOptions.php:211
 msgid "Add&nbsp;suffix"
-msgstr ""
+msgstr "Aggiunge&nbsp;suffisso"
 
 #: application/forms/FormRestoreOptions.php:223
 msgid "RegexWhere"
-msgstr "Dove (regex)"
+msgstr "Dove&nbsp;(regex)"
 
 #: application/forms/FormRestoreOptions.php:237
 msgid "Run Restore Job"
@@ -794,7 +794,7 @@ msgstr "'%s' non sembra una data valida"
 #: library/MyClass/Validate/BaculaAclWhere.php:51
 #, php-format
 msgid "Bacula ACLs : access denied for Where '%s'"
-msgstr "BACULA ACL: accesso negato per Dove '%s'"
+msgstr "Bacula ACL: accesso negato per Dove '%s'"
 
 #: library/MyClass/Validate/LogBookId.php:55
 #, php-format
@@ -1084,7 +1084,7 @@ msgstr "Nessun File trovato."
 
 #: application/views/scripts/help/index.phtml:9
 msgid "web interface of a"
-msgstr "interfaccia web di"
+msgstr "interfaccia web di "
 
 #: application/views/scripts/help/index.phtml:13
 msgid "Legend"
@@ -1156,7 +1156,7 @@ msgstr "Opzioni avanzate"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:151
 msgid "Restore files in <b>where</b> directory."
-msgstr "Ripristina i file nella cartella <b>dove</b>."
+msgstr "Ripristina i file nella cartella specificata."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:156
 msgid "Remove a part of the filename when restoring."
@@ -1164,7 +1164,7 @@ msgstr "Elimina una parte del nome del file quando ripristinato."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:161
 msgid "Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."
-msgstr "Aggiunte un prefisso a tutti i file quando ripristinati (non può essere utilizzato con <b>dove</b>)."
+msgstr "Aggiunge un prefisso a tutti i file quando ripristinati (non può essere utilizzato con <b>dove</b>)."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:166
 msgid "Add a suffix to all your files."
@@ -1378,7 +1378,7 @@ msgstr "hh-mm-ss"
 #: application/views/scripts/job/find-filters.phtml:177
 #: application/views/scripts/job/terminated.phtml:186
 msgid "See List last 20 Jobs run"
-msgstr "Vedi Lista ultimi 20 job eseguiti"
+msgstr "Vedi lista ultimi 20 job eseguiti"
 
 #: application/views/scripts/job/find-form.phtml:45
 #: application/views/scripts/job/find-form.phtml:49
@@ -1388,7 +1388,7 @@ msgstr "Vedi Lista ultimi 20 job eseguiti"
 #: application/views/scripts/job/find-form.phtml:68
 #: application/views/scripts/job/find-form.phtml:78
 msgid "ANY"
-msgstr "OGNI"
+msgstr "QUALSIASI"
 
 #: application/views/scripts/job/find-form.phtml:70
 msgid "Completed successfully"
@@ -1459,7 +1459,7 @@ msgstr "Inserire il percorso compreso di slash"
 
 #: application/views/scripts/job/find-form.phtml:182
 msgid "Enter Filename (no path)"
-msgstr "Inserisci Filename (nessun percorso)"
+msgstr "Inserire il nome del file (nessun percorso)"
 
 #: application/views/scripts/job/find-form.phtml:186
 msgid "Type of search<br>(case sensitive)"
@@ -1526,11 +1526,11 @@ msgstr "Ultima azione: smarca"
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:150
 msgid "Last action: mark directory tree"
-msgstr "Ultima azione: marca alberatura cartella"
+msgstr "Ultima azione: marcata alberatura cartella"
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:170
 msgid "Last action: unmark directory tree"
-msgstr "Ultima azione: smarca alberatura cartella"
+msgstr "Ultima azione: smarcata alberatura cartella"
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:189
 msgid "For restore"
@@ -1594,7 +1594,7 @@ msgstr "Ripristina da uno specifico JobId"
 #: application/views/scripts/restorejob/main-form.phtml:227
 #: application/views/scripts/restorejob/main-form.phtml:273
 msgid "Select Files for Restore"
-msgstr "Seleziona i File da Ripristinare"
+msgstr "Seleziona i file da ripristinare"
 
 #: application/views/scripts/restorejob/main-form.phtml:159
 msgid "Full restore to a specified JobId"
@@ -1602,7 +1602,7 @@ msgstr "Ripristino completo da uno specifico JobId"
 
 #: application/views/scripts/restorejob/main-form.phtml:204
 msgid "Restore the most recent backup for a client"
-msgstr "Ripristina il piu' recente Backup per un client"
+msgstr "Ripristina il backup più recente per un client"
 
 #: application/views/scripts/restorejob/main-form.phtml:241
 msgid "Restore backup for a client before a specified time"
