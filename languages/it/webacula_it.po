@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-23 22:01+0300\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
+"PO-Revision-Date: 2011-04-28 17:03+0200\n"
+"Last-Translator: Mauro Colorio <mauro.colorio@gmail.com>\n"
 "Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "Language: Italian\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 #: application/controllers/StorageController.php:185
 #, php-format
 msgid "You try to run Bacula Console with command \"%s\"."
-msgstr "Stai tentando di eseguire Bacula Console col comando \"%s\"."
+msgstr "Provare a lanciare la Console di Bacula con il comando \"%s\"."
 
 #: application/controllers/BconsoleController.php:51
 msgid "Access denied."
@@ -56,7 +56,7 @@ msgstr "Lista Totale dei Job"
 #: application/controllers/RestorejobController.php:748
 #: application/controllers/RestorejobController.php:780
 msgid "Restore Job"
-msgstr "Ripristina Job"
+msgstr "Ripristina dal Job"
 
 #: application/controllers/RestorejobController.php:343
 #: application/controllers/RestorejobController.php:406
@@ -67,7 +67,7 @@ msgstr "JobId %u non esiste."
 
 #: application/controllers/RestorejobController.php:398
 msgid "Restore All files for JobId"
-msgstr "Ripristina tutti i file per JobId"
+msgstr "Ripristina tutti i file di JobId"
 
 #: application/controllers/RestorejobController.php:517
 msgid "Restore All files"
@@ -76,7 +76,7 @@ msgstr "Ripristina tutti i file"
 #: application/controllers/RestorejobController.php:697
 #, php-format
 msgid "No Full backup before %s found."
-msgstr "Nessun Full Backup prima %s trovato."
+msgstr "Nessun Full Backup prima di %s trovato."
 
 #: application/controllers/RestorejobController.php:710
 msgid "You have selected the following JobIds"
@@ -86,7 +86,7 @@ msgstr "Hai selezionato i seguenti JobId"
 #: application/controllers/RestorejobController.php:1040
 #, php-format
 msgid "%s<br>(%s dirs and files affected)"
-msgstr "%s<br>(%s cartelle e file ricercati)"
+msgstr "%s<br>(%s cartelle e file selezionati)"
 
 #: application/controllers/RestorejobController.php:1000
 #: application/controllers/RestorejobController.php:1042
@@ -95,11 +95,11 @@ msgstr "Errore interno al programma!"
 
 #: application/controllers/RestorejobController.php:1130
 msgid "List of Files to Restore for JobId"
-msgstr "Lista dei File da Restorare per JobId"
+msgstr "Lista dei File da ripristinare per JobId"
 
 #: application/controllers/RestorejobController.php:1202
 msgid "List of Files to Restore"
-msgstr "Lista dei File da Restorare"
+msgstr "Lista dei File da ripristinare"
 
 #: application/controllers/RestorejobController.php:1299
 msgid "Restore JobId"
@@ -111,9 +111,8 @@ msgstr "Ripristino del piu' recente backup (o antecedente ad una data specifica)
 
 #: application/controllers/RestorejobController.php:1461
 #: application/controllers/RestorejobController.php:1511
-#, fuzzy
 msgid "Restore Single File"
-msgstr "Ripristina tutti i file"
+msgstr "Ripristina un singolo file"
 
 #: application/controllers/AdminController.php:89
 msgid "Roles"
@@ -128,11 +127,11 @@ msgstr "Ruoli"
 #: application/controllers/AdminController.php:1000
 #: application/controllers/AdminController.php:1028
 msgid "Exception"
-msgstr "Eccezioni"
+msgstr "Eccezione"
 
 #: application/controllers/AdminController.php:126
 msgid "Role add"
-msgstr "Agg. Ruoli"
+msgstr "Aggiungi ruolo"
 
 #: application/controllers/AdminController.php:177
 #: application/controllers/AdminController.php:459
@@ -142,15 +141,15 @@ msgstr "Aggiorna"
 
 #: application/controllers/AdminController.php:180
 msgid "Role update"
-msgstr "Aggiorna Ruoli"
+msgstr "Aggiorna ruolo"
 
 #: application/controllers/AdminController.php:375
 msgid " ACL add"
-msgstr "ACL aggiungi"
+msgstr " aggiungi ACL"
 
 #: application/controllers/AdminController.php:462
 msgid " ACL update"
-msgstr "ACL aggiorna"
+msgstr " aggiorna ACL"
 
 #: application/controllers/AdminController.php:881
 #: application/controllers/AdminController.php:898
@@ -163,7 +162,7 @@ msgstr "Utenti"
 
 #: application/controllers/AdminController.php:975
 msgid "User update"
-msgstr "Aggiorna Utente"
+msgstr "Aggiornamento utente"
 
 #: application/controllers/AdminController.php:1010
 msgid "Add"
@@ -171,7 +170,7 @@ msgstr "Aggiungi"
 
 #: application/controllers/AdminController.php:1013
 msgid "User add"
-msgstr "Aggiungi Utente"
+msgstr "Aggiungi utente"
 
 #: application/controllers/FeedController.php:62
 #: application/controllers/WblogbookController.php:305
@@ -180,7 +179,7 @@ msgstr "Job Id"
 
 #: application/controllers/FeedController.php:63
 msgid "Job Name"
-msgstr "Job Name"
+msgstr "Nome"
 
 #: application/controllers/FeedController.php:64
 msgid "Status"
@@ -188,7 +187,7 @@ msgstr "Stato"
 
 #: application/controllers/FeedController.php:65
 msgid "Level"
-msgstr "Levello"
+msgstr "Livello"
 
 #: application/controllers/FeedController.php:66
 #: application/controllers/ClientController.php:51
@@ -225,7 +224,7 @@ msgstr "Errori"
 
 #: application/controllers/FeedController.php:86
 msgid "Volume Name"
-msgstr "Nome Volume"
+msgstr "Nome"
 
 #: application/controllers/FeedController.php:86
 msgid "Volume Status"
@@ -255,7 +254,7 @@ msgstr "Aggiungi Descrizione Job"
 #: application/controllers/JobController.php:45
 #: application/controllers/JobController.php:490
 msgid "Terminated Jobs (executed in last 24 hours)"
-msgstr "Jobs Terminati (eseguiti nelle ultime 24 ore)"
+msgstr "Job Terminati (eseguiti nelle ultime 24 ore)"
 
 #: application/controllers/JobController.php:59
 #: application/controllers/JobController.php:77
@@ -329,9 +328,9 @@ msgid "List last %s Jobs run"
 msgstr "Lista ultimi %s Job eseguiti"
 
 #: application/controllers/JobController.php:523
-#, fuzzy, php-format
+#, php-format
 msgid "List Jobs (%s found) where '%s' is saved (limit %s)"
-msgstr "Lista Job dove %s sono salvati (limite %s)"
+msgstr "Lista dei Job (%s trovati) dove %s è salvato (limite %s)"
 
 #: application/controllers/JobController.php:535
 msgid "Cancel Job"
@@ -379,9 +378,8 @@ msgstr "Cerca testo"
 #: application/controllers/WblogbookController.php:489
 #: application/controllers/WblogbookController.php:525
 #: application/controllers/WblogbookController.php:553
-#, fuzzy
 msgid "Webacula Logbook"
-msgstr "Webacula Diario aggiungi record"
+msgstr "Webacula Diario"
 
 #: application/controllers/WblogbookController.php:258
 #: application/controllers/WblogbookController.php:303
@@ -389,7 +387,7 @@ msgstr "Webacula Diario aggiungi record"
 #: application/controllers/WblogbookController.php:527
 #: application/controllers/WblogbookController.php:555
 msgid "Webacula admin"
-msgstr "Webacula admin"
+msgstr "Amministratore Webacula"
 
 #: application/controllers/WblogbookController.php:259
 msgid "Webacula Logbook Add record"
@@ -412,11 +410,11 @@ msgstr "Testo :"
 
 #: application/controllers/WblogbookController.php:280
 msgid "Bacula Job Reviewed. See Webacula LOGBOOK_ID="
-msgstr "Bacula Job Analizzato. Vedi Webacula LOGBOOK_ID="
+msgstr "Job di bacula revisionato. Vedere il log di Webacula LOGBOOK_ID="
 
 #: application/controllers/WblogbookController.php:304
 msgid "Bacula Job Reviewed"
-msgstr "Bacula Job Analizzato"
+msgstr "Job di Bacula revisionato"
 
 #: application/controllers/WblogbookController.php:327
 #: application/controllers/WblogbookController.php:603
@@ -425,7 +423,7 @@ msgstr "Diario: aggiungi nuovo record"
 
 #: application/controllers/WblogbookController.php:383
 msgid "See also Webacula LOGBOOK_ID="
-msgstr "Vedi anche Webacula LOGBOOK_ID="
+msgstr "Vedere anche il Webacula LOGBOOK_ID?"
 
 #: application/controllers/WblogbookController.php:420
 msgid "Logbook: modify record"
@@ -462,14 +460,12 @@ msgid "Storage %s status"
 msgstr "Storage %s stato"
 
 #: application/controllers/StorageController.php:138
-#, fuzzy
 msgid "mount"
-msgstr "Somma:"
+msgstr "monta"
 
 #: application/controllers/StorageController.php:141
-#, fuzzy
 msgid "umount"
-msgstr "Somma:"
+msgstr "smonta"
 
 #: application/controllers/StorageController.php:147
 #: application/controllers/StorageController.php:197
@@ -477,9 +473,8 @@ msgid "Storage"
 msgstr "Storage"
 
 #: application/controllers/StorageController.php:198
-#, fuzzy
 msgid "autochanger content"
-msgstr "AutoChanger"
+msgstr "Contenuto AutoChanger"
 
 #: application/controllers/VolumeController.php:45
 msgid "Volume"
@@ -508,16 +503,16 @@ msgstr "Console messaggi per Job %s, JobId %u"
 
 #: application/controllers/AuthController.php:145
 msgid "Username or password is incorrect"
-msgstr "Nome utente e password non validi."
+msgstr "Utente o password non corretti"
 
 #: application/controllers/AuthController.php:152
 #, php-format
 msgid "Login with your %sWe%sbacula%s account"
-msgstr "Accesso col tuo %sWe%sbacula%s utente"
+msgstr "Accesso a %sWe%sbacula%s con utente"
 
 #: application/controllers/AuthController.php:154
 msgid "Login with your Webacula account"
-msgstr "Accesso col tuo utente Webacula"
+msgstr "Accesso a Webacula con utente"
 
 #: application/controllers/AuthController.php:190
 #, php-format
@@ -538,54 +533,53 @@ msgid ""
 "\n"
 "Thanks! \n"
 msgstr ""
-"Ciao,\n"
+"Salve, \n"
 "\n"
-"Ciao questo e' un messagio automatico dal sito %s, prego non rispondere!\n"
+"Questo è un messaggio automatico dal sito %s, non rispondere!\n"
 "\n"
-"Hai cambiato oppure qualcun'altro ha richiesto di cambiare la tua password \n"
-"dall' IP : %s\n"
+"Tu o qualcuno che ti sta impersonando ha rischiesto di cambiare la tua password\n"
+"dall'indirizzo IP: %s\n"
 "\n"
-"Nuova Password: %s\n"
+"Nuova Passowrd: %s\n"
 "\n"
-"Una volta eseguito l'accesso potra cambiare la password.\n"
+"Una volta collegati si prega di cambiare la password.\n"
 "\n"
-"Se non sei la persona che ha eseguito questa richiesta\n"
-"prego invia una email all'ammistratore del sito : %s\n"
+"Se non sei la persona che ha fatto questa richiesta\n"
+"ti preghiamo di mandare questa mail all'amministratore del sito : %s\n"
 "\n"
-"Grazie! \n"
+"Grazie!\n"
 
 #: application/controllers/AuthController.php:212
 msgid "Webacula password manager"
-msgstr "Webacula password manager"
+msgstr "Gestore password di Webacula"
 
 #: application/controllers/AuthController.php:215
 msgid "New Webacula password"
-msgstr "Nuova password Webacula"
+msgstr "Nuova password di Webacula"
 
 #: application/controllers/AuthController.php:255
 msgid "New password set"
-msgstr "Nuovo set password"
+msgstr "Nuova password impostata"
 
 #: application/controllers/AuthController.php:258
 msgid "Error while sending email. Email not send"
-msgstr "Errore durante l'invio email. Email non inviata"
+msgstr "Errore nell'invio email. Email non spedito"
 
 #: application/controllers/AuthController.php:262
 msgid "Username or email is incorrect"
-msgstr "Nome utente o email non corretti"
+msgstr "Utente o email sbagliati"
 
 #: application/controllers/AuthController.php:267
-#, fuzzy
 msgid "Reset password"
-msgstr "Annulla"
+msgstr "Resetta password"
 
 #: application/models/Wbroles.php:108
 msgid "Role Id and Inherited Role Id must not be identical"
-msgstr "Id Ruolo e Ruolo ereditato non possone essere identici"
+msgstr "L'id del ruolo e l'id del ruolo ereditato non possono essere identici"
 
 #: application/models/Wbroles.php:133
 msgid "Can not delete. Role is used."
-msgstr "Non posso cancellare. Ruolo utilizzato."
+msgstr "Impossibile eliminare. Il ruolo è in uso."
 
 #: application/models/Timeline.php:516
 msgid "Hours"
@@ -597,7 +591,7 @@ msgstr "Utente"
 
 #: application/forms/FormForgotPassword.php:59
 msgid "Login characters incorrect. Allowed: alphabetical characters, digits, and \"- . _ @\" characters."
-msgstr "Login caratteri errati. Permessi: caratteri alfanumerici, numeri e \"- . _ @\" caratteri."
+msgstr "Caratteri dell'utente non corretti. Sono ammessi: Caratteri alfabetici, cifre e i caratteri \"- . _ @\"."
 
 #: application/forms/FormForgotPassword.php:70
 msgid "Email"
@@ -605,16 +599,15 @@ msgstr "Email"
 
 #: application/forms/FormForgotPassword.php:78
 msgid "Email address incorrect."
-msgstr "Indirizzo Email errato."
+msgstr "Indirizzo email sbagliato."
 
 #: application/forms/FormForgotPassword.php:88
-#, fuzzy
 msgid "Submit new password"
-msgstr "Conferma"
+msgstr "Invia nuova password"
 
 #: application/forms/FormForgotPassword.php:94
 msgid "Type the characters:"
-msgstr "Digita i caratteri:"
+msgstr "Digitare i caratteri:"
 
 #: application/forms/FormWebaculaACL.php:61
 msgid "Webacula resources"
@@ -639,7 +632,7 @@ msgstr "Cancella"
 
 #: application/forms/FormBaculaFill.php:79
 msgid "From Bacula database"
-msgstr "Dal database Bacula"
+msgstr "Dal database di Bacula"
 
 #: application/forms/FormRole.php:65
 #: application/forms/FormBaculaACL.php:62
@@ -654,12 +647,11 @@ msgstr "Nome"
 
 #: application/forms/FormRole.php:83
 msgid "Role name incorrect. This contains only english alphabetical characters, digits and underscore."
-msgstr "Nome Ruolo errato. Il nome ruolo puo' contere solo caratteri inglesi, numeri e underscore."
+msgstr "Il nome del ruolo è scorretto. Può solo contenete caratteri dell'alfabeto, numeri e underscore."
 
 #: application/forms/FormRole.php:92
-#, fuzzy
 msgid "Description"
-msgstr "Descrizione Job"
+msgstr "Descrizione"
 
 #: application/forms/FormRole.php:110
 msgid "Inherited role"
@@ -675,9 +667,8 @@ msgstr "Ruolo ereditato"
 #: application/forms/FormRestoreOptions.php:109
 #: application/forms/FormRestoreOptions.php:126
 #: application/forms/FormRestoreOptions.php:143
-#, fuzzy
 msgid "Default"
-msgstr "Elimina"
+msgstr "Default"
 
 #: application/forms/FormJobrun.php:97
 #: application/forms/FormRestoreOptions.php:121
@@ -697,9 +688,8 @@ msgid "Differential level"
 msgstr "Livello Differenziale"
 
 #: application/forms/FormJobrun.php:147
-#, fuzzy
 msgid "Spool"
-msgstr "Pool"
+msgstr "Coda"
 
 #: application/forms/FormJobrun.php:154
 msgid "Yes"
@@ -711,7 +701,7 @@ msgstr "No"
 
 #: application/forms/FormJobrun.php:198
 msgid "Run Job"
-msgstr "Job eseguiti"
+msgstr "Esegui Job"
 
 #: application/forms/FormJobdesc.php:58
 msgid "Job Description"
@@ -723,7 +713,7 @@ msgstr "Login"
 
 #: application/forms/FormUser.php:74
 msgid "Login incorrect. Login contains only english alphabetical characters, digits and underscore."
-msgstr "Accesso errato. Il Login puo' contere solo caratteri inglesi, numeri e underscore."
+msgstr "Login scorretto. Il Login contiene solo caratteri alfabetici, cifre e underscore."
 
 #: application/forms/FormUser.php:81
 #: application/forms/FormLogin.php:69
@@ -732,7 +722,7 @@ msgstr "Password"
 
 #: application/forms/FormUser.php:112
 msgid "Email incorrect."
-msgstr "Email errata"
+msgstr "Email sbagliato."
 
 #: application/forms/FormUser.php:119
 msgid "Active"
@@ -744,17 +734,15 @@ msgstr "Ricordami"
 
 #: application/forms/FormLogin.php:88
 msgid "Log In"
-msgstr "Entra"
+msgstr "Accesso"
 
 #: application/forms/FormRestoreOptions.php:85
-#, fuzzy
 msgid "Restore client"
-msgstr "Ripristina tutti i file"
+msgstr "Ripristina client"
 
 #: application/forms/FormRestoreOptions.php:155
-#, fuzzy
 msgid "Restore Job Resource"
-msgstr "Ripristina Job"
+msgstr "Ripristina risorse Job"
 
 #: application/forms/FormRestoreOptions.php:175
 msgid "Where"
@@ -762,63 +750,61 @@ msgstr "Dove"
 
 #: application/forms/FormRestoreOptions.php:187
 msgid "Strip&nbsp;prefix"
-msgstr "Togli&nbsp;prefisso"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:199
 msgid "Add&nbsp;prefix"
-msgstr "Aggiungi&nbsp;prefiso"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:211
 msgid "Add&nbsp;suffix"
-msgstr "Aggiungi&nbsp;suffisso"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:223
-#, fuzzy
 msgid "RegexWhere"
-msgstr "Dove"
+msgstr "Dove (regex)"
 
 #: application/forms/FormRestoreOptions.php:237
 msgid "Run Restore Job"
 msgstr "Esegui Ripristino Job"
 
 #: application/forms/FormBaculaCommandACL.php:61
-#, fuzzy
 msgid "Bacula commands"
-msgstr "Bacula Console"
+msgstr "Comandi Bacula"
 
 #: library/MyClass/ControllerAclAction.php:78
 msgid "Webacula error. Role mechanism is broken. Check Webacula tables."
-msgstr "Errore Webacula. Gestione Ruoli non funzionante. Prego verificare le tabelle Webacula."
+msgstr "Errore Webacula. Il meccanismo dei ruoli è corrotto. Controllare le tabelle di Webacula."
 
 #: library/MyClass/ControllerAclAction.php:84
 #, php-format
 msgid "You try to use Webacula menu \"%s\"."
-msgstr "Stai cercando di usare il menu Webacula \"%s\"."
+msgstr "Provare ad utilizzare il menu \"%s\" ."
 
 #: library/MyClass/Validate/Datetime.php:56
 #, php-format
 msgid "'%s' is not of the format YYYY-MM-DD HH:MM:SS"
-msgstr "'%s' non e' nel formato YYYY-MM-DD HH:MM:SS"
+msgstr "'%s' non è nel formato YYYY-MM-DD HH:MM:SS"
 
 #: library/MyClass/Validate/Datetime.php:63
 #, php-format
 msgid "'%s' does not appear to be a valid date"
-msgstr "'%s' non sembra essere una data valida"
+msgstr "'%s' non sembra una data valida"
 
 #: library/MyClass/Validate/BaculaAclWhere.php:51
 #, php-format
 msgid "Bacula ACLs : access denied for Where '%s'"
-msgstr "Bacula ACL : accesso negato Dove '%s'"
+msgstr "BACULA ACL: accesso negato per Dove '%s'"
 
 #: library/MyClass/Validate/LogBookId.php:55
 #, php-format
 msgid "Logbook %u is not found in Webacula database"
-msgstr "Diario %u non trovato nel database Webacula"
+msgstr "Dario %u non è stato trovato nel database di Webacula"
 
 #: library/MyClass/Validate/BaculaJobId.php:54
 #, php-format
 msgid "JobId %u is not found in Bacula database"
-msgstr "JobId %u non trovato nel Bacula database"
+msgstr "JobId %u non è stato trovato nel database di Bacula"
 
 #: application/layouts/default/dashboard.phtml:8
 #, php-format
@@ -826,13 +812,13 @@ msgid "Last Updated: %s"
 msgstr "Ultimo aggiornamento: %s"
 
 #: application/layouts/default/dashboard.phtml:9
-#, fuzzy, php-format
+#, php-format
 msgid "Updated every %s seconds"
-msgstr "Aggiorna record:"
+msgstr "Aggiornato ogni %s secondi"
 
 #: application/layouts/default/main-menu.phtml:28
 msgid "Administrator"
-msgstr "Amministratore"
+msgstr "Amministrazione"
 
 #: application/layouts/default/main-menu.phtml:35
 msgid "Desktop"
@@ -869,7 +855,7 @@ msgstr "Successivi"
 #: application/layouts/default/main-menu.phtml:54
 #: application/layouts/default/main-menu.phtml:70
 msgid "Problem"
-msgstr "Problemi"
+msgstr "Con errori"
 
 #: application/layouts/default/main-menu.phtml:55
 msgid "Run"
@@ -896,9 +882,8 @@ msgid "Overview"
 msgstr "Panoramica"
 
 #: application/layouts/default/main-menu.phtml:88
-#, fuzzy
 msgid "Add New Record"
-msgstr "+ Aggiungi nuovo dato"
+msgstr "Aggiungi nuovo dato"
 
 #: application/layouts/default/main-menu.phtml:90
 msgid "RSS"
@@ -990,7 +975,7 @@ msgstr "Director output:"
 #: application/views/scripts/storage/status-id.phtml:20
 #: application/views/scripts/storage/act-mount.phtml:20
 msgid "Bacula ACLs : Access denied."
-msgstr "Bacula ACLs : Accesso negato."
+msgstr "ACL Bacula : Accesso negato."
 
 #: application/views/scripts/storage/status-id.phtml:55
 msgid "No Storage status found."
@@ -1067,7 +1052,7 @@ msgstr "Ritenzione<br />Volume<br />(giorni)"
 
 #: application/views/scripts/pool/all.phtml:15
 msgid "Max<br />Volume<br />(Bytes)"
-msgstr "Max<br />Volume<br />(Bytes)"
+msgstr "Dim max<br />(Byte)"
 
 #: application/views/scripts/pool/all.phtml:17
 msgid "Auto Recycle"
@@ -1099,7 +1084,7 @@ msgstr "Nessun File trovato."
 
 #: application/views/scripts/help/index.phtml:9
 msgid "web interface of a"
-msgstr "interfaccia web di un"
+msgstr "interfaccia web di"
 
 #: application/views/scripts/help/index.phtml:13
 msgid "Legend"
@@ -1107,30 +1092,27 @@ msgstr "Legenda"
 
 #: application/views/scripts/help/index.phtml:15
 msgid "Yellow color"
-msgstr "Colore Giallo"
+msgstr "Colore giallo"
 
 #: application/views/scripts/help/index.phtml:15
-#, fuzzy
 msgid "warnings"
-msgstr "Pulizia"
+msgstr "Notifiche"
 
 #: application/views/scripts/help/index.phtml:18
 msgid "Red color"
-msgstr "Colore Rosso"
+msgstr "Colore rosso"
 
 #: application/views/scripts/help/index.phtml:18
-#, fuzzy
 msgid "errors"
-msgstr "Errori"
+msgstr "errori"
 
 #: application/views/scripts/help/index.phtml:21
-#, fuzzy
 msgid "Information"
-msgstr "Durata"
+msgstr "Informazioni"
 
 #: application/views/scripts/help/index.phtml:29
 msgid "You successfully logged in as"
-msgstr "Sei loggato come"
+msgstr "Accesso avvenuto correttamente come"
 
 #: application/views/scripts/help/index.phtml:30
 msgid "DB Bacula"
@@ -1138,20 +1120,19 @@ msgstr "DB Bacula"
 
 #: application/views/scripts/help/index.phtml:31
 msgid "Version for Bacula Catalog database"
-msgstr "Versione del Bacula Catalog database"
+msgstr "Versione per il database Catalogo di Bacula"
 
 #: application/views/scripts/help/index.phtml:33
-#, fuzzy
 msgid "Bconsole"
 msgstr "Bacula Console"
 
 #: application/views/scripts/help/index.phtml:34
 msgid "Zend Framework"
-msgstr "Zend Framework"
+msgstr "Framework Zend"
 
 #: application/views/scripts/help/index.phtml:35
 msgid "Locale"
-msgstr "Locale"
+msgstr "Localizzazione"
 
 #: application/views/scripts/help/index.phtml:36
 msgid "PHP info"
@@ -1175,26 +1156,25 @@ msgstr "Opzioni avanzate"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:151
 msgid "Restore files in <b>where</b> directory."
-msgstr "Restore file in <b>dove</b> directory."
+msgstr "Ripristina i file nella cartella <b>dove</b>."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:156
 msgid "Remove a part of the filename when restoring."
-msgstr "Rimuovi una parte del file durante il ripristino."
+msgstr "Elimina una parte del nome del file quando ripristinato."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:161
 msgid "Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."
-msgstr "Aggiungi un prefisso a tutti i file durante il ripristino (come dove) (non puo' essere usato con <b>dove</b>)."
+msgstr "Aggiunte un prefisso a tutti i file quando ripristinati (non può essere utilizzato con <b>dove</b>)."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:166
 msgid "Add a suffix to all your files."
-msgstr "Aggiugi un suffisso a tutti i tuoi file."
+msgstr "Aggiunge un suffisso a tutti i file."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:171
 msgid "Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."
-msgstr "Usa complesse manipolazioni del nome file come col comando sed in unix. Sovrascrivera' altri sistemi di manipolazione del nome del file."
+msgstr "Esegue una manipolazione complessa del nome dei file, come con il comando sed di unix. Verrà sovrascritta un evenutale altra manipolazione del nome del file."
 
 #: application/views/scripts/decorators/formJobrun.phtml:35
-#, fuzzy
 msgid "When"
 msgstr "Dove"
 
@@ -1235,7 +1215,7 @@ msgstr "Id"
 #: application/views/scripts/job/running-dashboard.phtml:58
 #: application/views/scripts/job/running.phtml:53
 msgid "Information from Director : No Running Jobs found."
-msgstr "Informazioni dal Director : Nessun Job in Corso trovato."
+msgstr "Informazioni dal Director : Non è stato trovato nessun Job in corso."
 
 #: application/views/scripts/job/running-dashboard.phtml:85
 #: application/views/scripts/job/running.phtml:78
@@ -1245,7 +1225,7 @@ msgstr "aa-mm-gg"
 #: application/views/scripts/job/running-dashboard.phtml:127
 #: application/views/scripts/job/running.phtml:141
 msgid "Information from DB Catalog : No Running Jobs found."
-msgstr "Informazioni dal DB Catalog : Nessun Job in Corso trovato."
+msgstr "Informazioni dal DB Catalog : Non è stato trovatp nessun Job in corso."
 
 #: application/views/scripts/job/terminated-dashboard.phtml:45
 #: application/views/scripts/job/terminated-dashboard.phtml:46
@@ -1255,9 +1235,8 @@ msgstr "Informazioni dal DB Catalog : Nessun Job in Corso trovato."
 #: application/views/scripts/job/problem-dashboard.phtml:34
 #: application/views/scripts/job/terminated.phtml:47
 #: application/views/scripts/job/terminated.phtml:48
-#, fuzzy
 msgid "Re-run Job"
-msgstr "Job eseguiti"
+msgstr "Riesegui Job"
 
 #: application/views/scripts/job/terminated-dashboard.phtml:125
 #: application/views/scripts/job/find-file-name.phtml:146
@@ -1283,21 +1262,18 @@ msgstr "Data"
 
 #: application/views/scripts/job/timeline.phtml:25
 #: application/views/scripts/job/timeline.phtml:27
-#, fuzzy
 msgid "Previous day"
-msgstr "Precedente</a>"
+msgstr "Giorno precedente"
 
 #: application/views/scripts/job/timeline.phtml:31
 #: application/views/scripts/job/timeline.phtml:33
-#, fuzzy
 msgid "Today"
-msgstr "giorni"
+msgstr "Oggi"
 
 #: application/views/scripts/job/timeline.phtml:37
 #: application/views/scripts/job/timeline.phtml:40
-#, fuzzy
 msgid "Next day"
-msgstr "Prossimo"
+msgstr "Prossimo giorno"
 
 #: application/views/scripts/job/timeline.phtml:45
 msgid "Show Timeline"
@@ -1316,7 +1292,7 @@ msgstr "Muovi il puntatore del mouse  e clicka sull'immagine per visualizzare il
 #: application/views/scripts/job/next-dashboard.phtml:29
 #: application/views/scripts/job/next.phtml:25
 msgid "Priority"
-msgstr "Priorita'"
+msgstr "Priorità"
 
 #: application/views/scripts/job/next-dashboard.phtml:30
 #: application/views/scripts/job/next.phtml:26
@@ -1330,9 +1306,8 @@ msgstr "Nessun Job Schedulato trovato."
 
 #: application/views/scripts/job/find-file-name.phtml:58
 #: application/views/scripts/job/find-file-name.phtml:60
-#, fuzzy
 msgid "Restore File"
-msgstr "Ripristina tutti i file"
+msgstr "Ripristina i file"
 
 #: application/views/scripts/job/detail.phtml:18
 #: application/views/scripts/job/detail.phtml:19
@@ -1347,9 +1322,8 @@ msgid "Written in Logbook"
 msgstr "Scritti sul diario"
 
 #: application/views/scripts/job/detail.phtml:62
-#, fuzzy
 msgid "Prior Job"
-msgstr "Ripristina Job"
+msgstr "Job precedente"
 
 #: application/views/scripts/job/detail.phtml:68
 msgid "Unique Job Name"
@@ -1372,9 +1346,8 @@ msgid "Schedule Time"
 msgstr "Ora Schedulata"
 
 #: application/views/scripts/job/detail.phtml:119
-#, fuzzy
 msgid "Number of files"
-msgstr "Numero scritture"
+msgstr "Numero di file"
 
 #: application/views/scripts/job/detail.phtml:122
 msgid "Listing files"
@@ -1385,8 +1358,8 @@ msgid "All File records purged"
 msgstr "Tutti i file record eliminati"
 
 #: application/views/scripts/job/detail.phtml:165
-msgid "Volumes"
-msgstr "Volumi"
+msgid "Volume(s)"
+msgstr "Volume(i)"
 
 #: application/views/scripts/job/detail.phtml:175
 msgid "No Volumes found."
@@ -1505,8 +1478,8 @@ msgid "Unknown"
 msgstr "Sconosciuto"
 
 #: application/views/scripts/job/next.phtml:59
-msgid "Volume with Errors"
-msgstr "Volume con Errori"
+msgid "Volume with Error(s)"
+msgstr "Volume con Errore(i)"
 
 #: application/views/scripts/job/next.phtml:62
 msgid "New Volume"
@@ -1541,7 +1514,7 @@ msgstr "Ultima azione: attendere prego..."
 #: application/views/scripts/restorejob/draw-file-tree.phtml:107
 #: application/views/scripts/restorejob/draw-file-tree.phtml:138
 msgid "The system was a problem. Please try again after some time."
-msgstr "Il sistema ha un problema. Prego provare tra qualche minuto."
+msgstr "C'è stato un errore di sistema. Prego riprovare più tardi."
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:71
 msgid "Last action: mark"
@@ -1589,7 +1562,6 @@ msgid "Total"
 msgstr "Totale"
 
 #: application/views/scripts/restorejob/msg01.phtml:21
-#, fuzzy
 msgid "Found existing temporary tables for the Restore Job with JobId"
 msgstr "Nel DB di Webacula sono presenti tabelle temporanee per il Ripristino Job con JobId"
 
@@ -1602,14 +1574,12 @@ msgid "Choose the action:"
 msgstr "Scegli l'azione:"
 
 #: application/views/scripts/restorejob/msg01.phtml:30
-#, fuzzy
 msgid "Recreate temporary tables (recommended)"
 msgstr "Ricrea tabelle temporanee (raccomandato)"
 
 #: application/views/scripts/restorejob/msg01.phtml:31
-#, fuzzy
 msgid "Continue with the old temporary tables"
-msgstr "Continua con le vecchie tabelle"
+msgstr "Continua con le vecchie tabelle temporanee"
 
 #: application/views/scripts/restorejob/msg01.phtml:32
 msgid "Exit"
@@ -1662,11 +1632,11 @@ msgstr "<sup>*</sup>Tipo"
 
 #: application/views/scripts/wblogbook/add.phtml:61
 msgid "Reviewed "
-msgstr "Analizzato"
+msgstr "Revisionato "
 
 #: application/views/scripts/wblogbook/add.phtml:63
 msgid "Don't show this Job in 'Jobs with errors' list in future"
-msgstr "Non mostrare questo Job in 'Job con errori' in futuro"
+msgstr "Non visualizzare questo Job nella lista dei job con errori in futuro"
 
 #: application/views/scripts/wblogbook/add.phtml:71
 #: application/views/scripts/wblogbook/modify.phtml:85
@@ -1880,11 +1850,11 @@ msgstr "Archivio"
 
 #: application/views/scripts/volume/detail.phtml:93
 msgid "Max Bytes"
-msgstr "Max Bytes"
+msgstr "Max Byte"
 
 #: application/views/scripts/volume/detail.phtml:97
 msgid "Jobs"
-msgstr "Jobs"
+msgstr "Job"
 
 #: application/views/scripts/volume/detail.phtml:104
 msgid "Retention"
@@ -1915,11 +1885,11 @@ msgstr "Tipo Media"
 
 #: application/views/scripts/volume/detail.phtml:127
 msgid "First Written"
-msgstr "Primo Scritto"
+msgstr "Prima Scrittura"
 
 #: application/views/scripts/volume/detail.phtml:131
 msgid "Last Written"
-msgstr "Ultimo Scritto"
+msgstr "Ultima Scrittura"
 
 #: application/views/scripts/volume/detail.phtml:148
 msgid "Label Date"
@@ -1949,11 +1919,11 @@ msgstr "Abilitato"
 
 #: application/views/scripts/volume/detail.phtml:190
 msgid "Max Volume Jobs"
-msgstr "Max Volume Jobs"
+msgstr "Max Job volume"
 
 #: application/views/scripts/volume/detail.phtml:194
 msgid "Max Volume Files"
-msgstr "Max Volume Files"
+msgstr "Max file volume"
 
 #: application/views/scripts/volume/detail.phtml:198
 msgid "Read Time"
@@ -1973,14 +1943,14 @@ msgstr "Totale riutilizzo"
 #: application/views/scripts/volume/problem.phtml:87
 #: application/views/scripts/volume/find-name.phtml:12
 msgid "Volume Bytes"
-msgstr "Volume Bytes"
+msgstr "Byte"
 
 #: application/views/scripts/volume/find-pool-id.phtml:15
 #: application/views/scripts/volume/problem-dashboard.phtml:16
 #: application/views/scripts/volume/problem.phtml:12
 #: application/views/scripts/volume/find-name.phtml:13
 msgid "Max Volume<br />Bytes"
-msgstr "Max Volume<br />Bytes"
+msgstr "Dimens. Max<br />Byte"
 
 #: application/views/scripts/volume/find-pool-id.phtml:16
 #: application/views/scripts/volume/problem-dashboard.phtml:17
@@ -1988,7 +1958,7 @@ msgstr "Max Volume<br />Bytes"
 #: application/views/scripts/volume/problem.phtml:89
 #: application/views/scripts/volume/find-name.phtml:14
 msgid "Volume Jobs"
-msgstr "Volume Jobs"
+msgstr "# Job"
 
 #: application/views/scripts/volume/find-pool-id.phtml:18
 #: application/views/scripts/volume/problem-dashboard.phtml:19
@@ -1996,7 +1966,7 @@ msgstr "Volume Jobs"
 #: application/views/scripts/volume/problem.phtml:88
 #: application/views/scripts/volume/find-name.phtml:16
 msgid "Media<br />Type"
-msgstr "Media<br />Tipo"
+msgstr "Tipo<br />Supporto"
 
 #: application/views/scripts/volume/find-pool-id.phtml:19
 #: application/views/scripts/volume/problem.phtml:16
@@ -2024,80 +1994,79 @@ msgstr "Informazione dal DB Catalog : Tutti i Volumi sono OK."
 
 #: application/views/scripts/auth/login.phtml:35
 msgid "Forgot?"
-msgstr "Dimenticato?"
+msgstr "Dimenticata?"
 
 #: application/views/scripts/auth/forgot-password.phtml:6
 msgid "Forgot your password? Enter your user name and email below."
-msgstr "Hai dimenticato la tua password? Inserisci utente e password qui di seguito."
+msgstr "Dimenticata la password? Inserire il nome utente e l'indirizzo email di seguito."
 
 #: application/views/scripts/admin/user-index.phtml:18
-#, fuzzy
 msgid "Create new user"
-msgstr "Crea record :"
+msgstr "Crea nuovo utente"
 
 #: application/views/scripts/admin/user-index.phtml:30
-#, fuzzy
 msgid "Created"
-msgstr "Crea record :"
+msgstr "Creato"
 
 #: application/views/scripts/admin/user-index.phtml:31
-#, fuzzy
 msgid "Last login"
-msgstr "Ultima azione:"
+msgstr "Ultimo accesso"
 
 #: application/views/scripts/admin/user-index.phtml:32
-#, fuzzy
 msgid "Last IP"
-msgstr "Ultimi"
+msgstr "Ultimo IP"
 
 #: application/views/scripts/admin/user-index.phtml:85
-#, fuzzy
 msgid "No Users found."
-msgstr "Nessun dato trovato"
+msgstr "Nessun utente trovato."
 
 #: application/views/scripts/admin/role-main-form.phtml:21
 #: application/views/scripts/admin/role-index.phtml:71
 #: application/views/scripts/admin/role-more-info.phtml:16
 msgid "More info"
-msgstr "Piu' Informazioni"
+msgstr "Ulteriori info"
 
 #: application/views/scripts/admin/role-main-form.phtml:40
 msgid "Webacula ACL"
-msgstr "Webacula ACL"
+msgstr "ACL Webacula"
 
 #: application/views/scripts/admin/role-main-form.phtml:42
-#, fuzzy
 msgid "Command"
-msgstr "Commento"
+msgstr "Comando"
 
 #: application/views/scripts/admin/role-main-form.phtml:43
-#, fuzzy
 msgid "FileSet"
 msgstr "Fileset"
 
 #: application/views/scripts/admin/role-index.phtml:18
-#, fuzzy
 msgid "Create new role"
-msgstr "Crea record :"
+msgstr "Crea nuovo ruolo"
 
 #: application/views/scripts/admin/role-index.phtml:90
-#, fuzzy
 msgid "No Roles found."
-msgstr "Nessun Volume trovato."
+msgstr "Nessun ruolo trovato."
+
+#: application/views/scripts/admin/role-more-info.phtml:24
+msgid "Inherited role(s)"
+msgstr "Ruolo/i ereditato"
 
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
 msgid "none"
-msgstr "nulla"
+msgstr "Nessuno"
 
 #: application/views/scripts/admin/role-more-info.phtml:41
 msgid "Who use this role"
 msgstr "Chi usa questo ruolo"
 
+#: application/views/scripts/admin/role-more-info.phtml:45
+msgid "Role(s)"
+msgstr "Ruolo(i)"
+
 #: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User"
-msgstr "Utente"
+msgid "User(s)"
+msgstr "Utente(i)"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s cartelle, %s file ricercati)"
