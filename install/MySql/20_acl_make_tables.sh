@@ -14,7 +14,7 @@ else
 fi
 
 
-if mysql -u $db_user $pwd  $db_name -f <<END-OF-DATA
+if mysql $* -u $db_user $pwd  $db_name -f <<END-OF-DATA
 
 CREATE TABLE IF NOT EXISTS webacula_users (
     id       integer not null auto_increment,
