@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-23 22:01+0300\n"
-"PO-Revision-Date: 2011-04-28 18:05+0200\n"
+"PO-Revision-Date: 2011-05-03 10:56+0200\n"
 "Last-Translator: Mauro Colorio <mauro.colorio@gmail.com>\n"
 "Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "Language: Italian\n"
@@ -80,7 +80,7 @@ msgstr "Nessun Full Backup prima di %s trovato."
 
 #: application/controllers/RestorejobController.php:710
 msgid "You have selected the following JobIds"
-msgstr "Hai selezionato i seguenti JobId"
+msgstr "Sono stati selezionati i seguenti JobId"
 
 #: application/controllers/RestorejobController.php:998
 #: application/controllers/RestorejobController.php:1040
@@ -95,11 +95,11 @@ msgstr "Errore interno al programma!"
 
 #: application/controllers/RestorejobController.php:1130
 msgid "List of Files to Restore for JobId"
-msgstr "Lista dei File da ripristinare per JobId"
+msgstr "Lista dei file da ripristinare per JobId"
 
 #: application/controllers/RestorejobController.php:1202
 msgid "List of Files to Restore"
-msgstr "Lista dei File da ripristinare"
+msgstr "Lista dei file da ripristinare"
 
 #: application/controllers/RestorejobController.php:1299
 msgid "Restore JobId"
@@ -107,7 +107,7 @@ msgstr "Ripristina JobId"
 
 #: application/controllers/RestorejobController.php:1381
 msgid "Restore the most recent backup (or before a specified time) for a client"
-msgstr "Ripristino del piu' recente backup (o antecedente ad una data specifica) per client"
+msgstr "Ripristino del backup più recente (o antecedente ad una data specifica) per client"
 
 #: application/controllers/RestorejobController.php:1461
 #: application/controllers/RestorejobController.php:1511
@@ -216,7 +216,7 @@ msgstr "File"
 
 #: application/controllers/FeedController.php:72
 msgid "Bytes"
-msgstr "Byte"
+msgstr "Byte utilizzati"
 
 #: application/controllers/FeedController.php:73
 msgid "Errors"
@@ -232,12 +232,12 @@ msgstr "Stato Volume"
 
 #: application/controllers/FeedController.php:88
 msgid "Volumes with errors"
-msgstr "Volume con Errori"
+msgstr "Volumi con errori"
 
 #: application/controllers/ChartController.php:77
 #: application/controllers/JobController.php:322
 msgid "ERROR: The GD extension isn`t loaded. Please install php-gd package."
-msgstr "ERRORE: L'estensione GD non e' caricata. Prego installare il pacchetto php-gd."
+msgstr "ERRORE: L'estensione GD non è stata caricata. Prego installare il pacchetto php-gd."
 
 #: application/controllers/FileController.php:57
 msgid "List Files for JobId"
@@ -249,12 +249,12 @@ msgstr "Descrizioni Job"
 
 #: application/controllers/WbjobdescController.php:51
 msgid "Add Job Description"
-msgstr "Aggiungi Descrizione Job"
+msgstr "Aggiungere Descrizione Job"
 
 #: application/controllers/JobController.php:45
 #: application/controllers/JobController.php:490
 msgid "Terminated Jobs (executed in last 24 hours)"
-msgstr "Job Terminati (eseguiti nelle ultime 24 ore)"
+msgstr "Job terminati (eseguiti nelle ultime 24 ore)"
 
 #: application/controllers/JobController.php:59
 #: application/controllers/JobController.php:77
@@ -320,7 +320,7 @@ msgstr "Job con errori (Ultimi %s giorni)"
 #: application/controllers/JobController.php:325
 #: application/controllers/JobController.php:345
 msgid "Timeline for date"
-msgstr "Linea temporale per data"
+msgstr "Linea temporale per il giorno "
 
 #: application/controllers/JobController.php:475
 #, php-format
@@ -784,7 +784,7 @@ msgstr "Provare ad utilizzare il menu \"%s\" ."
 #: library/MyClass/Validate/Datetime.php:56
 #, php-format
 msgid "'%s' is not of the format YYYY-MM-DD HH:MM:SS"
-msgstr "'%s' non è nel formato YYYY-MM-DD HH:MM:SS"
+msgstr "'%s' non è nel formato AAAA-MM-GG HH:MM:SS"
 
 #: library/MyClass/Validate/Datetime.php:63
 #, php-format
@@ -1203,7 +1203,7 @@ msgstr "Errore: Non posso eseguire bconsole. File non trovato."
 #: application/views/scripts/job/running.phtml:11
 #: application/views/scripts/job/next.phtml:11
 msgid "ERROR: There was a problem executing bconsole. See below."
-msgstr "Errore: C'e' un problema nell'esecuzione di bconsole. Vedi di seguito."
+msgstr "Errore: C'è un problema nell'esecuzione di bconsole. Vedi di seguito."
 
 #: application/views/scripts/job/running-dashboard.phtml:28
 #: application/views/scripts/job/running-dashboard.phtml:79
@@ -1273,7 +1273,7 @@ msgstr "Oggi"
 #: application/views/scripts/job/timeline.phtml:37
 #: application/views/scripts/job/timeline.phtml:40
 msgid "Next day"
-msgstr "Prossimo giorno"
+msgstr "Giorno successivo"
 
 #: application/views/scripts/job/timeline.phtml:45
 msgid "Show Timeline"
@@ -1287,7 +1287,7 @@ msgstr "AAAA-MM-GG"
 
 #: application/views/scripts/job/timeline.phtml:61
 msgid "Point mouse cursor at image area and click to view Job detail"
-msgstr "Muovi il puntatore del mouse  e clicka sull'immagine per visualizzare il dettaglio del job"
+msgstr "Muovere il puntatore del mouse e cliccare per visualizzare il dettaglio del job"
 
 #: application/views/scripts/job/next-dashboard.phtml:29
 #: application/views/scripts/job/next.phtml:25
@@ -1471,7 +1471,7 @@ msgstr "Vista Job in Corso"
 
 #: application/views/scripts/job/next.phtml:29
 msgid "% Free space<br /> on Volume"
-msgstr "% spazio Libero<br /> sul Volume"
+msgstr "% spazio libero<br /> sul volume"
 
 #: application/views/scripts/job/next.phtml:55
 msgid "Unknown"
@@ -1866,14 +1866,14 @@ msgstr "giorni"
 
 #: application/views/scripts/volume/detail.phtml:111
 msgid "Recycle "
-msgstr "Recycle"
+msgstr "Riutilizzabile"
 
 #: application/views/scripts/volume/detail.phtml:115
 #: application/views/scripts/volume/find-pool-id.phtml:21
 #: application/views/scripts/volume/problem.phtml:18
 #: application/views/scripts/volume/find-name.phtml:19
 msgid "Autochanger<br />Slot<br />number"
-msgstr "Autochanger<br />Slot<br />numero"
+msgstr "Numero<br />slot<br />autochanger"
 
 #: application/views/scripts/volume/detail.phtml:119
 msgid "In Changer"
@@ -1943,7 +1943,7 @@ msgstr "Totale riutilizzo"
 #: application/views/scripts/volume/problem.phtml:87
 #: application/views/scripts/volume/find-name.phtml:12
 msgid "Volume Bytes"
-msgstr "Byte"
+msgstr "Byte<br />utilizzati"
 
 #: application/views/scripts/volume/find-pool-id.phtml:15
 #: application/views/scripts/volume/problem-dashboard.phtml:16
@@ -1972,19 +1972,19 @@ msgstr "Tipo<br />Supporto"
 #: application/views/scripts/volume/problem.phtml:16
 #: application/views/scripts/volume/find-name.phtml:17
 msgid "First<br />Written"
-msgstr "Primo<br />Scritto"
+msgstr "Prima<br />scrittura"
 
 #: application/views/scripts/volume/find-pool-id.phtml:20
 #: application/views/scripts/volume/problem.phtml:17
 #: application/views/scripts/volume/find-name.phtml:18
 msgid "Last<br />Written"
-msgstr "Ultimo<br />Scritto"
+msgstr "Ultima<br />scrittura"
 
 #: application/views/scripts/volume/find-pool-id.phtml:22
 #: application/views/scripts/volume/problem.phtml:19
 #: application/views/scripts/volume/find-name.phtml:20
 msgid "Can Recycle<br />Volume"
-msgstr "Posso Riutilizzare<br />Volume"
+msgstr "Volume<br />riutilizzabile"
 
 #: application/views/scripts/volume/problem-dashboard.phtml:65
 #: application/views/scripts/volume/problem.phtml:70
