@@ -67,6 +67,10 @@ If you find errors or typos please
 
 Thanks.
 
+Webacula has a number of email lists.
+For general information subscribing to or unsubscribing from these lists, please see 
+\htmladdnormallink{Webacula Mailing Lists at SourceForge}{http://sourceforge.net/mail/?group_id=201199}.
+
 
 
 \section{System Requirements}
@@ -306,11 +310,20 @@ For Sqlite:
 cd install/SqLite
 \end{verbatim}
 
-And further run scripts for your DBMS:
+And further run scripts for your DBMS is running on localhost:
 \begin{verbatim}
 ./10_make_tables.sh
 ./20_acl_make_tables.sh
 \end{verbatim}
+
+If your DBMS is running on a remote host, specify the appropriate option on the command line,
+for example, MySQL:
+\begin{verbatim}
+./10_make_tables.sh      --host my.domain.tld
+./20_acl_make_tables.sh  --host my.domain.tld
+\end{verbatim}
+
+
 
 Change file \texttt{html/.htaccess} :
 \begin{verbatim}

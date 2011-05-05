@@ -39,6 +39,10 @@ List of Figures
 
    Thanks.
 
+   Webacula has a number of email lists. For general information subscribing
+   to or unsubscribing from these lists, please see [19]Webacula Mailing
+   Lists at SourceForge.
+
                               System Requirements
 
    To check the installed system packages, run from command line:
@@ -53,12 +57,12 @@ List of Figures
      * Bacula 5.0 or later
      * Zend Framework version 1.10.0 or later
      * Zend Framework is built with object-oriented PHP 5 and requires PHP
-       5.2.4 or later with PDO extension active. [19]Please see the system
+       5.2.4 or later with PDO extension active. [20]Please see the system
        requirements appendix for more detailed information.
      * Apache and mod_rewrite. Or equivalent web-server, for example, nginx
        and ngx_http_rewrite_module
      * Installed php-gd package
-     * Installed [20]http://php.net/dom for use the RSS feed
+     * Installed [21]http://php.net/dom for use the RSS feed
      * Browser compatibility: all jQuery UI plugins are tested for IE 6.0+,
        Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome
 
@@ -69,7 +73,7 @@ Make directory tree
    Login as root and make directory /var/www/webacula (for example). Copy
    Webacula distribution to this directory.
 
-   [21]Download minimal Zend Framework package and extract. Copy the contents
+   [22]Download minimal Zend Framework package and extract. Copy the contents
    from directory
    ZendFramework-*-minimal/library/Zend
    to
@@ -190,7 +194,7 @@ Apache
    For testing mod_rewrite change RewriteBase parameter, if necessary, in
    webacula/html/test_mod_rewrite/.htaccess file.
 
-   And use URL like [22]http://localhost/webacula/test_mod_rewrite/ for test
+   And use URL like [23]http://localhost/webacula/test_mod_rewrite/ for test
    mod_rewrite.
 
 PHP
@@ -236,10 +240,16 @@ Webacula install
 
  cd install/SqLite
 
-   And further run scripts for your DBMS:
+   And further run scripts for your DBMS is running on localhost:
 
  ./10_make_tables.sh
  ./20_acl_make_tables.sh
+
+   If your DBMS is running on a remote host, specify the appropriate option
+   on the command line, for example, MySQL:
+
+ ./10_make_tables.sh      --host my.domain.tld
+ ./20_acl_make_tables.sh  --host my.domain.tld
 
    Change file html/.htaccess :
 
@@ -275,7 +285,7 @@ Webacula and Bacula ACLs
 
                                    Figure 1:
                                  Webacula ACLs
-                                 [23]Image ACLs
+                                 [24]Image ACLs
 
 
 
@@ -362,4 +372,4 @@ Users and roles
 
    --------------------------------------------------------------------------
 
-    tim 2011-04-28
+    2011-05-05
