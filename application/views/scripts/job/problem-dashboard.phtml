@@ -85,9 +85,9 @@
 
 	<?php
 		$class = '';
-		if ( $line['jobfiles'] == 0 ) $class = 'class="warn"';
+		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warn"';
 		echo '<td ', $class, ' align="right">', number_format($line['jobfiles']), '</td>';
-		if ( $line['jobbytes'] == 0 ) $class_td = 'class="warn"';
+		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warn"';
 		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
 	?>
 

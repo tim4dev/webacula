@@ -123,10 +123,11 @@
     <?php endif; ?>
     </td>
     <?php
-        if ($line['jobfiles'])
+        if ( $line['jobfiles'] )
             $class = '';
         else
-            $class = 'class="warn"';
+            if ($line['type'] != 'D')
+                $class = 'class="warn"';
         echo '<td ', $class, '>', number_format($this->escape($line['jobfiles']));
     ?>
     <?php if ($line['purgedfiles'])
@@ -135,10 +136,10 @@
 </tr><tr>
     <td> <?php print $this->translate->_("Bytes"); ?> </td>
     <?php
-        if ( $this->escape($line['jobbytes']) != 0 )
-            $class = '';
+        if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') )
+            $class = 'class="warn"';
         else
-			$class = 'class="warn"';
+            $class = '';
 		echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
 	?>
 </tr><tr>

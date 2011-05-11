@@ -89,7 +89,7 @@
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
 
 	<?php
-		if ( $line['jobfiles'] == 0 ) {
+		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) {
 			$class = 'class="warn"';
 		} else {
 			$class = '';
@@ -98,7 +98,7 @@
 	?>
 
 	<?php
-		if ( $line['jobbytes'] == 0 ) {
+		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) {
 			$class = 'class="warn"';
 		} else {
 			$class = '';

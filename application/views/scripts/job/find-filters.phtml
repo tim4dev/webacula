@@ -93,19 +93,19 @@
 
 	<td align="center"><?php echo $this->escape($line['level']);?></td>
 	<?php
-		if ( $line['jobfiles'] != 0 )
-			$class = '';
-		else
-			$class = 'class="warn"';
+        if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') )
+            $class = 'class="warn"';
+        else
+            $class = '';
 		echo '<td ', $class, ' align="right">', number_format($line['jobfiles']), '</td>';
 	?>
 
 	<?php
-		if ( $line['jobbytes'] != 0 )
-			$class = '';
-		else
-			$class = 'class="warn"';
-		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
+        if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') )
+            $class = 'class="warn"';
+        else
+            $class = '';
+ 		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
 	?>
 
 	<!-- Errors -->
