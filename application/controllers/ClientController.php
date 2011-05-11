@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class ClientController extends MyClass_ControllerAclAction
     {
         $this->view->title = $this->view->translate->_("Clients");
         $clients = new Client();
-        $order  = array('ClientId', 'Name');
+        $order  = array('Name');
         $this->view->clients = $clients->fetchAll(null, $order);
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }

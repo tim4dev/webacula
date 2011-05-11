@@ -71,7 +71,7 @@ class FormRestoreOptions extends Zend_Form
          *
          */
         $table_client = new Client();
-        $order  = array('Name', 'ClientId');
+        $order  = array('Name');
         $clients = $table_client->fetchAll(null, $order);
         $client_name = $this->createElement('select', 'client_name', array(
             'decorators' => $this->elDecorators,

@@ -71,7 +71,8 @@ class FormJobrun extends Zend_Form
          * Client
          */
         $table_client = new Client();
-        $order  = array('ClientId', 'Name');
+        //$order  = array('ClientId', 'Name');
+        $order  = array('Name');
         $clients = $table_client->fetchAll(null, $order);
         // select
         $client = $this->createElement('select', 'client', array(

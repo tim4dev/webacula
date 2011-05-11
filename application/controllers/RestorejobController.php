@@ -241,10 +241,12 @@ class RestorejobController extends MyClass_ControllerAclAction
         // get data for form
         Zend_Loader::loadClass('Client');
         $clients = new Client();
-        $this->view->clients = $clients->fetchAll(); // do Bacula ACLs
+        $order  = array('Name');
+        $this->view->clients = $clients->fetchAll(null, $order); // do Bacula ACLs
         Zend_Loader::loadClass('FileSet');
         $filesets = new FileSet();
-        $this->view->filesets = $filesets->fetchAll(); // do Bacula ACLs
+        $order    = array('Fileset');
+        $this->view->filesets = $filesets->fetchAll(null, $order); // do Bacula ACLs
 
         $this->view->title = $this->view->translate->_("Restore Job");
         $this->view->jobid = intval( $this->_request->getParam('jobid', null) );

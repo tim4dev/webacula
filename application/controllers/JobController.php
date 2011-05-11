@@ -227,10 +227,12 @@ class JobController extends MyClass_ControllerAclAction
         // get data for form
         Zend_Loader::loadClass('Client');
         $clients = new Client();
-        $this->view->clients = $clients->fetchAll();
+        $order  = array('Name');
+        $this->view->clients = $clients->fetchAll(null, $order);
         Zend_Loader::loadClass('FileSet');
         $filesets = new FileSet();
-        $this->view->filesets = $filesets->fetchAll();
+        $order  = array('Fileset');
+        $this->view->filesets = $filesets->fetchAll(null, $order);
         // type search
         switch ($this->db_adapter) {
             case 'PDO_SQLITE':
