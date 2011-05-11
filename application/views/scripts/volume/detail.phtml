@@ -108,6 +108,13 @@ $ainchanger = array(
     </td>
 </tr><tr>
 <tr>
+    <td><?php echo $this->translate->_("Use Duration")," (",$this->translate->_("seconds"), ")"; ?> </td>
+    <td>
+    <?php echo $this->formText('voluseduration', $this->escape($line['voluseduration'] ),
+        array('size' => 10)) ?>
+    </td>
+</tr><tr>
+<tr>
     <td><?php print $this->translate->_("Recycle "); ?> </td>
     <td><?php echo $this->formSelect('recycle', $this->escape($line['recycle']), null, $arecucle); ?></td>
 </tr><tr>

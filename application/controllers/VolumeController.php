@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -134,12 +134,14 @@ class VolumeController extends MyClass_ControllerAclAction
                 'poolid'        => $pool_id ,
                 'volstatus'     => trim($this->_request->getPost('volstatus')) ,
                 'volretention'  => (int) trim($this->_request->getPost('volretention')) * 86400 ,
+                'voluseduration'=> (int) trim($this->_request->getPost('voluseduration')),
                 'recycle'       => trim($this->_request->getPost('recycle')) ,
                 'slot'          => trim($this->_request->getPost('slot')) ,
                 'inchanger'     => trim($this->_request->getPost('inchanger')) ,
                 'maxvoljobs'    => trim($this->_request->getPost('maxvoljobs')) ,
                 'maxvolfiles'   => trim($this->_request->getPost('maxvolfiles')) ,
-                'comment'       => trim($this->_request->getPost('comment')));
+                'comment'       => trim($this->_request->getPost('comment'))
+            );
             $where = $media->getAdapter()->quoteInto('MediaId = ?', $media_id);
             $res = $media->update($data, $where);
             // if Volume moved to another Pool
