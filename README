@@ -31,7 +31,7 @@ Webacula basic features:
     In logbook insert records, for example, about Jobs, failures of the equipment, supernumerary situations, etc. 
     Logbook stored in a separate database "webacula", now it is supported MySQL, PostgreSQL and Sqlite.
   * RSS feed
-  * Multilingual support - standard gettext (*.mo) files. Currently supported languages: English, French, German, Italian, Portuguese Brazil, Russian, Spanish.
+  * Multilingual support - standard gettext (*.mo) files. Currently supported languages: English, Czech, French, German, Italian, Portuguese Brazil, Russian, Spanish.
   * For web designers : now very easy to create new skins
   * Major version number of Webacula will match the version number of Bacula
 

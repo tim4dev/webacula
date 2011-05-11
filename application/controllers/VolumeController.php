@@ -78,7 +78,8 @@ class VolumeController extends MyClass_ControllerAclAction
         $media = new Media();
         $ret = $media->GetProblemVolumes();
         $this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
-        $this->view->resultVolumesNeedReplacement = $media->getVolumesNeedReplacement();
+        // fix http://sourceforge.net/apps/trac/webacula/ticket/81
+        //$this->view->resultVolumesNeedReplacement = $media->getVolumesNeedReplacement();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
 

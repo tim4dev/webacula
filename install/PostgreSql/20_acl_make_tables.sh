@@ -6,7 +6,7 @@
 .   ../db.conf
 
 
-psql -q -f - -d $db_name  <<END-OF-DATA
+psql -q -f - -d $db_name $*  <<END-OF-DATA
 
 
 SET client_min_messages=WARNING;

@@ -152,6 +152,7 @@ echo -e "${LINE2}\n"
 
 my_wget "en" "http://localhost/webacula/" "Desktop"
 my_wget "en-us" "http://localhost/webacula/" "Desktop"
+my_wget "cs" "http://localhost/webacula/" "Přehled"
 my_wget "de" "http://localhost/webacula/" "Nächste"
 my_wget "fr" "http://localhost/webacula/" "Bureau"
 my_wget "it" "http://localhost/webacula/" "Completati"
@@ -175,6 +176,9 @@ echo "Testing user-defined locales"
 echo -e "${LINE2}\n"
 
 APPINI="../application/config.ini"
+
+cp -f conf/locale/config.ini.cs  "${APPINI}"
+my_wget_def "en" "http://localhost/webacula/" "Přehled" "cs"
 
 cp -f conf/locale/config.ini.de  "${APPINI}"
 my_wget_def "en" "http://localhost/webacula/" "Nächste" "de"

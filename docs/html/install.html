@@ -45,41 +45,41 @@ Contents</A>
 <!--Table of Contents-->
 
 <UL>
-<LI><A NAME="tex2html27"
-  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
 <LI><A NAME="tex2html28"
-  HREF="install.html#SECTION00030000000000000000">About this manual</A>
+  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
 <LI><A NAME="tex2html29"
-  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+  HREF="install.html#SECTION00030000000000000000">About this manual</A>
 <LI><A NAME="tex2html30"
+  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+<LI><A NAME="tex2html31"
   HREF="install.html#SECTION00050000000000000000">Install</A>
 <UL>
-<LI><A NAME="tex2html31"
-  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
 <LI><A NAME="tex2html32"
-  HREF="install.html#SECTION00052000000000000000">config.ini</A>
+  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
 <LI><A NAME="tex2html33"
-  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
+  HREF="install.html#SECTION00052000000000000000">config.ini</A>
 <LI><A NAME="tex2html34"
-  HREF="install.html#SECTION00054000000000000000">Apache</A>
+  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
 <LI><A NAME="tex2html35"
-  HREF="install.html#SECTION00055000000000000000">PHP</A>
+  HREF="install.html#SECTION00054000000000000000">Apache</A>
 <LI><A NAME="tex2html36"
-  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+  HREF="install.html#SECTION00055000000000000000">PHP</A>
 <LI><A NAME="tex2html37"
+  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+<LI><A NAME="tex2html38"
   HREF="install.html#SECTION00057000000000000000">Webacula install</A>
 </UL>
 <BR>
-<LI><A NAME="tex2html38"
+<LI><A NAME="tex2html39"
   HREF="install.html#SECTION00060000000000000000">Webacula setup</A>
 <UL>
-<LI><A NAME="tex2html39"
-  HREF="install.html#SECTION00061000000000000000">Webacula and Bacula ACLs</A>
 <LI><A NAME="tex2html40"
+  HREF="install.html#SECTION00061000000000000000">Webacula and Bacula ACLs</A>
+<LI><A NAME="tex2html41"
   HREF="install.html#SECTION00062000000000000000">Users and roles</A>
 </UL>
 <BR>
-<LI><A NAME="tex2html41"
+<LI><A NAME="tex2html42"
   HREF="install.html#SECTION00070000000000000000">Update from prior version</A>
 </UL>
 <!--End of Table of Contents-->
@@ -90,8 +90,8 @@ Contents</A>
 <H2><A NAME="SECTION00020000000000000000">
 List of Figures</A>
 </H2><OL>
-<LI><A NAME="tex2html7"
-  HREF="install.html#141">Webacula ACLs</A></OL>
+<LI><A NAME="tex2html8"
+  HREF="install.html#145">Webacula ACLs</A></OL>
 
 <P>
 
@@ -114,6 +114,12 @@ If you find errors or typos please
 
 <P>
 Thanks.
+
+<P>
+Webacula has a number of email lists.
+For general information subscribing to or unsubscribing from these lists, please see 
+<A NAME="tex2html3"
+  HREF="http://sourceforge.net/mail/?group_id=201199">Webacula Mailing Lists at SourceForge</A>.
 
 <P>
 
@@ -140,7 +146,7 @@ Webacula also requires:
 <LI>Zend Framework version 1.10.0 or later
 </LI>
 <LI>Zend Framework is built with object-oriented PHP 5 and requires PHP 5.2.4 or later with PDO extension active.
-        <A NAME="tex2html3"
+        <A NAME="tex2html4"
   HREF="http://framework.zend.com/manual/en/requirements.html">Please see the system requirements appendix</A>
 for more detailed information.
 </LI>
@@ -148,7 +154,7 @@ for more detailed information.
 </LI>
 <LI>Installed <TT>php-gd</TT> package
 </LI>
-<LI>Installed <A NAME="tex2html4"
+<LI>Installed <A NAME="tex2html5"
   HREF="http://php.net/dom">http://php.net/dom</A>
 for use the RSS feed
 </LI>
@@ -177,7 +183,7 @@ Login as root and make directory <TT>/var/www/webacula</TT> (for example).
 Copy Webacula distribution to this directory.
 
 <P>
-<A NAME="tex2html5"
+<A NAME="tex2html6"
   HREF="http://framework.zend.com/">Download minimal Zend Framework package</A>
 and extract.
 Copy the contents from directory 
@@ -368,7 +374,7 @@ For testing <TT>mod_rewrite</TT> change <TT>RewriteBase</TT> parameter, if neces
 
 <P>
 And use URL like
-<A NAME="tex2html6"
+<A NAME="tex2html7"
   HREF="http://localhost/webacula/test_mod_rewrite/">http://localhost/webacula/test_mod_rewrite/</A>
 for test <TT>mod_rewrite</TT>.
 
@@ -445,10 +451,18 @@ cd install/SqLite
 </PRE>
 
 <P>
-And further run scripts for your DBMS:
+And further run scripts for your DBMS is running on localhost:
 <PRE>
 ./10_make_tables.sh
 ./20_acl_make_tables.sh
+</PRE>
+
+<P>
+If your DBMS is running on a remote host, specify the appropriate option on the command line,
+for example, MySQL:
+<PRE>
+./10_make_tables.sh      --host my.domain.tld
+./20_acl_make_tables.sh  --host my.domain.tld
 </PRE>
 
 <P>
@@ -509,7 +523,7 @@ Special keyword <TT>*all*</TT> when is present, any resource or command name wil
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="141"></A>
+<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="145"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
 Webacula ACLs</CAPTION>
@@ -646,8 +660,8 @@ The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
 <P>
 <BR><HR>
 <ADDRESS>
-tim
-2011-04-28
+
+2011-05-05
 </ADDRESS>
 </BODY>
 </HTML>

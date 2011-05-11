@@ -28,7 +28,7 @@ Supports the run Job, restore all files or selected files,
 restore the most recent backup for a client,
 restore backup for a client before a specified time,
 mount/umount Storages, show scheduled, running and terminated Jobs and more.
-Supported languages: English, French, German, Italian,
+Supported languages: English, Czech, French, German, Italian,
 Portuguese Brazil, Russian.
 
 %description -l ru
