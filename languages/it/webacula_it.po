@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-23 22:01+0300\n"
-"PO-Revision-Date: 2011-05-03 10:56+0200\n"
+"PO-Revision-Date: 2011-05-18 17:04+0200\n"
 "Last-Translator: Mauro Colorio <mauro.colorio@gmail.com>\n"
 "Language-Team: Dimitri Bellini <dimitri.bellini@gmail.com>\n"
 "Language: Italian\n"
@@ -482,7 +482,7 @@ msgstr "Volume"
 
 #: application/controllers/VolumeController.php:75
 msgid "List Volumes likely to need replacement from age or errors"
-msgstr "Lista Volumi da rimpiazzare per superata eta o errori"
+msgstr "Lista volumi da sostituire per superata età o errori"
 
 #: application/controllers/VolumeController.php:113
 msgid "Detail Volume"
@@ -490,7 +490,7 @@ msgstr "Dettaglio Volume"
 
 #: application/controllers/VolumeController.php:169
 msgid "Webacula : Updated Volume parameters"
-msgstr "Webacula : Aggiorna parametri Volume "
+msgstr "Webacula : Aggiornati i parametri di un volume "
 
 #: application/controllers/VolumeController.php:170
 msgid "Media Id"
@@ -1902,7 +1902,7 @@ msgstr "Blocchi"
 #: application/views/scripts/volume/detail.phtml:160
 #: application/views/scripts/volume/problem.phtml:90
 msgid "Mounts"
-msgstr "Montati"
+msgstr "Montaggi"
 
 #: application/views/scripts/volume/detail.phtml:173
 #: application/views/scripts/volume/problem.phtml:91
@@ -1935,7 +1935,7 @@ msgstr "Num. Scritture"
 
 #: application/views/scripts/volume/detail.phtml:220
 msgid "Recycle Count"
-msgstr "Totale riutilizzo"
+msgstr "Num. riutilizzi"
 
 #: application/views/scripts/volume/find-pool-id.phtml:14
 #: application/views/scripts/volume/problem-dashboard.phtml:15
