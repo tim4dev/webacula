@@ -1220,6 +1220,7 @@ Select Job resource (1-3):
          */
         $ajob_all = array();
 
+        // level 'B' - Base job, see track ticket #90
         $sql =  "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
             " Job.StartTime, Media.VolumeName, JobMedia.StartFile, Job.VolSessionId,Job.VolSessionTime,
               Job.Name as jobname " .
@@ -1227,7 +1228,7 @@ Select Job resource (1-3):
               WHERE Client.ClientId=$client_id_from" .
             " AND Job.ClientId=$client_id_from" .
             " $date_before".
-            " AND Level='F' AND JobStatus IN ('T','W') AND Type='B'" .
+            " AND Level IN ('F','B') AND JobStatus IN ('T','W') AND Type='B'" .
             " AND JobMedia.JobId=Job.JobId" .
             " AND Media.Enabled=1" .
             " AND JobMedia.MediaId=Media.MediaId" .
