@@ -24,8 +24,8 @@
 class AuthController extends Zend_Controller_Action
 {
     protected $defNamespace;
-    const MAX_LOGIN_ATTEMPT = 3;
     protected $identity;
+    const MAX_LIFETIME = 864000; // 10 days
 
 
 
@@ -133,9 +133,11 @@ class AuthController extends Zend_Controller_Action
                     if (isset($this->defNamespace->numLoginFails))
                         $this->defNamespace->numLoginFails = 0;
                     // remember me
-                    if ($form->getValue('rememberme'))
-                        Zend_Session::rememberMe(259200); // 3 days
-                    // update statistics
+                    if ($form->getValue('rememberme')) {
+                        Zend_Session::rememberMe(self::MAX_LIFETIME);
+                        Zend_Session::getSaveHandler()->setLifetime(self::MAX_LIFETIME);
+                    }
+                    // update user statistics
                     $users = new Wbusers();
                     $users->updateLoginStat($data->login);
                     // goto home page

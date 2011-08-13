@@ -22,6 +22,7 @@
  */
 
 require_once 'Zend/Session/SaveHandler/DbTable.php';
+require_once 'Zend/Auth.php';
 
 class MyClass_Session_SaveHandler_DbTable  extends Zend_Session_SaveHandler_DbTable
 {
