@@ -323,7 +323,7 @@ CREATE TABLE UnsavedFiles (
 CREATE TABLE Counters (
    Counter TINYBLOB NOT NULL,
    MinValue INTEGER DEFAULT 0,
-   MaxValue INTEGER DEFAULT 0,
+   \`MaxValue\` INTEGER DEFAULT 0,
    CurrentValue INTEGER DEFAULT 0,
    WrapCounter TINYBLOB NOT NULL,
    PRIMARY KEY (Counter(128))

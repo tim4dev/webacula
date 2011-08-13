@@ -19,7 +19,7 @@ class LogControllerTest extends ControllerTestCase
             throw new RuntimeException('Non-english characters not found!');
         $this->assertController('log');
         $this->assertAction('view-log-id');
-        $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
+        $this->assertNotQueryContentRegex('table', '/Exception:|Notice:|Call Stack/'); // иногда Bacula глючит и выдает Warning в логах
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Console messages found');
         $this->assertQueryContentRegex('table', '/Termination:.*Backup OK/');
