@@ -36,7 +36,7 @@ if ( APPLICATION_ENV == 'development') {
 }
 
 // PATH_SEPARATOR  ":"
-set_include_path('.' . PATH_SEPARATOR . __DIR__ . '/../library' . PATH_SEPARATOR . '../application/models/' .
+set_include_path('.' . PATH_SEPARATOR . dirname(__FILE__) . '/../library' . PATH_SEPARATOR . '../application/models/' .
     PATH_SEPARATOR . '../application/forms/' .
     PATH_SEPARATOR . get_include_path() );
 
