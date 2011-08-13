@@ -202,9 +202,12 @@ EOF");
                 $this->render();
                 return;
             }
+            /*
+            deleted by fixed ID: 3325149 "Display Autochanger Contents"
+            update slots storage=\"$storage_name\" drive=0
+            wait
+             */
             $astatusdir = $director->execDirector(" <<EOF
-update slots storage=\"$storage_name\" drive=0
-wait
 status slots storage=\"$storage_name\" drive=0
 wait
 @quit
