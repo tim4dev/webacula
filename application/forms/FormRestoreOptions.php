@@ -28,6 +28,7 @@ class FormRestoreOptions extends Zend_Form
 
     protected $_action_cancel = '';
     protected $translate;
+    protected $bacula_acl; // bacula acl
 
     public  $elDecorators = array(
         'ViewHelper',
@@ -63,6 +64,8 @@ class FormRestoreOptions extends Zend_Form
         Zend_Loader::loadClass('Storage');
         Zend_Loader::loadClass('Pool');
         Zend_Loader::loadClass('FileSet');
+        // ACLs
+        $this->bacula_acl = new MyClass_BaculaAcl();
 
         /******* standard options ******/
         /*
@@ -158,9 +161,11 @@ class FormRestoreOptions extends Zend_Form
                 'style'    => 'width: 18em;'
             ));
             $bacula_restore_jobs = $config->general->bacula_restore_job->toArray();
+            $restore_job_select->addMultiOption('', $this->translate->_("Default"));
             $i = 1;
             foreach( $bacula_restore_jobs as $v) {
-                $restore_job_select->addMultiOption($i++, $v);
+                if ($this->bacula_acl->doOneBaculaAcl($v, 'job'))
+                    $restore_job_select->addMultiOption($i++, $v);
             }
             // add element to form
             $this->addElement($restore_job_select);
