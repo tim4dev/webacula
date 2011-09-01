@@ -76,8 +76,7 @@ class VolumeController extends MyClass_ControllerAclAction
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         // get data from model
         $media = new Media();
-        $ret = $media->GetProblemVolumes();
-        $this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
+        $this->view->resultProblemVolumes = $media->getProblemVolumes($order);
         // fix http://sourceforge.net/apps/trac/webacula/ticket/81
         //$this->view->resultVolumesNeedReplacement = $media->getVolumesNeedReplacement();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
@@ -94,8 +93,7 @@ class VolumeController extends MyClass_ControllerAclAction
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         // get data from model
         $media = new Media();
-        $ret = $media->GetProblemVolumes();
-        $this->view->resultProblemVolumes = $ret->fetchAll(null, $order);
+        $this->view->resultProblemVolumes = $media->getProblemVolumes($order);
         if ( empty($this->view->resultProblemVolumes) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {

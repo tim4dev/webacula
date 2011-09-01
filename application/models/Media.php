@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,11 +25,13 @@ class Media extends Zend_Db_Table
 {
     public $db;
     public $db_adapter;
+    protected $bacula_acl; // bacula acl
 
     public function __construct($config = array())
     {
         $this->db         = Zend_Registry::get('db_bacula');
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
+        $this->bacula_acl = new MyClass_BaculaAcl();
         parent::__construct($config);
     }
 
@@ -57,21 +57,23 @@ class Media extends Zend_Db_Table
      * Get info Volumes with Status of media: Disabled, Error
      *
      */
-    function GetProblemVolumes()
+    function getProblemVolumes($order=null)
     {
         $db = Zend_Registry::get('db_bacula');
         // make select from multiple tables
         $select = new Zend_Db_Select($db);
         $select->distinct();
-        $select->from('Media',
+        $select->from(array('m' => 'Media'),
             array("MediaId", 'PoolId', 'StorageId',
             'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
             'InChanger', 'MediaType', 'FirstWritten', 'LastWritten'
             ));
+        $select->joinLeft(array('p' => 'Pool'), 'm.PoolId = p.PoolId', array('PoolName' => 'p.Name'));
         $select->where("VolStatus IN ('Error', 'Disabled')");
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
-        $result = $select->query();
-        return $result;
+        $result = $select->query()->fetchAll(null, $order);
+        // do Bacula ACLs
+        return $this->bacula_acl->doBaculaAcl($result, 'poolname', 'pool');
     }
 
 

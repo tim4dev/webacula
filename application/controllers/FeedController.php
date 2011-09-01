@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,15 +78,16 @@ class FeedController extends MyClass_ControllerAclAction
         }
         // Get info Volumes with Status of media: Disabled, Error
         $media = new Media();
-        $ret = $media->GetProblemVolumes();
-        $result = $ret->fetchAll();
-        foreach ($result as $item) {
-            $content = '<pre><b>' . $this->view->translate->_("Volume Name") . ' : </b>' . $item['volumename'] . '<br>' . '<b>' . $this->view->translate->_("Volume Status") . ' : </b>' . $item['volstatus'] . '<br>' . '</pre>';
-            $afeed['entries'][] = array(
-                'title' => $this->view->translate->_("Volumes with errors") ,
-                'link' => $this->view->baseUrl . '/volume/problem/' , 'description' => $content ,
-                'lastUpdate' => time()
-            );
+        $result = $media->getProblemVolumes();
+        if ($result) {
+            foreach ($result as $item) {
+                $content = '<pre><b>' . $this->view->translate->_("Volume Name") . ' : </b>' . $item['volumename'] . '<br>' . '<b>' . $this->view->translate->_("Volume Status") . ' : </b>' . $item['volstatus'] . '<br>' . '</pre>';
+                $afeed['entries'][] = array(
+                    'title' => $this->view->translate->_("Volumes with errors") ,
+                    'link' => $this->view->baseUrl . '/volume/problem/' , 'description' => $content ,
+                    'lastUpdate' => time()
+                );
+            }
         }
         // import array to feed
         $feed = Zend_Feed::importArray($afeed, 'rss');
