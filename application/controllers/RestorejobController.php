@@ -773,7 +773,11 @@ EOF"
             echo $this->renderScript('restorejob/msg02session.phtml');
             return;
         }
-        $curdir  = stripslashes( $this->_request->getParam('curdir', '') );  // Un-quotes a quoted string
+        $curdir  = stripslashes( $this->_request->getParam('curdir', '') );
+        // add slash
+        if ( $curdir )
+            if ( substr($curdir, -1) != '/' )
+                $curdir .= '/';
         $this->view->title = $this->view->translate->_("Restore Job");
 
         $adir = array();
