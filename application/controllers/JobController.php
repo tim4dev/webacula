@@ -202,6 +202,25 @@ class JobController extends MyClass_ControllerAclAction
         echo $this->renderScript('job/terminated.phtml');
     }
 
+
+
+    /**
+     * Search Job on attributes : Job Name
+     *
+     */
+    function findJobNameAction()
+    {
+        $this->view->title = $this->view->translate->_("List Jobs by Job Name") .
+                ' : ' . $this->_request->getParam('jobname');
+        $this->view->title = $this->view->translate->_("List Jobs by Job Name");
+        $jobname = trim( $this->_request->getParam('jobname') );
+        $job = new Job();
+        $this->view->result = $job->getByJobName($jobname);
+        echo $this->renderScript('job/terminated.phtml');
+    }
+
+
+
     /**
      * Search Job on attributes : Volume Name
      * See <bacula>/src/dird/query.sql

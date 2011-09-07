@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -797,6 +797,11 @@ Select Job resource (1-3):
 
 
 
+    /**
+     * Search Job by JobId
+     * @param integer $jobid
+     * @return array of Jobs
+     */
     function getByJobId($jobid)
     {
         if ( isset($jobid) )	{
@@ -842,6 +847,66 @@ Select Job resource (1-3):
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
             $select->where("j.JobId = '$jobid'");
+            $select->order(array("StartTime", "JobId"));
+            //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
+            $stmt = $select->query();
+            // do Bacula ACLs
+            return $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'jobname', 'job');
+        }
+    }
+
+
+
+    /**
+     * Search Job by Job Name
+     * @param string $jobname
+     * @return array of Jobs
+     */
+    function getByJobName($jobname)
+    {
+        if ( isset($jobname) )	{
+        $select = new Zend_Db_Select($this->db);
+        $select->distinct();
+
+        switch ($this->db_adapter) {
+            case 'PDO_MYSQL':
+                $select->from(array('j' => 'Job'),
+                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
+                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTimeRaw' => 'j.StartTime',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
+                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+                break;
+            case 'PDO_PGSQL':
+                // PostgreSQL
+                // http://www.postgresql.org/docs/8.0/static/functions-datetime.html
+                $select->from(array('j' => 'Job'),
+                    array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
+                    'StartTime', 'EndTime',
+                    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
+                    'FileSetId', 'PurgedFiles', 'JobStatus',
+                    'DurationTime' => '(EndTime - StartTime)'));
+                break;
+            case 'PDO_SQLITE':
+                // SQLite3 Documentation
+                // http://sqlite.org/lang_datefunc.html
+                // workaround of bug http://framework.zend.com/issues/browse/ZF-884
+                $select->from(array('j' => 'Job'),
+                    array('jobid'=>'JobId', 'type'=>'Type', 'JobName' => 'Name', 'level'=>'Level', 'clientid'=>'ClientId',
+                    'starttime'=>'StartTime', 'endtime'=>'EndTime',
+                    'volsessionid'=>'VolSessionId', 'volsessiontime'=>'VolSessionTime', 'jobfiles'=>'JobFiles',
+                    'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
+                    'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
+                    'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))" ));
+                break;
+            }
+            $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
+            $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
+            $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
+            $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
+            $select->where("j.Name = '$jobname'");
             $select->order(array("StartTime", "JobId"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
             $stmt = $select->query();
@@ -965,7 +1030,8 @@ Select Job resource (1-3):
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId',
                 array('ClientName' => 'Name', 'ClientUName' => 'UName'));
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
-            $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
+            $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', 
+                    array('FileSetName' => 'FileSet', 'FileSetCreateTime' => 'CreateTime'));
         	$select->where("j.JobId = ?", $jobid);
     		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 

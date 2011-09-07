@@ -98,6 +98,15 @@ $atype = array(
 </form>
 </div>
 
+<!-- // find by Job Name -->
+<h3><a href="#"><?php print $this->translate->_("Job Name"); ?></a></h3>
+<div>
+<form action="<?php  echo $this->baseUrl.'/job/find-job-name';?>" method="post">
+	<b><?php print $this->translate->_("Job Name"); ?></b> <?php echo $this->formText('jobname', "", array('size' => 40)) ?>
+	<?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'prefer_btn') ); ?>
+</form>
+</div>
+
 <!-- // find by many filters -->
 <h3><a href="#"><?php print $this->translate->_("Time, Client, Fileset, Level, Status, Type"); ?></a></h3>
 <div>

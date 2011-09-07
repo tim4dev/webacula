@@ -113,6 +113,13 @@
 </tr>
 <?php endif; ?>
 
+<?php if (!empty($line['filesetname']) ) : ?>
+    <tr>
+        <td> <?php print $this->translate->_("Fileset"); ?> </td>
+        <td><?php echo $this->escape($line['filesetname']);?> (<?php echo $this->escape($line['filesetcreatetime']);?>)</td>
+    </tr>
+<?php endif; ?>
+    
 <tr>
     <td>
     <?php if ($line['purgedfiles'] || ($line['type'] == 'R')) : ?>
