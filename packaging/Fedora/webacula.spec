@@ -38,19 +38,12 @@ Webacula - Web Bacula - веб интерфейс для Bacula backup system.
 восстановление бэкапа для клиента сделанного перед указанным временем,
 монтирование/размонтирование Хранилищ, показ запланированных, 
 выполняющихся и завершенных Заданий и прочее.
-Поддерживаемые языки: английский, французский, немецкий, итальянский,
+Поддерживаемые языки: английский, чешский, французский, немецкий, итальянский,
 бразильский португальский, русский.
 
 
 %prep
 %setup -q
-rm -f ./application/.htaccess
-rm -f ./html/test_mod_rewrite/.htaccess
-rm -f ./html/.htaccess
-rm -f ./install/.htaccess
-rm -f ./languages/.htaccess
-rm -f ./application/.htaccess
-rm -f ./docs/.htaccess
 
 
 
@@ -74,12 +67,8 @@ cp ./application/config.ini  $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
 rm -f ./application/config.ini
 ln -s %{_sysconfdir}/%{name}/config.ini  $RPM_BUILD_ROOT%{_datadir}/%{name}/application/config.ini 
 
-cp ./install/webacula.conf  $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
-rm -f ./install/webacula.conf
-
-install -p -m 755 ./install/webacula_clean_tmp_files.sh \
-   $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
-rm -f ./install/webacula_clean_tmp_files.sh
+cp ./install/apache/webacula.conf  $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/webacula.conf
+rm -f ./install/apache/webacula.conf
 
 cp -pr ./application $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -pr ./html        $RPM_BUILD_ROOT%{_datadir}/%{name}
@@ -100,23 +89,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/html
 %{_datadir}/%{name}/library
 %{_datadir}/%{name}/install
-%{_sysconfdir}/cron.daily/webacula_clean_tmp_files.sh
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/languages
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/webacula.conf
 %config(noreplace) %{_sysconfdir}/%{name}/config.ini
+%lang(cs) %{_datadir}/%{name}/languages/cs
 %lang(de) %{_datadir}/%{name}/languages/de
 %lang(en) %{_datadir}/%{name}/languages/en
+%lang(es) %{_datadir}/%{name}/languages/es
 %lang(fr) %{_datadir}/%{name}/languages/fr
+%lang(it) %{_datadir}/%{name}/languages/it
 %lang(pt) %{_datadir}/%{name}/languages/pt
 %lang(ru) %{_datadir}/%{name}/languages/ru
-%lang(it) %{_datadir}/%{name}/languages/it
-%lang(es) %{_datadir}/%{name}/languages/es
 
 
 
 %changelog
-* Sat Aug 13 2011 Yuri Timofeev <tim4dev@gmail.com> 5.5.1-1
+* Sat Sep 10 2011 Yuri Timofeev <tim4dev@gmail.com> 5.5.1-1
 - Version 5.5.1
 
 * Mon Jan 24 2011 Yuri Timofeev <tim4dev@gmail.com> 5.5.0-1

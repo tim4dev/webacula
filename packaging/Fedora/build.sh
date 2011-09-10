@@ -48,15 +48,22 @@ cd ${SRC_DIR}
 mkdir -p "${RPM_TMP}/webacula-${VERSION}"
 
 echo "library/Zend
+nbproject
+docs/src
 library/Zend.arc
 library/runme
 library/Zend*.tar.gz
 packaging
 tests
+.htaccess
 .settings
 .git
 .gitignore
 .project
+.buildpath
+*~
+*.tmp
+*.swp
 " > "${RPM_TMP}/${F_EXCLUDE}"
 
 echo "create tarball..."
@@ -105,14 +112,16 @@ echo -e "\n*** exit=$?"
 echo -e "\n\n\n**************************************************************"
 echo -e "***** Next instruction :\n
 
-rpmlint ${RPM_RPMS}/noarch/webacula-
+rpmlint -i ${RPM_RPMS}/noarch/webacula-
 
 Install rpm and testing.
 rpm -ihv ${RPM_RPMS}/noarch/webacula-\n
 
-mock -r fedora-13-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 mock -r fedora-14-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
+mock -r fedora-15-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
+mock -r fedora-16-i386 rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 mock -r epel-5-i386    rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
+mock -r epel-6-i386    rebuild  ${RPM_ROOT}/SRPMS/webacula-\n
 
 see result:
 
