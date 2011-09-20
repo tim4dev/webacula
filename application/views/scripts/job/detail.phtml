@@ -130,9 +130,8 @@
     <?php endif; ?>
     </td>
     <?php
-        if ( $line['jobfiles'] )
-            $class = '';
-        else
+        $class = '';
+        if ( !$line['jobfiles'] )
             if ($line['type'] != 'D')
                 $class = 'class="warn"';
         echo '<td ', $class, '>', number_format($this->escape($line['jobfiles']));
