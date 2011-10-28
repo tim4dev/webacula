@@ -19,7 +19,7 @@ CREATE TABLE webacula_users (
     email    varchar(50),
     create_login timestamp without time zone,
     last_login timestamp without time zone,
-    last_ip  varchar(15),
+    last_ip  varchar(40),
     active   integer,
     role_id  integer NOT NULL,
     PRIMARY KEY (id)

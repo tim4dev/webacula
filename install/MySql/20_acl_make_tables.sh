@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS webacula_users (
     email    varchar(50),
     create_login DATETIME NOT NULL,
     last_login DATETIME,
-    last_ip  varchar(15),
+    last_ip  varchar(40),
     active   integer,
     role_id  integer NOT NULL,
     PRIMARY KEY (id),
