@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.1' . ', build 2011.09.07');
+define('WEBACULA_VERSION', '5.5.1' . ', build 2011.10.28');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -79,8 +79,8 @@ $registry = Zend_Registry::getInstance();
 $registry->set('config', $config);
 
 // set timezone
-if ( isset($config->def->timezone) )
-    date_default_timezone_set($config->def->timezone);
+if ( isset($config->general->def->timezone) )
+    date_default_timezone_set($config->general->def->timezone);
 else {
     Zend_Loader::loadClass('Zend_Date');
     $date = new Zend_Date();

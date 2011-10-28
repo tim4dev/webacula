@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  * @author Yuri Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
@@ -54,8 +54,8 @@ $registry = Zend_Registry::getInstance();
 $registry->set('config', $config);
 
 // set timezone
-if ( isset($config->def->timezone) )
-    date_default_timezone_set($config->def->timezone);
+if ( isset($config->general->def->timezone) )
+    date_default_timezone_set($config->general->def->timezone);
 else {
     Zend_Loader::loadClass('Zend_Date');
     $date = new Zend_Date();
