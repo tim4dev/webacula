@@ -71,7 +71,9 @@ class VolumeControllerTest extends ControllerTestCase
         $this->logBody( $this->response->outputBody() ); // debug log
         $this->assertController('volume');
         $this->assertAction('update');
-        // back
+        // back      
+        $this->resetRequest()
+             ->resetResponse();
         $this->request->setPost(array('mediaid' => $mediaid , // mandatory attribute
             'poolid' => $poolid , // mandatory attribute
             'volstatus' => 'Append' ,
