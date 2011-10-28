@@ -979,7 +979,7 @@ msgstr "Kein Storage Status gefunden."
 #: application/views/scripts/storage/storage.phtml:75
 #: application/views/scripts/storage/storage.phtml:76
 msgid "Mount Storage"
-msgstr "Storage aushängen"
+msgstr "Storage einhängen"
 
 #: application/views/scripts/storage/storage.phtml:13
 msgid "Name Storage"
