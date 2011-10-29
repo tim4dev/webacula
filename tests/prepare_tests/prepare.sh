@@ -357,6 +357,7 @@ fi
 my_log "MySQL : fill webacula logbook"
 cd ${BASEDIR}
 sh ./MySql/20_webacula_fill_logbook
+sh ./MySql/25_webacula_fill_jobdesc
 sh ./MySql/30_webacula_fill_acl
 sh ./MySql/40_bacula_fill_log
 

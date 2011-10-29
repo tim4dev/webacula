@@ -34,11 +34,12 @@ $(document).ready(
 
 <?php if ($this->result): ?>
 
-<table id="box-table-wbjobdesc" border="0"  width="70%">
+<table id="box-table-wbjobdesc" border="0"  width="80%">
 <thead>
 <tr>
     <th scope="col">&nbsp;</th>
-    <th scope="col" width="35%"> <?php print $this->translate->_("Job Name"); ?> </th>
+    <th scope="col" width="20%"> <?php print $this->translate->_("Job Name"); ?> </th>
+    <th scope="col"> <?php print $this->translate->_("Short Job Description"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Job Description"); ?> </th>
     <th scope="col" width="10%"> <?php print $this->translate->_("Retention period"); ?> </th>
     <th scope="col" width="50px">&nbsp;</th>
@@ -59,6 +60,7 @@ $(document).ready(
         ?>
     </td>
     <td><?php echo $line['name_job'] ?></td>
+    <td><?php echo $line['short_desc'] ?></td>
     <td><?php echo $line['description'] ?></td>
     <td><?php echo $line['retention_period'] ?></td>
     <td>

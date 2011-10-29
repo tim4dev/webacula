@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,11 +51,13 @@ class WbjobdescController extends MyClass_ControllerAclAction
         if ( $this->_request->isPost() &&  ($this->_request->getParam('form1') == '1') ) {
             if ( $form->isValid($this->_getAllParams()) ) {
                 $name_job = stripslashes( trim( $this->_request->getParam('name_job') ) );
+                $short_desc = stripslashes( trim( $this->_request->getParam('short_desc') ) );
                 $description = stripslashes( trim( $this->_request->getParam('description') ) );
                 $retention_period = stripslashes( trim( $this->_request->getParam('retention_period') ) );
                 $table = new wbJobDesc();
                 $data = array(
-                    'name_job' => $name_job,
+                    'name_job'    => $name_job,
+                    'short_desc'  => $short_desc,
                     'description' => $description,
                     'retention_period' => $retention_period
                 );
@@ -87,11 +87,13 @@ class WbjobdescController extends MyClass_ControllerAclAction
             if ( $form->isValid($this->_getAllParams()) ) {
                 $desc_id  = intval( $this->_request->getParam('desc_id') );
                 $name_job = stripslashes( trim( $this->_request->getParam('name_job') ) );
+                $short_desc = stripslashes( trim( $this->_request->getParam('short_desc') ) );
                 $description = stripslashes( trim( $this->_request->getParam('description') ) );
                 $retention_period = stripslashes( trim( $this->_request->getParam('retention_period') ) );
                 $table = new wbJobDesc();
                 $data = array(
-                    'name_job' => $name_job,
+                    'name_job'    => $name_job,
+                    'short_desc'  => $short_desc,
                     'description' => $description,
                     'retention_period' => $retention_period
                 );
@@ -121,6 +123,7 @@ class WbjobdescController extends MyClass_ControllerAclAction
                 $form->populate( array(
                     'desc_id'     => $row->desc_id,
                     'name_job'    => $row->name_job,
+                    'short_desc'  => $short_desc,
                     'description' => $row->description,
                     'retention_period' => $row->retention_period
                 ));

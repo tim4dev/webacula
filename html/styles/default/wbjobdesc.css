@@ -6,7 +6,7 @@
    font-family: "Lucida Grande", Helvetica, verdana, sans-serif;
    background-color:#fff;
    border-collapse: collapse;
-   width: 60%;
+   width: 80%;
    line-height: 1.2em;
 }
 #box-table-wbjobdesc caption {
@@ -73,11 +73,12 @@ label {
 }
 
 div.roundcorner-wjd {
-    width: 34em;
+    width: 38em;
     padding: 10px;
     text-align: left;
     margin-top: 30px;
     margin-bottom: 20px;
     color: #000;
     background: #d0ffbd;
+    font-family: 'Times New Roman',Times,serif;
 }

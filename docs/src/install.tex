@@ -34,7 +34,7 @@
 }
 \author{
   \begin{small}
-    Copyright 2007, 2008, 2009, 2010, 2011
+    Copyright 2007, 2008, 2009, 2010, 2011, 2012
     Yuri Timofeev \htmladdnormallink{tim4dev@gmail.com}{mailto:tim4dev@gmail.com}
   \end{small}
 }
@@ -457,5 +457,21 @@ Also remove \texttt{tmpdir} from \texttt{config.ini}, is not necessary now.
 
 The script \texttt{webacula\_clean\_tmp\_files.sh} is not necessary now.
 
+\textbf{Update from 5.5.1 to 5.5.2}
+
+Update the code as usual.
+And make changes to the database schema (for example, MySQL)
+
+\begin{verbatim}
+ALTER TABLE webacula_jobdesc ADD COLUMN short_desc CHAR(64) NOT NULL;
+CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
+\end{verbatim}
+
+Change \texttt{application/config.ini} if necessary:
+
+\begin{verbatim}
+;; Show human readable short Job description instead of Job Bacula names
+show_job_description = 1
+\end{verbatim}
 
 \end{document}

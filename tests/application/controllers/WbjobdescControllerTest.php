@@ -16,6 +16,7 @@ class WbjobdescControllerTest extends ControllerTestCase
         $this->request->setPost(array(
             'form1'         => 1,
             'name_job'      => 'job name test 2',
+            'short_desc'    => 'short description',
             'description'   => "PHPUnit test $description\njob description\n",
             'retention_period' => '3 years'
         ));

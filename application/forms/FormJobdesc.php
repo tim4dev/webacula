@@ -1,8 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009 Yuri Timofeev tim4dev@gmail.com
- *
- * This file is part of Webacula.
+ * Copyright 2007, 2008, 2009, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +51,15 @@ class FormJobdesc extends Zend_Form
         $name_job->addValidator('StringLength', false, array(0, 64) );
         //$name_job->addDecorator('HtmlTag',  array('tag' => 'div', 'style'=>'margin-bottom:20px;'));
 
+        $short_desc = $this->createElement('text', 'short_desc', array(
+            'label'      => $this->translate->_('Short Job Description'),
+            'required'   => true,
+            'size' => 30,
+            'maxlength' => 64
+        ));
+        $name_job->addValidator('NotEmpty', false, null );
+        $name_job->addValidator('StringLength', false, array(0, 64) );
+        
         $description = $this->createElement(
             'textarea', 'description', array(
             'label'      => $this->translate->_('Job Description'),
@@ -82,6 +89,7 @@ class FormJobdesc extends Zend_Form
             $hidden_desc_id,
             $hidden_form1,
             $name_job,
+            $short_desc,
             $description,
             $retention_period,
             $submit

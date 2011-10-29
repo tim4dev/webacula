@@ -43,10 +43,12 @@ CREATE TABLE webacula_jobdesc (
     desc_id  SERIAL,
     name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
+    short_desc      CHAR(64) NOT NULL,
     description     TEXT NOT NULL,
     PRIMARY KEY(desc_id)
 );
 CREATE INDEX webacula_idx2 ON webacula_jobdesc (name_job);
+CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
 
 CREATE TABLE webacula_version (
    versionId INTEGER NOT NULL

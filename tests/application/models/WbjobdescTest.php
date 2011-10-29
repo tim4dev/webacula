@@ -42,6 +42,7 @@ class WbjobdescTest extends PHPUnit_Framework_TestCase
         // insert
         $data = array(
             'name_job'    => 'job.name.test.1',
+            'short_desc'  => 'Important billing DB',
             'description' => 'PHPUnit test',
             'retention_period' => '3 days'
         );

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011, 2012 Yuri Timofeev <tim4dev@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '5.5.1' . ', build 2011.10.28');
+define('WEBACULA_VERSION', '5.5.2' . ', build 2011.10.28');
 define('BACULA_VERSION', 12); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -97,12 +97,10 @@ Zend_Registry::set('NEW_VOLUME', -100);
 Zend_Registry::set('ERR_VOLUME', -1);
 
 /**
- *
  * Database, table, field and columns names in PostgreSQL are case-independent, unless you created them with double-quotes
  * around their name, in which case they are case-sensitive.
  * Note: that PostgreSQL actively converts all non-quoted names to lower case and so returns lower case in query results.
  * In MySQL, table names can be case-sensitive or not, depending on which operating system you are using.
- *
  */
 
 // setup database bacula
@@ -163,6 +161,16 @@ if ( $translate->isTranslated('Desktop', false, $locale) ) {
 $registry->set('translate', $translate);
 $registry->set('locale',    $locale);
 $registry->set('language',  $locale->getLanguage());
+
+// Show human readable short Job description instead of Job Bacula names
+if ( isset($config->general->show_job_description) )    {
+    if ( ( $config->general->show_job_description < 0 ) || ( $config->general->show_job_description > 2 ) )
+        $show_job_description = 0;
+    else
+        $show_job_description = $config->general->show_job_description;
+}  else
+    $show_job_description = 0;
+$registry->set('show_job_description', $show_job_description);
 
 Zend_Layout::startMvc(array(
     'layoutPath' => '../application/layouts/' . $config->layout->path,

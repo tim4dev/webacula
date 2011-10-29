@@ -12,7 +12,25 @@
 <tr>
      <th scope="col">&nbsp;</th>
      <th scope="col"> <?php print $this->translate->_("Id"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
+     <th scope="col"> 
+     <?php 
+        switch ($this->show_job_description) {
+            case 0 :
+                echo $this->translate->_("Job Name"); 
+                break;
+            case 1 :
+                echo $this->translate->_("Short Job Description"); 
+                break;
+            case 2 :
+                echo $this->translate->_("Job Name"), ' /<br>',
+                     $this->translate->_("Short Job Description"); 
+                break;
+            default :
+                echo $this->translate->_("Job Name"); 
+                break;
+        }
+     ?> 
+     </th>
      <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
@@ -51,7 +69,33 @@
 	</td>
 
 	<!-- Job.Name -->
-	<td><?php echo $this->escape($line['jobname']);?></td>
+	<!-- Job.Name -->
+    <td>
+        <?php  
+        switch ($this->show_job_description) {
+            case 0 :
+                // only show Bacula Job Name (behavior as in earlier versions)
+                echo $this->escape($line['jobname']);
+                break;
+            case 1 :
+                // only show human readable short Job description instead of Bacula Job Name
+                if ( empty($line['short_desc']) ) 
+                    echo '<i>', $this->escape($line['jobname']), '</i>';
+                else 
+                    echo $this->escape($line['short_desc']);
+                break;
+            case 2 :
+                // both
+                echo $this->escape($line['jobname']);
+                if ( !empty($line['short_desc']) ) 
+                    echo '<br><i>', $this->escape($line['short_desc']), '</i>'; 
+                break;
+            default :
+                echo $this->escape($line['jobname']);
+                break;
+        }
+        ?>
+    </td>
 
 	<!-- Status -->
 	<?php

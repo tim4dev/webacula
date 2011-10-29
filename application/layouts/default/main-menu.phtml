@@ -54,6 +54,7 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
             <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a></li>
+            <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
 		</ul>
 	</li>
     <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
@@ -86,7 +87,6 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
     <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>
         <ul>
             <li><a href="<?php echo $this->baseUrl;?>/wblogbook/add"><?php print $this->translate->_("Add New Record"); ?></a></li>
-            <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/feed/feed"><?php print $this->translate->_("RSS"); ?></a></li>
         </ul>
     </li>

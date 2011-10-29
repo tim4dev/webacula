@@ -52,9 +52,11 @@ CREATE TABLE IF NOT EXISTS webacula_jobdesc (
     desc_id  INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
+    short_desc      CHAR(64) NOT NULL,
     description     TEXT NOT NULL,
     PRIMARY KEY(desc_id),
-    INDEX (name_job)
+    INDEX (name_job),
+    INDEX (short_desc)
 );
 
 

@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Job descriptions
+#
+
+db_name="/tmp/webacula/sqlite/bacula.db"
+
+/usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('not.exists.job', '1', 'This Job not exists', 'Specially for unit tests');
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('job.name.test.4', '3', 'Описание Задания', 'Specially for unit tests');
+
+END-OF-DATA
+
+
+echo "Sqlite : logbook fill OK"
+
+exit 0

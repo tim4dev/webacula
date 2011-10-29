@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2009, 2010, 2011, 2012 Yuri Timofeev <tim4dev@gmail.com>
  * @author Yuri Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
@@ -72,12 +72,10 @@ Zend_Registry::set('NEW_VOLUME', -100);
 Zend_Registry::set('ERR_VOLUME', -1);
 
 /**
- *
  * Database, table, field and columns names in PostgreSQL are case-independent, unless you created them with double-quotes
  * around their name, in which case they are case-sensitive.
  * Note: that PostgreSQL actively converts all non-quoted names to lower case and so returns lower case in query results.
  * In MySQL, table names can be case-sensitive or not, depending on which operating system you are using.
- *
  */
 
 // setup database bacula
@@ -134,6 +132,16 @@ if ( $translate->isTranslated('Desktop', false, $locale) ) {
 $registry->set('translate', $translate);
 $registry->set('locale',    $locale);
 $registry->set('language',  $locale->getLanguage());
+
+// Show human readable short Job description instead of Job Bacula names
+if ( isset($config->general->show_job_description) )    {
+    if ( ( $config->general->show_job_description < 0 ) || ( $config->general->show_job_description > 2 ) )
+        $show_job_description = 0;
+    else
+        $show_job_description = $config->general->show_job_description;
+}  else
+    $show_job_description = 0;
+$registry->set('show_job_description', $show_job_description);
 
 Zend_Layout::startMvc(array(
     'layoutPath' => $appRoot . '/application/layouts/' . $config->layout->path,

@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Job descriptions
+#
+
+if /usr/bin/psql -q  -f - -d bacula <<END-OF-DATA
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('not.exists.job', '1', 'This Job not exists', 'Specially for unit tests');
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('job.name.test.4', '3', 'Описание Задания', 'Specially for unit tests');
+
+END-OF-DATA
+then
+   echo "PostgreSql : fill logbook succeeded"
+else
+   echo "PostgreSql : fill logbook failed !"
+fi
+
+exit 0

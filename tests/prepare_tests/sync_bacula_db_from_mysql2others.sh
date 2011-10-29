@@ -91,6 +91,7 @@ sh ./10_make_tables.sh
 sh ./20_acl_make_tables.sh
 cd ${BASEDIR}
 sh ./PostgreSql/30_webacula_fill_logbook
+sh ./PostgreSql/35_webacula_fill_jobdesc
 sh ./PostgreSql/40_webacula_fill_acl
 
 cd ${BASEDIR}
@@ -100,6 +101,7 @@ sh ./10_make_tables.sh      /tmp/webacula/sqlite/bacula.db
 sh ./20_acl_make_tables.sh  /tmp/webacula/sqlite/bacula.db
 cd ${BASEDIR}
 sh ./SqLite/20_webacula_fill_logbook
+sh ./SqLite/25_webacula_fill_jobdesc
 sh ./SqLite/30_webacula_fill_acl
 
 my_log "Copy DB from MySQL to PGSQL ..."

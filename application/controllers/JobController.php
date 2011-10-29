@@ -47,6 +47,7 @@ class JobController extends MyClass_ControllerAclAction
         $jobs = new Job();
         $this->view->result = $jobs->getTerminatedJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
 
@@ -65,6 +66,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**
@@ -86,6 +88,7 @@ class JobController extends MyClass_ControllerAclAction
         } else {
             $this->_helper->viewRenderer->setResponseSegment('job_running');
         }
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
 
@@ -104,6 +107,7 @@ class JobController extends MyClass_ControllerAclAction
         $jobs = new Job();
         $this->view->result = $jobs->getScheduledJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**
@@ -127,6 +131,7 @@ class JobController extends MyClass_ControllerAclAction
         } else {
             $this->_helper->viewRenderer->setResponseSegment('job_next');
         }
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
 
@@ -303,6 +308,7 @@ class JobController extends MyClass_ControllerAclAction
         $jobs = new Job();
         $this->view->result = $jobs->getProblemJobs($last_days);
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**
@@ -322,6 +328,7 @@ class JobController extends MyClass_ControllerAclAction
         } else {
             $this->_helper->viewRenderer->setResponseSegment('job_problem');
         }
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**
@@ -513,11 +520,11 @@ EOF"
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         $job = new Job();
         $this->view->result = $job->getTerminatedJobs();
-        if ( empty($this->view->result) ) {
+        if ( empty($this->view->result) ) 
             $this->_helper->viewRenderer->setNoRender();
-        } else {
+        else
             $this->_helper->viewRenderer->setResponseSegment('job_terminated');
-        }
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**

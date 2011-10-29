@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Job descriptions
+#
+
+if mysql -f <<END-OF-DATA
+
+USE bacula;
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('not.exists.job', '1', 'This Job not exists', 'Specially for unit tests');
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('job.name.test.4', '3', 'Описание Задания', 'Specially for unit tests');
+
+END-OF-DATA
+then
+   echo "succeeded."
+else
+   echo "failed."
+fi
+
+exit 0
