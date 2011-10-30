@@ -90,6 +90,25 @@ class Job extends Zend_Db_Table
         return ( empty ($res) ) ? FALSE : TRUE;
 	}
 
+    
+    /**
+	 * If there Job Name exist in the database Bacula ...
+	 * Существует ли Job Name в БД Bacula
+	 *
+	 * @return TRUE if exist
+	 * @param string $jobname
+	 */
+	function isJobNameExists($jobname)
+	{
+   		$select = new Zend_Db_Select($this->db);
+    	$select->from('Job', array('Name'));
+    	$select->where("Name = ?", $jobname);
+    	$select->limit(1);
+        $stmt = $select->query();
+        // do Bacula ACLs
+        $res = $this->bacula_acl->doBaculaAcl( $stmt->fetchAll(), 'name', 'job');
+        return ( empty ($res) ) ? FALSE : TRUE;
+	}
 
 
 	/**

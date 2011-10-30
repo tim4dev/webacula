@@ -50,12 +50,14 @@ $(document).ready(
 <tr>
     <td style="padding: 0px;">
         <?php
-            if ( isset($line['name_job']) )    {
+            if ( isset($line['name_job']) && ($line['exists'] == 1) )    {
                 // re-run button
                 echo '<a href="';
                 echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['name_job']);
                 echo '" title="', $this->translate->_("Run Job"), '">';
                 echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Run Job"), '" border="0" hspace="2">';
+            } else {
+                echo '<span class="ui-icon ui-icon-alert"></span>';
             }
         ?>
     </td>

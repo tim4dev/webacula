@@ -40,7 +40,21 @@ class WbjobdescController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Job Descriptions");
         // get data from model
         $jobdesc = new wbJobDesc();
-        $this->view->result = $jobdesc->fetchAll(null, array('name_job', 'desc_id') );
+        $rows_jobdesc = $jobdesc->fetchAll(null, array('name_job', 'desc_id') );
+        // check
+        $result = array();
+        Zend_Loader::loadClass('Job');
+        $job = new Job();
+        $i = 0;
+        foreach( $rows_jobdesc as $row ) {
+            $result[$i] = $row->toArray();
+            if ( $job->isJobNameExists($row['name_job']) )
+                $result[$i]['exists'] = 1;
+            else
+                $result[$i]['exists'] = 0;
+            $i++;
+        }
+        $this->view->result = $result;
     }
 
 
