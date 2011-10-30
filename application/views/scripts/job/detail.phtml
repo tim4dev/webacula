@@ -71,6 +71,9 @@
     <td> <?php print $this->translate->_("Job Name"); ?> </td>
     <td><?php echo $this->escape($line['name']);?></td>
 </tr><tr>
+    <td> <?php print $this->translate->_("Short Job Description"); ?> </td>
+    <td><?php echo $this->escape($line['short_desc']);?></td>
+</tr><tr>    
 	<td> <?php print $this->translate->_("Purged Files"); ?> </td>
 	<td><?php echo $this->Int2Char($this->escape($line['purgedfiles']));?></td>
 </tr><tr>

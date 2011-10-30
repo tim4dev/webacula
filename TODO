@@ -4,10 +4,15 @@
 
 - перевод 
 
+- документация для update 
+    webacula_users
+        last_ip  varchar(40)
+
 - документация, changelog
 
 - unit tests
 
 - для Job вывод доп. инф-и : FileSet, Schedule, etc.
 
-
+- index.php убрать
+    $registry->set('show_job_description', 2); // !!! debug

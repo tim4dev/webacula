@@ -531,7 +531,7 @@ class Timeline
         $c = 0;
 
         for ($i = 0; $i <= $this->bar_count-1; $i++)  {
-            $str = $this->atime[$i]['name'] . " (" . $this->atime[$i]['jobid'] . ")";
+            $str = '(' . $this->atime[$i]['jobid'] .') '. $this->atime[$i]['name'];
             // для заданий не уложившихся в сутки, рисуем знаки с определенной стороны
             switch ($this->atime[$i]['flag']) {
                 case -1:
@@ -609,6 +609,7 @@ class Timeline
                 ($xt < $xr1) ? $x1 = $xt : $x1 = $xr1;
                 $img_map[$i]['jobid'] = $this->atime[$i]['jobid'];
                 $img_map[$i]['name']  = $this->atime[$i]['name'];
+                $img_map[$i]['short_desc']  = $this->atime[$i]['short_desc'];
                 $img_map[$i]['x1'] = $x1;
                 $img_map[$i]['y1'] = $yr1;
                 $img_map[$i]['x2'] = $x2;

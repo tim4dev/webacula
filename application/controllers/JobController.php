@@ -179,7 +179,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->jstatus    = $jstatus;
         $this->view->jtype      = $jtype;
         $this->view->volname    = $volname;
-
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        
         if ($jobs) {
             $paginator = Zend_Paginator::factory($jobs);
             Zend_Paginator::setDefaultScrollingStyle('Sliding');
@@ -204,6 +205,7 @@ class JobController extends MyClass_ControllerAclAction
         $jobid = intval(trim( $this->_request->getParam('jobid') ));
         $job = new Job();
         $this->view->result = $job->getByJobId($jobid);
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -221,6 +223,7 @@ class JobController extends MyClass_ControllerAclAction
         $jobname = trim( $this->_request->getParam('jobname') );
         $job = new Job();
         $this->view->result = $job->getByJobName($jobname);
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -238,6 +241,7 @@ class JobController extends MyClass_ControllerAclAction
         $volname = addslashes(trim( $this->_request->getParam('volname') ));
         $job = new Job();
         $this->view->result = $job->getByVolumeName($volname);
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -287,6 +291,7 @@ class JobController extends MyClass_ControllerAclAction
         $adetail = $job->getDetailByJobId($jobid);
         $this->view->resultJob = $adetail['job'];
         $this->view->resultVol = $adetail['volume'];
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
 
@@ -323,12 +328,12 @@ class JobController extends MyClass_ControllerAclAction
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->getProblemJobs($last_days);
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         if ( empty($this->view->result) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
             $this->_helper->viewRenderer->setResponseSegment('job_problem');
         }
-        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**
@@ -355,6 +360,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
         $timeline = new Timeline;
         $this->view->datetimeline = $datetimeline;
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         // for image map
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');
     }
@@ -375,6 +381,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
         $timeline = new Timeline;
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'small');
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         if ( empty($this->view->img_map) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -554,6 +561,7 @@ EOF"
         $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search);
         $this->view->title = sprintf($this->view->translate->_("List Jobs (%s found) where '%s' is saved (limit %s)"),
             sizeof($this->view->result), $namefile, $limit);
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
 

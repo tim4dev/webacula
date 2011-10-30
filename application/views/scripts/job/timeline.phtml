@@ -66,9 +66,34 @@ $(function() {
         for ($i = 0; $i < $count; $i++) :
     ?>
 <area
+    <?php  
+        $title_alt = '';
+        switch ($this->show_job_description) {
+            case 0 :
+                // only show Bacula Job Name (behavior as in earlier versions)
+                $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                break;
+            case 1 :
+                // only show human readable short Job description instead of Bacula Job Name
+                if ( empty($this->img_map[$i]['short_desc']) ) 
+                    $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                else 
+                    $title_alt = $this->escape($this->img_map[$i]['short_desc']);
+                break;
+            case 2 :
+                // both
+                $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                if ( !empty($this->img_map[$i]['short_desc']) ) 
+                    $title_alt .= ' : '. $this->escape($this->img_map[$i]['short_desc']); 
+                break;
+            default :
+                $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                break;
+        }
+    ?>
    href="<?php echo $this->baseUrl, '/job/detail/jobid/', $this->img_map[$i]['jobid'];?>"
-   alt="<?php echo $this->translate->_("Detail Job"), ' : ', $this->img_map[$i]['name'], ' (', $this->img_map[$i]['jobid'], ')'; ?>"
-   title="<?php echo $this->translate->_("Detail Job"), ' : ', $this->img_map[$i]['name'], ' (', $this->img_map[$i]['jobid'], ')'; ?>"
+     alt="<?php echo $title_alt; ?>"
+   title="<?php echo $title_alt; ?>"
    shape=rect coords="<?php echo $this->img_map[$i]['x1'], ',', $this->img_map[$i]['y1'], ',',
         $this->img_map[$i]['x2'], ',', $this->img_map[$i]['y2'];?>">
     <?php endfor; ?>

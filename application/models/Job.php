@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011, 2012 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,7 +148,6 @@ class Job extends Zend_Db_Table
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
                 break;
         }
-
         $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
@@ -615,6 +614,7 @@ EOF', $command_output, $return_var);
         $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('fileset'=>'FileSet'));
+        $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 
         $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
         $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I','D')))");
@@ -753,10 +753,9 @@ Select Job resource (1-3):
             }
    			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'));
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'c.Name'));
-
 			$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'p.Name'));
 			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
-
+            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 
 			$select->where( "('" . $date_begin . ' ' . $time_begin . "' <= j.StartTime) AND (j.StartTime <= '" .
 				$date_end . ' ' . $time_end . "')" );
@@ -867,6 +866,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
+            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
             $select->where("j.JobId = '$jobid'");
             $select->order(array("StartTime", "JobId"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -927,6 +927,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
+            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
             $select->where("j.Name = '$jobname'");
             $select->order(array("StartTime", "JobId"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -984,6 +985,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
             $select->joinLeft(array('o' => 'JobMedia'), 'j.JobId = o.JobId', array('JobId'));
             $select->joinLeft(array('m' => 'Media'), 'm.MediaId = o.MediaId', array('MediaId'));
+            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 
 			$select->where("m.VolumeName = '$volname'");
    			$select->order(array("StartTime", "j.JobId"));
@@ -1053,6 +1055,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', 
                     array('FileSetName' => 'FileSet', 'FileSetCreateTime' => 'CreateTime'));
+            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
         	$select->where("j.JobId = ?", $jobid);
     		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
@@ -1235,6 +1238,7 @@ Select Job resource (1-3):
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
                 $select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('PoolName' => 'Pool.Name'));
                 $select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('FileSet' => 'FileSet.FileSet'));
+                $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
                 break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -1252,6 +1256,7 @@ Select Job resource (1-3):
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
                 $select->joinLeft('Pool',	 'j.PoolId = Pool.PoolId',          array('PoolName' => 'Pool.Name'));
                 $select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('FileSet' => 'FileSet.FileSet'));
+                $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
                 break;
             case 'PDO_SQLITE':
                 // SQLite3 Documentation
@@ -1271,6 +1276,7 @@ Select Job resource (1-3):
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('clientname' => 'Client.Name'));
                 $select->joinLeft('Pool',   'j.PoolId = Pool.PoolId',          array('poolname' => 'Pool.Name'));
                 $select->joinLeft('FileSet', 'j.FileSetId = FileSet.FileSetId', array('fileset' => 'FileSet.FileSet'));
+                $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
                 break;
             }
             // terminated jobs
