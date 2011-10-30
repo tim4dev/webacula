@@ -170,8 +170,7 @@ if ( isset($config->general->show_job_description) )    {
         $show_job_description = $config->general->show_job_description;
 }  else
     $show_job_description = 0;
-//$registry->set('show_job_description', $show_job_description);
-$registry->set('show_job_description', 2); // !!! debug
+$registry->set('show_job_description', $show_job_description);
 
 Zend_Layout::startMvc(array(
     'layoutPath' => '../application/layouts/' . $config->layout->path,

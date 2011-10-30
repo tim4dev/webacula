@@ -512,6 +512,7 @@ EOF"
         $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
         $job = new Job();
         $this->view->result = $job->getLastJobRun($numjob);
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -531,7 +532,6 @@ EOF"
             $this->_helper->viewRenderer->setNoRender();
         else
             $this->_helper->viewRenderer->setResponseSegment('job_terminated');
-        $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
 
     /**

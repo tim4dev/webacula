@@ -1114,6 +1114,7 @@ Select Job resource (1-3):
    		        ));
    		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
+                $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
             break;
         	case 'PDO_PGSQL':
@@ -1129,6 +1130,7 @@ Select Job resource (1-3):
    		        ));
    		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
+                $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('JobStatusLong'));
             break;
 			case 'PDO_SQLITE':
@@ -1146,6 +1148,7 @@ Select Job resource (1-3):
 				));
 				$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
+                $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('jobstatuslong'=>'JobStatusLong'));
 			break;
         }

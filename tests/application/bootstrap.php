@@ -134,14 +134,15 @@ $registry->set('locale',    $locale);
 $registry->set('language',  $locale->getLanguage());
 
 // Show human readable short Job description instead of Job Bacula names
-if ( isset($config->general->show_job_description) )    {
+Zend_Registry::set('show_job_description', 2);
+/*if ( isset($config->general->show_job_description) )    {
     if ( ( $config->general->show_job_description < 0 ) || ( $config->general->show_job_description > 2 ) )
         $show_job_description = 0;
     else
         $show_job_description = $config->general->show_job_description;
 }  else
     $show_job_description = 0;
-$registry->set('show_job_description', $show_job_description);
+$registry->set('show_job_description', $show_job_description);*/
 
 Zend_Layout::startMvc(array(
     'layoutPath' => $appRoot . '/application/layouts/' . $config->layout->path,

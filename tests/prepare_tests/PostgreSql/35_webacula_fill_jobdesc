@@ -6,10 +6,13 @@
 if /usr/bin/psql -q  -f - -d bacula <<END-OF-DATA
 
 INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
-   VALUES ('not.exists.job', '1', 'This Job not exists', 'Specially for unit tests');
+   VALUES ('not.exists.job', '1 year', 'This Job not exists', 'Specially for unit tests');
 
 INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
-   VALUES ('job.name.test.4', '3', 'Описание Задания', 'Specially for unit tests');
+   VALUES ('job.name.test.4', '3 years', 'Описание Задания short desc2', 'Specially for unit tests');
+
+INSERT INTO webacula_jobdesc (name_job, retention_period, short_desc, description)
+   VALUES ('job name test 2', '1 year', 'short description', 'Specially for unit tests');
 
 END-OF-DATA
 then

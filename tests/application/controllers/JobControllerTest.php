@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2009, 2010, 2011 Yuri Timofeev <tim4dev@gmail.com>
  * @author Yuri Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
@@ -38,6 +38,8 @@ class JobControllerTest extends ControllerTestCase
       $this->assertResponseCode(200);
       $this->assertNotQueryContentContains('div', 'No Jobs found');
       $this->assertQueryCountMin('tr', 11);  // не менее 11-ти строк таблицы
+      // test show Job short description
+      $this->assertQueryContentContains('td', 'short description');
    }
 
 
@@ -60,6 +62,8 @@ class JobControllerTest extends ControllerTestCase
       $this->assertNotQueryContentContains('div', 'Information from DB Catalog : No Running Jobs found');
       $this->assertQueryContentContains('td', 'job.name.test.4');
       $this->assertQueryCount('tr', 2);
+      // test show Job short description
+      $this->assertQueryContentContains('td', 'short desc2');
    }
 
    /**
@@ -82,6 +86,8 @@ class JobControllerTest extends ControllerTestCase
       $this->assertQueryContentContains('td', 'job name test 2');
       $this->assertQueryContentContains('td', 'job-name-test-3');
       $this->assertQueryCount('tr', 4);
+      // test show Job short description
+      $this->assertQueryContentContains('td', 'short description');
    }
 
    /**
@@ -103,6 +109,8 @@ class JobControllerTest extends ControllerTestCase
       $this->assertQueryContentContains('td', 'job name test 2');
       $this->assertQueryContentContains('td', 'job.name.test.4');
       $this->assertQueryCount('tr', 3);
+      // test show Job short description
+      $this->assertQueryContentContains('td', 'short desc2');
    }
 
 
@@ -298,6 +306,8 @@ class JobControllerTest extends ControllerTestCase
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job.name.test.1');
         $this->assertQueryCount('tr', 2);
+        // test show Job short description
+        $this->assertQueryContentContains('thead', 'Short Job Description');
     }
 
     /**
@@ -328,6 +338,8 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryContentContains('td', 'job name test 2');
         $this->assertQueryContentContains('td', 'job.name.test.1');
         $this->assertQueryCountMin('tr', 3);
+        // test show Job short description
+        $this->assertQueryContentContains('td', 'short description');
     }
 
 
@@ -380,6 +392,8 @@ class JobControllerTest extends ControllerTestCase
         $this->assertQueryCount('tr', 6);
         $this->assertQueryContentContains('td', 'job name test 2');
         $this->assertQueryContentContains('td', 'job.name.test.1');
+        // test show Job short description
+        $this->assertQueryContentContains('td', 'short desc2');
     }
 
    /**
@@ -422,6 +436,8 @@ class JobControllerTest extends ControllerTestCase
         $this->assertResponseCode(200);
         $this->assertNotQueryContentContains('div', 'No Jobs found');
         $this->assertQueryContentContains('td', 'job name test 2');
+        // test show Job short description
+        $this->assertQueryContentContains('td', 'short description');
     }
 
 }
