@@ -572,6 +572,13 @@ EOF"
      */
     function cancelJobAction()
     {
+        // do Bacula ACLs
+        $command = 'cancel';
+        if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
         $this->view->title = $this->view->translate->_("Cancel Job");
         $jobid = trim( $this->_request->getParam('jobid') );
         $this->view->jobid = $jobid;
