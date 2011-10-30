@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-23 22:07+0300\n"
-"PO-Revision-Date: 2011-05-05 10:16+0100\n"
-"Last-Translator: Tomáš Rybička <t.rybicka@rz-renovace.com>\n"
+"POT-Creation-Date: 2011-10-30 17:17+0300\n"
+"PO-Revision-Date: 2011-10-30 17:17+0300\n"
+"Last-Translator: Tomáš Rybička <tomas.rybicka@rz-renovace.com>\n"
 "Language-Team: Tomáš Rybička <tomas.rybicka@rz-renovace.com>\n"
 "Language: Czech\n"
 "MIME-Version: 1.0\n"
@@ -22,13 +22,13 @@ msgstr ""
 #: application/controllers/BconsoleController.php:50
 #: application/controllers/DirectorController.php:41
 #: application/controllers/DirectorController.php:74
-#: application/controllers/RestorejobController.php:241
-#: application/controllers/RestorejobController.php:379
-#: application/controllers/RestorejobController.php:504
-#: application/controllers/RestorejobController.php:1280
+#: application/controllers/RestorejobController.php:236
+#: application/controllers/RestorejobController.php:376
+#: application/controllers/RestorejobController.php:501
+#: application/controllers/RestorejobController.php:1281
 #: application/controllers/RestorejobController.php:1371
-#: application/controllers/RestorejobController.php:1507
-#: application/controllers/JobController.php:365
+#: application/controllers/RestorejobController.php:1513
+#: application/controllers/JobController.php:402
 #: application/controllers/ClientController.php:55
 #: application/controllers/StorageController.php:99
 #: application/controllers/StorageController.php:185
@@ -52,57 +52,57 @@ msgstr "Stav Directoru"
 msgid "List of Job Totals"
 msgstr "Celkový seznam úloh"
 
-#: application/controllers/RestorejobController.php:254
-#: application/controllers/RestorejobController.php:652
-#: application/controllers/RestorejobController.php:748
-#: application/controllers/RestorejobController.php:780
+#: application/controllers/RestorejobController.php:251
+#: application/controllers/RestorejobController.php:649
+#: application/controllers/RestorejobController.php:745
+#: application/controllers/RestorejobController.php:781
 msgid "Restore Job"
 msgstr "Obnovit úlohu"
 
-#: application/controllers/RestorejobController.php:343
-#: application/controllers/RestorejobController.php:406
-#: application/controllers/RestorejobController.php:626
+#: application/controllers/RestorejobController.php:340
+#: application/controllers/RestorejobController.php:403
+#: application/controllers/RestorejobController.php:623
 #, php-format
 msgid "JobId %u does not exist."
 msgstr "Úloha ID %u neexistuje."
 
-#: application/controllers/RestorejobController.php:398
+#: application/controllers/RestorejobController.php:395
 msgid "Restore All files for JobId"
 msgstr "Obnovit všechny soubory z úlohy ID"
 
-#: application/controllers/RestorejobController.php:517
+#: application/controllers/RestorejobController.php:514
 msgid "Restore All files"
 msgstr "Obnovit všechny soubory"
 
-#: application/controllers/RestorejobController.php:697
+#: application/controllers/RestorejobController.php:694
 #, php-format
 msgid "No Full backup before %s found."
 msgstr "Nenalezena žádná plná záloha před %s."
 
-#: application/controllers/RestorejobController.php:710
+#: application/controllers/RestorejobController.php:707
 msgid "You have selected the following JobIds"
 msgstr "Vybral jste tyto ulohy ID"
 
-#: application/controllers/RestorejobController.php:998
-#: application/controllers/RestorejobController.php:1040
+#: application/controllers/RestorejobController.php:999
+#: application/controllers/RestorejobController.php:1041
 #, php-format
 msgid "%s<br>(%s dirs and files affected)"
 msgstr "%s<br>(%s postižených adresářů a souborů)"
 
-#: application/controllers/RestorejobController.php:1000
-#: application/controllers/RestorejobController.php:1042
+#: application/controllers/RestorejobController.php:1001
+#: application/controllers/RestorejobController.php:1043
 msgid "internal program error !"
 msgstr "Interní chyba programu !"
 
-#: application/controllers/RestorejobController.php:1130
+#: application/controllers/RestorejobController.php:1131
 msgid "List of Files to Restore for JobId"
 msgstr "Seznam souborů k obnovení pro úlohu ID"
 
-#: application/controllers/RestorejobController.php:1202
+#: application/controllers/RestorejobController.php:1203
 msgid "List of Files to Restore"
 msgstr "Seznam souborů k obnovení"
 
-#: application/controllers/RestorejobController.php:1299
+#: application/controllers/RestorejobController.php:1300
 msgid "Restore JobId"
 msgstr "Obnovit ulohu ID"
 
@@ -110,8 +110,8 @@ msgstr "Obnovit ulohu ID"
 msgid "Restore the most recent backup (or before a specified time) for a client"
 msgstr "Obnovit aktuální zálohu klienta (nebo před zvolenou dobou)"
 
-#: application/controllers/RestorejobController.php:1461
-#: application/controllers/RestorejobController.php:1511
+#: application/controllers/RestorejobController.php:1467
+#: application/controllers/RestorejobController.php:1517
 msgid "Restore Single File"
 msgstr "Obnovit jeden soubor"
 
@@ -126,7 +126,7 @@ msgstr "Rolí"
 #: application/controllers/AdminController.php:281
 #: application/controllers/AdminController.php:952
 #: application/controllers/AdminController.php:1000
-#: application/controllers/AdminController.php:1028
+#: application/controllers/AdminController.php:1033
 msgid "Exception"
 msgstr "Výjimka"
 
@@ -173,70 +173,70 @@ msgstr "Přidat"
 msgid "User add"
 msgstr "Přidat uživatele"
 
-#: application/controllers/FeedController.php:62
+#: application/controllers/FeedController.php:60
 #: application/controllers/WblogbookController.php:305
 msgid "Job Id"
 msgstr "úloha ID"
 
-#: application/controllers/FeedController.php:63
+#: application/controllers/FeedController.php:61
 msgid "Job Name"
 msgstr "Název úlohy"
 
-#: application/controllers/FeedController.php:64
+#: application/controllers/FeedController.php:62
 msgid "Status"
 msgstr "Stav"
 
-#: application/controllers/FeedController.php:65
+#: application/controllers/FeedController.php:63
 msgid "Level"
 msgstr "Stupeň"
 
-#: application/controllers/FeedController.php:66
+#: application/controllers/FeedController.php:64
 #: application/controllers/ClientController.php:51
 msgid "Client"
 msgstr "Klient"
 
-#: application/controllers/FeedController.php:67
+#: application/controllers/FeedController.php:65
 msgid "Pool"
 msgstr "Pool"
 
-#: application/controllers/FeedController.php:68
+#: application/controllers/FeedController.php:66
 msgid "Start Time"
 msgstr "Spuštěno"
 
-#: application/controllers/FeedController.php:69
+#: application/controllers/FeedController.php:67
 msgid "End Time"
 msgstr "Ukončeno"
 
-#: application/controllers/FeedController.php:70
+#: application/controllers/FeedController.php:68
 msgid "Duration"
 msgstr "Doba trvání"
 
-#: application/controllers/FeedController.php:71
+#: application/controllers/FeedController.php:69
 msgid "Files"
 msgstr "Soubory"
 
-#: application/controllers/FeedController.php:72
+#: application/controllers/FeedController.php:70
 msgid "Bytes"
 msgstr "Velikost"
 
-#: application/controllers/FeedController.php:73
+#: application/controllers/FeedController.php:71
 msgid "Errors"
 msgstr "Chyby"
 
-#: application/controllers/FeedController.php:86
+#: application/controllers/FeedController.php:84
 msgid "Volume Name"
 msgstr "Název svazku"
 
-#: application/controllers/FeedController.php:86
+#: application/controllers/FeedController.php:84
 msgid "Volume Status"
 msgstr "Stav svazku"
 
-#: application/controllers/FeedController.php:88
+#: application/controllers/FeedController.php:86
 msgid "Volumes with errors"
 msgstr "Svazky s chybamy"
 
 #: application/controllers/ChartController.php:77
-#: application/controllers/JobController.php:322
+#: application/controllers/JobController.php:357
 msgid "ERROR: The GD extension isn`t loaded. Please install php-gd package."
 msgstr "CHYBA: GD modul není načten. Prosím instalujte nebo povolte php-gd modul."
 
@@ -244,96 +244,110 @@ msgstr "CHYBA: GD modul není načten. Prosím instalujte nebo povolte php-gd mo
 msgid "List Files for JobId"
 msgstr "Seznam souborů pro ulohu ID"
 
-#: application/controllers/WbjobdescController.php:42
+#: application/controllers/WbjobdescController.php:40
 msgid "Job Descriptions"
 msgstr "Popis k úloze"
 
-#: application/controllers/WbjobdescController.php:51
+#: application/controllers/WbjobdescController.php:49
 msgid "Add Job Description"
 msgstr "Přidat popis k úloze"
 
 #: application/controllers/JobController.php:45
-#: application/controllers/JobController.php:490
+#: application/controllers/JobController.php:528
 msgid "Terminated Jobs (executed in last 24 hours)"
 msgstr "Ukončené úlohy (posledních 24 hodin)"
 
-#: application/controllers/JobController.php:59
-#: application/controllers/JobController.php:77
+#: application/controllers/JobController.php:60
+#: application/controllers/JobController.php:79
 msgid "Information from DB Catalog : List of Running Jobs"
 msgstr "Informace z DB Katalogu : Seznam běžících úloh"
 
-#: application/controllers/JobController.php:60
+#: application/controllers/JobController.php:61
 msgid "List of Running Jobs"
 msgstr "Seznam běžících úloh"
 
-#: application/controllers/JobController.php:65
-#: application/controllers/JobController.php:82
+#: application/controllers/JobController.php:66
+#: application/controllers/JobController.php:84
 msgid "Information from Director : List of Running Jobs"
 msgstr "Informace Directoru : Seznam běžících úloh"
 
-#: application/controllers/JobController.php:98
-#: application/controllers/JobController.php:117
+#: application/controllers/JobController.php:101
+#: application/controllers/JobController.php:121
 msgid "Scheduled Jobs (at 24 hours forward)"
 msgstr "Naplánované úlohy (příštích 24 hodin)"
 
-#: application/controllers/JobController.php:140
+#: application/controllers/JobController.php:145
 msgid "List Jobs with filters"
 msgstr "Seznam filtrovaných úloh"
 
-#: application/controllers/JobController.php:194
-#: application/controllers/JobController.php:196
+#: application/controllers/JobController.php:202
+#: application/controllers/JobController.php:204
 msgid "List Jobs by JobId"
 msgstr "Seznam úloh podle ID úlohy"
 
-#: application/controllers/JobController.php:209
-#: application/controllers/JobController.php:211
+#: application/controllers/JobController.php:220
+#: application/controllers/JobController.php:222
+#, fuzzy
+msgid "List Jobs by Job Name"
+msgstr "Seznam úloh podle jména svazku"
+
+#: application/controllers/JobController.php:238
+#: application/controllers/JobController.php:240
 msgid "List Jobs by Volume Name"
 msgstr "Seznam úloh podle jména svazku"
 
-#: application/controllers/JobController.php:224
+#: application/controllers/JobController.php:254
 msgid "Search Jobs"
 msgstr "Hledám úlohy"
 
-#: application/controllers/JobController.php:237
-#: application/controllers/JobController.php:242
+#: application/controllers/JobController.php:269
+#: application/controllers/JobController.php:274
 msgid "Ordinary"
 msgstr "Obyčejný"
 
-#: application/controllers/JobController.php:238
-#: application/controllers/JobController.php:243
+#: application/controllers/JobController.php:270
+#: application/controllers/JobController.php:275
 msgid "LIKE operator"
 msgstr "značka LIKE"
 
-#: application/controllers/JobController.php:244
+#: application/controllers/JobController.php:276
 msgid "Regular expression"
 msgstr "Regulární výraz"
 
-#: application/controllers/JobController.php:255
+#: application/controllers/JobController.php:287
 msgid "Detail JobId"
 msgstr "Podrobnosti úlohy ID"
 
-#: application/controllers/JobController.php:278
-#: application/controllers/JobController.php:293
+#: application/controllers/JobController.php:311
+#: application/controllers/JobController.php:327
 #, php-format
 msgid "Jobs with errors (last %s days)"
 msgstr "Úlohy obsahující chyby (posledních %s dnů)"
 
-#: application/controllers/JobController.php:325
-#: application/controllers/JobController.php:345
+#: application/controllers/JobController.php:360
+#: application/controllers/JobController.php:381
 msgid "Timeline for date"
 msgstr "Časový graf pro datum"
 
-#: application/controllers/JobController.php:475
+#: application/controllers/JobController.php:512
 #, php-format
 msgid "List last %s Jobs run"
 msgstr "Seznam posledních %s spuštěných úloh"
 
-#: application/controllers/JobController.php:523
+#: application/controllers/JobController.php:548
+msgid "Filename is required field."
+msgstr ""
+
+#: application/controllers/JobController.php:554
+msgid "Path must have a trailing slash."
+msgstr ""
+
+#: application/controllers/JobController.php:562
 #, fuzzy, php-format
 msgid "List Jobs (%s found) where '%s' is saved (limit %s)"
 msgstr "Liste der Aufträge, wo %s gespeichert ist (limit %s)"
 
-#: application/controllers/JobController.php:535
+#: application/controllers/JobController.php:575
 msgid "Cancel Job"
 msgstr "Zrušit úlohu"
 
@@ -487,16 +501,16 @@ msgstr "Svazek"
 msgid "List Volumes likely to need replacement from age or errors"
 msgstr "Seznam svazků, které by se měly z důvodu vyskytlých chyb nebo stáří vyměnit"
 
-#: application/controllers/VolumeController.php:113
+#: application/controllers/VolumeController.php:112
 msgid "Detail Volume"
 msgstr "Podrobnosti svazku"
 
-#: application/controllers/VolumeController.php:169
+#: application/controllers/VolumeController.php:170
 #, fuzzy
 msgid "Webacula : Updated Volume parameters"
 msgstr "Webacula Logbuch Eintrag aktualisieren"
 
-#: application/controllers/VolumeController.php:170
+#: application/controllers/VolumeController.php:171
 msgid "Media Id"
 msgstr ""
 
@@ -505,20 +519,20 @@ msgstr ""
 msgid "Console messages for Job %s, JobId %u"
 msgstr "Podrobné informace pro úlohu %s, ID úlohy %u"
 
-#: application/controllers/AuthController.php:145
+#: application/controllers/AuthController.php:147
 msgid "Username or password is incorrect"
 msgstr "Uživatelské jméno nebo heslo nesouhlasí"
 
-#: application/controllers/AuthController.php:152
+#: application/controllers/AuthController.php:154
 #, php-format
 msgid "Login with your %sWe%sbacula%s account"
 msgstr "Přihlašte se do %sWe%sbacula%s účtu"
 
-#: application/controllers/AuthController.php:154
+#: application/controllers/AuthController.php:156
 msgid "Login with your Webacula account"
 msgstr ""
 
-#: application/controllers/AuthController.php:190
+#: application/controllers/AuthController.php:191
 #, php-format
 msgid ""
 "Hello,\n"
@@ -538,27 +552,27 @@ msgid ""
 "Thanks! \n"
 msgstr ""
 
-#: application/controllers/AuthController.php:212
+#: application/controllers/AuthController.php:213
 msgid "Webacula password manager"
 msgstr ""
 
-#: application/controllers/AuthController.php:215
+#: application/controllers/AuthController.php:216
 msgid "New Webacula password"
 msgstr ""
 
-#: application/controllers/AuthController.php:255
+#: application/controllers/AuthController.php:256
 msgid "New password set"
 msgstr ""
 
-#: application/controllers/AuthController.php:258
+#: application/controllers/AuthController.php:259
 msgid "Error while sending email. Email not send"
 msgstr ""
 
-#: application/controllers/AuthController.php:262
+#: application/controllers/AuthController.php:263
 msgid "Username or email is incorrect"
 msgstr ""
 
-#: application/controllers/AuthController.php:267
+#: application/controllers/AuthController.php:268
 #, fuzzy
 msgid "Reset password"
 msgstr "Formular zurücksetzen"
@@ -571,19 +585,22 @@ msgstr ""
 msgid "Can not delete. Role is used."
 msgstr ""
 
-#: application/models/Timeline.php:516
+#: application/models/Timeline.php:519
 msgid "Hours"
 msgstr "Hodin"
 
 #: application/forms/FormForgotPassword.php:50
+#: application/forms/FormLogin.php:50
 msgid "Username"
 msgstr "Uživatelské jméno"
 
 #: application/forms/FormForgotPassword.php:59
+#: application/forms/FormLogin.php:59
 msgid "Login characters incorrect. Allowed: alphabetical characters, digits, and \"- . _ @\" characters."
 msgstr ""
 
 #: application/forms/FormForgotPassword.php:70
+#: application/forms/FormUser.php:106
 msgid "Email"
 msgstr "Email"
 
@@ -597,6 +614,7 @@ msgid "Submit new password"
 msgstr "Formular absenden"
 
 #: application/forms/FormForgotPassword.php:94
+#: application/forms/FormLogin.php:100
 msgid "Type the characters:"
 msgstr ""
 
@@ -606,7 +624,7 @@ msgstr ""
 
 #: application/forms/FormWebaculaACL.php:76
 #: application/forms/FormRole.php:126
-#: application/forms/FormJobdesc.php:77
+#: application/forms/FormJobdesc.php:84
 #: application/forms/FormUser.php:146
 #: application/forms/FormBaculaCommandACL.php:76
 msgid "Submit Form"
@@ -616,7 +634,7 @@ msgstr "Odeslat formulář"
 #: application/forms/FormRole.php:134
 #: application/forms/FormBaculaACL.php:96
 #: application/forms/FormUser.php:154
-#: application/forms/FormRestoreOptions.php:245
+#: application/forms/FormRestoreOptions.php:250
 #: application/forms/FormBaculaCommandACL.php:84
 msgid "Cancel"
 msgstr "Zrušit"
@@ -648,55 +666,61 @@ msgstr "Popis"
 msgid "Inherited role"
 msgstr "Zděděná role"
 
-#: application/forms/FormJobrun.php:84
-#: application/forms/FormJobrun.php:102
-#: application/forms/FormJobrun.php:120
-#: application/forms/FormJobrun.php:136
-#: application/forms/FormJobrun.php:153
-#: application/forms/FormRestoreOptions.php:90
-#: application/forms/FormRestoreOptions.php:91
-#: application/forms/FormRestoreOptions.php:109
-#: application/forms/FormRestoreOptions.php:126
-#: application/forms/FormRestoreOptions.php:143
+#: application/forms/FormJobrun.php:85
+#: application/forms/FormJobrun.php:103
+#: application/forms/FormJobrun.php:121
+#: application/forms/FormJobrun.php:137
+#: application/forms/FormJobrun.php:154
+#: application/forms/FormRestoreOptions.php:93
+#: application/forms/FormRestoreOptions.php:94
+#: application/forms/FormRestoreOptions.php:112
+#: application/forms/FormRestoreOptions.php:129
+#: application/forms/FormRestoreOptions.php:146
+#: application/forms/FormRestoreOptions.php:164
 #, fuzzy
 msgid "Default"
 msgstr "Löschen"
 
-#: application/forms/FormJobrun.php:97
-#: application/forms/FormRestoreOptions.php:121
+#: application/forms/FormJobrun.php:98
+#: application/forms/FormRestoreOptions.php:124
 msgid "Fileset"
 msgstr "Seznam souborů"
 
-#: application/forms/FormJobrun.php:137
+#: application/forms/FormJobrun.php:138
 msgid "Full level"
 msgstr "Plná"
 
-#: application/forms/FormJobrun.php:138
+#: application/forms/FormJobrun.php:139
 msgid "Incremental level"
 msgstr "Inkrementální"
 
-#: application/forms/FormJobrun.php:139
+#: application/forms/FormJobrun.php:140
 msgid "Differential level"
 msgstr "Diferenciální"
 
-#: application/forms/FormJobrun.php:147
+#: application/forms/FormJobrun.php:148
 #, fuzzy
 msgid "Spool"
 msgstr "Pool"
 
-#: application/forms/FormJobrun.php:154
+#: application/forms/FormJobrun.php:155
 msgid "Yes"
 msgstr "Ano"
 
-#: application/forms/FormJobrun.php:155
+#: application/forms/FormJobrun.php:156
 msgid "No"
 msgstr "Ne"
 
-#: application/forms/FormJobrun.php:198
+#: application/forms/FormJobrun.php:199
 msgid "Run Job"
 msgstr "Spustit úlohu"
 
-#: application/forms/FormJobdesc.php:58
+#: application/forms/FormJobdesc.php:55
+#, fuzzy
+msgid "Short Job Description"
+msgstr "Popis úlohy"
+
+#: application/forms/FormJobdesc.php:65
 msgid "Job Description"
 msgstr "Popis úlohy"
 
@@ -729,38 +753,38 @@ msgstr "Pamatuj si mě"
 msgid "Log In"
 msgstr "Přihlášení"
 
-#: application/forms/FormRestoreOptions.php:85
+#: application/forms/FormRestoreOptions.php:88
 #, fuzzy
 msgid "Restore client"
 msgstr "Alle Dateien wiederherstellen"
 
-#: application/forms/FormRestoreOptions.php:155
+#: application/forms/FormRestoreOptions.php:158
 #, fuzzy
 msgid "Restore Job Resource"
 msgstr "Auftrag wiederherstellen"
 
-#: application/forms/FormRestoreOptions.php:175
+#: application/forms/FormRestoreOptions.php:180
 msgid "Where"
 msgstr "Kam"
 
-#: application/forms/FormRestoreOptions.php:187
+#: application/forms/FormRestoreOptions.php:192
 msgid "Strip&nbsp;prefix"
 msgstr "Odebrat část"
 
-#: application/forms/FormRestoreOptions.php:199
+#: application/forms/FormRestoreOptions.php:204
 msgid "Add&nbsp;prefix"
 msgstr "Přidat předponu"
 
-#: application/forms/FormRestoreOptions.php:211
+#: application/forms/FormRestoreOptions.php:216
 msgid "Add&nbsp;suffix"
 msgstr "Přidat příponu"
 
-#: application/forms/FormRestoreOptions.php:223
+#: application/forms/FormRestoreOptions.php:228
 #, fuzzy
 msgid "RegexWhere"
 msgstr "Wo"
 
-#: application/forms/FormRestoreOptions.php:237
+#: application/forms/FormRestoreOptions.php:242
 msgid "Run Restore Job"
 msgstr "Spustit úlohu obnovení"
 
@@ -803,11 +827,13 @@ msgid "JobId %u is not found in Bacula database"
 msgstr ""
 
 #: application/layouts/default/dashboard.phtml:8
+#: application/layouts/default/main.phtml:9
 #, php-format
 msgid "Last Updated: %s"
 msgstr "Naposledy aktualizováno: %s"
 
 #: application/layouts/default/dashboard.phtml:9
+#: application/layouts/default/main.phtml:10
 #, php-format
 msgid "Updated every %s seconds"
 msgstr "Aktualizuji každých %s sekund"
@@ -849,7 +875,7 @@ msgid "Next"
 msgstr "Další"
 
 #: application/layouts/default/main-menu.phtml:54
-#: application/layouts/default/main-menu.phtml:70
+#: application/layouts/default/main-menu.phtml:71
 msgid "Problem"
 msgstr "Problematické"
 
@@ -861,23 +887,23 @@ msgstr "Spustit"
 msgid "Timeline"
 msgstr "Časový přehled"
 
-#: application/layouts/default/main-menu.phtml:59
+#: application/layouts/default/main-menu.phtml:60
 msgid "Search"
 msgstr "Hledat"
 
-#: application/layouts/default/main-menu.phtml:63
+#: application/layouts/default/main-menu.phtml:64
 msgid "Restore"
 msgstr "Obnovit"
 
-#: application/layouts/default/main-menu.phtml:67
+#: application/layouts/default/main-menu.phtml:68
 msgid "Pool/Volume"
 msgstr "Pool/Svazek"
 
-#: application/layouts/default/main-menu.phtml:69
+#: application/layouts/default/main-menu.phtml:70
 msgid "Overview"
 msgstr "Přehled"
 
-#: application/layouts/default/main-menu.phtml:88
+#: application/layouts/default/main-menu.phtml:89
 msgid "Add New Record"
 msgstr "Přidat nový záznam"
 
@@ -958,18 +984,15 @@ msgstr "Žádný klient nenalezen."
 
 #: application/views/scripts/client/status-client-id.phtml:14
 #: application/views/scripts/storage/status-id.phtml:14
-#: application/views/scripts/storage/act-mount.phtml:14
 msgid "ERROR: There was a problem executing bconsole."
 msgstr "CHYBA: Vyskytl se problém při spouštění bconsole."
 
 #: application/views/scripts/client/status-client-id.phtml:38
 #: application/views/scripts/storage/status-id.phtml:41
-#: application/views/scripts/storage/act-mount.phtml:42
 msgid "Director output:"
 msgstr "Výstup Directoru:"
 
 #: application/views/scripts/storage/status-id.phtml:20
-#: application/views/scripts/storage/act-mount.phtml:20
 msgid "Bacula ACLs : Access denied."
 msgstr ""
 
@@ -1182,73 +1205,69 @@ msgstr "Teď"
 msgid "YYYY-MM-DD HH:MM:SS"
 msgstr "RRRR-MM-DD HH:MM:SS"
 
-#: application/views/scripts/job/timeline-dashboard.phtml:21
-#: application/views/scripts/job/timeline-dashboard.phtml:22
-msgid "Detail Job"
-msgstr "Zobrazit podrobnosti"
-
 #: application/views/scripts/job/running-dashboard.phtml:13
 #: application/views/scripts/job/next-dashboard.phtml:12
 #: application/views/scripts/job/running.phtml:7
-#: application/views/scripts/job/next.phtml:7
 msgid "ERROR: Cannot execute bconsole. File not found."
 msgstr "CHYBA: bconsole nelze spustit. Soubor nenalezen."
 
 #: application/views/scripts/job/running-dashboard.phtml:17
 #: application/views/scripts/job/next-dashboard.phtml:16
 #: application/views/scripts/job/running.phtml:11
-#: application/views/scripts/job/next.phtml:11
 msgid "ERROR: There was a problem executing bconsole. See below."
 msgstr "CHYBA: Vyskytl se problém při spouštění bconsole. Viz dole."
 
 #: application/views/scripts/job/running-dashboard.phtml:28
-#: application/views/scripts/job/running-dashboard.phtml:79
+#: application/views/scripts/job/running-dashboard.phtml:123
 #: application/views/scripts/job/terminated-dashboard.phtml:16
 #: application/views/scripts/job/problem-dashboard.phtml:14
 msgid "Id"
 msgstr "Id"
 
-#: application/views/scripts/job/running-dashboard.phtml:58
-#: application/views/scripts/job/running.phtml:53
+#: application/views/scripts/job/running-dashboard.phtml:102
+#: application/views/scripts/job/running.phtml:98
 msgid "Information from Director : No Running Jobs found."
 msgstr "Informace Directoru : žádné běžící úlohy."
 
-#: application/views/scripts/job/running-dashboard.phtml:85
-#: application/views/scripts/job/running.phtml:78
+#: application/views/scripts/job/running-dashboard.phtml:147
+#: application/views/scripts/job/running.phtml:140
 msgid "yy-mm-dd"
 msgstr "rr-mm-dd"
 
-#: application/views/scripts/job/running-dashboard.phtml:127
-#: application/views/scripts/job/running.phtml:141
+#: application/views/scripts/job/running-dashboard.phtml:216
+#: application/views/scripts/job/running.phtml:231
 msgid "Information from DB Catalog : No Running Jobs found."
 msgstr "Informace z DB Katalogu : žádné běžící úlohy."
 
-#: application/views/scripts/job/terminated-dashboard.phtml:45
-#: application/views/scripts/job/terminated-dashboard.phtml:46
+#: application/views/scripts/job/terminated-dashboard.phtml:62
+#: application/views/scripts/job/terminated-dashboard.phtml:63
 #: application/views/scripts/job/detail.phtml:36
 #: application/views/scripts/job/detail.phtml:37
-#: application/views/scripts/job/problem-dashboard.phtml:33
-#: application/views/scripts/job/problem-dashboard.phtml:34
-#: application/views/scripts/job/terminated.phtml:47
-#: application/views/scripts/job/terminated.phtml:48
+#: application/views/scripts/job/problem-dashboard.phtml:51
+#: application/views/scripts/job/problem-dashboard.phtml:52
 msgid "Re-run Job"
 msgstr "Úlohu znovu spustit"
 
-#: application/views/scripts/job/terminated-dashboard.phtml:125
-#: application/views/scripts/job/find-file-name.phtml:146
-#: application/views/scripts/job/find-filters.phtml:119
-#: application/views/scripts/job/problem-dashboard.phtml:102
-#: application/views/scripts/job/terminated.phtml:127
+#: application/views/scripts/job/terminated-dashboard.phtml:70
+#: application/views/scripts/job/find-file-name.phtml:71
+#: application/views/scripts/job/find-filters.phtml:74
+#: application/views/scripts/job/problem-dashboard.phtml:62
+msgid "Detail Job"
+msgstr "Zobrazit podrobnosti"
+
+#: application/views/scripts/job/terminated-dashboard.phtml:166
+#: application/views/scripts/job/find-file-name.phtml:199
+#: application/views/scripts/job/find-filters.phtml:162
+#: application/views/scripts/job/problem-dashboard.phtml:146
 msgid "View Messages"
 msgstr "Ziobrazit zprávy"
 
-#: application/views/scripts/job/terminated-dashboard.phtml:140
-#: application/views/scripts/job/timeline.phtml:89
-#: application/views/scripts/job/timeline.phtml:107
-#: application/views/scripts/job/detail.phtml:203
-#: application/views/scripts/job/find-filters.phtml:175
-#: application/views/scripts/job/problem-dashboard.phtml:117
-#: application/views/scripts/job/terminated.phtml:184
+#: application/views/scripts/job/terminated-dashboard.phtml:181
+#: application/views/scripts/job/timeline.phtml:114
+#: application/views/scripts/job/timeline.phtml:132
+#: application/views/scripts/job/detail.phtml:213
+#: application/views/scripts/job/find-filters.phtml:221
+#: application/views/scripts/job/problem-dashboard.phtml:161
 msgid "No Jobs found."
 msgstr "Žádné úlohy nenalezeny."
 
@@ -1276,8 +1295,8 @@ msgid "Show Timeline"
 msgstr "Zobrazit časový graf"
 
 #: application/views/scripts/job/timeline.phtml:53
-#: application/views/scripts/job/find-form.phtml:110
-#: application/views/scripts/job/find-form.phtml:118
+#: application/views/scripts/job/find-form.phtml:119
+#: application/views/scripts/job/find-form.phtml:127
 msgid "YYYY-MM-DD"
 msgstr "RRRR-MM-DD"
 
@@ -1285,23 +1304,20 @@ msgstr "RRRR-MM-DD"
 msgid "Point mouse cursor at image area and click to view Job detail"
 msgstr "Kliknutím myši na graf zobrazíte podrobnosti"
 
-#: application/views/scripts/job/next-dashboard.phtml:29
-#: application/views/scripts/job/next.phtml:25
+#: application/views/scripts/job/next-dashboard.phtml:48
 msgid "Priority"
 msgstr "Priorita"
 
-#: application/views/scripts/job/next-dashboard.phtml:30
-#: application/views/scripts/job/next.phtml:26
+#: application/views/scripts/job/next-dashboard.phtml:49
 msgid "Scheduled"
 msgstr "Naplánováno"
 
-#: application/views/scripts/job/next-dashboard.phtml:67
-#: application/views/scripts/job/next.phtml:89
+#: application/views/scripts/job/next-dashboard.phtml:111
 msgid "No Scheduled Jobs found."
 msgstr "Žádné nalánované úlohy nenalezeny."
 
-#: application/views/scripts/job/find-file-name.phtml:58
-#: application/views/scripts/job/find-file-name.phtml:60
+#: application/views/scripts/job/find-file-name.phtml:86
+#: application/views/scripts/job/find-file-name.phtml:88
 #, fuzzy
 msgid "Restore File"
 msgstr "Alle Dateien wiederherstellen"
@@ -1313,8 +1329,6 @@ msgstr "Podrobné informace o zpracování"
 
 #: application/views/scripts/job/detail.phtml:50
 #: application/views/scripts/job/detail.phtml:51
-#: application/views/scripts/job/terminated.phtml:168
-#: application/views/scripts/job/terminated.phtml:169
 msgid "Written in Logbook"
 msgstr "Zapsat do logu"
 
@@ -1327,54 +1341,53 @@ msgstr "Auftrag wiederherstellen"
 msgid "Unique Job Name"
 msgstr "Jedninečný název úlohy"
 
-#: application/views/scripts/job/detail.phtml:74
+#: application/views/scripts/job/detail.phtml:77
 msgid "Purged Files"
 msgstr "Vyčištěné soubory"
 
-#: application/views/scripts/job/detail.phtml:77
+#: application/views/scripts/job/detail.phtml:80
 msgid "Job Type"
 msgstr "Typ úlohy"
 
-#: application/views/scripts/job/detail.phtml:83
+#: application/views/scripts/job/detail.phtml:86
 msgid "Client/Version"
 msgstr "Klient/Verze"
 
-#: application/views/scripts/job/detail.phtml:90
+#: application/views/scripts/job/detail.phtml:93
 msgid "Schedule Time"
 msgstr "Doba naplánování"
 
-#: application/views/scripts/job/detail.phtml:119
+#: application/views/scripts/job/detail.phtml:129
 msgid "Number of files"
 msgstr "Počet souborů"
 
-#: application/views/scripts/job/detail.phtml:122
+#: application/views/scripts/job/detail.phtml:132
 msgid "Listing files"
 msgstr "Seznam souborů"
 
-#: application/views/scripts/job/detail.phtml:133
+#: application/views/scripts/job/detail.phtml:143
 msgid "All File records purged"
 msgstr ""
 
-#: application/views/scripts/job/detail.phtml:165
-msgid "Volume(s)"
-msgstr "Úložiště"
-
 #: application/views/scripts/job/detail.phtml:175
+#, fuzzy
+msgid "Volumes"
+msgstr "Svazek"
+
+#: application/views/scripts/job/detail.phtml:185
 msgid "No Volumes found."
 msgstr "Úložiště nenalezena."
 
-#: application/views/scripts/job/detail.phtml:182
+#: application/views/scripts/job/detail.phtml:192
 msgid "Comment"
 msgstr "Komentář"
 
-#: application/views/scripts/job/find-filters.phtml:34
-#: application/views/scripts/job/running.phtml:79
-#: application/views/scripts/job/terminated.phtml:22
+#: application/views/scripts/job/find-filters.phtml:52
+#: application/views/scripts/job/running.phtml:141
 msgid "hh-mm-ss"
 msgstr "hh-mm-ss"
 
-#: application/views/scripts/job/find-filters.phtml:177
-#: application/views/scripts/job/terminated.phtml:186
+#: application/views/scripts/job/find-filters.phtml:223
 msgid "See List last 20 Jobs run"
 msgstr "Zobrazit seznam 20 naposledy spuštěných úloh"
 
@@ -1420,46 +1433,46 @@ msgstr "Typ kontroly"
 msgid "Admin Job type"
 msgstr "Administrativní úloha"
 
-#: application/views/scripts/job/find-form.phtml:102
+#: application/views/scripts/job/find-form.phtml:111
 msgid "Time, Client, Fileset, Level, Status, Type"
 msgstr "Čas, Klient, Soubory, Úroveň, Stav, Typ"
 
-#: application/views/scripts/job/find-form.phtml:107
+#: application/views/scripts/job/find-form.phtml:116
 msgid "Time of start of the Jobs with"
 msgstr "Čas spuštění"
 
-#: application/views/scripts/job/find-form.phtml:113
-#: application/views/scripts/job/find-form.phtml:121
+#: application/views/scripts/job/find-form.phtml:122
+#: application/views/scripts/job/find-form.phtml:130
 msgid "HH:MM:SS"
 msgstr "HH:MM:SS"
 
-#: application/views/scripts/job/find-form.phtml:115
+#: application/views/scripts/job/find-form.phtml:124
 msgid "up to"
 msgstr "do"
 
-#: application/views/scripts/job/find-form.phtml:162
-#: application/views/scripts/job/find-form.phtml:165
+#: application/views/scripts/job/find-form.phtml:171
+#: application/views/scripts/job/find-form.phtml:174
 msgid "List last"
 msgstr "zobrazit poslední"
 
-#: application/views/scripts/job/find-form.phtml:162
-#: application/views/scripts/job/find-form.phtml:166
+#: application/views/scripts/job/find-form.phtml:171
+#: application/views/scripts/job/find-form.phtml:175
 msgid "Jobs run"
 msgstr "Počet spuštěných úloh"
 
-#: application/views/scripts/job/find-form.phtml:173
+#: application/views/scripts/job/find-form.phtml:182
 msgid "File Name"
 msgstr "Název souboru"
 
-#: application/views/scripts/job/find-form.phtml:178
+#: application/views/scripts/job/find-form.phtml:187
 msgid "Enter path with trailing slash"
 msgstr ""
 
-#: application/views/scripts/job/find-form.phtml:182
+#: application/views/scripts/job/find-form.phtml:191
 msgid "Enter Filename (no path)"
 msgstr "Zadejte název souboru (bez cesty)"
 
-#: application/views/scripts/job/find-form.phtml:186
+#: application/views/scripts/job/find-form.phtml:195
 msgid "Type of search<br>(case sensitive)"
 msgstr ""
 
@@ -1467,19 +1480,20 @@ msgstr ""
 msgid "View Running Jobs"
 msgstr "Zobraz běžící úlohy"
 
-#: application/views/scripts/job/next.phtml:29
+#: application/views/scripts/job/next.phtml:47
 msgid "% Free space<br /> on Volume"
 msgstr "% volného místa<br /> na úložišti"
 
-#: application/views/scripts/job/next.phtml:55
+#: application/views/scripts/job/next.phtml:99
 msgid "Unknown"
 msgstr "Neznámé"
 
-#: application/views/scripts/job/next.phtml:59
-msgid "Volume with Error(s)"
+#: application/views/scripts/job/next.phtml:103
+#, fuzzy
+msgid "Volume with Errors"
 msgstr "Úložiště s chybou(chybamy)"
 
-#: application/views/scripts/job/next.phtml:62
+#: application/views/scripts/job/next.phtml:106
 msgid "New Volume"
 msgstr "Nové úložiště"
 
@@ -1616,7 +1630,6 @@ msgid "ERROR: Record has not been added. Reason :"
 msgstr "CHYBA: Záznam nebyl přidán. Důvod :"
 
 #: application/views/scripts/wblogbook/add.phtml:45
-#: application/views/scripts/wblogbook/modify.phtml:74
 msgid "(<b>*</b>) Field is required to process this form"
 msgstr "(<b>*</b>)Pole musí být vyplněno"
 
@@ -1625,7 +1638,6 @@ msgid "<sup>*</sup>Date "
 msgstr "<sup>*</sup>Datum "
 
 #: application/views/scripts/wblogbook/add.phtml:56
-#: application/views/scripts/wblogbook/modify.phtml:79
 msgid "<sup>*</sup>Type "
 msgstr "<sup>*</sup>Typ "
 
@@ -1638,17 +1650,14 @@ msgid "Don't show this Job in 'Jobs with errors' list in future"
 msgstr "Nezobrazovat do budoucna tuto úlohu mezi chybovými"
 
 #: application/views/scripts/wblogbook/add.phtml:71
-#: application/views/scripts/wblogbook/modify.phtml:85
 msgid "<sup>*</sup>Text"
 msgstr "<sup>*</sup>Text "
 
 #: application/views/scripts/wblogbook/add.phtml:72
-#: application/views/scripts/wblogbook/modify.phtml:86
 msgid "Allowed to use tags :"
 msgstr "Povolit používání značek :"
 
 #: application/views/scripts/wblogbook/add.phtml:88
-#: application/views/scripts/wblogbook/modify.phtml:102
 msgid "Allowed to use pseudo-tags :"
 msgstr "Povolit používání pseudo-značek :"
 
@@ -1688,7 +1697,6 @@ msgstr "Id rozsah : od"
 
 #: application/views/scripts/wblogbook/index.phtml:131
 #: application/views/scripts/wblogbook/index.phtml:165
-#: application/views/scripts/wblogbook/index-printable.phtml:37
 msgid "Text"
 msgstr "Text"
 
@@ -1716,12 +1724,10 @@ msgid "Modify Entry"
 msgstr "Změnit záznam"
 
 #: application/views/scripts/wblogbook/index.phtml:218
-#: application/views/scripts/wblogbook/index-printable.phtml:83
 msgid "Deleted"
 msgstr "Smazáno"
 
 #: application/views/scripts/wblogbook/index.phtml:254
-#: application/views/scripts/wblogbook/index-printable.phtml:109
 msgid "No records found."
 msgstr "Záznamy nenalezeny."
 
@@ -1770,6 +1776,7 @@ msgid "<sup>*</sup>Date create record "
 msgstr "<sup>*</sup>Vytvořit datum zápisu"
 
 #: application/views/scripts/wblogbook/modify.phtml:118
+#: application/views/scripts/volume/detail.phtml:245
 msgid "Reset Form"
 msgstr "Smazat formulář"
 
@@ -1781,20 +1788,17 @@ msgstr "Jste si jist?"
 msgid "Delete"
 msgstr "Smazat"
 
-#: application/views/scripts/wbjobdesc/index.phtml:43
+#: application/views/scripts/wbjobdesc/index.phtml:44
 msgid "Retention period"
 msgstr "Doba uložení"
 
-#: application/views/scripts/wbjobdesc/index.phtml:65
-#: application/views/scripts/wbjobdesc/index.phtml:66
-#: application/views/scripts/admin/user-index.phtml:69
+#: application/views/scripts/wbjobdesc/index.phtml:67
+#: application/views/scripts/wbjobdesc/index.phtml:68
 msgid "Modify record"
 msgstr "Změnit záznam"
 
-#: application/views/scripts/wbjobdesc/index.phtml:69
-#: application/views/scripts/wbjobdesc/index.phtml:70
-#: application/views/scripts/admin/user-index.phtml:71
-#: application/views/scripts/admin/user-index.phtml:72
+#: application/views/scripts/wbjobdesc/index.phtml:71
+#: application/views/scripts/wbjobdesc/index.phtml:72
 msgid "Delete record"
 msgstr "Smazat záznam"
 
@@ -1823,7 +1827,7 @@ msgid "Read-Only"
 msgstr "Pouze číst"
 
 #: application/views/scripts/volume/detail.phtml:26
-#: application/views/scripts/volume/detail.phtml:184
+#: application/views/scripts/volume/detail.phtml:191
 msgid "Disabled"
 msgstr "Vypnuto"
 
@@ -1864,75 +1868,84 @@ msgid "days"
 msgstr "dnů"
 
 #: application/views/scripts/volume/detail.phtml:111
+#, fuzzy
+msgid "Use Duration"
+msgstr "Doba trvání"
+
+#: application/views/scripts/volume/detail.phtml:111
+msgid "seconds"
+msgstr ""
+
+#: application/views/scripts/volume/detail.phtml:118
 msgid "Recycle "
 msgstr "Recyklovat"
 
-#: application/views/scripts/volume/detail.phtml:115
+#: application/views/scripts/volume/detail.phtml:122
 #: application/views/scripts/volume/find-pool-id.phtml:21
 #: application/views/scripts/volume/problem.phtml:18
 #: application/views/scripts/volume/find-name.phtml:19
 msgid "Autochanger<br />Slot<br />number"
 msgstr "Měnič pásků<br />slot číslo"
 
-#: application/views/scripts/volume/detail.phtml:119
+#: application/views/scripts/volume/detail.phtml:126
 msgid "In Changer"
 msgstr "V měniči"
 
-#: application/views/scripts/volume/detail.phtml:123
+#: application/views/scripts/volume/detail.phtml:130
 msgid "Media Type"
 msgstr "Typ média"
 
-#: application/views/scripts/volume/detail.phtml:127
+#: application/views/scripts/volume/detail.phtml:134
 msgid "First Written"
 msgstr "Poprvé zapsáno"
 
-#: application/views/scripts/volume/detail.phtml:131
+#: application/views/scripts/volume/detail.phtml:138
 msgid "Last Written"
 msgstr "Naposledy zapsáno"
 
-#: application/views/scripts/volume/detail.phtml:148
+#: application/views/scripts/volume/detail.phtml:155
 msgid "Label Date"
 msgstr "Datum popisky"
 
-#: application/views/scripts/volume/detail.phtml:156
+#: application/views/scripts/volume/detail.phtml:163
 msgid "Blocks"
 msgstr "Bloků"
 
-#: application/views/scripts/volume/detail.phtml:160
+#: application/views/scripts/volume/detail.phtml:167
 #: application/views/scripts/volume/problem.phtml:90
 msgid "Mounts"
 msgstr "Připojení"
 
-#: application/views/scripts/volume/detail.phtml:173
+#: application/views/scripts/volume/detail.phtml:180
 #: application/views/scripts/volume/problem.phtml:91
 msgid "Number of writes"
 msgstr "Počet zápisů"
 
-#: application/views/scripts/volume/detail.phtml:177
+#: application/views/scripts/volume/detail.phtml:184
 msgid "Capacity"
 msgstr "Velikost"
 
-#: application/views/scripts/volume/detail.phtml:181
+#: application/views/scripts/volume/detail.phtml:188
 msgid "Enabled"
 msgstr "Povoleno"
 
-#: application/views/scripts/volume/detail.phtml:190
+#: application/views/scripts/volume/detail.phtml:197
 msgid "Max Volume Jobs"
 msgstr "Max. úloh ve svazku"
 
-#: application/views/scripts/volume/detail.phtml:194
+#: application/views/scripts/volume/detail.phtml:201
 msgid "Max Volume Files"
 msgstr "Max. souborů ve svazku"
 
-#: application/views/scripts/volume/detail.phtml:198
+#: application/views/scripts/volume/detail.phtml:205
 msgid "Read Time"
 msgstr "Doba čtení"
 
-#: application/views/scripts/volume/detail.phtml:209
+#: application/views/scripts/volume/detail.phtml:216
 msgid "Write Time"
 msgstr "Čas zápisu"
 
-#: application/views/scripts/volume/detail.phtml:220
+#: application/views/scripts/volume/detail.phtml:227
 msgid "Recycle Count"
 msgstr "Počet recyklací"
 
@@ -2046,8 +2059,9 @@ msgid "No Roles found."
 msgstr "Žádné Role nenalezeny."
 
 #: application/views/scripts/admin/role-more-info.phtml:24
-msgid "Inherited role(s)"
-msgstr ""
+#, fuzzy
+msgid "Inherited roles"
+msgstr "Zděděná role"
 
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
@@ -2059,13 +2073,14 @@ msgstr "nic"
 msgid "Who use this role"
 msgstr ""
 
-#: application/views/scripts/admin/role-more-info.phtml:45
-msgid "Role(s)"
-msgstr "Role"
+#~ msgid "Volume(s)"
+#~ msgstr "Úložiště"
 
-#: application/views/scripts/admin/role-more-info.phtml:60
-msgid "User(s)"
-msgstr "Uživatel(é)"
+#~ msgid "Role(s)"
+#~ msgstr "Role"
+
+#~ msgid "User(s)"
+#~ msgstr "Uživatel(é)"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s Verzeichnisse, %s Dateien betroffen)"
