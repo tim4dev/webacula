@@ -2,7 +2,8 @@ Webacula ChangeLog
 ------------------
 
 === 5.5.2 (Sun Oct 30 2011)
-    Show human readable short Job description instead (or both) of Bacula Job names.
+    Show human readable short Job description instead (or both) of Bacula Job names (see config.ini for details).
+    Show Bacula Job resource record (bconsole> show job="xxx").
     Small bugfixes.
 
 === 5.5.1 (Sat Sep 10 2011)

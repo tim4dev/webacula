@@ -61,7 +61,11 @@ $(document).ready(
             }
         ?>
     </td>
-    <td><?php echo $line['name_job'] ?></td>
+    <td>
+        <a href="<?php echo $this->baseUrl . "/job/show-job/jobname/" . $this->escape($line['name_job']);?>" title="<?php echo $this->translate->_("Show Job resource") ?>"> 
+            <?php echo $line['name_job'] ?>
+        </a>
+    </td>
     <td><?php echo $line['short_desc'] ?></td>
     <td><?php echo $line['description'] ?></td>
     <td><?php echo $line['retention_period'] ?></td>

@@ -607,5 +607,40 @@ EOF"
         echo $this->renderScript('job/run-job-output.phtml');
     }
 
+    
+    /**
+     * show job
+     * http://www.bacula.org/3.0.x-manuals/en/console/console/Bacula_Console.html
+     * show job=<xxx>
+     */
+    function showJobAction()
+    {
+        // do Bacula ACLs
+        $command = 'show';
+        if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
+        $this->view->title = $this->view->translate->_("Show Job resource");
+        $jobname = trim( $this->_request->getParam('jobname') );
+        $this->view->jobname = $jobname;
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )    {
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
+            return;
+        }
+        $astatusdir = $director->execDirector(
+" <<EOF
+show job=\"$jobname\"
+EOF"
+        );
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )   {
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+    }
 
 }

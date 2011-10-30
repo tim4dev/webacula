@@ -1,0 +1,55 @@
+<!-- job/show-job.phtml -->
+
+<?php if ( $this->result_error ): ?>
+    <div class="ui-widget" style="float: left;">
+        <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+            <strong>
+    <?php
+        switch ( $this->result_error )
+        {
+            case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
+                $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
+                break;
+            case 'NOFOUND_BCONSOLE': // bconsole не найден
+                $msg = $this->translate->_('ERROR: bconsole not found.');
+                break;
+            default: $msg = '';
+        }
+        echo $msg;
+        if ( $this->command_output )
+        {
+            foreach ($this->command_output as $line) {
+             echo '<br>', $line, '<br>';
+          }
+        }
+    ?>
+            </strong></p>
+        </div>
+    </div>
+    <div style="clear: both;"><!--  --></div>
+
+<?php else: ?>
+
+<!-- director output -->
+<table id="table-dir-output">
+<caption><?php echo $this->escape($this->title . ' : ' . $this->jobname); ?></caption>
+<tr><td>
+    <b><?php print $this->translate->_("Director output:"); ?></b>
+	<?php
+    if ( $this->command_output )
+    {
+        echo '<pre>';
+        foreach ($this->command_output as $line) {
+            echo $line . '<br>';
+		}
+		echo '</pre>';
+    }
+    ?>
+
+<p>&nbsp;</p>
+
+</td></tr>
+</table>
+
+<?php endif; ?>
