@@ -30,7 +30,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
   </FONT></FONT></DIV></H1>
 <DIV>
 
-<P ALIGN="CENTER"><STRONG><FONT SIZE="-1">Copyright 2007, 2008, 2009, 2010, 2011
+<P ALIGN="CENTER"><STRONG><FONT SIZE="-1">Copyright 2007, 2008, 2009, 2010, 2011, 2012
     Yuri Timofeev <A NAME="tex2html1"
   HREF="mailto:tim4dev@gmail.com">tim4dev@gmail.com</A>
 </FONT></STRONG></P>
@@ -45,43 +45,46 @@ Contents</A>
 <!--Table of Contents-->
 
 <UL>
-<LI><A NAME="tex2html28"
-  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
 <LI><A NAME="tex2html29"
-  HREF="install.html#SECTION00030000000000000000">About this manual</A>
+  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
 <LI><A NAME="tex2html30"
-  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+  HREF="install.html#SECTION00030000000000000000">About this manual</A>
 <LI><A NAME="tex2html31"
+  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+<LI><A NAME="tex2html32"
   HREF="install.html#SECTION00050000000000000000">Install</A>
 <UL>
-<LI><A NAME="tex2html32"
-  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
 <LI><A NAME="tex2html33"
-  HREF="install.html#SECTION00052000000000000000">config.ini</A>
+  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
 <LI><A NAME="tex2html34"
-  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
+  HREF="install.html#SECTION00052000000000000000">config.ini</A>
 <LI><A NAME="tex2html35"
-  HREF="install.html#SECTION00054000000000000000">Apache</A>
+  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
 <LI><A NAME="tex2html36"
-  HREF="install.html#SECTION00055000000000000000">PHP</A>
+  HREF="install.html#SECTION00054000000000000000">Apache</A>
 <LI><A NAME="tex2html37"
-  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+  HREF="install.html#SECTION00055000000000000000">PHP</A>
 <LI><A NAME="tex2html38"
+  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+<LI><A NAME="tex2html39"
   HREF="install.html#SECTION00057000000000000000">Webacula install</A>
 </UL>
 <BR>
-<LI><A NAME="tex2html39"
+<LI><A NAME="tex2html40"
   HREF="install.html#SECTION00060000000000000000">Webacula setup</A>
 <UL>
-<LI><A NAME="tex2html40"
-  HREF="install.html#SECTION00061000000000000000">Webacula and Bacula ACLs</A>
 <LI><A NAME="tex2html41"
+  HREF="install.html#SECTION00061000000000000000">Webacula and Bacula ACLs</A>
+<LI><A NAME="tex2html42"
   HREF="install.html#SECTION00062000000000000000">Users and roles</A>
 </UL>
 <BR>
-<LI><A NAME="tex2html42"
+<LI><A NAME="tex2html43"
   HREF="install.html#SECTION00070000000000000000">Update from prior version</A>
-</UL>
+<UL>
+<LI><A NAME="tex2html44"
+  HREF="install.html#SECTION00071000000000000000">Update from 5.5.1 to 5.5.2</A>
+</UL></UL>
 <!--End of Table of Contents-->
 
 <P>
@@ -658,10 +661,43 @@ Also remove <TT>tmpdir</TT> from <TT>config.ini</TT>, is not necessary now.
 The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
 
 <P>
+
+<H2><A NAME="SECTION00071000000000000000"></A>
+<A NAME="Update:_from_5.5.1_to_5.5.2"></A>
+<BR>
+Update from 5.5.1 to 5.5.2
+</H2>
+
+<P>
+Update the code as usual.
+And make changes to the database schema (for example, MySQL)
+
+<P>
+<PRE>
+ALTER TABLE webacula_jobdesc ADD COLUMN short_desc CHAR(64) NOT NULL;
+CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
+
+ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
+</PRE>
+
+<P>
+Change <TT>application/config.ini</TT> if necessary:
+
+<P>
+<PRE>
+;; Show human readable short Job description instead of Bacula Job names (default = 0)
+; avaliable optins : 0 | 1 | 2
+; 0 - only show Bacula Job Name (behavior as in earlier versions)
+; 1 - only show human readable short Job description instead of Bacula Job Name
+; 2 - show both
+show_job_description = 2
+</PRE>
+
+<P>
 <BR><HR>
 <ADDRESS>
 
-2011-05-05
+2011-10-30
 </ADDRESS>
 </BODY>
 </HTML>

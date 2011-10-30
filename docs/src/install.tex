@@ -457,7 +457,8 @@ Also remove \texttt{tmpdir} from \texttt{config.ini}, is not necessary now.
 
 The script \texttt{webacula\_clean\_tmp\_files.sh} is not necessary now.
 
-\textbf{Update from 5.5.1 to 5.5.2}
+\subsection{Update from 5.5.1 to 5.5.2}
+\label{Update: from 5.5.1 to 5.5.2}
 
 Update the code as usual.
 And make changes to the database schema (for example, MySQL)
@@ -465,13 +466,19 @@ And make changes to the database schema (for example, MySQL)
 \begin{verbatim}
 ALTER TABLE webacula_jobdesc ADD COLUMN short_desc CHAR(64) NOT NULL;
 CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
+
+ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
 \end{verbatim}
 
 Change \texttt{application/config.ini} if necessary:
 
 \begin{verbatim}
-;; Show human readable short Job description instead of Job Bacula names
-show_job_description = 1
+;; Show human readable short Job description instead of Bacula Job names (default = 0)
+; avaliable optins : 0 | 1 | 2
+; 0 - only show Bacula Job Name (behavior as in earlier versions)
+; 1 - only show human readable short Job description instead of Bacula Job Name
+; 2 - show both
+show_job_description = 2
 \end{verbatim}
 
 \end{document}

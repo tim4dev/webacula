@@ -1,7 +1,7 @@
                                  Webacula v.5.5
                               Installation Manual
 
-   Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev [1]tim4dev@gmail.com
+Copyright 2007, 2008, 2009, 2010, 2011, 2012 Yuri Timofeev [1]tim4dev@gmail.com
 
 Contents
 
@@ -25,9 +25,11 @@ Contents
 
      * [16]Update from prior version
 
+          * [17]Update from 5.5.1 to 5.5.2
+
 List of Figures
 
-    1. [17]Webacula ACLs
+    1. [18]Webacula ACLs
 
                                About this manual
 
@@ -35,12 +37,12 @@ List of Figures
 
    This manual should give you to install or upgrade Webacula installation.
 
-   If you find errors or typos please [18]send a bug report.
+   If you find errors or typos please [19]send a bug report.
 
    Thanks.
 
    Webacula has a number of email lists. For general information subscribing
-   to or unsubscribing from these lists, please see [19]Webacula Mailing
+   to or unsubscribing from these lists, please see [20]Webacula Mailing
    Lists at SourceForge.
 
                               System Requirements
@@ -57,12 +59,12 @@ List of Figures
      * Bacula 5.0 or later
      * Zend Framework version 1.10.0 or later
      * Zend Framework is built with object-oriented PHP 5 and requires PHP
-       5.2.4 or later with PDO extension active. [20]Please see the system
+       5.2.4 or later with PDO extension active. [21]Please see the system
        requirements appendix for more detailed information.
      * Apache and mod_rewrite. Or equivalent web-server, for example, nginx
        and ngx_http_rewrite_module
      * Installed php-gd package
-     * Installed [21]http://php.net/dom for use the RSS feed
+     * Installed [22]http://php.net/dom for use the RSS feed
      * Browser compatibility: all jQuery UI plugins are tested for IE 6.0+,
        Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome
 
@@ -73,7 +75,7 @@ Make directory tree
    Login as root and make directory /var/www/webacula (for example). Copy
    Webacula distribution to this directory.
 
-   [22]Download minimal Zend Framework package and extract. Copy the contents
+   [23]Download minimal Zend Framework package and extract. Copy the contents
    from directory
    ZendFramework-*-minimal/library/Zend
    to
@@ -194,7 +196,7 @@ Apache
    For testing mod_rewrite change RewriteBase parameter, if necessary, in
    webacula/html/test_mod_rewrite/.htaccess file.
 
-   And use URL like [23]http://localhost/webacula/test_mod_rewrite/ for test
+   And use URL like [24]http://localhost/webacula/test_mod_rewrite/ for test
    mod_rewrite.
 
 PHP
@@ -285,7 +287,7 @@ Webacula and Bacula ACLs
 
                                    Figure 1:
                                  Webacula ACLs
-                                 [24]Image ACLs
+                                 [25]Image ACLs
 
 
 
@@ -370,6 +372,25 @@ Users and roles
 
    The script webacula_clean_tmp_files.sh is not necessary now.
 
+Update from 5.5.1 to 5.5.2
+
+   Update the code as usual. And make changes to the database schema (for
+   example, MySQL)
+
+ ALTER TABLE webacula_jobdesc ADD COLUMN short_desc CHAR(64) NOT NULL;
+ CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
+
+ ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
+
+   Change application/config.ini if necessary:
+
+ ;; Show human readable short Job description instead of Bacula Job names (default = 0)
+ ; avaliable optins : 0 | 1 | 2
+ ; 0 - only show Bacula Job Name (behavior as in earlier versions)
+ ; 1 - only show human readable short Job description instead of Bacula Job Name
+ ; 2 - show both
+ show_job_description = 2
+
    --------------------------------------------------------------------------
 
-    2011-05-05
+    2011-10-30

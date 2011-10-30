@@ -1,6 +1,10 @@
 Webacula ChangeLog
 ------------------
 
+=== 5.5.2 (Sun Oct 30 2011)
+    Show human readable short Job description instead (or both) of Bacula Job names.
+    Small bugfixes.
+
 === 5.5.1 (Sat Sep 10 2011)
     Small bugfixes.
 
