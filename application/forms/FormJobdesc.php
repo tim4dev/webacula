@@ -44,7 +44,7 @@ class FormJobdesc extends Zend_Form
         $name_job = $this->createElement('text', 'name_job', array(
             'label'      => $this->translate->_('Job Name'),
             'required'   => true,
-            'size' => 30,
+            'size' => 35,
             'maxlength' => 64
         ));
         $name_job->addValidator('NotEmpty', false, null );
@@ -54,11 +54,11 @@ class FormJobdesc extends Zend_Form
         $short_desc = $this->createElement('text', 'short_desc', array(
             'label'      => $this->translate->_('Short Job Description'),
             'required'   => true,
-            'size' => 30,
+            'size' => 40,
             'maxlength' => 64
         ));
-        $name_job->addValidator('NotEmpty', false, null );
-        $name_job->addValidator('StringLength', false, array(0, 64) );
+        $short_desc->addValidator('NotEmpty', false, null );
+        $short_desc->addValidator('StringLength', false, array(0, 64) );
         
         $description = $this->createElement(
             'textarea', 'description', array(
