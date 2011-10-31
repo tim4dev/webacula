@@ -11,7 +11,7 @@ class WbjobdescControllerTest extends ControllerTestCase
     {
         print "\n".__METHOD__.' ';
         $this->_rootLogin();
-        $description = 'описание задания';
+        $description = 'очень длинное UTF8 описание задания';
         // add new record
         $this->request->setPost(array(
             'form1'         => 1,

@@ -377,7 +377,7 @@ Update from 5.5.1 to 5.5.2
    Update the code as usual. And make changes to the database schema (for
    example, MySQL)
 
- ALTER TABLE webacula_jobdesc ADD COLUMN short_desc CHAR(64) NOT NULL;
+ ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
  CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
 
  ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
@@ -393,4 +393,4 @@ Update from 5.5.1 to 5.5.2
 
    --------------------------------------------------------------------------
 
-    2011-10-30
+    tim 2011-10-31

@@ -674,7 +674,7 @@ And make changes to the database schema (for example, MySQL)
 
 <P>
 <PRE>
-ALTER TABLE webacula_jobdesc ADD COLUMN short_desc CHAR(64) NOT NULL;
+ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
 CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
 
 ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
@@ -696,8 +696,8 @@ show_job_description = 2
 <P>
 <BR><HR>
 <ADDRESS>
-
-2011-10-30
+tim
+2011-10-31
 </ADDRESS>
 </BODY>
 </HTML>

@@ -43,7 +43,7 @@ CREATE TABLE webacula_jobdesc (
     desc_id  SERIAL,
     name_job    CHAR(64) UNIQUE NOT NULL,
     retention_period CHAR(32),
-    short_desc      CHAR(64) NOT NULL,
+    short_desc      VARCHAR(128) NOT NULL,
     description     TEXT NOT NULL,
     PRIMARY KEY(desc_id)
 );
