@@ -127,7 +127,7 @@ class WbjobdescController extends MyClass_ControllerAclAction
             }
         } else {
             // data not from form
-            $desc_id = intval( $this->_request->getParam('desc_id') );
+            $desc_id    = intval( $this->_request->getParam('desc_id') );
             $this->view->title .= " #$desc_id";
             if ($desc_id) {
                 // get data from table
@@ -137,7 +137,7 @@ class WbjobdescController extends MyClass_ControllerAclAction
                 $form->populate( array(
                     'desc_id'     => $row->desc_id,
                     'name_job'    => $row->name_job,
-                    'short_desc'  => $short_desc,
+                    'short_desc'  => $row->short_desc,
                     'description' => $row->description,
                     'retention_period' => $row->retention_period
                 ));
