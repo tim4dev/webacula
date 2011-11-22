@@ -421,7 +421,8 @@ class RestorejobController extends MyClass_ControllerAclAction
             $this->getParamFromForm();
             // переопределяем некоторые переменные
             $this->client_name    = $client->getClientName($jobid);
-            $this->client_name_to = $this->restoreNamespace->ClientNameTo;
+//            $this->client_name_to = $this->restoreNamespace->ClientNameTo;
+            $this->client_name_to = $this->_request->getParam('client_name_to');
             $this->type_restore   = $this->restoreNamespace->typeRestore;
             // validator "Where"
             if ( $validator_where->isValid( $this->where ) ) {
