@@ -519,6 +519,7 @@ class WbTmpTable extends Zend_Db_Table
             FROM File
             WHERE JobId = $jobid");
 
+        $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
             // file size writing in a separate filed to then it was easier to calculate the total
             // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
@@ -530,6 +531,7 @@ class WbTmpTable extends Zend_Db_Table
                 return FALSE; // show exception from WbTmpTable.php->insertRowFile()
         }
         // end transaction
+        $bacula->commit();
         // после успешного клонирования устанавливаем признак
         $this->setCloneOk();
         return TRUE;
@@ -565,6 +567,7 @@ class WbTmpTable extends Zend_Db_Table
                 WHERE File.FileIndex > 0
                 ORDER BY JobId, FileIndex ASC";
         $stmt = $bacula->query($sql);
+        $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
             // file size writing in a separate filed to then it was easier to calculate the total size
             // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
@@ -575,6 +578,7 @@ class WbTmpTable extends Zend_Db_Table
             $this->insertRowFile($line['jobid'], $line['fileid'], $line['fileindex'], $file_size);
         }
         // end transaction // после успешного клонирования устанавливаем признак
+        $bacula->commit();
         $this->setCloneOk();
         return TRUE;
     }
