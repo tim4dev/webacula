@@ -86,6 +86,7 @@ rm -f -r "${RPM_TMP}/webacula-${VERSION}"
 echo -e "\ncopy files...\n"
 cd ${ROOT_DIR}
 cp -p -f "${SRC_DIR}/packaging/Fedora/webacula.spec" "${RPM_SPECS}/"
+cp -p -f "${SRC_DIR}/packaging/Fedora/*.patch "${RPM_SOURCES}/"
 
 echo -e "\n"
 

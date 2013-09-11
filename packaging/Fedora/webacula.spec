@@ -1,6 +1,6 @@
 Name:          webacula
 Version:       5.5.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system
 
@@ -9,6 +9,9 @@ License:    GPLv3+
 URL:        http://webacula.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch1:     webacula-5.5.2-path.patch
+Patch2:     webacula-5.5.2-apache.patch
 
 BuildArch:  noarch
 
@@ -44,6 +47,8 @@ Webacula - Web Bacula - веб интерфейс для Bacula backup system.
 
 %prep
 %setup -q
+%patch1 -p0 -b .cache
+%patch2 -p0 -b .apache
 
 
 
@@ -62,6 +67,8 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/html
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/languages
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/library
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/install
+
+mkdir -p %{buildroot}%{_localstatedir}/cache/%{name}
 
 cp ./application/config.ini  $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/config.ini
 rm -f ./application/config.ini
@@ -101,10 +108,15 @@ rm -rf $RPM_BUILD_ROOT
 %lang(it) %{_datadir}/%{name}/languages/it
 %lang(pt) %{_datadir}/%{name}/languages/pt
 %lang(ru) %{_datadir}/%{name}/languages/ru
+%dir %attr(750, apache, apache) %{_localstatedir}/cache/%{name}
 
 
 
 %changelog
+* Tue Sep 10 2013 Robert Oschwald <robertoschwald@gmail.com> 5.5.2-2
+- Use systems cache dir
+- Load rewrite module conditionally if not loaded already
+
 * Sat Oct 29 2011 Yuri Timofeev <tim4dev@gmail.com> 5.5.2-1
 - Version 5.5.2
 

@@ -1,0 +1,14 @@
+diff -up install/apache/webacula.conf.org install/apache/webacula.conf
+--- install/apache/webacula.conf.org	2013-09-11 09:53:14.431232615 +0200
++++ install/apache/webacula.conf	2013-09-11 09:53:40.686979709 +0200
+@@ -5,7 +5,9 @@
+ # Allows only localhost by default
+ #
+ 
+-LoadModule rewrite_module modules/mod_rewrite.so
++<IfModule !rewrite_module>
++  LoadModule rewrite_module modules/mod_rewrite.so
++</IfModule>
+ 
+ # AccessFileName .htaccess
+ # RewriteLog "/var/log/httpd/mod_rewrite.log"
