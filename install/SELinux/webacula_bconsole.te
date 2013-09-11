@@ -1,0 +1,24 @@
+# SELinux Policy Package source file for webacula
+# As webacula calls bconsole, we need a Policy to allow it.
+
+# prerequisites: Installed selinux-policy-devel rpm package
+# compile to pp file with command:
+# make -f /usr/share/selinux/devel/Makefile && semodule -i webacula_bconsole.pp 
+
+module webacula_bconsole 1.0;
+
+require {
+	type postgresql_port_t;
+	type httpd_t;
+	type hplip_port_t;
+	class tcp_socket name_connect;
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc can be allowed using the boolean 'httpd_can_network_connect'
+allow httpd_t hplip_port_t:tcp_socket name_connect;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     httpd_can_network_connect, httpd_can_network_connect_db
+allow httpd_t postgresql_port_t:tcp_socket name_connect;
