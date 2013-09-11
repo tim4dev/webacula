@@ -1,0 +1,16 @@
+diff -up html/index.php.org html/index.php
+--- html/index.php.org	2013-09-10 18:13:02.000000000 +0200
++++ html/index.php	2013-09-10 19:08:07.864302577 +0200
+@@ -19,10 +19,10 @@
+  */
+ 
+ define('WEBACULA_VERSION', '5.5.2' . ', build 2011.11.01');
+-define('BACULA_VERSION', 12); // Bacula Catalog version
++define('BACULA_VERSION', 14); // Bacula Catalog version
+ 
+ define('ROOT_DIR', dirname(dirname(__FILE__)) );
+-define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
++define('CACHE_DIR', '/var/cache/webacula' );
+ 
+ defined('APPLICATION_ENV')
+     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
