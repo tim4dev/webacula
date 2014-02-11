@@ -1,4 +1,3 @@
-
 Webacula installation on Ubuntu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 http://www.java-tutorial.ch/ubuntu/webacula-installation-on-ubuntu
@@ -232,6 +231,7 @@ Apache
     # change the settings below
     #
     # Allow from <your network>
+ </Directory>
  <Directory /usr/share/webacula/docs>
     Order deny,allow
     Deny from all
