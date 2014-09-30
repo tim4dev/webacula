@@ -37,7 +37,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->assertAction('status-id');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertQueryContentRegex('td', '/1000 OK: .* main.dir/');
         $this->assertNotQueryContentRegex('td', '/Error/i');
         // http://by.php.net/manual/en/function.preg-match.php
         $this->assertQueryContentRegex('td', "/Storage1 Version:.*linux/");
@@ -60,9 +60,9 @@ class StorageControllerTest extends ControllerTestCase
         $this->assertAction('act-mount');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertQueryContentRegex('td', '/1000 OK: .* main.dir/');
         $this->assertNotQueryContentRegex('td', '/Error/i');
-        $this->assertQueryContentContains('td', '3901 Device "dev.file.storage.1" (/tmp/webacula/dev) is already unmounted');
+        $this->assertQueryContentContains('td', '3901 Device ""dev.file.storage.1" (/tmp/webacula/dev)" is already unmounted.');
     }
 
 
@@ -82,7 +82,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->assertAction('act-mount');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertQueryContentRegex('td', '/1000 OK: .* main.dir/');
         $this->assertNotQueryContentRegex('td', '/Error/i');
         $this->assertQueryContentContains('td', '3906 File device "dev.file.storage.1" (/tmp/webacula/dev) is always mounted.');
     }
@@ -110,7 +110,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->assertAction('act-mount');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertQueryContentRegex('td', '/1000 OK: .* main.dir/');
         $this->assertNotQueryContentRegex('td', '/Error/i');
         $this->assertQueryContentRegex('td', "/Device.*LTO2_2.*unmounted/");
     }
@@ -141,7 +141,7 @@ class StorageControllerTest extends ControllerTestCase
         $this->assertAction('act-mount');
         $this->assertNotQueryContentRegex('table', self::ZF_pattern); // Zend Framework
         $this->assertResponseCode(200);
-        $this->assertQueryContentContains('td', '1000 OK: main.dir');
+        $this->assertQueryContentRegex('td', '/1000 OK: .* main.dir/');
         $this->assertNotQueryContentRegex('td', '/Error/i');
         $this->assertQueryContentRegex('td', "/Device.*LTO2_2.*mounted/");
     }

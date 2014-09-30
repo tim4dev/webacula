@@ -10,7 +10,7 @@ db.config.host = localhost
 db.config.username = root
 db.config.password =
 db.config.dbname = bacula
-; for Sqlite db.config.dbname = "/full patch/bacula.db"
+; for Sqlite db.config.dbname = "/opt/bacula/working/bacula.db"
 
 ; see http://www.php.net/timezones
 def.timezone = "Europe/Minsk"

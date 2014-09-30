@@ -56,8 +56,8 @@ function my_write_file($path)
     for ($i = 0; $i < FILES_PER_DIR; $i++) {
         // Generation of unique names for files
         $namefile = $path_full . '/' . $count_fil . SUFFIX_NAME_FILE;
-        if ( !file_exists($namefile) ) {
-            $f = fopen($namefile , 'w');
+        if ( !file_exists("$namefile") ) {
+            $f = fopen("$namefile", 'w');
             fwrite($f, 'test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1');
             fclose($f);
             $count_fil++;

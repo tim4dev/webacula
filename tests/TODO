@@ -8,17 +8,11 @@ pear config-set http_proxy http://username:password@yourproxy:80
 
 phpunit --version
 
-pear uninstall phpunit/PHPUnit_Selenium
-pear uninstall phpunit/PHPUnit
-pear uninstall phpunit/DbUnit
-pear uninstall phpunit/PHP_CodeCoverage
-pear uninstall phpunit/File_Iterator
-pear uninstall phpunit/PHP_Timer
-pear uninstall phpunit/PHPUnit_MockObject
-pear uninstall phpunit/Text_Template
-pear uninstall phpunit/PHPUnit_Selenium
-pear uninstall pear.symfony-project.com/YAML
-pear uninstall phpunit/PHP_TokenStream
+yum erase php-phpunit-\*
+
+pear channel-discover pear.symfony-project.com
+pear channel-discover pear.phpunit.de
+pear channel-update pear.phpunit.de
 
 pear install --alldeps pear.symfony-project.com/YAML-1.0.2
 pear install --alldeps phpunit/PHPUnit_Selenium-1.0.1

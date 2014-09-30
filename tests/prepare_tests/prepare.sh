@@ -127,17 +127,18 @@ echo "Done."
 
 
 
-my_log "Create Bacula conf ..."
+my_log "Backup exesting Bacula config ..."
 mv -f "/${BACULADIR}/bacula-dir.conf" "/${BACULADIR}/bacula-dir.conf.original"
 mv -f "/${BACULADIR}/bacula-sd.conf"  "/${BACULADIR}/bacula-sd.conf.original"
 mv -f "/${BACULADIR}/bacula-fd.conf"  "/${BACULADIR}/bacula-fd.conf.original"
 mv -f "/${BACULADIR}/bconsole.conf"   "/${BACULADIR}/bconsole.conf.original"
 
+my_log "Create Bacula conf ..."
 # copy config files
 SRC="${BACULADIR}/*.conf"
 DST="/${BACULADIR}"
-echo "${SRC}"
-echo "${DST}"
+echo "src = ${SRC}"
+echo "dst = ${DST}"
 cp -f $SRC $DST
 
 # copy scripts

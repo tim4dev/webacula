@@ -24,7 +24,7 @@ class ChartControllerTest extends ControllerTestCase
         if (empty($img)) {
             $this->assertTrue(FALSE, "image is empty!");
         }
-        $f = fopen($name_img, 'w');
+        $f = fopen("$name_img", 'w');
         $res = fwrite($f, $img);
         if (! $res) {
             $this->assertTrue(FALSE, "file $name_img can't writing!");
