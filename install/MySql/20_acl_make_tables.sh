@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS webacula_roles (
     description TEXT,
     inherit_id  integer,
     primary key (id)
-);    
+);
 
 
 CREATE TABLE IF NOT EXISTS webacula_resources (
@@ -167,12 +167,15 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (270, 'reload',      'Reload conf file'),
     (280, 'run',         'Run a job'),
     (290, 'status',      'Report status'),
+    (295, 'stop',        'Stop a job'),
     (300, 'setdebug',    'Sets debug level'),
+    (305, 'setbandwidth','Sets bandwidth'),
     (310, 'setip',       'Sets new client address, if authorized'),
     (320, 'show',        'Show resource records'),
     (330, 'sqlquery',    'Use SQL to query catalog'),
     (340, 'time',        'Print current time'),
     (350, 'trace',       'Turn on/off trace to file'),
+    (355, 'truncate',    'Truncate one or more Volumes'),
     (360, 'unmount',     'Unmount storage'),
     (370, 'umount',      'Umount - for old-time Unix guys, see unmount'),
     (380, 'update',      'Update volume, pool or stats'),
@@ -238,13 +241,13 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
     role_id   integer,
     PRIMARY KEY (id),
     INDEX (id, order_acl),
-    UNIQUE INDEX (name(256), role_id)
+    UNIQUE INDEX (name(254), role_id)
 );
 
 
 
 -- 'root_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1); 
+INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
@@ -263,8 +266,8 @@ INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1,
 
 
 -- PHP session storage
-CREATE TABLE webacula_php_session (
-    id       char(32),
+CREATE TABLE IF NOT EXISTS webacula_php_session (
+    id       char(64),
     modified integer,
     lifetime integer,
     data_session TEXT,

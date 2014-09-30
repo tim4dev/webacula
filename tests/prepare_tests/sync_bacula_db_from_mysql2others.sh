@@ -5,7 +5,7 @@
 # @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
 #
 
-BACULADIR="etc/bacula"
+BACULADIR="opt/bacula/etc"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
 INSTALL_DIR="../../install/"

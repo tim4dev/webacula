@@ -1,7 +1,23 @@
 #!/bin/sh
 #
 # shell script to create Bacula MySQL tables
+# from bacula-7.0.5/src/cats
 #
+#
+#  Bacula® - The Network Backup Solution
+#
+#  Copyright (C) 2000-2014 Free Software Foundation Europe e.V.
+#
+#  The main author of Bacula is Kern Sibbald, with contributions from many
+#  others, a complete list can be found in the file AUTHORS.
+#
+#  You may use this file and others of this release according to the
+#  license defined in the LICENSE file, which includes the Affero General
+#  Public License, v3.0 ("AGPLv3") and some additional permissions and
+#  terms pursuant to its AGPLv3 Section 7.
+#
+#  Bacula® is a registered trademark of Kern Sibbald.
+
 
 if mysql -f <<END-OF-DATA
 CREATE DATABASE bacula;
@@ -27,6 +43,16 @@ CREATE TABLE Path (
    INDEX (Path(255))
    );
 
+-- We strongly recommend to avoid the temptation to add new indexes.
+-- In general, these will cause very significant performance
+-- problems in other areas.  A better approch is to carefully check
+-- that all your memory configuation parameters are
+-- suitable for the size of your installation.  If you backup
+-- millions of files, you need to adapt the database memory
+-- configuration parameters concerning sorting, joining and global
+-- memory.  By default, sort and join parameters are very small
+-- (sometimes 8Kb), and having sufficient memory specified by those
+-- parameters is extremely important to run fast.
 
 -- In File table
 -- FileIndex can be 0 for FT_DELETED files
@@ -37,6 +63,7 @@ CREATE TABLE File (
    JobId INTEGER UNSIGNED NOT NULL REFERENCES Job,
    PathId INTEGER UNSIGNED NOT NULL REFERENCES Path,
    FilenameId INTEGER UNSIGNED NOT NULL REFERENCES Filename,
+   DeltaSeq SMALLINT UNSIGNED DEFAULT 0,
    MarkId INTEGER UNSIGNED DEFAULT 0,
    LStat TINYBLOB NOT NULL,
    MD5 TINYBLOB,
@@ -45,10 +72,28 @@ CREATE TABLE File (
    INDEX (JobId, PathId, FilenameId)
    );
 
+
+CREATE TABLE RestoreObject (
+   RestoreObjectId INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+   ObjectName BLOB NOT NULL,
+   RestoreObject LONGBLOB NOT NULL,
+   PluginName TINYBLOB NOT NULL,
+   ObjectLength INTEGER DEFAULT 0,
+   ObjectFullLength INTEGER DEFAULT 0,
+   ObjectIndex INTEGER DEFAULT 0,
+   ObjectType INTEGER DEFAULT 0,
+   FileIndex INTEGER UNSIGNED DEFAULT 0,
+   JobId INTEGER UNSIGNED NOT NULL REFERENCES Job,
+   ObjectCompression INTEGER DEFAULT 0,
+   PRIMARY KEY(RestoreObjectId),
+   INDEX (JobId)
+   );
+
+
 #
 # Possibly add one or more of the following indexes
 #  to the above File table if your Verifies are
-#  too slow.
+#  too slow, but they can slow down backups.
 #
 #  INDEX (PathId),
 #  INDEX (FilenameId),
@@ -122,7 +167,7 @@ CREATE TABLE Job (
    INDEX (Name(128))
    );
 
--- Create a table like Job for long term statistics 
+-- Create a table like Job for long term statistics
 CREATE TABLE JobHisto (
    JobId INTEGER UNSIGNED NOT NULL,
    Job TINYBLOB NOT NULL,
@@ -151,6 +196,7 @@ CREATE TABLE JobHisto (
    HasCache TINYINT DEFAULT 0,
    Reviewed TINYINT DEFAULT 0,
    Comment BLOB,
+   INDEX (JobId),
    INDEX (StartTime)
    );
 
@@ -322,7 +368,7 @@ CREATE TABLE UnsavedFiles (
 
 CREATE TABLE Counters (
    Counter TINYBLOB NOT NULL,
-   MinValue INTEGER DEFAULT 0,
+   \`MinValue\` INTEGER DEFAULT 0,
    \`MaxValue\` INTEGER DEFAULT 0,
    CurrentValue INTEGER DEFAULT 0,
    WrapCounter TINYBLOB NOT NULL,
@@ -337,7 +383,7 @@ CREATE TABLE CDImages (
 
 CREATE TABLE Status (
    JobStatus CHAR(1) BINARY NOT NULL,
-   JobStatusLong BLOB, 
+   JobStatusLong BLOB,
    Severity INT,
    PRIMARY KEY (JobStatus)
    );
@@ -372,7 +418,7 @@ CREATE TABLE PathHierarchy
      CONSTRAINT pathhierarchy_pkey PRIMARY KEY (PathId)
 );
 
-CREATE INDEX pathhierarchy_ppathid 
+CREATE INDEX pathhierarchy_ppathid
           ON PathHierarchy (PPathId);
 
 CREATE TABLE PathVisibility
@@ -387,11 +433,11 @@ CREATE INDEX pathvisibility_jobid
              ON PathVisibility (JobId);
 
 CREATE TABLE Version (
-   VersionId INTEGER UNSIGNED NOT NULL 
+   VersionId INTEGER UNSIGNED NOT NULL
    );
 
--- Initialize Version		 
-INSERT INTO Version (VersionId) VALUES (12);
+-- Initialize Version
+INSERT INTO Version (VersionId) VALUES (14);
 
 use mysql;
 grant all privileges on bacula.* to root@localhost;

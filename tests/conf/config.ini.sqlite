@@ -1,6 +1,6 @@
 ; tests
 ; config.ini
-; Webacula 5.x
+; Webacula 7.x
 ;
 
 [general]
@@ -20,8 +20,8 @@ locale = "en"
 
 ; see INSTALL file for details
 bacula.sudo = "/usr/bin/sudo"
-bacula.bconsole = "/sbin/bconsole"
-bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
+bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 
 ; time to live data (session and temporary data tables) for restore files (sec)
 ; default = 1h, minimum = 600sec.

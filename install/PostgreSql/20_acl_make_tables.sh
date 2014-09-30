@@ -166,12 +166,15 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (270, 'reload',      'Reload conf file'),
     (280, 'run',         'Run a job'),
     (290, 'status',      'Report status'),
+    (295, 'stop',        'Stop a job'),
     (300, 'setdebug',    'Sets debug level'),
+    (305, 'setbandwidth','Sets bandwidth'),
     (310, 'setip',       'Sets new client address, if authorized'),
     (320, 'show',        'Show resource records'),
     (330, 'sqlquery',    'Use SQL to query catalog'),
     (340, 'time',        'Print current time'),
     (350, 'trace',       'Turn on/off trace to file'),
+    (355, 'truncate',    'Truncate one or more Volumes'),
     (360, 'unmount',     'Unmount storage'),
     (370, 'umount',      'Umount - for old-time Unix guys, see unmount'),
     (380, 'update',      'Update volume, pool or stats'),
@@ -179,7 +182,6 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (400, 'var',         'Does variable expansion'),
     (410, 'version',     'Print Director version'),
     (420, 'wait',        'Wait until no jobs are running');
-
 
 
 CREATE TABLE webacula_fileset_acl (
@@ -263,7 +265,7 @@ INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1,
 
 -- PHP session storage
 CREATE TABLE webacula_php_session (
-    id       char(32),
+    id       char(64),
     modified integer,
     lifetime integer,
     data_session TEXT,

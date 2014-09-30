@@ -1,10 +1,10 @@
 ; tests
 ; config.ini
-; Webacula 5.5
+; Webacula 7.x
 ;
 
 [general]
-; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE  
+; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE
 db.adapter = PDO_MYSQL
 db.config.host = localhost
 db.config.username = root
@@ -21,8 +21,8 @@ locale = "en"
 
 ; see INSTALL file for details
 bacula.sudo = "/usr/bin/sudo"
-bacula.bconsole = "/sbin/bconsole"
-bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
+bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 
 ; time to live data (session and temporary data tables) for restore files (sec)
 ; default = 1h, minimum = 600sec.
@@ -41,7 +41,20 @@ bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
 ; days_to_show_jobs_with_errors = 7
 
 ;; Show human readable short Job description instead of Job Bacula names (default = 0)
+; avaliable optins : 0 | 1 | 2
+; 0 - only show Bacula Job Name (behavior as in earlier versions)
+; 1 - only show human readable short Job description instead of Bacula Job Name
+; 2 - show both
 ; show_job_description = 0
+
+; Normally, you will specify only one Restore job in bacula-dir.conf.
+; However, if it is not so, if you have multiple (exact - more than one) Restore Job resources
+; put Restore Job names from bacula-dir.conf here.
+; IMPORTANT!!! Restore Job names should be specified in the same order as in bacula-dir.conf!
+; bacula_restore_job[] = "restore"
+; bacula_restore_job[] = "Restore_Files_1"
+; bacula_restore_job[] = "Restore_Files_2"
+; and so on.
 
 [timeline]
 gdfontpath = "/usr/share/fonts/dejavu"

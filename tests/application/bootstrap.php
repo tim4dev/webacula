@@ -29,8 +29,8 @@ Zend_Loader_Autoloader::getInstance();
 /*
  * from index.php
  */
-define('WEBACULA_VERSION', '5.5.x, build for tests');
-define('BACULA_VERSION', 12); // Bacula Catalog version
+define('WEBACULA_VERSION', '7.x, build for tests');
+define('BACULA_VERSION', 14); // Bacula Catalog version
 define('ROOT_DIR',   $appRoot );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
 

@@ -20,7 +20,7 @@
 
 \hypersetup
 {
-    pdfauthor={Yuri Timofeev tim4dev@gmail.com},
+    pdfauthor={Yuriy Timofeev tim4dev@gmail.com},
     pdftitle={Webacula v.5.5. Installation Manual},
     pdfkeywords={webacula, manual, install, bacula}
 }
@@ -34,8 +34,8 @@
 }
 \author{
   \begin{small}
-    Copyright 2007, 2008, 2009, 2010, 2011, 2012
-    Yuri Timofeev \htmladdnormallink{tim4dev@gmail.com}{mailto:tim4dev@gmail.com}
+    Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014
+    Yuriy Timofeev \htmladdnormallink{tim4dev@gmail.com}{mailto:tim4dev@gmail.com}
   \end{small}
 }
 %\date{Jan 2011}
@@ -178,7 +178,7 @@ Create system group account (if not yet created) : \\
 Add apache to group: \\
 \texttt{usermod -aG bacula apache}
 
-\textbf{IMPORTANT}. Check \texttt{/usr/sbin/bconsole} it should be the binary ELF file, not a shell script!
+\textbf{IMPORTANT}. Check \texttt{/opt/bacula/sbin/bconsole} it should be the binary ELF file, not a shell script!
 
 Next, setup \texttt{bconsole} can be executed under Apache webserver.
 
@@ -188,17 +188,17 @@ Next, setup \texttt{bconsole} can be executed under Apache webserver.
 \label{Install:Setting up to run bconsole from under Webacula:without sudo}
 
 \begin{verbatim}
-chown root:bacula /usr/sbin/bconsole
-chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+chown root:bacula /opt/bacula/sbin/bconsole
+chmod u=rwx,g=rx,o=  /opt/bacula/sbin/bconsole
 
-chown root:bacula /etc/bacula/bconsole.conf
-chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+chown root:bacula /opt/bacula/etc/bconsole.conf
+chmod u=rw,g=r,o= /opt/bacula/etc/bconsole.conf
 \end{verbatim}
 
 Edit \texttt{application/config.ini}
 \begin{verbatim}
 bacula.sudo = ""
-bacula.bconsole = "/usr/sbin/bconsole"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
 \end{verbatim}
 
 
@@ -209,19 +209,19 @@ bacula.bconsole = "/usr/sbin/bconsole"
 Edit \texttt{application/config.ini}
 \begin{verbatim}
 bacula.sudo = "/usr/bin/sudo"
-bacula.bconsole = "/usr/sbin/bconsole"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
 \end{verbatim}
 
 Run \texttt{visudo} and changes
 \begin{verbatim}
 # (!!! comment here !!!) Defaults requiretty
-apache ALL=NOPASSWD: /usr/sbin/bconsole
+apache ALL=NOPASSWD: /opt/bacula/sbin/bconsole
 \end{verbatim}
 
 Check out the run bconsole :
 \begin{verbatim}
 # su -l apache -s /bin/sh \
-     -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+     -c "/usr/bin/sudo /opt/bacula/sbin/bconsole -n -c /opt/bacula/etc/bconsole.conf"
 \end{verbatim}
 
 

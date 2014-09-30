@@ -15,71 +15,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `BaseFiles`
---
-
-DROP TABLE IF EXISTS `BaseFiles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `BaseFiles` (
-  `BaseId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `BaseJobId` int(10) unsigned NOT NULL,
-  `JobId` int(10) unsigned NOT NULL,
-  `FileId` bigint(20) unsigned NOT NULL,
-  `FileIndex` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`BaseId`),
-  KEY `basefiles_jobid_idx` (`JobId`)
-);
-
---
--- Dumping data for table `BaseFiles`
---
-
-LOCK TABLES `BaseFiles` WRITE;
-/*!40000 ALTER TABLE `BaseFiles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `BaseFiles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `CDImages`
---
-
-DROP TABLE IF EXISTS `CDImages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `CDImages` (
-  `MediaId` int(10) unsigned NOT NULL,
-  `LastBurn` datetime NOT NULL,
-  PRIMARY KEY (`MediaId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `CDImages`
---
-
-LOCK TABLES `CDImages` WRITE;
-/*!40000 ALTER TABLE `CDImages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `CDImages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Client`
---
-
-DROP TABLE IF EXISTS `Client`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Client` (
-  `ClientId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` tinyblob NOT NULL,
-  `Uname` tinyblob NOT NULL,
-  `AutoPrune` tinyint(4) DEFAULT '0',
-  `FileRetention` bigint(20) unsigned DEFAULT '0',
-  `JobRetention` bigint(20) unsigned DEFAULT '0',
-  PRIMARY KEY (`ClientId`),
-  UNIQUE KEY `Name` (`Name`(128))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Client`
 --
 
@@ -90,110 +25,14 @@ INSERT INTO `Client` VALUES (1,'local.fd','',0,0,0),(2,'win32.fd','5.0.0 (24Jan1
 UNLOCK TABLES;
 
 --
--- Table structure for table `Counters`
---
-
-DROP TABLE IF EXISTS `Counters`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Counters` (
-  `Counter` tinyblob NOT NULL,
-  `MinValue` int(11) DEFAULT '0',
-  `MaxValue` int(11) DEFAULT '0',
-  `CurrentValue` int(11) DEFAULT '0',
-  `WrapCounter` tinyblob NOT NULL,
-  PRIMARY KEY (`Counter`(128))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Counters`
---
-
-LOCK TABLES `Counters` WRITE;
-/*!40000 ALTER TABLE `Counters` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Counters` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Device`
---
-
-DROP TABLE IF EXISTS `Device`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Device` (
-  `DeviceId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` tinyblob NOT NULL,
-  `MediaTypeId` int(10) unsigned DEFAULT '0',
-  `StorageId` int(10) unsigned DEFAULT '0',
-  `DevMounts` int(10) unsigned DEFAULT '0',
-  `DevReadBytes` bigint(20) unsigned DEFAULT '0',
-  `DevWriteBytes` bigint(20) unsigned DEFAULT '0',
-  `DevReadBytesSinceCleaning` bigint(20) unsigned DEFAULT '0',
-  `DevWriteBytesSinceCleaning` bigint(20) unsigned DEFAULT '0',
-  `DevReadTime` bigint(20) unsigned DEFAULT '0',
-  `DevWriteTime` bigint(20) unsigned DEFAULT '0',
-  `DevReadTimeSinceCleaning` bigint(20) unsigned DEFAULT '0',
-  `DevWriteTimeSinceCleaning` bigint(20) unsigned DEFAULT '0',
-  `CleaningDate` datetime DEFAULT '0000-00-00 00:00:00',
-  `CleaningPeriod` bigint(20) unsigned DEFAULT '0',
-  PRIMARY KEY (`DeviceId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Device`
---
-
-LOCK TABLES `Device` WRITE;
-/*!40000 ALTER TABLE `Device` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Device` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `File`
---
-
-DROP TABLE IF EXISTS `File`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `File` (
-  `FileId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `FileIndex` int(10) unsigned DEFAULT '0',
-  `JobId` int(10) unsigned NOT NULL,
-  `PathId` int(10) unsigned NOT NULL,
-  `FilenameId` int(10) unsigned NOT NULL,
-  `MarkId` int(10) unsigned DEFAULT '0',
-  `LStat` tinyblob NOT NULL,
-  `MD5` tinyblob,
-  PRIMARY KEY (`FileId`),
-  KEY `JobId` (`JobId`),
-  KEY `JobId_2` (`JobId`,`PathId`,`FilenameId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `File`
 --
 
 LOCK TABLES `File` WRITE;
 /*!40000 ALTER TABLE `File` DISABLE KEYS */;
-INSERT INTO `File` VALUES (1,1,1,1,1,0,'A A IH/ B A A A F A A BLc/sV BLc/sU BLc/sJ A A M','VSp/FiSf2PuSapcyRH+Y5Q'),(2,2,1,1,2,0,'A A IH/ B A A A G A A BLc/sm BLc/sk BLc/sJ A A M','LjV+KBbOc7BatBb0HOTueQ'),(3,3,1,1,3,0,'A A EH/ B A A A A A A BLc/s7 BLc/sd BLc/r3 A A M','0'),(4,5,1,2,3,0,'A A EH/ B A A A A A A BLc/s7 BLc/s7 BLc/s1 A A M','0'),(5,4,1,2,4,0,'A A IH/ B A A A E A A BLc/ry BLc/rx BLc/rn A A M','BWV1fAwlAjQ3rzB+FJKQ9A');
+INSERT INTO `File` VALUES (1,1,1,1,1,0,0,'A A IH/ B A A A F A A BLc/sV BLc/sU BLc/sJ A A M','VSp/FiSf2PuSapcyRH+Y5Q'),(2,2,1,1,2,0,0,'A A IH/ B A A A G A A BLc/sm BLc/sk BLc/sJ A A M','LjV+KBbOc7BatBb0HOTueQ'),(3,3,1,1,3,0,0,'A A EH/ B A A A A A A BLc/s7 BLc/sd BLc/r3 A A M','0'),(4,5,1,2,3,0,0,'A A EH/ B A A A A A A BLc/s7 BLc/s7 BLc/s1 A A M','0'),(5,4,1,2,4,0,0,'A A IH/ B A A A E A A BLc/ry BLc/rx BLc/rn A A M','BWV1fAwlAjQ3rzB+FJKQ9A');
 /*!40000 ALTER TABLE `File` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `FileSet`
---
-
-DROP TABLE IF EXISTS `FileSet`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `FileSet` (
-  `FileSetId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `FileSet` tinyblob NOT NULL,
-  `MD5` tinyblob,
-  `CreateTime` datetime DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`FileSetId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `FileSet`
@@ -206,20 +45,6 @@ INSERT INTO `FileSet` VALUES (1,'fileset.test.win32','QHQzR5+5K4VtExdbNH+AhB', N
 UNLOCK TABLES;
 
 --
--- Table structure for table `Filename`
---
-
-DROP TABLE IF EXISTS `Filename`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Filename` (
-  `FilenameId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` blob NOT NULL,
-  PRIMARY KEY (`FilenameId`),
-  KEY `Name` (`Name`(255))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Filename`
 --
 
@@ -230,45 +55,6 @@ INSERT INTO `Filename` VALUES (1,'file.txt.txt'),(2,'Текстовый доку
 UNLOCK TABLES;
 
 --
--- Table structure for table `Job`
---
-
-DROP TABLE IF EXISTS `Job`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Job` (
-  `JobId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Job` tinyblob NOT NULL,
-  `Name` tinyblob NOT NULL,
-  `Type` binary(1) NOT NULL,
-  `Level` binary(1) NOT NULL,
-  `ClientId` int(11) DEFAULT '0',
-  `JobStatus` binary(1) NOT NULL,
-  `SchedTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `StartTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `EndTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `RealEndTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `JobTDate` bigint(20) unsigned DEFAULT '0',
-  `VolSessionId` int(10) unsigned DEFAULT '0',
-  `VolSessionTime` int(10) unsigned DEFAULT '0',
-  `JobFiles` int(10) unsigned DEFAULT '0',
-  `JobBytes` bigint(20) unsigned DEFAULT '0',
-  `ReadBytes` bigint(20) unsigned DEFAULT '0',
-  `JobErrors` int(10) unsigned DEFAULT '0',
-  `JobMissingFiles` int(10) unsigned DEFAULT '0',
-  `PoolId` int(10) unsigned DEFAULT '0',
-  `FileSetId` int(10) unsigned DEFAULT '0',
-  `PriorJobId` int(10) unsigned DEFAULT '0',
-  `PurgedFiles` tinyint(4) DEFAULT '0',
-  `HasBase` tinyint(4) DEFAULT '0',
-  `HasCache` tinyint(4) DEFAULT '0',
-  `Reviewed` tinyint(4) DEFAULT '0',
-  `Comment` blob,
-  PRIMARY KEY (`JobId`),
-  KEY `Name` (`Name`(128))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Job`
 --
 
@@ -277,81 +63,12 @@ LOCK TABLES `Job` WRITE;
 INSERT INTO `Job` VALUES (1,'job.name.test.win32.2010-02-11_15.00.15_03','job.name.test.win32','B','F',2,'T',
 NOW() - INTERVAL 1 DAY,
 NOW() - INTERVAL 1 DAY,
-NOW(), 
+NOW(),
 NOW(),
 UNIX_TIMESTAMP(),
 1,1265893206,5,803,1587,0,0,1,1,0,0,0,0,0,NULL);
 /*!40000 ALTER TABLE `Job` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `JobHisto`
---
-
-DROP TABLE IF EXISTS `JobHisto`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `JobHisto` (
-  `JobId` int(10) unsigned NOT NULL,
-  `Job` tinyblob NOT NULL,
-  `Name` tinyblob NOT NULL,
-  `Type` binary(1) NOT NULL,
-  `Level` binary(1) NOT NULL,
-  `ClientId` int(11) DEFAULT '0',
-  `JobStatus` binary(1) NOT NULL,
-  `SchedTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `StartTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `EndTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `RealEndTime` datetime DEFAULT '0000-00-00 00:00:00',
-  `JobTDate` bigint(20) unsigned DEFAULT '0',
-  `VolSessionId` int(10) unsigned DEFAULT '0',
-  `VolSessionTime` int(10) unsigned DEFAULT '0',
-  `JobFiles` int(10) unsigned DEFAULT '0',
-  `JobBytes` bigint(20) unsigned DEFAULT '0',
-  `ReadBytes` bigint(20) unsigned DEFAULT '0',
-  `JobErrors` int(10) unsigned DEFAULT '0',
-  `JobMissingFiles` int(10) unsigned DEFAULT '0',
-  `PoolId` int(10) unsigned DEFAULT '0',
-  `FileSetId` int(10) unsigned DEFAULT '0',
-  `PriorJobId` int(10) unsigned DEFAULT '0',
-  `PurgedFiles` tinyint(4) DEFAULT '0',
-  `HasBase` tinyint(4) DEFAULT '0',
-  `HasCache` tinyint(4) DEFAULT '0',
-  `Reviewed` tinyint(4) DEFAULT '0',
-  `Comment` blob,
-  KEY `StartTime` (`StartTime`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `JobHisto`
---
-
-LOCK TABLES `JobHisto` WRITE;
-/*!40000 ALTER TABLE `JobHisto` DISABLE KEYS */;
-/*!40000 ALTER TABLE `JobHisto` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `JobMedia`
---
-
-DROP TABLE IF EXISTS `JobMedia`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `JobMedia` (
-  `JobMediaId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `JobId` int(10) unsigned NOT NULL,
-  `MediaId` int(10) unsigned NOT NULL,
-  `FirstIndex` int(10) unsigned DEFAULT '0',
-  `LastIndex` int(10) unsigned DEFAULT '0',
-  `StartFile` int(10) unsigned DEFAULT '0',
-  `EndFile` int(10) unsigned DEFAULT '0',
-  `StartBlock` int(10) unsigned DEFAULT '0',
-  `EndBlock` int(10) unsigned DEFAULT '0',
-  `VolIndex` int(10) unsigned DEFAULT '0',
-  PRIMARY KEY (`JobMediaId`),
-  KEY `JobId` (`JobId`,`MediaId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `JobMedia`
@@ -364,73 +81,6 @@ INSERT INTO `JobMedia` VALUES (1,1,1,1,5,0,0,206,2374,1);
 UNLOCK TABLES;
 
 --
--- Table structure for table `Location`
---
-
-DROP TABLE IF EXISTS `Location`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Location` (
-  `LocationId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Location` tinyblob NOT NULL,
-  `Cost` int(11) DEFAULT '0',
-  `Enabled` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`LocationId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Location`
---
-
-LOCK TABLES `Location` WRITE;
-/*!40000 ALTER TABLE `Location` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Location` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `LocationLog`
---
-
-DROP TABLE IF EXISTS `LocationLog`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `LocationLog` (
-  `LocLogId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Date` datetime DEFAULT '0000-00-00 00:00:00',
-  `Comment` blob NOT NULL,
-  `MediaId` int(10) unsigned DEFAULT '0',
-  `LocationId` int(10) unsigned DEFAULT '0',
-  `NewVolStatus` enum('Full','Archive','Append','Recycle','Purged','Read-Only','Disabled','Error','Busy','Used','Cleaning') NOT NULL,
-  `NewEnabled` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`LocLogId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `LocationLog`
---
-
-LOCK TABLES `LocationLog` WRITE;
-/*!40000 ALTER TABLE `LocationLog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `LocationLog` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Log`
---
-
-DROP TABLE IF EXISTS `Log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Log` (
-  `LogId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `JobId` int(10) unsigned DEFAULT '0',
-  `Time` datetime DEFAULT '0000-00-00 00:00:00',
-  `LogText` blob NOT NULL,
-  PRIMARY KEY (`LogId`),
-  KEY `JobId` (`JobId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Log`
 --
 
@@ -441,87 +91,18 @@ INSERT INTO `Log` VALUES (1,1,'2010-02-11 15:00:15','main.dir JobId 1: No prior 
 UNLOCK TABLES;
 
 --
--- Table structure for table `Media`
---
-
-DROP TABLE IF EXISTS `Media`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Media` (
-  `MediaId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `VolumeName` tinyblob NOT NULL,
-  `Slot` int(11) DEFAULT '0',
-  `PoolId` int(10) unsigned DEFAULT '0',
-  `MediaType` tinyblob NOT NULL,
-  `MediaTypeId` int(10) unsigned DEFAULT '0',
-  `LabelType` tinyint(4) DEFAULT '0',
-  `FirstWritten` datetime DEFAULT '0000-00-00 00:00:00',
-  `LastWritten` datetime DEFAULT '0000-00-00 00:00:00',
-  `LabelDate` datetime DEFAULT '0000-00-00 00:00:00',
-  `VolJobs` int(10) unsigned DEFAULT '0',
-  `VolFiles` int(10) unsigned DEFAULT '0',
-  `VolBlocks` int(10) unsigned DEFAULT '0',
-  `VolMounts` int(10) unsigned DEFAULT '0',
-  `VolBytes` bigint(20) unsigned DEFAULT '0',
-  `VolParts` int(10) unsigned DEFAULT '0',
-  `VolErrors` int(10) unsigned DEFAULT '0',
-  `VolWrites` int(10) unsigned DEFAULT '0',
-  `VolCapacityBytes` bigint(20) unsigned DEFAULT '0',
-  `VolStatus` enum('Full','Archive','Append','Recycle','Purged','Read-Only','Disabled','Error','Busy','Used','Cleaning') NOT NULL,
-  `Enabled` tinyint(4) DEFAULT '1',
-  `Recycle` tinyint(4) DEFAULT '0',
-  `ActionOnPurge` tinyint(4) DEFAULT '0',
-  `VolRetention` bigint(20) unsigned DEFAULT '0',
-  `VolUseDuration` bigint(20) unsigned DEFAULT '0',
-  `MaxVolJobs` int(10) unsigned DEFAULT '0',
-  `MaxVolFiles` int(10) unsigned DEFAULT '0',
-  `MaxVolBytes` bigint(20) unsigned DEFAULT '0',
-  `InChanger` tinyint(4) DEFAULT '0',
-  `StorageId` int(10) unsigned DEFAULT '0',
-  `DeviceId` int(10) unsigned DEFAULT '0',
-  `MediaAddressing` tinyint(4) DEFAULT '0',
-  `VolReadTime` bigint(20) unsigned DEFAULT '0',
-  `VolWriteTime` bigint(20) unsigned DEFAULT '0',
-  `EndFile` int(10) unsigned DEFAULT '0',
-  `EndBlock` int(10) unsigned DEFAULT '0',
-  `LocationId` int(10) unsigned DEFAULT '0',
-  `RecycleCount` int(10) unsigned DEFAULT '0',
-  `InitialWrite` datetime DEFAULT '0000-00-00 00:00:00',
-  `ScratchPoolId` int(10) unsigned DEFAULT '0',
-  `RecyclePoolId` int(10) unsigned DEFAULT '0',
-  `Comment` blob,
-  PRIMARY KEY (`MediaId`),
-  UNIQUE KEY `VolumeName` (`VolumeName`(128)),
-  KEY `PoolId` (`PoolId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Media`
 --
 
 LOCK TABLES `Media` WRITE;
 /*!40000 ALTER TABLE `Media` DISABLE KEYS */;
 INSERT INTO `Media` VALUES (1,'pool.file.7d.0001',0,1,'file.1',0,0,
-NOW() - INTERVAL 1 DAY, 
+NOW() - INTERVAL 1 DAY,
 NOW(),
 NOW() - INTERVAL 1 DAY,
 1,0,1,1,2375,0,0,2,0,'Append',1,1,0,604800,0,0,0,204800,0,1,0,0,0,28,0,2374,0,0,'0000-00-00 00:00:00',0,0,NULL);
 /*!40000 ALTER TABLE `Media` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `MediaType`
---
-
-DROP TABLE IF EXISTS `MediaType`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `MediaType` (
-  `MediaTypeId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `MediaType` tinyblob NOT NULL,
-  `ReadOnly` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`MediaTypeId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `MediaType`
@@ -534,20 +115,6 @@ INSERT INTO `MediaType` VALUES (1,'file.1',0),(2,'file.2',0),(3,'LTO1',0),(4,'LT
 UNLOCK TABLES;
 
 --
--- Table structure for table `Path`
---
-
-DROP TABLE IF EXISTS `Path`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Path` (
-  `PathId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Path` blob NOT NULL,
-  PRIMARY KEY (`PathId`),
-  KEY `Path` (`Path`(255))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Path`
 --
 
@@ -556,91 +123,6 @@ LOCK TABLES `Path` WRITE;
 INSERT INTO `Path` VALUES (1,'c:/win32-test/Новая \'папка\'/'),(2,'c:/win32-test/');
 /*!40000 ALTER TABLE `Path` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `PathHierarchy`
---
-
-DROP TABLE IF EXISTS `PathHierarchy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `PathHierarchy` (
-  `PathId` int(11) NOT NULL,
-  `PPathId` int(11) NOT NULL,
-  PRIMARY KEY (`PathId`),
-  KEY `pathhierarchy_ppathid` (`PPathId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `PathHierarchy`
---
-
-LOCK TABLES `PathHierarchy` WRITE;
-/*!40000 ALTER TABLE `PathHierarchy` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PathHierarchy` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `PathVisibility`
---
-
-DROP TABLE IF EXISTS `PathVisibility`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `PathVisibility` (
-  `PathId` int(11) NOT NULL,
-  `JobId` int(11) NOT NULL,
-  `Size` bigint(20) DEFAULT '0',
-  `Files` int(11) DEFAULT '0',
-  PRIMARY KEY (`JobId`,`PathId`),
-  KEY `pathvisibility_jobid` (`JobId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `PathVisibility`
---
-
-LOCK TABLES `PathVisibility` WRITE;
-/*!40000 ALTER TABLE `PathVisibility` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PathVisibility` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Pool`
---
-
-DROP TABLE IF EXISTS `Pool`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Pool` (
-  `PoolId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` tinyblob NOT NULL,
-  `NumVols` int(10) unsigned DEFAULT '0',
-  `MaxVols` int(10) unsigned DEFAULT '0',
-  `UseOnce` tinyint(4) DEFAULT '0',
-  `UseCatalog` tinyint(4) DEFAULT '0',
-  `AcceptAnyVolume` tinyint(4) DEFAULT '0',
-  `VolRetention` bigint(20) unsigned DEFAULT '0',
-  `VolUseDuration` bigint(20) unsigned DEFAULT '0',
-  `MaxVolJobs` int(10) unsigned DEFAULT '0',
-  `MaxVolFiles` int(10) unsigned DEFAULT '0',
-  `MaxVolBytes` bigint(20) unsigned DEFAULT '0',
-  `AutoPrune` tinyint(4) DEFAULT '0',
-  `Recycle` tinyint(4) DEFAULT '0',
-  `ActionOnPurge` tinyint(4) DEFAULT '0',
-  `PoolType` enum('Backup','Copy','Cloned','Archive','Migration','Scratch') NOT NULL,
-  `LabelType` tinyint(4) DEFAULT '0',
-  `LabelFormat` tinyblob,
-  `Enabled` tinyint(4) DEFAULT '1',
-  `ScratchPoolId` int(10) unsigned DEFAULT '0',
-  `RecyclePoolId` int(10) unsigned DEFAULT '0',
-  `NextPoolId` int(10) unsigned DEFAULT '0',
-  `MigrationHighBytes` bigint(20) unsigned DEFAULT '0',
-  `MigrationLowBytes` bigint(20) unsigned DEFAULT '0',
-  `MigrationTime` bigint(20) unsigned DEFAULT '0',
-  PRIMARY KEY (`PoolId`),
-  UNIQUE KEY `Name` (`Name`(128))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Pool`
@@ -653,44 +135,6 @@ INSERT INTO `Pool` VALUES (1,'pool.file.7d',1,0,0,1,0,604800,0,0,0,204800,1,1,0,
 UNLOCK TABLES;
 
 --
--- Table structure for table `Status`
---
-
-DROP TABLE IF EXISTS `Status`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Status` (
-  `JobStatus` char(1) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  `JobStatusLong` blob,
-  `Severity` int(11) DEFAULT NULL,
-  PRIMARY KEY (`JobStatus`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Status`
---
-
-LOCK TABLES `Status` WRITE;
-/*!40000 ALTER TABLE `Status` DISABLE KEYS */;
-INSERT INTO `Status` VALUES ('C','Created, not yet running',15),('R','Running',15),('B','Blocked',15),('T','Completed successfully',10),('E','Terminated with errors',25),('e','Non-fatal error',20),('f','Fatal error',100),('D','Verify found differences',15),('A','Canceled by user',90),('F','Waiting for Client',15),('S','Waiting for Storage daemon',15),('m','Waiting for new media',15),('M','Waiting for media mount',15),('s','Waiting for storage resource',15),('j','Waiting for job resource',15),('c','Waiting for client resource',15),('d','Waiting on maximum jobs',15),('t','Waiting on start time',15),('p','Waiting on higher priority jobs',15),('i','Doing batch insert file records',15),('a','SD despooling attributes',15);
-/*!40000 ALTER TABLE `Status` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Storage`
---
-
-DROP TABLE IF EXISTS `Storage`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Storage` (
-  `StorageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` tinyblob NOT NULL,
-  `AutoChanger` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`StorageId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `Storage`
 --
 
@@ -700,50 +144,6 @@ INSERT INTO `Storage` VALUES (1,'storage.file.1',0),(2,'storage.file.2',0),(3,'L
 /*!40000 ALTER TABLE `Storage` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `UnsavedFiles`
---
-
-DROP TABLE IF EXISTS `UnsavedFiles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `UnsavedFiles` (
-  `UnsavedId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `JobId` int(10) unsigned NOT NULL,
-  `PathId` int(10) unsigned NOT NULL,
-  `FilenameId` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`UnsavedId`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `UnsavedFiles`
---
-
-LOCK TABLES `UnsavedFiles` WRITE;
-/*!40000 ALTER TABLE `UnsavedFiles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `UnsavedFiles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Version`
---
-
-DROP TABLE IF EXISTS `Version`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-CREATE TABLE `Version` (
-  `VersionId` int(12) unsigned NOT NULL
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Version`
---
-
-LOCK TABLES `Version` WRITE;
-/*!40000 ALTER TABLE `Version` DISABLE KEYS */;
-INSERT INTO `Version` VALUES (12);
-/*!40000 ALTER TABLE `Version` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

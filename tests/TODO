@@ -1,0 +1,34 @@
+
+
+Zend Framework 1 applications currently, and possibly for quite some time, only function properly using PHPUnit 3.5.x.
+Please see downgrade phpunit 3.6 to 3.5.15 on how to downgrade to 3.5.
+Zend Framework 2 will support the current version of PHPUnit again.
+
+pear config-set http_proxy http://username:password@yourproxy:80
+
+phpunit --version
+
+pear uninstall phpunit/PHPUnit_Selenium
+pear uninstall phpunit/PHPUnit
+pear uninstall phpunit/DbUnit
+pear uninstall phpunit/PHP_CodeCoverage
+pear uninstall phpunit/File_Iterator
+pear uninstall phpunit/PHP_Timer
+pear uninstall phpunit/PHPUnit_MockObject
+pear uninstall phpunit/Text_Template
+pear uninstall phpunit/PHPUnit_Selenium
+pear uninstall pear.symfony-project.com/YAML
+pear uninstall phpunit/PHP_TokenStream
+
+pear install --alldeps pear.symfony-project.com/YAML-1.0.2
+pear install --alldeps phpunit/PHPUnit_Selenium-1.0.1
+pear install --alldeps phpunit/Text_Template-1.0.0
+pear install --alldeps phpunit/PHPUnit_MockObject-1.0.3
+pear install --alldeps phpunit/PHP_Timer-1.0.0
+pear install --alldeps phpunit/File_Iterator-1.2.3
+pear install --alldeps phpunit/PHP_TokenStream-1.0.1
+pear install --alldeps phpunit/PHP_CodeCoverage-1.0.2
+pear install --alldeps phpunit/DbUnit-1.0.0
+pear install --alldeps phpunit/PHPUnit-3.5.15
+
+

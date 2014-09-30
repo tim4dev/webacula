@@ -2,7 +2,7 @@
 #
 # Prepare Bacula environment and run simple backups
 #
-# @author Yuri Timofeev <tim4dev@gmail.com>
+# @author Yuriy Timofeev <tim4dev@gmail.com>
 # @package webacula
 # @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
 #
@@ -13,8 +13,8 @@ then
 	exit
 fi
 
-BCONSOLE="/sbin/bconsole"
-BACULADIR="etc/bacula"
+BCONSOLE="/opt/bacula/sbin/bconsole"
+BACULADIR="opt/bacula/etc"
 TMPDIR="/tmp/webacula"
 BASEDIR=`pwd`
 INSTALL_DIR="../../install/"
@@ -187,11 +187,11 @@ cd ${BASEDIR}
 
 my_log "Testing Configuration Files ..."
 
-/sbin/bacula-dir -t -c /${BACULADIR}/bacula-dir.conf
+/opt/bacula/sbin/bacula-dir -t -c /${BACULADIR}/bacula-dir.conf
 my_check_rc
-/sbin/bacula-fd  -t -c /${BACULADIR}/bacula-fd.conf
+/opt/bacula/sbin/bacula-fd  -t -c /${BACULADIR}/bacula-fd.conf
 my_check_rc
-/sbin/bacula-sd  -t -c /${BACULADIR}/bacula-sd.conf
+/opt/bacula/sbin/bacula-sd  -t -c /${BACULADIR}/bacula-sd.conf
 my_check_rc
 ${BCONSOLE}   -t -c /${BACULADIR}/bconsole.conf
 my_check_rc
@@ -236,7 +236,7 @@ sleep 3
 
 my_log "Run backup 1 ..."
 
-${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
+${BCONSOLE} -c /$BACULADIR/bconsole.conf<<END_OF_DATA
 @output /dev/null
 messages
 @output ${TMPDIR}/log/01.log
@@ -264,7 +264,7 @@ dd if=/dev/zero of="${TMPDIR}/test/2/file_new23.dat"  bs=1024 count=400 > /dev/n
 dd if=/dev/zero of="${TMPDIR}/test/3/file_new31.dat"  bs=1024 count=500 > /dev/null 2>&1
 
 
-${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
+${BCONSOLE} -c /$BACULADIR/bconsole.conf<<END_OF_DATA
 @output /dev/null
 messages
 @output ${TMPDIR}/log/02.log
@@ -291,7 +291,7 @@ dd if=/dev/zero of="${TMPDIR}/test/1/file_new12.dat"  bs=1024 count=350 > /dev/n
 dd if=/dev/zero of="${TMPDIR}/test/2/file_new24.dat"  bs=1024 count=450 > /dev/null 2>&1
 dd if=/dev/zero of="${TMPDIR}/test/3/file_new32.dat"  bs=1024 count=550 > /dev/null 2>&1
 
-${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
+${BCONSOLE} -c /$BACULADIR/bconsole.conf<<END_OF_DATA
 @output /dev/null
 messages
 @output ${TMPDIR}/log/03.log
@@ -320,7 +320,7 @@ my_check_log "${TMPDIR}/log/03.log" "backup 3"
 
 
 my_log "Run backup 4 to autochanger ..."
-${BCONSOLE} -c /etc/bacula/bconsole.conf<<END_OF_DATA
+${BCONSOLE} -c /$BACULADIR/bconsole.conf<<END_OF_DATA
 @output /dev/null
 messages
 @output ${TMPDIR}/log/04.log

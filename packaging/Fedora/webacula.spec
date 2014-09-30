@@ -1,5 +1,5 @@
 Name:          webacula
-Version:       5.5.2
+Version:       7.0.0
 Release:       1%{?dist}
 Summary:       Web interface of a Bacula backup system
 Summary(ru):   Веб интерфейс для Bacula backup system

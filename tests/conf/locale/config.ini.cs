@@ -16,8 +16,8 @@ locale = "cs"
 
 ; see INSTALL file for details
 bacula.sudo = "/usr/bin/sudo"
-bacula.bconsole = "/sbin/bconsole"
-bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
+bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 
 ; Directory "tmpdir" which will be saved the file, which contains a list of files to restore.
 ; This directory and files in it should be available to read the Director service.

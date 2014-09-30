@@ -33,7 +33,7 @@ else
 fi
 
 
-cd /etc/bacula
+cd /opt/bacula/etc
 ./bacula stop
 sleep 3
 

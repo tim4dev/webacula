@@ -2,6 +2,21 @@
 #
 # shell script to create Bacula PostgreSQL tables
 #
+#
+#  Bacula® - The Network Backup Solution
+#
+#  Copyright (C) 2000-2014 Free Software Foundation Europe e.V.
+#
+#  The main author of Bacula is Kern Sibbald, with contributions from many
+#  others, a complete list can be found in the file AUTHORS.
+#
+#  You may use this file and others of this release according to the
+#  license defined in the LICENSE file, which includes the Affero General
+#  Public License, v3.0 ("AGPLv3") and some additional permissions and
+#  terms pursuant to its AGPLv3 Section 7.
+#
+#  Bacula® is a registered trademark of Kern Sibbald.
+#
 
 db_name="bacula"
 
@@ -9,70 +24,58 @@ psql -q -f - -d ${db_name} $* <<END-OF-DATA
 
 SET client_min_messages=WARNING;
 
-CREATE TABLE filename
+CREATE TABLE Filename
 (
-    filenameid	      serial	  not null,
-    name	      text	  not null,
-    primary key (filenameid)
+    FilenameId        serial      not null,
+    Name          text    not null,
+    primary key (FilenameId)
 );
 
-ALTER TABLE filename ALTER COLUMN name SET STATISTICS 1000;
-CREATE UNIQUE INDEX filename_name_idx on filename (name);
+ALTER TABLE Filename ALTER COLUMN Name SET STATISTICS 1000;
+CREATE UNIQUE INDEX filename_name_idx on Filename (Name);
 
-CREATE TABLE path
+CREATE TABLE Path
 (
-    pathid	      serial	  not null,
-    path	      text	  not null,
-    primary key (pathid)
+    PathId        serial      not null,
+    Path          text    not null,
+    primary key (PathId)
 );
 
-ALTER TABLE path ALTER COLUMN path SET STATISTICS 1000;
-CREATE UNIQUE INDEX path_name_idx on path (path);
+ALTER TABLE Path ALTER COLUMN Path SET STATISTICS 1000;
+CREATE UNIQUE INDEX path_name_idx on Path (Path);
 
-CREATE TABLE file
+
+CREATE TABLE File
 (
-    fileid	      bigserial	  not null,
-    fileindex	      integer	  not null  default 0,
-    jobid	      integer	  not null,
-    pathid	      integer	  not null,
-    filenameid	      integer	  not null,
-    markid	      integer	  not null  default 0,
-    lstat	      text	  not null,
-    md5 	      text	  not null,
-    primary key (fileid)
+    FileId        bigserial   not null,
+    FileIndex         integer     not null  default 0,
+    JobId         integer     not null,
+    PathId        integer     not null,
+    FilenameId        integer     not null,
+    DeltaSeq          smallint    not null  default 0,
+    MarkId        integer     not null  default 0,
+    LStat         text    not null,
+    Md5           text    not null,
+    primary key (FileId)
 );
 
 CREATE INDEX file_jpfid_idx on File (JobId, PathId, FilenameId);
+CREATE INDEX file_jobid_idx on File (JobId);
 
--- If you need performances, you can remove this index
--- the database engine is able to use the composite index
--- to find all records with a given JobId
-CREATE INDEX file_jobid_idx on file(jobid);
 
---
--- Add this if you have a good number of job
--- that run at the same time
--- ALTER SEQUENCE file_fileid_seq CACHE 1000;
-
---
--- Possibly add one or more of the following indexes
---  if your Verifies are too slow.
---
--- CREATE INDEX file_pathid_idx on file(pathid);
--- CREATE INDEX file_filenameid_idx on file(filenameid);
 
 CREATE TABLE Job
 (
-    JobId             serial      not null,
-    Job               text        not null,
-    Name              text        not null,
-    Type              char(1)     not null,
-    Level             char(1)     not null,
+    JobId         serial      not null,
+    Job           text    not null,
+    Name          text    not null,
+    Type          char(1)     not null,
+    Level         char(1)     not null,
     ClientId          integer     default 0,
     JobStatus         char(1)     not null,
     SchedTime         timestamp   without time zone,
     StartTime         timestamp   without time zone,
-    EndTime           timestamp   without time zone,
+    EndTime       timestamp   without time zone,
     RealEndTime       timestamp   without time zone,
     JobTDate          bigint      default 0,
     VolSessionId      integer     default 0,
@@ -82,20 +85,22 @@ CREATE TABLE Job
     ReadBytes         bigint      default 0,
     JobErrors         integer     default 0,
     JobMissingFiles   integer     default 0,
-    PoolId            integer     default 0,
+    PoolId        integer     default 0,
     FilesetId         integer     default 0,
     PriorJobid        integer     default 0,
     PurgedFiles       smallint    default 0,
-    HasBase           smallint    default 0,
+    HasBase       smallint    default 0,
     HasCache          smallint    default 0,
     Reviewed          smallint    default 0,
-    Comment           text,
+    Comment       text,
     primary key (jobid)
 );
 
 CREATE INDEX job_name_idx on job (name);
 
--- Create a table like Job for long term statistics 
+
+
+-- Create a table like Job for long term statistics
 CREATE TABLE JobHisto (LIKE Job);
 CREATE INDEX jobhisto_idx ON JobHisto ( StartTime );
 
@@ -187,9 +192,10 @@ CREATE TABLE media
     primary key (mediaid)
 );
 
-create unique index media_volumename_id on media (volumename);
+CREATE UNIQUE INDEX media_volumename_id ON Media (VolumeName);
+CREATE INDEX media_poolid_idx ON Media (PoolId);
 
- 
+
 CREATE TABLE MediaType (
    MediaTypeId SERIAL,
    MediaType TEXT NOT NULL,
@@ -241,7 +247,7 @@ CREATE TABLE pool
     autoprune	      smallint	  default 0,
     recycle	      smallint	  default 0,
     ActionOnPurge     smallint    default 0,
-    pooltype	      text			    
+    pooltype	      text
       check (pooltype in ('Backup','Copy','Cloned','Archive','Migration','Scratch')),
     labeltype	      integer	  default 0,
     labelformat       text	  not null,
@@ -329,7 +335,7 @@ CREATE TABLE unsavedfiles
     primary key (UnsavedId)
 );
 
-CREATE TABLE CDImages 
+CREATE TABLE CDImages
 (
    MediaId integer not null,
    LastBurn timestamp without time zone not null,
@@ -344,7 +350,7 @@ CREATE TABLE PathHierarchy
      CONSTRAINT pathhierarchy_pkey PRIMARY KEY (PathId)
 );
 
-CREATE INDEX pathhierarchy_ppathid 
+CREATE INDEX pathhierarchy_ppathid
           ON PathHierarchy (PPathId);
 
 CREATE TABLE PathVisibility
@@ -413,13 +419,13 @@ INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
 INSERT INTO Status (JobStatus,JobStatusLong,Severity) VALUES
    ('i', 'Doing batch insert file records',15);
 
-INSERT INTO Version (VersionId) VALUES (12);
+INSERT INTO Version (VersionId) VALUES (14);
 
 -- Make sure we have appropriate permissions
 
 END-OF-DATA
 pstat=$?
-if test $pstat = 0; 
+if test $pstat = 0;
 then
    echo "PostgreSql : creation of Bacula tables succeeded."
 else

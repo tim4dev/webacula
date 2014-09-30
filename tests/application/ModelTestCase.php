@@ -15,7 +15,7 @@ class ModelTestCase extends PHPUnit_Framework_TestCase {
           'role_id'   => 1,
           'role_name' => 'root_role'
         );
-        // wtite session
+        // write session
         $auth = Zend_Auth::getInstance();
         $storage = $auth->getStorage();
         $storage->write($data);

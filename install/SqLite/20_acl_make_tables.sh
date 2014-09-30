@@ -38,7 +38,7 @@ CREATE TABLE webacula_roles (
     description TEXT,
     inherit_id  integer,
     primary key (id)
-);    
+);
 
 
 CREATE TABLE webacula_resources (
@@ -165,12 +165,15 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES (260, 'release',
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (270, 'reload',      'Reload conf file');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (280, 'run',         'Run a job');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (290, 'status',      'Report status');
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (295, 'stop',        'Stop a job');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (300, 'setdebug',    'Sets debug level');
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (305, 'setbandwidth','Sets bandwidth');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (310, 'setip',       'Sets new client address, if authorized');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (320, 'show',        'Show resource records');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (330, 'sqlquery',    'Use SQL to query catalog');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (340, 'time',        'Print current time');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (350, 'trace',       'Turn on/off trace to file');
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (355, 'truncate',    'Truncate one or more Volumes');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (360, 'unmount',     'Unmount storage');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (370, 'umount',      'Umount - for old-time Unix guys, see unmount');
 INSERT INTO webacula_dt_commands (id, name, description) VALUES (380, 'update',      'Update volume, pool or stats');
@@ -242,7 +245,7 @@ CREATE        INDEX webacula_where_acl_idx2 ON webacula_where_acl(id, order_acl)
 
 
 -- 'root_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1); 
+INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
@@ -262,7 +265,7 @@ INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1,
 
 -- PHP session storage
 CREATE TABLE webacula_php_session (
-    id       char(32),
+    id       char(64),
     modified integer,
     lifetime integer,
     data_session TEXT,

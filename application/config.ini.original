@@ -1,15 +1,15 @@
 ;
 ; config.ini
-; Webacula 5.5
+; Webacula 7.0.0
 ;
 
 [general]
 ;; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE  
-db.adapter = PDO_MYSQL
-db.config.host = localhost
-db.config.username = root
+db.adapter         = PDO_MYSQL
+db.config.host     = localhost
+db.config.username = bacula
 db.config.password =
-db.config.dbname = bacula
+db.config.dbname   = bacula
 ;; for Sqlite db.config.dbname = "/full patch/bacula.db"
 
 ;; see http://www.php.net/timezones
@@ -21,9 +21,9 @@ def.timezone = "Europe/Minsk"
 ; locale = "en"
 
 ;; see INSTALL file for details
-bacula.sudo = "/usr/bin/sudo"
-bacula.bconsole = "/sbin/bconsole"
-bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
+bacula.sudo        = "/usr/bin/sudo"
+bacula.bconsole    = "/opt/bacula/sbin/bconsole"
+bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 
 ;; time to live data (session and temporary data tables) for restore files (sec)
 ; default = 1h
