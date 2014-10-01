@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright 2009, 2010, 2011, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
+ * @package webacula
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ */
+
 require_once dirname(__FILE__) . '/application/bootstrap.php';
 require_once dirname(__FILE__) . '/application/controllers/AllTests.php';
 require_once dirname(__FILE__) . '/application/models/AllTests.php';

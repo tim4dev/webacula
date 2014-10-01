@@ -1,12 +1,19 @@
 
 
-Zend Framework 1 applications currently, and possibly for quite some time, only function properly using PHPUnit 3.5.x.
-Please see downgrade phpunit 3.6 to 3.5.15 on how to downgrade to 3.5.
-Zend Framework 2 will support the current version of PHPUnit again.
+Tests not worked under Zend Framework > 1.12.3
+Declaration of Zend_Test_PHPUnit_Constraint_DomQuery::fail() should be compatible with PHPUnit_Framework_Constraint::fail($other, $description, $not = false)
+
+
+---------------------------------------------------------------
+
+Zend Framework 1 only function properly using PHPUnit 3.5.x.
+Downgrade phpunit 3.6 to 3.5.15
+Zend Framework 2 will support the current version of PHPUnit.
 
 pear config-set http_proxy http://username:password@yourproxy:80
 
 phpunit --version
+PHPUnit 3.5.15
 
 yum erase php-phpunit-\*
 

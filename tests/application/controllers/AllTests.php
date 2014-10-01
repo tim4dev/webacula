@@ -1,10 +1,11 @@
 <?php
 /**
- * Copyright 2009, 2010 Yuri Timofeev tim4dev@gmail.com
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * Copyright 2009, 2010, 2011, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
+
 require_once dirname ( __FILE__ ) . '/IndexControllerTest.php';
 require_once dirname ( __FILE__ ) . '/JobControllerTest.php';
 require_once dirname ( __FILE__ ) . '/VolumeControllerTest.php';

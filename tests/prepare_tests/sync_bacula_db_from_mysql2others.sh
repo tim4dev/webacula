@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-# @author Yuri Timofeev <tim4dev@gmail.com>
+# @author Yuriy Timofeev <tim4dev@gmail.com>
 # @package webacula
 # @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
 #
@@ -63,7 +63,7 @@ fi
 
 
 
-createdb -T template0 -E SQL_ASCII bacula
+createdb --username=root -T template0 -E SQL_ASCII bacula
 if test $? -ne 0; then
    echo -en '\E[37;41m PostgreSql : creation of bacula database failed.'
    tput sgr0
@@ -71,7 +71,7 @@ if test $? -ne 0; then
    exit 2
 fi
 
-if psql -q -f - -d bacula <<END-OF-DATA
+if psql --username=root -q -f - -d bacula <<END-OF-DATA
 ALTER DATABASE bacula SET datestyle TO 'ISO, YMD';
 END-OF-DATA
 then

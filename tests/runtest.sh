@@ -2,9 +2,10 @@
 #
 #############################################################
 #
-# Main script for unit tests
-# 
-# @author Yuri Timofeev <tim4dev@gmail.com>
+# Main script for unit tests (see README)
+#
+# Copyright 2009, 2010, 2011, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+# @author Yuriy Timofeev <tim4dev@gmail.com>
 # @package webacula
 # @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License 
 #
@@ -102,7 +103,7 @@ echo "Main tests"
 echo -e "${LINE1}\n"
 # phpunit $* --configuration phpunit_report.xml --colors --stop-on-failure AllTests.php
 cp -f conf/config.ini.mysql  ../application/config.ini
-LANG=C phpunit --colors --stop-on-failure AllTests.php
+sudo LANG=C phpunit --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -126,7 +127,7 @@ echo -e "\n\n${LINE1}"
 echo "Test Postgresql"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.pgsql  ../application/config.ini
-LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger,restore-select-job-id --colors --stop-on-failure AllTests.php
+sudo LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger,restore-select-job-id --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -140,7 +141,7 @@ echo -e "\n\n${LINE1}"
 echo "Test Sqlite"
 echo -e "${LINE1}\n"
 cp -f conf/config.ini.sqlite  ../application/config.ini
-LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger,restore-select-job-id --colors --stop-on-failure AllTests.php
+sudo LANG=C phpunit --exclude-group job-nonreusable,use-bconsole,autochanger,restore-select-job-id --colors --stop-on-failure AllTests.php
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -150,6 +151,7 @@ fi
 cp -f ../application/config.ini.original  ../application/config.ini
 
 echo -e "\n\n"
-sh ./locale-test.sh
+sudo sh ./locale-test.sh
 
 sudo service postgresql stop
+

@@ -1,10 +1,11 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * Copyright 2009, 2010, 2011, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
+
 class WebaculaAclControllerTest extends ControllerTestCase
 {
     const ZF_pattern = '/Exception:|Warning:|Notice:|Call Stack/'; // Zend Framework

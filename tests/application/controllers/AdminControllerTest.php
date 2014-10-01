@@ -1,10 +1,11 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * Copyright 2009, 2010, 2011, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
+
 class AdminControllerTest extends ControllerTestCase
 {
     /**
@@ -119,7 +120,7 @@ class AdminControllerTest extends ControllerTestCase
          *      SQLSTATE[23505]: Unique violation: 7 ERROR: duplicate key value violates unique
          *      constraint "webacula_client_acl_idx1"
          */
-        $this->assertQueryContentRegex('div', '/Integrity constraint violation|duplicate key value violates unique/i');
+        $this->assertQueryContentRegex('div', '/Integrity constraint violation|Unique violation/i');
     }
 
 

@@ -1,10 +1,11 @@
 <?php
 /**
- * Copyright 2009, 2010, 2011, 2012 Yuri Timofeev <tim4dev@gmail.com>
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * Copyright 2009, 2010, 2011, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
+
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting( E_ALL | E_STRICT );
