@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.0.0' . ', build 2014.10.30');
+define('WEBACULA_VERSION', '7.0.0' . ', build 2014.10.01');
 define('BACULA_VERSION', 14); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
@@ -68,9 +68,10 @@ Zend_Loader::loadClass('Wbroles');
 
 // helpers
 Zend_Controller_Action_HelperBroker::addPrefix('MyClass_Action_Helper');
-// other my classes
+// other classes
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
+Zend_Loader::loadClass('MyClass_PasswordHash');
 Zend_Loader::loadClass('Version');
 
 // load all configuration sections and save to registry
@@ -112,9 +113,6 @@ $db_bacula = Zend_Db::factory($config->general->db->adapter, $params);
 Zend_Db_Table::setDefaultAdapter($db_bacula);
 Zend_Registry::set('db_bacula', $db_bacula);
 unset($params);
-
-// passwords salt
-Zend_Registry::set('db_salt', $config->general->db->salt);
 
 // setup controller, exceptions/errors handler
 $frontController = Zend_Controller_Front::getInstance();

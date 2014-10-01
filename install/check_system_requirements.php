@@ -2,7 +2,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011, 2014 Yuriy Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  * @abstract Check System Requirements
@@ -28,7 +28,7 @@
 	see also http://framework.zend.com/manual/ru/requirements.html
 */
 
-$PHPV   = '5.2.4';
+$PHPV   = '5.3.2';
 $MYSQLV = '5.0.0';
 $PGSQLV = '8.0.0';
 $SQLITEV= '3.0.0';

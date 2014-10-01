@@ -25,7 +25,6 @@ class AuthController extends Zend_Controller_Action
 {
     protected $defNamespace;
     protected $identity;
-    protected $salt;
     const MAX_LIFETIME = 1209600; // 14 days
 
 
@@ -51,7 +50,6 @@ class AuthController extends Zend_Controller_Action
         $auth    = Zend_Auth::getInstance();
         if ($ident   = $auth->getIdentity() )
             $this->identity = $ident;
-        $this->salt = Zend_Registry::get('db_salt');
     }
 
 
@@ -83,46 +81,18 @@ class AuthController extends Zend_Controller_Action
             /* Проверяем валидность данных формы */
             if ( $form->isValid($this->_getAllParams()) )
             {
-                $db = Zend_Registry::get('db_bacula');
-                /**
-                 * Настраиваем правила выборки пользователей из БД
-                 * имя таблицы, название поля с идентификатором пользователя, название поля пароля
-                 *
-                 * [ $zendDb = null], [string $tableName = null], [string $identityColumn = null],
-                 * [string $credentialColumn = null], [string $credentialTreatment = null])
-                 */
-                 $authAdapter = new Zend_Auth_Adapter_DbTable(
-                     $db,
-                     'webacula_users',
-                     'login',
-                     'pwd',
-                     '? AND active = 1' );
-                /* password hash */
-                $password = sha1 ($form->getValue('pwd') . $this->salt);
-                /* Передаем в адаптер данные пользователя */
-                $authAdapter->setIdentity($form->getValue('login'));
-                $authAdapter->setCredential($password);
-                /* Собственно, процесс аутентификации */
-                $auth = Zend_Auth::getInstance();
-                $resultAuth = $auth->authenticate($authAdapter);
-                /* Проверяем валидность результата */
-                if( $resultAuth->isValid() )
+                $users = new Wbusers();
+                $login = $form->getValue('login');
+                if( $users->checkPassword( $login, $form->getValue('pwd') ) )
                 {
-                    /* Пишем в сессию (default) необходимые нам данные (пароль обнуляем) */
+                    $user = $users->fetchUser($login);
+                    $user[0]['pwd'] = ''; // пароль обнуляем
+                    $user = (object)$user[0];
+                    /* Пишем в сессию (default) необходимые нам данные */
+                    $auth = Zend_Auth::getInstance();
                     $storage = $auth->getStorage();
-                    $data = $authAdapter->getResultRowObject(array(
-                        'id',
-                        'login',
-                        'role_id',
-                        'role_name',
-                        'email'
-                    ));
                     // find role name
-                    $table = new Wbroles();
-                    $row   = $table->find($data->role_id);
-                    if ($row->count() == 1)
-                        $data->role_name = $row[0]['name'];
-                    $storage->write($data);
+                    $storage->write( $user );
                     // обнуляем счетчик неудачных логинов
                     if (isset($this->defNamespace->numLoginFails))
                         $this->defNamespace->numLoginFails = 0;
@@ -132,8 +102,7 @@ class AuthController extends Zend_Controller_Action
                         Zend_Session::getSaveHandler()->setLifetime(self::MAX_LIFETIME);
                     }
                     // update user statistics
-                    $users = new Wbusers();
-                    $users->updateLoginStat($data->login);
+                    $users->updateLoginStat($user->login);
                     // goto home page
                     $this->_redirect('index/index');
                 } else {
@@ -235,12 +204,21 @@ Thanks! \n"),
                 {
                     // генерируем новый пароль
                     $new_password = md5( uniqid( rand() ) );
+                    /* password hash */
+                    $hasher = new MyClass_PasswordHash();
+                    $hash = $hasher->HashPassword( $new_password );
+                    if ( strlen($hash) < 20 ) {
+                        $this->view->msg = $this->view->translate->_('Internal error. Failed to hash new password');
+                        $this->render();
+                        return;
+                    }
+                    unset($hasher);
                     // высылаем пароль
                     $res = $this->emailForgotPassword($row->email, $row->name, $new_password);
                     if ( $res ) {
                         // сохраняем пароль в БД
                         $data = array(
-                            'pwd' => sha1($new_password . $this->salt)  // password hash
+                            'pwd' => $hash  // password hash
                         );
                         $where = $table->getAdapter()->quoteInto('id = ?', $row->id);
                         $table->update($data, $where);

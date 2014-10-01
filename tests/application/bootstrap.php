@@ -44,9 +44,10 @@ Zend_Loader::loadClass('Wbresources');
 Zend_Loader::loadClass('Wbroles');
 // helpers
 Zend_Controller_Action_HelperBroker::addPrefix('MyClass_Action_Helper');
-// other my classes
+// other classes
 Zend_Loader::loadClass('MyClass_HomebrewBase64');
 Zend_Loader::loadClass('MyClass_GaugeTime');
+Zend_Loader::loadClass('MyClass_PasswordHash');
 Zend_Loader::loadClass('Version');
 
 // load all configuration sections and save to registry
