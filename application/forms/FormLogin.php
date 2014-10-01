@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2010, 2014 Yuriy Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
@@ -26,7 +26,7 @@ class FormLogin extends Zend_Form
 {
 
 	protected $translate;
-    const MAX_LOGIN_ATTEMPT = 3;
+        const MAX_LOGIN_ATTEMPT = 3;
 	public  $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
 
 

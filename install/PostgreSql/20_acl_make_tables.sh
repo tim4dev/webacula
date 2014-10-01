@@ -14,7 +14,7 @@ SET client_min_messages=WARNING;
 CREATE TABLE webacula_users (
     id       SERIAL NOT NULL,
     login    varchar(50) UNIQUE NOT NULL,
-    pwd      varchar(50) NOT NULL,
+    pwd      varchar(256) NOT NULL,
     name     varchar(150),
     email    varchar(50),
     create_login timestamp without time zone,

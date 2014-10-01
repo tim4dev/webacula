@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2010, 2011, 2014 Yuriy Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
@@ -25,7 +25,8 @@ class AuthController extends Zend_Controller_Action
 {
     protected $defNamespace;
     protected $identity;
-    const MAX_LIFETIME = 864000; // 10 days
+    protected $salt;
+    const MAX_LIFETIME = 1209600; // 14 days
 
 
 
@@ -50,6 +51,7 @@ class AuthController extends Zend_Controller_Action
         $auth    = Zend_Auth::getInstance();
         if ($ident   = $auth->getIdentity() )
             $this->identity = $ident;
+        $this->salt = Zend_Registry::get('db_salt');
     }
 
 
@@ -89,25 +91,17 @@ class AuthController extends Zend_Controller_Action
                  * [ $zendDb = null], [string $tableName = null], [string $identityColumn = null],
                  * [string $credentialColumn = null], [string $credentialTreatment = null])
                  */
-                if ( Zend_Registry::get('DB_ADAPTER') == 'PDO_SQLITE') {
-                    // Sqlite do not have MD5 function
-                    $authAdapter = new Zend_Auth_Adapter_DbTable(
-                        $db,
-                        'webacula_users',
-                        'login',
-                        'pwd',
-                        '? AND active = 1' );
-                } else {
-                    $authAdapter = new Zend_Auth_Adapter_DbTable(
-                        $db,
-                        'webacula_users',
-                        'login',
-                        'pwd',
-                        'MD5(?) AND active = 1' );
-                }
+                 $authAdapter = new Zend_Auth_Adapter_DbTable(
+                     $db,
+                     'webacula_users',
+                     'login',
+                     'pwd',
+                     '? AND active = 1' );
+                /* password hash */
+                $password = sha1 ($form->getValue('pwd') . $this->salt);
                 /* Передаем в адаптер данные пользователя */
                 $authAdapter->setIdentity($form->getValue('login'));
-                $authAdapter->setCredential($form->getValue('pwd'));
+                $authAdapter->setCredential($password);
                 /* Собственно, процесс аутентификации */
                 $auth = Zend_Auth::getInstance();
                 $resultAuth = $auth->authenticate($authAdapter);
@@ -245,10 +239,8 @@ Thanks! \n"),
                     $res = $this->emailForgotPassword($row->email, $row->name, $new_password);
                     if ( $res ) {
                         // сохраняем пароль в БД
-                        if ( Zend_Registry::get('DB_ADAPTER') != 'PDO_SQLITE') // Sqlite do not have MD5 function
-                            $new_password = md5( $new_password );
                         $data = array(
-                            'pwd' => $new_password
+                            'pwd' => sha1($new_password . $this->salt)  // password hash
                         );
                         $where = $table->getAdapter()->quoteInto('id = ?', $row->id);
                         $table->update($data, $where);

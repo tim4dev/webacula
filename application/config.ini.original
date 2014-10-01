@@ -12,6 +12,9 @@ db.config.password =
 db.config.dbname   = bacula
 ;; for Sqlite db.config.dbname = "/opt/bacula/working/bacula.db"
 
+;; !!! CHANGE THIS !!!
+db.salt = '+geTWx@L+iO|2gB7pkkikK;%za^ZWC8e';
+
 ;; see http://www.php.net/timezones
 ; def.timezone = "UTC"
 def.timezone = "Europe/Minsk"

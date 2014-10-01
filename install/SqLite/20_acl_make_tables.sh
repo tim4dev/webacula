@@ -18,7 +18,7 @@ sqlite3 $db_name_sqlite <<END-OF-DATA
 CREATE TABLE webacula_users (
     id       integer not null,
     login    varchar(50) UNIQUE not null,
-    pwd      varchar(50) not null,
+    pwd      varchar(256) not null,
     name     varchar(150),
     email    varchar(50),
     create_login DATETIME NOT NULL,

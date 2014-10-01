@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright 2007, 2008, 2009, 2010, 2011, 2012 Yuri Timofeev <tim4dev@gmail.com>
+ * Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014 Yuriy Timofeev <tim4dev@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see http://www.gnu.org/licenses/
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
@@ -112,6 +112,9 @@ $db_bacula = Zend_Db::factory($config->general->db->adapter, $params);
 Zend_Db_Table::setDefaultAdapter($db_bacula);
 Zend_Registry::set('db_bacula', $db_bacula);
 unset($params);
+
+// passwords salt
+Zend_Registry::set('db_salt', $config->general->db->salt);
 
 // setup controller, exceptions/errors handler
 $frontController = Zend_Controller_Front::getInstance();
