@@ -29,6 +29,7 @@ $( document ).ready( function() {
 
     var arr_cmds = {
         'add':null,
+        'autodisplay':null,
         'automount':null,
         'cancel':null,
         'create':null,
@@ -42,13 +43,19 @@ $( document ).ready( function() {
         'messages':null,
         'memory':null,
         'mount':null,
+        'prune':null,
+        'purge':null,
+        'python':null,
+        'query':null,
         'restore':null,
         'relabel':null,
         'release':null,
         'reload':null,
         'run':null,
         'status':null,
+        'stop':null,
         'setdebug':null,
+        'setbandwidth':null,
         'show':null,
         'time':null,
         'trace':null,
@@ -56,13 +63,7 @@ $( document ).ready( function() {
         'umount':null,
         'use':null,
         'version':null,
-        'delete':null,
-        'prune':null,
-        'purge':null,
-        'python':null,
-        'setip':null,
-        'sqlquery':null,
-        'query':null
+        'wait':null
     };
 
     for( var cmd in arr_cmds ) {
