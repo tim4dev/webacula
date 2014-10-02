@@ -1,7 +1,7 @@
 <?php
 /**
  * 
- * Copyright 2007, 2008, 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2010 Yuriy Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2010 Yuriy Timofeev tim4dev@gmail.com
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  * 

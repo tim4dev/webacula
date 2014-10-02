@@ -606,7 +606,7 @@ After install, Webacula has two built in roles :
 </UL>
 
 <P>
-Users by whom the role <B>root_role</B> is assigned are superusers, they have all rights to all.
+Users who have the role <B>root_role</B> is assigned are superusers, they have all rights to all.
 This role cannot be deleted and the role name cannot be changed.
 
 <P>
@@ -627,40 +627,6 @@ Update from prior version
 <P>
 <B>IMPORTANT</B>. Now there is no separate Webacula database.
 All Webacula tables are allocated in a Bacula database and have a prefix<TT> webacula_</TT>.
-
-<P>
-Therefore, if you conducted Webacula <I>LogBook</I>, you need to take care to transfer <TT>wbLogBook</TT> table
-to a Bacula database in <TT>webacula_logbook</TT> table.
-
-<P>
-Precisely also transfer the data from Webacula database <TT>wbJobDesc</TT> table
-to Bacula database to table <TT>webacula_jobdesc</TT>.
-
-<P>
-For example
-
-<P>
-<PRE>
--- old Webacula database
-USE webacula;
-SELECT * FROM wbJobDesc INTO OUTFILE '/tmp/webacula_wbJobDesc';
-SELECT * FROM wbLogBook INTO OUTFILE '/tmp/webacula_wbLogBook';
-
--- now Bacula database
-USE bacula;
-LOAD DATA INFILE '/tmp/webacula_wbJobDesc' INTO TABLE webacula_jobdesc;
-LOAD DATA INFILE '/tmp/webacula_wbLogBook' INTO TABLE webacula_logbook;
-</PRE>
-
-<P>
-From a file <TT>config.ini</TT> delete from <TT>[webacula]</TT> sections lines with the connection
-description to a Webacula database.
-
-<P>
-Also remove <TT>tmpdir</TT> from <TT>config.ini</TT>, is not necessary now.
-
-<P>
-The script <TT>webacula_clean_tmp_files.sh</TT> is not necessary now.
 
 <P>
 
@@ -706,7 +672,7 @@ Update from 5.x to 7.x
 <P>
 Now the Webacula Users password hasher implements the 
 <A NAME="tex2html9"
-  HREF="http://www.openwall.com/phpass/">Portable PHP password hashing framework</A>.
+  HREF="http://www.openwall.com/phpass/">Portable PHP password hashing framework</A>,
 which is used in WordPress, Drupal and other.
 Supported all databases: MySQL, PostgreSQL, Sqlite3.
 

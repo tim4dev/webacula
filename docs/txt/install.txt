@@ -325,8 +325,8 @@ Users and roles
      * root_role -- default built-in superuser role.
      * operator_role -- typical built-in role for backup operator.
 
-   Users by whom the role root_role is assigned are superusers, they have all
-   rights to all. This role cannot be deleted and the role name cannot be
+   Users who have the role root_role is assigned are superusers, they have
+   all rights to all. This role cannot be deleted and the role name cannot be
    changed.
 
    After installation root_role is assigned to the user with a login name
@@ -339,31 +339,6 @@ Users and roles
 
    IMPORTANT. Now there is no separate Webacula database. All Webacula tables
    are allocated in a Bacula database and have a prefix webacula_.
-
-   Therefore, if you conducted Webacula LogBook, you need to take care to
-   transfer wbLogBook table to a Bacula database in webacula_logbook table.
-
-   Precisely also transfer the data from Webacula database wbJobDesc table to
-   Bacula database to table webacula_jobdesc.
-
-   For example
-
- -- old Webacula database
- USE webacula;
- SELECT * FROM wbJobDesc INTO OUTFILE '/tmp/webacula_wbJobDesc';
- SELECT * FROM wbLogBook INTO OUTFILE '/tmp/webacula_wbLogBook';
-
- -- now Bacula database
- USE bacula;
- LOAD DATA INFILE '/tmp/webacula_wbJobDesc' INTO TABLE webacula_jobdesc;
- LOAD DATA INFILE '/tmp/webacula_wbLogBook' INTO TABLE webacula_logbook;
-
-   From a file config.ini delete from [webacula] sections lines with the
-   connection description to a Webacula database.
-
-   Also remove tmpdir from config.ini, is not necessary now.
-
-   The script webacula_clean_tmp_files.sh is not necessary now.
 
 Update from 5.5.1 to 5.5.2
 
@@ -387,7 +362,7 @@ Update from 5.5.1 to 5.5.2
 Update from 5.x to 7.x
 
    Now the Webacula Users password hasher implements the [27]Portable PHP
-   password hashing framework. which is used in WordPress, Drupal and other.
+   password hashing framework, which is used in WordPress, Drupal and other.
    Supported all databases: MySQL, PostgreSQL, Sqlite3.
 
    IMPORTANT. This hasher NOT compatible from prior Webacula versions!

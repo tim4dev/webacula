@@ -3,7 +3,7 @@
  * Script for copy all data from MySQL Bacula v.5.x into PostgreSQL Bacula v.5.x DB
  * begin: 2007.01.03
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
