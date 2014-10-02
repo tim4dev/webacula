@@ -27,7 +27,7 @@
 
 
 \title{
-  \Huge{Webacula v.5.5}
+  \Huge{Webacula v.7.x}
   \begin{center}
    \large{Installation Manual}
   \end{center}
@@ -63,13 +63,13 @@ The basic features of Webacula see in README file.
 This manual should give you to install or upgrade Webacula installation.
 
 If you find errors or typos please
-\htmladdnormallink{send a bug report}{http://sourceforge.net/tracker/?group_id=201199}.
+\htmladdnormallink{send a bug report}{http://sourceforge.net/projects/webacula/}.
 
 Thanks.
 
 Webacula has a number of email lists.
 For general information subscribing to or unsubscribing from these lists, please see 
-\htmladdnormallink{Webacula Mailing Lists at SourceForge}{http://sourceforge.net/mail/?group_id=201199}.
+\htmladdnormallink{Webacula Mailing Lists at SourceForge}{http://sourceforge.net/p/webacula/mailman/}.
 
 
 
@@ -85,7 +85,7 @@ To check the installed system packages, run from command line:
 Webacula also requires:
 \begin{itemize}
   \item Bacula 7.0 or later
-  \item Zend Framework version 1.10.0 or later
+  \item Zend Framework version from 1.10.0 to 1.12.3
         \htmladdnormallink{Please see the system requirements appendix}{http://framework.zend.com/manual/en/requirements.html}
         for more detailed information.
   \item PHP 5.3.2 or later with PDO extension active.
@@ -108,7 +108,7 @@ Webacula also requires:
 Login as root and make directory \texttt{/var/www/webacula} (for example).
 Copy Webacula distribution to this directory.
 
-\htmladdnormallink{Download minimal Zend Framework package}{http://framework.zend.com/} and extract.
+\htmladdnormallink{Download minimal Zend Framework package}{http://framework.zend.com/downloads/archives/} and extract.
 Copy the contents from directory \\
 \texttt{ZendFramework-*-minimal/library/Zend} \\
 to \\
@@ -291,7 +291,7 @@ See also manual of Bacula "Chapter 15. Messages Resource".
 
 If necessary change settings in \texttt{install/db.conf} file.
 
-\textbf{IMPORTANT}. Change passwords in a file \texttt{install/db.conf}.
+\textbf{IMPORTANT}. Change passwords in a file \texttt{install/db.conf}. Use \texttt{password-to-hash.php <password>} and insert the resulting hash as \texttt{webacula\_root\_pwd}.
 
 Next create Webacula tables, Webacula built-in roles and Webacula built-in users.
 
@@ -480,5 +480,17 @@ Change \texttt{application/config.ini} if necessary:
 ; 2 - show both
 show_job_description = 2
 \end{verbatim}
+
+\subsection{Update from 5.x to 7.x}
+\label{Update: from 5.x to 7.x}
+
+Now the Webacula Users password hasher implements the 
+\htmladdnormallink{Portable PHP password hashing framework}{http://www.openwall.com/phpass/}.
+which is used in WordPress, Drupal and other.
+Supported all databases: MySQL, PostgreSQL, Sqlite3.
+
+\textbf{IMPORTANT}. This hasher NOT compatible from prior Webacula versions!
+
+So I suggest to use the mechanism "Forgot password".
 
 \end{document}

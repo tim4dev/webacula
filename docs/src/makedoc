@@ -46,7 +46,7 @@ my_latex2html()
 
 my_pdf2txt()
 {
-    links -dump -dump-width 80 -no-references  $1.html > $1.txt
+    links -html-numbered-links 1 -no-g -dump -width 80 $1.html > $1.txt
     rc=$?
     if [[ $rc -eq 0 ]] ; then
         echo "pdf2txt Ok"

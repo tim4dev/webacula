@@ -203,22 +203,13 @@ Thanks! \n"),
                 if( $row )
                 {
                     // генерируем новый пароль
-                    $new_password = md5( uniqid( rand() ) );
-                    /* password hash */
-                    $hasher = new MyClass_PasswordHash();
-                    $hash = $hasher->HashPassword( $new_password );
-                    if ( strlen($hash) < 20 ) {
-                        $this->view->msg = $this->view->translate->_('Internal error. Failed to hash new password');
-                        $this->render();
-                        return;
-                    }
-                    unset($hasher);
+                    $new_password = md5( uniqid( rand() ) );                   
                     // высылаем пароль
                     $res = $this->emailForgotPassword($row->email, $row->name, $new_password);
                     if ( $res ) {
                         // сохраняем пароль в БД
                         $data = array(
-                            'pwd' => $hash  // password hash
+                            'pwd' => $new_password  // password hash
                         );
                         $where = $table->getAdapter()->quoteInto('id = ?', $row->id);
                         $table->update($data, $where);

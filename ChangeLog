@@ -1,6 +1,10 @@
 Webacula ChangeLog
 ------------------
 
+=== 7.0.0 (???)
+    The Webacula Users password hasher implements the Portable PHP password hashing framework http://www.openwall.com/phpass/, which is used in WordPress, Drupal and other.
+    Now encrypted Webacula users passwords on all supported databases: MySQL, PostgreSQL, Sqlite3.
+
 === 5.5.2 (Sun Oct 30 2011)
     Show human readable short Job description instead (or both) of Bacula Job names (see config.ini for details).
     Show Bacula Job resource record (bconsole> show job="xxx").

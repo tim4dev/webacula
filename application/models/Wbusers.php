@@ -80,12 +80,6 @@ class Wbusers extends Zend_Db_Table
         return $result;
     }
 
-    public function insert(array $data)
-    {
-        $data['create_login'] = date("Y-m-d H:i:s", time());
-        parent::insert($data);
-    }
-    
     /**
      * @param type $login
      * @param type $password
@@ -97,7 +91,39 @@ class Wbusers extends Zend_Db_Table
         $select->where('login = ?', $login)
                ->where('active = 1');
         $row = $this->fetchRow($select);
-        return $this->_hasher->CheckPassword($password, $row->pwd);
+        if ( isset($row->pwd)) {
+            return $this->_hasher->CheckPassword($password, $row->pwd);
+        } else {
+            return FALSE;
+        }
+        
     }
-
+    
+    public function insert(array $data)
+    {
+        $data['create_login'] = date("Y-m-d H:i:s", time());
+        /* password hash */
+        if ( ! empty($data['pwd']) )
+        {
+            $data['pwd'] = $this->_hasher->HashPassword( $data['pwd'] );
+            if ( strlen($data['pwd']) < 20 ) {
+                throw new Exception(__METHOD__.' : "Internal error. Failed to hash new password"');
+            }
+        }
+        parent::insert($data);
+    }
+    
+    public function update(array $data, $where)
+    {
+        /* password hash */
+        if ( ! empty($data['pwd']) )
+        {
+            $data['pwd'] = $this->_hasher->HashPassword( $data['pwd'] );
+            if ( strlen($data['pwd']) < 20 ) {
+                throw new Exception(__METHOD__.' : "Internal error. Failed to hash new password"');
+            }
+        }
+        parent::update($data, $where);
+    }
+   
 }

@@ -1,19 +1,19 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 
-<!--Converted with LaTeX2HTML 2008 (1.71)
+<!--Converted with LaTeX2HTML 2012 (1.2)
 original version by:  Nikos Drakos, CBLU, University of Leeds
 * revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
 * with significant contributions from:
   Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
 <HTML>
 <HEAD>
-<TITLE>Webacula v.5.5 Installation Manual </TITLE>
-<META NAME="description" CONTENT="Webacula v.5.5 Installation Manual ">
+<TITLE>Webacula v.7.x Installation Manual </TITLE>
+<META NAME="description" CONTENT="Webacula v.7.x Installation Manual ">
 <META NAME="keywords" CONTENT="install">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="install.css">
@@ -24,14 +24,14 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 
 <P>
 <H1 ALIGN="CENTER">
-  <FONT SIZE="+4">Webacula v.5.5
+  <FONT SIZE="+4">Webacula v.7.x
   </FONT>
 <DIV ALIGN="CENTER"><FONT SIZE="+4"><FONT SIZE="+1">Installation Manual
   </FONT></FONT></DIV></H1>
 <DIV>
 
-<P ALIGN="CENTER"><STRONG><FONT SIZE="-1">Copyright 2007, 2008, 2009, 2010, 2011, 2012
-    Yuri Timofeev <A NAME="tex2html1"
+<P ALIGN="CENTER"><STRONG><FONT SIZE="-1">Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014
+    Yuriy Timofeev <A NAME="tex2html1"
   HREF="mailto:tim4dev@gmail.com">tim4dev@gmail.com</A>
 </FONT></STRONG></P>
 </DIV>
@@ -45,45 +45,47 @@ Contents</A>
 <!--Table of Contents-->
 
 <UL>
-<LI><A NAME="tex2html29"
-  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
-<LI><A NAME="tex2html30"
-  HREF="install.html#SECTION00030000000000000000">About this manual</A>
 <LI><A NAME="tex2html31"
-  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+  HREF="install.html#SECTION00020000000000000000">List of Figures</A>
 <LI><A NAME="tex2html32"
+  HREF="install.html#SECTION00030000000000000000">About this manual</A>
+<LI><A NAME="tex2html33"
+  HREF="install.html#SECTION00040000000000000000">System Requirements</A>
+<LI><A NAME="tex2html34"
   HREF="install.html#SECTION00050000000000000000">Install</A>
 <UL>
-<LI><A NAME="tex2html33"
-  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
-<LI><A NAME="tex2html34"
-  HREF="install.html#SECTION00052000000000000000">config.ini</A>
 <LI><A NAME="tex2html35"
-  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
+  HREF="install.html#SECTION00051000000000000000">Make directory tree</A>
 <LI><A NAME="tex2html36"
-  HREF="install.html#SECTION00054000000000000000">Apache</A>
+  HREF="install.html#SECTION00052000000000000000">config.ini</A>
 <LI><A NAME="tex2html37"
-  HREF="install.html#SECTION00055000000000000000">PHP</A>
+  HREF="install.html#SECTION00053000000000000000">Setting up to run bconsole under Webacula</A>
 <LI><A NAME="tex2html38"
-  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+  HREF="install.html#SECTION00054000000000000000">Apache</A>
 <LI><A NAME="tex2html39"
+  HREF="install.html#SECTION00055000000000000000">PHP</A>
+<LI><A NAME="tex2html40"
+  HREF="install.html#SECTION00056000000000000000">Bacula setup</A>
+<LI><A NAME="tex2html41"
   HREF="install.html#SECTION00057000000000000000">Webacula install</A>
 </UL>
 <BR>
-<LI><A NAME="tex2html40"
+<LI><A NAME="tex2html42"
   HREF="install.html#SECTION00060000000000000000">Webacula setup</A>
 <UL>
-<LI><A NAME="tex2html41"
+<LI><A NAME="tex2html43"
   HREF="install.html#SECTION00061000000000000000">Webacula and Bacula ACLs</A>
-<LI><A NAME="tex2html42"
+<LI><A NAME="tex2html44"
   HREF="install.html#SECTION00062000000000000000">Users and roles</A>
 </UL>
 <BR>
-<LI><A NAME="tex2html43"
+<LI><A NAME="tex2html45"
   HREF="install.html#SECTION00070000000000000000">Update from prior version</A>
 <UL>
-<LI><A NAME="tex2html44"
+<LI><A NAME="tex2html46"
   HREF="install.html#SECTION00071000000000000000">Update from 5.5.1 to 5.5.2</A>
+<LI><A NAME="tex2html47"
+  HREF="install.html#SECTION00072000000000000000">Update from 5.x to 7.x</A>
 </UL></UL>
 <!--End of Table of Contents-->
 
@@ -94,7 +96,7 @@ Contents</A>
 List of Figures</A>
 </H2><OL>
 <LI><A NAME="tex2html8"
-  HREF="install.html#145">Webacula ACLs</A></OL>
+  HREF="install.html#147">Webacula ACLs</A></OL>
 
 <P>
 
@@ -113,7 +115,7 @@ This manual should give you to install or upgrade Webacula installation.
 <P>
 If you find errors or typos please
 <A NAME="tex2html2"
-  HREF="http://sourceforge.net/tracker/?group_id=201199">send a bug report</A>.
+  HREF="http://sourceforge.net/projects/webacula/">send a bug report</A>.
 
 <P>
 Thanks.
@@ -122,7 +124,7 @@ Thanks.
 Webacula has a number of email lists.
 For general information subscribing to or unsubscribing from these lists, please see 
 <A NAME="tex2html3"
-  HREF="http://sourceforge.net/mail/?group_id=201199">Webacula Mailing Lists at SourceForge</A>.
+  HREF="http://sourceforge.net/p/webacula/mailman/">Webacula Mailing Lists at SourceForge</A>.
 
 <P>
 
@@ -144,14 +146,14 @@ To check the installed system packages, run from command line:
 Webacula also requires:
 
 <UL>
-<LI>Bacula 5.0 or later
+<LI>Bacula 7.0 or later
 </LI>
-<LI>Zend Framework version 1.10.0 or later
-</LI>
-<LI>Zend Framework is built with object-oriented PHP 5 and requires PHP 5.2.4 or later with PDO extension active.
+<LI>Zend Framework version from 1.10.0 to 1.12.3
         <A NAME="tex2html4"
   HREF="http://framework.zend.com/manual/en/requirements.html">Please see the system requirements appendix</A>
 for more detailed information.
+</LI>
+<LI>PHP 5.3.2 or later with PDO extension active.
 </LI>
 <LI>Apache and <TT>mod_rewrite</TT>. Or equivalent web-server, for example, nginx and <TT>ngx_http_rewrite_module</TT>
 </LI>
@@ -187,7 +189,7 @@ Copy Webacula distribution to this directory.
 
 <P>
 <A NAME="tex2html6"
-  HREF="http://framework.zend.com/">Download minimal Zend Framework package</A>
+  HREF="http://framework.zend.com/downloads/archives/">Download minimal Zend Framework package</A>
 and extract.
 Copy the contents from directory 
 <BR><TT>ZendFramework-*-minimal/library/Zend</TT> 
@@ -275,7 +277,7 @@ Add apache to group:
 <BR><TT>usermod -aG bacula apache</TT>
 
 <P>
-<B>IMPORTANT</B>. Check <TT>/usr/sbin/bconsole</TT> it should be the binary ELF file, not a shell script!
+<B>IMPORTANT</B>. Check <TT>/opt/bacula/sbin/bconsole</TT> it should be the binary ELF file, not a shell script!
 
 <P>
 Next, setup <TT>bconsole</TT> can be executed under Apache webserver.
@@ -290,18 +292,18 @@ Without using sudo
 
 <P>
 <PRE>
-chown root:bacula /usr/sbin/bconsole
-chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+chown root:bacula /opt/bacula/sbin/bconsole
+chmod u=rwx,g=rx,o=  /opt/bacula/sbin/bconsole
 
-chown root:bacula /etc/bacula/bconsole.conf
-chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+chown root:bacula /opt/bacula/etc/bconsole.conf
+chmod u=rw,g=r,o= /opt/bacula/etc/bconsole.conf
 </PRE>
 
 <P>
 Edit <TT>application/config.ini</TT>
 <PRE>
 bacula.sudo = ""
-bacula.bconsole = "/usr/sbin/bconsole"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
 </PRE>
 
 <P>
@@ -316,21 +318,21 @@ With sudo
 Edit <TT>application/config.ini</TT>
 <PRE>
 bacula.sudo = "/usr/bin/sudo"
-bacula.bconsole = "/usr/sbin/bconsole"
+bacula.bconsole = "/opt/bacula/sbin/bconsole"
 </PRE>
 
 <P>
 Run <TT>visudo</TT> and changes
 <PRE>
 # (!!! comment here !!!) Defaults requiretty
-apache ALL=NOPASSWD: /usr/sbin/bconsole
+apache ALL=NOPASSWD: /opt/bacula/sbin/bconsole
 </PRE>
 
 <P>
 Check out the run bconsole :
 <PRE>
 # su -l apache -s /bin/sh \
-     -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+     -c "/usr/bin/sudo /opt/bacula/sbin/bconsole -n -c /opt/bacula/etc/bconsole.conf"
 </PRE>
 
 <P>
@@ -430,7 +432,7 @@ Webacula install
 If necessary change settings in <TT>install/db.conf</TT> file.
 
 <P>
-<B>IMPORTANT</B>. Change passwords in a file <TT>install/db.conf</TT>.
+<B>IMPORTANT</B>. Change passwords in a file <TT>install/db.conf</TT>. Use <TT>password-to-hash.php &lt;password&gt;</TT> and insert the resulting hash as <TT>webacula_root_pwd</TT>.
 
 <P>
 Next create Webacula tables, Webacula built-in roles and Webacula built-in users.
@@ -526,7 +528,7 @@ Special keyword <TT>*all*</TT> when is present, any resource or command name wil
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="145"></A>
+<DIV ALIGN="CENTER"><A NAME="Webacula_ACLs"></A><A NAME="147"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
 Webacula ACLs</CAPTION>
@@ -694,10 +696,31 @@ show_job_description = 2
 </PRE>
 
 <P>
+
+<H2><A NAME="SECTION00072000000000000000"></A>
+<A NAME="Update:_from_5.x_to_7.x"></A>
+<BR>
+Update from 5.x to 7.x
+</H2>
+
+<P>
+Now the Webacula Users password hasher implements the 
+<A NAME="tex2html9"
+  HREF="http://www.openwall.com/phpass/">Portable PHP password hashing framework</A>.
+which is used in WordPress, Drupal and other.
+Supported all databases: MySQL, PostgreSQL, Sqlite3.
+
+<P>
+<B>IMPORTANT</B>. This hasher NOT compatible from prior Webacula versions!
+
+<P>
+So I suggest to use the mechanism "Forgot password".
+
+<P>
 <BR><HR>
 <ADDRESS>
 tim
-2011-10-31
+2014-10-02
 </ADDRESS>
 </BODY>
 </HTML>

@@ -6,6 +6,7 @@ require '../library/MyClass/PasswordHash.php';
 function my_usage()
 {
    GLOBAL $argv;
+   echo "\nDB password hashing\n\n";
    echo "Usage:\n\t", $argv[0], " <password>\n\n";
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010 Yuri Timofeev tim4dev@gmail.com
+ * Copyright 2010, 2014 Yuriy Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Webacula.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Yuri Timofeev <tim4dev@gmail.com>
+ * @author Yuriy Timofeev <tim4dev@gmail.com>
  * @package webacula
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  *
@@ -932,19 +932,12 @@ class AdminController extends MyClass_ControllerAclAction
                 // update data
                 $data = array(
                     'login'   => $this->_request->getParam('login'),
+                    'pwd'     => trim( $this->_request->getParam('pwd') ),
                     'name'    => $this->_request->getParam('name'),
                     'email'   => $this->_request->getParam('email'),
                     'active'  => intval( $this->_request->getParam('active') ),
                     'role_id' => $this->_request->getParam('role_id')
                 );
-                // password
-                $pwd = trim( $this->_request->getParam('pwd') );
-                if (isset($pwd))
-                    if ( Zend_Registry::get('DB_ADAPTER') == 'PDO_SQLITE')
-                        // Sqlite do not have MD5 function
-                        $data['pwd'] = $pwd;
-                    else
-                        $data['pwd'] = md5($pwd);
                 $where = $table->getAdapter()->quoteInto('id = ?', $user_id);
                 try {
                     $table->update($data, $where);
@@ -989,7 +982,7 @@ class AdminController extends MyClass_ControllerAclAction
                 $data = array(
                     'login'   => $this->_request->getParam('login'),
                     'name'    => $this->_request->getParam('name'),
-                    'pwd'     => md5($this->_request->getParam('pwd')),
+                    'pwd'     => trim( $this->_request->getParam('pwd') ),
                     'email'   => $this->_request->getParam('email'),
                     'active'  => intval( $this->_request->getParam('active') ),
                     'role_id' => $this->_request->getParam('role_id')

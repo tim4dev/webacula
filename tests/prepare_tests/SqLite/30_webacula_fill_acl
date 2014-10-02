@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PWD='$P$BJiE/eBQo5eVNV3HN55TdAutIsq0UE/'
+
 db_name="/tmp/webacula/sqlite/bacula.db"
 
 /usr/bin/sqlite3 $* ${db_name} <<END-OF-DATA
@@ -11,15 +13,15 @@ INSERT INTO webacula_roles (id, name, description, inherit_id) VALUES (5, 'user5
 
 
 -- users
-UPDATE webacula_users SET pwd='0668eb27bdc34af3f1716433cd0015bf3a1aa220' WHERE id=1000;
+UPDATE webacula_users SET pwd='$PWD' WHERE id=1000;
 INSERT INTO webacula_users (id, login, pwd, name, email, active, create_login, role_id)
-    VALUES (1001, 'user2', '0668eb27bdc34af3f1716433cd0015bf3a1aa220', 'John Smith', 'root@localhost',   1, datetime('now'), 2);
+    VALUES (1001, 'user2', '$PWD', 'John Smith', 'root@localhost',   1, datetime('now'), 2);
 INSERT INTO webacula_users (id, login, pwd, name, email, active, create_login, role_id)
-    VALUES (1002, 'user3', '0668eb27bdc34af3f1716433cd0015bf3a1aa220', 'Ivan Ivanov', 'nobody@localhost', 1, datetime('now'), 3);
+    VALUES (1002, 'user3', '$PWD', 'Ivan Ivanov', 'nobody@localhost', 1, datetime('now'), 3);
 INSERT INTO webacula_users (id, login, pwd, name, email, active, create_login, role_id)
-    VALUES (1003, 'user4', '0668eb27bdc34af3f1716433cd0015bf3a1aa220', 'User Name', 'nobody@localhost', 1, datetime('now'), 4);
+    VALUES (1003, 'user4', '$PWD', 'User Name', 'nobody@localhost', 1, datetime('now'), 4);
 INSERT INTO webacula_users (id, login, pwd, name, email, active, create_login, role_id)
-    VALUES (1004, 'user5', '0668eb27bdc34af3f1716433cd0015bf3a1aa220', 'Имя пользователя', 'nobody@localhost', 1, datetime('now'), 5);
+    VALUES (1004, 'user5', '$PWD', 'Имя пользователя', 'nobody@localhost', 1, datetime('now'), 5);
 
 
 

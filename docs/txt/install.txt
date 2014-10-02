@@ -1,35 +1,32 @@
-                                 Webacula v.5.5
+                                 Webacula v.7.x
                               Installation Manual
 
-Copyright 2007, 2008, 2009, 2010, 2011, 2012 Yuri Timofeev [1]tim4dev@gmail.com
+       Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014 Yuriy Timofeev
+                              [1]tim4dev@gmail.com
 
 Contents
 
-     * [2]List of Figures
-     * [3]About this manual
-     * [4]System Requirements
-     * [5]Install
-
-          * [6]Make directory tree
-          * [7]config.ini
-          * [8]Setting up to run bconsole under Webacula
-          * [9]Apache
-          * [10]PHP
-          * [11]Bacula setup
-          * [12]Webacula install
-
-     * [13]Webacula setup
-
-          * [14]Webacula and Bacula ACLs
-          * [15]Users and roles
-
-     * [16]Update from prior version
-
-          * [17]Update from 5.5.1 to 5.5.2
+     * [2]List of Figures
+     * [3]About this manual
+     * [4]System Requirements
+     * [5]Install
+          * [6]Make directory tree
+          * [7]config.ini
+          * [8]Setting up to run bconsole under Webacula
+          * [9]Apache
+          * [10]PHP
+          * [11]Bacula setup
+          * [12]Webacula install
+     * [13]Webacula setup
+          * [14]Webacula and Bacula ACLs
+          * [15]Users and roles
+     * [16]Update from prior version
+          * [17]Update from 5.5.1 to 5.5.2
+          * [18]Update from 5.x to 7.x
 
 List of Figures
 
-    1. [18]Webacula ACLs
+    1. [19]Webacula ACLs
 
                                About this manual
 
@@ -37,12 +34,12 @@ List of Figures
 
    This manual should give you to install or upgrade Webacula installation.
 
-   If you find errors or typos please [19]send a bug report.
+   If you find errors or typos please [20]send a bug report.
 
    Thanks.
 
    Webacula has a number of email lists. For general information subscribing
-   to or unsubscribing from these lists, please see [20]Webacula Mailing
+   to or unsubscribing from these lists, please see [21]Webacula Mailing
    Lists at SourceForge.
 
                               System Requirements
@@ -55,17 +52,15 @@ List of Figures
    system is fully ready to work with Webacula.
 
    Webacula also requires:
-
-     * Bacula 5.0 or later
-     * Zend Framework version 1.10.0 or later
-     * Zend Framework is built with object-oriented PHP 5 and requires PHP
-       5.2.4 or later with PDO extension active. [21]Please see the system
+     * Bacula 7.0 or later
+     * Zend Framework version from 1.10.0 to 1.12.3 [22]Please see the system
        requirements appendix for more detailed information.
-     * Apache and mod_rewrite. Or equivalent web-server, for example, nginx
+     * PHP 5.3.2 or later with PDO extension active.
+     * Apache and mod_rewrite. Or equivalent web-server, for example, nginx
        and ngx_http_rewrite_module
-     * Installed php-gd package
-     * Installed [22]http://php.net/dom for use the RSS feed
-     * Browser compatibility: all jQuery UI plugins are tested for IE 6.0+,
+     * Installed php-gd package
+     * Installed [23]http://php.net/dom for use the RSS feed
+     * Browser compatibility: all jQuery UI plugins are tested for IE 6.0+,
        Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome
 
                                     Install
@@ -75,7 +70,7 @@ Make directory tree
    Login as root and make directory /var/www/webacula (for example). Copy
    Webacula distribution to this directory.
 
-   [23]Download minimal Zend Framework package and extract. Copy the contents
+   [24]Download minimal Zend Framework package and extract. Copy the contents
    from directory
    ZendFramework-*-minimal/library/Zend
    to
@@ -137,40 +132,40 @@ Setting up to run bconsole under Webacula
    Add apache to group:
    usermod -aG bacula apache
 
-   IMPORTANT. Check /usr/sbin/bconsole it should be the binary ELF file, not
-   a shell script!
+   IMPORTANT. Check /opt/bacula/sbin/bconsole it should be the binary ELF
+   file, not a shell script!
 
    Next, setup bconsole can be executed under Apache webserver.
 
   Without using sudo
 
- chown root:bacula /usr/sbin/bconsole
- chmod u=rwx,g=rx,o=  /usr/sbin/bconsole
+ chown root:bacula /opt/bacula/sbin/bconsole
+ chmod u=rwx,g=rx,o=  /opt/bacula/sbin/bconsole
 
- chown root:bacula /etc/bacula/bconsole.conf
- chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
+ chown root:bacula /opt/bacula/etc/bconsole.conf
+ chmod u=rw,g=r,o= /opt/bacula/etc/bconsole.conf
 
    Edit application/config.ini
 
  bacula.sudo = ""
- bacula.bconsole = "/usr/sbin/bconsole"
+ bacula.bconsole = "/opt/bacula/sbin/bconsole"
 
   With sudo
 
    Edit application/config.ini
 
  bacula.sudo = "/usr/bin/sudo"
- bacula.bconsole = "/usr/sbin/bconsole"
+ bacula.bconsole = "/opt/bacula/sbin/bconsole"
 
    Run visudo and changes
 
  # (!!! comment here !!!) Defaults requiretty
- apache ALL=NOPASSWD: /usr/sbin/bconsole
+ apache ALL=NOPASSWD: /opt/bacula/sbin/bconsole
 
    Check out the run bconsole :
 
  # su -l apache -s /bin/sh \
-      -c "/usr/bin/sudo /usr/sbin/bconsole -n -c /etc/bacula/bconsole.conf"
+      -c "/usr/bin/sudo /opt/bacula/sbin/bconsole -n -c /opt/bacula/etc/bconsole.conf"
 
 Apache
 
@@ -196,7 +191,7 @@ Apache
    For testing mod_rewrite change RewriteBase parameter, if necessary, in
    webacula/html/test_mod_rewrite/.htaccess file.
 
-   And use URL like [24]http://localhost/webacula/test_mod_rewrite/ for test
+   And use URL like [25]http://localhost/webacula/test_mod_rewrite/ for test
    mod_rewrite.
 
 PHP
@@ -225,7 +220,9 @@ Webacula install
 
    If necessary change settings in install/db.conf file.
 
-   IMPORTANT. Change passwords in a file install/db.conf.
+   IMPORTANT. Change passwords in a file install/db.conf. Use
+   password-to-hash.php <password> and insert the resulting hash as
+   webacula_root_pwd.
 
    Next create Webacula tables, Webacula built-in roles and Webacula built-in
    users.
@@ -271,13 +268,12 @@ Webacula and Bacula ACLs
    Resource''.
 
    In Webacula are implemented following Bacula ACLs :
-
-     * JobACL
-     * ClientACL
-     * StorageACL
-     * PoolACL
-     * FileSetACL
-     * WhereACL
+     * JobACL
+     * ClientACL
+     * StorageACL
+     * PoolACL
+     * FileSetACL
+     * WhereACL
 
    Special keyword *all* when is present, any resource or command name will
    be accepted.
@@ -285,11 +281,8 @@ Webacula and Bacula ACLs
    Webacula ACLs -- it as a matter of fact access to certain menu items of
    Webacula.
 
-                                   Figure 1:
-                                 Webacula ACLs
-                                 [25]Image ACLs
-
-
+                            Figure 1: Webacula ACLs
+                                 [26]Image ACLs 
 
    If the user (more precisely -- a role) does not have any a ACL rule, that
    user has no rights.
@@ -329,8 +322,8 @@ Users and roles
 
    After install, Webacula has two built in roles :
 
-     * root_role -- default built-in superuser role.
-     * operator_role -- typical built-in role for backup operator.
+     * root_role -- default built-in superuser role.
+     * operator_role -- typical built-in role for backup operator.
 
    Users by whom the role root_role is assigned are superusers, they have all
    rights to all. This role cannot be deleted and the role name cannot be
@@ -391,6 +384,45 @@ Update from 5.5.1 to 5.5.2
  ; 2 - show both
  show_job_description = 2
 
-   --------------------------------------------------------------------------
+Update from 5.x to 7.x
 
-    tim 2011-10-31
+   Now the Webacula Users password hasher implements the [27]Portable PHP
+   password hashing framework. which is used in WordPress, Drupal and other.
+   Supported all databases: MySQL, PostgreSQL, Sqlite3.
+
+   IMPORTANT. This hasher NOT compatible from prior Webacula versions!
+
+   So I suggest to use the mechanism "Forgot password".
+
+     ----------------------------------------------------------------------
+
+    tim 2014-10-02
+
+Links:
+1. mailto:tim4dev@gmail.com/
+2. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00020000000000000000
+3. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00030000000000000000
+4. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00040000000000000000
+5. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00050000000000000000
+6. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00051000000000000000
+7. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00052000000000000000
+8. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00053000000000000000
+9. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00054000000000000000
+10. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00055000000000000000
+11. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00056000000000000000
+12. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00057000000000000000
+13. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00060000000000000000
+14. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00061000000000000000
+15. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00062000000000000000
+16. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00070000000000000000
+17. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00071000000000000000
+18. file:///opt/prog/webacula.7/docs/src/install.html#SECTION00072000000000000000
+19. file:///opt/prog/webacula.7/docs/src/install.html#147
+20. http://sourceforge.net/projects/webacula/
+21. http://sourceforge.net/p/webacula/mailman/
+22. http://framework.zend.com/manual/en/requirements.html
+23. http://php.net/dom
+24. http://framework.zend.com/downloads/archives/
+25. http://localhost/webacula/test_mod_rewrite/
+26. Image: file:///opt/prog/webacula.7/docs/src/ACLs.png
+27. http://www.openwall.com/phpass/

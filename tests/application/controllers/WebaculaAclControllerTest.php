@@ -50,18 +50,11 @@ class WebaculaAclControllerTest extends ControllerTestCase
     {
         print "\n".__METHOD__.' ';
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        $_SERVER['SERVER_NAME'] = 'localhost';
-        /* password hash */
-        $hasher = new MyClass_PasswordHash();
-        $hash = $hasher->HashPassword( '1' );
-        if ( strlen($hash) < 20 )
-            $this->assertTrue(FALSE, "\nInternal error. Failed to hash new password.\n");
-        unset($hasher);
-                        
+        $_SERVER['SERVER_NAME'] = 'localhost';                      
         $this->getRequest()
              ->setParams(array(
                  'login' => 'user3',
-                 'pwd'   => $hash,
+                 'pwd'   => '1',
                  'rememberme' => '1') )
              ->setMethod('POST');
         $this->dispatch('auth/login');

@@ -10,7 +10,6 @@ db.config.host = localhost
 db.config.username =
 db.config.password =
 db.config.dbname = "/tmp/webacula/sqlite/bacula.db"
-db.salt = '+geTWx@L+iO|2gB7pkkikK;%za^ZWC8e';
 
 ; see http://www.php.net/timezones
 def.timezone = "Europe/Minsk"
