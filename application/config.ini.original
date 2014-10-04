@@ -2,6 +2,8 @@
 ; config.ini
 ; Webacula 7.0.0
 ;
+; WARNING! Webacula 7.x incompatible with prior versions!
+; Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
 
 [general]
 ;; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE  

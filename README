@@ -3,6 +3,9 @@ Webacula - Web Bacula -	web interface of a Bacula backup system http://www.bacul
 
 Version: 7.0.0
 
+WARNING! Webacula 7.x incompatible with prior versions!
+Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
+
 http://webacula.tim4dev.com/
 
 Webacula basic features:
