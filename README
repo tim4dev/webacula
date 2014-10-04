@@ -3,9 +3,7 @@ Webacula - Web Bacula -	web interface of a Bacula backup system http://www.bacul
 
 Version: 7.0.0
 
-http://webacula.sourceforge.net/
-http://github.com/tim4dev/webacula
-
+http://webacula.tim4dev.com/
 
 Webacula basic features:
   * Bacula and Webacula ACLs (Access Control Lists) implemented. ACLs stored in Bacula database in Webacula tables

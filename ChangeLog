@@ -1,7 +1,7 @@
 Webacula ChangeLog
 ------------------
 
-=== 7.0.0 (???)
+=== 7.0.0 (Sat Oct  4 2014)
     The Webacula Users password hasher implements the Portable PHP password hashing framework http://www.openwall.com/phpass/, which is used in WordPress, Drupal and other.
     Now encrypted Webacula users passwords on all supported databases: MySQL, PostgreSQL, Sqlite3.
 
