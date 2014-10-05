@@ -27,21 +27,29 @@ To change admin/root password run "install/password-to-hash.php <password>" and 
 
 Alter, insert to tables (for example, MySQL):
 
-ALTER TABLE webacula_users MODIFY COLUMN pwd      varchar(256) not null;
-ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40)  DEFAULT NULL;
-ALTER TABLE webacula_php_session  COLUMN id       char(64);
+    ALTER TABLE webacula_users MODIFY COLUMN pwd      varchar(256) not null;
+    ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40)  DEFAULT NULL;
+    ALTER TABLE webacula_php_session  COLUMN id       char(64);
 
-INSERT INTO webacula_dt_commands (id, name, description) VALUES (295, 'stop',        'Stop a job');
-INSERT INTO webacula_dt_commands (id, name, description) VALUES (305, 'setbandwidth','Sets bandwidth');
-INSERT INTO webacula_dt_commands (id, name, description) VALUES (355, 'truncate',    'Truncate one or more Volumes');
+    INSERT INTO webacula_dt_commands (id, name, description) VALUES (295, 'stop',        'Stop a job');
+    INSERT INTO webacula_dt_commands (id, name, description) VALUES (305, 'setbandwidth','Sets bandwidth');
+    INSERT INTO webacula_dt_commands (id, name, description) VALUES (355, 'truncate',    'Truncate one or more Volumes');
+
+    ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
+    CREATE INDEX webacula_idx3 ON webacula_jobdesc (name_job);
+    CREATE INDEX webacula_idx4 ON webacula_jobdesc (short_desc);
+
+Recreate index "UNIQUE INDEX (name, role_id)" from table "webacula_where_acl" :
+
+    SHOW INDEXES FROM webacula_where_acl;
+
+and see appropriate "Key_name" (for example "name"). Recreate it now:
+
+    ALTER TABLE webacula_where_acl DROP INDEX name;
+    CREATE UNIQUE INDEX name ON webacula_where_acl(name(254), role_id);
 
 
-ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
-CREATE INDEX webacula_idx3 ON webacula_jobdesc (name_job);
-CREATE INDEX webacula_idx4 ON webacula_jobdesc (short_desc);
-
-
-Change application/config.ini if necessary:
+Change file "application/config.ini" if necessary:
 
 ;; Show human readable short Job description instead of Bacula Job names (default = 0)
 ; avaliable optins : 0 | 1 | 2
