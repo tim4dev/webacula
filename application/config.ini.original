@@ -3,7 +3,7 @@
 ; Webacula 7.0.0
 ;
 ; WARNING! Webacula 7.x incompatible with prior versions!
-; Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
+; Please see file docs/txt/upgrade.txt
 
 [general]
 ;; supported adapters : PDO_MYSQL, PDO_PGSQL, PDO_SQLITE  

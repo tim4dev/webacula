@@ -1,0 +1,52 @@
+
+Upgrade from prior version
+--------------------------
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014 Yuriy Timofeev
+http://webacula.tim4dev.com/
+tim4dev@gmail.com
+
+
+
+IMPORTANT. Now there is no separate Webacula database. All Webacula tables
+are allocated in a Bacula database and have a prefix "webacula_".
+
+
+
+Upgrade from 5.5 to 7.x
+-----------------------
+
+Now the Webacula Users password hasher implements the Portable PHP
+password hashing framework, which is used in WordPress, Drupal and other.
+Supported all databases: MySQL, PostgreSQL, Sqlite.
+
+IMPORTANT. 
+Webacula hasher NOT compatible from prior Webacula versions!
+So I suggest notify Webacula users via email and use the mechanism "Forgot password".
+To change admin/root password run "install/password-to-hash.php <password>" and insert the resulting hash into "webacula_users" table.
+
+Alter, insert to tables (for example, MySQL):
+
+ALTER TABLE webacula_users MODIFY COLUMN pwd      varchar(256) not null;
+ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40)  DEFAULT NULL;
+ALTER TABLE webacula_php_session  COLUMN id       char(64);
+
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (295, 'stop',        'Stop a job');
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (305, 'setbandwidth','Sets bandwidth');
+INSERT INTO webacula_dt_commands (id, name, description) VALUES (355, 'truncate',    'Truncate one or more Volumes');
+
+
+ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
+CREATE INDEX webacula_idx3 ON webacula_jobdesc (name_job);
+CREATE INDEX webacula_idx4 ON webacula_jobdesc (short_desc);
+
+
+Change application/config.ini if necessary:
+
+;; Show human readable short Job description instead of Bacula Job names (default = 0)
+; avaliable optins : 0 | 1 | 2
+; 0 - only show Bacula Job Name (behavior as in earlier versions)
+; 1 - only show human readable short Job description instead of Bacula Job Name
+; 2 - show both
+show_job_description = 2
+

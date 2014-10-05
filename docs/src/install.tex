@@ -427,44 +427,7 @@ creation, change, assignment of roles, users.
 \section{Upgrade from prior version}
 \label{Upgrade}
 
-\textbf{IMPORTANT}. Now there is no separate Webacula database.
-All Webacula tables are allocated in a Bacula database and have a prefix\texttt{ webacula\_}.
+See file \texttt{docs/txt/upgrade.txt}
 
-
-\subsection{Upgrade from 5.5.1 to 5.5.2}
-\label{Upgrade: from 5.5.1 to 5.5.2}
-
-Upgrade the code as usual.
-And make changes to the database schema (for example, MySQL)
-
-\begin{verbatim}
-ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
-CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
-
-ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
-\end{verbatim}
-
-Change \texttt{application/config.ini} if necessary:
-
-\begin{verbatim}
-;; Show human readable short Job description instead of Bacula Job names (default = 0)
-; avaliable optins : 0 | 1 | 2
-; 0 - only show Bacula Job Name (behavior as in earlier versions)
-; 1 - only show human readable short Job description instead of Bacula Job Name
-; 2 - show both
-show_job_description = 2
-\end{verbatim}
-
-\subsection{Upgradee from 5.x to 7.x}
-\label{Upgrade: from 5.x to 7.x}
-
-Now the Webacula Users password hasher implements the 
-\htmladdnormallink{Portable PHP password hashing framework}{http://www.openwall.com/phpass/},
-which is used in WordPress, Drupal and other.
-Supported all databases: MySQL, PostgreSQL, Sqlite3.
-
-\textbf{IMPORTANT}. This hasher NOT compatible from prior Webacula versions!
-
-So I suggest to use the mechanism "Forgot password".
 
 \end{document}

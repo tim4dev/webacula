@@ -21,12 +21,10 @@ Contents
           * [14]Webacula and Bacula ACLs
           * [15]Users and roles
      * [16]Upgrade from prior version
-          * [17]Upgrade from 5.5.1 to 5.5.2
-          * [18]Upgradee from 5.x to 7.x
 
 List of Figures
 
-    1. [19]Webacula ACLs
+    1. [17]Webacula ACLs
 
                                About this manual
 
@@ -34,12 +32,12 @@ List of Figures
 
    This manual should give you to install or upgrade Webacula installation.
 
-   If you find errors or typos please [20]send a bug report.
+   If you find errors or typos please [18]send a bug report.
 
    Thanks.
 
    Webacula has a number of email lists. For general information subscribing
-   to or unsubscribing from these lists, please see [21]Webacula Mailing
+   to or unsubscribing from these lists, please see [19]Webacula Mailing
    Lists.
 
                               System Requirements
@@ -53,13 +51,13 @@ List of Figures
 
    Webacula also requires:
      * Bacula 7.0 or later
-     * Zend Framework version from 1.10.0 to 1.12.3 [22]Please see the system
+     * Zend Framework version from 1.10.0 to 1.12.3 [20]Please see the system
        requirements appendix for more detailed information.
      * PHP 5.3.2 or later with PDO extension active.
      * Apache and mod_rewrite. Or equivalent web-server, for example, nginx
        and ngx_http_rewrite_module
      * Installed php-gd package
-     * Installed [23]http://php.net/dom for use the RSS feed
+     * Installed [21]http://php.net/dom for use the RSS feed
      * Browser compatibility: all jQuery UI plugins are tested for IE 6.0+,
        Firefox 3+, Safari 3.1+, Opera 9.6+, Google Chrome
 
@@ -70,7 +68,7 @@ Make directory tree
    Login as root and make directory /var/www/webacula (for example). Copy
    Webacula distribution to this directory.
 
-   [24]Download minimal Zend Framework package and extract. Copy the contents
+   [22]Download minimal Zend Framework package and extract. Copy the contents
    from directory
    ZendFramework-*-minimal/library/Zend
    to
@@ -191,7 +189,7 @@ Apache
    For testing mod_rewrite change RewriteBase parameter, if necessary, in
    webacula/html/test_mod_rewrite/.htaccess file.
 
-   And use URL like [25]http://localhost/webacula/test_mod_rewrite/ for test
+   And use URL like [23]http://localhost/webacula/test_mod_rewrite/ for test
    mod_rewrite.
 
 PHP
@@ -282,7 +280,7 @@ Webacula and Bacula ACLs
    Webacula.
 
                             Figure 1: Webacula ACLs
-                                 [26]Image ACLs 
+                                 [24]Image ACLs 
 
    If the user (more precisely -- a role) does not have any a ACL rule, that
    user has no rights.
@@ -337,41 +335,11 @@ Users and roles
 
                            Upgrade from prior version
 
-   IMPORTANT. Now there is no separate Webacula database. All Webacula tables
-   are allocated in a Bacula database and have a prefix webacula_.
-
-Upgrade from 5.5.1 to 5.5.2
-
-   Upgrade the code as usual. And make changes to the database schema (for
-   example, MySQL)
-
- ALTER TABLE webacula_jobdesc ADD COLUMN short_desc VARCHAR(128) NOT NULL;
- CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
-
- ALTER TABLE webacula_users MODIFY COLUMN last_ip  varchar(40) DEFAULT NULL;
-
-   Change application/config.ini if necessary:
-
- ;; Show human readable short Job description instead of Bacula Job names (default = 0)
- ; avaliable optins : 0 | 1 | 2
- ; 0 - only show Bacula Job Name (behavior as in earlier versions)
- ; 1 - only show human readable short Job description instead of Bacula Job Name
- ; 2 - show both
- show_job_description = 2
-
-Upgradee from 5.x to 7.x
-
-   Now the Webacula Users password hasher implements the [27]Portable PHP
-   password hashing framework, which is used in WordPress, Drupal and other.
-   Supported all databases: MySQL, PostgreSQL, Sqlite3.
-
-   IMPORTANT. This hasher NOT compatible from prior Webacula versions!
-
-   So I suggest to use the mechanism "Forgot password".
+   See file docs/txt/upgrade.txt
 
      ----------------------------------------------------------------------
 
-    tim 2014-10-04
+    tim 2014-10-05
 
 Links:
 1. mailto:tim4dev@gmail.com/
@@ -390,14 +358,11 @@ Links:
 14. file:///opt/prog/webacula.master/docs/src/install.html#SECTION00061000000000000000
 15. file:///opt/prog/webacula.master/docs/src/install.html#SECTION00062000000000000000
 16. file:///opt/prog/webacula.master/docs/src/install.html#SECTION00070000000000000000
-17. file:///opt/prog/webacula.master/docs/src/install.html#SECTION00071000000000000000
-18. file:///opt/prog/webacula.master/docs/src/install.html#SECTION00072000000000000000
-19. file:///opt/prog/webacula.master/docs/src/install.html#147
-20. http://webacula.tim4dev.com/
-21. http://webacula.tim4dev.com/
-22. http://framework.zend.com/manual/en/requirements.html
-23. http://php.net/dom
-24. http://framework.zend.com/downloads/archives/
-25. http://localhost/webacula/test_mod_rewrite/
-26. Image: file:///opt/prog/webacula.master/docs/src/ACLs.png
-27. http://www.openwall.com/phpass/
+17. file:///opt/prog/webacula.master/docs/src/install.html#147
+18. http://webacula.tim4dev.com/
+19. http://webacula.tim4dev.com/
+20. http://framework.zend.com/manual/en/requirements.html
+21. http://php.net/dom
+22. http://framework.zend.com/downloads/archives/
+23. http://localhost/webacula/test_mod_rewrite/
+24. Image: file:///opt/prog/webacula.master/docs/src/ACLs.png

@@ -2,6 +2,7 @@
 Webacula - Web Bacula -	web interface of a Bacula backup system http://www.bacula.org/
 
 Version: 7.0.0
+Major version number of Webacula will match the major version number of Bacula.
 
 WARNING! Webacula 7.x incompatible with prior versions!
 Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
