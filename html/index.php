@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.0.0' . ', build 2014.10.01');
+define('WEBACULA_VERSION', '7.0.0' . ', build 2014.10.05');
 define('BACULA_VERSION', 14); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
