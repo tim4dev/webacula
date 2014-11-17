@@ -44,7 +44,7 @@ List of Figures
 
    To check the installed system packages, run from command line:
 
- docs/check_system_requirements.php
+ install/check_system_requirements.php
 
    NOTE. The successful execution of the script does not indicate that your
    system is fully ready to work with Webacula.
