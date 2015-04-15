@@ -116,11 +116,13 @@ class Job extends Zend_Db_Table
 	 * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
 	 *
 	 */
-    function getTerminatedJobs()
+    function getTerminatedJobs($days)
     {
+        if ( empty($days) ) 
+             $days = 1;
         $select = new Zend_Db_Select($this->db);
         //$select->distinct();
-        $last1day = date('Y-m-d H:i:s', time() - 86400); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 1 DAY
+        $last1day = date('Y-m-d H:i:s', time() - ($days * 86400)); // для совместимости со старыми версиями mysql: NOW() - INTERVAL $days
 
         switch ($this->db_adapter) {
         	case 'PDO_MYSQL':

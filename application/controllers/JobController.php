@@ -42,10 +42,18 @@ class JobController extends MyClass_ControllerAclAction
      */
     function terminatedAction()
     {
-        $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
+        $terminatedDays = trim( $this->_request->getParam('days') );
+        if ( empty($terminatedDays) ) {
+            if ( empty($this->view->config->general->days_to_show_jobs_terminated) ) {
+                $terminatedDays = 1;
+            } else {
+                $terminatedDays = $this->view->config->general->days_to_show_jobs_terminated;
+            }
+        } 
+        $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last " . ($terminatedDays*24) . " hours)");
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->getTerminatedJobs();
+        $this->view->result = $jobs->getTerminatedJobs($terminatedDays);
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
@@ -527,7 +535,7 @@ EOF"
             $this->_helper->layout->setLayout('dashboard');
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         $job = new Job();
-        $this->view->result = $job->getTerminatedJobs();
+        $this->view->result = $job->getTerminatedJobs(1);
         if ( empty($this->view->result) ) 
             $this->_helper->viewRenderer->setNoRender();
         else
