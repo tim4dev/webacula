@@ -129,7 +129,7 @@ class Job extends Zend_Db_Table
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)',
+                    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)'),
                     'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
@@ -142,7 +142,7 @@ class Job extends Zend_Db_Table
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-                    'DurationTime' => '(EndTime - StartTime)',
+                    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)'),
                     'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
@@ -254,7 +254,7 @@ L   Committing data (last despool)
     		  'StartTime' => "j.StartTime", 'EndTime'   => "j.EndTime",
     		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
         	   'FileSetId', 'PurgedFiles', 'JobStatus',
-        	   'DurationTime' => 'TIMEDIFF(NOW(), StartTime)'
+        	   'DurationTime' => new Zend_Db_Expr('TIMEDIFF(NOW(), StartTime)')
     		));
 	    	$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
         	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
@@ -272,7 +272,7 @@ L   Committing data (last despool)
     		  'StartTime' => "j.StartTime", 'EndTime'   => "j.EndTime",
     		  'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
         	   'FileSetId', 'PurgedFiles', 'JobStatus',
-        	   'DurationTime' => '(NOW() - StartTime)'
+        	   'DurationTime' => new Zend_Db_Expr('(NOW() - StartTime)')
     		));
 	    	$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
         	$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
@@ -597,7 +597,7 @@ EOF', $command_output, $return_var);
                array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
+                    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)')
             ));
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
             break;
@@ -607,7 +607,7 @@ EOF', $command_output, $return_var);
                 array('JobId', 'JobName' => 'Name', 'Level', 'ClientId', 'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-                    'DurationTime' => '(EndTime - StartTime)'
+                    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)')
             ));
             $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
             break;
@@ -747,7 +747,7 @@ Select Job resource (1-3):
    				    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
    				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
-       			    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+       			    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)')));
                 break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -757,7 +757,7 @@ Select Job resource (1-3):
    				    'StartTime', 'EndTime',
    				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
-       			    'DurationTime' => '(EndTime - StartTime)'));
+       			    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)')));
                 break;
 			case 'PDO_SQLITE':
 				// SQLite3 Documentation
@@ -856,7 +856,7 @@ Select Job resource (1-3):
                     'StartTimeRaw' => 'j.StartTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+                    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)')));
                 break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -866,7 +866,7 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => '(EndTime - StartTime)'));
+                    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)')));
                 break;
             case 'PDO_SQLITE':
                 // SQLite3 Documentation
@@ -917,7 +917,7 @@ Select Job resource (1-3):
                     'StartTimeRaw' => 'j.StartTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+                    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)')));
                 break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -927,7 +927,7 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => '(EndTime - StartTime)'));
+                    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)')));
                 break;
             case 'PDO_SQLITE':
                 // SQLite3 Documentation
@@ -972,7 +972,7 @@ Select Job resource (1-3):
                     'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
            			'FileSetId', 'PurgedFiles', 'JobStatus',
-           			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
+           			'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)' )));
     			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
             case 'PDO_PGSQL':
@@ -983,7 +983,7 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => '(EndTime - StartTime)' ));
+                    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)' )));
 				$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
                 break;
             case 'PDO_SQLITE':
@@ -1032,7 +1032,7 @@ Select Job resource (1-3):
     			    'SchedTime' => "DATE_FORMAT(j.SchedTime,   '%y-%b-%d %H:%i')",
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)', 'PriorJobId',
+        		    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)'), 'PriorJobId',
                     'Reviewed', 'Comment'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
@@ -1045,7 +1045,7 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime', 'SchedTime',
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
-        		    'DurationTime' => '(EndTime - StartTime)', 'PriorJobId',
+        		    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)'), 'PriorJobId',
                     'Reviewed', 'Comment'
     			));
     			$select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong' => 'JobStatusLong'));
@@ -1129,7 +1129,7 @@ Select Job resource (1-3):
 			        'StartTime', 'EndTime',
 			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
    			         'FileSetId', 'PurgedFiles', 'JobStatus',
-   			         'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'
+   			         'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)')
    		        ));
    		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
@@ -1145,7 +1145,7 @@ Select Job resource (1-3):
 			        'StartTime', 'EndTime',
 			        'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
    			         'FileSetId', 'PurgedFiles', 'JobStatus',
-   			         'DurationTime' => '(EndTime - StartTime)'
+   			         'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)')
    		        ));
    		        $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
 				$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId',       array('PoolName' => 'Name'));
@@ -1252,7 +1252,7 @@ Select Job resource (1-3):
                     'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
+                    'DurationTime' => new Zend_Db_Expr('TIMEDIFF(EndTime, StartTime)')));
                 $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
                 $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
@@ -1270,7 +1270,7 @@ Select Job resource (1-3):
                     'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
-                    'DurationTime' => '(EndTime - StartTime)'));
+                    'DurationTime' => new Zend_Db_Expr('(EndTime - StartTime)')));
                 $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
                 $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
