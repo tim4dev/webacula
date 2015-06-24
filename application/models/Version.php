@@ -41,7 +41,7 @@ class Version extends Zend_Db_Table
                 $this->_name = 'version';
                 break;
             default: // including mysql, sqlite
-                $this->_name = 'Version';
+                $this->_name = 'webacula_version';
         }
         parent::_setupTableName();
     }
@@ -49,7 +49,7 @@ class Version extends Zend_Db_Table
     function getVesion()
 	{
    		$select = new Zend_Db_Select($this->db);
-    	$select->from('Version', 'VersionId');
+    	$select->from($this->_name, 'VersionId');
     	$select->limit(1);
     	$res = $this->db->fetchOne($select);
 		return $res;
