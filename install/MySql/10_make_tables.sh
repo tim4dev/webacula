@@ -65,7 +65,7 @@ CREATE TABLE webacula_version (
    versionId INTEGER UNSIGNED NOT NULL
 );
 
-INSERT INTO webacula_version (versionId) VALUES (5);
+INSERT INTO webacula_version (versionId) VALUES (15);
 
 
 END-OF-DATA

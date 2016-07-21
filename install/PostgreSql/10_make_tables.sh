@@ -53,7 +53,7 @@ CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
 CREATE TABLE webacula_version (
    versionId INTEGER NOT NULL
 );
-INSERT INTO webacula_version (versionId) VALUES (5);
+INSERT INTO webacula_version (versionId) VALUES (15);
 
 -- Eliminate "Unique violation: duplicate key value violates unique constraint"
 -- file:///usr/share/doc/postgresql-8.3.7/html/plpgsql-control-structures.html
