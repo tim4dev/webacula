@@ -1,9 +1,6 @@
 <?php echo $this->render('header.phtml') ?>
-
 <body style="margin-top: 34px; margin-left: 3em;">
-
 <?php echo $this->render('main-menu.phtml') ?>
-
 <?php if ( $this->meta_refresh ) : ?>
 <div class="update-info">
     <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>.
@@ -12,10 +9,7 @@
 <?php else: ?>
 <div style="margin-top: 60px;">&nbsp;</div>
 <?php endif; ?>
-
 <?php echo $this->layout()->content ?>
-
 <p style="clear: both;">&nbsp;</p>
-
 </body>
 <?php echo $this->render('footer.phtml') ?>

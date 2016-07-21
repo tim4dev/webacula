@@ -85,7 +85,7 @@
 	<td><?php echo $this->DecodeJobType($this->escape($line['type'])); ?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Level"); ?> </td>
-	<td><?php echo $this->escape($line['level']);?></td>
+        <td><?php echo $this->DecodeJobLevel($this->escape($line['level'])); ?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Client/Version"); ?> </td>
 	<td><?php echo $this->escape($line['clientname']);?><br>

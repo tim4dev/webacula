@@ -36,13 +36,13 @@ foreach($this->pools as $pool) {
 }
 // Recycle Flag
 $arecucle = array(
-    '0' => "-",
-    '1' => "+"
+    '0' => "no",
+    '1' => "yes"
 );
 // InChanger Flag
 $ainchanger = array(
-    '0' => "-",
-    '1' => "+"
+    '0' => "no",
+    '1' => "yes"
 );
 ?>
 
@@ -188,9 +188,9 @@ $ainchanger = array(
     <td><?php print $this->translate->_("Enabled"); ?> </td>
     <?php
         if ( $this->escape($line['enabled']) == 0 )
-            echo '<td class="err">'.$this->translate->_("Disabled").'</td>';
+            echo '<td class="err">no</td>';
         else
-            echo '<td>+</td>';
+            echo '<td>yes</td>';
     ?>
 </tr><tr>
 <tr>

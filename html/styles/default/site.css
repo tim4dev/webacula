@@ -222,6 +222,20 @@ span.mark{
    text-align: left;
    border-collapse: collapse;
 }
+
+
+#box-table a, #box-table a:visited{
+  color: #0000ee;
+  text-decoration: none;
+}
+
+#box-table a:hover{
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+
+
 #box-table caption
 {
 	margin-left: 0em;
@@ -263,6 +277,7 @@ span.mark{
 #box-table .linkerr
 {
    color:#FFFF77;
+   text-decoration: none;
 }
 
 
@@ -276,6 +291,20 @@ span.mark{
    margin-top: 0px;
    margin-bottom: 30px;   
 }
+
+
+#box-table-minimalist a, #box-table-minimalist a:visited{
+  color: #0000ee;
+  text-decoration: none;
+}
+
+#box-table-minimalist a:hover{
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+
+
 #box-table-minimalist caption
 {
     margin-left: 0em;
@@ -320,6 +349,19 @@ span.mark{
    text-align: left;
    border-collapse: collapse;
 }
+
+
+#box-table-one-column a, #box-table-one-column a:visited{
+  color: #0000ee;
+  text-decoration: none;
+}
+
+#box-table-one-column a:hover{
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+
 #box-table-one-column caption
 {
 	margin-left: 0em;
@@ -379,7 +421,9 @@ p.dashboard {
 
 a#dashboard {
   text-decoration: none;
+  color: #039;
 }
+
 a#dashboard:hover {
   text-decoration: underline;
 }
@@ -393,6 +437,18 @@ a#dashboard:hover {
    text-align: left;
    border-collapse: collapse;
 }
+
+#box-table-dashboard a, #box-table-dashboard a:visited{
+  color: #0000ee;
+  text-decoration: none;
+}
+
+
+#box-table-dashboard a:hover{
+  color: #0000ee;
+  text-decoration: underline;
+}
+
 #box-table-dashboard th
 {
    font-weight: normal;
@@ -426,7 +482,7 @@ a#dashboard:hover {
 }
 #box-table-dashboard .linkerr
 {
-  text-decoration: underline;
+  text-decoration: none;
   color:#FFFF77;
 }
 
