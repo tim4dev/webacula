@@ -11,8 +11,8 @@ class Zend_View_Helper_Int2Char {
 
     public function int2Char($val)
     {
-		if ( $val > 0 )	return '+';
+		if ( $val > 0 )	return 'yes';
 		else  
-			return '-';
+			return 'no';
     }
 }
