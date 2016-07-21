@@ -1,5 +1,11 @@
+Webacula - A web interface of a Bacula backup system http://www.bacula.org/
 
-Webacula - Web Bacula -	web interface of a Bacula backup system http://www.bacula.org/
+This is a fork of webacula with some modifications that were not commited in original repository.
+- Huge speed improvement in restore file selection (https://github.com/tim4dev/webacula/pull/4)
+- Minor changes in styles CSS
+- A small changes in layout of volume/pools
+- Better method to convert bytes to more humanreadable
+- Added new setting days_to_show_jobs_terminated feature (Terminated jobs can show more than 1 day) (https://github.com/tim4dev/webacula/pull/8)
 
 Version: 7.0.0
 Major version number of Webacula will match the major version number of Bacula.
