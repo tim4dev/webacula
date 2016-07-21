@@ -18,8 +18,8 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.0.0' . ', build 2014.10.01');
-define('BACULA_VERSION', 14); // Bacula Catalog version
+define('WEBACULA_VERSION', '7.4.0' . ', build 16Jan16');
+define('BACULA_VERSION', 15); // Bacula Catalog version
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
@@ -183,7 +183,7 @@ try {
     $db->getConnection();
 } catch (Zend_Db_Adapter_Exception $e) {
     echo '<pre>';
-    // возможно СУБД не запущена
+    // possible database is not running
     throw new Zend_Exception("Fatal error: Can't connect to SQL server");
 }
 /*
@@ -224,11 +224,11 @@ Zend_Session::setSaveHandler(new MyClass_Session_SaveHandler_DbTable($config_ses
 Zend_Session::start();
 
 if ( APPLICATION_ENV == 'production') {
-    Zend_Session::regenerateId();
+    //Zend_Session::regenerateId();
 }
 
 /*
- * для подсчета кол-ва неудачных логинов для вывода капчи
+ * for counting of number of failed logins to enter a captcha
  */
 $defNamespace = new Zend_Session_Namespace('Default');
 if (!isset($defNamespace->numLoginFails))
@@ -245,7 +245,7 @@ $frontendOptions = array(
 $backendOptions = array(
     'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
 );
-// получение объекта Zend_Cache_Core
+// obtaining object Zend_Cache_Core
 $cache = Zend_Cache::factory(
     'Core',
     'File',
