@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2007, 2008, 2009, 2010, 2011 Yuriy Timofeev tim4dev@gmail.com
+ * Copyright 2007, 2008, 2009, 2010, 2011 Yuri Timofeev tim4dev@gmail.com
  *
  * Webacula is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * Class for handle temporary tables for webacula
  *
  * @package    webacula
- * @author Yuriy Timofeev <tim4dev@gmail.com>
+ * @author Yuri Timofeev <tim4dev@gmail.com>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public License
  */
 
@@ -519,6 +519,7 @@ class WbTmpTable extends Zend_Db_Table
             FROM File
             WHERE JobId = $jobid");
 
+        $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
             // file size writing in a separate filed to then it was easier to calculate the total
             // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
@@ -530,6 +531,7 @@ class WbTmpTable extends Zend_Db_Table
                 return FALSE; // show exception from WbTmpTable.php->insertRowFile()
         }
         // end transaction
+        $bacula->commit();
         // после успешного клонирования устанавливаем признак
         $this->setCloneOk();
         return TRUE;
@@ -565,6 +567,7 @@ class WbTmpTable extends Zend_Db_Table
                 WHERE File.FileIndex > 0
                 ORDER BY JobId, FileIndex ASC";
         $stmt = $bacula->query($sql);
+        $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
             // file size writing in a separate filed to then it was easier to calculate the total size
             // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
@@ -575,6 +578,7 @@ class WbTmpTable extends Zend_Db_Table
             $this->insertRowFile($line['jobid'], $line['fileid'], $line['fileindex'], $file_size);
         }
         // end transaction // после успешного клонирования устанавливаем признак
+        $bacula->commit();
         $this->setCloneOk();
         return TRUE;
     }
