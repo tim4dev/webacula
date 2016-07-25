@@ -135,6 +135,7 @@ class Job extends Zend_Db_Table
                     'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
+                $select->order(array('JobId DESC'));
         	break;
             case 'PDO_PGSQL':
                 // PostgreSQL
@@ -148,6 +149,7 @@ class Job extends Zend_Db_Table
                     'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('JobStatusLong'=>'JobStatusLong'));
+                $select->order(array('JobId DESC'));
                 break;
             case 'PDO_SQLITE':
                 // SQLite3 Documentation
@@ -167,6 +169,7 @@ class Job extends Zend_Db_Table
                     'reviewed'=>'Reviewed'
                 ));
                 $select->joinLeft(array('s' => 'Status'), 'j.JobStatus = s.JobStatus', array('jobstatuslong' => 'JobStatusLong'));
+                $select->order(array('JobId DESC'));
                 break;
         }
         $select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'Name'));
