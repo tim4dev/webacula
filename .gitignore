@@ -2,6 +2,7 @@
 *.tmp
 *.swp
 tests/report/*
+library/Zend/
 #
 # data : cache, tmp, session
 #
