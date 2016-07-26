@@ -116,7 +116,7 @@ class Job extends Zend_Db_Table
 	 * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
 	 *
 	 */
-    function getTerminatedJobs($days)
+    function getTerminatedJobs($days, $orderp=null)
     {
         if ( empty($days) ) 
              $days = 1;
@@ -206,7 +206,12 @@ L   Committing data (last despool)
          */
         $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W', 'D')");
         $select->where("j.EndTime > ?", $last1day);
-        $select->order(array("StartTime", "JobId"));
+        if ( $orderp ) {
+           $order = array("StartTime DESC", "JobId");
+        } else {
+           $order = $orderp;
+        }
+        $select->order($order);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();
         // do Bacula ACLs

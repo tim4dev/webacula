@@ -53,7 +53,7 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last " . ($terminatedDays*24) . " hours)");
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->getTerminatedJobs($terminatedDays);
+        $this->view->result = $jobs->getTerminatedJobs($terminatedDays,array('JobId DESC'));
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
     }
