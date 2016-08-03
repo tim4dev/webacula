@@ -162,15 +162,15 @@ msgstr "Usuários"
 
 #: application/controllers/AdminController.php:975
 msgid "User update"
-msgstr ""
+msgstr "Atualizar usuário"
 
 #: application/controllers/AdminController.php:1010
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: application/controllers/AdminController.php:1013
 msgid "User add"
-msgstr ""
+msgstr "Adicionar usuário"
 
 #: application/controllers/FeedController.php:60
 #: application/controllers/WblogbookController.php:305
@@ -239,6 +239,10 @@ msgstr "Volumes com erros"
 msgid "ERROR: The GD extension isn`t loaded. Please install php-gd package."
 msgstr "ERRO: A extensão GD do PHP não foi carregada. Por favor, instale o pacote php-gd."
 
+#: 
+msgid "Terminated Jobs (executed in last %s hours)"
+msgstr "Jobs finalizados (executados nas últimas %s horas)"
+
 #: application/controllers/FileController.php:57
 msgid "List Files for JobId"
 msgstr "Lista de arquivos por JobID"
@@ -254,7 +258,7 @@ msgstr "Adicionar descrições do Job"
 #: application/controllers/JobController.php:45
 #: application/controllers/JobController.php:528
 msgid "Terminated Jobs (executed in last 24 hours)"
-msgstr "Jobs finalizados (executado nas últimas 24 horas)"
+msgstr "Jobs finalizados (executados nas últimas 24 horas)"
 
 #: application/controllers/JobController.php:60
 #: application/controllers/JobController.php:79
@@ -723,11 +727,11 @@ msgstr "Descrição do Job"
 
 #: application/forms/FormUser.php:68
 msgid "Login"
-msgstr ""
+msgstr "Usuário"
 
 #: application/forms/FormUser.php:74
 msgid "Login incorrect. Login contains only english alphabetical characters, digits and underscore."
-msgstr ""
+msgstr "Usuário incorreto! O usuário deve conter apenas caracteres, números ou underline"
 
 #: application/forms/FormUser.php:81
 #: application/forms/FormLogin.php:69
@@ -837,7 +841,7 @@ msgstr "Atualizado a cada %s segundos"
 
 #: application/layouts/default/main-menu.phtml:28
 msgid "Administrator"
-msgstr ""
+msgstr "Administrador"
 
 #: application/layouts/default/main-menu.phtml:35
 msgid "Desktop"
@@ -861,11 +865,11 @@ msgstr "Job"
 
 #: application/layouts/default/main-menu.phtml:51
 msgid "Terminated"
-msgstr "Finalizado"
+msgstr "Finalizados"
 
 #: application/layouts/default/main-menu.phtml:52
 msgid "Running"
-msgstr "Executando"
+msgstr "Em execução"
 
 #: application/layouts/default/main-menu.phtml:53
 msgid "Next"
@@ -874,7 +878,7 @@ msgstr "Próximos"
 #: application/layouts/default/main-menu.phtml:54
 #: application/layouts/default/main-menu.phtml:71
 msgid "Problem"
-msgstr "Problemas"
+msgstr "Com problemas"
 
 #: application/layouts/default/main-menu.phtml:55
 msgid "Run"
@@ -1112,24 +1116,25 @@ msgstr "Legenda"
 
 #: application/views/scripts/help/index.phtml:15
 msgid "Yellow color"
-msgstr "Cor Amarela"
+msgstr "Amarelo"
 
 #: application/views/scripts/help/index.phtml:15
-#, fuzzy
 msgid "warnings"
 msgstr "Avisos"
 
 #: application/views/scripts/help/index.phtml:18
 msgid "Red color"
-msgstr "Cor Vermelha"
+msgstr "Vermelho"
 
 #: application/views/scripts/help/index.phtml:18
-#, fuzzy
+msgid "in separate window"
+msgstr "mostrar em uma janela separada"
+
+#: application/views/scripts/help/index.phtml:18
 msgid "errors"
 msgstr "Erros"
 
 #: application/views/scripts/help/index.phtml:21
-#, fuzzy
 msgid "Information"
 msgstr "Duração"
 
@@ -1172,31 +1177,31 @@ msgstr "Aguarde..."
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:57
 msgid "Standard options"
-msgstr ""
+msgstr "Opção Padrão"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:58
 msgid "Advanced options"
-msgstr ""
+msgstr "Opção Avançada"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:151
 msgid "Restore files in <b>where</b> directory."
-msgstr ""
+msgstr "Restaurar arquivo no diretório especificado"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:156
 msgid "Remove a part of the filename when restoring."
-msgstr ""
+msgstr "Remover parte do nome do arquivo quando restaurar"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:161
 msgid "Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."
-msgstr ""
+msgstr "Adicionar prefixo em todos os arquivos quando restaurar (não pode ser usado com campo \"onde\")"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:166
 msgid "Add a suffix to all your files."
-msgstr ""
+msgstr "Adicionar um sufixo em todos os arquivos"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:171
 msgid "Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."
-msgstr ""
+msgstr "Fazer uma manipulação complexa dos nomes de arquivos com o comando 'sed' do linux. Irá sobrescrever qualquer outra manipulação do nome dos arquivos."
 
 #: application/views/scripts/decorators/formJobrun.phtml:35
 msgid "When"
