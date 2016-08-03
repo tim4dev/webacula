@@ -37,7 +37,7 @@ msgstr ""
 
 #: application/controllers/BconsoleController.php:51
 msgid "Access denied."
-msgstr ""
+msgstr "Acesso negado"
 
 #: application/controllers/BconsoleController.php:57
 msgid "ERROR: bconsole not found."
@@ -67,7 +67,7 @@ msgstr "JobID %u não existe."
 
 #: application/controllers/RestorejobController.php:395
 msgid "Restore All files for JobId"
-msgstr "Recuperar todos arquivos"
+msgstr "Recuperar todos arquivos do JobId"
 
 #: application/controllers/RestorejobController.php:514
 msgid "Restore All files"
@@ -86,7 +86,7 @@ msgstr "Você selecionou os seguintes JobIds"
 #: application/controllers/RestorejobController.php:1041
 #, php-format
 msgid "%s<br>(%s dirs and files affected)"
-msgstr "%s<br>(%s diretório(s), arquivo(s))"
+msgstr "%s<br>(%s diretório(s) e arquivo(s)) afetados"
 
 #: application/controllers/RestorejobController.php:1001
 #: application/controllers/RestorejobController.php:1043
@@ -95,7 +95,7 @@ msgstr "Erro interno !"
 
 #: application/controllers/RestorejobController.php:1131
 msgid "List of Files to Restore for JobId"
-msgstr "Lista de arquivos para restaurar"
+msgstr "Lista de arquivos para restaurar do JobId"
 
 #: application/controllers/RestorejobController.php:1203
 msgid "List of Files to Restore"
@@ -103,20 +103,20 @@ msgstr "Lista de arquivos para restaurar"
 
 #: application/controllers/RestorejobController.php:1300
 msgid "Restore JobId"
-msgstr "Restaurar JobID"
+msgstr "Restaurar JobId"
 
 #: application/controllers/RestorejobController.php:1381
 msgid "Restore the most recent backup (or before a specified time) for a client"
-msgstr "Restaurar o backup mais recente (ou antes de uma data específica) por um cliente"
+msgstr "Restaurar o backup mais recente (ou antes de uma data específica) de um cliente"
 
 #: application/controllers/RestorejobController.php:1467
 #: application/controllers/RestorejobController.php:1517
 msgid "Restore Single File"
-msgstr "Recuperar um arquivo"
+msgstr "Recuperar um único arquivo"
 
 #: application/controllers/AdminController.php:89
 msgid "Roles"
-msgstr ""
+msgstr "Permissões"
 
 #: application/controllers/AdminController.php:112
 #: application/controllers/AdminController.php:154
@@ -127,21 +127,21 @@ msgstr ""
 #: application/controllers/AdminController.php:1000
 #: application/controllers/AdminController.php:1033
 msgid "Exception"
-msgstr ""
+msgstr "Exceção"
 
 #: application/controllers/AdminController.php:126
 msgid "Role add"
-msgstr ""
+msgstr "Adicionar permissão"
 
 #: application/controllers/AdminController.php:177
 #: application/controllers/AdminController.php:459
 #: application/controllers/AdminController.php:972
 msgid "Update"
-msgstr ""
+msgstr "Atualizar"
 
 #: application/controllers/AdminController.php:180
 msgid "Role update"
-msgstr ""
+msgstr "Atualizar permissão"
 
 #: application/controllers/AdminController.php:375
 msgid " ACL add"
@@ -154,11 +154,11 @@ msgstr ""
 #: application/controllers/AdminController.php:881
 #: application/controllers/AdminController.php:898
 msgid "Role"
-msgstr ""
+msgstr "Permissão"
 
 #: application/controllers/AdminController.php:916
 msgid "Users"
-msgstr ""
+msgstr "Usuários"
 
 #: application/controllers/AdminController.php:975
 msgid "User update"
@@ -175,7 +175,7 @@ msgstr ""
 #: application/controllers/FeedController.php:60
 #: application/controllers/WblogbookController.php:305
 msgid "Job Id"
-msgstr "ID"
+msgstr "Job Id"
 
 #: application/controllers/FeedController.php:61
 msgid "Job Name"
@@ -524,11 +524,11 @@ msgstr ""
 #: application/controllers/AuthController.php:154
 #, php-format
 msgid "Login with your %sWe%sbacula%s account"
-msgstr ""
+msgstr "%sWe%sbacula%s"
 
 #: application/controllers/AuthController.php:156
 msgid "Login with your Webacula account"
-msgstr ""
+msgstr "Webacula"
 
 #: application/controllers/AuthController.php:191
 #, php-format
@@ -573,7 +573,7 @@ msgstr ""
 #: application/controllers/AuthController.php:268
 #, fuzzy
 msgid "Reset password"
-msgstr "Limpar"
+msgstr "Resetar senha"
 
 #: application/models/Wbroles.php:108
 msgid "Role Id and Inherited Role Id must not be identical"
@@ -590,7 +590,7 @@ msgstr "Horas"
 #: application/forms/FormForgotPassword.php:50
 #: application/forms/FormLogin.php:50
 msgid "Username"
-msgstr ""
+msgstr "Usuário"
 
 #: application/forms/FormForgotPassword.php:59
 #: application/forms/FormLogin.php:59
@@ -600,7 +600,7 @@ msgstr ""
 #: application/forms/FormForgotPassword.php:70
 #: application/forms/FormUser.php:106
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: application/forms/FormForgotPassword.php:78
 msgid "Email address incorrect."
@@ -618,7 +618,7 @@ msgstr ""
 
 #: application/forms/FormWebaculaACL.php:61
 msgid "Webacula resources"
-msgstr ""
+msgstr "Recursos"
 
 #: application/forms/FormWebaculaACL.php:76
 #: application/forms/FormRole.php:126
@@ -626,7 +626,7 @@ msgstr ""
 #: application/forms/FormUser.php:146
 #: application/forms/FormBaculaCommandACL.php:76
 msgid "Submit Form"
-msgstr "Gravar"
+msgstr "Salvar"
 
 #: application/forms/FormWebaculaACL.php:84
 #: application/forms/FormRole.php:134
@@ -639,12 +639,12 @@ msgstr "Cancelar"
 
 #: application/forms/FormBaculaFill.php:79
 msgid "From Bacula database"
-msgstr ""
+msgstr "Catálogo Bacula"
 
 #: application/forms/FormRole.php:65
 #: application/forms/FormBaculaACL.php:62
 msgid "Order"
-msgstr ""
+msgstr "Ordem"
 
 #: application/forms/FormRole.php:77
 #: application/forms/FormBaculaACL.php:74
@@ -663,7 +663,7 @@ msgstr "Descrição do Job"
 
 #: application/forms/FormRole.php:110
 msgid "Inherited role"
-msgstr ""
+msgstr "Herdar permissão"
 
 #: application/forms/FormJobrun.php:85
 #: application/forms/FormJobrun.php:103
@@ -732,23 +732,23 @@ msgstr ""
 #: application/forms/FormUser.php:81
 #: application/forms/FormLogin.php:69
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: application/forms/FormUser.php:112
 msgid "Email incorrect."
-msgstr ""
+msgstr "Email incorreto"
 
 #: application/forms/FormUser.php:119
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #: application/forms/FormLogin.php:79
 msgid "Remember me"
-msgstr ""
+msgstr "Lembrar-me"
 
 #: application/forms/FormLogin.php:88
 msgid "Log In"
-msgstr ""
+msgstr "Entrar"
 
 #: application/forms/FormRestoreOptions.php:88
 #, fuzzy
@@ -903,7 +903,7 @@ msgstr "Geral"
 #: application/layouts/default/main-menu.phtml:89
 #, fuzzy
 msgid "Add New Record"
-msgstr "+ Novo registro"
+msgstr "Novo registro"
 
 #: application/layouts/default/main-menu.phtml:90
 msgid "RSS"
@@ -916,7 +916,7 @@ msgstr "Ajuda"
 #: application/layouts/default/main-menu.phtml:101
 #: application/layouts/default/main-menu.phtml:106
 msgid "Logout"
-msgstr ""
+msgstr "Sair"
 
 #: application/layouts/default/main-menu.phtml:116
 msgid "Enable JavaScript please..."
@@ -966,11 +966,11 @@ msgstr "Auto prune"
 
 #: application/views/scripts/client/all.phtml:12
 msgid "Files Retention<br />days"
-msgstr "Files Retention<br />dias"
+msgstr "Retenção de Arquivos<br />dias"
 
 #: application/views/scripts/client/all.phtml:13
 msgid "Jobs Retention<br />days"
-msgstr "Jobs Retention<br />dias"
+msgstr "Retenção de Jobs<br />dias"
 
 #: application/views/scripts/client/all.phtml:21
 msgid "Client Detail"
@@ -1057,7 +1057,10 @@ msgstr "Formato do Label"
 
 #: application/views/scripts/pool/all.phtml:12
 msgid "Number<br />Volumes"
-msgstr "Volume<br />Número"
+msgstr "Nº de<br/> Volumes"
+
+msgid "Max<br />Volumes"
+msgstr "Nº Máximo <br/>de Volumes"
 
 #: application/views/scripts/pool/all.phtml:13
 msgid "Accept<br />Any<br />Volume"
@@ -1065,15 +1068,15 @@ msgstr "Qualquer<br />Volume<br />Aceito"
 
 #: application/views/scripts/pool/all.phtml:14
 msgid "Volume<br />Retention<br />(days)"
-msgstr "Volume<br />Retention<br />(dias)"
+msgstr "Retenção dos <br/>Volumes<br />(dias)"
 
 #: application/views/scripts/pool/all.phtml:15
 msgid "Max<br />Volume<br />(Bytes)"
-msgstr "Tamanho<br /> máximo<br /> (Bytes)"
+msgstr "Tamanho<br /> Máximo<br /> (Bytes)"
 
 #: application/views/scripts/pool/all.phtml:17
 msgid "Auto Recycle"
-msgstr "Auto reciclar"
+msgstr "Reciclar<br/>Automaticamente"
 
 #: application/views/scripts/pool/all.phtml:18
 msgid "Type"
@@ -1101,24 +1104,24 @@ msgstr "Arquivos não encontrados"
 
 #: application/views/scripts/help/index.phtml:9
 msgid "web interface of a"
-msgstr ""
+msgstr "interface web para"
 
 #: application/views/scripts/help/index.phtml:13
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 #: application/views/scripts/help/index.phtml:15
 msgid "Yellow color"
-msgstr ""
+msgstr "Cor Amarela"
 
 #: application/views/scripts/help/index.phtml:15
 #, fuzzy
 msgid "warnings"
-msgstr "Limpando"
+msgstr "Avisos"
 
 #: application/views/scripts/help/index.phtml:18
 msgid "Red color"
-msgstr ""
+msgstr "Cor Vermelha"
 
 #: application/views/scripts/help/index.phtml:18
 #, fuzzy
@@ -1132,15 +1135,15 @@ msgstr "Duração"
 
 #: application/views/scripts/help/index.phtml:29
 msgid "You successfully logged in as"
-msgstr ""
+msgstr "Logado como"
 
 #: application/views/scripts/help/index.phtml:30
 msgid "DB Bacula"
-msgstr ""
+msgstr "Catálogo Bacula"
 
 #: application/views/scripts/help/index.phtml:31
 msgid "Version for Bacula Catalog database"
-msgstr ""
+msgstr "Versão do catálogo"
 
 #: application/views/scripts/help/index.phtml:33
 #, fuzzy
@@ -1153,11 +1156,11 @@ msgstr ""
 
 #: application/views/scripts/help/index.phtml:35
 msgid "Locale"
-msgstr ""
+msgstr "Idioma"
 
 #: application/views/scripts/help/index.phtml:36
 msgid "PHP info"
-msgstr ""
+msgstr "Informação do PHP"
 
 #: application/views/scripts/help/index.phtml:37
 msgid "PHP system id"
@@ -2006,11 +2009,11 @@ msgstr "Informações do DB Catalog: Todos Volumes estão OK."
 
 #: application/views/scripts/auth/login.phtml:35
 msgid "Forgot?"
-msgstr ""
+msgstr "Esqueci a senha"
 
 #: application/views/scripts/auth/forgot-password.phtml:6
 msgid "Forgot your password? Enter your user name and email below."
-msgstr ""
+msgstr "Esqueceu a senha? Digite o nome do usuário e o email"
 
 #: application/views/scripts/admin/user-index.phtml:18
 #, fuzzy
@@ -2050,7 +2053,7 @@ msgstr ""
 #: application/views/scripts/admin/role-main-form.phtml:42
 #, fuzzy
 msgid "Command"
-msgstr "Comentário"
+msgstr "Comando"
 
 #: application/views/scripts/admin/role-main-form.phtml:43
 #, fuzzy
@@ -2064,21 +2067,21 @@ msgstr "Registro criado em :"
 
 #: application/views/scripts/admin/role-index.phtml:90
 msgid "No Roles found."
-msgstr ""
+msgstr "Nenhuma permissão encontrada"
 
 #: application/views/scripts/admin/role-more-info.phtml:24
 msgid "Inherited roles"
-msgstr ""
+msgstr "Permissões herdadas"
 
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
 msgid "none"
-msgstr ""
+msgstr "Não"
 
 #: application/views/scripts/admin/role-more-info.phtml:41
 msgid "Who use this role"
-msgstr ""
+msgstr "Quem utiliza estas permissões"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s diretório(s), %s arquivo(s))"
