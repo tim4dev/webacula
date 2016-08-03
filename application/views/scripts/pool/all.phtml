@@ -10,8 +10,7 @@
      <th scope="col"> <a href="<?php echo $urlp; ?>/order/Name"><?php echo $this->translate->_("Name Pool"); ?></a></th>
      <th scope="col"> <a href="<?php echo $urlp; ?>/order/LabelFormat"><?php echo $this->translate->_("Label Format"); ?></a></th>
      <th scope="col" align="center"> <a href="<?php echo $urlp; ?>/order/NumVols"><?php echo $this->translate->_("Number<br />Volumes"); ?></a></th>
-     <th scope="col" align="center"> <a href="<?php echo $urlp; ?>/order/MaxVols"><?php echo $this->translate->_("Max <br />Volumes"); ?></a></th>
-     <th scope="col" align="center"> <?php print $this->translate->_("Accept<br />Any<br />Volume"); ?> </th>
+     <th scope="col" align="center"> <a href="<?php echo $urlp; ?>/order/MaxVols"><?php echo $this->translate->_("Max<br />Volumes"); ?></a></th>
      <th scope="col" align="center"> <a href="<?php echo $urlp; ?>/order/VolRetention"><?php echo $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
      <th scope="col" align="center"> <a href="<?php echo $urlp; ?>/order/MaxVolBytes"><?php echo $this->translate->_("Max<br />Volume<br />(Bytes)"); ?></a></th>
      <th scope="col" align="center"> <?php print $this->translate->_("Auto Prune"); ?> </th>
@@ -38,8 +37,7 @@
      ?>
 
      <td align="center"><?php echo $pool['maxvols'];?></td>
-     <td align="center"><?php echo $this->int2Char($this->escape($pool['acceptanyvolume']));?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($pool['volretention']));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($pool['volretention'])).' '. $this->translate->_('days');?></td>
 
      <?php
      if ( $pool['maxvolbytes'] <= 0 )
@@ -48,8 +46,8 @@
 			echo '<td align="right">' . $this->convBytes($this->escape($pool['maxvolbytes'])) . "</td>";
      ?>
 
-     <td align="center"><?php echo $this->int2Char($this->escape($pool['autoprune']));?></td>
-     <td align="center"><?php echo $this->int2Char($this->escape($pool['recycle']));?></td>
+     <td align="center"><?php echo $this->translate->_($this->int2Char($this->escape($pool['autoprune'])));?></td>
+     <td align="center"><?php echo $this->translate->_($this->int2Char($this->escape($pool['recycle'])));?></td>
      <td align="center"><?php echo $this->escape($pool['pooltype']);?></td>
 </tr>
 <?php endforeach; ?>

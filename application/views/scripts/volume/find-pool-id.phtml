@@ -16,10 +16,10 @@
 	<th scope="col" align="center"> <a href="<?php echo $urlp;?>/order/VolJobs"><?php echo $this->translate->_("Volume Jobs"); ?> </a></th>
 	<th scope="col" align="center"> <a href="<?php echo $urlp;?>/order/VolRetention"><?php echo $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
 	<th scope="col" align="center"> <a href="<?php echo $urlp;?>/order/MediaType"><?php echo $this->translate->_("Media<br />Type"); ?></a></th>
-	<th scope="col" align="center"> <a href="<?php echo $urlp;?>/order/FirstWritten"><?php echo $this->translate->_("First<br />Written"); ?></a></th>
 	<th scope="col" align="center"> <a href="<?php echo $urlp;?>/order/LastWritten"><?php echo $this->translate->_("Last<br />Written"); ?></a></th>
 	<th scope="col" align="center"> <?php print $this->translate->_("Autochanger<br />Slot<br />Number"); ?> </th>
 	<th scope="col" align="center"> <?php print $this->translate->_("Can Recycle<br />Volume"); ?> </th>
+	<th scope="col" align="center"> <?php echo $this->translate->_("Expires In"); ?></th>
 </tr>
 </thead>
 <tbody>
@@ -54,13 +54,16 @@
                 'title="', $this->translate->_("List Jobs by Volume Name"), '">',
                 number_format($this->escape($line['voljobs'])), '</a></td>';
 	?>
-
-	<td align="center"><?php echo $this->ConvSecondsToDays($this->escape($line['volretention']));?></td>
+	<td align="center"><?php echo $this->translate->_($this->ConvSecondsToDays($this->escape($line['volretention']))).' '. $this->translate->_("days");?></td>
 	<td align="center"><?php echo $this->escape($line['mediatype']);?></td>
-	<td align="center"><?php echo $this->escape($line['firstwritten']);?></td>
 	<td align="center"><?php echo $this->escape($line['lastwritten']);?></td>
 	<td align="center"><?php echo $this->escape($line['slot']);?></td>
-	<td align="center"><?php echo $this->Int2Char($this->escape($line['recycle']));?></td>
+	<td align="center"><?php echo $this->translate->_($this->Int2Char($this->escape($line['recycle'])));?></td>
+        <?php
+          $expiresin = strtotime($line['lastwritten']) + $line['volretention'];
+          $line['expiresin'] = strftime("%Y-%m-%d", $expiresin);
+        ?>
+	<td align="center"><?php echo $this->escape($line['expiresin']);?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
