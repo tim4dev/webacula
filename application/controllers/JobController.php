@@ -50,7 +50,7 @@ class JobController extends MyClass_ControllerAclAction
                 $terminatedDays = $this->view->config->general->days_to_show_jobs_terminated;
             }
         } 
-        $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last " . ($terminatedDays*24) . " hours)");
+        $this->view->title = sprintf($this->view->translate->_("Terminated Jobs (executed in last %s hours)"), ($terminatedDays*24) );
         // get data from model
         $jobs = new Job();
         $this->view->result = $jobs->getTerminatedJobs($terminatedDays,array('JobId DESC'));
