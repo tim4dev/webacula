@@ -587,6 +587,8 @@ EOF"
         $this->view->title = sprintf($this->view->translate->_("List Jobs (%s found) where '%s' is saved (limit %s)"),
             sizeof($this->view->result), $namefile, $limit);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 

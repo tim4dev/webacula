@@ -170,7 +170,7 @@
 		?>
 	</td>
 
-	<td>&nbsp;<?php echo $this->escape($line['starttime']);?>&nbsp;</td>
+	<td>&nbsp;<?php echo $this->escape(date($this->datetime_format,strtotime($line['starttime'])));?>&nbsp;</td>
 
 	<?php
 		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') )
