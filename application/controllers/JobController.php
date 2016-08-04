@@ -398,13 +398,13 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setNoRender();
             return;
         }
-        $datetimeline = date("Y-m-d", time());
-        $this->view->title = $this->view->translate->_("Timeline for date") . " " . date($this->view->date_format, time());
-        $timeline = new Timeline;
-        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'small');
-        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         $this->view->date_format = Zend_Registry::get('date_format');
         $this->view->datetime_format = Zend_Registry::get('datetime_format');
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $datetimeline = date("Y-m-d", time());
+        $this->view->title = $this->view->translate->_("Timeline for date") . " " . date($this->view->date_format, strtotime($datetimeline));
+        $timeline = new Timeline;
+        $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'small');
         if ( empty($this->view->img_map) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
