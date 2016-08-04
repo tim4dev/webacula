@@ -173,6 +173,21 @@ if ( isset($config->general->show_job_description) )    {
     $show_job_description = 0;
 $registry->set('show_job_description', $show_job_description);
 
+// Show date format in different format
+if ( !isset($config->general->date_format) ) {
+   $date_format = "Y-m-d";
+} else {
+   $date_format = $config->general->date_format;
+}
+$registry->set('date_format', $date_format);
+
+if ( !isset($config->general->datetime_format) ) {
+   $datetime_format = "Y-m-d H:i:s";
+} else {
+   $datetime_format = $config->general->datetime_format;
+}
+$registry->set('datetime_format', $datetime_format);
+
 Zend_Layout::startMvc(array(
     'layoutPath' => '../application/layouts/' . $config->layout->path,
     'layout' => 'main'
