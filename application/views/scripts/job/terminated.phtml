@@ -1,5 +1,4 @@
 <!-- job/terminated.phtml -->
-
  <?php if ( $this->result ): ?>
 
 <table id="box-table">
@@ -196,8 +195,8 @@
 		?>
 	</td>
 
-	<td>&nbsp;<?php echo $this->escape($line['starttime']);?>&nbsp;</td>
-	<td>&nbsp;<?php echo $this->escape($line['endtime']);?>&nbsp;</td>
+	<td>&nbsp;<?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?>&nbsp;</td>
+	<td>&nbsp;<?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?>&nbsp;</td>
 	<td align="right">&nbsp;<?php echo $this->escape($line['durationtime']);?>&nbsp;</td>
 
     <!-- add to logbook button -->

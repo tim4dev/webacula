@@ -1034,9 +1034,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Job', 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-    			    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-    			    'SchedTime' => "DATE_FORMAT(j.SchedTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime', 'SchedTime',
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
         		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)', 'PriorJobId',

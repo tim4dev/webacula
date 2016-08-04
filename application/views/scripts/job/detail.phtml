@@ -95,13 +95,13 @@
 	<td><?php echo $this->translate->_( $this->escape($line['jobstatuslong']) ); ?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Schedule Time"); ?> </td>
-	<td><?php echo $this->escape($line['schedtime']);?></td>
+	<td><?php echo $this->escape(date($this->datetime_format, strtotime($line['schedtime'])));?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Start Time"); ?> </td>
-	<td><?php echo $this->escape($line['starttime']);?></td>
+	<td><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("End Time"); ?> </td>
-	<td><?php echo $this->escape($line['endtime']);?></td>
+	<td><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Duration"); ?> </td>
 	<td><?php echo $this->escape($line['durationtime']);?></td>

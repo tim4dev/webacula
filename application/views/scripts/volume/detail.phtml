@@ -132,11 +132,11 @@ $ainchanger = array(
 </tr>
 <tr>
     <td><?php print $this->translate->_("First Written"); ?> </td>
-    <td><?php echo $this->escape($line['firstwritten']);?></td>
+    <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['firstwritten'])));?></td>
 </tr>
 <tr>
     <td><?php print $this->translate->_("Last Written"); ?> </td>
-    <td><?php echo $this->escape($line['lastwritten']);?></td>
+    <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['lastwritten'])));?></td>
 </tr>
 <tbody>
 </table>
@@ -153,7 +153,7 @@ $ainchanger = array(
 <tbody>
 <tr>
     <td><?php print $this->translate->_("Label Date"); ?> </td>
-    <td><?php echo $this->escape($line['labeldate']);?></td>
+    <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['labeldate'])));?></td>
 </tr>
 <tr>
     <td><?php print $this->translate->_("Files"); ?> </td>

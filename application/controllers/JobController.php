@@ -56,6 +56,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->result = $jobs->getTerminatedJobs($terminatedDays,array('JobId DESC'));
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -188,6 +190,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->jtype      = $jtype;
         $this->view->volname    = $volname;
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         
         if ($jobs) {
             $paginator = Zend_Paginator::factory($jobs);
@@ -214,6 +218,8 @@ class JobController extends MyClass_ControllerAclAction
         $job = new Job();
         $this->view->result = $job->getByJobId($jobid);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -232,6 +238,8 @@ class JobController extends MyClass_ControllerAclAction
         $job = new Job();
         $this->view->result = $job->getByJobName($jobname);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -250,6 +258,8 @@ class JobController extends MyClass_ControllerAclAction
         $job = new Job();
         $this->view->result = $job->getByVolumeName($volname);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -300,6 +310,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->resultJob = $adetail['job'];
         $this->view->resultVol = $adetail['volume'];
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -322,6 +334,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->result = $jobs->getProblemJobs($last_days);
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -337,11 +351,8 @@ class JobController extends MyClass_ControllerAclAction
         $jobs = new Job();
         $this->view->result = $jobs->getProblemJobs($last_days);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
-        if ( empty($this->view->result) ) {
-            $this->_helper->viewRenderer->setNoRender();
-        } else {
-            $this->_helper->viewRenderer->setResponseSegment('job_problem');
-        }
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -369,6 +380,8 @@ class JobController extends MyClass_ControllerAclAction
         $timeline = new Timeline;
         $this->view->datetimeline = $datetimeline;
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         // for image map
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');
     }
@@ -385,16 +398,13 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setNoRender();
             return;
         }
-        if ( empty($this->view->config->general->date_format) ) {
-           $dateFormat = "Y-m-d";
-        } else {
-           $dateFormat = $this->view->config->general->date_format;
-        }
         $datetimeline = date("Y-m-d", time());
-        $this->view->title = $this->view->translate->_("Timeline for date") . " " . date($dateFormat, time());
+        $this->view->title = $this->view->translate->_("Timeline for date") . " " . date($this->view->date_format, time());
         $timeline = new Timeline;
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'small');
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         if ( empty($this->view->img_map) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -521,11 +531,13 @@ EOF"
         $num_max = 200;
         if ( $numjob <= 0 ) { $numjob = 20;	}
         if ( $numjob > $num_max ) { $numjob = $num_max;	}
-
+        $datetimeline = date("Y-m-d", time());
         $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
         $job = new Job();
         $this->view->result = $job->getLastJobRun($numjob);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 

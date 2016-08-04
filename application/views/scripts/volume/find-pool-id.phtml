@@ -56,14 +56,14 @@
 	?>
 	<td align="center"><?php echo $this->translate->_($this->ConvSecondsToDays($this->escape($line['volretention']))).' '. $this->translate->_("days");?></td>
 	<td align="center"><?php echo $this->escape($line['mediatype']);?></td>
-	<td align="center"><?php echo $this->escape( date($this->datetime_format, strtotime($line['lastwritten'])) );?></td>
+	<td align="center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['lastwritten'])));?></td>
 	<td align="center"><?php echo $this->escape($line['slot']);?></td>
 	<td align="center"><?php echo $this->translate->_($this->Int2Char($this->escape($line['recycle'])));?></td>
         <?php
           $expiresin = strtotime($line['lastwritten']) + $line['volretention'];
           $line['expiresin'] = strftime("%Y-%m-%d %H:%M:%S", $expiresin);
         ?>
-	<td align="center"><?php echo $this->escape( date($this->date_format, strtotime($line['expiresin'])) );?></td>
+	<td align="center"><?php echo $this->escape(date($this->date_format, strtotime($line['expiresin'])));?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
