@@ -64,6 +64,17 @@ class VolumeController extends MyClass_ControllerAclAction
         } else
             $this->view->result = null;
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+
+        if ( empty($this->view->config->general->date_format) ) {
+           $this->view->date_format = "Y-m-d";
+        } else {
+           $this->view->date_format = $this->view->config->general->date_format;
+        }
+        if ( empty($this->view->config->general->datetime_format) ) {
+           $this->view->datetime_format = "Y-m-d H:i:s";
+        } else {
+           $this->view->datetime_format = $this->view->config->general->datetime_format;
+        }
     }
 
     /**
