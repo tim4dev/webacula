@@ -25,8 +25,8 @@
 
      <td><?php echo $this->escape($client['uname']);?></td>
      <td align="center"><?php echo $this->translate->_($this->int2Char($this->escape($client['autoprune'])));?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['fileretention']));?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['jobretention']));?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['fileretention'])).' '.$this->translate->_('days');?></td>
+     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['jobretention'])).' '.$this->translate->_('days');?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
