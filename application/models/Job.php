@@ -750,8 +750,7 @@ Select Job resource (1-3):
             	//$select->distinct();
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+   				    'StartTime', 'EndTime',
    				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
        			    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
@@ -858,8 +857,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime',
                     'StartTimeRaw' => 'j.StartTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
@@ -919,8 +917,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime',
                     'StartTimeRaw' => 'j.StartTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
@@ -975,8 +972,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
     			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
            			'FileSetId', 'PurgedFiles', 'JobStatus',
            			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
@@ -1253,8 +1249,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                 array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime' =>  'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
