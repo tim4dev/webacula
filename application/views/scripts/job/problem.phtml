@@ -138,9 +138,9 @@
 	<!-- Errors -->
 	<?php
 		if ( $line['joberrors'] == 0 )
-			echo '<td align="right">-</td>';
+			echo '<td align="center">-</td>';
 		else {
-		    echo '<td class="err" align="right">';
+		    echo '<td class="err" align="center">';
 		    echo '<a href="';
 			echo $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
 			     $this->translate->_("View Messages"), '" class="linkerr">';

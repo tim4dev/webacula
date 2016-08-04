@@ -79,7 +79,7 @@
     <td><?php echo $this->escape($line['short_desc']);?></td>
 </tr><tr>    
 	<td> <?php print $this->translate->_("Purged Files"); ?> </td>
-	<td><?php echo $this->Int2Char($this->escape($line['purgedfiles']));?></td>
+	<td><?php echo $this->translate->_($this->Int2Char($this->escape($line['purgedfiles'])));?></td>
 </tr><tr>
 	<td> <?php print $this->translate->_("Job Type"); ?> </td>
 	<td><?php echo $this->DecodeJobType($this->escape($line['type'])); ?></td>
