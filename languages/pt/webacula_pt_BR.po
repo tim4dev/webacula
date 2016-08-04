@@ -230,7 +230,7 @@ msgstr "Nome do volume"
 
 #: application/controllers/FeedController.php:84
 msgid "Volume Status"
-msgstr "Status do Volume"
+msgstr "Status"
 
 #: application/controllers/FeedController.php:86
 msgid "Volumes with errors"
@@ -851,7 +851,7 @@ msgstr "Todos Jobs"
 
 #: application/layouts/default/main-menu.phtml:39
 msgid "Bacula Console"
-msgstr "Bacula Console"
+msgstr "Bconsole"
 
 #: application/layouts/default/main-menu.phtml:45
 msgid "Director"
@@ -967,11 +967,11 @@ msgstr "Auto prune"
 
 #: application/views/scripts/client/all.phtml:12
 msgid "Files Retention<br />days"
-msgstr "Retenção de </br/>Arquivos"
+msgstr "Retenção de</br/>arquivos"
 
 #: application/views/scripts/client/all.phtml:13
 msgid "Jobs Retention<br />days"
-msgstr "Retenção de <br/>Jobs"
+msgstr "Retenção de<br/>jobs"
 
 #: application/views/scripts/client/all.phtml:21
 msgid "Client Detail"
@@ -1050,18 +1050,18 @@ msgstr "Sem Storage [un]mount."
 
 #: application/views/scripts/pool/all.phtml:10
 msgid "Name Pool"
-msgstr "Nome da Pool"
+msgstr "Nome da pool"
 
 #: application/views/scripts/pool/all.phtml:11
 msgid "Label Format"
-msgstr "Formato do Label"
+msgstr "Formato do label"
 
 #: application/views/scripts/pool/all.phtml:12
 msgid "Number<br />Volumes"
-msgstr "Nº de<br/> Volumes"
+msgstr "Nº de<br/> volumes"
 
 msgid "Max<br />Volumes"
-msgstr "Nº Máximo <br/>de Volumes"
+msgstr "Nº máximo<br/>de volumes"
 
 #: application/views/scripts/pool/all.phtml:14
 msgid "Volume<br />Retention<br />(days)"
@@ -1069,7 +1069,7 @@ msgstr "Retenção"
 
 #: application/views/scripts/pool/all.phtml:15
 msgid "Max<br />Volume<br />(Bytes)"
-msgstr "Capacidade<br />por Volume"
+msgstr "Capacidade<br />por volume"
 
 #: application/views/scripts/pool/all.phtml:17
 msgid "Auto Recycle"
@@ -1900,7 +1900,7 @@ msgid "Last Written"
 msgstr "Última alteração"
 
 msgid "Expires In"
-msgstr "Data de</br/>Expiração"
+msgstr "Data de</br/>expiração"
 
 #: application/views/scripts/volume/detail.phtml:155
 msgid "Label Date"
@@ -1954,14 +1954,14 @@ msgstr "Número de reciclagens"
 #: application/views/scripts/volume/problem.phtml:87
 #: application/views/scripts/volume/find-name.phtml:12
 msgid "Volume Bytes"
-msgstr "Uso do Volume"
+msgstr "Utilizado"
 
 #: application/views/scripts/volume/find-pool-id.phtml:15
 #: application/views/scripts/volume/problem-dashboard.phtml:16
 #: application/views/scripts/volume/problem.phtml:12
 #: application/views/scripts/volume/find-name.phtml:13
 msgid "Max Volume<br />Bytes"
-msgstr "Capacidade Volume"
+msgstr "Capacidade"
 
 #: application/views/scripts/volume/find-pool-id.phtml:16
 #: application/views/scripts/volume/problem-dashboard.phtml:17
@@ -2035,7 +2035,7 @@ msgstr "Registros não encontrados"
 #: application/views/scripts/admin/role-index.phtml:71
 #: application/views/scripts/admin/role-more-info.phtml:16
 msgid "More info"
-msgstr ""
+msgstr "Mais informações"
 
 #: application/views/scripts/admin/role-main-form.phtml:40
 msgid "Webacula ACL"
