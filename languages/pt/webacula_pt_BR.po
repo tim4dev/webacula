@@ -177,7 +177,7 @@ msgstr "Adicionar usuário"
 #: application/controllers/FeedController.php:60
 #: application/controllers/WblogbookController.php:305
 msgid "Job Id"
-msgstr "Job Id"
+msgstr "JobId"
 
 #: application/controllers/FeedController.php:61
 msgid "Job Name"
@@ -1418,19 +1418,19 @@ msgstr "Aguardando alguma coisa"
 
 #: application/views/scripts/job/find-form.phtml:79
 msgid "Backup type"
-msgstr "Tipo de backup"
+msgstr "backup"
 
 #: application/views/scripts/job/find-form.phtml:80
 msgid "Restore type"
-msgstr "Tipo de restore"
+msgstr "restore"
 
 #: application/views/scripts/job/find-form.phtml:81
 msgid "Verify type"
-msgstr "Tipo de verificação"
+msgstr "verify"
 
 #: application/views/scripts/job/find-form.phtml:82
 msgid "Admin Job type"
-msgstr "Tipo de job admin"
+msgstr "admin"
 
 #: application/views/scripts/job/find-form.phtml:111
 msgid "Time, Client, Fileset, Level, Status, Type"
