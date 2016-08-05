@@ -42,9 +42,9 @@
     <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Type"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Priority"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Scheduled"); ?> </th>
+    <th align="center"> <?php print $this->translate->_("Scheduled"); ?> </th>
     <th scope="col"> <?php print $this->translate->_("Volume"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("% Free space<br /> on Volume"); ?> </th>
+    <th align="center"> <?php print $this->translate->_("% Free space<br /> on Volume"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -114,7 +114,7 @@
                 $class = '';
             break;
 	}
-	echo '<td ',$class,' align="right">',$line['volfree'] ,'</td>';
+	echo '<td ',$class,' align="center">',$line['volfree'] ,' %</td>';
     ?>
 
 </tr>

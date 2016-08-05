@@ -251,11 +251,11 @@ msgstr "Lista de arquivos por JobID"
 
 #: application/controllers/WbjobdescController.php:40
 msgid "Job Descriptions"
-msgstr "Descrições do Job"
+msgstr "Descrições do job"
 
 #: application/controllers/WbjobdescController.php:49
 msgid "Add Job Description"
-msgstr "Adicionar descrições do Job"
+msgstr "Adicionar descrições do job"
 
 #: application/controllers/JobController.php:45
 #: application/controllers/JobController.php:528
@@ -265,16 +265,16 @@ msgstr "Jobs finalizados (executados nas últimas 24 horas)"
 #: application/controllers/JobController.php:60
 #: application/controllers/JobController.php:79
 msgid "Information from DB Catalog : List of Running Jobs"
-msgstr "Informações do DB Catalog: Lista de Jobs em execução"
+msgstr "Informações do catálogo: Lista de jobs em execução"
 
 #: application/controllers/JobController.php:61
 msgid "List of Running Jobs"
-msgstr "Lista de Jobs em execução"
+msgstr "Lista de jobs em execução"
 
 #: application/controllers/JobController.php:66
 #: application/controllers/JobController.php:84
 msgid "Information from Director : List of Running Jobs"
-msgstr "Informações do Director: Lista de Jobs em execução"
+msgstr "Informações do director: Lista de jobs em execução"
 
 #: application/controllers/JobController.php:101
 #: application/controllers/JobController.php:121
@@ -298,11 +298,11 @@ msgstr "Listar Jobs pelo Nome"
 #: application/controllers/JobController.php:238
 #: application/controllers/JobController.php:240
 msgid "List Jobs by Volume Name"
-msgstr "Listar Jobs pelo Volume"
+msgstr "Listar jobs pelo volume"
 
 #: application/controllers/JobController.php:254
 msgid "Search Jobs"
-msgstr "Pesquisar Jobs"
+msgstr "Pesquisar jobs"
 
 #: application/controllers/JobController.php:269
 #: application/controllers/JobController.php:274
@@ -1038,7 +1038,7 @@ msgstr "Inserir autochanger slot"
 
 #: application/views/scripts/storage/storage.phtml:83
 msgid "Storage Status"
-msgstr "Status do Storage"
+msgstr "Status do storage"
 
 #: application/views/scripts/storage/storage.phtml:90
 msgid "Display autochanger content"
@@ -1229,7 +1229,7 @@ msgstr "Id"
 #: application/views/scripts/job/running-dashboard.phtml:102
 #: application/views/scripts/job/running.phtml:98
 msgid "Information from Director : No Running Jobs found."
-msgstr "Informações do Director: Não foram encontrados Jobs em execução"
+msgstr "Informações do director: Não foram encontrados jobs em execução"
 
 #: application/views/scripts/job/running-dashboard.phtml:147
 #: application/views/scripts/job/running.phtml:140
@@ -1239,7 +1239,7 @@ msgstr "aa-mm-dd"
 #: application/views/scripts/job/running-dashboard.phtml:216
 #: application/views/scripts/job/running.phtml:231
 msgid "Information from DB Catalog : No Running Jobs found."
-msgstr "Informações do DB Catalog: Não foram encontrados Jobs em execução"
+msgstr "Informações do catálogo: Não foram encontrados jobs em execução"
 
 #: application/views/scripts/job/terminated-dashboard.phtml:62
 #: application/views/scripts/job/terminated-dashboard.phtml:63
@@ -1481,7 +1481,7 @@ msgstr "Ver Jobs em execução"
 
 #: application/views/scripts/job/next.phtml:47
 msgid "% Free space<br /> on Volume"
-msgstr "% de espaço livre<br /> no Volume"
+msgstr "Espaço livre<br />no volume"
 
 #: application/views/scripts/job/next.phtml:99
 msgid "Unknown"
@@ -2001,7 +2001,7 @@ msgstr "Reciclar"
 #: application/views/scripts/volume/problem.phtml:70
 #: application/views/scripts/volume/problem.phtml:144
 msgid "Information from DB Catalog : All Volumes are OK."
-msgstr "Informações do DB Catalog: Todos Volumes estão OK."
+msgstr "Informações do catálogo: Todos os volumes estão ok."
 
 #: application/views/scripts/auth/login.phtml:35
 msgid "Forgot?"

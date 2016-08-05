@@ -77,6 +77,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -99,6 +101,8 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setResponseSegment('job_running');
         }
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -118,6 +122,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->result = $jobs->getScheduledJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -142,6 +148,8 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setResponseSegment('job_next');
         }
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 

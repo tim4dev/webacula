@@ -25,21 +25,21 @@
 <table id="box-table-dashboard">
 <thead>
 <tr>
-     <th scope="col"> <?php print $this->translate->_("Id");   ?>   </th>
-     <th scope="col"> <?php print $this->translate->_("Level");  ?> </th>
-     <th scope="col"> <?php echo $this->translate->_("Job Name");?> </th>
-     <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
+     <th align="center">&nbsp;&nbsp; <?php print $this->translate->_("Job Id");?>&nbsp;&nbsp;</th>
+     <th align="center">&nbsp;&nbsp; <?php print $this->translate->_("Type"); ?>&nbsp;&nbsp; </th>
+     <th align="center"> <?php print $this->translate->_("Level");  ?> </th>
+     <th scope="col"> <?php echo $this->translate->_("Job Name").'/'.$this->translate->_("Status");?> </th>
 </tr>
 </thead>
 <tbody>
 <?php foreach($this->resultDirRunningJobs as $line) : ?>
 <tr>
-    <td>
+    <td align="center">
         <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['id']). '/jobname/' . $this->escape($line['name']); ?>">
             <?php echo $this->escape($line['id']);?>
        </a>
     </td>
-    <td><?php echo $this->escape($line['level']);?></td>
+    <td align="center"><?php echo $this->escape($line['level']);?></td>
     <!-- Job Name -->
     <td> <?php  echo $this->escape($line['name']);?> </td>
     <td><?php echo $this->escape($line['status']);?></td>
@@ -77,7 +77,7 @@
 <table id="box-table-dashboard">
 <thead>
 <tr>
-	 <th scope="col"> <?php print $this->translate->_("Id"); 	 ?> </th>
+	 <th align="center">&nbsp;&nbsp;<?php print $this->translate->_("Job Id"); ?>&nbsp;&nbsp;</th>
      <th scope="col"> 
      <?php 
         switch ($this->show_job_description) {
@@ -98,16 +98,16 @@
      ?> 
      </th>
      <th scope="col"> <?php print $this->translate->_("Status"); 	 ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Level");    ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Level");    ?> </th>
+     <th align="center"> <?php print $this->translate->_("Errors"); ?> </th>
      <th scope="col"> <?php print $this->translate->_("Client");   ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Start Time"); ?><br /> <?php print $this->translate->_("yy-mm-dd"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Start Time"); ?> </th>
 </tr>
 </thead>
 <tbody>
 <?php foreach($this->resultRunningJobs as $line) : ?>
 <tr>
-    <td>
+    <td align="center">
         <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['jobid']). '/jobname/' . $this->escape($line['jobname']); ?>">
             <?php echo $this->escape($line['jobid']);?>
         </a>
@@ -160,7 +160,7 @@
     ?>
 
     <td ><?php echo $this->escape($line['clientname']);?></td>
-    <td><?php echo $this->escape($line['starttime']);?></td>
+    <td><?php echo $this->escape(date($this->datetime_format,strtotime($line['starttime'])));?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
