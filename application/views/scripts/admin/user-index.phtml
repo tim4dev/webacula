@@ -22,15 +22,15 @@
 <table id="box-table-admin" border="0">
 <thead>
 <tr>
-    <th scope="col"> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/id">id</a> </th>
-    <th scope="col"> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/login"><?php echo $this->translate->_('Login'); ?></a> </th>
-    <th scope="col"> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/name"><?php echo $this->translate->_('Name'); ?></a> </th>
-    <th scope="col"> <?php echo $this->translate->_('Email'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Role'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Created'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Last login'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Last IP'); ?> </th>   
-    <th scope="col">&nbsp;</th>
+    <th> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/id">id</a> </th>
+    <th> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/login"><?php echo $this->translate->_('Login'); ?></a> </th>
+    <th> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/name"><?php echo $this->translate->_('Name'); ?></a> </th>
+    <th> <?php echo $this->translate->_('Email'); ?> </th>
+    <th> <?php echo $this->translate->_('Role'); ?> </th>
+    <th align="center"> <?php echo $this->translate->_('Created'); ?> </th>
+    <th align="center"> <?php echo $this->translate->_('Last login'); ?> </th>
+    <th align="col"> <?php echo $this->translate->_('Last IP'); ?> </th>   
+    <th align="col">&nbsp;</th>
 </tr>
 </thead>
 <tbody>
@@ -55,10 +55,10 @@
             </a>&nbsp;
         </td>
         <td <?php echo $td_class; ?>>
-            &nbsp;<?php echo $this->escape($line['create_login']);?>&nbsp;
+            &nbsp;<?php echo $this->escape(date($this->datetime_format,strtotime($line['create_login'])));?>&nbsp;
         </td>
         <td <?php echo $td_class; ?>>
-            &nbsp;<?php echo $this->escape($line['last_login']);?>&nbsp;
+            &nbsp;<?php echo $this->escape(date($this->datetime_format,strtotime($line['last_login'])));?>&nbsp;
         </td>
         <td <?php echo $td_class; ?>>
             &nbsp;<?php echo $this->escape($line['last_ip']);?>&nbsp;

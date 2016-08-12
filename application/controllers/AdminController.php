@@ -914,6 +914,8 @@ class AdminController extends MyClass_ControllerAclAction
         $users = new Wbusers();
         $this->view->result = $users->fetchAllUsers($order);
         $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Users');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
