@@ -154,13 +154,13 @@
     else  {
         if ( $line['reviewed'] > 0 )  {
             // reviewed icon
-            echo '<td align="right">';
+            echo '<td align="center">';
             echo '<img src="', $this->baseUrl, '/images/dialog-ok-apply-small.png" align="absmiddle" ',
                 ' alt="', $this->translate->_("Bacula Job Reviewed"),'"',
                 ' title="', $this->translate->_("Bacula Job Reviewed"),'"',
                 ' border="0" hspace="4">';
         } else
-            echo '<td class="err" align="right">';
+            echo '<td class="err" align="center">';
         echo '<a href="',
             $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
             $this->translate->_("View Messages"), '"';
