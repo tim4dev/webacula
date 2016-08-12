@@ -6,9 +6,9 @@
 <caption><?php echo $this->escape($this->title); ?></caption>
 <thead>
 <tr>
-     <th scope="col">&nbsp;</th>
-     <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
-     <th scope="col"> 
+     <th align="center">&nbsp;</th>
+     <th align="center"> <?php print $this->translate->_("Job Id"); ?> </th>
+     <th> 
      <?php 
         switch ($this->show_job_description) {
             case 0 :
@@ -27,17 +27,17 @@
         }
      ?> 
      </th>
-     <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Client"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Pool"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
-     <th scope="col">&nbsp;</th>
+     <th align="center"> <?php print $this->translate->_("Status"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Level"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Files"); ?> </th>
+     <th> <?php print $this->translate->_("Bytes"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Errors"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Client"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Pool"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Start Time"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("End Time"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Duration"); ?> <br /></th>
+     <th align="center">&nbsp;</th>
 </tr>
 </thead>
 <tbody>
@@ -130,9 +130,9 @@
 	<?php
 		$class = '';
 		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warn"';
-		echo '<td ', $class, ' align="right">', number_format($line['jobfiles']), '</td>';
+		echo '<td ', $class, ' align="center">', number_format($line['jobfiles']), '</td>';
 		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warn"';
-		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
+		echo '<td ', $class, ' align="center">', $this->convBytes($line['jobbytes']), '</td>';
 	?>
 
 	<!-- Errors -->
@@ -170,9 +170,9 @@
 		?>
 	</td>
 
-	<td><?php echo $this->escape($line['starttime']);?></td>
-	<td><?php echo $this->escape($line['endtime']);?></td>
-	<td align="right"><?php echo $this->escape($line['durationtime']);?></td>
+	<td align="center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
+	<td align="center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
+	<td align="center"><?php echo $this->escape($line['durationtime']);?></td>
 
         <!-- add to logbook button -->
         <td style="padding: 0px; width:16px;"><?php
