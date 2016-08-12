@@ -51,7 +51,7 @@ msgstr "Status do Director"
 
 #: application/controllers/DirectorController.php:70
 msgid "List of Job Totals"
-msgstr "Todos Jobs"
+msgstr "Totalizador dos jobs"
 
 #: application/controllers/RestorejobController.php:251
 #: application/controllers/RestorejobController.php:649
@@ -118,7 +118,7 @@ msgstr "Recuperar um único arquivo"
 
 #: application/controllers/AdminController.php:89
 msgid "Roles"
-msgstr "Permissões"
+msgstr "Controle de acesso"
 
 #: application/controllers/AdminController.php:112
 #: application/controllers/AdminController.php:154
@@ -133,7 +133,7 @@ msgstr "Exceção"
 
 #: application/controllers/AdminController.php:126
 msgid "Role add"
-msgstr "Adicionar permissão"
+msgstr "Adicionar controle de acesso"
 
 #: application/controllers/AdminController.php:177
 #: application/controllers/AdminController.php:459
@@ -156,7 +156,7 @@ msgstr ""
 #: application/controllers/AdminController.php:881
 #: application/controllers/AdminController.php:898
 msgid "Role"
-msgstr "Permissão"
+msgstr "Controle de acesso"
 
 #: application/controllers/AdminController.php:916
 msgid "Users"
@@ -659,11 +659,11 @@ msgstr ""
 
 #: application/forms/FormRole.php:92
 msgid "Description"
-msgstr "Descrição do Job"
+msgstr "Descrição"
 
 #: application/forms/FormRole.php:110
 msgid "Inherited role"
-msgstr "Herdar permissão"
+msgstr "Herdar de"
 
 #: application/forms/FormJobrun.php:85
 #: application/forms/FormJobrun.php:103
@@ -839,7 +839,7 @@ msgstr "Atualizado a cada %s segundos"
 
 #: application/layouts/default/main-menu.phtml:28
 msgid "Administrator"
-msgstr "Administrador"
+msgstr "Administração"
 
 #: application/layouts/default/main-menu.phtml:35
 msgid "Desktop"
@@ -847,7 +847,7 @@ msgstr "Desktop"
 
 #: application/layouts/default/main-menu.phtml:37
 msgid "Job Totals"
-msgstr "Todos Jobs"
+msgstr "Totalizador dos jobs"
 
 #: application/layouts/default/main-menu.phtml:39
 msgid "Bacula Console"
@@ -2013,19 +2013,19 @@ msgstr "Esqueceu a senha? Digite o nome do usuário e o email"
 
 #: application/views/scripts/admin/user-index.phtml:18
 msgid "Create new user"
-msgstr "Criar novo usuário"
+msgstr "Novo usuário"
 
 #: application/views/scripts/admin/user-index.phtml:30
 msgid "Created"
-msgstr "Registro criado em :"
+msgstr "Data de criação"
 
 #: application/views/scripts/admin/user-index.phtml:31
 msgid "Last login"
-msgstr "Histórico:"
+msgstr "Último acesso"
 
 #: application/views/scripts/admin/user-index.phtml:32
 msgid "Last IP"
-msgstr "Últimos"
+msgstr "Acessado de"
 
 #: application/views/scripts/admin/user-index.phtml:85
 msgid "No Users found."
@@ -2051,7 +2051,7 @@ msgstr "Fileset"
 
 #: application/views/scripts/admin/role-index.phtml:18
 msgid "Create new role"
-msgstr ""
+msgstr "Novo"
 
 #: application/views/scripts/admin/role-index.phtml:90
 msgid "No Roles found."
