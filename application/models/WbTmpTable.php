@@ -27,21 +27,21 @@ class WbTmpTable extends Zend_Db_Table
 {
     // for pager
     const ROW_LIMIT_FILES = 500;
-    // for names of tmp tables (для формирования имен временных таблиц)
-    const _PREFIX = 'webacula_tmp_'; // только в нижнем регистре
+    // for names of tmp tables
+    const _PREFIX = 'webacula_tmp_'; // only lowercase
 
     public $db_adapter;
 
     protected $jobidhash;
 
     protected $_name    = 'webacula_tmp_tablelist'; // list of temporary tables.
-                                                   //список всех временных таблиц, имя только в нижнем регистре
+                                                    //list all temporary tables, the name of only lowercase
     protected $_primary = 'tmpid';
     protected $ttl_restore_session = 3600; // time to live temp tables (1 hour)
 
-    // names of tmp tables (имена временных таблиц)
+    // names of tmp tables
     protected $tmp_file;
-    protected $num_tmp_tables = 1; // count of tmp tables (кол-во временных таблиц)
+    protected $num_tmp_tables = 1; // count of tmp tables
 
     private $insertarray = array();
     private $flushnumber = 200;
@@ -56,7 +56,7 @@ class WbTmpTable extends Zend_Db_Table
         $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
         $this->jobidhash = $jobidhash;
         $this->ttl_restore_session = $ttl_restore_session;
-        // формируем имена временных таблиц
+        // generate a temp table name
         $this->tmp_file    = self::_PREFIX . 'file_'     . $this->jobidhash;
         $config['db']      = Zend_Registry::get('db_bacula'); // database
         $config['name']    = $this->_name;      // name table
@@ -67,11 +67,11 @@ class WbTmpTable extends Zend_Db_Table
 
         // setup DB adapter
         $this->_db = Zend_Db_Table::getAdapter('db_bacula');
-        // существует ли таблица ?
+        // if table exists
         try {
             $this->_db->query('SELECT tmpId FROM '. $this->_name .' LIMIT 1');
         } catch (Zend_Exception $e) {
-            // создаем таблицу
+            // create table
             switch ($this->db_adapter) {
             case 'PDO_MYSQL':
                 $sql = 'CREATE TABLE '. $this->_name .' (
@@ -125,7 +125,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Пометить файл для восстановления
+     * Mark file for recovery
      */
     function markFile($fileid)
     {
@@ -134,7 +134,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Удалить пометку файла для восстановления
+     * Remove file for recovery
      */
     function unmarkFile($fileid)
     {
@@ -142,8 +142,8 @@ class WbTmpTable extends Zend_Db_Table
     }
 
     /**
-     * Пометить/снять пометку
-     * каталог + файлы в каталоге + подкаталоги + файлы в них для восстановления.
+     * Mark / unmark
+     * Show catalog files and subdirectories to recover
      *
      * @param string $pathid
      * @param integer $label 0 или 1
@@ -152,10 +152,10 @@ class WbTmpTable extends Zend_Db_Table
      */
     function markDir($path, $label)
     {
-        // проверка $label
+        // verification $label
         if ( !is_numeric($label) )
             return null;
-        // помечаем файлы для восстановления
+        // mark the files to recover
         $query = 'UPDATE '. $this->_db->quoteIdentifier($this->tmp_file) .' SET isMarked = '.$label.
             ' WHERE FileId IN (
             SELECT f.FileId FROM File AS f
@@ -165,8 +165,8 @@ class WbTmpTable extends Zend_Db_Table
         $res = $this->_db->query($query);
         unset($query);
         unset($res);
-        // подсчет статистики
-        // кол-во файлов
+        // statistics counting
+        // number of files
         $query = "SELECT count(FileId) as countf FROM " . $this->_db->quoteIdentifier($this->tmp_file) .
                 " WHERE  isMarked=1";
         $stmt   = $this->_db->query($query);
@@ -181,7 +181,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Получить имя файла
+     * Get file name
      */
     function getFileName($fileid)
     {
@@ -193,7 +193,7 @@ class WbTmpTable extends Zend_Db_Table
     }
 
     /**
-     * Получить имя каталога
+     * Get folder name
      */
     function getDirName($pathid)
     {
@@ -240,7 +240,6 @@ class WbTmpTable extends Zend_Db_Table
 
     /**
      * Return TRUE if there table exists
-     * Возвращает TRUE если таблица существует
      *
      * @param string $name
      */
@@ -249,17 +248,16 @@ class WbTmpTable extends Zend_Db_Table
     	try {
    			$sql = "SELECT 1 FROM $name WHERE TRUE";
 			$this->_db->query($sql);
- 			return TRUE; // таблица существует
+ 			return TRUE; // table exist
 		} catch (Zend_Exception $e) {
     		//echo "Caught exception: " . get_class($e) . "<br>"; echo "Message: " . $e->getMessage() . "\n"; // !!! debug !!!
-    		return FALSE; // таблицы не существует
+    		return FALSE; // table does not exist
 		}
     }
 
 
     /**
      * Return TRUE if all temporary tables exists
-     * Возвращает TRUE если все временные таблицы существуют
      *
      */
     function isAllTmpTablesExists()
@@ -286,8 +284,8 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Успешно ли скопированы данные из БД bacula
-     * Проверка поля wbTmpTable.tmpIsCloneOk
+     * Data from the database if successfully copied bacula
+     * Check field wbTmpTable.tmpIsCloneOk
      *
      */
     function isCloneOk()    {
@@ -298,14 +296,14 @@ class WbTmpTable extends Zend_Db_Table
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $isCloneOk = $this->_db->fetchOne($select);
         if ( $isCloneOk < $this->num_tmp_tables )
-            return FALSE; // копирование неудачно
+            return FALSE; //failed
         else
-            return TRUE; //копирование успешно
+            return TRUE; //successfully
     }
 
 
     /**
-     * Установка признака успешного клонирования таблиц bacula
+     * Setting the hash of a successful cloning bacula tables
      *
      */
     function setCloneOk()
@@ -316,15 +314,15 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Создание временной таблицы File
+     * Create a temporary table
      *
      * @return TRUE if all ok
      */
     function createTmpTable()
     {
-        // удаляем старые таблицы с такими же именами
+        // delete the old table with the same name
         $this->dropTmpTable($this->tmp_file);
-        // сначала создаем записи о новых таблицах !!! порядок не менять
+        // first create a new record of the tables !!! order not to change
         switch ($this->db_adapter) {
             case 'PDO_SQLITE':
                 $this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->_name) .
@@ -337,12 +335,12 @@ class WbTmpTable extends Zend_Db_Table
                     $this->_db->quote($this->jobidhash) . ', ' . ' NOW() )' );
             break;
         }
-        // создаем таблицы !!! порядок не менять // see also cats/make_mysql_tables.in
+        // Create a table !!! order not to change // see also cats/make_mysql_tables.in
         try {
             /*
              * File
              */
-            // добавлены дополнительные поля : isMarked, FileSize
+            // added additional fields : isMarked, FileSize
             switch ($this->db_adapter) {
             case 'PDO_MYSQL':
                 $res_file = $this->_db->query("
@@ -382,7 +380,7 @@ class WbTmpTable extends Zend_Db_Table
         } catch (Zend_Exception $e) {
             echo '<br><br><br>', __METHOD__, '<br>Caught exception: ', get_class($e),
                 '<br>Message: ', $e->getMessage(), '<br>';
-            // удаляем таблицы
+            // delete table
             $this->dropTmpTable($this->tmp_file);
             return FALSE; // error
         }
@@ -390,8 +388,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Drop all tmp tables
-     * Удалить ВСЕ временные таблицы
+     * Delete all tmp tables
      *
      */
     function deleteAllTmpTables()
@@ -401,27 +398,27 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Удалить временную таблицу
+     * Drop all tmp tables
      *
      */
     function dropTmpTable($name)
     {
-        // сначала удаляем саму временную таблицу
+        // first remove itself a temporary table
         $this->_db->query("DROP TABLE IF EXISTS " . $this->_db->quoteIdentifier($name));
-        // удаляем записи о временной таблице
+        // remove the temporary table entry
         $where = $this->getAdapter()->quoteInto('tmpName = ?', $name);
         $this->delete($where);
     }
 
 
     /**
-     * Удалить все старые временные таблицы, если timestamp старше TTL
+     * Remove all the old temporary table if timestamp older TTL
      *
      */
     function dropOldTmpTables()
     {
         // drop old temp tables
-        // получаем список временных таблиц, подлежащих уничтожению
+        // get a list of temporary tables to be destroyed
         $select = new Zend_Db_Select($this->_db);
         $select = $this->_db->select();
         $select->from($this->_name, array('tmpName', 'tmpCreate'));
@@ -477,12 +474,12 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * Возвращает общее кол-во файлов и их суммарный размер для восстановления
+     * Returns the total number of files and their total size for recovery
      *
      */
     public function getTotalSummaryMark()
     {
-        // подсчет кол-ва файлов и каталогов
+        // counting of number of files and directories
         $select = new Zend_Db_Select($this->_db);
         $select->from($this->tmp_file, array('total_files' => new Zend_Db_Expr(" COUNT(FileId)") ));
         $select->where("isMarked = 1");
@@ -493,7 +490,7 @@ class WbTmpTable extends Zend_Db_Table
         $select->reset();
         unset($select);
 
-        // расчет суммарного размера
+        // calculation of the total size
         $select = new Zend_Db_Select($this->_db);
     	$select->from($this->tmp_file, array('total_size' => new Zend_Db_Expr(" SUM(FileSize)") ));
 	    $select->where("isMarked = 1");
@@ -507,7 +504,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /*
-     * Возвращает имя файла, куда будут выгружены записи для восстановления
+     * Returns the name of the file where the recording will be uploaded to restore
      */
     public function getFilenameToExportMarkFiles() {
         return "webacula_restore_" . $this->jobidhash . ".tmp";
@@ -535,7 +532,6 @@ class WbTmpTable extends Zend_Db_Table
         $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
             // file size writing in a separate filed to then it was easier to calculate the total
-            // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
             // LStat example: MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
             list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
                 $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
@@ -546,7 +542,7 @@ class WbTmpTable extends Zend_Db_Table
         // end transaction
         $this->insertRowFile(null, null, null, null, null, true);
         $bacula->commit();
-        // после успешного клонирования устанавливаем признак
+        // after the successful cloning feature set
         $this->setCloneOk();
         return TRUE;
     }
@@ -584,7 +580,6 @@ class WbTmpTable extends Zend_Db_Table
         $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
             // file size writing in a separate filed to then it was easier to calculate the total size
-            // размер файла пишем в отдельное поле, чтобы потом легче было подсчитать общий объем
             // LStat example: MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
             list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
                 $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
@@ -600,8 +595,8 @@ class WbTmpTable extends Zend_Db_Table
 
 
 
-	/**
-     * Для показа plain-списка файлов перед запуском задания на восстановление
+     /**
+     * To display the plain-file list before starting the restoration job
      *
      */
     function getListToRestore($offset)
@@ -641,7 +636,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     public function getCountFile() {
-        // подсчет кол-ва файлов
+        // Count number of files
         $query = "SELECT count(*) as num FROM " . $this->_db->quoteIdentifier($this->tmp_file);
         $stmt   = $this->_db->query($query);
         $countf = $stmt->fetchAll();
@@ -650,7 +645,6 @@ class WbTmpTable extends Zend_Db_Table
 
     /*
      * For Bacula should leave only files that are to be restored
-     * Для Bacula надо оставить только записи о файлах, которые будут восстанавливаться
      */
     public function prepareTmpTableForRestore() {
         $sql = 'DELETE FROM ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . ' '.
