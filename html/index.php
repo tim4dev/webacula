@@ -173,6 +173,14 @@ if ( isset($config->general->show_job_description) )    {
     $show_job_description = 0;
 $registry->set('show_job_description', $show_job_description);
 
+// Show jobs terminated
+if ( !isset($config->general->days_to_show_jobs_terminated) ) {
+    $days_to_show_jobs_terminated = 1;
+} else {
+    $days_to_show_jobs_terminated = $config->general->days_to_show_jobs_terminated;
+}
+$registry->set('days_to_show_jobs_terminated', $days_to_show_jobs_terminated);
+
 // Show date format in different format
 if ( !isset($config->general->date_format) ) {
    $date_format = "Y-m-d";
