@@ -43,6 +43,8 @@ class WbTmpTable extends Zend_Db_Table
     protected $tmp_file;
     protected $num_tmp_tables = 1; // count of tmp tables (кол-во временных таблиц)
 
+    private $insertarray = array();
+    private $flushnumber = 200;
 
 
     /**
@@ -210,16 +212,27 @@ class WbTmpTable extends Zend_Db_Table
     /**
      * Fast INSERT INTO tmp_file_ VALUES ()
      */
-    function insertRowFile($jobid, $FileId, $FileIndex, $FileSize, $isMarked=0)
+    function insertRowFile($jobid, $FileId, $FileIndex, $FileSize, $isMarked=0, $flush=false)
     {
-        try {
-            $this->_db->query("INSERT INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
-                " (FileId, FileIndex, isMarked, FileSize, JobId) " .
-                " VALUES ($FileId, $FileIndex, $isMarked, $FileSize, $jobid)");
-            return TRUE; // all ok
-        } catch (Zend_Exception $e) {
-            echo '<br><br>', __METHOD__,'<br>Caught exception: ', get_class($e), '<br>', 'Message: ', $e->getMessage(), '<br>';
-            return FALSE;
+        if(!$flush){
+          $this->insertarray[] = "($FileId, $FileIndex, $isMarked, $FileSize, $jobid)";
+        }
+        if($flush || sizeof($this->insertarray) > $this->flushnumber){
+          try {
+              $q = "INSERT INTO " . $this->_db->quoteIdentifier($this->tmp_file) .
+                  " (FileId, FileIndex, isMarked, FileSize, JobId) " .
+                  " VALUES ";
+              $q = $q . implode(',', $this->insertarray);
+              $this->insertarray = array();
+
+              $this->_db->query($q);
+              return TRUE; // all ok
+          } catch (Zend_Exception $e) {
+              echo '<br><br>', __METHOD__,'<br>Caught exception: ', get_class($e), '<br>', 'Message: ', $e->getMessage(), '<br>';
+              return FALSE;
+          }
+        } else {
+          return TRUE;
         }
     }
 
@@ -531,6 +544,7 @@ class WbTmpTable extends Zend_Db_Table
                 return FALSE; // show exception from WbTmpTable.php->insertRowFile()
         }
         // end transaction
+        $this->insertRowFile(null, null, null, null, null, true);
         $bacula->commit();
         // после успешного клонирования устанавливаем признак
         $this->setCloneOk();
@@ -577,6 +591,7 @@ class WbTmpTable extends Zend_Db_Table
             $file_size = $decode->homebrewBase64($st_size);
             $this->insertRowFile($line['jobid'], $line['fileid'], $line['fileindex'], $file_size);
         }
+        $this->insertRowFile(null, null, null, null, null, true);
         // end transaction // после успешного клонирования устанавливаем признак
         $bacula->commit();
         $this->setCloneOk();
