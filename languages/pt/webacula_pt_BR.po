@@ -1071,6 +1071,10 @@ msgstr "Retenção"
 msgid "Max<br />Volume<br />(Bytes)"
 msgstr "Capacidade<br />por volume"
 
+#: application/views/scripts/pool/all.phtml:44
+msgid "unlimited"
+msgstr "ilimitado"
+
 #: application/views/scripts/pool/all.phtml:17
 msgid "Auto Recycle"
 msgstr "Reciclar"

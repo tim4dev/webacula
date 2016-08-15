@@ -32,7 +32,13 @@
 		    echo '<td align="center">' . $this->escape($line['volstatus']) . '</td>';
 	?>
     <td align="center"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
-    <td align="center"><?php echo $this->ConvBytes($this->escape($line['maxvolbytes']));?></td>
+    <?php
+    if ( $line['maxvolbytes'] <= 0 )
+        echo '<td align="right">'.$this->translate->_('unlimited').'</td>';
+    else
+        echo '<td align="right">' . $this->convBytes($this->escape($line['maxvolbytes'])) . "</td>";
+    ?>
+
 	<?php
         if ( $this->escape($line['voljobs']) <= 0 )
             echo '<td class="warn" align="right">' . number_format($this->escape($line['voljobs'])) . '</td>';

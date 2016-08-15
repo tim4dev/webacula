@@ -31,19 +31,25 @@
 
      <?php
      if ( $this->escape($pool['numvols']) <= 0 )
-			echo '<td align="center" class="warn">' . $this->escape($pool['numvols']) . '</td>';
-		else
-			echo '<td align="center">' . $this->escape($pool['numvols']) . '</td>';
+         echo '<td align="center" class="warn">' . $this->escape($pool['numvols']) . '</td>';
+     else
+         echo '<td align="center">' . $this->escape($pool['numvols']) . '</td>';
      ?>
 
-     <td align="center"><?php echo $pool['maxvols'];?></td>
+     <?php
+     if ( $pool['maxvols'] <= 0 )
+        echo '<td align="right">'.$this->translate->_('unlimited').'</td>';
+     else
+        echo '<td align="right">' . $this->escape($pool['maxvols']) . "</td>";
+     ?>
+
      <td align="center"><?php echo $this->convSecondsToDays($this->escape($pool['volretention'])).' '. $this->translate->_('days');?></td>
 
      <?php
      if ( $pool['maxvolbytes'] <= 0 )
-			echo '<td align="right">&nbsp;</td>';
-		else
-			echo '<td align="right">' . $this->convBytes($this->escape($pool['maxvolbytes'])) . "</td>";
+         echo '<td align="right">'.$this->translate->_('unlimited').'</td>';
+     else
+         echo '<td align="right">' . $this->convBytes($this->escape($pool['maxvolbytes'])) . "</td>";
      ?>
 
      <td align="center"><?php echo $this->translate->_($this->int2Char($this->escape($pool['autoprune'])));?></td>
