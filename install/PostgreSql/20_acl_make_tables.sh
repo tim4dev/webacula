@@ -5,6 +5,13 @@
 
 .   ../db.conf
 
+# Check db.conf webacula_db_pwd
+if [ -n "$webacula_root_pwd" ]
+then
+    root_pwd=$webacula_root_pwd
+else
+    root_pwd='$P$BWvNstbpxxsvvnFkE90C6OfZxFS61P1' # default: bacula
+fi
 
 psql -q -f - -d $db_name $*  <<END-OF-DATA
 
@@ -56,7 +63,7 @@ CREATE TABLE webacula_dt_resources (
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
 INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', '$webacula_root_pwd', 'root', 1, NOW(), 1);
+    VALUES (1000, 'root', '$root_pwd', 'root', 1, NOW(), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 

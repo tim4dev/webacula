@@ -5,11 +5,17 @@
 
 .   ../db.conf
 
-
-
 if [ $# -eq 1 ]
 then
    db_name_sqlite="${1}"
+fi
+
+# Check db.conf webacula_db_pwd
+if [ -n "$webacula_root_pwd" ]
+then
+    root_pwd=$webacula_root_pwd
+else
+    root_pwd='$P$BWvNstbpxxsvvnFkE90C6OfZxFS61P1' # default: bacula
 fi
 
 sqlite3 $db_name_sqlite <<END-OF-DATA
@@ -59,7 +65,7 @@ CREATE TABLE webacula_dt_resources (
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
 INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', '$webacula_root_pwd', 'root', 1, datetime('now'), 1);
+    VALUES (1000, 'root', '$root_pwd', 'root', 1, datetime('now'), 1);
 
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
 
