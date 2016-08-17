@@ -1,14 +1,16 @@
 Webacula - A web interface of a Bacula backup system http://www.bacula.org/
 
 This is a fork of webacula with some modifications that were not commited in original repository and some others:
-- Huge speed improvement in restore file selection (https://github.com/tim4dev/webacula/pull/4)
+
+- Huge speed improvement in restore file selection (https://github.com/tim4dev/webacula/pull/4 and https://github.com/bareos/contrib-webacula/commit/cecacf944c57a3f4a966a3d6a9aab20d57ba6149)
 - Minor changes in styles CSS
 - A small changes in layout of volume/pools
-- Better method to convert bytes to more humanreadable
+- Better method to convert bytes to humanreadable
 - Added new setting days_to_show_jobs_terminated feature (Terminated jobs can show more than 1 day) (https://github.com/tim4dev/webacula/pull/8)
 - Added new setting date_format and and datetime_format (Option to modify date/time format)
 - Better translation for Brazilian Portuguese (pt_BR)
-- New field to show when volume will expire.
+- New field to show when volumes will expire.
+- Set default password for root: bacula (just leave 'webacula_root_pwd' empty in db.conf)
 
 Version: 7.0.0
 Major version number of Webacula will match the major version number of Bacula.
