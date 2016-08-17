@@ -23,16 +23,16 @@
 
 class Job extends Zend_Db_Table
 {
-    const BEGIN_LIST = '/^======.*/'; // признак начала списка (не всегда есть)
-    const END_LIST   = '/^====$/';   // признак конца списка (присутствует всегда)
+    const BEGIN_LIST = '/^======.*/'; // a sign of the beginning of the list (not always)
+    const END_LIST   = '/^====$/';   // a sign of the end of the list (always present)
 
-    const RINNING_JOBS    = '/Running Jobs:/';        // начало списка запущенных заданий
-    const NO_JOBS_RUNNING =  '/No Jobs running\./';   // нет запущенных заданий
+    const RUNNING_JOBS    = '/Running Jobs:/';        // top of the list of running jobs
+    const NO_JOBS_RUNNING =  '/No Jobs running\./';   // no running jobs
 
-    const SCHEDULED_JOBS    = '/Scheduled Jobs:/';     // начало списка запланированных заданий
-    const NO_SCHEDULED_JOBS = '/No Scheduled Jobs\./';  // нет запланированных заданий
+    const SCHEDULED_JOBS    = '/Scheduled Jobs:/';     // top of the list of scheduled tasks
+    const NO_SCHEDULED_JOBS = '/No Scheduled Jobs\./';  // No scheduled tasks
 
-    const EMPTY_RESULT = 'EMPTY_RESULT';     // если ничего не найдено
+    const EMPTY_RESULT = 'EMPTY_RESULT';     // if nothing found
 
     public $db;
     public $db_adapter;
@@ -73,7 +73,6 @@ class Job extends Zend_Db_Table
     
 	/**
 	 * If there JobId exist in the database Bacula ...
-	 * Существует ли JobId в БД Bacula
 	 *
 	 * @return TRUE if exist
 	 * @param integer $jobid
@@ -91,9 +90,8 @@ class Job extends Zend_Db_Table
 	}
 
     
-    /**
+        /**
 	 * If there Job Name exist in the database Bacula ...
-	 * Существует ли Job Name в БД Bacula
 	 *
 	 * @return TRUE if exist
 	 * @param string $jobname
@@ -116,13 +114,13 @@ class Job extends Zend_Db_Table
 	 * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
 	 *
 	 */
-    function getTerminatedJobs($days, $orderp=null)
-    {
+        function getTerminatedJobs($days, $orderp=null)
+        {
         if ( empty($days) ) 
              $days = 1;
         $select = new Zend_Db_Select($this->db);
         //$select->distinct();
-        $last1day = date('Y-m-d H:i:s', time() - ($days * 86400)); // для совместимости со старыми версиями mysql: NOW() - INTERVAL $days
+        $last1day = date('Y-m-d H:i:s', time() - ($days * 86400)); // for compatibility with older versions of mysql: NOW() - INTERVAL $days
 
         switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
@@ -324,12 +322,12 @@ L   Committing data (last despool)
     
     /**
 	 * Running Jobs (from Director)
-	 * Для дополнительной информации. Т.к. информация из БД Каталога не всегда корректна.
+	 * For more information. Because Information from the Catalog database is not always correct.
      *
-     * === Замеченные баги ===
-     * 1. Running Jobs - вместо (разделитель м/д полями - пробел) :
+     * === Known bugs ===
+     * 1. Running Jobs - instead of (delimiter m / d fields - space) :
      *          24 Increme  job.name.test.4  2010-11-08_21.56.48_39 running
-     *      Bacula может выдать (разделитель м/д полями - точка) :
+     *      Bacula may issue (delimiter m / d fields - point) :
      *          24 Increme  job.name.test.4.2010-11-08_21.56.48_39 running
 	 */
     function getDirRunningJobs()
@@ -383,16 +381,16 @@ EOF', $command_output, $return_var);
         $i = 0;
         foreach ($command_output as $line) {
             $line = trim($line);
-            // пустая строка
+            // empty line
             if ( $line == '' )
                 continue;
-            // нет запланированных заданий - выход в любом случае
+            // No scheduled tasks - out anyway
             if ( preg_match(self::NO_JOBS_RUNNING, $line) === 1 )  {
                 $aresult = null;
                 break;
             }
-            // начало списка запланированных заданий
-            if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::RINNING_JOBS, $line) === 1) )  {
+            // top of the list of scheduled tasks
+            if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::RUNNING_JOBS, $line) === 1) )  {
                 $begin1 = TRUE;
                 continue;
             }
@@ -404,11 +402,11 @@ EOF', $command_output, $return_var);
                 $begin3 = TRUE;
                 continue;
             }
-            // конец списка
+            // end of list
             if ( $begin1 && $begin2 && $begin3 && ( preg_match(self::END_LIST, $line) == 1) )
                 break;
 
-            // парсим - разделитель - пробел :
+            // parse - separator - space
             // 0=JobId  1=Level  2=Name  3=Status
             if ( $begin1 && $begin2 && $begin3 )  {
                 // парсим
@@ -420,7 +418,7 @@ EOF', $command_output, $return_var);
                     $aresult[$i]['name']   = $acols[2];
                     $aresult[$i]['status'] = $acols[3];
                 } else {
-                    // неверно пропарсилось (изменения в bacula ?)
+                    // incorrectly parse (changes in bacula?)
                     $aresult = null;
                     break;
                 }
@@ -434,7 +432,7 @@ EOF', $command_output, $return_var);
 
 
 
-    /**
+       /**
 	 * Return % free space in VolumeName
 	 *
 	 * @param string $name
@@ -442,20 +440,19 @@ EOF', $command_output, $return_var);
 	 */
 	function getFreeVolumeCapacity($name)
 	{
-		Zend_Loader::loadClass('Media');
-		$table = new Media();
-		$where  = $table->getAdapter()->quoteInto('VolumeName = ?', trim($name));
-		$row = $table->fetchRow($where);
-
-    	if ( !isset($row) )
-				return Zend_Registry::get('NEW_VOLUME');
-			else	{
-				if ( $row->maxvolbytes != 0 )
-					return( floor(100 - ($row->volbytes * 100 / $row->maxvolbytes)) );
-				else
-				    // tape storage may be maxvolbytes == 0
-					return Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
-			}
+	    Zend_Loader::loadClass('Media');
+	    $table = new Media();
+	    $where  = $table->getAdapter()->quoteInto('VolumeName = ?', trim($name));
+	    $row = $table->fetchRow($where);
+            if ( !isset($row) )
+	        return Zend_Registry::get('NEW_VOLUME');
+	    else {
+	       if ( $row->maxvolbytes != 0 )
+	           return( floor(100 - ($row->volbytes * 100 / $row->maxvolbytes)) );
+	       else
+	           // tape storage may be maxvolbytes == 0
+	           return Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
+	    }
 	}
 
 
@@ -513,15 +510,15 @@ EOF', $command_output, $return_var);
         $i = 0;
         foreach ($command_output as $line) {
             $line = trim($line);
-            // пустая строка
+            // empty line
             if ( $line == '' )
                 continue;
-            // нет запланированных заданий - выход в любом случае
+            // No scheduled tasks - out anyway
             if ( preg_match(self::NO_SCHEDULED_JOBS, $line) === 1 )  {
                 $aresult = null;
                 break;
             }
-            // начало списка запланированных заданий
+            // top of the list of scheduled tasks
             if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::SCHEDULED_JOBS, $line) === 1) )  {
                 $begin1 = TRUE;
                 continue;
@@ -534,30 +531,30 @@ EOF', $command_output, $return_var);
                 $begin3 = TRUE;
                 continue;
             }
-            // конец списка
+            // end of list
             if ( $begin1 && $begin2 && $begin3 && ( preg_match(self::END_LIST, $line) == 1) )
                 break;
 
-            // парсим - разделитель - пробел :
+            // parse - separator - space
             // 0=Level    1=Type   2=Pri  3=Scheduled(date) 4=(time)   5=Name  6=Volume
             if ( $begin1 && $begin2 && $begin3 )  {
-                // пробуем парсить
+                // we try to parse
                 $acols = preg_split("/[\s]+/", $line, -1, PREG_SPLIT_NO_EMPTY);
                 $count = count($acols);
                 $aresult[$i]['level'] = $acols[0][0];  // first letter F(ull), I(nc), D(iff)
                 $aresult[$i]['type']  = $acols[1];
                 $aresult[$i]['pri']   = $acols[2];
                 $aresult[$i]['date']  = $acols[3] . ' ' . $acols[4];
-                $aresult[$i]['vol']   = $acols[ $count-1 ];  // в имени Volume пробелов быть не может, поэтому последнее поле - точно Volume
+                $aresult[$i]['vol']   = $acols[ $count-1 ];  // Volume in the name spaces can not be, so the last field - exactly Volume
                 if ( $aresult[$i]['vol'] == '*unknown*')
                     $aresult[$i]['volfree'] = 'UNKNOWN_VOLUME_CAPACITY';
                 else
                     $aresult[$i]['volfree'] = $this->getFreeVolumeCapacity($aresult[$i]['vol']);
                 if ( $count == 7 ) {
-                    // в имени Job нет пробелов
+                    // in the name of Job are no gaps
                     $aresult[$i]['name']  = $acols[5];
                 } else {
-                    // в имени Job есть пробелы (в имени Volume пробелов быть не может)
+                    // in the name of Job there are gaps (in the name of Volume gaps can not be)
                     $aresult[$i]['name']  = $acols[5];
                     for ($j = 6; $j <= $count-2; $j++) {
                         $aresult[$i]['name']  .= ' ' . $acols[$j];
@@ -582,7 +579,7 @@ EOF', $command_output, $return_var);
                 }
                 unset($where, $row);
             }
-            unset($line); /* чтобы последующие записи в $line не меняли последний элемент массива */            
+            unset($line); /* to the next entry in the $ line did not change the last element of the array */
         }
         return $aresult_acl;
     }
@@ -642,7 +639,7 @@ EOF', $command_output, $return_var);
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('fileset'=>'FileSet'));
         $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 
-        $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
+        $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // for compatibility
         $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I','D')))");
         $select->where("j.EndTime > ?", $last7day);
         $select->where("j.Reviewed = 0");
@@ -694,7 +691,7 @@ The defined Job resources are:
 Select Job resource (1-3):
     	 */
     	$strs = 'The defined Job resources are:';
-    	$str_end = 'Select Job resource'; // признак конца списка
+    	$str_end = 'Select Job resource'; // a sign of the end of the list
     	$start = 0;
     	$aresult = array();
     	foreach ($astatusdir['command_output'] as $line) {
@@ -709,7 +706,7 @@ Select Job resource (1-3):
                     $aresult[]['jobname']  = trim($name_job);
 				continue;
 			}
-			// задания закончились
+			// job finished
 			if ( ($start == 1) && ( !(strpos($line, $str_end) === FALSE) ) )
 				break;
 
@@ -726,7 +723,7 @@ Select Job resource (1-3):
         $res2dim = $this->bacula_acl->doBaculaAcl( $aresult, 'jobname', 'job');
         /*
          * convert two dimensional $res2dim to one dimension array $res1dim
-         * для корректного отображения в форме нужен ординарный массив
+         * for correct display in the form of needed single array
          */
         $res1dim = array();
         foreach($res2dim as $res2) {
@@ -744,7 +741,7 @@ Select Job resource (1-3):
 		if ( isset($date_begin, $time_begin, $date_end, $time_end, $client, $fileset) )	{
    			$select = new Zend_Db_Select($this->db);
 
-   			// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
+   			// !!! IMPORTANT !!! Zend_paginator not use DISTINCT somehow does not work in PDO_PGSQL
    			switch ($this->db_adapter) {
             case 'PDO_MYSQL':
             	//$select->distinct();
@@ -1330,7 +1327,7 @@ Select Job resource (1-3):
      */
     function getJobBeforeDate($date_before, $client_id_from, $file_set)
     {
-        /* Поиск JobId последнего Full бэкапа для заданных Client, Fileset, Date
+        /* Search Job Id last Full backup for the given Client, File Set, Date
          * cats/sql_cmds.c :: uar_last_full
          */
         $ajob_all = array();
@@ -1360,7 +1357,7 @@ Select Job resource (1-3):
             return;
 
         $ajob_all[] = $ajob_full[0]['jobid'];
-        /* Поиск свежего Differential бэкапа, после Full бэкапа, если есть
+        /* Search fresh Differential backup after the Full backup, if there is
          * cats/sql_cmds.c :: uar_dif
          */
         $sql = "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
@@ -1385,7 +1382,7 @@ Select Job resource (1-3):
         if ( $ajob_diff ) {
             $ajob_all[] .= $ajob_diff[0]['jobid'];
         }
-        /* Поиск свежих Incremental бэкапов, после Full или Differential бэкапов, если есть
+        /* Search fresh Incremental backups after the Full or Differential backups if there
          * cats/sql_cmds.c :: uar_inc
          */
         if ( !empty($ajob_diff[0]['jobtdate']) ) {
@@ -1433,7 +1430,7 @@ Select Job resource (1-3):
         $ajob_inc = $stmt->fetchAll();
         unset($stmt);
 
-        // формируем хэш из jobids
+        // forming a hash of jobids
         if ( empty($ajob_diff) ) {
             $hash = '' . $ajob_full[0]['jobid'];
         } else {
