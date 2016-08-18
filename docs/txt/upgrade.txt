@@ -58,3 +58,24 @@ Change file "application/config.ini" if necessary:
 ; 2 - show both
 show_job_description = 2
 
+
+
+Upgrade from 7.0 to 7.4
+-----------------------
+Alter, insert to tables (for example, MySQL):
+
+CREATE TABLE IF NOT EXISTS webacula_schedule_acl (
+    id        integer not null auto_increment,
+    name      TEXT NOT NULL,
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name(254), role_id)
+);
+
+INSERT INTO webacula_dt_resources (id, name, description) VALUES (105, 'schedule', 'Menu Schedule');
+INSERT INTO webacula_resources (dt_id, role_id) VALUES (105,2);
+INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+

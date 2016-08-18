@@ -11,8 +11,9 @@ This is a fork of webacula with some modifications that were not commited in ori
 - Better translation for Brazilian Portuguese (pt_BR)
 - New field to show when volumes will expire.
 - Set default password for root: bacula (just leave 'webacula_root_pwd' empty in db.conf)
+- New feature. Menu option to show the schedules
 
-Version: 7.0.0
+Version: 7.4.0
 Major version number of Webacula will match the major version number of Bacula.
 
 WARNING! Webacula 7.x incompatible with prior versions!
