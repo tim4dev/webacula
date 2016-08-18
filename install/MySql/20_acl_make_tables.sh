@@ -83,6 +83,7 @@ INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (80,2),
     (90,2),
     (100,2),
+    (105,2),
     (110,2),
     (120,2),
     (130,2),
@@ -102,6 +103,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
     (80, 'pool',      'Menu Pool'),
     (90, 'restorejob','Menu Restore Job'),
     (100,'storage',   'Menu Storage'),
+    (105,'schedule',  'Menu Schedule'),
     (110,'volume',    'Menu Volume'),
     (120,'wbjobdesc', 'Menu Job Descriptions'),
     (130,'wblogbook', 'Menu Logbook'),
@@ -253,24 +255,36 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
 );
 
 
+CREATE TABLE IF NOT EXISTS webacula_schedule_acl (
+    id 	      integer not null auto_increment,
+    name      TEXT NOT NULL,
+    order_acl integer,
+    role_id   integer,
+    PRIMARY KEY (id),
+    INDEX (id, order_acl),
+    UNIQUE INDEX (name(254), role_id)
+);
+
 
 -- 'root_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 1);
-INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_storage_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_pool_acl      (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_client_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_fileset_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 1);
+INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 
 -- 'operator_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 2);
-INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_storage_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_pool_acl      (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_client_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_fileset_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 2);
+INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
 
 
 -- PHP session storage

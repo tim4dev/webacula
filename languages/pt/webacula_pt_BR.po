@@ -981,6 +981,131 @@ msgstr "Detalhes"
 msgid "No Clients found."
 msgstr "Nenhum cliente encontrado."
 
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Time"
+msgstr "Horário"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Week Day"
+msgstr "Dia da semana"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Month Week"
+msgstr "Semana"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Month"
+msgstr "Mês"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Day"
+msgstr "Dia"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Schedule"
+msgstr "Agenda"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Sunday"
+msgstr "Domingo"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Monday"
+msgstr "Segunda"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Tuesday"
+msgstr "Terça"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Wednesday"
+msgstr "Quarta"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Thursday"
+msgstr "Quinta"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Friday"
+msgstr "Sexta"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Saturday"
+msgstr "Sábado"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "January"
+msgstr "Janeiro"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "February"
+msgstr "Fevereiro"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "March"
+msgstr "Março"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "April"
+msgstr "Abril"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "May"
+msgstr "Maio"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "June"
+msgstr "Junho"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "July"
+msgstr "Julho"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "August"
+msgstr "Agosto"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "September"
+msgstr "Setembro"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "October"
+msgstr "Outubro"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "November"
+msgstr "Novembro"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "December"
+msgstr "Dezembro"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "1st"
+msgstr "1ª"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "2nd"
+msgstr "2ª"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "3rd"
+msgstr "3ª"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "4th"
+msgstr "4ª"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "5th"
+msgstr "5ª"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "6th"
+msgstr "6ª"
+
 #: application/views/scripts/client/status-client-id.phtml:14
 #: application/views/scripts/storage/status-id.phtml:14
 msgid "ERROR: There was a problem executing bconsole."

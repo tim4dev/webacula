@@ -1,0 +1,73 @@
+<!-- client/all.phtml -->
+
+<h1><?php echo $this->escape($this->title); ?></h1>
+<?php if ($this->schedule): ?>
+
+<table id="box-table">
+<thead>
+<tr>
+    <th><?php print $this->translate->_("Name"); ?></th>
+    <th align="center"><?php print $this->translate->_("Level"); ?></th>
+    <th align="center"><?php print $this->translate->_("Time"); ?></th>
+    <th align="center"><?php print $this->translate->_("Week Day"); ?></th>
+    <th align="center"><?php print $this->translate->_("Day"); ?></th>
+    <th align="center"><?php print $this->translate->_("Month"); ?></th>
+    <th align="center"><?php print $this->translate->_("Month Week"); ?></th>
+    <th align="center"><?php print $this->translate->_("Pool"); ?></th>
+    <th align="center"><?php print $this->translate->_("Storage"); ?></th>
+    <th align="center"><?php print $this->translate->_("Device"); ?></th>
+    <th align="center"><?php print $this->translate->_("Enabled"); ?></th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->schedule as $value1) : ?>
+<?php    
+          $rowspan =  count($value1['schedule'])+1; 
+          $i=0;
+?>
+
+<tr>
+     <td rowspan="<?php echo $rowspan;?>"><?php echo $this->escape($value1['name']);?></td>
+     <?php foreach($value1['schedule'] as $value2) : ?>
+      <tr>
+         <td><?php echo $this->escape($value2['level']);?></td>
+         <td align="center"><?php echo $this->escape($value2['hour']);?></td>
+         <td align="center"><?php echo $this->escape($value2['weekday']);?></td>
+         <td align="center"><?php echo $this->escape($value2['day']);?></td>
+         <td align="center"><?php echo $this->escape($value2['month']);?></td>
+         <td align="center"><?php echo $this->escape($value2['weekmonth']);?></td>
+
+
+         <?php if ( isset($value2['pool'] )): ?>
+                  <td><?php echo $this->escape($value2['pool']); ?></td>
+         <?php else : ?>
+                  <td>&nbsp;-&nbsp;</td>
+         <?php endif; ?>
+       
+ 
+         <?php if ( isset($value2['storage'] )): ?>
+                  <td><?php echo $this->escape($value2['storage']); ?></td>
+         <?php else : ?>
+                  <td>&nbsp;-&nbsp;</td>
+         <?php endif; ?>
+
+
+         <?php if ( isset($value2['device'] )): ?>
+                  <td><?php echo $this->escape($value2['device']); ?></td>
+         <?php else : ?>
+                  <td>&nbsp;-&nbsp;</td>
+         <?php endif; ?>
+
+
+         <?php if ( $i == 0 ): ?>
+                  <td align="center" rowspan="<?php echo $rowspan;?>"><?php echo $this->translate->_($this->int2Char($this->escape($value1['status']))); ?></td>
+         <?php endif; ?>
+         <?php $i++; ?>
+</tr>
+     <?php endforeach; ?>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+<?php endif; ?>

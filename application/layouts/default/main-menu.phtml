@@ -76,6 +76,10 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
     <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a></li>
     <?php endif; ?>
 
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'schedule') ) : ?>
+    <li><a href="<?php echo $this->baseUrl;?>/schedule/all"><?php print $this->translate->_("Schedule"); ?></a></li>
+    <?php endif; ?>
+
     <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'storage') ) : ?>
     <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a></li>
     <?php endif; ?>
