@@ -21,7 +21,7 @@
  *
  */
 
-class Schedule extends Zend_Db_Table
+class Schedule
 {
     const BEGIN_LIST = '/^======.*/'; // a sign of the beginning of the list (not always)
     const END_LIST   = '/^====$/';   // a sign of the end of the list (always present)
@@ -39,22 +39,31 @@ class Schedule extends Zend_Db_Table
     protected $bacula_acl; // bacula acl
 
 
-
-    public function __construct($config = array())
+    public function __construct()
     {
-        $this->db         = Zend_Registry::get('db_bacula');
-        $this->db_adapter = Zend_Registry::get('DB_ADAPTER');
-        $this->bacula_acl = new MyClass_BaculaAcl();
-        parent::__construct($config);
+        $this->config      = Zend_Registry::get('config');
+        $this->sudo 	   = $this->config->general->bacula->sudo;
+        $this->bconsole    = $this->config->general->bacula->bconsole;
+        $this->bconsolecmd = $this->config->general->bacula->bconsolecmd;
+        $cmd = '';
+        if ( isset($this->sudo))	{
+            // run with sudo
+           $cmd = $this->sudo . ' ' . $this->bconsole . ' ' . $this->bconsolecmd;
+        } else {
+            $cmd = $this->bconsole . ' ' . $this->bconsolecmd;
+        }
+        $this->bconsolecmd = $cmd;
     }
-
 
     /**
     * Get the array with only numbers and return with the corresponding names.
     * Array month - 0=January, 1=February, ... 11=December
     * Array week of month - 0=1st, 1=2nd, ... 5=6st
     * Array day of week - 0=Sunday, 1=Monday, ... 6=Saturday
-    * Example: $month = Array(0=>0, 1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7, 8=>8, 9=>9, 10=>10, 11=>11)
+    * Array day - 0=1, 1=2, ... 30=31
+    * Example: $month = array(0=>0, 1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7, 8=>8, 9=>9, 10=>10, 11=>11)
+    *  return: $month = January,February,... December);
+    *      or: $month = January-December);
     *
     */
     public function sequenceShorten( $array_value, $start=0, $size=0, $array_label=null){

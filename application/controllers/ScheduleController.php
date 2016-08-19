@@ -31,7 +31,7 @@ class ScheduleController extends MyClass_ControllerAclAction
     {
         parent::init();
         Zend_Loader::loadClass('Schedule');
-	}
+    }
 
     function allAction()
     {
