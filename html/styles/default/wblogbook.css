@@ -93,5 +93,6 @@ div.roundcorner-wlb {
     margin-top: 30px;
     margin-bottom: 20px;
     color: #000;
-    background: #d0dafd;
+    border: 1px solid #dddddd;
+    background: #f2f5f7;
 }

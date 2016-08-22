@@ -79,6 +79,7 @@ div.roundcorner-wjd {
     margin-top: 30px;
     margin-bottom: 20px;
     color: #000;
-    background: #b9c9fe;
+    border: 1px solid #dddddd;
+    background: #f2f5f7;
     font-family: 'Times New Roman',Times,serif;
 }
