@@ -21,23 +21,23 @@
 #box-table-admin th
 {
    padding: 7px;
-   border-top: 4px solid #816753; /* полоска сверху */
-   background: #A08167;           /* фон заголовка */
+   border-top: 4px solid #aabcfe; /* полоска сверху */
+   background: #b9c9fe;           /* фон заголовка */
    border-bottom: 1px solid #fff;
-   color: #fff; /* шрифт */
+   color: #039; /* шрифт */
 }
 #box-table-admin td
 {
    font-size: 0.9em;
    padding: 4px;
-   background: #EDDE98;
+   background: #e8edff;
    border-bottom: 1px solid #fff;
    color: #404060;
    border-top: 1px solid transparent;
 }
 #box-table-admin tr:hover td
 {
-   background: #FFF4BA;
+   background: #d0dafd;
    color: #339;
 }
 #box-table-admin .warn
