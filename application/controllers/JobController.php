@@ -354,6 +354,11 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
         $this->view->date_format = Zend_Registry::get('date_format');
         $this->view->datetime_format = Zend_Registry::get('datetime_format');
+        if ( empty($this->view->result) ) {
+            $this->_helper->viewRenderer->setNoRender();
+        } else {
+            $this->_helper->viewRenderer->setResponseSegment('job_problem');
+        }
     }
 
     /**

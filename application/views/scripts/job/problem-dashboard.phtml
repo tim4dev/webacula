@@ -6,7 +6,6 @@
 </h1>
 
 <?php if ($this->result): ?>
-
 <table id="box-table-dashboard">
 <thead>
 <tr>
@@ -31,12 +30,12 @@
         }
      ?> 
      </th>
-     <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Status"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Level"); ?> </th>
+     <th align="right"> <?php print $this->translate->_("Files"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Bytes"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("Errors"); ?> </th>
+     <th align="center"> <?php print $this->translate->_("End Time"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -130,17 +129,17 @@
 	<?php
 		$class = '';
 		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warn"';
-		echo '<td ', $class, ' align="right">', number_format($line['jobfiles']), '</td>';
+		echo '<td ', $class, ' align="center">', number_format($line['jobfiles']), '</td>';
 		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warn"';
-		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
+		echo '<td ', $class, ' align="center">', $this->convBytes($line['jobbytes']), '</td>';
 	?>
 
 	<!-- Errors -->
 	<?php
 		if ( $line['joberrors'] == 0 )
-			echo '<td align="right">-</td>';
+			echo '<td align="center">-</td>';
 		else {
-		    echo '<td class="err" align="right">';
+		    echo '<td class="err" align="center">';
 		    echo '<a href="';
 			echo $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
 			     $this->translate->_("View Messages"), '" class="linkerr">';
@@ -148,7 +147,7 @@
 		}
 	?>
 
-	<td><?php echo $this->escape($line['endtime']);?></td>
+	<td><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
