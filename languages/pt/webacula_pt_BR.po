@@ -876,7 +876,7 @@ msgstr "Próximos"
 #: application/layouts/default/main-menu.phtml:54
 #: application/layouts/default/main-menu.phtml:71
 msgid "Problem"
-msgstr "Com problemas"
+msgstr "Com erros"
 
 #: application/layouts/default/main-menu.phtml:55
 msgid "Run"
@@ -1789,7 +1789,7 @@ msgstr "Pseudo-tags permitidas:"
 
 #: application/views/scripts/wblogbook/index.phtml:77
 msgid "+ Add New Record"
-msgstr "Incluir Novo registro"
+msgstr "Novo registro"
 
 #: application/views/scripts/wblogbook/index.phtml:84
 msgid "Filter by date"

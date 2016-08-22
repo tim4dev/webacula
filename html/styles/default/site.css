@@ -10,8 +10,8 @@ h1 {
 
 /* messages output */
 table.t1 {
-    border-bottom: 1px solid #7EBFFF;
-    border-left: 1px solid #7EBFFF
+    border: 1px solid #dddddd;
+    background: #e8edff;
 }
 
 /* for Director output */
@@ -94,8 +94,7 @@ td.t2 {
 
 td.t3 {
     padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
+    background: #e8edff;
 }
 
 td.tfiles {

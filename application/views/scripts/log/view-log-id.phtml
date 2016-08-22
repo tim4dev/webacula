@@ -11,7 +11,7 @@
         //echo $this->escape($line['logtime']) . "   " . rtrim( $this->escape($line['logtext']) , "\r\n\t \0") . "<br>";
         $line = $this->escape($line['logtime']) . "   " . rtrim($line['logtext'] , "\r\n\t \0");
         if(preg_match ("/ERR/", $line)) {
-            echo '<div style="color: white; background-color: red;">' . $line . ' </div><br />';
+            echo '<div style="color: white; background-color: red;">' . $line . ' </div>';
         } else {
             echo $line, '<br />';
         }
