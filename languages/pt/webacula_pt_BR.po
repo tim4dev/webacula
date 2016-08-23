@@ -761,7 +761,7 @@ msgstr "Entrar"
 
 #: application/forms/FormRestoreOptions.php:88
 msgid "Restore client"
-msgstr "Restaurar arquivo"
+msgstr "Restaurar no cliente"
 
 #: application/forms/FormRestoreOptions.php:158
 msgid "Restore Job Resource"
