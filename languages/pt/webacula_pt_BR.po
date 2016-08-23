@@ -245,6 +245,10 @@ msgstr "ERRO: A extensão GD do PHP não foi carregada. Por favor, instale o pac
 msgid "Terminated Jobs (executed in last %s hours)"
 msgstr "Jobs finalizados (executados nas últimas %s horas)"
 
+#: 
+msgid "Terminated Jobs (executed in last %s days)"
+msgstr "Jobs finalizados (executados nos últimos %s dias)"
+
 #: application/controllers/FileController.php:57
 msgid "List Files for JobId"
 msgstr "Lista de arquivos por JobID"
