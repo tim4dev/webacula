@@ -255,7 +255,7 @@ msgstr "Descrições do job"
 
 #: application/controllers/WbjobdescController.php:49
 msgid "Add Job Description"
-msgstr "Adicionar descrições do job"
+msgstr "Adicionar Descrições de Job"
 
 #: application/controllers/JobController.php:45
 #: application/controllers/JobController.php:528
@@ -720,7 +720,7 @@ msgstr "Executar Job"
 
 #: application/forms/FormJobdesc.php:55
 msgid "Short Job Description"
-msgstr "Descrição do Job"
+msgstr "Nome do Job"
 
 #: application/forms/FormJobdesc.php:65
 msgid "Job Description"
@@ -1118,7 +1118,7 @@ msgstr "Output do Director"
 
 #: application/views/scripts/storage/status-id.phtml:20
 msgid "Bacula ACLs : Access denied."
-msgstr ""
+msgstr "Bacula ACLs: Acesso negado."
 
 #: application/views/scripts/storage/status-id.phtml:55
 msgid "No Storage status found."
@@ -1352,8 +1352,8 @@ msgstr "ERRO: Problema durante execução do bconsole. Veja abaixo"
 #: application/views/scripts/job/running-dashboard.phtml:123
 #: application/views/scripts/job/terminated-dashboard.phtml:16
 #: application/views/scripts/job/problem-dashboard.phtml:14
-msgid "Id"
-msgstr "Id"
+msgid "JobId"
+msgstr "JobId"
 
 #: application/views/scripts/job/running-dashboard.phtml:102
 #: application/views/scripts/job/running.phtml:98
@@ -1653,7 +1653,7 @@ msgstr "Histórico: Aguarde..."
 #: application/views/scripts/restorejob/draw-file-tree.phtml:107
 #: application/views/scripts/restorejob/draw-file-tree.phtml:138
 msgid "The system was a problem. Please try again after some time."
-msgstr ""
+msgstr "Ocorreu um erro! Por favor tente novamente!"
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:71
 msgid "Last action: mark"
@@ -1916,7 +1916,7 @@ msgstr "Apagar"
 
 #: application/views/scripts/wbjobdesc/index.phtml:44
 msgid "Retention period"
-msgstr "Período de retenção"
+msgstr "Retenção"
 
 #: application/views/scripts/wbjobdesc/index.phtml:67
 #: application/views/scripts/wbjobdesc/index.phtml:68
@@ -2184,11 +2184,11 @@ msgstr "Novo"
 
 #: application/views/scripts/admin/role-index.phtml:90
 msgid "No Roles found."
-msgstr "Nenhuma permissão encontrada"
+msgstr "Nenhum controle de acesso encontrado"
 
 #: application/views/scripts/admin/role-more-info.phtml:24
 msgid "Inherited roles"
-msgstr "Permissões herdadas"
+msgstr "Controlesde acesso herdados"
 
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
@@ -2223,9 +2223,6 @@ msgstr "Quem utiliza estas permissões"
 
 #~ msgid "Path"
 #~ msgstr "Caminho"
-
-#~ msgid "JobId"
-#~ msgstr "JobId"
 
 #~ msgid "Most recent backup"
 #~ msgstr "Backup mais recente"

@@ -28,7 +28,7 @@ $(document).ready(
 
 <div style="width: 200px; margin-top: 30px; margin-bottom: 20px;">
 <form method="POST" action="<?php echo $this->baseUrl ?>/wbjobdesc/add">
-    <input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>" class="ui-button ui-state-default ui-corner-all">
+    <input type="submit" name="name1" value="<?php echo $this->translate->_("+ Add New Record"); ?>" class="ui-button ui-state-default ui-corner-all">
 </form>
 </div>
 
@@ -38,10 +38,10 @@ $(document).ready(
 <thead>
 <tr>
     <th scope="col">&nbsp;</th>
-    <th scope="col" width="20%"> <?php print $this->translate->_("Job Name"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Short Job Description"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Job Description"); ?> </th>
-    <th scope="col" width="10%"> <?php print $this->translate->_("Retention period"); ?> </th>
+    <th scope="col" width="20%"> <?php echo $this->translate->_("Job Name"); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_("Short Job Description"); ?> </th>
+    <th scope="col"> <?php echo $this->translate->_("Retention period"); ?> </th>
+    <th scope="col" width="10%"> <?php echo $this->translate->_("days");?> </th>
     <th scope="col" width="50px">&nbsp;</th>
 </tr>
 </thead>

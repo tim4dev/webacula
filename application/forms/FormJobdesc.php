@@ -71,7 +71,7 @@ class FormJobdesc extends Zend_Form
 
         $retention_period = $this->createElement(
             'text', 'retention_period', array(
-            'label'      => 'Retention period',
+            'label'      => $this->translate->_('Retention period'),
             'required'   => false,
             'size' => 16,
             'maxlength' => 32

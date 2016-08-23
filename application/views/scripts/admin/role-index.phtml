@@ -22,11 +22,11 @@
 <table id="box-table-admin" border="0">
 <thead>
 <tr>
-    <th scope="col">id</th>
+    <th scope="col">Id</th>
     <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
     <th scope="col"> <?php echo $this->translate->_('Description'); ?> </th>
     <th scope="col"> <?php echo $this->translate->_('Inherited role'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
+    <th align="center"> <?php echo $this->translate->_('Order'); ?> </th>
     <th scope="col">&nbsp;</th>
 </tr>
 </thead>
@@ -62,7 +62,7 @@
             ?>
             &nbsp;
         </td>
-        <td>
+        <td align="center">
             &nbsp;<?php echo $this->escape($line['order_role']);?>&nbsp;
         </td>
         <td>

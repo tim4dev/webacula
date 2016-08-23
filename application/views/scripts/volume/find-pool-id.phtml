@@ -46,9 +46,9 @@
 	<td align="center"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
         <?php
         if ( $line['maxvolbytes'] <= 0 )
-            echo '<td align="right">'.$this->translate->_('unlimited').'</td>';
+            echo '<td align="center">'.$this->translate->_('unlimited').'</td>';
         else
-            echo '<td align="right">' . $this->convBytes($this->escape($line['maxvolbytes'])) . "</td>";
+            echo '<td align="center">' . $this->convBytes($this->escape($line['maxvolbytes'])) . "</td>";
         ?>
 
 	<?php
