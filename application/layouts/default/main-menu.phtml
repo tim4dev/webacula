@@ -33,14 +33,15 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
     </li>
     <?php endif; ?>
     <li><a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
+    </li>
+
+    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'director') ) : ?>
+    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a>
         <ul>
             <li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
             <li><a href="<?php echo $this->baseUrl;?>/bconsole/wterminal"><?php print $this->translate->_("Bacula Console"); ?></a></li>
         </ul>
     </li>
-
-    <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'director') ) : ?>
-    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Director"); ?></a></li>
     <?php endif; ?>
 
     <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'job') ) : ?>
