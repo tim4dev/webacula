@@ -453,6 +453,7 @@ class JobController extends MyClass_ControllerAclAction
                 $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
                 $storage = addslashes(trim( $this->_request->getParam('storage', '') ));
                 $level   = addslashes(trim( $this->_request->getParam('level', '') ));
+                $pool    = addslashes(trim( $this->_request->getParam('pool', '') ));
                 $spool   = addslashes(trim( $this->_request->getParam('spool', 'yes') ));
                 $checkbox_now = addslashes(trim( $this->_request->getParam('checkbox_now') ));
                 if ($checkbox_now) {
@@ -476,6 +477,7 @@ class JobController extends MyClass_ControllerAclAction
                 if ( !empty($client) )  $cmdrun .= 'client="'.$client.'" ';
                 if ( !empty($fileset) ) $cmdrun .= 'fileset="'.$fileset.'" ';
                 if ( !empty($level) )   $cmdrun .= 'level="'.$level.'" ';
+                if ( !empty($pool) )    $cmdrun .= 'pool="'.$pool.'" ';
                 if ( !empty($storage) ) $cmdrun .= 'storage="'.$storage.'" ';
                 if ( !empty($when) )    $cmdrun .= 'when="'.$when.'" ';
                 if ( !empty($spool) )   $cmdrun .= 'spooldata="'.$spool.'" ';
@@ -484,6 +486,7 @@ class JobController extends MyClass_ControllerAclAction
                  *     client=<client-name>
                  *     fileset=<FileSet-name>
                  *     level=<level-keyword Full, Incremental, Differential>
+                 *     pool=<Pool-name>
                  *     storage=<storage-name>
                  *     where=<directory-prefix>
                  *     when=<universal-time-specification YYYY-MM-DD HH:MM:SS>

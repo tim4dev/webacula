@@ -51,6 +51,7 @@ class FormJobrun extends Zend_Form
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('FileSet');
         Zend_Loader::loadClass('Storage');
+        Zend_Loader::loadClass('Pool');
         /*
          *  Job Name
          */
@@ -116,7 +117,7 @@ class FormJobrun extends Zend_Form
             'label'    => $this->translate->_('Storage'),
             'required' => false,
             'class' => 'ui-select',
-            'style' => 'width: 25em;'
+            'style' => 'width: 20em;'
         ));
         $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
@@ -131,7 +132,7 @@ class FormJobrun extends Zend_Form
             'label'    => $this->translate->_('Level'),
             'required' => false,
             'class' => 'ui-select',
-            'style' => 'width: 20em;'
+            'style' => 'width: 15em;'
         ));
         $level->addMultiOptions(array(
             ''             => $this->translate->_("Default"),
@@ -139,6 +140,24 @@ class FormJobrun extends Zend_Form
             "Incremental"  => $this->translate->_("Incremental level"),
             "Differential" => $this->translate->_("Differential level")
         ));
+        /*
+         * Pool
+         */
+        $table_pool = new Pool();
+        $order  = array('Name');
+        $pools = $table_pool->fetchAll(null, $order);
+        // select
+        $pool = $this->createElement('select', 'pool', array(
+            'decorators' => $this->elDecorators,
+            'label'    => $this->translate->_('Pool'),
+            'required' => false,
+            'class' => 'ui-select',
+            'style' => 'width: 15em;'
+        ));
+        $pool->addMultiOption('', $this->translate->_("Default"));
+        foreach( $pools as $v) {
+            $pool->addMultiOption($v['name'], $v['name']);
+        }
         /*
          * Spool
          */
@@ -207,6 +226,7 @@ class FormJobrun extends Zend_Form
             $fileset,
             $storage,
             $level,
+            $pool,
             $spool,
             $checkbox_now,
             $date_when,
