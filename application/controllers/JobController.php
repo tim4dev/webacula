@@ -658,7 +658,7 @@ EOF"
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
         }
-        $this->view->title = $this->view->translate->_("Show Job resource");
+        $this->view->title = $this->view->translate->_("Job");
         $jobname = trim( $this->_request->getParam('jobname') );
         $this->view->jobname = $jobname;
         $director = new Director();

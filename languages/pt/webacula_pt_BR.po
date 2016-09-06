@@ -726,6 +726,9 @@ msgstr "Executar Job"
 msgid "Short Job Description"
 msgstr "Nome do Job"
 
+msgid "Show Job Resource"
+msgstr "Detalhar Job"
+
 #: application/forms/FormJobdesc.php:65
 msgid "Job Description"
 msgstr "Descrição do Job"
@@ -979,7 +982,7 @@ msgstr "Retenção de<br/>jobs"
 
 #: application/views/scripts/client/all.phtml:21
 msgid "Client Detail"
-msgstr "Detalhes"
+msgstr "Detalhar cliente"
 
 #: application/views/scripts/client/all.phtml:39
 msgid "No Clients found."
@@ -1214,7 +1217,7 @@ msgstr "Tipo"
 
 #: application/views/scripts/pool/all.phtml:26
 msgid "Detail Pool"
-msgstr "Detalhes Pool"
+msgstr "Detalhar Pool"
 
 #: application/views/scripts/file/list.phtml:13
 msgid "Attribute"
@@ -1388,7 +1391,7 @@ msgstr "Re-executar Job"
 #: application/views/scripts/job/find-filters.phtml:74
 #: application/views/scripts/job/problem-dashboard.phtml:62
 msgid "Detail Job"
-msgstr "Detalhes Job"
+msgstr "Detalhar Job"
 
 #: application/views/scripts/job/terminated-dashboard.phtml:166
 #: application/views/scripts/job/find-file-name.phtml:199
