@@ -949,7 +949,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
             $select->where("j.Name = '$jobname'");
-            $select->order(array("StartTime", "JobId"));
+            $select->order(array("StartTime desc", "JobId desc"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
             $stmt = $select->query();
             // do Bacula ACLs
