@@ -26,7 +26,7 @@ after:     bind-address = 0.0.0.0
 
 
 >>> Config PHP timezone do PHP <<<
-Edit the file /etc/php5/apache2/php.ini  and add chnage date.timezone eand max_execution_time
+Edit the file /etc/php5/apache2/php.ini  and change 'date.timezone' and 'max_execution_time'
 vim /etc/php5/apache2/php.ini
 date.timezone = America/Sao_Paulo
 max_execution_time = 3600
@@ -50,7 +50,7 @@ db_name='bacula'
 db_user='bacula'
 db_pwd='bacula'
 webacula_root_pwd=''
-* If you leave webacula_root empty the default password is 'bacula'. 
+* If you leave webacula_root empty the default user is 'root' and password is 'bacula'. 
 Is possible to change after logon.
 
 
@@ -62,20 +62,20 @@ cd /usr/src/webacula/install/MySql
 
 
 >>> Edit the file /usr/src/webacula/application/config.ini <<<
-Fill the fields with your MySQL credentials
+Fill the fields with bacula MySQL credentials
 db.adapter         = PDO_MYSQL
 db.config.host     = localhost
 db.config.username = bacula
 db.config.password = bacula
 db.config.dbname   = bacula
 def.timezone = "America/Sao_Paulo"
-# Path for binaries 
+# Path for bacula binaries. If you have problems just leave empty the sudo config
 bacula.sudo        = "/usr/bin/sudo"
 bacula.bconsole    = "/sbin/bconsole"
 bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
 
 
->>> Grant permission for the bacula directory and the bconsole binary and bconsole.conf <<<
+>>> Grant permission for folders and files <<<
 cd /usr/src
 chown -R www-data.www-data /usr/src/webacula
 chown www-data /sbin/bconsole
@@ -99,7 +99,7 @@ a2ensite webacula.conf
 service apache2 restart
 
 
->>> Grant permissions for the user www-data <<<
+>>> Grant permissions for the user www-data execute bconsole <<<
 vim /etc/sudoers
 www-data ALL=NOPASSWD: /sbin/bconsole
 
@@ -114,5 +114,3 @@ cat /etc/group | grep bacula
 groupadd bacula
 # Add user www-data to  group bacula
 usermod -aG bacula www-data
-
-

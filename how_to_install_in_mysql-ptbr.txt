@@ -1,0 +1,115 @@
+#####################################################################################
+>>>>>  Passos para instalação do Webacula no Debian (testado em Debian >= 8.0 ) <<<<<
+#####################################################################################
+
+Considerando que você já possuí o Bacula instalado
+
+>>> Atualizar lista de pacotes <<<
+apt-get update
+
+
+>>> Instalar dependências PHP <<<
+apt-get install php5 php5-gd php5-dev php5-mcrypt php5-curl
+
+
+>>> Instalar dependências do MySQL <<<
+apt-get install mysql-server libmysqlclient-dev php5-mysqlnd
+
+
+>>> Liberar acesso para a rede no MySQL  <<<
+Editar o arquivo /etc/mysql/my.cnf e alterar a linha bind-address:
+vim /etc/mysql/my.cnf
+antes:    bind-address = 127.0.0.1
+depois:   bind-address = 0.0.0.0
+/etc/init.d/mysql restart
+
+
+>>> Configurar o PHP <<<
+Editar o arquivo /etc/php5/apache2/php.ini  and alterar a opção 'date.timezone' e 'max_execution_time'
+vim /etc/php5/apache2/php.ini
+date.timezone = America/Sao_Paulo
+max_execution_time = 3600
+
+
+>>> Efetuar um clone do respositório Webacula <<<
+cd /usr/src/
+git clone https://github.com/wanderleihuttel/webacula webacula
+
+
+>>> Gerar o password para acessar o Webacula<<<
+cd /usr/src/webacula/install/
+Executar o comando: 
+php password-to-hash.php PASSWORD  # Onde PASSWORD é o seu password
+A saída é algo como a string: '$P$BN7e27dudrIi7LHaYs91bRAIZULVR60'
+
+
+>>> Editar o arquivo /usr/src/webacula/install/db.conf <<<
+Preencher os campos com as credenciais do usuário do root do MySQL e com os dados do banco de dados do bacula
+db_name='bacula'
+db_user='root'
+db_pwd='123456'
+webacula_root_pwd=''
+* Se você deixar o campo 'webacula_root' vazio, o usuário padrão é 'root' e a senha é 'bacula'.
+É possível alterar a senha após efetuar o logon.
+
+
+>>> Criar as tabelas do Webacula <<<
+Executar os comandos abaixo:
+cd /usr/src/webacula/install/MySql
+./10_make_tables.sh
+./20_acl_make_tables.sh
+
+
+>>> Editar o arquivo /usr/src/webacula/application/config.ini <<<
+Preencher os campos com as credenciais do usuário bacula do MySQL
+db.adapter         = PDO_MYSQL
+db.config.host     = localhost
+db.config.username = bacula
+db.config.password = bacula
+db.config.dbname   = bacula
+def.timezone = "America/Sao_Paulo"
+# Caminho dos binários do bacula e sudo. Caso esteja com problemas, deixe em branco a configuração do sudo
+bacula.sudo        = "/usr/bin/sudo"  
+bacula.bconsole    = "/sbin/bconsole"
+bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
+
+
+>>> Conceder permissão correta aos diretórios e arquivos <<<
+cd /usr/src
+chown -R www-data.www-data /usr/src/webacula
+chown www-data /sbin/bconsole
+chown www-data /etc/bacula/bconsole.conf
+chmod 775 /etc/bacula
+chmod 777 /usr/src/webacula/data/cache
+
+
+>>> Configurar o Apache <<<
+Copiar o arquivo /usr/src/webacula/install/apache/webacula.conf para  /etc/apache2/sites-available/
+cp /usr/src/webacula/install/apache/webacula.conf   /etc/apache2/sites-available/webacula.conf
+
+
+>>> Habilitar o modo rewrite do Apache <<<
+a2enmod rewrite
+
+
+>>> Habilitar o Webacula no Apache<<<
+cd /etc/apache2/sites-available/
+a2ensite webacula.conf
+service apache2 restart
+
+
+>>> Conceder permissão para o usuário www-data executar o bconsole <<<
+vim /etc/sudoers
+www-data ALL=NOPASSWD: /sbin/bconsole
+
+
+>>> Mover o diretório /usr/src/webacula para o diretório root do Apache <<<
+mv /usr/src/webacula  /var/www
+
+
+>>> Criar o grupo bacula <<<
+# Verifica se existe
+cat /etc/group | grep bacula
+groupadd bacula
+# Adicionar o usuário 'www-data' para o grupo 'bacula'
+usermod -aG bacula www-data
