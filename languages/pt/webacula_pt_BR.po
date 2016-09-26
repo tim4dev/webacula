@@ -998,8 +998,12 @@ msgid "Week Day"
 msgstr "Dia da semana"
 
 #: application/views/scripts/schedule/all.phtml
-msgid "Month Week"
-msgstr "Semana"
+msgid "Week Month"
+msgstr "Semana do mês"
+
+#: application/views/scripts/schedule/all.phtml
+msgid "Week Year"
+msgstr "Semana do ano"
 
 #: application/views/scripts/schedule/all.phtml
 msgid "Month"

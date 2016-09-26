@@ -12,7 +12,8 @@
     <th align="center"><?php print $this->translate->_("Week Day"); ?></th>
     <th align="center"><?php print $this->translate->_("Day"); ?></th>
     <th align="center"><?php print $this->translate->_("Month"); ?></th>
-    <th align="center"><?php print $this->translate->_("Month Week"); ?></th>
+    <th align="center"><?php print $this->translate->_("Week Month"); ?></th>
+    <th align="center"><?php print $this->translate->_("Week Year"); ?></th>
     <th align="center"><?php print $this->translate->_("Pool"); ?></th>
     <th align="center"><?php print $this->translate->_("Storage"); ?></th>
     <th align="center"><?php print $this->translate->_("Device"); ?></th>
@@ -36,6 +37,7 @@
          <td align="center"><?php echo $this->escape($value2['day']);?></td>
          <td align="center"><?php echo $this->escape($value2['month']);?></td>
          <td align="center"><?php echo $this->escape($value2['weekmonth']);?></td>
+         <td align="center"><?php echo $this->escape($value2['weekyear']);?></td>
 
 
          <?php if ( isset($value2['pool'] )): ?>
