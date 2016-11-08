@@ -17,7 +17,7 @@ Este é um fork do webacula (cópia) com diversas modificações que não foram 
 Version: 7.4.0
 Esta versão é somente compatível com as versões 7.X do Bacula
 
-Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
+Para atualizar, leia  o "Upgrade from prior version" em docs/txt/upgrade.txt
 
 http://webacula.tim4dev.com/
 
