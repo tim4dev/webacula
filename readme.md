@@ -45,7 +45,7 @@ Característica e Funcionalidade do Webacula:
     Logbook são armazenados em uma tabelas separadas do "webacula", atualmente suporta MySQL e PostgreSQL (SqlLite descontinuado)
   * RSS feed
   * Suporte à vários idiomas - gettext padrão (*.mo) files. Idiomas suportados atualmente: English, Czech, French, German, Italian, Portuguê Brasil, Russian, Spanish.
-  * Para os webdesigner: é muito fácil criar novos temas
+  * Para os webdesigners: ficou muito fácil criar novos temas
   * Esta versão é somente compatível com as versões 7.X do Bacula
 
 
