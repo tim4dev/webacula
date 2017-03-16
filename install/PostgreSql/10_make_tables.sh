@@ -50,6 +50,16 @@ CREATE TABLE webacula_jobdesc (
 CREATE INDEX webacula_idx2 ON webacula_jobdesc (name_job);
 CREATE INDEX webacula_idx3 ON webacula_jobdesc (short_desc);
 
+CREATE TABLE webacula_tmp_tablelist (
+    tmpId    SERIAL NOT NULL,
+    tmpName  CHAR(64) UNIQUE NOT NULL,
+    tmpJobIdHash CHAR(64) NOT NULL,
+    tmpCreate   timestamp without time zone NOT NULL,
+    tmpIsCloneOk SMALLINT DEFAULT 0,
+    PRIMARY KEY(tmpId)
+);
+
+
 CREATE TABLE webacula_version (
    versionId INTEGER NOT NULL
 );

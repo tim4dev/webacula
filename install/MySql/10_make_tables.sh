@@ -59,6 +59,14 @@ CREATE TABLE IF NOT EXISTS webacula_jobdesc (
     INDEX (short_desc)
 );
 
+CREATE TABLE IF NOT EXISTS webacula_tmp_tablelist (
+    tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    tmpName  CHAR(64) UNIQUE NOT NULL,
+    tmpJobIdHash CHAR(64) NOT NULL,
+    tmpCreate   TIMESTAMP NOT NULL,
+    tmpIsCloneOk INTEGER DEFAULT 0,
+    PRIMARY KEY(tmpId)
+);
 
 DROP TABLE IF EXISTS webacula_version;
 CREATE TABLE webacula_version (

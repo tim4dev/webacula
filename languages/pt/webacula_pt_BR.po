@@ -1572,6 +1572,14 @@ msgstr "verify"
 msgid "Admin Job type"
 msgstr "admin"
 
+#: application/views/scripts/job/find-form.phtml:82
+msgid "Copy of a Job"
+msgstr "cópia do job"
+
+#: application/views/scripts/job/find-form.phtml:82
+msgid "Copy Job"
+msgstr "cópia"
+
 #: application/views/scripts/job/find-form.phtml:111
 msgid "Time, Client, Fileset, Level, Status, Type"
 msgstr "Hora, Cliente, Fileset, Nível, Status, Tipo"

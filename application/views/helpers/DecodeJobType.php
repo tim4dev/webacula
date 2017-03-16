@@ -15,9 +15,11 @@ class Zend_View_Helper_DecodeJobType {
 			case 'B':	return 'Backup';
 			case 'V':	return 'Verify';
 			case 'R':	return 'Restore';
-			case 'C':	return 'Console program';
+			case 'C':	return 'Copy';
+			case 'c':	return 'Copy Job';
 			case 'D':	return 'Admin';
 			case 'A':	return 'Archive';
+			case 'g':	return 'Migration';
 			default:	return 'Unknown';
 		}
     }
