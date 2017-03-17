@@ -25,44 +25,46 @@ if mysql $* -u $db_user $pwd  $db_name -f <<END-OF-DATA
 
 
 CREATE TABLE IF NOT EXISTS webacula_users (
-    id       integer not null auto_increment,
-    login    varchar(50) UNIQUE not null,
-    pwd      varchar(256) not null,
-    name     varchar(150),
-    email    varchar(50),
-    create_login DATETIME NOT NULL,
-    last_login DATETIME,
-    last_ip  varchar(40),
-    active   integer,
-    role_id  integer NOT NULL,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    login           varchar(50) NOT NULL,
+    pwd             varchar(256) NOT NULL,
+    name            varchar(150) DEFAULT NULL,
+    email           varchar(50) DEFAULT NULL,
+    create_login    datetime NOT NULL,
+    last_login      datetime DEFAULT NULL,
+    last_ip         varchar(40) DEFAULT NULL,
+    active          int(11) DEFAULT NULL,
+    role_id         int(11) NOT NULL,
     PRIMARY KEY (id),
-    INDEX (login)
+    UNIQUE KEY idx_login (login)
 );
 
 
 CREATE TABLE IF NOT EXISTS webacula_roles (
-    id      integer not null auto_increment,
-    order_role  integer not null DEFAULT 1,
-    name    varchar(50) UNIQUE not null,
-    description TEXT,
-    inherit_id  integer,
-    primary key (id)
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    order_role      int(11) NOT NULL DEFAULT '1',
+    name            varchar(50) NOT NULL,
+    description     text,
+    inherit_id      int(11) DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY idx_name (name)
 );
 
 
 CREATE TABLE IF NOT EXISTS webacula_resources (
-    id       integer not null auto_increment,
-    dt_id    integer,
-    role_id  integer,
-    primary key (id)
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    dt_id           int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
+    PRIMARY KEY (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS webacula_dt_resources (
-    id      integer not null auto_increment,
-    name    varchar(50) UNIQUE not null,
-    description TEXT NOT NULL,
-    primary key (id)
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(50) NOT NULL,
+    description     text NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY idx_name (name)
 );
 
 
@@ -70,7 +72,9 @@ INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Defa
 INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
     VALUES (1000, 'root', '$root_pwd', 'root', 1, NOW(), 1);
 
+
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
+
 
 INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (10,2),
@@ -90,6 +94,7 @@ INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (140,2),
     (150,2),
     (160,2);
+
 
 -- Controller names only
 INSERT INTO webacula_dt_resources (id, name, description) VALUES
@@ -113,37 +118,35 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
     (500,'admin',     'Menu Administrator');
 
 
-
 -- Bacula ACLs
-
-
-
 CREATE TABLE IF NOT EXISTS webacula_client_acl (
-    id        integer not null auto_increment,
-    name      varchar(127),
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) DEFAULT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
+    UNIQUE KEY idx_name (name,role_id),
+    KEY idx_id (id,order_acl)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS webacula_command_acl (
-    id        integer not null auto_increment,
-    dt_id    integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    dt_id           int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE INDEX (dt_id, role_id)
+    UNIQUE KEY idx_dt_id (dt_id,role_id)
 );
 
+
 CREATE TABLE IF NOT EXISTS webacula_dt_commands (
-    id      integer not null auto_increment,
-    name    varchar(127) UNIQUE not null,
-    description TEXT NOT NULL,
-    primary key (id)
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) NOT NULL,
+    description     text NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY idx_name (name)
 );
+
 
 -- see src/dird/ua_cmds.c
 INSERT INTO webacula_dt_commands (id, name, description) VALUES
@@ -195,74 +198,69 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (420, 'wait',        'Wait until no jobs are running');
 
 
-
 CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
-    id        integer not null auto_increment,
-    name      varchar(127),
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) DEFAULT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
+    UNIQUE KEY idx_name (name,role_id),
+    KEY idx_id (id,order_acl)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS webacula_job_acl (
-    id        integer not null auto_increment,
-    name      varchar(127),
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) DEFAULT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
+    UNIQUE KEY idx_name (name,role_id),
+    KEY idx_id (id,order_acl)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS webacula_pool_acl (
-    id        integer not null auto_increment,
-    name      varchar(127),
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) DEFAULT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
+    UNIQUE KEY idx_name (name,role_id),
+    KEY idx_id (id,order_acl)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS webacula_storage_acl (
-    id        integer not null auto_increment,
-    name      varchar(127),
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) DEFAULT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name, role_id)
+    UNIQUE KEY idx_name (name,role_id),
+    KEY idx_id (id,order_acl)
 );
 
 
-
 CREATE TABLE IF NOT EXISTS webacula_where_acl (
-    id        integer not null auto_increment,
-    name      TEXT NOT NULL,
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            text NOT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name(254), role_id)
+    UNIQUE KEY idx_name (name(127),role_id),
+    KEY idx_id (id,order_acl)
 );
 
 
 CREATE TABLE IF NOT EXISTS webacula_schedule_acl (
-    id 	      integer not null auto_increment,
-    name      TEXT NOT NULL,
-    order_acl integer,
-    role_id   integer,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    name            varchar(127) DEFAULT NULL,
+    order_acl       int(11) DEFAULT NULL,
+    role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX (id, order_acl),
-    UNIQUE INDEX (name(254), role_id)
+    UNIQUE KEY (name,role_id),
+    KEY idx_id (id,order_acl)
 );
 
 
@@ -275,6 +273,7 @@ INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 
 INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 1);
 INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+
 
 -- 'operator_role' Bacula ACLs
 INSERT INTO webacula_storage_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
@@ -289,14 +288,13 @@ INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 
 
 -- PHP session storage
 CREATE TABLE IF NOT EXISTS webacula_php_session (
-    id       char(64),
-    modified integer,
-    lifetime integer,
-    data_session TEXT,
-    login    varchar(50),
+    id              char(64) NOT NULL DEFAULT '',
+    modified        int(11) DEFAULT NULL,
+    lifetime        int(11) DEFAULT NULL,
+    data_session    text,
+    login           varchar(50) DEFAULT NULL,
     PRIMARY KEY (id)
 );
-
 
 
 END-OF-DATA

@@ -15,63 +15,65 @@ fi
 
 if mysql $* -u $db_user $pwd  $db_name -f <<END-OF-DATA
 
+
 CREATE TABLE IF NOT EXISTS webacula_logbook (
-	logId		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-	logDateCreate	DATETIME NOT NULL,
-	logDateLast	DATETIME,
-	logTxt		TEXT NOT NULL,
-	logTypeId	INTEGER UNSIGNED NOT NULL,
-	logIsDel	INTEGER,
-
-	PRIMARY KEY(logId),
-	INDEX (logDateCreate)
-) ENGINE=MyISAM;
-
-CREATE INDEX wbidx1 ON webacula_logbook(logDateCreate);
-CREATE FULLTEXT INDEX idxTxt ON webacula_logbook(logTxt);
+    logId           int(10) unsigned NOT NULL AUTO_INCREMENT,
+    logDateCreate   datetime NOT NULL,
+    logDateLast     datetime DEFAULT NULL,
+    logTxt          text NOT NULL,
+    logTypeId       int(10) unsigned NOT NULL,
+    logIsDel        int(11) DEFAULT NULL,
+    PRIMARY KEY (logId),
+    KEY idx_logDateCreate (logDateCreate),
+    KEY idx_logTxt (logTxt(127))
+);
 
 
 DROP TABLE IF EXISTS webacula_logtype;
-CREATE TABLE webacula_logtype (
-	typeId	INTEGER UNSIGNED NOT NULL,
-	typeDesc TINYBLOB NOT NULL,
-
-	PRIMARY KEY(typeId)
+CREATE TABLE IF NOT EXISTS webacula_logtype (
+    typeId          int(10) unsigned NOT NULL,
+    typeDesc        tinyblob NOT NULL,
+    PRIMARY KEY (typeId)
 );
 
+
 INSERT INTO webacula_logtype (typeId,typeDesc) VALUES
-	(10, 'Info'),
-	(20, 'OK'),
-	(30, 'Warning'),
-	(255, 'Error')
+       (10, 'Info'),
+       (20, 'OK'),
+       (30, 'Warning'),
+       (255, 'Error')
 ;
 
 
 /* Job descriptions */
 CREATE TABLE IF NOT EXISTS webacula_jobdesc (
-    desc_id  INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-    name_job    CHAR(64) UNIQUE NOT NULL,
-    retention_period CHAR(32),
-    short_desc      VARCHAR(128) NOT NULL,
-    description     TEXT NOT NULL,
-    PRIMARY KEY(desc_id),
-    INDEX (name_job),
-    INDEX (short_desc)
+    desc_id         int(10) unsigned NOT NULL AUTO_INCREMENT,
+    name_job        char(64) NOT NULL,
+    retention_period char(32) DEFAULT NULL,
+    short_desc      varchar(128) NOT NULL,
+    description     text NOT NULL,
+    PRIMARY KEY (desc_id),
+    UNIQUE KEY name_job (name_job),
+    KEY idx_short_desc (short_desc)
 );
+
 
 CREATE TABLE IF NOT EXISTS webacula_tmp_tablelist (
-    tmpId    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-    tmpName  CHAR(64) UNIQUE NOT NULL,
-    tmpJobIdHash CHAR(64) NOT NULL,
-    tmpCreate   TIMESTAMP NOT NULL,
-    tmpIsCloneOk INTEGER DEFAULT 0,
-    PRIMARY KEY(tmpId)
+    tmpId           int(10) unsigned NOT NULL AUTO_INCREMENT,
+    tmpName         char(64) NOT NULL,
+    tmpJobIdHash    char(64) NOT NULL,
+    tmpCreate       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    tmpIsCloneOk    int(11) DEFAULT '0',
+    PRIMARY KEY (tmpId),
+    UNIQUE KEY idx_tmpName (tmpName)
 );
 
+
 DROP TABLE IF EXISTS webacula_version;
-CREATE TABLE webacula_version (
-   versionId INTEGER UNSIGNED NOT NULL
+CREATE TABLE IF NOT EXISTS webacula_version (
+    versionId       int(10) unsigned NOT NULL
 );
+
 
 INSERT INTO webacula_version (versionId) VALUES (15);
 
