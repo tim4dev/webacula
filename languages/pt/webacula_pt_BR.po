@@ -1235,6 +1235,10 @@ msgstr "Arquivo"
 msgid "File Id"
 msgstr "File ID"
 
+#: application/views/scripts/file/list.phtml:15
+msgid "deleted"
+msgstr "excluído"
+
 #: application/views/scripts/file/list.phtml:58
 msgid "No Files found."
 msgstr "Arquivos não encontrados"
