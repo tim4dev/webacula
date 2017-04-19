@@ -302,7 +302,7 @@ msgstr "Listar Jobs pelo Nome"
 #: application/controllers/JobController.php:238
 #: application/controllers/JobController.php:240
 msgid "List Jobs by Volume Name"
-msgstr "Listar jobs pelo volume"
+msgstr "Lista de jobs do volume"
 
 #: application/controllers/JobController.php:254
 msgid "Search Jobs"

@@ -65,7 +65,7 @@ class JobController extends MyClass_ControllerAclAction
         // get data from model
         $jobs = new Job();
         $this->view->resultRunningJobs = $jobs->getRunningJobs();
-        // получаем информацию от Директора
+        // Receive information from Director
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
@@ -85,7 +85,7 @@ class JobController extends MyClass_ControllerAclAction
         // get data from model
         $jobs = new Job();
         $this->view->resultRunningJobs = $jobs->getRunningJobs();
-        // получаем информацию от Директора
+        // Receive information from Director
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         if ( empty($this->view->resultRunningJobs) && empty($this->view->resultDirRunningJobs) ) {
@@ -156,13 +156,13 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("List Jobs with filters");
 
         if ( $this->_request->isPost() ) {
-            // данные из формы поиска
+            // Search form data
             $date_begin  = addslashes( trim( $this->_request->getPost('date_begin') ));
             $time_begin  = addslashes( trim( $this->_request->getPost('time_begin') ));
             $date_end    = addslashes( trim( $this->_request->getPost('date_end') ));
             $time_end    = addslashes( trim( $this->_request->getPost('time_end') ));
         } else {
-            // данные от Paginator
+            // Paginator data
             $date_begin  = date('Y-m-d', intval($this->_request->getParam('date_begin')) );
             $time_begin  = date('H:i:s', intval($this->_request->getParam('time_begin')) );
             $date_end    = date('Y-m-d', intval($this->_request->getParam('date_end')) );
@@ -253,8 +253,7 @@ class JobController extends MyClass_ControllerAclAction
     function findVolumeNameAction()
     {
         $this->view->title = $this->view->translate->_("List Jobs by Volume Name") .
-            ' : ' . $this->_request->getParam('volname');
-        $this->view->title = $this->view->translate->_("List Jobs by Volume Name");
+            ': ' . $this->_request->getParam('volname');
         $volname = addslashes(trim( $this->_request->getParam('volname') ));
         $job = new Job();
         $this->view->result = $job->getByVolumeName($volname);
@@ -447,7 +446,7 @@ class JobController extends MyClass_ControllerAclAction
         $from_form = intval( $this->_request->getParam('from_form', 0) );
         if ($from_form == 1) { //if( $this->_request->isPost() ) {
             if ( $form->isValid($this->_getAllParams()) )  {
-                // данные из формы
+                // Form data
                 $jobname = trim( $this->_request->getParam('jobname') );
                 $client  = addslashes(trim( $this->_request->getParam('client', '') ));
                 $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
@@ -507,7 +506,7 @@ EOF"
                 if ( $astatusdir['return_var'] != 0 )	{
                     $this->view->result_error = $astatusdir['result_error'];
                 }
-                // показываем вывод Director
+                // Show the output of director
                 echo $this->renderScript('/job/run-job-output.phtml');
                 return;
             }
