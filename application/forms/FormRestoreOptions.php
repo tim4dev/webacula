@@ -238,7 +238,7 @@ class FormRestoreOptions extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button', array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok1',
-            'class' => 'prefer_btn',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Run Restore Job')
         ));
         /*
@@ -247,6 +247,7 @@ class FormRestoreOptions extends Zend_Form
         $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'cancel1',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Cancel')
         ));
         /*

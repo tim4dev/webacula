@@ -1,8 +1,15 @@
 <!-- views/scripts/wbjobdesc/modify.phtml -->
+<style>
+  .select-overflow { height: auto; max-height: 200px;}
+</style>
 <script type="text/javascript">
-  // round corners
+  // select
   $(function(){
-      $('div.roundcorner-wjd').corner();
+      $('select').each(function() {
+//          var t = $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
+//          eval(t);
+          $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
+      });
   });
 </script>
 <div class="roundcorner-wjd">
@@ -22,6 +29,7 @@
     <legend><?php echo $this->title; ?></legend>
 <?php
 $this->form->setAction( $this->url() );
+$this->form->setActionCancel( $this->view->baseUrl .'/wbjobdesc/index' );
 echo $this->form;
 ?>
 </fieldset>

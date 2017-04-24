@@ -22,7 +22,6 @@
  */
 require_once 'Zend/Form.php';
 require_once 'Zend/Form/Element/Submit.php';
-require_once 'Zend/Form/Element/Reset.php';
 
 
 class FormBaculaFill extends Zend_Form
@@ -34,6 +33,7 @@ class FormBaculaFill extends Zend_Form
     protected $table_webacula;
     protected $role_id;
     protected $role_name;
+	protected $_action_cancel = '';
 
     
 
@@ -88,10 +88,10 @@ class FormBaculaFill extends Zend_Form
         /*
          * submit button
          */
-        $submit = new Zend_Form_Element_Submit('submit',array(
+        $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'prefer_btn',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Add')
         ));
         /*
@@ -99,10 +99,20 @@ class FormBaculaFill extends Zend_Form
          */
         $this->addElements( array(
             $bacula_fill,
-            $submit
+            $submit_button
         ));
     }
 
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
 
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }
 
 }

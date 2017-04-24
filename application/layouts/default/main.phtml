@@ -1,5 +1,5 @@
 <?php echo $this->render('header.phtml') ?>
-<body style="margin-top: 34px; margin-left: 3em;">
+<body>
 <?php echo $this->render('main-menu.phtml') ?>
 <?php if ( $this->meta_refresh ) : ?>
 <div class="update-info">
@@ -7,9 +7,11 @@
     <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
 </div>
 <?php else: ?>
-<div style="margin-top: 60px;">&nbsp;</div>
+<div>&nbsp;</div>
 <?php endif; ?>
+<div id="main-div" style="border: 1px #000 solid;">
 <?php echo $this->layout()->content ?>
 <p style="clear: both;">&nbsp;</p>
+</div>
 </body>
 <?php echo $this->render('footer.phtml') ?>

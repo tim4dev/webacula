@@ -94,8 +94,9 @@ class WbjobdescController extends MyClass_ControllerAclAction
 
     public function modifyAction()
     {
-        $this->view->title = "Modify record";
+        $this->view->title =  $this->view->translate->_("Modify record");
         $form = new formJobdesc();
+
         if ( $this->_request->isPost() &&  ($this->_request->getParam('form1') == '1') ) {
             // get modified data
             if ( $form->isValid($this->_getAllParams()) ) {

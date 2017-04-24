@@ -21,13 +21,13 @@ $(document).ready(function() {
 <tr><td>
 <form action="<?php  echo $this->baseUrl.'/restorejob/select-recent-files';?>" method="post">
 	<input type="hidden" name="beginrecent"  id="beginrecent"  value="<?php echo $this->beginrecent; ?>">
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
+    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'ui-button ui-widget ui-corner-all', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
 </form>
 </td>
 <td></td>
 <td>
 <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore-recent'; ?>">
-	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
+	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
 </form>
 </td></tr>
 </table>

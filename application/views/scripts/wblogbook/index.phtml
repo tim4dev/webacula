@@ -100,7 +100,7 @@ $(function() {
     <?php
         echo $this->formSubmit('filter1', $this->translate->_('Apply filter'),
             array('style' => 'margin-top: 15px; margin-bottom: 20px;',
-            'class' => "ui-button ui-state-default ui-corner-all") );
+            'class' => "ui-button ui-widget ui-corner-all") );
     ?>
 </form>
 </div>
@@ -120,7 +120,7 @@ $(function() {
     <?php
         echo $this->formSubmit('filter2', $this->translate->_('Apply filter'),
             array('style' => 'margin-top: 15px; margin-bottom: 20px;',
-                'class' => "ui-button ui-state-default ui-corner-all") );
+                'class' => "ui-button ui-widget ui-corner-all") );
     ?>
 </form>
 </div>
@@ -136,7 +136,7 @@ $(function() {
     <?php
         echo $this->formSubmit('filter3', $this->translate->_('Search'),
             array('style' => 'margin-top: 15px; margin-bottom: 20px;',
-                'class' => "ui-button ui-state-default ui-corner-all") );
+                'class' => "ui-button ui-widget ui-corner-all") );
     ?>
 </form>
 </div>
@@ -207,7 +207,7 @@ $(function() {
 
 			echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
 			    $this->formHidden('logid', $line['logid'], null),
-			    $this->formSubmit('modify', $this->translate->_('Modify Entry') ),
+			    $this->formSubmit('modify', $this->translate->_('Modify Entry'),array('class' => 'ui-button ui-widget ui-corner-all') ),
 			    '</form><br>';
 		?>
 	</td>

@@ -1,5 +1,7 @@
 <!-- job/run-job.phtml -->
-
+<style>
+  .select-overflow { height: auto; max-height: 200px;}
+</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#ok1').click(function() {
@@ -16,8 +18,9 @@ $(document).ready(function() {
   //select
   $(function(){
       $('select').each(function() {
-          var t = $(this).selectmenu({maxHeight: 300});
-	          eval(t);
+          //var t = $(this).selectmenu({maxHeight: 300});
+	      //    eval(t);
+		  $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
 	  });
   });
 </script>
