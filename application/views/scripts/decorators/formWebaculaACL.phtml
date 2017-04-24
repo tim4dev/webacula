@@ -5,7 +5,18 @@
     <?php echo $this->form->role_name; ?>
     <?php echo $this->form->acl; ?>
     <?php echo $this->form->webacula_resources; ?>
-    <?php echo $this->form->submit; ?>
-    <?php echo $this->form->reset; ?>
+<table>
+<tr>
+<td>
+    <?php echo $this->form->submit_button; ?>
 </form>
+</td>
+<td>
 <!-- end decorators/formWebaculaACL.phtml -->
+<form  action="<?php echo $this->form->getActionCancel();  ?>"
+       method="<?php echo $this->form->getMethod();  ?>">
+   <?php echo $this->form->cancel_button; ?>
+</form>
+</td>
+</tr>
+</table>

@@ -83,7 +83,7 @@ class FormForgotPassword extends Zend_Form
          */
         $submit = $this->createElement('submit', 'submit', array(
             'decorators' => array('ViewHelper', 'Errors'),
-            'class' => 'forgot-btn',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'id'    => 'submit',
             'label' => $this->translate->_('Submit new password')
         ));

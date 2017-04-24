@@ -3,7 +3,7 @@
 <h1><?php echo $this->escape($this->title); ?></h1>
 
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jqModal.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/dialog.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/jqModal.css" media="screen" />
 
 
 <table id="box-table">
@@ -24,7 +24,7 @@
 <!-- autochanger block begin -->
 
 <script type="text/javascript">
-$().ready(function() {
+$(document).ready(function() {	
     $('#dialog<?php echo $this->escape($storage['storageid']); ?>').jqm({
         trigger: '#trigger<?php echo $this->escape($storage['storageid']); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
@@ -40,7 +40,7 @@ $().ready(function() {
     <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage['name']); ?></b>
 </div>
 <div class="dialog-close">
-    <a href="#" class="jqmClose">[x]</a>
+    <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
 </div>
 <hr class="dialog-hr">
 
@@ -61,7 +61,7 @@ $().ready(function() {
     </label>
 </div>
 <br>
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Mount Storage'), array('class' => 'prefer_btn') );
+    <?php echo $this->formSubmit('ok1', $this->translate->_('Mount Storage'), array('class' => 'ui-button ui-widget ui-corner-all') );
     ?>
 </form>
 <!-- autochanger form end -->
@@ -119,7 +119,7 @@ $().ready(function() {
     <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage['name']); ?></b>
 </div>
 <div class="dialog-close">
-    <a href="#" class="jqmClose">[x]</a>
+    <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
 </div>
 <hr class="dialog-hr">
 
@@ -135,7 +135,7 @@ $().ready(function() {
     </label>
 </div>
 <br>
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Unmount Storage'), array('class' => 'prefer_btn') );
+    <?php echo $this->formSubmit('ok1', $this->translate->_('Unmount Storage'), array('class' => 'ui-button ui-widget ui-corner-all') );
     ?>
 </form>
 <!-- autochanger form end -->

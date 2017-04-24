@@ -83,7 +83,7 @@ class FormLogin extends Zend_Form
         // login
         $submit = $this->createElement('submit', 'submit', array(
             'decorators' => array('ViewHelper', 'Errors'),
-            'class' => 'login-btn',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'id'    => 'submit',
             'label' => $this->translate->_('Log In')
         ));

@@ -2,14 +2,19 @@
 <script type="text/javascript">
 $(function() {
 	// tabs
-    $("#tabs").tabs(
+    $("#tabs").tabs({
+		 heightStyle: 'auto'
 <?php
     if ($this->tabs_selected)
-        echo '{ selected: ', $this->tabs_selected, ' }';
+        echo ',active: ', $this->tabs_selected;
 ?>
-    );
+    });
 });
 </script>
+
+<style>
+select {width:300px;}
+</style>
 
 
 
@@ -59,9 +64,20 @@ $(function() {
     <?php echo $this->form_role->role_name; ?>
     <?php echo $this->form_role->description; ?>
     <?php echo $this->form_role->inherit_id; ?>
-    <?php echo $this->form_role->submit; ?>
-    <?php echo $this->form_role->reset; ?>
+<table>
+<tr>
+<td>
+    <?php echo $this->form_role->submit_button; ?>
 </form>
+</td>
+<td>
+<form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+       method="<?php echo $this->form_role->getMethod();  ?>">
+   <?php echo $this->form_role->cancel_button; ?>
+</form>
+</td>
+</tr>
+</table>
 </div>
 <!-- end role form -->
 
@@ -75,8 +91,8 @@ $(function() {
     <?php echo $this->form_webacula->role_name; ?>
     <?php echo $this->form_webacula->acl; ?>
     <?php echo $this->form_webacula->webacula_resources; ?>
-    <?php echo $this->form_webacula->submit; ?>
-    <?php echo $this->form_webacula->reset; ?>
+    <?php echo $this->form_webacula->submit_button; ?>
+    <?php echo $this->form_webacula->cancel_button; ?>
 </form>
 </div>
 <!-- end webacula ACLs -->
@@ -85,6 +101,7 @@ $(function() {
 
 <!-- Client ACL form -->
 <div id="tab-client">
+
 <form  action="<?php echo $this->form_client->getAction(); ?>"
        method="<?php echo $this->form_client->getMethod(); ?>">
     <?php echo $this->form_client->role_id;   ?>
@@ -93,18 +110,30 @@ $(function() {
     <?php echo $this->form_client->order; ?>
     <?php echo $this->form_client->name;  ?>
     <?php echo $this->form_client->id;    ?>
-    <?php echo $this->form_client->submit;?>
-    <?php echo $this->form_client->reset; ?>
+<table>
+<tr>
+<td>
+    <?php echo $this->form_client->submit_button; ?>
 </form>
+</td>
+<td>
+<form  action="<?php echo $this->form_client->getActionCancel();  ?>"
+       method="<?php echo $this->form_client->getMethod();  ?>">
+   <?php echo $this->form_client->cancel_button; ?>
+</form>
+</td>
+</tr>
+</table>
 
 <table id="box-table-admin" border="0">
 <thead>
 <tr>
-    <th scope="col">id</th>
+    <th scope="col"><?php echo $this->translate->_('Id'); ?> </th>
     <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
     <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
     <th scope="col">&nbsp;</th>
 </tr>
+
 </thead>
 <tbody>
 <?php foreach($this->rows_client as $line) : ?>
@@ -137,7 +166,7 @@ $(function() {
             <?php echo $this->form_bacula_fill_client->role_id; ?>
             <?php echo $this->form_bacula_fill_client->role_name; ?>
             <?php echo $this->form_bacula_fill_client->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_client->submit; ?>
+            <?php echo $this->form_bacula_fill_client->submit_button; ?>
         </form>
     </div>
 </div>
@@ -153,8 +182,8 @@ $(function() {
     <?php echo $this->form_commands->role_name; ?>
     <?php echo $this->form_commands->acl; ?>
     <?php echo $this->form_commands->bacula_commands; ?>
-    <?php echo $this->form_commands->submit; ?>
-    <?php echo $this->form_commands->reset; ?>
+    <?php echo $this->form_commands->submit_button; ?>
+    <?php echo $this->form_commands->cancel_button; ?>
 </form>
 </div>
 <!-- end Clent ACLs -->
@@ -171,8 +200,8 @@ $(function() {
     <?php echo $this->form_fileset->order; ?>
     <?php echo $this->form_fileset->name;  ?>
     <?php echo $this->form_fileset->id;    ?>
-    <?php echo $this->form_fileset->submit;?>
-    <?php echo $this->form_fileset->reset; ?>
+    <?php echo $this->form_fileset->submit_button;?>
+    <?php echo $this->form_fileset->cancel_button; ?>
 </form>
     
 <table id="box-table-admin" border="0">
@@ -215,7 +244,7 @@ $(function() {
             <?php echo $this->form_bacula_fill_fileset->role_id; ?>
             <?php echo $this->form_bacula_fill_fileset->role_name; ?>
             <?php echo $this->form_bacula_fill_fileset->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_fileset->submit; ?>
+            <?php echo $this->form_bacula_fill_fileset->submit_button; ?>
         </form>
     </div>
 </div>
@@ -233,8 +262,8 @@ $(function() {
     <?php echo $this->form_job->order; ?>
     <?php echo $this->form_job->name;  ?>
     <?php echo $this->form_job->id;    ?>
-    <?php echo $this->form_job->submit;?>
-    <?php echo $this->form_job->reset; ?>
+    <?php echo $this->form_job->submit_button;?>
+    <?php echo $this->form_job->cancel_button; ?>
 </form>
 
 <table id="box-table-admin" border="0">
@@ -277,7 +306,7 @@ $(function() {
             <?php echo $this->form_bacula_fill_job->role_id; ?>
             <?php echo $this->form_bacula_fill_job->role_name; ?>
             <?php echo $this->form_bacula_fill_job->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_job->submit; ?>
+            <?php echo $this->form_bacula_fill_job->submit_button; ?>
         </form>
     </div>
 </div>
@@ -295,8 +324,8 @@ $(function() {
     <?php echo $this->form_pool->order; ?>
     <?php echo $this->form_pool->name;  ?>
     <?php echo $this->form_pool->id;    ?>
-    <?php echo $this->form_pool->submit;?>
-    <?php echo $this->form_pool->reset; ?>
+    <?php echo $this->form_pool->submit_button;?>
+    <?php echo $this->form_pool->cancel_button; ?>
 </form>
 
 <table id="box-table-admin" border="0">
@@ -339,7 +368,7 @@ $(function() {
             <?php echo $this->form_bacula_fill_pool->role_id; ?>
             <?php echo $this->form_bacula_fill_pool->role_name; ?>
             <?php echo $this->form_bacula_fill_pool->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_pool->submit; ?>
+            <?php echo $this->form_bacula_fill_pool->submit_button; ?>
         </form>
     </div>
 </div>
@@ -357,8 +386,8 @@ $(function() {
     <?php echo $this->form_storage->order; ?>
     <?php echo $this->form_storage->name;  ?>
     <?php echo $this->form_storage->id;    ?>
-    <?php echo $this->form_storage->submit;?>
-    <?php echo $this->form_storage->reset; ?>
+    <?php echo $this->form_storage->submit_button;?>
+    <?php echo $this->form_storage->cancel_button; ?>
 </form>
 
 <table id="box-table-admin" border="0">
@@ -401,7 +430,7 @@ $(function() {
             <?php echo $this->form_bacula_fill_storage->role_id; ?>
             <?php echo $this->form_bacula_fill_storage->role_name; ?>
             <?php echo $this->form_bacula_fill_storage->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_storage->submit; ?>
+            <?php echo $this->form_bacula_fill_storage->submit_button; ?>
         </form>
     </div>
 </div>
@@ -419,8 +448,8 @@ $(function() {
     <?php echo $this->form_where->order; ?>
     <?php echo $this->form_where->name;  ?>
     <?php echo $this->form_where->id;    ?>
-    <?php echo $this->form_where->submit;?>
-    <?php echo $this->form_where->reset; ?>
+    <?php echo $this->form_where->submit_button;?>
+    <?php echo $this->form_where->cancel_button; ?>
 </form>
 
 <table id="box-table-admin" border="0">

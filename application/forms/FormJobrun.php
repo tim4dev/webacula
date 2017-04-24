@@ -214,7 +214,7 @@ class FormJobrun extends Zend_Form
         $submit = new Zend_Form_Element_Submit('submit',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok1',
-            'class' => 'prefer_btn',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Run Job')
         ));
         /*

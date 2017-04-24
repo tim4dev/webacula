@@ -1,3 +1,33 @@
+<script type="text/javascript">
+// use :
+// <a href="/" id="confirm" class="confirm"> TEST2 </a>
+$(document).ready(
+	function() {
+
+	$('a.confirm').click(function(e) {
+		var targetUrl = $(this).attr("href");
+		
+
+		$('#dialog-confirm').dialog({
+           buttons : {
+                  <?php echo $this->translate->_('Yes'); ?> : function() {
+                    window.location.href = targetUrl;
+                  },
+                  <?php echo $this->translate->_('No'); ?> : function() {
+                    $(this).dialog("close");
+                  }
+                }		
+		});
+		e.preventDefault();
+
+	});	
+	
+});
+</script>
+
+<div id="dialog-confirm" title="<?php echo $this->translate->_("Message"); ?>" style="display:none">
+  <p><span class="ui-icon ui-icon-alert"></span><?php echo $this->translate->_("Are you sure you want to delete the user?"); ?></p>
+</div>
 <!-- admin/user-index.phtml -->
 <?php if ( !empty($this->exception) ) : ?>
 <!-- database, and other errors-->
@@ -64,12 +94,12 @@
             &nbsp;<?php echo $this->escape($line['last_ip']);?>&nbsp;
         </td>        
         <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/user-update/user_id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>           
+            <a href="<?php echo $this->baseUrl;?>/admin/user-update/user_id/<?php echo $line['id']; ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record"); ?>" title="<?php echo $this->translate->_("Modify record"); ?>" />
+            </a>
         <?php if ($line['id'] != 1000) : ?>
-            <a href="<?php echo $this->baseUrl;?>/admin/user-delete/user_id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+            <a href="<?php echo $this->baseUrl;?>/admin/user-delete/user_id/<?php echo $line['id']; ?>" class="confirm" title="<?php echo $this->translate->_("Delete record"); ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record"); ?>" title="<?php echo $this->translate->_("Delete record"); ?>" />
             </a>
         <?php endif; ?>
         </td>

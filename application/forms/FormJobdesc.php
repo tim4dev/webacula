@@ -26,6 +26,7 @@ require_once 'Zend/Form/Element/Submit.php';
 class FormJobdesc extends Zend_Form
 {
     protected $translate;
+	protected $_action_cancel = '';
 
 
     public function init()
@@ -41,6 +42,7 @@ class FormJobdesc extends Zend_Form
         $hidden_desc_id = $this->createElement('hidden', 'desc_id');
         $hidden_desc_id->removeDecorator('Label');
 
+
         $name_job = $this->createElement('text', 'name_job', array(
             'label'      => $this->translate->_('Job Name'),
             'required'   => true,
@@ -50,6 +52,7 @@ class FormJobdesc extends Zend_Form
         $name_job->addValidator('NotEmpty', false, null );
         $name_job->addValidator('StringLength', false, array(0, 64) );
         //$name_job->addDecorator('HtmlTag',  array('tag' => 'div', 'style'=>'margin-bottom:20px;'));
+
 
         $short_desc = $this->createElement('text', 'short_desc', array(
             'label'      => $this->translate->_('Short Job Description'),
@@ -79,10 +82,18 @@ class FormJobdesc extends Zend_Form
         $retention_period->addValidator('StringLength', false, array(0, 32) );
 
         // submit button
-        $submit = new Zend_Form_Element_Submit('submit',array(
-            'class' => 'prefer_btn',
+        $submit_button = new Zend_Form_Element_Submit('submit_button',array(
+            'id'    => 'ok_'.__CLASS__,
+			'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Submit Form')
         ));
+		
+        $cancel_button = new Zend_Form_Element_Submit('cancel_button', array(
+            //'decorators' => $this->elDecorators,
+            'id'    => 'cancel_'.__CLASS__,
+			'class' => 'ui-button ui-widget ui-corner-all',
+            'label' => $this->translate->_('Cancel')
+        ));		
 
         // add elements to form
         $this->addElements( array(
@@ -92,8 +103,21 @@ class FormJobdesc extends Zend_Form
             $short_desc,
             $description,
             $retention_period,
-            $submit
+            $submit_button,
+			$cancel_button
         ));
 	}
+	
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
+
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }	
 
 }

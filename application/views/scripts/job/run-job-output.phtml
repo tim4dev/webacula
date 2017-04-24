@@ -56,7 +56,7 @@
 <div align="center">
     <form action="<?php  echo $this->baseUrl.'/job/running';?>" method="post">
         <input type="hidden" name="jobname"  id="jobname"  value="<?php echo $this->jobname; ?>">
-        <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs') ); ?>
+        <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
     </form>
 </div>
 </td></tr>

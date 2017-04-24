@@ -720,18 +720,18 @@ msgstr "não"
 
 #: application/forms/FormJobrun.php:199
 msgid "Run Job"
-msgstr "Executar Job"
+msgstr "Executar job"
 
 #: application/forms/FormJobdesc.php:55
 msgid "Short Job Description"
-msgstr "Nome do Job"
+msgstr "Descrição resumida do job"
 
 msgid "Show Job Resource"
-msgstr "Detalhar Job"
+msgstr "Detalhar job"
 
 #: application/forms/FormJobdesc.php:65
 msgid "Job Description"
-msgstr "Descrição do Job"
+msgstr "Descrição do job"
 
 #: application/forms/FormUser.php:68
 msgid "Login"
@@ -1933,6 +1933,12 @@ msgstr "Limpar"
 msgid "Are you sure?"
 msgstr "Você tem certeza?"
 
+msgid "Are you sure you want to delete the jobdesc?"
+msgstr "Você tem certeza que deseja excluir a descrição do job?"
+
+msgid "Are you sure you want to delete the role?"
+msgstr "Você tem certeza que deseja excluir o controle de acesso?"
+
 #: application/views/scripts/wbjobdesc/index.phtml:18
 msgid "Delete"
 msgstr "Apagar"
@@ -2182,6 +2188,12 @@ msgstr "Acessado de"
 #: application/views/scripts/admin/user-index.phtml:85
 msgid "No Users found."
 msgstr "Registros não encontrados"
+
+msgid "Are you sure you want to delete the user?"
+msgstr "Você tem certeza que deseja excluir o usuário?"
+
+msgid "Message"
+msgstr "Mensagem"
 
 #: application/views/scripts/admin/role-main-form.phtml:21
 #: application/views/scripts/admin/role-index.phtml:71

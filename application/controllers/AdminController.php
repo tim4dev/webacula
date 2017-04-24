@@ -32,7 +32,7 @@ class AdminController extends MyClass_ControllerAclAction
      * jQuery UI Tabs, Options, selected:
      * Zero-based index of the tab to be selected on initialization.
      * To set all tabs to unselected pass -1 as value.
-     * $('.selector').tabs({ selected: 3 });
+     * $('.selector').tabs({ active: 3 });
      */
     private $_jQueryUItabSelected = array(
         'role'     => 0,
@@ -121,7 +121,8 @@ class AdminController extends MyClass_ControllerAclAction
                 return;
             }
         }
-        $form->setAction( $this->view->baseUrl . '/admin/role-add' );
+        $form->setAction( $this->view->baseUrl . '/admin/role-add' )
+		     ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form = $form;
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role add');
         $this->renderScript('admin/form-role.phtml');
@@ -175,7 +176,8 @@ class AdminController extends MyClass_ControllerAclAction
             'inherit_id' => $row->inherit_id
         ));
         $form->submit->setLabel($this->view->translate->_('Update'));
-        $form->setAction( $this->view->baseUrl . '/admin/role-update' );
+        $form->setAction( $this->view->baseUrl . '/admin/role-update' )
+		     ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form = $form;
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role update');
         $this->renderScript('admin/form-role.phtml');
@@ -198,6 +200,7 @@ class AdminController extends MyClass_ControllerAclAction
         $this->cache_helper->clearAllCache();
         // render
         $this->_forward('role-index', 'admin'); // action, controller
+		$this->_redirect('admin/role-index');
     }
 
 
@@ -251,7 +254,8 @@ class AdminController extends MyClass_ControllerAclAction
             $form->populate( array(
                 'webacula_resources' => $webacula_resources
             ));
-        $form->setAction( $this->view->baseUrl . '/admin/role-main-form' );
+        $form->setAction( $this->view->baseUrl . '/admin/role-main-form' )
+		     ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form = $form;
         $this->view->tabs_selected = $this->_jQueryUItabSelected['webacula']; // jQuery UI Tabs
         $this->renderScript('admin/role-main-form.phtml');
@@ -308,7 +312,8 @@ class AdminController extends MyClass_ControllerAclAction
             $form->populate( array(
                 'bacula_commands' => $bacula_commands
             ));
-        $form->setAction( $this->view->baseUrl . '/admin/role-main-form' );
+        $form->setAction( $this->view->baseUrl . '/admin/role-main-form' )
+		     ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form = $form;
         $this->view->tabs_selected = $this->_jQueryUItabSelected['command']; // jQuery UI Tabs
         $this->renderScript('admin/role-main-form.phtml');
@@ -456,7 +461,7 @@ class AdminController extends MyClass_ControllerAclAction
             'order'  => $row->order_acl,
             'role_id'=> $role_id
         ));
-        $form->submit->setLabel($this->view->translate->_('Update'));
+        //$form->submit->setLabel($this->view->translate->_('Update'));
         $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-update' );
         $this->view->form = $form;
         $this->view->title = 'Webacula :: ' . $this->view->translate->_(ucfirst($acl).' ACL update');
@@ -710,7 +715,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'order'      => $role->order_role,
                 'inherit_id' => $role->inherit_id
             ));
-        $form_role->setAction( $this->view->baseUrl . '/admin/role-update' );
+        $form_role->setAction( $this->view->baseUrl . '/admin/role-update' )
+		           ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_role      = $form_role;
         /**********************************
          * Webacula ACL form
@@ -735,7 +741,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'webacula_resources' => $webacula_resources,
                 'role_id'            => $role_id
             ));
-        $form_webacula->setAction( $this->view->baseUrl . '/admin/webacula-update' );
+        $form_webacula->setAction( $this->view->baseUrl . '/admin/webacula-update' )
+		               ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_webacula  = $form_webacula;
         /**********************************
          * Command ACL form
@@ -760,7 +767,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'bacula_commands' => $bacula_commands,
                 'role_id'         => $role_id
             ));
-        $form_commands->setAction( $this->view->baseUrl . '/admin/commands-update' );
+        $form_commands->setAction( $this->view->baseUrl . '/admin/commands-update' )
+		              ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_commands  = $form_commands;
         /**********************************
          * Client ACL form
@@ -776,7 +784,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
-        $form_client->setAction( $this->view->baseUrl . '/admin/client-add' );
+        $form_client->setAction( $this->view->baseUrl . '/admin/client-add' )
+		            ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_client = $form_client;
         // Fill data from Bacula database
         $this->view->form_bacula_fill_client = new FormBaculaFill('Client', 'webacula_client_acl', $role_id, $role->name);
@@ -795,7 +804,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
-        $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-add' );
+        $form_fileset->setAction( $this->view->baseUrl . '/admin/fileset-add' )
+		             ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_fileset = $form_fileset;
         // Fill data from Bacula database
         $this->view->form_bacula_fill_fileset = new FormBaculaFill('FileSet', 'webacula_fileset_acl', $role_id, $role->name);
@@ -814,7 +824,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
-        $form_job->setAction( $this->view->baseUrl . '/admin/job-add' );
+        $form_job->setAction( $this->view->baseUrl . '/admin/job-add' )
+		         ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_job = $form_job;
         // Fill data from Bacula database
         $this->view->form_bacula_fill_job = new FormBaculaFill('Job', 'webacula_job_acl', $role_id, $role->name);
@@ -833,7 +844,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
-        $form_pool->setAction( $this->view->baseUrl . '/admin/pool-add' );
+        $form_pool->setAction( $this->view->baseUrl . '/admin/pool-add' )
+		          ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_pool = $form_pool;
         // Fill data from Bacula database
         $this->view->form_bacula_fill_pool = new FormBaculaFill('Pool', 'webacula_pool_acl', $role_id, $role->name);
@@ -852,7 +864,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
-        $form_storage->setAction( $this->view->baseUrl . '/admin/storage-add' );
+        $form_storage->setAction( $this->view->baseUrl . '/admin/storage-add' )
+		             ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_storage = $form_storage;
         // Fill data from Bacula database
         $this->view->form_bacula_fill_storage = new FormBaculaFill('Storage', 'webacula_storage_acl', $role_id, $role->name);
@@ -871,7 +884,8 @@ class AdminController extends MyClass_ControllerAclAction
                 'role_id'   => $role_id,
                 'role_name' => $role->name
             ));
-        $form_where->setAction( $this->view->baseUrl . '/admin/where-add' );
+        $form_where->setAction( $this->view->baseUrl . '/admin/where-add' )
+		           ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form_where = $form_where;
         
         /**********************************
@@ -964,8 +978,9 @@ class AdminController extends MyClass_ControllerAclAction
             'active'  => $row->active,
             'role_id' => $row->role_id
         ));
-        $form->submit->setLabel($this->view->translate->_('Update'));
-        $form->setAction( $this->view->baseUrl . '/admin/user-update' );
+        //$form->submit->setLabel($this->view->translate->_('Update'));
+        $form->setAction( $this->view->baseUrl . '/admin/user-update' )
+		     ->setActionCancel( $this->view->baseUrl .'/admin/user-index' );
         $this->view->form = $form;
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('User update');
         $this->renderScript('admin/form-user.phtml');
@@ -1002,8 +1017,9 @@ class AdminController extends MyClass_ControllerAclAction
             }
         }
         $form->populate( array('action_id' => 'add') );
-        $form->submit->setLabel($this->view->translate->_('Add'));
-        $form->setAction( $this->view->baseUrl . '/admin/user-add' );
+        //$form->submit->setLabel($this->view->translate->_('Add'));
+        $form->setAction( $this->view->baseUrl . '/admin/user-add' )
+             ->setActionCancel( $this->view->baseUrl .'/admin/user-index' );
         $this->view->form = $form;
         $this->view->title = 'Webacula :: ' . $this->view->translate->_('User add');
         $this->renderScript('admin/form-user.phtml');
@@ -1030,7 +1046,8 @@ class AdminController extends MyClass_ControllerAclAction
         // clear all cache
         $this->cache_helper->clearAllCache();
         // render
-        $this->_forward('user-index', 'admin'); // action, controller
+        //$this->_forward('user-index', 'admin'); // action, controller
+		$this->_redirect('admin/user-index');
     }
 
 

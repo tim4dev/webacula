@@ -22,7 +22,7 @@
  */
 require_once 'Zend/Form.php';
 require_once 'Zend/Form/Element/Submit.php';
-require_once 'Zend/Form/Element/Reset.php';
+
 
 
 class FormRole extends Zend_Form
@@ -31,6 +31,7 @@ class FormRole extends Zend_Form
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
     protected $_roleid;
+	protected $_action_cancel = '';
 
 
     
@@ -119,18 +120,19 @@ class FormRole extends Zend_Form
         /*
          * submit button
          */
-        $submit = new Zend_Form_Element_Submit('submit',array(
+        $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'prefer_btn',
+            'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Submit Form')
         ));
         /*
-         * reset button
+         * cancel button
          */
-        $reset = new Zend_Form_Element_Reset('reset',array(
+        $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'reset_'.__CLASS__,
+            'id'    => 'cancel_'.__CLASS__,
+            'class' => 'ui-button ui-widget ui-corner-all',
             'label' => $this->translate->_('Cancel')
         ));
         /*
@@ -141,11 +143,22 @@ class FormRole extends Zend_Form
             $name,
             $description,
             $inherit_id,
-            $submit,
-            $reset
+            $submit_button,
+            $cancel_button
         ));
     }
 
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
+
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }	
 
 
 }

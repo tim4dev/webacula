@@ -1,5 +1,9 @@
 <!-- application/views/scripts/auth/login.phtml -->
-
+<script>
+  $( function() {
+    $( "input" ).checkboxradio();
+  } );
+  </script>
 <h2 align="center"><?php echo $this->caption; ?></h2>
 
 <div style="font-weight:bold; color:red;">
@@ -51,7 +55,8 @@
 </tr>
 <tr>
     <td colspan="4">
-        <?php echo $this->form->submit; ?>
+        <!--<?php echo $this->form->submit; ?>-->
+		<?php echo $this->formSubmit('ok1', $this->translate->_('Log In'), array('class' => 'ui-button ui-widget ui-corner-all', 'style' => 'padding:10px; width: 100px;') ); ?>
     </td>
 </tr>
 

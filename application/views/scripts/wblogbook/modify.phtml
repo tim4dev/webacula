@@ -7,6 +7,21 @@
       $('div.roundcorner-wlb').corner();
   });
 </script>
+<script type="text/javascript">
+  // select
+  $(function(){
+      $('select').each(function() {
+          var t = $(this).selectmenu({
+              classes: {
+                  "ui-selectmenu": "highlight"
+              },
+              maxHeight: 300,
+              style: 'popup'
+            });
+          eval(t);
+      });
+  });
+</script>
 
 <h1><?php echo $this->escape($this->title); ?></h1>
 
@@ -77,7 +92,7 @@ endforeach;
 <?php echo $this->formText('logDateCreate', $this->wblogbook->logDateCreate, array('size' => 20)) ?>
 <br>
 <label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>
-<?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, null, $atyps); ?>
+<?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, array('class' => 'ui-select'), $atyps); ?>
 <br><br>
 
 <!-- textarea -->
@@ -87,7 +102,7 @@ endforeach;
 <?php
 foreach($this->aAllowedTags as $key=>$value) {
 	echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
-		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\"> ";
+		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\" class='ui-button ui-widget ui-corner-all'> ";
 }
 ?>
 
@@ -100,8 +115,8 @@ foreach($this->aAllowedTags as $key=>$value) {
 </noscript>
 <br>
 <?php print $this->translate->_("Allowed to use pseudo-tags :"); ?>
-<input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=')">
-<input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=')">
+<input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=');"; class="ui-button ui-widget ui-corner-all">
+<input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=');" class="ui-button ui-widget ui-corner-all">
 <noscript>
 BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
 </noscript>
@@ -113,9 +128,9 @@ BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
 
 <br>
 <center>
-<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'prefer_btn')  ); ?>
+<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'ui-button ui-widget ui-corner-all')  ); ?>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+<?php echo $this->formReset('reset', $this->translate->_('Reset Form'),array('class' => 'ui-button ui-widget ui-corner-all')); ?>
 </center>
 </form>
 

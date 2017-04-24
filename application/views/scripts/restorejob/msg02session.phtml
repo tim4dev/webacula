@@ -9,7 +9,7 @@
     </div>
     <div align="center" style="margin-top: 1em;">
         <form action="<?php  echo $this->baseUrl.'/restorejob/main-form';?>" method="post">
-            <?php echo $this->formSubmit('ok1', 'OK'); ?>
+            <?php echo $this->formSubmit('ok1', $this->translate->_('OK'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
         </form>
     </div>
 </div>

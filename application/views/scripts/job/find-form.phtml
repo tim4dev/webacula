@@ -1,41 +1,47 @@
 <!-- job/find-form.phtml -->
 
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
+<style>
+  .select-overflow { height: auto; max-height: 200px;}
+</style>
 <script type="text/javascript">
   // select
   $(function(){
       $('select').each(function() {
-          var t = $(this).selectmenu({
-              maxHeight: 300,
-              style: 'popup'
-            });
-          eval(t);
+//          var t = $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
+//          eval(t);
+          $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
       });
   });
 </script>
 
 <script type="text/javascript">
 $(function() {
-    $('#date_begin').datepicker({
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        changeYear: true
-    });
-    $('#date_end').datepicker({
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        changeYear: true
-    });
-    $('#date_begin').datepicker('setDate', '-1d' );
-    $('#date_begin').datepicker('option', {dateFormat: $.datepicker.ISO_8601} );
+   var dates1 = $( "#date_begin, #date_end" ).datepicker({
+          dateFormat: 'yy-mm-dd',
+          changeMonth: true,
+          changeYear: true,
+          autoSize: true,
+          onSelect: function( selectedDate ) {
+          var option = this.id == "date_begin" ? "minDate" : "maxDate",
+              instance = $( this ).data( "datepicker" ),
+              date = $.datepicker.parseDate(
+                 instance.settings.dateFormat ||
+                 $.datepicker._defaults.dateFormat,
+                 selectedDate, instance.settings 
+              );
+          dates1.not( this ).datepicker( "option", option, date );
+          }
+       });
+       $('#date_begin').datepicker('setDate', '-1d' );
+       $('#date_begin').datepicker('option', {dateFormat: $.datepicker.ISO_8601} );
+
 });
 </script>
 
 <script type="text/javascript">
 $(function() {
-	$("#accordion").accordion({
-			autoHeight: false
-		});
+   $("#accordion").accordion({ heightStyle: "content" });
 });
 </script>
 
@@ -96,7 +102,7 @@ $atype = array(
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-job-id';?>" method="post">
 	<b><?php print $this->translate->_("Job Id"); ?></b> <?php echo $this->formText('jobid', "", array('size' => 10)) ?>
-	<?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'prefer_btn') ); ?>
+	<?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
 </form>
 </div>
 
@@ -105,7 +111,7 @@ $atype = array(
 <div>
 <form action="<?php  echo $this->baseUrl.'/job/find-job-name';?>" method="post">
 	<b><?php print $this->translate->_("Job Name"); ?></b> <?php echo $this->formText('jobname', "", array('size' => 40)) ?>
-	<?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'prefer_btn') ); ?>
+	<?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
 </form>
 </div>
 
@@ -151,7 +157,7 @@ $atype = array(
 </td><td colspan="5">
   	<?php echo $this->formSelect('jtype', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $atype) ?>
 </td></tr><tr><td colspan="6">
-   	<?php echo $this->formSubmit('ok2', $this->translate->_('Search'), array('class'=>'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
+   	<?php echo $this->formSubmit('ok2', $this->translate->_('Search'), array('class'=>'ui-button ui-widget ui-corner-all', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
 </td></tr>
 </table>
 </form>
@@ -164,7 +170,7 @@ $atype = array(
 <form action="<?php  echo $this->baseUrl.'/job/find-volume-name';?>" method="post">
 	<b><?php print $this->translate->_("Volume Name"); ?></b>
    	<?php echo $this->formText('volname', "", array('size' => 40)) ?>
-   	<?php echo $this->formSubmit('ok3', $this->translate->_('Search'), array('class' => 'prefer_btn') ); ?>
+   	<?php echo $this->formSubmit('ok3', $this->translate->_('Search'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
 </form>
 </div>
 
@@ -175,7 +181,7 @@ $atype = array(
 <form action="<?php  echo $this->baseUrl.'/job/list-last-jobs-run';?>" method="post">
 	<b><?php print $this->translate->_("List last"); ?></b>
    	<?php echo $this->formText('numjob', "20", array('size' => 5)) ?> <b><?php print $this->translate->_("Jobs run"); ?></b>
-   	<?php echo $this->formSubmit('ok4', $this->translate->_('Search'), array('class' => 'prefer_btn') ); ?>
+   	<?php echo $this->formSubmit('ok4', $this->translate->_('Search'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
 </form>
 </div>
 
@@ -203,7 +209,7 @@ $atype = array(
     <?php echo $this->formSelect('client_nf', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $aclients); ?>
 </td></tr>
 <tr><td colspan="2">
-	<?php echo $this->formSubmit('ok5', $this->translate->_('Search'), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
+	<?php echo $this->formSubmit('ok5', $this->translate->_('Search'), array('class' => 'ui-button ui-widget ui-corner-all', 'style'=>'margin-top: 0px; margin-bottom: 0px;') ); ?>
 </td></tr>
 </table>
 </form>
