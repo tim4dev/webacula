@@ -39,13 +39,14 @@ $(document).ready(function() {
     });
 });
 </script>
-
+<style>
+  .select-overflow { height: auto; max-height: 200px;}
+</style>
 <script type="text/javascript">
   // select
   $(function(){
       $('select').each(function() {
-          var t = $(this).selectmenu({maxHeight: 300});
-          eval(t);
+         $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
       });
   });
 </script>
