@@ -1,16 +1,24 @@
 <!-- client/all.phtml -->
 
-<h1><?php echo $this->escape($this->title); ?></h1>
+<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
 
 <?php if ($this->clients): ?>
-<table id="box-table">
+<table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
-     <th scope="col"> <?php print $this->translate->_("Name"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Client Version"); ?> </th>
-     <th scope="col" align="center"> <?php print $this->translate->_("Auto Prune"); ?> </th>
-     <th scope="col" align="center"> <?php print $this->translate->_("Files Retention<br />days"); ?> </th>
-     <th scope="col" align="center"> <?php print $this->translate->_("Jobs Retention<br />days"); ?> </th>
+     <th> <?php print $this->translate->_("Name"); ?> </th>
+     <th> <?php print $this->translate->_("Client Version"); ?> </th>
+     <th class="text-center"> <?php print $this->translate->_("Auto Prune"); ?> </th>
+     <th class="text-center"> <?php print $this->translate->_("Files Retention<br />days"); ?> </th>
+     <th class="text-center"> <?php print $this->translate->_("Jobs Retention<br />days"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -24,9 +32,9 @@
 	</td>
 
      <td><?php echo $this->escape($client['uname']);?></td>
-     <td align="center"><?php echo $this->translate->_($this->int2Char($this->escape($client['autoprune'])));?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['fileretention'])).' '.$this->translate->_('days');?></td>
-     <td align="center"><?php echo $this->convSecondsToDays($this->escape($client['jobretention'])).' '.$this->translate->_('days');?></td>
+     <td class="text-center"><?php echo $this->translate->_($this->int2Char($this->escape($client['autoprune'])));?></td>
+     <td class="text-center"><?php echo $this->convSecondsToDays($this->escape($client['fileretention'])).' '.$this->translate->_('days');?></td>
+     <td class="text-center"><?php echo $this->convSecondsToDays($this->escape($client['jobretention'])).' '.$this->translate->_('days');?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
@@ -41,3 +49,6 @@
 </div>
 <div style="clear: both;"><!--  --></div>
 <?php endif; ?>
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

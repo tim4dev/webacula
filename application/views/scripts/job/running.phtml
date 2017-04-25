@@ -1,5 +1,12 @@
 <!-- job/running.phtml -->
 
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->titleDirRunningJobs); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
 <?php if ( $this->resultDirRunningJobs ): ?>
 <?php
 	if ($this->resultDirRunningJobs[0] == 'NOFOUND') {
@@ -16,8 +23,8 @@
  	} else	{
 ?>
 
-<table id="box-table">
-<caption><?php echo $this->escape($this->titleDirRunningJobs); ?></caption>
+<table id="box-table2" class="table table-striped table-hover table-condensed">
+<!--<caption><?php echo $this->escape($this->titleDirRunningJobs); ?></caption>-->
 <thead>
 <tr>
      <th scope="col"> <?php print $this->translate->_("Job Id");   ?> </th>
@@ -63,12 +70,22 @@
 
 <div style="margin-top: 1.5em;">&nbsp;</div>
 
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->titleRunningJobs); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
 
 
 <?php if ( $this->resultRunningJobs ): ?>
 
-<table id="box-table">
-<caption><?php echo $this->escape($this->titleRunningJobs); ?></caption>
+<table id="box-table2" class="table table-striped table-hover table-condensed">
+<!--<caption><?php echo $this->escape($this->titleRunningJobs); ?></caption>-->
 <thead>
 <tr>
 	 <th scope="col"> <?php print $this->translate->_("Job Id"); 	 ?> </th>
@@ -191,3 +208,7 @@
 </div>
 <div style="clear: both;"><!--  --></div>
 <?php endif; ?>
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

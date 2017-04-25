@@ -56,7 +56,7 @@ $ainchanger = array(
 <td>
 <!-- part 1 -->
 
-<table id="box-table-one-column">
+<table id="box-table-one-column" class="table table-hover table-condensed">
     <colgroup><col class="col-first"></colgroup>
     <colgroup><col style="width: 20em;"></colgroup>
     <thead>
@@ -145,7 +145,7 @@ $ainchanger = array(
 <td>
 <!-- part 2 -->
 
-<table id="box-table-one-column" style="margin-left:1em; margin-right:1em;">
+<table id="box-table-one-column" style="margin-left:1em; margin-right:1em;" class="table table-hover table-condensed">
     <colgroup><col class="col-first"></colgroup>
     <colgroup><col style="width: 20em;"></colgroup>
     <thead>
@@ -233,9 +233,9 @@ $ainchanger = array(
 
 <tr>
 <td colspan="2" align="center">
-<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form')); ?>
+<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'ui-button ui-widget ui-corner-all')); ?>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?php echo $this->formReset('reset', $this->translate->_('Reset Form')); ?>
+<?php echo $this->formReset('reset', $this->translate->_('Reset Form'), array('class' => 'ui-button ui-widget ui-corner-all')); ?>
 </td>
 </tr>
 

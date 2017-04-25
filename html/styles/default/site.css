@@ -413,10 +413,12 @@ p.dashboard {
   font-size: 0.8em;
 }
 
+/*
 a#dashboard {
   text-decoration: none;
   color: #039;
 }
+*/
 
 a#dashboard:hover {
   text-decoration: underline;

@@ -67,16 +67,43 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 <?php echo $this->MainmenuFloat($this); ?>
 
 <style type="text/css">
+
 .float_panel
 {
 width: 48%;
 float: left;
+
 margin: 10px 10px 0px 0px;
 padding: 5px;
+/*
 border: 1px solid #DDD;
 background-color: #F2F8FF;
+background-color: #F2F8FF;
+*/
+
 }
+
 .clear_both { clear: both; }
+
+
+.panel-danger > .panel-heading {
+    background: #ff6060; 
+	color: #fff;
+	border: #ff6060;
+}
+.panel-danger > .panel-heading a {
+   color: #fff;
+}
+
+.panel-primary > .panel-heading a {
+   color: #fff;
+}
+
+.table tbody>tr>td.vertical-center{
+    vertical-align: middle;
+}
+
+
 </style>
 
 <script type="text/javascript">

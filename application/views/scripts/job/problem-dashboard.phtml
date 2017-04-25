@@ -1,12 +1,21 @@
 <!-- job/problem-dashboard.phtml -->
-<h1 class="dashboard">
+
+<!--<h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/job/problem" id="dashboard">
 		<?php echo $this->escape($this->title); ?>
 	</a>
 </h1>
+-->
+
+<div class="panel panel-default panel-danger">
+	<div class="panel-heading">
+	   	<a href="<?php echo $this->baseUrl;?>/job/problem" id="dashboard"><?php echo $this->escape($this->title); ?></a>
+	</div>
+	<div class="panel-body">
+	   <p>
 
 <?php if ($this->result): ?>
-<table id="box-table-dashboard">
+<table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
      <th scope="col">&nbsp;</th>
@@ -101,10 +110,10 @@
 		$class_td = '';
 		if ( $line['joberrors'] != 0 )	{
 		    if ( $line['jobstatus'] == 'T' )	{
-		        $class_td = 'class="warn"';
+		        $class_td = 'class="warning"';
 		    } else {
 		        // 100% что была какая-то ошибка
-		        $class_td = 'class="err"';
+		        $class_td = 'class="danger"';
 		    }
 			echo '<td ', $class_td, ' align="center"> ',
 			     $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
@@ -115,9 +124,9 @@
 		    // ошибок вроде нет, но что-то не в порядке
 		    if ( ($line['jobstatus'] == 'f') OR ($line['jobstatus'] == 'E') )	{
 		        // fatal error
-		        $class_td = 'class="err"';
+		        $class_td = 'class="danger"';
 		    } else {
-		    	$class_td = 'class="warn"';
+		    	$class_td = 'class="warning"';
 		    }
 			echo '<td ', $class_td, ' align="center">',
 			     $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
@@ -128,9 +137,9 @@
 
 	<?php
 		$class = '';
-		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warn"';
+		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warning"';
 		echo '<td ', $class, ' align="center">', number_format($line['jobfiles']), '</td>';
-		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warn"';
+		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warning"';
 		echo '<td ', $class, ' align="center">', $this->convBytes($line['jobbytes']), '</td>';
 	?>
 
@@ -139,7 +148,7 @@
 		if ( $line['joberrors'] == 0 )
 			echo '<td align="center">-</td>';
 		else {
-		    echo '<td class="err" align="center">';
+		    echo '<td class="danger" align="center">';
 		    echo '<a href="';
 			echo $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
 			     $this->translate->_("View Messages"), '" class="linkerr">';
@@ -162,3 +171,7 @@
 </div>
 <div style="clear: both;"><!--  --></div>
 <?php endif; ?>
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

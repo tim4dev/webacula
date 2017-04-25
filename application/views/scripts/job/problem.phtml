@@ -1,9 +1,16 @@
 <!-- job/problem.phtml -->
 
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
 <?php if ($this->result): ?>
 
-<table id="box-table">
-<caption><?php echo $this->escape($this->title); ?></caption>
+<table id="box-table2" class="table table-striped table-hover table-condensed">
+<!--<caption><?php echo $this->escape($this->title); ?></caption>-->
 <thead>
 <tr>
      <th align="center">&nbsp;</th>
@@ -202,3 +209,7 @@
 </div>
 <div style="clear: both;"><!--  --></div>
 <?php endif; ?>
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

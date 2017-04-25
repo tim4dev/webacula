@@ -12,11 +12,18 @@ $(function() {
 });
 </script>
 
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
+
 <!--  date form -->
 <form action="<?php echo $this->baseUrl; ?>/job/timeline" method="POST">
-<table cellspacing="0" cellpadding="0" border="0"
-    style="font-family: Sans-Serif; margin-bottom: 1.5em; margin-left:6em; margin-top: 1em;">
-<caption style="font-weight: bold; font-size: 1.2em;"><?php echo $this->escape($this->title); ?></caption>
+<table cellspacing="0" cellpadding="0" border="0" style="font-family: Sans-Serif; margin-bottom: 1.5em; margin-left:6em; margin-top: 1em;">
+<!--<caption style="font-weight: bold; font-size: 1.2em;"><?php echo $this->escape($this->title); ?></caption>-->
 <tr>
     <td align="right" valign="top">
         <b style="margin-right:1em;"><?php print $this->translate->_("Date"); ?></b>
@@ -42,7 +49,7 @@ $(function() {
     </td><td>
 <?php echo $this->formText('datetimeline', $this->datetimeline, array('size' => 12)) ?>
     </td><td valign="top">
-        <input type="submit" name="ok" style="margin-left:1em;" value="<?php print $this->translate->_("Show Timeline"); ?>">
+        <input type="submit" class="ui-button ui-widget ui-corner-all" name="ok" style="margin-left:1em;" value="<?php print $this->translate->_("Show Timeline"); ?>">
     </td>
 </tr>
 <tr>
@@ -134,3 +141,7 @@ if ( extension_loaded('gd') ) : ?>
 </div>
 <div style="clear: both;"><!--  --></div>
 <?php endif; ?>
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

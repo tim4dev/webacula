@@ -1,10 +1,18 @@
 <!-- job/running-dashboard.phtml -->
 
-<h1 class="dashboard">
+<!--<h1 class="dashboard">
 	<a href="<?php echo $this->baseUrl;?>/job/running" id="dashboard">
 		<?php echo $this->escape($this->titleDirRunningJobs); ?>
 	</a>
 </h1>
+-->
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <a href="<?php echo $this->baseUrl;?>/job/running" id="dashboard"><?php echo $this->escape($this->titleDirRunningJobs); ?></a>
+	</div>
+	<div class="panel-body">
+	   <p>
 
 <?php if ($this->resultDirRunningJobs): ?>
 <?php
@@ -22,7 +30,7 @@
  	} else	{
 ?>
 
-<table id="box-table-dashboard">
+<table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
      <th align="center">&nbsp;&nbsp; <?php print $this->translate->_("Job Id");?>&nbsp;&nbsp;</th>
@@ -62,19 +70,30 @@
 <?php endif; ?>
 
 
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+<div style="clear: both;"><!--  --></div>
 
-
-
-
+<!--
 <h1 class="dashboard" style="margin-top: 2em;">
 	<a href="<?php echo $this->baseUrl;?>/job/running" id="dashboard">
 		<?php echo $this->escape($this->titleRunningJobs); ?>
 	</a>
 </h1>
+-->
+
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <a href="<?php echo $this->baseUrl;?>/job/running" id="dashboard"><?php echo $this->escape($this->titleRunningJobs); ?></a>
+	</div>
+	<div class="panel-body">
+	   <p>
 
 <?php if ($this->resultRunningJobs): ?>
 
-<table id="box-table-dashboard">
+<table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
 	 <th align="center">&nbsp;&nbsp;<?php print $this->translate->_("Job Id"); ?>&nbsp;&nbsp;</th>
@@ -175,3 +194,6 @@
 </div>
 <div style="clear: both;"><!--  --></div>
 <?php endif; ?>
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

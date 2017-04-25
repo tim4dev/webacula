@@ -25,6 +25,14 @@ $(document).ready(
 });
 </script>
 
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
+
 <div id="dialog-confirm" title="<?php echo $this->translate->_("Message"); ?>" style="display:none">
   <p><span class="ui-icon ui-icon-alert"></span><?php echo $this->translate->_("Are you sure you want to delete the user?"); ?></p>
 </div>
@@ -41,15 +49,7 @@ $(document).ready(
 
 <?php if ($this->result): ?>
 
-<div class="ui-widget">
-	<h3><?php echo $this->escape($this->title); ?></h3>
-
-    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/user-add">
-        <input type="submit" name="name1" value="<?php echo $this->translate->_('Create new user') ?>" class="ui-button ui-state-default ui-corner-all" />
-    </form>
-</div>
-
-<table id="box-table-admin" border="0">
+<table id="box-table-admin2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
     <th> <a href="<?php echo $this->baseUrl; ?>/admin/user-index/order/id">Id</a> </th>
@@ -107,6 +107,13 @@ $(document).ready(
 <?php endforeach; ?>
 </tbody>
 </table>
+<div class="ui-widget">
+	<!--<h3><?php echo $this->escape($this->title); ?></h3>-->
+
+    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/user-add">
+        <input type="submit" name="name1" value="<?php echo $this->translate->_('Create new user') ?>" class="ui-button ui-state-default ui-corner-all" />
+    </form>
+</div>
 
 <?php else: ?>
 <div class="ui-widget">
@@ -117,3 +124,8 @@ $(document).ready(
 </div>
 <?php endif; ?>
 <!-- end /admin/user-index.phtml -->
+
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->

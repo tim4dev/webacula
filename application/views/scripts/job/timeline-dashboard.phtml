@@ -3,11 +3,20 @@
 // check GD lib (php-gd)
 if ( extension_loaded('gd') ) : ?>
 
+<!--
 <h1 class="dashboard">
     <a href="<?php echo $this->baseUrl;?>/job/timeline" id="dashboard">
         <?php echo $this->escape($this->title); ?>
     </a>
 </h1>
+-->
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <a href="<?php echo $this->baseUrl;?>/job/timeline" id="dashboard"><?php echo $this->escape($this->title); ?></a>
+	</div>
+	<div class="panel-body">
+	   <p>
 
 <?php if ( $this->img_map ) : ?>
 <div align="center">
@@ -56,3 +65,7 @@ if ( extension_loaded('gd') ) : ?>
 <?php endif; ?>
 
 <?php endif; ?>
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
