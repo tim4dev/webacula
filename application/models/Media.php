@@ -96,15 +96,16 @@ class Media extends Zend_Db_Table
     {
         $select = new Zend_Db_Select($this->db);
         $select->from('Media',
-            array('MediaId', 'PoolId', 'StorageId',
+            array('MediaId', 'PoolId', 'StorageId','DeviceId', 'MediaAddressing',
             'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention',
-            'Recycle', 'Slot', 'InChanger', 'MediaType',
+            'Recycle', 'Slot', 'InChanger', 'MediaType', 'LabelType', 
             'FirstWritten', 'LastWritten',
             'LabelDate', 'VolFiles', 'VolBlocks', 'VolMounts',
             'VolParts', 'VolErrors', 'VolWrites', 'VolCapacityBytes', 'Enabled',
             'ActionOnPurge', 'VolUseDuration', 'MaxVolJobs', 'MaxVolFiles',
-            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock',
-            'RecycleCount', 'InitialWrite','Comment'
+            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock', 'LocationId',
+            'RecycleCount', 'InitialWrite', 'ScratchPoolId', 'RecyclePoolId', 'Comment', 
+            'VolABytes', 'VolAPadding', 'VolHoleBytes', 'VolHoles'
         ));
         $select->where('MediaId = ?', $media_id);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
