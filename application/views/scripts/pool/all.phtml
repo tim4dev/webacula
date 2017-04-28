@@ -2,6 +2,9 @@
 
 <!--<h1><?php echo $this->escape($this->title); ?></h1>-->
 
+<div class="rows">
+  <div class="col-md-8">
+
 <div class="panel panel-default panel-primary">
 	<div class="panel-heading">
 	   <?php echo $this->escape($this->title); ?>
@@ -11,7 +14,7 @@
 
 
 <?php $urlp = $this->baseUrl . '/pool/all';?>
-
+<div class="table-responsive">
 <table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
@@ -31,7 +34,7 @@
 <tr>
      <td>
         <a href="<?php echo $this->baseUrl;?>/volume/find-pool-id/id/<?php echo $this->escape($pool['poolid']);?>/name/<?php echo $this->escape($pool['name']);?>"
-            title="<?php echo $this->translate->_("Detail Pool"); ?>">
+            title="<?php echo $this->translate->_("Show Volumes"); ?>">
         <?php echo $this->escape($pool['name']); ?></a>
 	</td>
 
@@ -67,7 +70,11 @@
 <?php endforeach; ?>
 </tbody>
 </table>
+</div><!-- end div table-responsive -->
 
 	   </p><!-- close p -->
     </div><!-- close div panel-body -->
 </div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

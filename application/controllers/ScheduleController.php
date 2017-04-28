@@ -31,6 +31,7 @@ class ScheduleController extends MyClass_ControllerAclAction
     {
         parent::init();
         Zend_Loader::loadClass('Schedule');
+		Zend_Loader::loadClass('Director');
     }
 
     function allAction()
@@ -41,5 +42,40 @@ class ScheduleController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Schedule");
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
     }
+	
+    /**
+     * show schedule
+     * http://www.bacula.org/3.0.x-manuals/en/console/console/Bacula_Console.html
+     * show schedule=<xxx>
+     */
+    function showAction()
+    {
+        // do Bacula ACLs
+        $command = 'show';
+        if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
+        $this->view->title = $this->view->translate->_("Show Schedule");
+        $schedulename = trim( $this->_request->getParam('name') );
+        $this->view->schedulename = $schedulename;
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )    {
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
+            return;
+        }
+        $astatusdir = $director->execDirector(
+" <<EOF
+show schedule=\"$schedulename\"
+EOF"
+        );
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )   {
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+    }	
 
 }

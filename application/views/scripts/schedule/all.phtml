@@ -3,13 +3,16 @@
 <h1><?php echo $this->escape($this->title); ?></h1>-->
 <?php if ($this->schedule): ?>
 
+<div class="rows">
+  <div class="col-md-10">
+
 <div class="panel panel-default panel-primary">
 	<div class="panel-heading">
 	   <?php echo $this->escape($this->title); ?>
 	</div>
 	<div class="panel-body">
 	   <p>
-
+<div class="table-responsive">
 <table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
@@ -34,8 +37,13 @@
           $i=0;
 ?>
 
+
 <tr>
-     <td rowspan="<?php echo $rowspan;?>" class="vertical-center"><?php echo $this->escape($value1['name']);?></td>
+     <td rowspan="<?php echo $rowspan;?>" class="vertical-center">
+        <a href="<?php echo $this->baseUrl, "/schedule/show/name/", $this->escape($value1['name']); ?>" title="<?php echo $this->translate->_("Show Schedule");?>">
+		  <?php echo $this->escape($value1['name']);?>
+		</a>	 
+	 </td>
      <?php foreach($value1['schedule'] as $value2) : ?>
       <tr>
          <td><?php echo $this->escape($value2['level']);?></td>
@@ -78,9 +86,13 @@
 <?php endforeach; ?>
 </tbody>
 </table>
+</div><!-- end div table-responsive -->
 
 <?php endif; ?>
 
 	   </p><!-- close p -->
     </div><!-- close div panel-body -->
 </div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-10 -->
+</div><!-- fim da div row -->
