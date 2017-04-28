@@ -213,10 +213,10 @@ try {
  * Check Bacula Catalog version
  */
 $ver = new Version();
-if ( !$ver->checkVesion(BACULA_VERSION) )   {
+if ( !$ver->checkVersion(BACULA_VERSION) )   {
     echo '<pre>';
     throw new Zend_Exception("Bacula version mismatch for the Catalog database. ". 
-            "Wanted ".BACULA_VERSION.", got ". $ver->getVesion().". ");
+            "Wanted ".BACULA_VERSION.", got ". $ver->getVersion().". ");
 }
 /*
  * Check CACHE_DIR is writable
