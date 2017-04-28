@@ -93,7 +93,8 @@ INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (130,2),
     (140,2),
     (150,2),
-    (160,2);
+    (160,2),
+    (500,2);
 
 
 -- Controller names only

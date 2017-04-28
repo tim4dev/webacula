@@ -2,6 +2,8 @@
 *.tmp
 *.swp
 tests/report/*
+html/styles/default/old
+html/scripts/old
 #
 # data : cache, tmp, session
 #
