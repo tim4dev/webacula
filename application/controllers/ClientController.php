@@ -48,7 +48,7 @@ class ClientController extends MyClass_ControllerAclAction
     {
         // http://localhost/webacula/client/status-client-id/id/1/name/local.fd
         $client_name = $this->_getParam('name');
-        $this->view->title = $this->view->translate->_("Client") . " " . $client_name;
+        $this->view->title = $this->view->translate->_("Status Client") . ": " . $client_name;
         // do Bacula ACLs
         $command = 'status';
         if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
