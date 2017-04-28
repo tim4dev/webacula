@@ -47,7 +47,7 @@ msgstr "ERRO: bconsole não encontrado"
 
 #: application/controllers/DirectorController.php:37
 msgid "Status Director"
-msgstr "Status do Director"
+msgstr "Status do diretor"
 
 #: application/controllers/DirectorController.php:70
 msgid "List of Job Totals"
@@ -118,7 +118,7 @@ msgstr "Recuperar um único arquivo"
 
 #: application/controllers/AdminController.php:89
 msgid "Roles"
-msgstr "Controle de acesso"
+msgstr "Funções"
 
 #: application/controllers/AdminController.php:112
 #: application/controllers/AdminController.php:154
@@ -133,7 +133,7 @@ msgstr "Exceção"
 
 #: application/controllers/AdminController.php:126
 msgid "Role add"
-msgstr "Adicionar controle de acesso"
+msgstr "Adicionar funções"
 
 #: application/controllers/AdminController.php:177
 #: application/controllers/AdminController.php:459
@@ -156,7 +156,7 @@ msgstr ""
 #: application/controllers/AdminController.php:881
 #: application/controllers/AdminController.php:898
 msgid "Role"
-msgstr "Controle de acesso"
+msgstr "Função"
 
 #: application/controllers/AdminController.php:916
 msgid "Users"
@@ -195,6 +195,12 @@ msgstr "Nível"
 #: application/controllers/ClientController.php:51
 msgid "Client"
 msgstr "Cliente"
+
+#: application/controllers/FeedController.php:64
+#: application/controllers/ClientController.php:51
+msgid "Status Client"
+msgstr "Status do cliente"
+
 
 #: application/controllers/FeedController.php:65
 msgid "Pool"
@@ -269,7 +275,7 @@ msgstr "Jobs finalizados (executados nas últimas 24 horas)"
 #: application/controllers/JobController.php:60
 #: application/controllers/JobController.php:79
 msgid "Information from DB Catalog : List of Running Jobs"
-msgstr "Informações do catálogo: Lista de jobs em execução"
+msgstr "Informações do Catálogo: Lista de jobs em execução"
 
 #: application/controllers/JobController.php:61
 msgid "List of Running Jobs"
@@ -278,7 +284,7 @@ msgstr "Lista de jobs em execução"
 #: application/controllers/JobController.php:66
 #: application/controllers/JobController.php:84
 msgid "Information from Director : List of Running Jobs"
-msgstr "Informações do director: Lista de jobs em execução"
+msgstr "Informações do Diretor: Lista de jobs em execução"
 
 #: application/controllers/JobController.php:101
 #: application/controllers/JobController.php:121
@@ -324,7 +330,7 @@ msgstr "Expressão regular"
 
 #: application/controllers/JobController.php:287
 msgid "Detail JobId"
-msgstr "Detalhar JobId"
+msgstr "Detalhar jobid"
 
 #: application/controllers/JobController.php:311
 #: application/controllers/JobController.php:327
@@ -340,7 +346,7 @@ msgstr "Histórico por data"
 #: application/controllers/JobController.php:512
 #, php-format
 msgid "List last %s Jobs run"
-msgstr "Lista dos últimos %s Jobs"
+msgstr "Lista dos últimos %s jobs executados"
 
 #: application/controllers/JobController.php:548
 msgid "Filename is required field."
@@ -352,8 +358,8 @@ msgstr "O caminho deve conter caracter de escape"
 
 #: application/controllers/JobController.php:562
 #, php-format
-msgid "List Jobs (%s found) where '%s' is saved (limit %s)"
-msgstr "Listar jobs (%s encontrado) onde '%s' é salvo (limite %s)"
+msgid "List Jobs where file '%s' is saved (%s found) (limit %s)"
+msgstr "Listar jobs onde o arquivo '%s' está salvo. (Encontrado(s): %s - limite: %s)"
 
 #: application/controllers/JobController.php:575
 msgid "Cancel Job"
@@ -462,7 +468,7 @@ msgstr "Registro atualizado :"
 
 #: application/controllers/WblogbookController.php:528
 msgid "Webacula Logbook Delete record"
-msgstr "Apagar registro ao Webacula Logbook"
+msgstr "Excluir registro do Webacula Logbook"
 
 #: application/controllers/WblogbookController.php:529
 #: application/controllers/WblogbookController.php:557
@@ -471,7 +477,7 @@ msgstr "LogID"
 
 #: application/controllers/WblogbookController.php:556
 msgid "Webacula Logbook UnDelete record"
-msgstr "Restaurar registro apagado do Webacula Logbook"
+msgstr "Restaurar registro excluído do Webacula Logbook"
 
 #: application/controllers/StorageController.php:43
 msgid "Storages"
@@ -480,7 +486,7 @@ msgstr "Storages"
 #: application/controllers/StorageController.php:65
 #, php-format
 msgid "Storage %s status"
-msgstr "Storages %s status"
+msgstr "Storage status: %s"
 
 #: application/controllers/StorageController.php:138
 msgid "mount"
@@ -509,7 +515,7 @@ msgstr "Os volumes listados precisam ser trocados devido ao tempo de uso ou erro
 
 #: application/controllers/VolumeController.php:112
 msgid "Detail Volume"
-msgstr "Detalhar Volume"
+msgstr "Detalhar volume"
 
 #: application/controllers/VolumeController.php:170
 msgid "Webacula : Updated Volume parameters"
@@ -522,7 +528,7 @@ msgstr "Media Id"
 #: application/controllers/LogController.php:41
 #, php-format
 msgid "Console messages for Job %s, JobId %u"
-msgstr "Mensagens de console do Job %s, JobId %u"
+msgstr "Log de mensagens: %s (JobId %u)"
 
 #: application/controllers/AuthController.php:147
 msgid "Username or password is incorrect"
@@ -532,6 +538,9 @@ msgstr "Usuário ou senha incorretos"
 #, php-format
 msgid "Login with your %sWe%sbacula%s account"
 msgstr "%sWe%sbacula%s"
+
+msgid "Log in"
+msgstr "Efetuar login"
 
 #: application/controllers/AuthController.php:156
 msgid "Login with your Webacula account"
@@ -559,23 +568,23 @@ msgstr ""
 
 #: application/controllers/AuthController.php:213
 msgid "Webacula password manager"
-msgstr ""
+msgstr "Gerenciador de senha do Webacula"
 
 #: application/controllers/AuthController.php:216
 msgid "New Webacula password"
-msgstr ""
+msgstr "Nova senha do Webacula"
 
 #: application/controllers/AuthController.php:256
 msgid "New password set"
-msgstr ""
+msgstr "Nova senha configurada"
 
 #: application/controllers/AuthController.php:259
 msgid "Error while sending email. Email not send"
-msgstr ""
+msgstr "Ocorreu um erro ao enviar o email!"
 
 #: application/controllers/AuthController.php:263
 msgid "Username or email is incorrect"
-msgstr ""
+msgstr "Usuário ou email incorretos"
 
 #: application/controllers/AuthController.php:268
 msgid "Reset password"
@@ -583,11 +592,11 @@ msgstr "Resetar senha"
 
 #: application/models/Wbroles.php:108
 msgid "Role Id and Inherited Role Id must not be identical"
-msgstr ""
+msgstr "A ID da função e a ID da função herdada não devem ser iguais"
 
 #: application/models/Wbroles.php:133
 msgid "Can not delete. Role is used."
-msgstr ""
+msgstr "Não pode ser excluído. A função está sendo utilizada."
 
 #: application/models/Timeline.php:519
 msgid "Hours"
@@ -610,11 +619,11 @@ msgstr "Email"
 
 #: application/forms/FormForgotPassword.php:78
 msgid "Email address incorrect."
-msgstr ""
+msgstr "O endereço de email está incorreto"
 
 #: application/forms/FormForgotPassword.php:88
 msgid "Submit new password"
-msgstr "Salvar"
+msgstr "Enviar nova senha"
 
 #: application/forms/FormForgotPassword.php:94
 #: application/forms/FormLogin.php:100
@@ -681,7 +690,7 @@ msgstr "Herdar de"
 #: application/forms/FormRestoreOptions.php:146
 #: application/forms/FormRestoreOptions.php:164
 msgid "Default"
-msgstr "Default"
+msgstr "Padrão"
 
 #: application/forms/FormJobrun.php:98
 #: application/forms/FormRestoreOptions.php:124
@@ -862,7 +871,7 @@ msgstr "Bconsole"
 
 #: application/layouts/default/main-menu.phtml:45
 msgid "Director"
-msgstr "Director"
+msgstr "Diretor"
 
 #: application/layouts/default/main-menu.phtml:49
 msgid "Job"
@@ -876,14 +885,23 @@ msgstr "Finalizados"
 msgid "Running"
 msgstr "Em execução"
 
+#: application/layouts/default/main-menu.phtml:52
+msgid "The Job is Running"
+msgstr "O job está em execução"
+
 #: application/layouts/default/main-menu.phtml:53
 msgid "Next"
-msgstr "Próximos"
+msgstr "Agendados"
+
+#: application/layouts/default/main-menu.phtml:54
+#: application/layouts/default/main-menu.phtml:71
+msgid "Problem Volumes"
+msgstr "Volumes com erros"
 
 #: application/layouts/default/main-menu.phtml:54
 #: application/layouts/default/main-menu.phtml:71
 msgid "Problem"
-msgstr "Com erros"
+msgstr "Com problemas"
 
 #: application/layouts/default/main-menu.phtml:55
 msgid "Run"
@@ -918,8 +936,8 @@ msgid "RSS"
 msgstr "RSS"
 
 #: application/layouts/default/main-menu.phtml:96
-msgid "Help"
-msgstr "Ajuda"
+msgid "About"
+msgstr "Sobre"
 
 #: application/layouts/default/main-menu.phtml:101
 #: application/layouts/default/main-menu.phtml:106
@@ -1117,6 +1135,10 @@ msgstr "5ª"
 msgid "6th"
 msgstr "6ª"
 
+#: application/views/scripts/schedule/show.phtml
+msgid "Show Schedule"
+msgstr "Mostrar agenda"
+
 #: application/views/scripts/client/status-client-id.phtml:14
 #: application/views/scripts/storage/status-id.phtml:14
 msgid "ERROR: There was a problem executing bconsole."
@@ -1125,7 +1147,7 @@ msgstr "ERRO: Problema durante execução do bconsole"
 #: application/views/scripts/client/status-client-id.phtml:38
 #: application/views/scripts/storage/status-id.phtml:41
 msgid "Director output:"
-msgstr "Output do Director"
+msgstr "Output do Diretor"
 
 #: application/views/scripts/storage/status-id.phtml:20
 msgid "Bacula ACLs : Access denied."
@@ -1221,7 +1243,12 @@ msgstr "Tipo"
 
 #: application/views/scripts/pool/all.phtml:26
 msgid "Detail Pool"
-msgstr "Detalhar Pool"
+msgstr "Detalhar pool"
+
+#: application/views/scripts/pool/all.phtml
+msgid "Show Volumes"
+msgstr "Mostrar volumes"
+
 
 #: application/views/scripts/file/list.phtml:13
 msgid "Attribute"
@@ -1244,12 +1271,32 @@ msgid "No Files found."
 msgstr "Arquivos não encontrados"
 
 #: application/views/scripts/help/index.phtml:9
-msgid "web interface of a"
-msgstr "interface web para"
+msgid "Webacula about"
+msgstr "Sobre o Webacula"
+
+#: application/views/scripts/help/index.phtml:9
+msgid "This is a fork from original project"
+msgstr "Este é um fork do projeto original"
+
+msgid "Webacula is a opensource web interface for manage one the most popular backup software of the world, the"
+msgstr "O Webacula é uma interface web utilizada para gerenciar um dos mais populares softwares de backup do mundo, o"
+
+msgid "The original developer seems to have abandoned the project as there have been no updates since October 2014"
+msgstr "O desenvolvedor original parece ter abandonado o projeto, pois não houve atualizações desde Outubro de 2014"
+
+msgid "Original Repository"
+msgstr "Repositório Original"
+
+msgid "Current Repository"
+msgstr "Repositório Atual"
 
 #: application/views/scripts/help/index.phtml:13
 msgid "Legend"
 msgstr "Legenda"
+
+#: application/views/scripts/help/index.phtml:13
+msgid "Screens"
+msgstr "Telas"
 
 #: application/views/scripts/help/index.phtml:15
 msgid "Yellow color"
@@ -1271,9 +1318,21 @@ msgstr "mostrar em uma janela separada"
 msgid "errors"
 msgstr "Erros"
 
+#: application/views/scripts/help/index.phtml:18
+msgid "default"
+msgstr "Padrão"
+
+#: application/views/scripts/help/index.phtml:18
+msgid "running"
+msgstr "Em execução"
+
+#: application/views/scripts/help/index.phtml:18
+msgid "with errors"
+msgstr "Com erros"
+
 #: application/views/scripts/help/index.phtml:21
-msgid "Information"
-msgstr "Duração"
+msgid "Informations"
+msgstr "Informações"
 
 #: application/views/scripts/help/index.phtml:29
 msgid "You successfully logged in as"
@@ -1285,7 +1344,7 @@ msgstr "Catálogo Bacula"
 
 #: application/views/scripts/help/index.phtml:31
 msgid "Version for Bacula Catalog database"
-msgstr "Versão do catálogo"
+msgstr "Versão do Catálogo"
 
 #: application/views/scripts/help/index.phtml:33
 msgid "Bconsole"
@@ -1373,7 +1432,7 @@ msgstr "JobId"
 #: application/views/scripts/job/running-dashboard.phtml:102
 #: application/views/scripts/job/running.phtml:98
 msgid "Information from Director : No Running Jobs found."
-msgstr "Informações do director: Não foram encontrados jobs em execução"
+msgstr "Informações do Diretor: Não foram encontrados jobs em execução"
 
 #: application/views/scripts/job/running-dashboard.phtml:147
 #: application/views/scripts/job/running.phtml:140
@@ -1383,7 +1442,7 @@ msgstr "aa-mm-dd"
 #: application/views/scripts/job/running-dashboard.phtml:216
 #: application/views/scripts/job/running.phtml:231
 msgid "Information from DB Catalog : No Running Jobs found."
-msgstr "Informações do catálogo: Não foram encontrados jobs em execução"
+msgstr "Informações do Catálogo: Não foram encontrados jobs em execução"
 
 #: application/views/scripts/job/terminated-dashboard.phtml:62
 #: application/views/scripts/job/terminated-dashboard.phtml:63
@@ -1399,7 +1458,7 @@ msgstr "Re-executar Job"
 #: application/views/scripts/job/find-filters.phtml:74
 #: application/views/scripts/job/problem-dashboard.phtml:62
 msgid "Detail Job"
-msgstr "Detalhar Job"
+msgstr "Detalhar job"
 
 #: application/views/scripts/job/terminated-dashboard.phtml:166
 #: application/views/scripts/job/find-file-name.phtml:199
@@ -1415,7 +1474,7 @@ msgstr "Ver mensagens"
 #: application/views/scripts/job/find-filters.phtml:221
 #: application/views/scripts/job/problem-dashboard.phtml:161
 msgid "No Jobs found."
-msgstr "Jobs não encontrados"
+msgstr "Nenhum job encontrado!"
 
 #: application/views/scripts/job/timeline.phtml:22
 msgid "Date"
@@ -1542,7 +1601,7 @@ msgstr "Ver lista dos últimos 20 Jobs"
 #: application/views/scripts/job/find-form.phtml:68
 #: application/views/scripts/job/find-form.phtml:78
 msgid "ANY"
-msgstr "QUALQUER"
+msgstr "Qualquer"
 
 #: application/views/scripts/job/find-form.phtml:70
 msgid "Completed successfully"
@@ -1665,7 +1724,7 @@ msgstr "Mais"
 
 #: application/views/scripts/restorejob/msg02session.phtml:6
 msgid "Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini."
-msgstr "Sessão de restauração de backup expirou.<br />Aumente o valor de <b>ttl_restore_session</b> in your config.ini."
+msgstr "A sessão de restauração do backup expirou.<br />Aumente o valor de <b>ttl_restore_session</b> no arquivo de configuração 'config.ini'."
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:34
 #: application/views/scripts/restorejob/draw-file-tree.phtml:115
@@ -1725,11 +1784,14 @@ msgstr "Total"
 
 #: application/views/scripts/restorejob/msg01.phtml:21
 msgid "Found existing temporary tables for the Restore Job with JobId"
-msgstr "Encontrado tabela temporária no DB webacula para restauração"
+msgstr "Foram encontrado tabelas temporárias existentes na restauração do JobId"
 
 #: application/views/scripts/restorejob/msg01.phtml:24
 msgid "Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."
-msgstr "Provavelmente alguém ja selecionou alguns arquivos para restauração, ou esta tablea não foi removida desde a última requisição de restauração."
+msgstr "Provavelmente alguém já está efetuando esta restauração ou a tabela não foi removida na última restauração."
+
+msgid "An error occurred while restoring!"
+msgstr "Ocorreu um erro durante a restauração!"
 
 #: application/views/scripts/restorejob/msg01.phtml:26
 msgid "Choose the action:"
@@ -1779,36 +1841,24 @@ msgid "ERROR: Record has not been added. Reason :"
 msgstr "ERRO: Registro não foi adicionado. Motivo :"
 
 #: application/views/scripts/wblogbook/add.phtml:45
-msgid "(<b>*</b>) Field is required to process this form"
-msgstr "(<b>*</b>) Preenchimento obrigatório"
-
-#: application/views/scripts/wblogbook/add.phtml:47
-msgid "<sup>*</sup>Date "
-msgstr "<sup>*</sup>Data "
-
-#: application/views/scripts/wblogbook/add.phtml:56
-msgid "<sup>*</sup>Type "
-msgstr "<sup>*</sup>Tipo "
+msgid "Field is required to process this form"
+msgstr "Campos com preenchimento obrigatório"
 
 #: application/views/scripts/wblogbook/add.phtml:61
-msgid "Reviewed "
+msgid "Reviewed"
 msgstr "Revisado"
 
 #: application/views/scripts/wblogbook/add.phtml:63
 msgid "Don't show this Job in 'Jobs with errors' list in future"
 msgstr "Não mostrar este Job em 'Jobs com erros' no futuro"
 
-#: application/views/scripts/wblogbook/add.phtml:71
-msgid "<sup>*</sup>Text"
-msgstr "<sup>*</sup>Texto"
-
 #: application/views/scripts/wblogbook/add.phtml:72
-msgid "Allowed to use tags :"
+msgid "Allowed to use tags"
 msgstr "Tags permitidas"
 
 #: application/views/scripts/wblogbook/add.phtml:88
-msgid "Allowed to use pseudo-tags :"
-msgstr "Pseudo-tags permitidas:"
+msgid "Allowed to use pseudo-tags"
+msgstr "Pseudo-tags permitidas"
 
 #: application/views/scripts/wblogbook/index.phtml:77
 msgid "+ Add New Record"
@@ -1874,7 +1924,7 @@ msgstr "Alterar"
 
 #: application/views/scripts/wblogbook/index.phtml:218
 msgid "Deleted"
-msgstr "Deletado"
+msgstr "Excluído"
 
 #: application/views/scripts/wblogbook/index.phtml:254
 msgid "No records found."
@@ -1890,15 +1940,15 @@ msgstr "Data atual :"
 
 #: application/views/scripts/wblogbook/modify.phtml:31
 msgid "Record has not been modified. Reason :"
-msgstr "Registro não foi modificado. Motivo:"
+msgstr "O registro não foi modificado. Motivo:"
 
 #: application/views/scripts/wblogbook/modify.phtml:47
 msgid "This record has been deleted."
-msgstr "Registro foi deletado"
+msgstr "O registro foi excluído"
 
 #: application/views/scripts/wblogbook/modify.phtml:54
 msgid "Log record Id "
-msgstr "Log record Id"
+msgstr "Log Id"
 
 #: application/views/scripts/wblogbook/modify.phtml:56
 msgid "Date last update record :"
@@ -1914,15 +1964,15 @@ msgstr "Alterar este registro"
 
 #: application/views/scripts/wblogbook/modify.phtml:64
 msgid "Delete this record (physically record will not be removed)"
-msgstr "Deletar este registro (não será removido fisicamente)"
+msgstr "Excluir este registro (não será removido fisicamente)"
 
 #: application/views/scripts/wblogbook/modify.phtml:66
 msgid "Undelete this record"
 msgstr "Recuperar este registro"
 
 #: application/views/scripts/wblogbook/modify.phtml:76
-msgid "<sup>*</sup>Date create record "
-msgstr "<sup>*</sup>Data de criação "
+msgid "Date create record"
+msgstr "Data de criação"
 
 #: application/views/scripts/wblogbook/modify.phtml:118
 #: application/views/scripts/volume/detail.phtml:245
@@ -1937,11 +1987,11 @@ msgid "Are you sure you want to delete the jobdesc?"
 msgstr "Você tem certeza que deseja excluir a descrição do job?"
 
 msgid "Are you sure you want to delete the role?"
-msgstr "Você tem certeza que deseja excluir o controle de acesso?"
+msgstr "Você tem certeza que deseja excluir a função?"
 
 #: application/views/scripts/wbjobdesc/index.phtml:18
 msgid "Delete"
-msgstr "Apagar"
+msgstr "Excluir"
 
 #: application/views/scripts/wbjobdesc/index.phtml:44
 msgid "Retention period"
@@ -1955,7 +2005,7 @@ msgstr "Modificar registro"
 #: application/views/scripts/wbjobdesc/index.phtml:71
 #: application/views/scripts/wbjobdesc/index.phtml:72
 msgid "Delete record"
-msgstr "Apagar registro"
+msgstr "Excluir registro"
 
 #: application/views/scripts/log/view-log-id.phtml:24
 msgid "No Console messages found."
@@ -2159,7 +2209,7 @@ msgstr "Reciclar"
 #: application/views/scripts/volume/problem.phtml:70
 #: application/views/scripts/volume/problem.phtml:144
 msgid "Information from DB Catalog : All Volumes are OK."
-msgstr "Informações do catálogo: Todos os volumes estão ok."
+msgstr "Informações do Catálogo: Todos os volumes estão ok."
 
 #: application/views/scripts/auth/login.phtml:35
 msgid "Forgot?"
@@ -2215,15 +2265,15 @@ msgstr "Fileset"
 
 #: application/views/scripts/admin/role-index.phtml:18
 msgid "Create new role"
-msgstr "Novo"
+msgstr "Nova função"
 
 #: application/views/scripts/admin/role-index.phtml:90
 msgid "No Roles found."
-msgstr "Nenhum controle de acesso encontrado"
+msgstr "Nenhuma função encontrada"
 
 #: application/views/scripts/admin/role-more-info.phtml:24
 msgid "Inherited roles"
-msgstr "Controlesde acesso herdados"
+msgstr "Funções herdadas"
 
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
@@ -2233,7 +2283,7 @@ msgstr "Não"
 
 #: application/views/scripts/admin/role-more-info.phtml:41
 msgid "Who use this role"
-msgstr "Quem utiliza estas permissões"
+msgstr "Quem utiliza estas funções"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s diretório(s), %s arquivo(s))"
