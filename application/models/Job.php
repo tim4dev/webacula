@@ -655,6 +655,7 @@ EOF', $command_output, $return_var);
    /**
 	 * Get Listing All Jobs
 	 *
+    TODO: Need refactoring for use command ".jobs"
 	 */
     function getListJobs()
     {
@@ -1312,7 +1313,7 @@ Select Job resource (1-3):
             if ( !empty($client) )    {
                 $select->where($this->db->quoteInto("Client.Name = ?", $client));
             }
-            $select->order(array("StartTime"));
+            $select->order(array("StartTime DESC"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         }
         $stmt = $select->query();
