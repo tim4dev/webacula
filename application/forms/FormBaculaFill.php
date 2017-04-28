@@ -77,7 +77,7 @@ class FormBaculaFill extends Zend_Form
         $data = $table->getBaculaFill($this->table_bacula, $this->table_webacula, $this->role_id);
         $bacula_fill = $this->createElement('multiselect', 'bacula_fill', array(
             'label'    => $this->translate->_('From Bacula database'),
-            'class' => 'ui-select',
+            'class' => 'form-control',
             'size' => 10
         ));
         $bacula_fill->addMultiOptions(array( '*all*' => '*all*' ));
@@ -91,7 +91,7 @@ class FormBaculaFill extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn  btn-default',
             'label' => $this->translate->_('Add')
         ));
         /*

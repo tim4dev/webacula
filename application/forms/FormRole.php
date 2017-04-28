@@ -65,6 +65,7 @@ class FormRole extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Order').'*',
             'required'  => true,
+            'class'     => 'form-control',
             'size'      => 3,
             'maxlength' => 5
         ));
@@ -77,6 +78,7 @@ class FormRole extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Name').'*',
             'required'  => true,
+            'class'     => 'form-control',
             'size'      => 30,
             'maxlength' => 50
         ));
@@ -92,6 +94,7 @@ class FormRole extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Description').'*',
             'required'  => true,
+            'class'     => 'form-control',
             'cols' => 50,
             'rows' => 3
         ));
@@ -109,7 +112,7 @@ class FormRole extends Zend_Form
         // create element
         $inherit_id = $this->createElement('select', 'inherit_id', array(
             'label'    => $this->translate->_('Inherited role'),
-            'class' => 'ui-select',
+            'class' => 'form-control',
             'size' => 10
         ));
         $inherit_id->addMultiOption('', '');
@@ -123,7 +126,7 @@ class FormRole extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Submit Form')
         ));
         /*
@@ -132,7 +135,7 @@ class FormRole extends Zend_Form
         $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'cancel_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*

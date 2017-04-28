@@ -1,39 +1,100 @@
-<!-- index_en.phtml -->
-<img src="<?php echo $this->baseUrl; ?>/images/Webacula_logo.png">
-
-<h1 style="color : #002244;">v<?php echo Zend_Registry::get('webacula_version'); ?></h1>
-<p><strong>
-<a href="http://webacula.sourceforge.net/" name="webacula" target="_blank">
-Webacula</a>
-</strong> - <strong>We</strong>b + <strong>Bacula</strong> -
-<?php echo $this->translate->_('web interface of a');?>&nbsp;
-<a href="http://www.bacula.org/" name="Bacula" target="_blank">Bacula Backup</a>.</p>
-
-<p>&nbsp;</p>
-<h1><?php echo $this->translate->_('Legend');?></h1>
-<p>
-<font  style="background-color : #ffff00;"><?php echo $this->translate->_('Yellow color');?></font> - <?php echo $this->translate->_('warnings');?>.
-</p>
-<p>
-<font  style="background-color : #ff0000; color : #ffffff;"><?php echo $this->translate->_('Red color');?></font> - <?php echo $this->translate->_('errors');?>.
-</p>
-<p>&nbsp;</p>
-<h1><?php echo $this->translate->_('Information');?></h1>
-<p>
-<table id="box-table-one-column" border="0" style="width: 56em; text-align: left;">    
-    <colgroup><col class="col-first"></colgroup>
-    <colgroup><col style="width: 26em;"></colgroup>
-    <thead>
-    </thead>
-    <tbody>
-<tr><td><?php echo $this->translate->_('You successfully logged in as');?> </td><td> <?php echo $this->identity->login, ' : ', $this->identity->role_name; ?></td><tr>
-<tr><td><?php echo $this->translate->_('DB Bacula');?> </td><td> <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></td><tr>
-<tr><td><?php echo $this->translate->_('Version for Bacula Catalog database');?> </td><td> <?php echo $this->catalog_version_bacula; ?></td><tr>
-<tr><td><?php echo $this->translate->_('Director');?> </td><td> <?php echo $this->director_version; ?></td><tr>
-<tr><td><?php echo $this->translate->_('Bconsole');?> </td><td> <?php echo $this->bconsole_version; ?></td><tr>
-<tr><td><?php echo $this->translate->_('Zend Framework');?> </td><td> <?php echo $this->zend_version; ?></td><tr>
-<tr><td><?php echo $this->translate->_('Locale');?> </td><td> <?php echo $this->locale; ?></td><tr>
-<tr><td><?php echo $this->translate->_('PHP info');?></td><td> <?php echo phpversion(); ?> (<a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank"><?php echo $this->translate->_('in separate window');?></a>)</td><tr>
-<tr><td><?php echo $this->translate->_('PHP system id');?></td><td><?php system('id');?></td><tr>
-    </tbody>
-</table>
+<!-- help/index.phtml -->
+<!--<img src="<?php echo $this->baseUrl; ?>/images/Webacula_logo.png">-->
+<div class="rows">
+   <div class="col-md-8">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+            <div class="panel-body">
+               <!--<label>v<?php echo Zend_Registry::get('webacula_version'); ?></label>-->
+               <p>
+                  <?php echo $this->translate->_('This is a fork from original project');?>&nbsp;<br/><br/>
+                  
+                  <?php echo $this->translate->_('Webacula is a opensource web interface for manage one the most popular backup software of the world, the');?>&nbsp;
+                  <a href="http://www.bacula.org/" target="_blank">Bacula</a>.<br/><br/>
+                  <?php echo $this->translate->_('The original developer seems to have abandoned the project as there have been no updates since October 2014');?>&nbsp; 
+                  <br/><br/>
+                  <?php echo $this->translate->_('Original Repository');?>: <a href="https://github.com/tim4dev/webacula" target="_blank">https://github.com/tim4dev/webacula</a>
+                  <br/><br/>
+                  <?php echo $this->translate->_('Current Repository');?>: <a href="https://github.com/wanderleihuttel/webacula" target="_blank">https://github.com/wanderleihuttel/webacula</a>
+                  <br/>
+                  <br/>
+                  <p class="signature"></p>
+                  <hr>
+                  
+                  <p class="help-span-legend">
+                     <label><?php echo $this->translate->_('Legend');?></label>
+                     <span class="label label-warning">
+                     <?php echo $this->translate->_('warnings');?>
+                     </span>
+                     <span class="label label-danger">
+                     <?php echo $this->translate->_('errors');?>
+                     </span>
+                  </p>
+                  
+                  <p class="help-span-legend">
+                     <label><?php echo $this->translate->_('Screens');?></label>
+                     <span class="label label-primary">
+                     <?php echo $this->translate->_('default');?>
+                     </span>
+                     <span class="label label-success">
+                     <?php echo $this->translate->_('running');?>
+                     </span>
+                     <span class="label label-danger">
+                     <?php echo $this->translate->_('with errors');?>
+                     </span>
+                  </p>
+                  
+                  <hr>
+                  <h4><?php echo $this->translate->_('Informations');?></h4>
+                  
+                  <div class="table-responsive">
+                  <table class="table table-hover table-condensed">
+                     <thead></thead>
+                     <tbody>
+                        <tr>
+                           <td><?php echo $this->translate->_('You successfully logged in as');?> </td>
+                           <td> <?php echo $this->identity->login, ' : ', $this->identity->role_name; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('DB Bacula');?> </td>
+                           <td> <?php echo $this->db_adapter_bacula, " ", $this->db_server_version_bacula; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('Version for Bacula Catalog database');?> </td>
+                           <td> <?php echo $this->catalog_version_bacula; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('Director');?> </td>
+                           <td> <?php echo $this->director_version; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('Bconsole');?> </td>
+                           <td> <?php echo $this->bconsole_version; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('Zend Framework');?> </td>
+                           <td> <?php echo $this->zend_version; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('Locale');?> </td>
+                           <td> <?php echo $this->locale; ?></td>
+                        <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('PHP info');?></td>
+                           <td> <?php echo phpversion(); ?> (<a href="<?php echo $this->baseUrl, '/help/my-php-info/' ?>" target="_blank"><?php echo $this->translate->_('in separate window');?></a>)</td>
+                         <tr>
+                         <tr>
+                           <td><?php echo $this->translate->_('PHP system id');?></td>
+                           <td><?php system('id');?></td>
+                        <tr>
+                      </tbody>
+                  </table>
+                  </div><!-- end div table-responsive -->
+               </p><!-- close p -->
+            </div><!-- close div panel-body -->
+         </div><!-- close div panel panel-default panel-primary -->
+      </div><!-- close div col-md-8 -->
+   </div><!-- close div row -->
+<!-- end help/index.phtml -->

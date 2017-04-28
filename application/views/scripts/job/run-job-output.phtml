@@ -1,5 +1,16 @@
 <!-- job/run-job-output.phtml -->
 
+<div class="rows">
+  <div class="col-md-8">
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title . ' ' . $this->jobname); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
+
 <?php if ( $this->result_error ): ?>
     <div class="ui-widget" style="float: left;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
@@ -33,7 +44,7 @@
 
 <!-- director output -->
 <table id="table-dir-output">
-<caption><?php echo $this->escape($this->title . ' ' . $this->jobname); ?></caption>
+<!--<caption><?php echo $this->escape($this->title . ' ' . $this->jobname); ?></caption>-->
 <tr><td>
     <b><?php print $this->translate->_("Director output:"); ?></b>
 	<?php
@@ -56,10 +67,18 @@
 <div align="center">
     <form action="<?php  echo $this->baseUrl.'/job/running';?>" method="post">
         <input type="hidden" name="jobname"  id="jobname"  value="<?php echo $this->jobname; ?>">
-        <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
+        <?php echo $this->formSubmit('ok1', $this->translate->_('View Running Jobs'), array('class' => 'btn btn-default') ); ?>
     </form>
 </div>
 </td></tr>
 </table>
 
 <?php endif; ?>
+
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

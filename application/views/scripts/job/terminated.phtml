@@ -1,7 +1,7 @@
 <!-- job/terminated.phtml -->
- <?php if ( $this->result ): ?>
 
-<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
+<div class="rows">
+  <div class="col-md-10">
 
 <div class="panel panel-default panel-primary">
 	<div class="panel-heading">
@@ -9,7 +9,16 @@
 	</div>
 	<div class="panel-body">
 	   <p>
- 
+
+
+
+ <?php if ( $this->result ): ?>
+
+<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
+
+     
+       
+<div class="table-responsive">
 <table id="box-table2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
@@ -226,18 +235,33 @@
 <?php endforeach; ?>
 </tbody>
 </table>
+</div><!-- end div table-responsive -->
 
 <?php else: ?>
-<div class="ui-widget" style="float: left;">
+<!--<div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
 		<p><a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
 		<?php print $this->translate->_("See List last 20 Jobs run"); ?></a></p>
 	</div>
+</div>-->
+<!--<div style="clear: both;"></div>-->
+<div class="alert alert-warning">
+  <p>
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <?php print $this->translate->_("No Jobs found.");; ?>
+  </p>
+        <p><a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
+        <?php print $this->translate->_("See List last 20 Jobs run"); ?>
+        </a></p>
 </div>
-<div style="clear: both;"><!--  --></div>
+
+
 <?php endif; ?>
 	   </p><!-- close p -->
     </div><!-- close div panel-body -->
 </div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-10 -->
+</div><!-- fim da div row -->

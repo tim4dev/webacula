@@ -144,7 +144,8 @@ EOF");
                     $str_action = '';
                 break;
             }
-            $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . ' ' . $str_action;
+            //$this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . ' ' . $str_action;
+            $this->view->title = $str_action . " " . $this->view->translate->_("Storage") . ": " . $storage_name;
             $director = new Director();
             if (! $director->isFoundBconsole()) {
                 $this->view->result_error = 'NOFOUND_BCONSOLE';
@@ -194,7 +195,7 @@ EOF");
             return;
         }
         if (!empty($storage_name)) {
-            $this->view->title = $this->view->translate->_("Storage") . " " . $storage_name . ' '.
+            $this->view->title = $this->view->translate->_("Storage") . ": " . $storage_name . ' '.
                 $this->view->translate->_("autochanger content");
             $director = new Director();
             if (! $director->isFoundBconsole()) {

@@ -15,7 +15,7 @@
 	   <p>
 
 <?php if ($this->result): ?>
-
+<div class="table-responsive">
 <table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
@@ -40,11 +40,11 @@
                 break;
         }
      ?> </th>
-     <th align="center"> <?php print $this->translate->_("Status"); ?> </th>
-     <th align="center"> <?php print $this->translate->_("Level"); ?> </th>
-     <th align="center"> <?php print $this->translate->_("Files"); ?> </th>
-     <th align="center"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th align="center"> <?php print $this->translate->_("Errors"); ?> </th>
+     <th class="text-center"> <?php print $this->translate->_("Status"); ?> </th>
+     <th class="text-center"> <?php print $this->translate->_("Level"); ?> </th>
+     <th class="text-right"> <?php print $this->translate->_("Files"); ?> </th>
+     <th class="text-right"> <?php print $this->translate->_("Bytes"); ?> </th>
+     <th class="text-center"> <?php print $this->translate->_("Errors"); ?> </th>
 </tr>
 </thead>
 <tbody>
@@ -181,15 +181,24 @@
 <?php endforeach; ?>
 </tbody>
 </table>
+</div><!-- end div table-responsive -->
 
 <?php else: ?>
-<div class="ui-widget" style="float: left;">
+<!--<div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all">
 		<p class="dashboard"><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<?php print $this->translate->_("No Jobs found."); ?></p>
 	</div>
+</div>-->
+
+<div class="alert alert-danger">
+  <p>
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <?php print $this->translate->_("No Jobs found.");; ?>
+  </p>
 </div>
-<div style="clear: both;"><!--  --></div>
+
+<!--<div style="clear: both;"></div>-->
 <?php endif; ?>
 
 	   </p><!-- close p -->

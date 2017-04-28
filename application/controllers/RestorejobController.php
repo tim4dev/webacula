@@ -22,7 +22,7 @@
  */
 
 /*
- * формат хранения данных в сессии / data storage format in the session
+ * Data storage format in the session / data storage format in the session
  *
  * *** common parameters
  *
@@ -59,7 +59,7 @@ class RestorejobController extends MyClass_ControllerAclAction
     const ROW_LIMIT_FILES = 500;
     public $db_adapter;
 
-    // для хранения данных для Restore
+    // To store data for Restore
     protected $restoreNamespace;
     const RESTORE_NAME_SPACE = 'RestoreSessionNamespace';
     protected $ttl_restore_session = 3900; // time to live session (65 min)
@@ -187,7 +187,7 @@ class RestorejobController extends MyClass_ControllerAclAction
 
     function cloneBaculaTables($jobidhash)
     {
-        /* извлекаем данные о jobid из сессии */
+        /* Retrieve jobid data from session */
         $jobid = $this->restoreNamespace->JobId;
         $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
         $tmp_tables->cloneBaculaToTmp($jobid);
@@ -202,7 +202,7 @@ class RestorejobController extends MyClass_ControllerAclAction
      */
     function cloneRecentBaculaTables($jobidhash)
     {
-        /* извлекаем данные обо всех jobids из сессии */
+        /* Retrieve data about all jobids from the session */
         $sjobids = implode(",", $this->restoreNamespace->aJobId);
         $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
         $tmp_tables->cloneRecentBaculaToTmp($sjobids);
@@ -210,7 +210,7 @@ class RestorejobController extends MyClass_ControllerAclAction
 
     /**
      * Delete temporary table after starting the job to restore
-     * (Удалить временные таблицы после запуска задания на восстановление)
+     * (Delete temporary tables after running a restore job)
      */
     public function deleteTmpTables()
     {
@@ -253,10 +253,10 @@ class RestorejobController extends MyClass_ControllerAclAction
         /*
          * перенаправления из др. форм (RestoreAll и т.п.)
          */
-        // выдача сообщения, что такого joid не существует
+        // Issuing a message that such a joid does not exist
         $this->view->msgNoJobId1 = $this->_request->getParam('msgNoJobId1', null);
         $this->view->msgNoJobId2 = $this->_request->getParam('msgNoJobId2', null);
-        // какая закладка д.б. активной, def = 0 (first child)
+        //What is the bookmark? Active, def = 0 (first child)
         $this->view->accordion_active = $this->_request->getParam('accordion_active', 0);
         // do view
         $this->render();
@@ -266,16 +266,16 @@ class RestorejobController extends MyClass_ControllerAclAction
     
     /**
      * Manager of action depending on the user's choice
-     * Диспетчер действий в зависимости от выбора пользователя
+     * Action Manager based on user choice
      *
      */
     public function restoreChoiceAction()
     {
         // user made a choice in the form of "Restore Job" restorejob/main-form
-        // сделан выбор в форме "Restore Job" restorejob/main-form
+        // A choice is made in the form "Restore Job" restorejob/main-form
         $choice  = addslashes( $this->_request->getParam('choice', '') );
         $jobid   = intval( $this->_request->getParam('jobid', null) );
-        // store the data in the session / запоминаем данные в сессии
+        // store the data in the session / Remember the data in the session
         $this->mySessionStart();
         $this->restoreNamespace->typeRestore = 'restore';
         $this->restoreNamespace->JobId = $jobid;
@@ -292,14 +292,14 @@ class RestorejobController extends MyClass_ControllerAclAction
 
     /**
      * Manager of action depending on the user's choice
-     * Диспетчер действий в зависимости от выбора пользователя
+     * Action Manager based on user choice
      *
      */
     function restoreRecentChoiceAction()
     {
-        // в форме "Restore Job" сделан выбор
+        // в форме "Restore Job" The choice is made
         $choice_recent    = addslashes( $this->_request->getParam('choice_recent', '') );
-        // store the data in the session / запоминаем данные в сессии
+        // store the data in the session / Remember the data in the session
         $this->mySessionStart();
         $this->restoreNamespace->typeRestore = 'restore_recent';
         $this->restoreNamespace->ClientNameFrom = addslashes( $this->_request->getParam('client_name_from', null) );
@@ -320,13 +320,13 @@ class RestorejobController extends MyClass_ControllerAclAction
     /**
      * 12: Select full restore to a specified JobId + Bacula ACLs
      * Manager of action depending on the user's choice
-     * Диспетчер действий в зависимости от выбора пользователя
+     * Action Manager based on user choice
      *
      */
     public function restoreFullJobidChoiceAction()
     {
         // user made a choice in the form of "Restore Job" restorejob/main-form
-        // сделан выбор в форме "Restore Job" restorejob/main-form
+        // A choice is made in the form "Restore Job" restorejob/main-form
         $choice  = addslashes( $this->_request->getParam('choice_full_jobid', '') );
         $jobid   = intval( $this->_request->getParam('jobid', null) );
         // get job record
@@ -346,7 +346,7 @@ class RestorejobController extends MyClass_ControllerAclAction
         $ajob = $job->getByJobId($jobid); // see also cats/sql_get.c : db_accurate_get_jobids()
         $job_row = $ajob[0];
         $this->mySessionStart();
-        // store the data in the session / запоминаем данные в сессии
+        // store the data in the session / Remember the data in the session
         $this->restoreNamespace->typeRestore = 'restore_recent';
         $this->restoreNamespace->ClientNameFrom = $job_row['clientname'];
         $this->restoreNamespace->FileSet        = $job_row['fileset'];
@@ -388,14 +388,14 @@ class RestorejobController extends MyClass_ControllerAclAction
         Zend_Loader::loadClass('Client');
         $client = new Client();
         $jobid  = intval( $this->_request->getParam('jobid', 0) );
-        /* запоминаем "левый" jobid в сессии, чтобы не было ошибок при завершении restore */
+        /* Remember the "left" jobid in the session so that there are no errors when the restore completes */
         $jobidhash = md5('fake_jobid');
         $this->restoreNamespace->aJobId = array(0 => $jobidhash, 1 => $jobid);
 
         $this->view->title = $this->view->translate->_("Restore All files for JobId");
         $this->view->jobid = $jobid;
 
-        // существует ли такое jobid
+        // Does such jobid exist
         if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
             $this->_forward('main-form', 'restorejob', null,
                     array(
@@ -417,9 +417,9 @@ class RestorejobController extends MyClass_ControllerAclAction
          */
         if ( $this->_request->isPost() && $this->_request->getParam('from_form') )
         {
-            // получаем значения из формы FormRestoreOptions
+            // Get values from Form Restore Options
             $this->getParamFromForm();
-            // переопределяем некоторые переменные
+            // Override some variables
             $this->client_name    = $client->getClientName($jobid);
 //            $this->client_name_to = $this->restoreNamespace->ClientNameTo;
             $this->client_name_to = $this->_request->getParam('client_name_to');
@@ -441,7 +441,7 @@ class RestorejobController extends MyClass_ControllerAclAction
                     $cmd_sleep = '@sleep 10';
                 }
                 //******************************* run job ***************************************
-                // create command / формируем командную строку
+                // create command / Form the command line
                 // restore client=Rufus select current all done yes
                 $cmd  = 'restore '. $this->getCmdRestore() .' all done yes';
 
@@ -465,7 +465,7 @@ EOF");
                 $this->renderScript('restorejob/run-restore.phtml');
                 return;
             } else {
-                // форма не прошла валидацию
+                // Form failed validation
                 $messages = $validator_where->getMessages();
                 $this->view->msgNoValid = $messages[0];
             }
@@ -510,7 +510,7 @@ EOF");
         }
         Zend_Loader::loadClass('Director');
         // http://www.bacula.org/en/rel-manual/Restore_Command.html#SECTION002240000000000000000
-        /* запоминаем "левый" jobid в сессии, чтобы не было ошибок при завершении restore */
+        /* Remember the "left" jobid in the session so that there are no errors when the restore completes */
         $this->restoreNamespace->JobHash = md5('fake_jobid');
         $this->view->title = $this->view->translate->_("Restore All files");
         // bconsole available ?
@@ -533,9 +533,9 @@ EOF");
          */
         if ( $this->_request->isPost() && $this->_request->getParam('from_form') )
         {
-            // получаем значения из формы FormRestoreOptions
+            // Get values from Form Restore Options
             $this->getParamFromForm();
-            // переопределение некоторых переменных
+            // Redefinition of some variables
             $this->client_name = addslashes($this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
             $this->fileset     = addslashes($this->_request->getParam('fileset', $this->restoreNamespace->FileSet));
             $this->restoreNamespace->ClientNameTo = $this->client_name_to;
@@ -546,7 +546,7 @@ EOF");
                 else
                     $cmd_date_before = ' before="'. $this->restoreNamespace->DateBefore . '" ';
                 //******************************* run job ***************************************
-                // create command / формируем командную строку
+                // create command / Form the command line
                 // restore client="local.fd" restoreclient="local.fd" fileset="test1"  where="/home/test/11111" current select all done yes
                 // restore client="local.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
                 // restore client="local.fd" restoreclient="srv1.fd" fileset="test1" before="2009-05-11 11:36:56" select all done yes
@@ -570,7 +570,7 @@ EOF"
                 $this->renderScript('restorejob/run-restore.phtml');
                 return;
             } else {
-                // форма не прошла валидацию
+                // Form failed validation
                 $messages = $validator_where->getMessages();
                 $this->view->msgNoValid = $messages[0];
             }
@@ -612,11 +612,11 @@ EOF"
 
         // routing
         $this->routeDrawTreeToRestore();
-        // начало отрисовки дерева каталогов ?
+        // The beginning of the directory tree?
         $beginr = intval( $this->_request->getParam('beginr', 0) );
         if ( $beginr == 1 ) {
-            /* Начало отрисовки дерева каталогов */
-            // существует ли такое jobid
+            /* Beginning of the directory tree */
+            // Does such jobid exist
             if ( !$job->isJobIdExists($this->restoreNamespace->JobId) )  {  // do Bacula ACLs
                 $this->_forward('main-form', 'restorejob', null,
                     array(
@@ -630,22 +630,22 @@ EOF"
             $client = new Client();
             $this->restoreNamespace->ClientNameFrom = $client->getClientName($this->restoreNamespace->JobId);
 
-            // tmp таблицы существуют ?
+            // Tmp tables exist ?
             $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
             if ( $tmp_tables->isAllTmpTablesExists() )	{
-                // tmp таблицы устарели ?
+                // Tmp tables are outdated ?
                 if ( $tmp_tables->isOldTmpTables() )    {
-                    // tmp-таблицы устарели
+                    // Tmp-tables are outdated
                     $tmp_tables->dropOldTmpTables();  // delete all old tmp tables
                     // create tmp tables
                     $this->cloneBaculaTables($this->restoreNamespace->JobHash);
-                    // рисуем дерево
+                    // Drawing a tree
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
                     $curdir  = addslashes( $this->_request->getParam('curdir', '') );
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>$curdir) );
                 }   else {
-                    // tmp таблицы не устарели
-                    // выдать сообщение: 1. пересоздать временные таблицы 2. работать со старыми 3. выход
+                    // Tmp tables are not outdated
+                    // Issue a message: 1. re-create temporary tables 2. work with old ones 3. exit
                     $this->view->jobid = $this->restoreNamespace->JobId;
                     $this->view->title = $this->view->translate->_('Restore Job');
                     echo $this->renderScript('restorejob/msg01.phtml');
@@ -656,7 +656,7 @@ EOF"
                 $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
             }
         } else {
-            // продолжаем показывать дерево каталогов
+            // Continue to show the directory tree
             $curdir  = addslashes( $this->_request->getParam('curdir', '') );
             $this->_forward('draw-file-tree', null, null, array('curdir'=>$curdir));
         }
@@ -675,7 +675,7 @@ EOF"
         }
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('Job');
-        // поиск ClientId
+        // Search ClientId
         $client = new Client();
         $this->restoreNamespace->ClientIdFrom = $client->getClientId($this->restoreNamespace->ClientNameFrom);
 
@@ -691,13 +691,13 @@ EOF"
                 $this->restoreNamespace->ClientIdFrom,
                 $this->restoreNamespace->FileSet);  // with Bacula ACLs
         if ( !$ajobs ) {
-            // сообщение, что не найден Full backup: No Full backup before 2009-05-20 15:19:49 found.
+            // Message that is not found Full backup: No Full backup before 2009-05-20 15:19:49 found.
             $this->view->msg = sprintf($this->view->translate->_("No Full backup before %s found."), $this->restoreNamespace->DateBefore);
             echo $this->renderScript('msg-note.phtml');
             return;
         }
 
-        /* запоминаем данные о jobids в сессии */
+        /* Remember the jobids data in the session */
         $this->restoreNamespace->JobHash = md5($ajobs['hash']);
         $this->restoreNamespace->aJobId  = $ajobs['ajob_all'];
 
@@ -721,27 +721,27 @@ EOF"
         // routing
         $this->routeDrawTreeToRestore();
         // http://www.bacula.org/en/rel-manual/Restore_Command.html#SECTION002240000000000000000
-        // начало отрисовки дерева каталогов ?
+        // The beginning of the directory tree?
         $beginrecent = intval( $this->_request->getParam('beginrecent', 0) );
         if ( $beginrecent == 1 ) {
-            /* начало отрисовки дерева каталогов. */
-            // данные в сессии уже запомнены в selectBackupsBeforeDateAction()
-            // tmp таблицы существуют ?
+            /* The beginning of the directory tree. */
+            // Data in the session are already stored in the selectBackupsBeforeDateAction()
+            // Tmp tables exist?
             $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
             if ( $tmp_tables->isAllTmpTablesExists() ) {
-                // tmp таблицы устарели ?
+                // Tmp tables are outdated?
                 if ( $tmp_tables->isOldTmpTables() )    {
-                    // tmp-таблицы устарели
+                    // Tmp-tables are outdated
                     $tmp_tables->dropOldTmpTables();  // delete all old tmp tables
                     // create tmp tables
                     $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash);
-                    // рисуем дерево
+                    // Drawing a tree
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
                     $curdir  = addslashes( $this->_request->getParam('curdir', '') );
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>$curdir) );
                 } else {
-                    // tmp таблицы не устарели
-                    // выдать сообщение: 1. пересоздать временные таблицы 2. работать со старыми 3. выход
+                    // Tmp tables are not outdated
+                    // Issue a message: 1. re-create temporary tables 2. work with old ones 3. exit
                     $this->view->jobid = '';
                     $this->view->title = $this->view->translate->_('Restore Job');
                     echo $this->renderScript('restorejob/msg01.phtml');
@@ -752,7 +752,7 @@ EOF"
                 $this->_forward('draw-file-tree', null, null, array('curdir'=>'') );
             }
         } else {
-            // продолжаем показывать дерево каталогов
+            // Continue to show the directory tree
             $curdir  = addslashes( $this->_request->getParam('curdir', '') );
             $this->_forward('draw-file-tree', null, null, array('curdir'=>$curdir) );
         }
@@ -761,10 +761,10 @@ EOF"
 
     /**
      * The main function of rendering of a directory tree
-     * Главная функция по отрисовке дерева каталогов
+     * The main function for drawing a directory tree
      *
      * @param string jobidhash
-     * @param string curdir     если это начало отрисовки, то $curdir = ''
+     * @param string curdir     If this is the beginning of the drawing, то $curdir = ''
      *
      */
     function drawFileTreeAction()
@@ -784,7 +784,7 @@ EOF"
         $adir = array();
         if ( $this->restoreNamespace->JobHash )    {
             $this->routeDrawTreeToRestore();
-            //************ get a list of all directories + LStat (получаем список всех каталогов + их атрибуты LStat) ******
+            //************ get a list of all directories + LStat (Get a list of all directories + their attributes LStat) ******
             $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
             $db = $tmp_tables->getDb();
             // $this->_db->quote();
@@ -797,7 +797,7 @@ EOF"
                     ON t.FileId = f.FileId
                 ORDER BY p.Path
             ");
-            // get a list of directories on the current (получаем список каталогов относительно текущего)
+            // get a list of directories on the current (Get a list of directories relative to the current)
             while($line = $stmt->fetch())   {
                 if ( empty($curdir) ) {
                     $pos = 0;
@@ -805,30 +805,30 @@ EOF"
                     //elseif ( $line['path'][1] === ':') $curdir = $line['path'][0] . ':/'; // windows path
                 } else
                     $pos = strpos($line['path'], $curdir);
-                // найден текущий каталог
+                // The current directory is found
                 if ( $pos === 0 )   {
-                    // удаляем текущий каталог из полного пути
+                    // Delete the current directory from the full path
                     $nextdir = preg_replace('/^' . addcslashes($curdir, '/') . '/', '', $line['path']);
-                    // если есть еще подкаталоги
+                    // If there are more subdirectories
                     if ( !empty($nextdir) ) {
-                        // получаем следующий уровень подкаталога
+                        // Get the next level of the subdirectory
                         $atmp = explode("/", $nextdir, 3);
                         $dir = $atmp[0];
                         if ( !empty($dir) ) {
                             if ($line['md5'] === 0)  {
-                                // это однозначно каталог
+                                // This is definitely a catalog
                                 if ( isset($atmp[2]) )    {
-                                    $adir[$dir]['lstat'] = '';  // данных LStat нет, это просто часть пути
+                                    $adir[$dir]['lstat'] = '';  // There is no LStat data, it's just part of the way
                                 } else {
-                                    $adir[$dir]['lstat'] = $line['lstat']; // точное совпадение, зн. есть данные об LStat
+                                    $adir[$dir]['lstat'] = $line['lstat']; // Exact match, characters. There is data about LStat
                                 }
                                 $adir[$dir]['pathid']   = $line['pathid'];
                                 $adir[$dir]['dir']      = $dir;
                                 $adir[$dir]['ismarked'] = $line['ismarked'];
                             } else {
-                                // возможно это каталог
+                                // Perhaps this is the catalog
                                 if ( empty($adir[$dir]) ) {
-                                    $adir[$dir]['lstat'] = '';  // данные LStat будут от файла, что не нужно
+                                    $adir[$dir]['lstat'] = '';  // The LStat data will be from a file that is not needed
                                     $adir[$dir]['pathid']   = $line['pathid'];
                                     $adir[$dir]['dir']      = $dir;
                                     $adir[$dir]['ismarked'] = $line['ismarked'];
@@ -840,7 +840,7 @@ EOF"
             }
             unset($stmt);
             unset($db);
-            //****** получаем список файлов в текущем каталоге ******
+            //****** Get the list of files in the current directory ******
             $afile = array();
             if ( $curdir )	{
                 $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
@@ -880,7 +880,7 @@ EOF"
             $this->view->afile  = $afile;
             $this->view->curdir = $curdir;
             $this->view->jobidhash = $this->restoreNamespace->JobHash;
-            // получаем суммарную статистику
+            // We obtain the summary statistics
             $atotal = $tmp_tables->getTotalSummaryMark();
             $this->view->total_size  = $atotal['total_size'];
             $this->view->total_files = $atotal['total_files'];
@@ -897,7 +897,7 @@ EOF"
 
     /**
      * Mark file for restore
-     * Пометить файл для восстановления
+     * Mark recovery file
      * See also javascript in draw-file-tree.pthml
      *
      * @return json
@@ -909,24 +909,24 @@ EOF"
             $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
-            // Получение значения
+            // Getting the value
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            // производим действия в БД
+            // We make actions in a DB
             $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $tmp_tables->markFile($fileid);
             $filename = $tmp_tables->getFileName($fileid);
-            // получаем суммарную статистику
+            // We obtain the summary statistics
             $atotal = $tmp_tables->getTotalSummaryMark();
-            // формируем массив для отправки назад
+            // Form an array to send back
             $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
             $aout['total_files'] = $atotal['total_files'];
             $aout['filename']    = $filename;
-            $aout['allok']    	 = 1; // действия успешны
-            // Преобразование для возвращения клиенту
+            $aout['allok']    	 = 1; // Actions are successful
+            // Transformation for returning to the client
             $json = Zend_Json::encode($aout);
-            // возвращаем данные в javascript
+            // Return the data to javascript
             echo $json;
         } else {
             $aout['allok'] = 0;
@@ -938,7 +938,7 @@ EOF"
 
     /**
      * Remove the mark with a file for restore
-     * Снять отметку с файла для восстановления
+     * Unmark a file to restore
      * See also javascript in draw-file-tree.pthml
      *
      * @return json
@@ -951,24 +951,24 @@ EOF"
         }
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
-            // Получение значения
+            // Getting the value
             $phpNative = Zend_Json::decode($encodedValue);
             $fileid = $phpNative['fileid'];
             $jobidhash = $phpNative['jobidhash'];
-            // производим действия в БД
+            // We make actions in a DB
             $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $tmp_tables->unmarkFile($fileid);
             $filename = $tmp_tables->getFileName($fileid);
-            // получаем суммарную статистику
+            // We obtain the summary statistics
             $atotal = $tmp_tables->getTotalSummaryMark();
-            // формируем массив для отправки назад
+            // Form an array to send back
             $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
             $aout['total_files'] = $atotal['total_files'];
             $aout['filename']    = $filename;
-            $aout['allok']    	 = 1; // действия успешны
-            // Преобразование для возвращения клиенту
+            $aout['allok']    	 = 1; // Actions are successful
+            // Transformation for returning to the client
             $json = Zend_Json::encode($aout);
-            // возвращаем данные в javascript
+            // Return the data to javascript
             echo $json;
         }  else {
             $aout['allok']    = 0;
@@ -979,8 +979,8 @@ EOF"
 
 
     /**
-     * Пометить каталог + файлы в каталоге + подкаталоги + файлы в них для восстановления.
-     * См. javascript в draw-file-tree.pthml
+     * Mark the directory + files in the directory + subdirectories + files in them for recovery.
+     * See javascript in draw-file-tree.pthml
      */
     function markDirAction()
     {
@@ -989,27 +989,27 @@ EOF"
             $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
-            // Получение значения
+            // Getting the value
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            // производим действия в БД
+            // We make actions in a DB
             $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 1); // isMarked = 1
             if ( $res )
                 $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
             else
                 $aout['msg'] =  $this->view->translate->_('internal program error !');
-            // получаем суммарную статистику
+            // We obtain the summary statistics
             $atotal = $tmp_tables->getTotalSummaryMark();
-            // формируем массив для отправки назад
+            // Form an array to send back
             $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
             $aout['total_files'] = $atotal['total_files'];
             $aout['path']        = $path;
-            $aout['allok']       = 1; // действия успешны
-            // Преобразование для возвращения клиенту
+            $aout['allok']       = 1; // Actions are successful
+            // Transformation for returning to the client
             $json = Zend_Json::encode($aout);
-            // возвращаем данные в javascript
+            // Return the data to javascript
             echo $json;
         } else {
             $aout['allok'] = 0;
@@ -1021,7 +1021,7 @@ EOF"
 
     /**
      * Remove the marker catalog files in the directory and subdirectories + + files in order to restore them.
-     * Убрать пометку каталога и файлов в каталоге + подкаталоги + файлы в них для восстановления.
+     * Remove the markup of the directory and files in the directory + subdirectories + files in them for recovery.
      * See javascript in draw-file-tree.pthml
      */
     function unmarkDirAction()
@@ -1031,27 +1031,27 @@ EOF"
             $this->_helper->layout->disableLayout(); // disable layouts
         $encodedValue = $this->_request->getParam('data', '');
         if ( $encodedValue ) {
-            // Получение значения
+            // Getting the value
             $phpNative = Zend_Json::decode($encodedValue);
             $path  = $phpNative['path'];
             $jobidhash = $phpNative['jobidhash'];
-            // производим действия в БД
+            // We make actions in a DB
             $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 0); // isMarked = 0
             if ( $res )
                 $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
            else
                 $aout['msg'] =  $this->view->translate->_('internal program error !');
-            // получаем суммарную статистику
+            // We obtain the summary statistics
             $atotal = $tmp_tables->getTotalSummaryMark();
-            // формируем массив для отправки назад
+            // Form an array to send back
             $aout['total_size']  = $this->view->convBytes($atotal['total_size']);
             $aout['total_files'] = $atotal['total_files'];
             $aout['path']        = $path;
-            $aout['allok']       = 1; // действия успешны
-            // Преобразование для возвращения клиенту
+            $aout['allok']       = 1; // Actions are successful
+            // Transformation for returning to the client
             $json = Zend_Json::encode($aout);
-            // возвращаем данные в javascript
+            // Return the data to javascript
             echo $json;
         } else {
             $aout['allok']    = 0;
@@ -1074,15 +1074,15 @@ EOF"
         $this->_helper->viewRenderer->setNoRender();
         // routing
         $this->routeDrawTreeToRestore();
-        // в форме "Msg01" сделан выбор, что делать со старыми tmp-таблицами
+        // In the form "Msg01" a choice is made what to do with old tmp-tables
         $choice  = addslashes( $this->_request->getParam('choice', '') );
         if ($this->restoreNamespace->typeRestore)	{
             switch ( $choice )
             {
-                case 'recreate_tmp': // выбор: пересоздать временные таблицы
+                case 'recreate_tmp': // Choice: re-create temporary tables
                     $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
                     $tmp_tables->createTmpTable();
-                    // перенаправление в зависимости от typeRestore
+                    // Depending on type Restore
                     if ( $this->restoreNamespace->typeRestore == 'restore_recent' ) {
                         $this->cloneRecentBaculaTables($this->restoreNamespace->JobHash);
                     } else {
@@ -1091,15 +1091,16 @@ EOF"
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
                     return;
                     break;
-                case 'continue_tmp': // работать со старыми
+                case 'continue_tmp': // Work with the old
                     // update timestamp
                     $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
                     $tmp_tables->updateTimestamp();
-                    // продолжить
+                    // continue
                     $this->_forward('draw-file-tree', null, null, array('curdir'=>''));
                     return;
                     break;
-                case 'goto_homepage': // на главную страницу
+                case 'goto_homepage': // to Home Page
+
                     $this->_redirect('index');
                     return;
                     break;
@@ -1116,9 +1117,9 @@ EOF"
      *  - form to specify the options for Job Restore
      *  - plain-list of files before starting the Restore Job
      *
-     * Показываем :
-     *  - форму для указания опций для восстановления
-     *  - plain-список файлов перед запуском задания на восстановление
+     * We show:
+     *  - Form for indicating options for recovery
+     *  - Plain-list of files before running a restore job
      */
     function listRestoreAction()
     {
@@ -1156,13 +1157,13 @@ EOF"
         Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
         $validator_where = new MyClass_Validate_BaculaAclWhere();
         if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) {
-            // получаем значения из формы FormRestoreOptions
+            // Get values from Form Restore Options
             $this->getParamFromForm();
             if ( $validator_where->isValid( $this->where ) ) {
                 $this->_forward( 'run-restore', 'restorejob', null, $this->_request->getParams() );
                 return;
             } else {
-                // форма не прошла валидацию
+                // Form failed validation
                 $messages = $validator_where->getMessages();
                 $this->view->msgNoValid = $messages[0];
             }
@@ -1229,13 +1230,13 @@ EOF"
         Zend_Loader::loadClass('MyClass_Validate_BaculaAclWhere');
         $validator_where = new MyClass_Validate_BaculaAclWhere();
         if ( $this->_request->isPost() && $this->_request->getParam('from_form') ) {
-            // получаем значения из формы FormRestoreOptions
+            // Get values from Form Restore Options
             $this->getParamFromForm();
             if ( $validator_where->isValid( $this->where ) ) {
                 $this->_forward( 'run-restore-recent', 'restorejob', null, $this->_request->getParams() );
                 return;
             } else {
-                // форма не прошла валидацию
+                // Form failed validation
                 $messages = $validator_where->getMessages();
                 $this->view->msgNoValid = $messages[0];
             }
@@ -1267,7 +1268,7 @@ EOF"
 
     /**
      * Run Restore Job + Bacula ACLs
-     * Запуск задания на восстановление
+     * Run a restore job
      *
      * see
      * The Restore Command: http://www.bacula.org/rel-manual/Restore_Command.html
@@ -1293,9 +1294,9 @@ EOF"
         if ( !$job->isJobIdExists($this->restoreNamespace->JobId) )   // with Bacula ACLs
                 return;
 
-        // получаем значения из формы FormRestoreOptions
+        // Get values from Form Restore Options
         $this->getParamFromForm();
-        // переопределяем некоторые переменные
+        // Override some variables
         $this->jobid = $this->restoreNamespace->JobId;
 
         $this->view->title = $this->view->translate->_("Restore JobId");
@@ -1317,7 +1318,7 @@ EOF"
             return;
         }
 
-        /* create table for restore (создание таблицы для восстановления)
+        /* create table for restore (Create a table for recovery)
          * see also
          * http://www.bacula.org/5.0.x-manuals/en/main/main/Restore_Command.html
          * 7: Enter a list of files to restore
@@ -1328,7 +1329,7 @@ EOF"
         $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         $tmp_tables->prepareTmpTableForRestore();
         //******************************* run job ***************************************
-        // perform the command line  (формируем командную строку)
+        // perform the command line  (Form the command line)
         // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
         // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
         //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done
@@ -1387,10 +1388,10 @@ EOF"
             $this->renderScript('restorejob/run-restore.phtml');
             return;
         }
-        // получаем значения из формы FormRestoreOptions
+        // Get values from Form Restore Options
         $this->getParamFromForm();
 
-        /* create table for restore (создание таблицы для восстановления)
+        /* create table for restore (Create a table for recovery)
          * see also
          * http://www.bacula.org/5.0.x-manuals/en/main/main/Restore_Command.html
          * 7: Enter a list of files to restore
@@ -1403,8 +1404,8 @@ EOF"
         $date_before = 'current';
         if ( !empty($this->restoreNamespace->DateBefore) )
             $date_before = 'before="'. $this->restoreNamespace->DateBefore . '"';
-        //******************************* запуск задания ***************************************
-        // формируем командную строку
+        //******************************* Start job ***************************************
+        // Form the command line
         // restore client="local.fd" fileset="test1" before="2009-05-15 14:50:01" file=<"/etc/bacula/webacula_restore.tmp" done yes
         $cmd = 'restore ' . $this->getCmdRestore() .' '.	$date_before .
                ' file=?"'. $tmp_tables->getTableNameFile() . '" done yes';
@@ -1434,14 +1435,14 @@ EOF"
 
     /**
      * Cancel Restore
-     * (Отменить восстановление)
+     * (Cancel restore)
      */
     function cancelRestoreAction()
     {
         $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         $tmp_tables->deleteAllTmpTables();
         $this->mySessionStop();
-        // goto home (переадресуем на главную страницу)
+        // goto home (Redirect to home page)
         $this->_redirect('index');
     }
 
@@ -1454,7 +1455,7 @@ EOF"
         $tmp_tables = new WbTmpTable($this->restoreNamespace->JobHash, $this->ttl_restore_session);
         $tmp_tables->deleteAllTmpTables();
         $this->mySessionStop();
-        // goto home (переадресуем на главную страницу)
+        // goto home (Redirect to home page)
         $this->_redirect('index');
     }
 
@@ -1516,7 +1517,7 @@ EOF"
             return;
         }
         $this->view->title = $this->view->translate->_('Restore Single File');
-        // получаем значения из формы FormRestoreOptions
+        // Get values from Form Restore Options
         $this->getParamFromForm();
 
         // get File data
@@ -1533,8 +1534,8 @@ EOF"
             $this->renderScript('restorejob/run-restore.phtml');
             return;
         }
-        //******************************* запуск задания ***************************************
-        // perform the command line  (формируем командную строку)
+        //******************************* Start job ***************************************
+        // perform the command line  (Form the command line)
         // restore jobid=9713 file=<"/tmp/webacula_restore_9713.tmp" client="local.fd" yes
         // restore storage=<storage-name> client=<backup-client-name> where=<path> pool=<pool-name>
         //      fileset=<fileset-name> restoreclient=<restore-client-name>  select current all done

@@ -80,15 +80,13 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Client'),
             'required' => true,
-            'class'    => 'ui-select',
-            'style'    => 'width: 18em;'
+            'class'    => 'form-control'
         ));
         $client_name_to = $this->createElement('select', 'client_name_to', array(
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Restore client'),
             'required' => false,
-            'class'    => 'ui-select',
-            'style'    => 'width: 18em;'
+            'class'    => 'form-control'
         ));
         $client_name->addMultiOption('', $this->translate->_("Default"));
         $client_name_to->addMultiOption('', $this->translate->_("Default"));
@@ -106,8 +104,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Pool'),
             'required' => false,
-            'class'    => 'ui-select',
-            'style'    => 'width: 18em;'
+            'class'    => 'form-control'
         ));
         $pool->addMultiOption('', $this->translate->_("Default"));
         foreach( $pools as $v) {
@@ -123,8 +120,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Fileset'),
             'required' => false,
-            'class'    => 'ui-select',
-            'style'    => 'width: 18em;'
+            'class'    => 'form-control'
         ));
         $fileset->addMultiOption('', $this->translate->_("Default"));
         foreach( $filesets as $v) {
@@ -140,8 +136,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Storage'),
             'required' => false,
-            'class'    => 'ui-select',
-            'style'    => 'width: 18em;'
+            'class'    => 'form-control'
         ));
         $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
@@ -157,8 +152,7 @@ class FormRestoreOptions extends Zend_Form
                 'decorators' => $this->elDecorators,
                 'label'    => $this->translate->_('Restore Job Resource'),
                 'required' => true,
-                'class'    => 'ui-select',
-                'style'    => 'width: 18em;'
+                'class'    => 'form-control'
             ));
             $bacula_restore_jobs = $config->general->bacula_restore_job->toArray();
             $restore_job_select->addMultiOption('', $this->translate->_("Default"));
@@ -179,6 +173,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Where'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 50,
             'maxlength' => 255,
             'value'     => ''
@@ -191,6 +186,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Strip&nbsp;prefix'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 24,
             'maxlength' => 64,
             'value'     => ''
@@ -203,6 +199,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Add&nbsp;prefix'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 24,
             'maxlength' => 64,
             'value'     => ''
@@ -215,6 +212,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Add&nbsp;suffix'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 24,
             'maxlength' => 64,
             'value'     => '' // '.old' // for debug
@@ -227,6 +225,7 @@ class FormRestoreOptions extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('RegexWhere'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 24,
             'maxlength' => 64,
             'value'     => '' // '/test/qwerty/,/webacula/zzzasdf/'  // for debug
@@ -238,7 +237,7 @@ class FormRestoreOptions extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button', array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok1',
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Run Restore Job')
         ));
         /*
@@ -247,7 +246,7 @@ class FormRestoreOptions extends Zend_Form
         $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'cancel1',
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*

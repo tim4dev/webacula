@@ -61,7 +61,7 @@ class VolumeController extends MyClass_ControllerAclAction
         $this->view->pool_id = $pool_id;
         $this->view->pool_name = $pool_name;
         if ($pool_id) {
-            $this->view->title = $this->view->translate->_("Pool") . " " . $pool_name;
+            $this->view->title = $this->view->translate->_("Pool");;
             $media = new Media();
             $this->view->result = $media->getById($pool_id, $order);
         } else {

@@ -48,6 +48,8 @@ class FormLogin extends Zend_Form
             'decorators' => $this->elDecorators,
             'required'   => true,
             'label' => $this->translate->_('Username'),
+			'class' => 'form-control',
+			'placeholder' => $this->translate->_('Username'),
             'size' => 25,
             'maxlength' => 50
             ));
@@ -67,6 +69,8 @@ class FormLogin extends Zend_Form
             'decorators' => $this->elDecorators,
             'required'   => true,
             'label' => $this->translate->_('Password'),
+			'class' => 'form-control',
+			'placeholder' => $this->translate->_('Password'),
             'size' => 25,
             'maxlength' => 50
         ));
@@ -77,13 +81,14 @@ class FormLogin extends Zend_Form
         $checkbox = $this->createElement('checkbox', 'rememberme', array(
             'decorators' => $this->elDecorators,
             'label' => $this->translate->_('Remember me'),
+            'class' => 'form-check-input',
             'checked'  => 1
         ));
 
         // login
         $submit = $this->createElement('submit', 'submit', array(
             'decorators' => array('ViewHelper', 'Errors'),
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'id'    => 'submit',
             'label' => $this->translate->_('Log In')
         ));

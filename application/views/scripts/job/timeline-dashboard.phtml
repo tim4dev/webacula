@@ -18,8 +18,13 @@ if ( extension_loaded('gd') ) : ?>
 	<div class="panel-body">
 	   <p>
 
+<div class="table-responsive">
+<table class="table table-condensed">
+<tr>
+<td>
+
 <?php if ( $this->img_map ) : ?>
-<div align="center">
+<div>
 <map name="map1">
     <?php
         $count = count($this->img_map);
@@ -62,6 +67,12 @@ if ( extension_loaded('gd') ) : ?>
         echo '<img src="', $this->baseUrl, '/chart/timeline-dashboard"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
     ?>
 </div>
+
+</td>
+</tr>
+</table>
+</div><!-- end div table-responsive -->
+
 <?php endif; ?>
 
 <?php endif; ?>

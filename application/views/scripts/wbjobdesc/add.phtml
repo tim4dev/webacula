@@ -1,11 +1,51 @@
 <!-- views/scripts/wbjobdesc/add.phtml -->
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+      	 <div class="panel-body">
+            <p>
+               <?php if ( !empty($this->exception) ) : ?>         
+                  <div class="alert alert-warning">
+                    <p>
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <?php print $this->exception; ?>
+                    </p>
+                  </div>
+               <?php else: ?>
 
-<script type="text/javascript">
-  // round corners
-  $(function(){
-      $('div.roundcorner-wjd').corner();
-  });
-</script>
+               <fieldset>
+                   <!--<legend><?php echo $this->title; ?></legend>-->
+                    <?php
+                    $this->form->setAction( $this->url() );
+                    $this->form->setActionCancel( $this->view->baseUrl .'/wbjobdesc/index' );
+                    echo $this->form;
+                    ?>
+               </fieldset>
+<?php endif;?>
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-6 -->
+</div><!-- end div row -->
+<!-- end views/scripts/wbjobdesc/add.phtml -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <div class="roundcorner-wjd">
 <div id="jobdesc-form">
 
@@ -17,6 +57,7 @@
     </div>
 </div>
 <br>
+
 <?php endif;?>
 
 <fieldset>
@@ -27,4 +68,4 @@ echo $this->form;
 ?>
 </fieldset>
 </div>
-</div>
+</div>-->

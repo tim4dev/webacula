@@ -61,6 +61,7 @@ class FormBaculaACL extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Order').'*',
             'required'  => true,
+				'class'     => 'form-control',
             'size'      => 3,
             'maxlength' => 5
         ));
@@ -73,6 +74,7 @@ class FormBaculaACL extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Name').'*',
             'required'  => true,
+				'class'     => 'form-control',
             'size'      => 50,
             'maxlength' => 127
         ));
@@ -84,7 +86,7 @@ class FormBaculaACL extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn  btn-default',
             'label' => $this->translate->_('Add')
         ));
         /*
@@ -93,7 +95,7 @@ class FormBaculaACL extends Zend_Form
         $cancel_button = new Zend_Form_Element_Submit('cancel_button', array(
             'decorators' => $this->elDecorators,
             'id'    => 'cancel_'.__CLASS__,
-			'class' => 'ui-button ui-widget ui-corner-all',
+			   'class' => 'btn  btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*

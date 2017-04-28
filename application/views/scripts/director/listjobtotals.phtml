@@ -1,10 +1,25 @@
 <!-- director/listjobtotals.phtml -->
 
+<div class="rows">
+  <div class="col-md-6">
+
+
+<div class="panel panel-default panel-primary panel-logoutput">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+
+
 <?php if ( $this->result_error ): ?>
-    <div class="ui-widget" style="width: 60%; margin-left: 2em;">
+    <!--<div class="ui-widget" style="width: 60%; margin-left: 2em;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
             <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-            <strong>
+            <strong>-->
+<div class="alert alert-danger">
+  <p>
+  <span class="glyphicon glyphicon-alert"></span>
+			
     <?php
         echo $this->escape($this->title), '<br>';
         switch ( $this->result_error )
@@ -25,15 +40,17 @@
           }
         }
     ?>
-            </strong></p>
+            <!--</strong></p>
         </div>
-    </div>
+    </div>-->
+<p>
+</div>	
 <?php else: ?>
 
 <!-- director output -->
-<table id="table-dir-output">
+<!--<table id="table-dir-output">
 <caption><h1 align="left"><?php echo $this->escape($this->title); ?></h1></caption>
-<tr><td>
+<tr><td>-->
 <b><?php print $this->translate->_("Director output:"); ?></b>
 <?php
     if ( $this->command_output )
@@ -43,12 +60,20 @@
             if ( preg_match('/(ERR|not found|invalid|Expected)/i', $line) )   {
                 echo '<div style="color: white; background-color: red;">', $line, '</div><br>';
             } else {
-                echo $line, '<br>';
+                echo $line, '<br/>';
             }
     }
 	   echo '</pre>';
     }
 ?>
+<!--
 </td></tr>
-</table>
+</table>-->
 <?php endif; ?>
+
+
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-6 -->
+</div><!-- fim da div row -->

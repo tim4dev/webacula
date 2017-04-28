@@ -1,17 +1,32 @@
 <?php echo $this->render('header.phtml') ?>
 <body>
 <?php echo $this->render('main-menu.phtml') ?>
-<?php if ( $this->meta_refresh ) : ?>
+
 <div class="update-info">
-    <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>.
-    <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
-</div>
+<div class="container-fluid" >
+<div class="rows" >
+<div class="col-md-6">
+<?php if ( $this->meta_refresh ) : ?>
+    <span class="badge badge-default">
+       <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>
+       <?php print sprintf( $this->translate->_("Updated every %s seconds"), $this->meta_refresh); ?>
+    </span>
+    
 <?php else: ?>
-<div>&nbsp;</div>
+
+    <span class="badge badge-default">
+       <?php print sprintf( $this->translate->_("Last Updated: %s"), date("r")); ?>
+    </span>
+
 <?php endif; ?>
-<div id="main-div" style="border: 1px #000 solid;">
+</div><!-- end div col-md-6 -->
+</div><!-- end div rows -->
+</div><!-- end div container -->
+</div><!-- end div update-info -->
+
+
+<div id="main-div" class="container-fluid">
 <?php echo $this->layout()->content ?>
-<p style="clear: both;">&nbsp;</p>
-</div>
+</div><!-- end div container-fluid -->
 </body>
 <?php echo $this->render('footer.phtml') ?>

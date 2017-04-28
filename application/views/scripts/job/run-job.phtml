@@ -20,7 +20,7 @@ $(document).ready(function() {
       $('select').each(function() {
           //var t = $(this).selectmenu({maxHeight: 300});
 	      //    eval(t);
-		  $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
+		  //$(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
 	  });
   });
 </script>
@@ -51,7 +51,7 @@ $(function() {
 });
 </script>
 
-<div class="ui-state-hover ui-corner-all" style="width: 46em; text-align: left;">
+<div>
 <?php
     if ( $this->result_error )
     {
@@ -77,9 +77,28 @@ $(function() {
     }
 ?>
 
+</div>
 <?php
     $this->form->setAction( $this->url());
-    echo $this->form;
+	 $this->form->setActionCancel( $this->baseUrl . "/index/index" );
+    //echo $this->form;
 ?>
 
-</div>
+<div class="rows">
+  <div class="col-md-8">
+
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
+      <?php echo $this->form; ?>
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

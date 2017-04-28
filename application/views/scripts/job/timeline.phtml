@@ -12,6 +12,10 @@ $(function() {
 });
 </script>
 
+<div class="rows">
+  <div class="col-md-8">
+
+<div class="table-responsive">
 <div class="panel panel-default panel-primary">
 	<div class="panel-heading">
 	   <?php echo $this->escape($this->title); ?>
@@ -22,7 +26,7 @@ $(function() {
 
 <!--  date form -->
 <form action="<?php echo $this->baseUrl; ?>/job/timeline" method="POST">
-<table cellspacing="0" cellpadding="0" border="0" style="font-family: Sans-Serif; margin-bottom: 1.5em; margin-left:6em; margin-top: 1em;">
+<table>
 <!--<caption style="font-weight: bold; font-size: 1.2em;"><?php echo $this->escape($this->title); ?></caption>-->
 <tr>
     <td align="right" valign="top">
@@ -49,7 +53,7 @@ $(function() {
     </td><td>
 <?php echo $this->formText('datetimeline', $this->datetimeline, array('size' => 12)) ?>
     </td><td valign="top">
-        <input type="submit" class="ui-button ui-widget ui-corner-all" name="ok" style="margin-left:1em;" value="<?php print $this->translate->_("Show Timeline"); ?>">
+        <input type="submit" class="btn btn-default" name="ok" style="margin-left:1em;" value="<?php print $this->translate->_("Show Timeline"); ?>">
     </td>
 </tr>
 <tr>
@@ -63,6 +67,10 @@ $(function() {
 </table>
 </form>
 
+<div class="table-responsive">
+<table class="table table-condensed">
+<tr>
+<td>
 <?php if ( $this->img_map ) : ?>
 <span style="font:60%;font-family: arial, verdana, sans-serif;">
     <?php echo $this->translate->_("Point mouse cursor at image area and click to view Job detail"); ?>
@@ -114,13 +122,21 @@ if ( extension_loaded('gd') ) : ?>
         // show image
         echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->datetimeline, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
     } else  {
-        // не прошел валидацию; вывод причин этого
+        // Did not pass validation; Conclusion of the reasons for this
         foreach ($this->err_msg as $message) {
                 echo "<b>$message</b><br />";
         }
         echo $this->translate->_('No Jobs found.');
     }
 ?>
+
+
+</td>
+</tr>
+</table>
+</div><!-- end div table-responsive -->
+
+
 <?php  else : ?>
 <div class="ui-widget" style="width: 45%; margin-left: 2em;">
     <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
@@ -145,3 +161,9 @@ if ( extension_loaded('gd') ) : ?>
 	   </p><!-- close p -->
     </div><!-- close div panel-body -->
 </div><!-- close div panel panel-default -->
+
+</div><!-- end div table-responsive -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->
+

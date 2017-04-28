@@ -37,7 +37,7 @@ class HelpController extends MyClass_ControllerAclAction
         if ($this->_helper->hasHelper('layout')) {
             $this->_helper->layout->setLayout('main');
         }
-        $this->view->title = $this->view->translate('Webacula help');
+        $this->view->title = $this->view->translate->_('Webacula about');
         Zend_Loader::loadClass('Zend_Version');
         $this->view->zend_version = Zend_Version::VERSION;
         $this->view->db_adapter_bacula = Zend_Registry::get('DB_ADAPTER');
@@ -46,7 +46,7 @@ class HelpController extends MyClass_ControllerAclAction
         
         Zend_Loader::loadClass('Version');
         $ver = new Version();
-        $this->view->catalog_version_bacula = $ver->getVesion();
+        $this->view->catalog_version_bacula = $ver->getVersion();
 
         Zend_Loader::loadClass('Director');
         $dir = new Director();
@@ -54,7 +54,8 @@ class HelpController extends MyClass_ControllerAclAction
         $this->view->bconsole_version = $dir->getBconsoleVersion();
     }
 
-    function myPhpInfoAction ()    {
+    function myPhpInfoAction ()    
+	{
     }
 
 

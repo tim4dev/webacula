@@ -1,12 +1,28 @@
 <!-- storage/status-id.phtml -->
 
-<h1><?php echo $this->escape($this->title); ?></h1>
+<div class="rows">
+  <div class="col-md-10">
+
+
+<div class="panel panel-default panel-primary panel-logoutput">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+
+<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
 
 <?php if ( $this->result_error ): ?>
+
+<div class="alert alert-danger">
+  <p>
+  <span class="glyphicon glyphicon glyphicon-alert"></span>
+<!--
     <div class="ui-widget" style="float: left;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
             <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
             <strong>
+            -->
     <?php
         switch ( $this->result_error )
         {
@@ -29,15 +45,22 @@
           }
         }
     ?>
+    <!--
             </strong></p>
         </div>
     </div>
-    <div style="clear: both;"><!--  --></div>
+    <div style="clear: both;"></div>
+    -->
+    
+  </p>
+</div>
+    
 <?php else: ?>
 
 <!-- director output -->
+<!--
 <table id="table-dir-output" >
-<tr><td>
+<tr><td>-->
     <b><?php print $this->translate->_("Director output:"); ?></b>
 	<?php
     if ( $this->command_output )
@@ -55,6 +78,14 @@
         echo '<p><b>', $this->translate->_("No Storage status found."), '</b></p>';
     }
     ?>
+<!--
 </td></tr>
 </table>
+-->
 <?php endif; ?>
+
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

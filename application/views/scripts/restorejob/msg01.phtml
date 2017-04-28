@@ -13,18 +13,31 @@ $(document).ready(function() {
 });
 </script>
 
-<h1><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
+<!--<h1><?php echo $this->escape($this->title . 'Id ' . $this->jobid); ?></h1>-->
 
-<div class="ui-state-error ui-corner-all" style="width: 42em; text-align: left;">
+<div class="rows">
+  <div class="col-md-6">
 
-<form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post" style="margin: 2em;">
-<p><?php print $this->translate->_("Found existing temporary tables for the Restore Job with JobId"); ?>
-    <?php echo $this->jobid; ?>.</p>
-<p>
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title . ' ' . $this->jobid); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
+<div class="alert alert-danger">
+  <p>
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <b><?php print $this->translate->_("An error occurred while restoring!"); ?></b>  
+  <br /><br />
+<form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post">
+<?php print $this->translate->_("Found existing temporary tables for the Restore Job with JobId"); ?>
+<?php echo " " .$this->jobid; ?>.
+<br />
 <?php print $this->translate->_("Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."); ?>
-</p>
-<p><b><?php print $this->translate->_("Choose the action:"); ?> </b></p>
-
+<br /><br />
+<b><?php print $this->translate->_("Choose the action:"); ?> </b>
+<br />
 <?php echo $this->formRadio('choice', 'recreate_tmp', null,
     array(
         'recreate_tmp'  => $this->translate->_('Recreate temporary tables (recommended)'),
@@ -32,9 +45,19 @@ $(document).ready(function() {
 		'goto_homepage' => $this->translate->_('Exit')
     ));
 ?>
-    <div style="text-align: center; margin: 5px;">
-		<br /><br /><?php echo $this->formSubmit('ok1', $this->translate->_('OK'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
-	</div>
+<br /><?php echo $this->formSubmit('ok1', $this->translate->_('OK'), array('class' => 'btn btn-default') ); ?>
 </form>
 
+  </p>
+  
 </div>
+
+
+
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

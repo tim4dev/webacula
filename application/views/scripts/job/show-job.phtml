@@ -1,17 +1,30 @@
 <!-- job/show-job.phtml -->
 
+<div class="rows">
+  <div class="col-md-10">
+
+
+<div class="panel panel-default panel-primary panel-logoutput">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title . ': ' . $this->jobname); ?>
+	</div>
+	<div class="panel-body">
+
 <?php if ( $this->result_error ): ?>
-    <div class="ui-widget" style="float: left;">
+<!--    <div class="ui-widget" style="float: left;">
         <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
             <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-            <strong>
+            <strong>-->
+<div class="alert alert-danger">
+  <p>
+  <span class="glyphicon glyphicon-alert"></span>
     <?php
         switch ( $this->result_error )
         {
-            case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
+            case 'ERROR_BCONSOLE': // Error when bconsole starts
                 $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
                 break;
-            case 'NOFOUND_BCONSOLE': // bconsole не найден
+            case 'NOFOUND_BCONSOLE': // bconsole not found
                 $msg = $this->translate->_('ERROR: bconsole not found.');
                 break;
             default: $msg = '';
@@ -20,36 +33,45 @@
         if ( $this->command_output )
         {
             foreach ($this->command_output as $line) {
-             echo '<br>', $line, '<br>';
+             echo '<br/>', $line, '<br/>';
           }
         }
     ?>
-            </strong></p>
+<!--            </strong></p>
         </div>
     </div>
-    <div style="clear: both;"><!--  --></div>
+-->
+    <!--<div style="clear: both;"></div>-->
+<p>
+</div>
 
 <?php else: ?>
 
 <!-- director output -->
-<table id="table-dir-output">
+<!--<table id="table-dir-output">
 <caption><?php echo $this->escape($this->title . ' : ' . $this->jobname); ?></caption>
-<tr><td>
-    <b><?php print $this->translate->_("Director output:"); ?></b>
+<tr><td>-->
+    <b><?php print $this->translate->_("Director output:"); ?></b><br />
 	<?php
     if ( $this->command_output )
     {
         echo '<pre>';
         foreach ($this->command_output as $line) {
-            echo $line . '<br>';
+            echo $line . '<br/>';
 		}
 		echo '</pre>';
     }
     ?>
-
+<!--
 <p>&nbsp;</p>
 
 </td></tr>
 </table>
-
+-->
 <?php endif; ?>
+
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

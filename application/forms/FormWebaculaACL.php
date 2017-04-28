@@ -60,7 +60,7 @@ class FormWebaculaACL extends Zend_Form
         // create element
         $webacula_resources = $this->createElement('multiselect', 'webacula_resources', array(
             'label'    => $this->translate->_('Webacula resources'),
-            'class' => 'ui-select',
+            'class' => 'form-control',
             'size' => 18
         ));
         foreach( $wbDtResources as $v ) {
@@ -73,7 +73,7 @@ class FormWebaculaACL extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Submit Form')
         ));
         /*
@@ -82,7 +82,7 @@ class FormWebaculaACL extends Zend_Form
         $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'cancel_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*

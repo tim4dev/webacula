@@ -1,137 +1,154 @@
+<!-- admin/role-index.phtml -->
 <script type="text/javascript">
-// use :
-// <a href="/" id="confirm" class="confirm"> TEST2 </a>
 $(document).ready(
-	function() {
-
-	$('a.confirm').click(function(e) {
-		var targetUrl = $(this).attr("href");
-		
-		$('#dialog-confirm').dialog({
-           buttons : {
-                  <?php echo $this->translate->_('Yes'); ?> : function() {
-                    window.location.href = targetUrl;
-                  },
-                  <?php echo $this->translate->_('No'); ?> : function() {
-                    $(this).dialog("close");
-                  }
-                }		
-		});
-		e.preventDefault();
-
-	});	
-	
+   function() {
+   
+      $('a.confirm').click(function(e) {
+         var targetUrl = $(this).attr("href");
+          
+         $('#dialog-confirm').dialog({
+            buttons : {
+               <?php echo $this->translate->_('Yes'); ?> : function() {
+                  window.location.href = targetUrl;
+               },
+                 <?php echo $this->translate->_('No'); ?> : function() {
+                  $(this).dialog('close');
+               }
+            }
+         });
+         e.preventDefault();
+   
+       }); 
+   
 });
 </script>
 
-<div class="panel panel-default panel-primary">
-	<div class="panel-heading">
-	   <?php echo $this->escape($this->title); ?>
-	</div>
-	<div class="panel-body">
-	   <p>
-
+<!-- dialog confirm -->
 <div id="dialog-confirm" title="<?php echo $this->translate->_("Message"); ?>" style="display:none">
   <p><span class="ui-icon ui-icon-alert"></span><?php echo $this->translate->_("Are you sure you want to delete the role?"); ?></p>
 </div>
-
-<!-- admin/role-index.phtml -->
-<?php if ( !empty($this->exception) ) : ?>
-<!-- database, and other errors-->
-<div class="ui-widget" style="width: 58em;">
-    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-        <strong><?php echo $this->exception; ?></strong></p>
-    </div>
-</div>
-<?php endif;?>
-
-<?php if ($this->result): ?>
-
-<table id="box-table-admin2" class="table table-striped table-hover table-condensed">
-<thead>
-<tr>
-    <th scope="col">Id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Description'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Inherited role'); ?> </th>
-    <th align="center"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->result as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>&nbsp;
-            <?php
-                $description = $this->escape($line['description']);
-                if ( strlen($description) <= 70 )
-                    echo $description;
-                else
-                    echo substr($description, 0, 70), ' ',
-                        '<a href="'. $this->baseUrl .'/admin/role-main-form/role_id/'. $line['id'] .'">',
-                        '[...]',
-                        '</a>';
-            ?>
-            &nbsp;
-        </td>
-        <td>&nbsp;
-            <?php
-                $inherit_name = $this->escape($line['inherit_name']);
-                if ($inherit_name)
-                    echo '<a href="'. $this->baseUrl .'/admin/role-main-form/role_id/'. $line['inherit_id'] .'">',
-                        $inherit_name,
-                        '</a>';
-            ?>
-            &nbsp;
-        </td>
-        <td align="center">
-            &nbsp;<?php echo $this->escape($line['order_role']);?>&nbsp;
-        </td>
-        <td>
-        <?php if ($line['id'] != 1) : ?>
-            <a href="<?php echo $this->baseUrl;?>/admin/role-more-info/role_id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/documentinfo.png" alt="<?php echo $this->translate->_("More info") ?>" title="<?php echo $this->translate->_("More info") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/role-main-form/role_id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>           
-            <a href="<?php echo $this->baseUrl;?>/admin/role-delete/role_id/<?php echo $line['id'] ?>" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        <?php endif; ?>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-<div class="ui-widget">
-	<!--<h3><?php echo $this->escape($this->title); ?></h3>-->
-
-    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/role-add">
-        <input type="submit" name="name1" value="<?php echo $this->translate->_('Create new role') ?>" class="ui-button ui-state-default ui-corner-all" />
-    </form>
-</div>
+<!-- end dialog confirm -->
 
 
-<?php else: ?>
-<div class="ui-widget">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Roles found."); ?></strong></p>
-	</div>
-</div>
-<?php endif; ?>
+<div class="rows">
+   <div class="col-md-6">
+   
+      <!-- div panel panel-default panel-primary-->
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+      
+           
+            <!-- admin/role-index.phtml -->
+            <?php if ( !empty($this->exception) ) : ?>
 
-<!-- end /admin/role-index.phtml -->
-
-	   </p><!-- close p -->
-    </div><!-- close div panel-body -->
-</div><!-- close div panel panel-default -->
+				<!-- div class alert -->
+            <div class="alert alert-danger">
+               <p>
+                  <span class="glyphicon glyphicon-alert"></span>
+                  <?php echo $this->exception;; ?>
+               </p>
+            </div>
+				<!-- end div class alert -->				
+				
+            <?php endif;?>
+            
+            <?php if ($this->result): ?>
+            
+            <div class="table-responsive">
+				<table class="table table-striped table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th><?php echo $this->translate->_('Name'); ?> </th>
+                <th><?php echo $this->translate->_('Description'); ?> </th>
+                <th><?php echo $this->translate->_('Inherited role'); ?> </th>
+                <th><?php echo $this->translate->_('Order'); ?> </th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->result as $line) : ?>
+                <tr>
+                    <td>
+                        &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+                    </td>
+                    <td>
+                        &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+                    </td>
+                    <td>&nbsp;
+                        <?php
+                            $description = $this->escape($line['description']);
+                            if ( strlen($description) <= 70 )
+                                echo $description;
+                            else
+                                echo substr($description, 0, 70), ' ',
+                                    '<a href="'. $this->baseUrl .'/admin/role-main-form/role_id/'. $line['id'] .'">',
+                                    '[...]',
+                                    '</a>';
+                        ?>
+                        &nbsp;
+                    </td>
+                    <td>&nbsp;
+                        <?php
+                            $inherit_name = $this->escape($line['inherit_name']);
+                            if ($inherit_name)
+                                echo '<a href="'. $this->baseUrl .'/admin/role-main-form/role_id/'. $line['inherit_id'] .'">',
+                                    $inherit_name,
+                                    '</a>';
+                        ?>
+                        &nbsp;
+                    </td>
+                    <td align="center">
+                        &nbsp;<?php echo $this->escape($line['order_role']);?>&nbsp;
+                    </td>
+                    <td>
+                    <?php if ($line['id'] != 1) : ?>
+                        <a href="<?php echo $this->baseUrl;?>/admin/role-more-info/role_id/<?php echo $line['id'] ?>">
+                            <img src="<?php echo $this->baseUrl ?>/images/documentinfo.png" alt="<?php echo $this->translate->_("More info") ?>" title="<?php echo $this->translate->_("More info") ?>" border="0" hspace="2" align="absmiddle" />
+                        </a>
+                        <a href="<?php echo $this->baseUrl;?>/admin/role-main-form/role_id/<?php echo $line['id'] ?>">
+                            <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                        </a>
+                        <a href="<?php echo $this->baseUrl;?>/admin/role-delete/role_id/<?php echo $line['id'] ?>" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                            <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                        </a>
+                    <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+				</div><!-- end div table-responsive -->
+            
+            <div>
+                <form method="POST" action="<?php echo $this->baseUrl;?>/admin/role-add">
+                    <input type="submit" name="name1" value="<?php echo $this->translate->_('Create new role') ?>" class="btn btn-default" />
+                </form>
+            </div>
+            
+            
+            <?php else: ?>
+				
+				<!-- div class alert -->
+            <div class="alert alert-danger">
+               <p>
+                  <span class="glyphicon glyphicon-alert"></span>
+                  <?php print $this->translate->_("No Roles found."); ?>
+               </p>
+            </div>
+				<!-- end div class alert -->
+				
+            <?php endif; ?>
+            
+            <!-- end /admin/role-index.phtml -->
+            
+                   </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- div panel panel-default panel-primary-->
+   </div><!-- end div col-md-8 -->
+</div><!-- end div rows -->
+<!-- end admin/role-index.phtml -->

@@ -1,6 +1,9 @@
 <!-- job/running.phtml -->
 
-<div class="panel panel-default panel-primary">
+<div class="rows">
+  <div class="col-md-8">
+
+<div class="panel panel-default panel-success">
 	<div class="panel-heading">
 	   <?php echo $this->escape($this->titleDirRunningJobs); ?>
 	</div>
@@ -10,19 +13,31 @@
 <?php if ( $this->resultDirRunningJobs ): ?>
 <?php
 	if ($this->resultDirRunningJobs[0] == 'NOFOUND') {
-		echo '<font color="red"><p>',
-		      $this->translate->_("ERROR: Cannot execute bconsole. File not found."), '</p></font>';
+?>
+        <div class="alert alert-danger">
+          <p>
+          <span class="glyphicon glyphicon-alert"></span>
+          <?php print $this->translate->_("ERROR: Cannot execute bconsole. File not found.") ?>
+          </p>
+        </div>
+<?php
 	}
  	elseif ($this->resultDirRunningJobs[0] == 'ERROR') {
- 		echo '<font color="red"><p>',
- 		     $this->translate->_("ERROR: There was a problem executing bconsole. See below."), '</p>';
- 		foreach ($this->resultDirRunningJobs as $line) {
-			echo $line, '<br>';
-		}
-		echo '</font>';
+?>
+        <div class="alert alert-danger">
+          <p>
+          <span class="glyphicon glyphicon-alert"></span>
+          <?php print $this->translate->_("ERROR: There was a problem executing bconsole. See below.").'<br/>';
+ 		    foreach ($this->resultDirRunningJobs as $line) {
+		    	echo $line, '<br/>';
+		    }
+          ?>
+          </p>
+        </div>
+<?php
  	} else	{
 ?>
-
+<div class="table-responsive">
 <table id="box-table2" class="table table-striped table-hover table-condensed">
 <!--<caption><?php echo $this->escape($this->titleDirRunningJobs); ?></caption>-->
 <thead>
@@ -37,8 +52,9 @@
 <?php foreach($this->resultDirRunningJobs as $line) : ?>
 <tr>
     <td>
-        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['id']). '/jobname/' . $this->escape($line['name']); ?>">
-            <?php echo $this->escape($line['id']);?>
+	    <i class="fa fa-spinner fa-spin"></i>
+        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['id']). '/jobname/' . $this->escape($line['name']); ?>" title="<?php echo $this->translate->_("The Job is Running"); ?>">
+            &nbsp;<?php echo $this->escape($line['id']);?>
         </a>
     </td>
     <td><?php echo $this->escape($line['level']);?></td>
@@ -49,32 +65,43 @@
     <td><?php echo $this->escape($line['status']);?></td>
 </tr>
 <?php endforeach; ?>
-<tbody>
+</tbody>
 </table>
+</div><!-- end div table-responsive -->
 
 <?php
 }
 ?>
 
 <?php else : ?>
+<!--
 <div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from Director : No Running Jobs found."); ?></strong></p>
 	</div>
 </div>
-<div style="clear: both;"><!--  --></div>
+-->
+
+<div class="alert alert-warning">
+  <p>
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <?php print $this->translate->_("Information from Director : No Running Jobs found."); ?>
+  </p>
+</div>
+
+<!--<div style="clear: both;"></div> -->
 <?php endif; ?>
 
 
 
-<div style="margin-top: 1.5em;">&nbsp;</div>
+<!--<div style="margin-top: 1.5em;">&nbsp;</div>-->
 
 	   </p><!-- close p -->
     </div><!-- close div panel-body -->
 </div><!-- close div panel panel-default -->
 
-<div class="panel panel-default panel-primary">
+<div class="panel panel-default panel-success">
 	<div class="panel-heading">
 	   <?php echo $this->escape($this->titleRunningJobs); ?>
 	</div>
@@ -84,6 +111,7 @@
 
 <?php if ( $this->resultRunningJobs ): ?>
 
+<div class="table-responsive">
 <table id="box-table2" class="table table-striped table-hover table-condensed">
 <!--<caption><?php echo $this->escape($this->titleRunningJobs); ?></caption>-->
 <thead>
@@ -121,8 +149,9 @@
 <?php foreach($this->resultRunningJobs as $line) : ?>
 <tr>
     <td>
-        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['jobid']). '/jobname/' . $this->escape($line['jobname']); ?>">
-            <?php echo $this->escape($line['jobid']);?>
+	    <i class="fa fa-spinner fa-spin"></i>
+        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['jobid']). '/jobname/' . $this->escape($line['jobname']); ?>" title="<?php echo $this->translate->_("The Job is Running"); ?>">
+            &nbsp;<?php echo $this->escape($line['jobid']);?>
         </a>
     </td>
     
@@ -197,18 +226,31 @@
 <?php endforeach; ?>
 </tbody>
 </table>
-
+</div><!-- end div table-responsive -->
 
 <?php else: ?>
+<!--
 <div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("Information from DB Catalog : No Running Jobs found.");?></strong></p>
 	</div>
 </div>
-<div style="clear: both;"><!--  --></div>
+-->
+
+<div class="alert alert-warning">
+  <p>
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <?php print $this->translate->_("Information from DB Catalog : No Running Jobs found."); ?>
+  </p>
+</div>
+
+<!--<div style="clear: both;"></div>-->
 <?php endif; ?>
 
 	   </p><!-- close p -->
     </div><!-- close div panel-body -->
 </div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

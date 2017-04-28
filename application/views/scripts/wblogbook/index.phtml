@@ -70,15 +70,27 @@ $(function() {
 //-->
 </script>
 
-<h1><?php echo $this->escape($this->title); ?></h1>
+<div class="rows">
+  <div class="col-md-8">
 
-<div style="width: 200px; margin-top: 30px; margin-bottom: 20px;">
+<div class="panel panel-default panel-primary">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+	   <p>
+
+
+<!--<h1><?php echo $this->escape($this->title); ?></h1> -->
+
+<div>
 <form method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/add">
-	<input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>" class="ui-button ui-state-default ui-corner-all">
+	<input type="submit" name="name1" value="<?php print $this->translate->_("+ Add New Record"); ?>" class="btn btn-default">
 </form>
 </div>
+<br />
 
-<div class="filter-form" style="width: 600px; text-align: left; margin-top: 40px; margin-bottom: 50px;">
+<div class="filter-form">
 <div id="tabs">
 <ul>
 	<li><a href="#tabs1"><?php print $this->translate->_("Filter by date"); ?></a></li>
@@ -100,7 +112,7 @@ $(function() {
     <?php
         echo $this->formSubmit('filter1', $this->translate->_('Apply filter'),
             array('style' => 'margin-top: 15px; margin-bottom: 20px;',
-            'class' => "ui-button ui-widget ui-corner-all") );
+            'class' => "btn btn-default") );
     ?>
 </form>
 </div>
@@ -120,7 +132,7 @@ $(function() {
     <?php
         echo $this->formSubmit('filter2', $this->translate->_('Apply filter'),
             array('style' => 'margin-top: 15px; margin-bottom: 20px;',
-                'class' => "ui-button ui-widget ui-corner-all") );
+                'class' => "btn btn-default") );
     ?>
 </form>
 </div>
@@ -136,7 +148,7 @@ $(function() {
     <?php
         echo $this->formSubmit('filter3', $this->translate->_('Search'),
             array('style' => 'margin-top: 15px; margin-bottom: 20px;',
-                'class' => "ui-button ui-widget ui-corner-all") );
+                'class' => "btn btn-default") );
     ?>
 </form>
 </div>
@@ -158,24 +170,32 @@ $(function() {
 
 <?php if ($this->result): ?>
 
-<table id="box-table-wblogbook" border="0">
+<div class="table-responsive">
+<table id="box-table-wblogbook2" class="table table-striped table-hover table-condensed">
 <thead>
 <tr>
-     <th scope="col" width="15%"> <?php print $this->translate->_("Date"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Text"); ?> </th>
-     <th scope="col" width="5%"> <?php print $this->translate->_("Type"); ?> </th>
-
-	<th scope="col" width="5%"> <?php print $this->translate->_("Last modified"); ?> </th>
-     <th scope="col" width="3%"> Id </th>
+     <th>Id</th>
+     <th> <?php print $this->translate->_("Date"); ?> </th>
+     <th> <?php print $this->translate->_("Text"); ?> </th>
+     <th> <?php print $this->translate->_("Type"); ?> </th>
+	 <th> <?php print $this->translate->_("Last modified"); ?> </th>
+     
 </tr>
 </thead>
 <tbody>
+
 <?php foreach($this->result as $line) : ?>
 
 <tr>
-	<td valign="top">
+	<td> 
+		<?php echo $line['logid']; ?>
+	</td>
+
+
+	<td>
 		<?php
-			$str = $line['logdatecreate'];
+			//$str = $line['logdatecreate'];
+            $str = date( $this->escape($this->datetime_format), strtotime($line['logdatecreate']));
 			if ($line['logisdel'] != 0) { $str = '<s>' . $str . '</s>'; }; // record deleted
 			echo $str;
 		?>
@@ -203,56 +223,95 @@ $(function() {
 
 			echo $str;
 
-			echo '<br><br>';
+			//echo '<br><br>';
 
-			echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
+			/*
+            echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
 			    $this->formHidden('logid', $line['logid'], null),
-			    $this->formSubmit('modify', $this->translate->_('Modify Entry'),array('class' => 'ui-button ui-widget ui-corner-all') ),
+			    $this->formSubmit('modify', $this->translate->_('Modify Entry'),array('class' => 'btn btn-default') ),
 			    '</form><br>';
+            */
 		?>
 	</td>
 
 	<?php
 		if ($line['logisdel'] != 0) {
 			// record deleted
-			echo '<td valign="top">', $this->translate->_("Deleted"), '</td>';
+			echo '<td>', $this->translate->_("Deleted"), '</td>';
 		} else {
 
 			switch ($line['typeid'])
 			{
 				case '20' : $class = 'class="ok"'; break;
-				case '30' : $class = 'class="warn"'; break;
-				case '255': $class = 'class="err"';  break;
+				case '30' : $class = 'class="warning"'; break;
+				case '255': $class = 'class="danger"';  break;
 				default: $class = '';
 			}
-			echo '<td ', $class, ' valign="top">', $this->translate->_($line['typedesc']), '</td>';
+			echo '<td ', $class, '>', $this->translate->_($line['typedesc']), '</td>';
 		}
 	?>
 
-	<td valign="top" align="center">
+	<td>
 		<?php
 		if ( isset($line['logdatelast']) )	{
-				echo $line['logdatelast'];
+				echo date($this->datetime_format, strtotime($line['logdatelast']));
 			} else {
 				echo '-';
 			}
 		?>
 	</td>
+    <td>
+<?php
+            /*
+			echo '<form method="post" action="', $this->baseUrl, '/wblogbook/modify">',
+			    $this->formHidden('logid', $line['logid'], null),
+			    $this->formSubmit('modify', $this->translate->_('Modify Entry'),array('class' => 'btn btn-default') ),
+			    '</form>';
+            */
 
-	<td valign="top" align="center">
-		<?php echo $line['logid']; ?>
-	</td>
+?>    
+            <form method="post" action="<?php echo $this->baseUrl?>/wblogbook/modify">
+            <?php echo $this->formHidden('logid', $line['logid'], null); ?>
+            <a href="<?php echo $this->baseUrl;?>/wblogbook/modify/logid/<?php echo $line['logid']; ?>">
+                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record"); ?>" title="<?php echo $this->translate->_("Modify record"); ?>" />
+            </a>
+            </form>
+
+    </td>
+    
 </tr>
 <?php endforeach; ?>
 </tbody>
 </table>
-
+</div><!-- end div table-responsive -->
 <?php else: ?>
+<!--
 <div class="ui-widget" style="float: left;">
 	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
 		<strong><?php print $this->translate->_("No records found."); ?></strong></p>
 	</div>
 </div>
-<div style="clear: both;"><!--  --></div>
+-->
+<!--<div style="clear: both;"></div>-->
+
+
+<div class="alert alert-warning">
+  <p>
+  <span class="glyphicon glyphicon-info-sign"></span>
+		<?php print $this->translate->_("No records found."); ?>  
+   </p>
+</div>
+
 <?php endif; ?>
+
+
+	   </p><!-- close p -->
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->
+
+
+

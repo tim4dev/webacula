@@ -86,7 +86,7 @@ class AdminController extends MyClass_ControllerAclAction
     public function roleIndexAction() {
         $roles = new Wbroles();
         $this->view->result = $roles->fetchAllRoles();
-        $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Roles');
+        $this->view->title  = $this->view->translate->_('Roles');
     }
 
 
@@ -124,7 +124,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form->setAction( $this->view->baseUrl . '/admin/role-add' )
 		     ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form = $form;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role add');
+        $this->view->title = $this->view->translate->_('Role add');
         $this->renderScript('admin/form-role.phtml');
     }
 
@@ -179,7 +179,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form->setAction( $this->view->baseUrl . '/admin/role-update' )
 		     ->setActionCancel( $this->view->baseUrl .'/admin/role-index' );
         $this->view->form = $form;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role update');
+        $this->view->title = $this->view->translate->_('Role update');
         $this->renderScript('admin/form-role.phtml');
     }
 
@@ -377,7 +377,7 @@ class AdminController extends MyClass_ControllerAclAction
                 $this->view->errors = $form->getMessages();
                 $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-add' );
                 $this->view->form = $form;
-                $this->view->title = 'Webacula :: ' . $this->view->translate->_(ucfirst($acl).' ACL add') .
+                $this->view->title = $this->view->translate->_(ucfirst($acl).' ACL add') .
                     ' :: [' . $role_id . '] ' . $role_name;
                 $this->renderScript('admin/form-bacula-acl.phtml');
                 return;
@@ -464,7 +464,7 @@ class AdminController extends MyClass_ControllerAclAction
         //$form->submit->setLabel($this->view->translate->_('Update'));
         $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-update' );
         $this->view->form = $form;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_(ucfirst($acl).' ACL update');
+        $this->view->title = $this->view->translate->_(ucfirst($acl).' ACL update');
         $this->renderScript('admin/form-bacula-acl.phtml');
     }
 
@@ -892,7 +892,7 @@ class AdminController extends MyClass_ControllerAclAction
          * view
          **********************************/
         // title
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role') .' :: '. $role->name;
+        $this->view->title = $this->view->translate->_('Role') .' :: '. $role->name;
         $this->view->role_id = $role_id;
         // jQuery UI Tabs
         $tabs_selected = $this->_request->getParam('tabs_selected', 'role');
@@ -909,7 +909,7 @@ class AdminController extends MyClass_ControllerAclAction
         // get Role name
         $table = new Wbroles();
         $role  = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('Role') .' :: '. $role->name;
+        $this->view->title = $this->view->translate->_('Role') .' :: '. $role->name;
         // inherited roles
         $this->view->inherited_roles = $table->getParentNames( $role_id );
         // who use
@@ -927,7 +927,7 @@ class AdminController extends MyClass_ControllerAclAction
         $order  = addslashes( $this->_request->getParam('order') );
         $users = new Wbusers();
         $this->view->result = $users->fetchAllUsers($order);
-        $this->view->title  = 'Webacula :: ' . $this->view->translate->_('Users');
+        $this->view->title  = $this->view->translate->_('Users');
         $this->view->date_format = Zend_Registry::get('date_format');
         $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
@@ -982,7 +982,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form->setAction( $this->view->baseUrl . '/admin/user-update' )
 		     ->setActionCancel( $this->view->baseUrl .'/admin/user-index' );
         $this->view->form = $form;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('User update');
+        $this->view->title = $this->view->translate->_('User update');
         $this->renderScript('admin/form-user.phtml');
     }
 
@@ -1021,7 +1021,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form->setAction( $this->view->baseUrl . '/admin/user-add' )
              ->setActionCancel( $this->view->baseUrl .'/admin/user-index' );
         $this->view->form = $form;
-        $this->view->title = 'Webacula :: ' . $this->view->translate->_('User add');
+        $this->view->title = $this->view->translate->_('User add');
         $this->renderScript('admin/form-user.phtml');
     }
 

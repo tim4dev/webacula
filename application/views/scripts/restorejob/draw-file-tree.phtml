@@ -182,7 +182,7 @@ function renderDirUnMark(response){
 
 </script>
 
-<table border="0" align="left" cellpadding="0" cellspacing="0">
+<table border="0" align="left" cellpadding="0" cellspacing="0" class="table table-striped table-condensed">
 <tr><td style="font-size: 1.2em;">
 
    <!-- Summary for restore -->
@@ -196,7 +196,7 @@ function renderDirUnMark(response){
 <table border="0" cellpadding="0" cellspacing="0" align="left" style="margin-top: 2em; margin-bottom: 2.5em;">
 <tr><td valign="top">
 <form method="POST" action="<?php echo $this->baseUrl, $this->action_form; ?>">
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job'), array('class' => 'ui-button ui-widget ui-corner-all')); ?>
+    <?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job'), array('class' => 'btn btn-default')); ?>
 </form>
 </td>
 <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -208,7 +208,7 @@ if ($this->type_restore == 'restore_recent') {
 	echo $this->baseUrl .'/restorejob/cancel-restore';
 }
 ?>">
-	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
+	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
 </form>
 </td></tr>
 </table>
@@ -219,7 +219,7 @@ if ($this->type_restore == 'restore_recent') {
 
 <!-- ******************************* draw file tree ******************************* -->
 <!-- pwd -->
-<table class="fmark" border="0" cellspacing="0" align="left">
+<table class="fmark" border="0" cellspacing="0" align="left" class="table table-striped table-condensed">
 <tr>
 	<td colspan="3" class="pwd" style="font-size: 1em; background-color: #F3F7FF;">
 
@@ -229,7 +229,7 @@ if ($this->type_restore == 'restore_recent') {
 
 		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
 			<b>cd</b> <?php echo $this->formText('curdir', $this->curdir, array('size' => 70)) ?>
-			<?php echo $this->formSubmit('ok1', $this->translate->_('Change dir'), array('class' => 'ui-button ui-widget ui-corner-all') ); ?>
+			<?php echo $this->formSubmit('ok1', $this->translate->_('Change dir'), array('class' => 'btn btn-default') ); ?>
 		</form>
 		<br>&nbsp;
      </td>

@@ -67,6 +67,7 @@ class FormUser extends Zend_Form
         $login = $this->createElement('text', 'login', array(
             'label'     => $this->translate->_('Login').'*',
             'required'  => true,
+            'class'     => 'form-control',
             'size'      => 30,
             'maxlength' => 50
         ));
@@ -83,6 +84,7 @@ class FormUser extends Zend_Form
                 $pwd_label .= '*';
         $pwd = $this->createElement('password', 'pwd', array(
             'label' => $pwd_label,
+            'class' => 'form-control',
             'size' => 25,
             'maxlength' => 50
         ));
@@ -95,6 +97,7 @@ class FormUser extends Zend_Form
         $name = $this->createElement('text', 'name', array(
             'label'     => $this->translate->_('Name'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 40,
             'maxlength' => 150
         ));
@@ -105,6 +108,7 @@ class FormUser extends Zend_Form
         $email = $this->createElement('text', 'email', array(
             'label'     => $this->translate->_('Email'),
             'required'  => false,
+            'class'     => 'form-control',
             'size'      => 30,
             'maxlength' => 50
         ));
@@ -117,7 +121,8 @@ class FormUser extends Zend_Form
          */
         $active = $this->createElement('checkbox', 'active', array(
             'label' => $this->translate->_('Active'),
-            'checked'  => 1
+            'checked'  => 1,
+            'class' => 'form-check-input'
         ));
         /*
          * Role id
@@ -128,7 +133,7 @@ class FormUser extends Zend_Form
         // create element
         $role_id = $this->createElement('select', 'role_id', array(
             'label'    => $this->translate->_('Role').'*',
-            'class' => 'ui-select',
+            'class' => 'form-control',
             'size' => 10
         ));
         foreach( $rows as $v) {
@@ -142,7 +147,7 @@ class FormUser extends Zend_Form
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Submit Form')
         ));
         /*
@@ -151,7 +156,7 @@ class FormUser extends Zend_Form
         $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'reset_'.__CLASS__,
-            'class' => 'ui-button ui-widget ui-corner-all',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*

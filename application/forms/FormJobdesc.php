@@ -47,6 +47,7 @@ class FormJobdesc extends Zend_Form
             'label'      => $this->translate->_('Job Name'),
             'required'   => true,
             'size' => 35,
+            'class' => 'form-control',
             'maxlength' => 64
         ));
         $name_job->addValidator('NotEmpty', false, null );
@@ -58,6 +59,7 @@ class FormJobdesc extends Zend_Form
             'label'      => $this->translate->_('Short Job Description'),
             'required'   => true,
             'size' => 40,
+            'class' => 'form-control',
             'maxlength' => 64*2
         ));
         $short_desc->addValidator('NotEmpty', false, null );
@@ -67,6 +69,7 @@ class FormJobdesc extends Zend_Form
             'textarea', 'description', array(
             'label'      => $this->translate->_('Job Description'),
             'required'   => true,
+            'class'   => 'form-control',
             'cols' => 50,
             'rows' => 3
         ));
@@ -76,6 +79,7 @@ class FormJobdesc extends Zend_Form
             'text', 'retention_period', array(
             'label'      => $this->translate->_('Retention period'),
             'required'   => false,
+            'class' => 'form-control',
             'size' => 16,
             'maxlength' => 32
         ));
@@ -84,14 +88,14 @@ class FormJobdesc extends Zend_Form
         // submit button
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'id'    => 'ok_'.__CLASS__,
-			'class' => 'ui-button ui-widget ui-corner-all',
+			'class' => 'btn  btn-default',
             'label' => $this->translate->_('Submit Form')
         ));
 		
         $cancel_button = new Zend_Form_Element_Submit('cancel_button', array(
             //'decorators' => $this->elDecorators,
             'id'    => 'cancel_'.__CLASS__,
-			'class' => 'ui-button ui-widget ui-corner-all',
+			'class' => 'btn  btn-default',
             'label' => $this->translate->_('Cancel')
         ));		
 
