@@ -138,6 +138,7 @@ table.fmark td.cl2 {
 	padding: 1px 1px 1px 1px;
 	border-style: none none none none;
 	background-color: #C8E7FF;
+   background-color: #ccc;
 	font-family: monospace;
 }
 table.fmark td.pwd {
@@ -148,7 +149,7 @@ table.fmark td.pwd {
 	font-family: monospace;
 }
 table.fmark tr:hover td {
-   background: #FFD500;
+   background: #f8efc0;
    color: #000080;
 }
 

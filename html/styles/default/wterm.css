@@ -23,4 +23,19 @@
     background: #5A5A5A;
     color: #DADACC;
 }
+
 .wterm_theme_green_on_black input { background: transparent; border: 0; color: #0f0; }
+
+.wterm_theme_white_on_black {
+    background: #050404;
+    color: #fff;
+}
+.wterm_theme_white_on_black input { background: transparent; border: 0; color: #0f0; }
+
+
+#wterm pre {
+	border: 1px solid #ccc;
+	background: #050404;
+	color: #FFF;
+}
+
