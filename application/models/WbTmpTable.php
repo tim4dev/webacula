@@ -48,8 +48,8 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * @param string $prefix для формирования имен tmp таблиц
-     * @param string $jobidHash хэш-индекс для массива jobid
+     * @param string $prefix To generate tmp table names
+     * @param string $jobidHash Hash-index for the jobid array
      */
     public function __construct($jobidhash, $ttl_restore_session)
     {
@@ -146,7 +146,7 @@ class WbTmpTable extends Zend_Db_Table
      * Show catalog files and subdirectories to recover
      *
      * @param string $pathid
-     * @param integer $label 0 или 1
+     * @param integer $label 0 or 1
      *
      * @return array (path , dirs + files affected)
      */
@@ -264,7 +264,7 @@ class WbTmpTable extends Zend_Db_Table
     {
         if ( $this->isTmpTableExists($this->tmp_file) )   {
             if ( !$this->isCloneOk() )   {
-                // есть какие-то таблицы, но до конца не скопированные, поэтому их нужно удалить
+                // There are some tables, but not completely copied, so they need to be removed
                 $this->deleteAllTmpTables();
                 return FALSE;
             }   else {
@@ -446,7 +446,7 @@ class WbTmpTable extends Zend_Db_Table
 
 
     /**
-     * @return TRUE if the tables are outdated (если таблицы устарели)
+     * @return TRUE if the tables are outdated (If the tables are outdated)
      *
      */
     function isOldTmpTables()
@@ -523,11 +523,11 @@ class WbTmpTable extends Zend_Db_Table
         if ( !$this->createTmpTable() )
             return FALSE; // view exception from WbTmpTable.php->createTmpTables()
         $decode = new MyClass_HomebrewBase64;
-        // clone File
+        // clone File (Don't get files that FileIndex = 0 that are deleted) jobs - accurate = yes
         $stmt = $bacula->query(
             "SELECT FileId, FileIndex, LStat
             FROM File
-            WHERE JobId = $jobid");
+            WHERE JobId = $jobid and FileIndex <> 0");
 
         $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
@@ -587,7 +587,7 @@ class WbTmpTable extends Zend_Db_Table
             $this->insertRowFile($line['jobid'], $line['fileid'], $line['fileindex'], $file_size);
         }
         $this->insertRowFile(null, null, null, null, null, true);
-        // end transaction // после успешного клонирования устанавливаем признак
+        // end transaction // After successful cloning, we set the sign
         $bacula->commit();
         $this->setCloneOk();
         return TRUE;
