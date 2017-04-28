@@ -38,7 +38,7 @@ class Version extends Zend_Db_Table
     {
         switch ($this->db_adapter) {
             case 'PDO_PGSQL':
-                $this->_name = 'version';
+                $this->_name = 'webacula_version';
                 break;
             default: // including mysql, sqlite
                 $this->_name = 'webacula_version';
@@ -46,9 +46,9 @@ class Version extends Zend_Db_Table
         parent::_setupTableName();
     }
 
-    function getVesion()
+    function getVersion()
 	{
-   		$select = new Zend_Db_Select($this->db);
+   	$select = new Zend_Db_Select($this->db);
     	$select->from($this->_name, 'VersionId');
     	$select->limit(1);
     	$res = $this->db->fetchOne($select);
@@ -57,14 +57,14 @@ class Version extends Zend_Db_Table
 
 	/**
 	 * Check Catalog DB version
-	 * Сравнивает версию БД Каталога Bacula
+	 * Compare the version of the Bacula Catalog DB
 	 *
      * @param $ver  valid version
 	 * @return TRUE if correct
 	 */
-	function checkVesion($ver)
+	function checkVersion($ver)
 	{
-    	$res = $this->getVesion();
+    	$res = $this->getVersion();
 		return ( $res == $ver );
 	}
 
