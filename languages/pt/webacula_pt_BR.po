@@ -256,8 +256,8 @@ msgid "Terminated Jobs (executed in last %s days)"
 msgstr "Jobs finalizados (executados nos últimos %s dias)"
 
 #: application/controllers/FileController.php:57
-msgid "List Files for JobId"
-msgstr "Lista de arquivos por JobID"
+msgid "List Files of JobId"
+msgstr "Lista de arquivos do JobId"
 
 #: application/controllers/WbjobdescController.php:40
 msgid "Job Descriptions"
@@ -957,20 +957,24 @@ msgid "file(s)"
 msgstr "arquivo(s)"
 
 #: application/views/scripts/pagination_ctrl.phtml:16
-msgid "First</a>"
-msgstr "Primeira</a>"
+msgid "First page"
+msgstr "Primeira"
 
 #: application/views/scripts/pagination_ctrl.phtml:21
-msgid "Previous</a>"
-msgstr "Anterior</a>"
+msgid "Previous page"
+msgstr "Anterior"
 
 #: application/views/scripts/pagination_ctrl.phtml:35
-msgid "Next &gt;"
-msgstr "Mais &gt;"
+msgid "Next page"
+msgstr "Próxima"
 
 #: application/views/scripts/pagination_ctrl.phtml:40
-msgid "Last</a>"
-msgstr "Últimos</a>"
+msgid "Last page"
+msgstr "Última"
+
+#: application/views/scripts/pagination_ctrl.phtml:40
+msgid "Showing"
+msgstr "Mostrando"
 
 #: application/views/scripts/msg-note.phtml:3
 #: application/views/scripts/error/webacula-access-denied.phtml:8

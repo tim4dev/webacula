@@ -54,7 +54,7 @@ class FileController extends MyClass_ControllerAclAction
             $this->view->result = null;
             return;
         }
-        $this->view->titleFile = $this->view->translate->_("List Files for JobId") . " " . $jobid;
+        $this->view->titleFile = $this->view->translate->_("List Files of JobId") . " " . $jobid;
         $files = new Files();
         $select = $files->getSelectFilesByJobId($jobid);  // do Bacula ACKs
         //echo '<pre>',$select->__toString(),'</pre>'; exit; // for !!!debug!!!
