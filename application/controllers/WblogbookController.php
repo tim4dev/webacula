@@ -116,6 +116,7 @@ class WblogbookController extends MyClass_ControllerAclAction
     function filterbydateAction()
     {
         $this->view->title = $this->view->translate->_("Logbook");
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         //print_r($this->_request->getParams()); exit; //debug !!!
         $date_begin  = trim( $this->_request->getParam('date_begin', date('Y-m-d', time()-2678400)) );
         $date_end    = trim( $this->_request->getParam('date_end', date('Y-m-d', time())) );
@@ -164,6 +165,7 @@ class WblogbookController extends MyClass_ControllerAclAction
 		if ( $id_end == 0 ) {
 			 $id_end = $id_begin;
 		}
+      $this->view->datetime_format = Zend_Registry::get('datetime_format');
     	//echo '<pre>id_begin = ' . $id_begin . '<br>id_end = ' . $id_end . '</pre>'; exit();
 
     	// порядок сортировки
@@ -199,6 +201,7 @@ class WblogbookController extends MyClass_ControllerAclAction
     function searchtextAction()
     {
         $id_text = addslashes( substr( $this->_request->getParam('id_text'), 0, 250 ) );
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         // порядок сортировки
         $sort_order     = $this->defSortOrder( trim($this->_request->getParam('sortorder_by_text')) );
         // unused ? $str_sort_order = $this->defStrSortOrder($sort_order);

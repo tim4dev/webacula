@@ -11,106 +11,118 @@ if ( empty($this->unit_test) )
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title><?php echo $this->escape($this->title); ?></title>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/site.css" />
-	<meta http-equiv="Pragma" content="no-cache">
-	<meta http-equiv="expires" content="0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><?php echo $this->escape($this->title); ?></title>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/default/bootstrap/css/bootstrap.css" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
 </head>
-<body style="margin: 0">
-<div align="center"><a href="<?php echo $this->baseUrl ?>/wblogbook/index"><?php print $this->translate->_("Back"); ?></a></div>
+<body>
+   <div class="container-fluid">
+      <div class="rows">
+         <div class="col-md-12">
+            <div align="center"><a href="<?php echo $this->baseUrl ?>/wblogbook/index"><?php print $this->translate->_("Back"); ?></a></div>
+            
+            <!-- wblogbook/index-printable.phtml -->
+            
+            <h3 class="text-center"><?php echo $this->escape($this->title); ?></h3>
+            
+            <div class="text-center"><p><?php print $this->translate->_("Printable version."); ?>
+            <?php echo date($this->datetime_format, strtotime(date('Y-m-d H:i:s'))) ;?></p></div>
+                     
+            <?php if ($this->result): ?>
+            
+            <div class="table-responsive">
+            <table class="table table-striped table-hover table-condensed table-bordered">
+               <thead>
+                  <tr>
+                     <th class="text-center"> Id </th>
+                     <th class="text-center"> <?php print $this->translate->_("Date"); ?></th>
+                     <th><?php print $this->translate->_("Text"); ?></th>
+                     <th class="text-center"> <?php print $this->translate->_("Type"); ?></th>                    
+                  </tr>
+               </thead>
+               <tbody>
+               
+               <?php foreach($this->result as $line) : ?>
+               <tr>
+               	<td class="text-center">
+               		<?php echo $line['logid']; ?>
+               	</td>
+               
+               	<td class="text-center">
+               		<?php
+               			$str = date($this->datetime_format, strtotime($line['logdatecreate']));
+               			if ($line['logisdel'] != 0) { $str = '<s>' . $str . '</s>'; }; // record deleted
+               			echo $str;
+               		?>
+               	</td>
+               	<td>
+               		<?php
+               			$str = $line['logtxt'];
+               
+               			$pattern = "/(BACULA_JOBID=)([0-9]*)/i";
+               			$replacement = "<a href=\"" . $this->baseUrl . "/job/detail/jobid/\\2\">Bacula JobId \\2</a>";
+               			$str = preg_replace($pattern, $replacement, $str);
+               
+               			$pattern = "/(LOGBOOK_ID=)([0-9]*)/i";
+               			$replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
+               			$str = preg_replace($pattern, $replacement, $str);
+               
+               			// each OS have different ASCII chars for linebreak:
+               			// windows = \r\n
+               			// unix = \n
+               			// mac = \r
+               			$str = str_replace(array("\r\n", "\r", "\n"), "<br>", $str);
+               			//$str = nl2br($str);
+               
+               			if ($line['logisdel'] != 0) { $str = '<s>' . $str . '</s>'; }; // record deleted
+               
+               			echo $str;
+               
+               			
+               		?>
+               	</td>
+               
+               	<?php
+               		if ($line['logisdel'] != 0) {
+               			// record deleted
+               			echo '<td class="text-center">', $this->translate->_("Deleted"), '</td>';
+               		} else {
+               
+               			switch ($line['typeid'])
+               			{
+               				case '20' : $class = 'class="ok text-center"'; break;
+               				case '30' : $class = 'class="warning text-center"'; break;
+               				case '255': $class = 'class="danger text-center"';  break;
+               				default: $class = 'class="text-center"';
+               			}
+               			echo '<td ', $class, '>', $this->translate->_($line['typedesc']), '</td>';
+               		}
+               	?>
+               </tr>
+               <?php endforeach; ?>
+               </tbody>
+            </table>
+            </div><!-- end div table-responsive -->
+            
+            
+            <?php else: ?>
+            
+            <!-- div alert -->
+            <div class="alert alert-danger">
+              <p>
+              <span class="glyphicon glyphicon-alert"></span>
+              <?php print $this->translate->_("No records found."); ?>
+               </p>
+            </div>
+            <!-- end div alert -->
 
-<!-- wblogbook/index-printable.phtml -->
 
-<h1 align="center"><?php echo $this->escape($this->title); ?></h1>
-
-<div align="center"><p><?php print $this->translate->_("Printable version."); ?>
-<?php echo $this->translate->_("Current date :"), ' ', date('Y-m-d H:i', time()) ;?></p></div>
-
-<?php if ($this->result): ?>
-
-<div align="center">
-<table border="1" align="center" width="100%">
-<thead>
-<tr>
-     <th scope="col" width="15%"> <?php print $this->translate->_("Date"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Text"); ?> </th>
-     <th scope="col" width="5%"> <?php print $this->translate->_("Type"); ?> </th>
-     <th scope="col" width="3%"> Id </th>
-</tr>
-</thead>
-<tbody>
-
-<?php foreach($this->result as $line) : ?>
-<tr>
-	<td valign="top">
-		<?php
-			$str = $line['logdatecreate'];
-			if ($line['logisdel'] != 0) { $str = '<s>' . $str . '</s>'; }; // record deleted
-			echo $str;
-		?>
-	</td>
-	<td>
-		<?php
-			$str = $line['logtxt'];
-
-			$pattern = "/(BACULA_JOBID=)([0-9]*)/i";
-			$replacement = "<a href=\"" . $this->baseUrl . "/job/detail/jobid/\\2\">Bacula JobId \\2</a>";
-			$str = preg_replace($pattern, $replacement, $str);
-
-			$pattern = "/(LOGBOOK_ID=)([0-9]*)/i";
-			$replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
-			$str = preg_replace($pattern, $replacement, $str);
-
-			// each OS have different ASCII chars for linebreak:
-			// windows = \r\n
-			// unix = \n
-			// mac = \r
-			$str = str_replace(array("\r\n", "\r", "\n"), "<br>", $str);
-			//$str = nl2br($str);
-
-			if ($line['logisdel'] != 0) { $str = '<s>' . $str . '</s>'; }; // record deleted
-
-			echo $str;
-
-			echo '<br><br>';
-		?>
-	</td>
-
-	<?php
-		if ($line['logisdel'] != 0) {
-			// record deleted
-			echo '<td valign="top">', $this->translate->_("Deleted"), '</td>';
-		} else {
-
-			switch ($line['typeid'])
-			{
-				case '20' : $class = 'class="ok"'; break;
-				case '30' : $class = 'class="warn"'; break;
-				case '255': $class = 'class="err"';  break;
-				default: $class = '';
-			}
-			echo '<td ', $class, ' valign="top">', $this->translate->_($line['typedesc']), '</td>';
-		}
-	?>
-	<td valign="top" align="center">
-		<?php echo $line['logid']; ?>
-	</td>
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-</div>
-
-<?php else: ?>
-<div class="ui-widget" style="width: 50%; margin-left: auto; margin-right: auto;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No records found."); ?></strong></p>
-	</div>
-</div>
-<?php endif; ?>
-
-<br>
+            <?php endif; ?>
+            
+         </div><!-- end div col-md-8 -->
+      </div><!-- end div rows -->
+   </div><!-- end div container -->
 </body>
 </html>
