@@ -927,6 +927,7 @@ msgstr "Pool/Volume"
 msgid "Overview"
 msgstr "Visão geral"
 
+#: application/views/scripts/wblogbook/index.phtml:77
 #: application/layouts/default/main-menu.phtml:89
 msgid "Add New Record"
 msgstr "Novo registro"
@@ -1864,10 +1865,6 @@ msgstr "Tags permitidas"
 msgid "Allowed to use pseudo-tags"
 msgstr "Pseudo-tags permitidas"
 
-#: application/views/scripts/wblogbook/index.phtml:77
-msgid "+ Add New Record"
-msgstr "Novo registro"
-
 #: application/views/scripts/wblogbook/index.phtml:84
 msgid "Filter by date"
 msgstr "Filtro por data"
@@ -1881,13 +1878,16 @@ msgid "Text Search"
 msgstr "Pesquisar texto"
 
 #: application/views/scripts/wblogbook/index.phtml:92
-msgid "Date range : from"
-msgstr "Período de"
+msgid "Date range"
+msgstr "Período"
 
 #: application/views/scripts/wblogbook/index.phtml:94
 #: application/views/scripts/wblogbook/index.phtml:114
-msgid "&nbsp; to"
-msgstr "&nbsp; até"
+msgid "to"
+msgstr "até"
+
+msgid "from"
+msgstr "de"
 
 #: application/views/scripts/wblogbook/index.phtml:101
 #: application/views/scripts/wblogbook/index.phtml:121
@@ -1895,8 +1895,8 @@ msgid "Apply filter"
 msgstr "Aplicar filtro"
 
 #: application/views/scripts/wblogbook/index.phtml:111
-msgid "Id range : from"
-msgstr "ID range : de"
+msgid "Id range: from"
+msgstr "Intervalo: de"
 
 #: application/views/scripts/wblogbook/index.phtml:131
 #: application/views/scripts/wblogbook/index.phtml:165
@@ -1931,8 +1931,8 @@ msgid "Deleted"
 msgstr "Excluído"
 
 #: application/views/scripts/wblogbook/index.phtml:254
-msgid "No records found."
-msgstr "Registros não encontrados"
+msgid "No records found!"
+msgstr "Nenhum registro encontrado!"
 
 #: application/views/scripts/wblogbook/index-printable.phtml:27
 msgid "Printable version."

@@ -1,33 +1,5 @@
 <!-- wblogbook/modify.phtml -->
-
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
-<script type="text/javascript">
-  // select
-  $(function(){
-      $('select').each(function() {
-         //$(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
-      });
-  });
-</script>
-
-<script type="text/javascript">
-$(function() {
-    // http://docs.jquery.com/UI/Datepicker/formatDate
-    $('#logDateCreate').datepicker({
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        changeYear: true
-    });
-    
-    $('#logDateCreate').on('change',function(){
-        var dt = new Date();
-        var currentTime = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-        $(this).val($(this).val() +' '+currentTime);
-    });
-});
-</script>
-
-<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
 
 <?php
 // create array clients for Form
@@ -37,194 +9,137 @@ endforeach;
 ?>
 
 <div class="rows">
-  <div class="col-md-6">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               
+               <?php if ($this->amessages): ?>
+               <!-- display ERRORS -->
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                 <p>
+                 <span class="glyphicon glyphicon-alert"></span>
+                     <?php
+                        echo '<b>', $this->translate->_("Record has not been modified. Reason :"), ' </b><br><ol>';
+                        foreach ($this->amessages as $msg) {
+                           echo '<li>' . $msg . '</li>';
+                        }
+                        echo '</ol>';
+                     ?>  
+                  </p>
+               </div>
+               <!-- end div alert -->               
+               
+               <?php endif; ?>
+               
+               <?php if ($this->wblogbook->logIsDel == 1): ?>
+               
+               <!-- div alert -->
+               <div class="alert alert-warning">
+                 <p>
+                 <span class="glyphicon glyphicon-info-sign"></span>
+                    <?php echo $this->translate->_("This record has been deleted."); ?>  
+                 </p>
+               </div>
+               <!-- end div alert -->
+               
+               
+               <?php endif; ?>
+               <form name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/modify';?>" method="post">
+                  <p><b><?php print "(<b>*</b>) " . $this->translate->_("Field is required to process this form"); ?></b></p>
+                  
+                  <!-- logid -->
+                  <div class="form-group row">
+                     <label class="col-md-1 col-form-label" for="logDateCreate"><?php "<sup>*</sup>"  . print $this->translate->_("Date"); ?></label>&nbsp;
+                     <div class="col-md-4">
+                     <p class="form-control-static"><?php echo $this->wblogbook->logId; ?></p>
+                     </div>
+                  </div>
+                  
+                  <!-- logDateCreate -->
+                  <div class="form-group row">
+                     <label class="col-md-1 col-form-label" for="logDateCreate"><?php "<sup>*</sup>"  . print $this->translate->_("Date"); ?></label>&nbsp;
+                     <div class="col-md-4">
+                     <p class="form-control-static"><?php echo date($this->datetime_format, strtotime($this->wblogbook->logDateCreate)); ?></p>
+                     </div>
+                  </div>
 
-<div class="panel panel-default panel-primary">
-	<div class="panel-heading">
-	   <?php echo $this->escape($this->title); ?>
-	</div>
-	<div class="panel-body">
-	   <p>
-
-
-<!--
-<div class="roundcorner-wlb">
-
-<div id="logbook-form">
--->
-
-<?php if ($this->amessages): ?>
-<!-- display ERRORS -->
-<!--<div class="ui-widget" style="float: left;">
-	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-		<strong>
-		<?php
-			echo '<b>', $this->translate->_("Record has not been modified. Reason :"), ' </b><br><ol>';
-			foreach ($this->amessages as $msg) {
-				echo '<li>' . $msg . '</li>';
-			}
-			echo '</ol>';
-		?>
-		</strong></p>
-	</div>
-</div>-->
-<!--<div style="clear: both;"></div>-->
-
-<div class="alert alert-danger">
-  <p>
-  <span class="glyphicon glyphicon-alert"></span>
-		<?php
-			echo '<b>', $this->translate->_("Record has not been modified. Reason :"), ' </b><br><ol>';
-			foreach ($this->amessages as $msg) {
-				echo '<li>' . $msg . '</li>';
-			}
-			echo '</ol>';
-		?>  
-   </p>
-</div>
-
-
-
-<?php endif; ?>
-
-<?php if ($this->wblogbook->logIsDel == 1): ?>
-<!--
-<div class="ui-widget" style="width: 100%; margin-left: auto; margin-right: auto; margin-bottom: 10px;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<b><?php echo $this->translate->_("This record has been deleted.");?></b></p>
-	</div>
-</div>
--->
-
-<div class="alert alert-warning">
-  <p>
-  <span class="glyphicon glyphicon-info-sign"></span>
-     <?php echo $this->translate->_("This record has been deleted."); ?>  
-   </p>
-</div>
-
-
-<?php endif; ?>
-<form name="logbook2" action="<?php  echo $this->baseUrl.'/wblogbook/modify';?>" method="post">
-
-<p><b><?php print "(<b>*</b>) " . $this->translate->_("Field is required to process this form"); ?></b></p>
-
-<!-- logid -->
-<label ><?php print $this->translate->_("Log record Id "); ?></label>
-<p><?php echo $this->wblogbook->logId; ?></p>
-
-<!-- logDateCreate -->
-<label ><?php print $this->translate->_("Date create record"); ?></label>
-<p><?php echo $this->wblogbook->logDateCreate; ?></p>
-
-
-<!-- logDateLast -->
-<label><?php print $this->translate->_("Date last update record :"); ?></label>
-<p><?php echo $this->wblogbook->logDateLast; ?></p>
-
-
-<!--<label class="col-sm-2 col-form-label">
-<?php print $this->translate->_("Log record Id "); ?></label> 
-<?php echo $this->wblogbook->logId; ?>-->
-
-<!--<label class="col-sm-2 col-form-label"><?php print $this->translate->_("Date last update record :"); ?></label>&nbsp;<?php echo $this->wblogbook->logDateLast; ?>-->
-
-<!-- Select Action -->
-<div>
-<label><b><?php print $this->translate->_("Select action "); ?></b></label>
-<fieldset>
-	<!--<legend><b><?php print $this->translate->_("Select action "); ?></b></legend>-->
-<input type="radio" checked name="act" value="update" class="custom-radio">
-    <?php print $this->translate->_("Modify this record"); ?><br>
-<input type="radio" name="act" value="delete" class="custom-radio">
-    <?php print $this->translate->_("Delete this record (physically record will not be removed)"); ?><br>
-<input type="radio" name="act" value="undelete" class="custom-radio">
-    <?php print $this->translate->_("Undelete this record"); ?>
-    
-</fieldset>
-</div>
-
-<?php echo $this->formHidden('logid', $this->wblogbook->logId, null); ?>
-<?php echo $this->formHidden('isdel', $this->wblogbook->logIsDel, null); ?>
-<?php echo $this->formHidden('hiddenModify',   $this->hiddenModify, null); ?>
-
-
-
-
-<!-- logDateCreate -->
-<!--
-<label for="logDateCreate"><?php print "<sup>*</sup>"  . $this->translate->_("Date create record"); ?></label>&nbsp;
-<?php echo $this->formText('logDateCreate', $this->wblogbook->logDateCreate, array('size' => 20, 'class' => 'form-control')); ?>
--->
-
-<!-- logTypeId -->
-<div class="form-group row">
-<label class="col-md-1 col-form-label" for="logTypeId"><?php print "<sup>*</sup>"  . $this->translate->_("Type"); ?></label>
-<div class="col-md-3">
-<?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, array('class' => 'form-control'), $atyps); ?>
-</div>
-</div>
-
-
-
-
-
-<!-- textarea -->
-
-<fieldset>
-
-
-<!--Allowed to use tags-->
-<label><?php print $this->translate->_("Allowed to use tags"); ?></label><br/>
-<?php
-foreach($this->aAllowedTags as $key=>$value) {
-	echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
-		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\" class='btn btn-default'> ";
-}
-?>
-
-<noscript>
-<?php
-foreach($this->aAllowedTags as $key=>$value) {
-	echo ' &lt;' . $value . '&gt;';
-}
-?>
-</noscript>
-<br/><br />
-<!--Allowed to use tags-->
-<label><?php print $this->translate->_("Allowed to use pseudo-tags"); ?></label>
-<br />
-<input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=');"; class="btn btn-default">
-<input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=');" class="btn btn-default">
-<br />
-<noscript>
-BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
-</noscript>
-<br>
-<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "80", 'rows' => "10", 'class' => 'form-control')); ?>
-</fieldset>
-</div>
-<!-- END textarea -->
-
-<!--<center>-->
-<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'btn btn-default')  ); ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?php echo $this->formReset('reset', $this->translate->_('Reset Form'),array('class' => 'btn btn-default')); ?>
-<!--</center>-->
-</form>
-
-<!--</div>--> <!-- logbook-form -->
-<!--</div>-->
-
-
-
-	   </p><!-- close p -->
-    </div><!-- close div panel-body -->
-</div><!-- close div panel panel-default -->
-
-</div><!-- fim div col-md-8 -->
-</div><!-- fim da div row -->
-
-
+                  <!-- logDateLast -->
+                  <div class="form-group row">
+                     <label class="col-md-1 col-form-label" for="logDateCreate"><?php "<sup>*</sup>"  . print $this->translate->_("Date"); ?></label>&nbsp;
+                     <div class="col-md-4">
+                     <p class="form-control-static"><?php echo date($this->datetime_format, strtotime($this->wblogbook->logDateLast)); ?></p>
+                     </div>
+                  </div>
+                  
+                  <!-- Select Action -->
+                  <div class="form-group row">
+                     <label><b><?php print $this->translate->_("Select action "); ?></b></label>
+                     <fieldset>
+                     <div class="col-md-8">
+                        <input type="radio" checked name="act" value="update" class="custom-radio">
+                        <?php print $this->translate->_("Modify this record"); ?><br>
+                        <input type="radio" name="act" value="delete" class="custom-radio">
+                        <?php print $this->translate->_("Delete this record (physically record will not be removed)"); ?><br>
+                        <input type="radio" name="act" value="undelete" class="custom-radio">
+                        <?php print $this->translate->_("Undelete this record"); ?>
+                      </div>
+                     </fieldset>
+                  </div>
+                  
+                  <?php echo $this->formHidden('logid', $this->wblogbook->logId, null); ?>
+                  <?php echo $this->formHidden('isdel', $this->wblogbook->logIsDel, null); ?>
+                  <?php echo $this->formHidden('hiddenModify',   $this->hiddenModify, null); ?>
+                  
+                  
+                  <!-- logTypeId -->
+                  <div class="form-group row">
+                  <label class="col-md-1 col-form-label" for="logTypeId"><?php print "<sup>*</sup>"  . $this->translate->_("Type"); ?></label>
+                  <div class="col-md-3">
+                  <?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, array('class' => 'form-control'), $atyps); ?>
+                  </div>
+                  </div>
+                  
+                  <!-- textarea -->
+                  <fieldset>
+                  <div class="table-responsive">
+                  
+                  <!--Allowed to use tags-->
+                  <label><?php print $this->translate->_("Allowed to use tags"); ?></label><br/>
+                  <?php
+                  foreach($this->aAllowedTags as $key=>$value) {
+                  	echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
+                  		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\" class='btn btn-default'> ";
+                  }
+                  ?>
+                  <br/><br/>
+                  
+                  <!--Allowed to use tags-->
+                  <label><?php print $this->translate->_("Allowed to use pseudo-tags"); ?></label>
+                  <br/>
+                  <input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=');"; class="btn btn-default">
+                  <input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=');" class="btn btn-default">
+                  <br/>
+                  <br/>
+                  
+                  <label><?php "<sup>*</sup>"  . print $this->translate->_("Text"); ?></label>
+                  <?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "80", 'rows' => "10", 'class' => 'form-control')); ?>
+                  </fieldset>
+                  </div>
+                  </div><!-- end div table-responsive -->
+                  <!-- end textarea -->
+                  <?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'btn btn-default') ); ?>
+               </form>
+               <form action="<?php  echo $this->baseUrl.'/wblogbook/index';?>" method="post">
+                  <?php echo $this->formSubmit('cancel', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
+               </form>
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- fim div col-md-8 -->
+</div><!-- fim da div rows -->
+<!-- wbjobdesc/index.phtml -->
