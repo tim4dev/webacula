@@ -19,13 +19,13 @@
  
  
 $frontendOptions = array(
-    'lifetime' => 1800, // время жизни кэша - 30 минут
+    'lifetime' => 1800, // Cache lifetime - 30 minutes
     'automatic_serialization' => true
 );
 $backendOptions = array(
-    'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
+    'cache_dir' => CACHE_DIR.'/'      // Directory where the cache files are located
 );
-// получение объекта Zend_Cache_Output
+// Receiving an object Zend_Cache_Output
 $cache = Zend_Cache::factory(
     'Output',
     'File',
@@ -37,120 +37,114 @@ if ( !$cache->start($this->identity->role_id . '_main_menu') ) :
 <!-- main-menu.phtml cached by Zend_Cache : <?php echo date('r'); ?> -->
 
 <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'index') ) : ?>
-<!--<div class="container-fluid">-->
    <nav class="navbar navbar-default">
       <div class="container-fluid">
          
          <div class="navbar-header">
-           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
-             <span class="sr-only">Toggle navigation</span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-           </button>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+            </button>
            <a class="navbar-brand" href="#"><img src="<?php echo $this->baseUrl; ?>/images/bacula_logo_small.png"></a>
          </div>      
 
          <!-- Collect the nav links, forms, and other content for toggling -->
          <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
          
-      
-                    <ul id="main-menu" class="nav navbar-nav">
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'admin') ) : ?>
-                        <li class="dropdown">
-                           <a href="<?php echo $this->baseUrl;?>/admin/role-index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Administrator"); ?> <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo $this->baseUrl;?>/admin/role-index"><?php print $this->translate->_("Roles"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/admin/user-index"><?php print $this->translate->_("Users"); ?></a></li>
-                            </ul>
-                        </li>
-                        <?php endif; ?>
-                        <li>
-                           <a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
-                        </li>
+            <ul id="main-menu" class="nav navbar-nav">
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'admin') ) : ?>
+                  <li class="dropdown">
+                     <a href="<?php echo $this->baseUrl;?>/admin/role-index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Administrator"); ?> <span class="caret"></span></a>
+                     <ul class="dropdown-menu">
+                         <li><a href="<?php echo $this->baseUrl;?>/admin/role-index"><?php print $this->translate->_("Roles"); ?></a></li>
+                         <li><a href="<?php echo $this->baseUrl;?>/admin/user-index"><?php print $this->translate->_("Users"); ?></a></li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
+               
+               <li>
+                  <a href="<?php echo $this->baseUrl;?>/"><?php print $this->translate->_("Desktop"); ?></a>
+               </li>
+               
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'director') ) : ?>
+                  <li class="dropdown">
+                     <a href="<?php echo $this->baseUrl;?>/director/statusdir" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Director"); ?> <span class="caret"></a>
+                     <ul class="dropdown-menu">
+                     <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Status Director"); ?> </a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/bconsole/wterminal"><?php print $this->translate->_("Bacula Console"); ?></a></li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
+               
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'job') ) : ?>
+                  <li class="dropdown">
+                     <a href="<?php echo $this->baseUrl;?>/job/terminated" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Job"); ?><span class="caret"></span></a>
+                     <ul class="dropdown-menu">
+                        <li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Terminated"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
+                     </ul>
+                  </li>
+                  <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
+               <?php endif; ?>
+               
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'restorejob') ) : ?>
+                  <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a></li>
+               <?php endif; ?>
+               
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'pool') ) : ?>
+                  <li class="dropdown">
+                      <a href="<?php echo $this->baseUrl;?>/pool/all" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Pool/Volume"); ?><span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a></li>
+                          <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem Volumes"); ?></a></li>
+                      </ul>
+                  </li>
+               <?php endif; ?>
                     
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'director') ) : ?>
-                        <li class="dropdown">
-						    <a href="<?php echo $this->baseUrl;?>/director/statusdir" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Director"); ?> <span class="caret"></a>
-                            <ul class="dropdown-menu">
-							    <li><a href="<?php echo $this->baseUrl;?>/director/statusdir"><?php print $this->translate->_("Status Director"); ?> </a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/director/listjobtotals"><?php print $this->translate->_("Job Totals"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/bconsole/wterminal"><?php print $this->translate->_("Bacula Console"); ?></a></li>
-                            </ul>
-                        </li>
-                        <?php endif; ?>
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'client') ) : ?>
+                  <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a></li>
+               <?php endif; ?>
                     
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'job') ) : ?>
-                        <li class="dropdown">
-                            <a href="<?php echo $this->baseUrl;?>/job/terminated" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Job"); ?><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo $this->baseUrl;?>/job/terminated"><?php print $this->translate->_("Terminated"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/job/running"><?php print $this->translate->_("Running"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/job/next"><?php print $this->translate->_("Next"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/job/problem"><?php print $this->translate->_("Problem"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/job/run-job"><?php print $this->translate->_("Run"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/job/timeline"><?php print $this->translate->_("Timeline"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/wbjobdesc/index"><?php print $this->translate->_("Job Descriptions"); ?></a></li>
-                    	</ul>
-                        </li>
-                    
-                        <li><a href="<?php echo $this->baseUrl;?>/job/find-form"><?php print $this->translate->_("Search"); ?></a></li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'restorejob') ) : ?>
-                        <li><a href="<?php echo $this->baseUrl;?>/restorejob/main-form"><?php print $this->translate->_("Restore"); ?></a></li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'pool') ) : ?>
-                        <li class="dropdown">
-                            <a href="<?php echo $this->baseUrl;?>/pool/all" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Pool/Volume"); ?><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo $this->baseUrl;?>/pool/all"><?php print $this->translate->_("Overview"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/volume/problem"><?php print $this->translate->_("Problem Volumes"); ?></a></li>
-                            </ul>
-                        </li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'client') ) : ?>
-                        <li><a href="<?php echo $this->baseUrl;?>/client/all"><?php print $this->translate->_("Client"); ?></a></li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'schedule') ) : ?>
-                        <li><a href="<?php echo $this->baseUrl;?>/schedule/all"><?php print $this->translate->_("Schedule"); ?></a></li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'storage') ) : ?>
-                        <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a></li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'wblogbook') ) : ?>
-                        <li class="dropdown">
-                            <!--<a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a>-->
-                            <a href="<?php echo $this->baseUrl;?>/wblogbook/index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Logbook"); ?><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a></li>
-								<li><a href="<?php echo $this->baseUrl;?>/wblogbook/add"><?php print $this->translate->_("Add New Record"); ?></a></li>
-                                <li><a href="<?php echo $this->baseUrl;?>/feed/feed" target="_blank"><?php print $this->translate->_("RSS"); ?></a></li>
-                            </ul>
-                        </li>
-                        <?php endif; ?>
-                    
-                        <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'help') ) : ?>
-                        <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("About"); ?></a></li>
-                        <?php endif; ?>
-                    
-                        <li><a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>"><?php print $this->translate->_("Logout"); ?></a></li>
-                    </ul>
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'schedule') ) : ?>
+                  <li><a href="<?php echo $this->baseUrl;?>/schedule/all"><?php print $this->translate->_("Schedule"); ?></a></li>
+               <?php endif; ?>
+                  
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'storage') ) : ?>
+                  <li><a href="<?php echo $this->baseUrl;?>/storage/storage"><?php print $this->translate->_("Storage"); ?></a></li>
+               <?php endif; ?>
+                  
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'wblogbook') ) : ?>
+                  <li class="dropdown">
+                     <a href="<?php echo $this->baseUrl;?>/wblogbook/index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $this->translate->_("Logbook"); ?><span class="caret"></span></a>
+                     <ul class="dropdown-menu">
+                        <li><a href="<?php echo $this->baseUrl;?>/wblogbook/index"><?php print $this->translate->_("Logbook"); ?></a></li>
+                        <li><a href="<?php echo $this->baseUrl;?>/feed/feed" target="_blank"><?php print $this->translate->_("RSS"); ?></a></li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
+               
+               <?php if ($this->webacula_acl->isAllowed($this->identity->role_name, 'help') ) : ?>
+                  <li><a href="<?php echo $this->baseUrl;?>/help/"><?php print $this->translate->_("About"); ?></a></li>
+               <?php endif; ?>
+               
+                  <li><a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>"><?php print $this->translate->_("Logout"); ?></a></li>
+            </ul>
          </div><!-- end bs-navbar-collapse-1 -->
       </div><!-- end div container-fluid -->
    </nav><!-- end nav -->
-<!--</div>--><!-- end div container-fluid -->
 <?php else : ?>
     <a href="<?php echo $this->url( array('controller'=>'auth', 'action'=>'logout'), 'default', true) ?>">
         <?php print $this->translate->_("Logout"); ?></a>
 <?php endif; ?>
 
-<div style="clear: both;"><!--  --></div>
 
 <script type="text/javascript"></script>
 <noscript>
