@@ -1,122 +1,13 @@
 <!-- storage/storage.phtml -->
-
-<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
-
-<div class="rows">
-  <div class="col-md-4">
-
-
-
-<div class="panel panel-default panel-primary">
-	<div class="panel-heading">
-	   <?php echo $this->escape($this->title); ?>
-	</div>
-	<div class="panel-body">
-	   <p>
-
-
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jqModal.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/jqModal.css" media="screen" />
-
-<div class="table-responsive">
-<table id="box-table2" class="table table-striped table-hover table-condensed">
-<thead>
-<tr>
-    <th scope="col"> <?php print $this->translate->_("Mount Storage"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Name Storage"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("AutoChanger"); ?> </th>
-    <th scope="col"> <?php print $this->translate->_("Unmount Storage"); ?> </th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->storages as $storage) : ?>
-<tr>
-    <td align="center">
-    <?php if ( $storage['autochanger'] > 0 ) : ?>
-
-<!-- autochanger block begin -->
-
 <script type="text/javascript">
-$(document).ready(function() {	
+$(document).ready(function() {
     $('#dialog<?php echo $this->escape($storage['storageid']); ?>').jqm({
         trigger: '#trigger<?php echo $this->escape($storage['storageid']); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
     });
-});
-</script>
 
-<a href="#" id="trigger<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
-    <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5">
-</a>
-<div class="jqmWindow" id="dialog<?php echo $this->escape($storage['storageid']); ?>">
-<div class="dialog-header">
-    <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage['name']); ?></b>
-</div>
-<div class="dialog-close">
-    <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
-</div>
-<hr class="dialog-hr">
-
-<!-- autochanger form begin -->
-<form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
-<?php echo $this->formHidden('autochanger', '1', null); ?>
-<?php echo $this->formHidden('act', 'mount', null); ?>
-<?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
-<div style="text-align: left; padding: 6px;">
-    <label>
-    <?php print $this->translate->_("Enter autochanger drive"); ?>
-    <?php echo $this->formText('drive', null, array('size' => 3)); ?>
-    </label>
-    <label>
-    <br>
-    <sup>*</sup><?php print $this->translate->_("Enter autochanger slot"); ?>
-    <?php echo $this->formText('slot', null, array('size' => 3)); ?>
-    </label>
-</div>
-<br>
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Mount Storage'), array('class' => 'btn btn-default') );
-    ?>
-</form>
-<!-- autochanger form end -->
-
-</div>
-
-<!-- autochanger block end -->
-
-
-    <?php else : ?>
-        <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/mount/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
-        <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5"></a>
-    <?php endif; ?>
-    </td>
-
-    <td>
-        &nbsp;
-        <a href="<?php echo $this->baseUrl, "/storage/status-id/id/", $this->escape($storage['storageid']),
-            "/name/", $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Storage Status"); ?>">
-        <?php echo $this->escape($storage['name']);?></a>
-        &nbsp;
-    </td>
-
-    <td align="center">
-        <?php if ( $storage['autochanger'] > 0 ) : ?>
-            <a href="<?php echo $this->baseUrl, '/storage/autochanger-content/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Display autochanger content"); ?>">
-            <img src="<?php echo $this->baseUrl;?>/images/media-tape-changer.png" border="0" hspace="5">
-            </a>
-        <?php else : ?>
-        -
-        <?php endif; ?>
-    </td>
-
-
-
-    <td align="center">
-    <?php if ( $storage['autochanger'] > 0 ) : ?>
-
-<!-- autochanger block begin -->
-
-<script type="text/javascript">
-$().ready(function() {
     $('#dialogU<?php echo $this->escape($storage['storageid']); ?>').jqm({
         trigger: '#triggerU<?php echo $this->escape($storage['storageid']); ?>',
         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
@@ -124,57 +15,138 @@ $().ready(function() {
 });
 </script>
 
-<a href="#" id="triggerU<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
-    <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5">
-</a>
-<div class="jqmWindow" id="dialogU<?php echo $this->escape($storage['storageid']); ?>">
-<div class="dialog-header">
-    <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage['name']); ?></b>
-</div>
-<div class="dialog-close">
-    <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
-</div>
-<hr class="dialog-hr">
+<div class="rows">
+   <div class="col-md-4">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover table-condensed">
+                     <thead>
+                        <tr>
+                           <th><?php print $this->translate->_("Mount Storage"); ?></th>
+                           <th><?php print $this->translate->_("Name Storage"); ?></th>
+                           <th><?php print $this->translate->_("AutoChanger"); ?></th>
+                           <th><?php print $this->translate->_("Unmount Storage"); ?></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                     <?php foreach($this->storages as $storage) : ?>
+                        <tr>
+                           <td class="text-center">
+                           <?php if ( $storage['autochanger'] > 0 ) : ?>
 
-<!-- autochanger form begin -->
-<form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
-<?php echo $this->formHidden('autochanger', '1', null); ?>
-<?php echo $this->formHidden('act', 'umount', null); ?>
-<?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
-<div style="text-align: left; padding: 6px;">
-    <label>
-    <?php print $this->translate->_("Enter autochanger drive"); ?>
-    <?php echo $this->formText('drive', null, array('size' => 3)); ?>
-    </label>
-</div>
-<br>
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Unmount Storage'), array('class' => 'btn btn-default') );
-    ?>
-</form>
-<!-- autochanger form end -->
-
-</div>
-
-<!-- autochanger block end -->
-
-
-
-    <?php else : ?>
-        <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/umount/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
-        <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5"></a>
-    <?php endif; ?>
-    </td>
-
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-</div><!-- end div table-responsive -->
-
-	   </p><!-- close p -->
-    </div><!-- close div panel-body -->
-</div><!-- close div panel panel-default -->
-
-
-</div><!-- fim div col-md-10 -->
-</div><!-- fim da div row -->
+                              <!-- autochanger block begin -->
+                              <a href="#" id="trigger<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
+                                 <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>">
+                              </a>
+                              <div class="jqmWindow" id="dialog<?php echo $this->escape($storage['storageid']); ?>">
+                                 <div class="dialog-header">
+                                    <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage['name']); ?></b>
+                                 </div>
+                                 <div class="dialog-close">
+                                     <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
+                                 </div>
+                                 <hr class="dialog-hr">
+                        
+                                 <!-- autochanger form begin -->
+                                 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
+                                    <?php echo $this->formHidden('autochanger', '1', null); ?>
+                                    <?php echo $this->formHidden('act', 'mount', null); ?>
+                                    <?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
+                                    <div style="text-align: left; padding: 6px;">
+                                       <label>
+                                       <?php print $this->translate->_("Enter autochanger drive"); ?>
+                                       <?php echo $this->formText('drive', null, array('size' => 3)); ?>
+                                       </label>
+                                       <label>
+                                       <br/>
+                                       <sup>*</sup><?php print $this->translate->_("Enter autochanger slot"); ?>
+                                       <?php echo $this->formText('slot', null, array('size' => 3)); ?>
+                                       </label>
+                                    </div>
+                                    <br/>
+                                    <?php echo $this->formSubmit('ok1', $this->translate->_('Mount Storage'), array('class' => 'btn btn-default') ); ?>
+                                 </form>
+                                 <!-- autochanger form end -->
+                              </div>
+                              <!-- autochanger block end -->
+                        
+                           <?php else : ?>
+                              <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/mount/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
+                                 <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>" border="0" hspace="5">
+                              </a>
+                           <?php endif; ?>
+                           </td>
+                           <td>
+                              <a href="<?php echo $this->baseUrl, "/storage/status-id/id/", $this->escape($storage['storageid']),
+                                "/name/", $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Storage Status"); ?>">
+                                <?php echo $this->escape($storage['name']);?>
+                              </a>
+                           </td>
+                        
+                           <td class="text-center">
+                              <?php if ( $storage['autochanger'] > 0 ) : ?>
+                              <a href="<?php echo $this->baseUrl, '/storage/autochanger-content/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Display autochanger content"); ?>">
+                                 <img src="<?php echo $this->baseUrl;?>/images/media-tape-changer.png" border="0" hspace="5">
+                              </a>
+                              <?php else : ?>
+                                 -
+                              <?php endif; ?>
+                           </td>
+                        
+                           <td class="text-center">
+                              <?php if ( $storage['autochanger'] > 0 ) : ?>
+                              
+                              <!-- autochanger block begin -->
+                              <a href="#" id="triggerU<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
+                                  <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5">
+                              </a>
+                              <div class="jqmWindow" id="dialogU<?php echo $this->escape($storage['storageid']); ?>">
+                                 <div class="dialog-header">
+                                    <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage['name']); ?></b>
+                                 </div>
+                                 <div class="dialog-close">
+                                    <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
+                                 </div>
+                                 <hr class="dialog-hr">
+                        
+                                 <!-- autochanger form begin -->
+                                 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
+                                    <?php echo $this->formHidden('autochanger', '1', null); ?>
+                                    <?php echo $this->formHidden('act', 'umount', null); ?>
+                                    <?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
+                                    <div style="text-align: left; padding: 6px;">
+                                       <label>
+                                       <?php print $this->translate->_("Enter autochanger drive"); ?>
+                                       <?php echo $this->formText('drive', null, array('size' => 3)); ?>
+                                       </label>
+                                    </div>
+                                    <br/>
+                                    <?php echo $this->formSubmit('ok1', $this->translate->_('Unmount Storage'), array('class' => 'btn btn-default') ); ?>
+                                 </form>
+                                 <!-- autochanger form end -->
+                        
+                              </div>
+                              <!-- autochanger block end -->
+                        
+                           <?php else : ?>
+                              <a href="<?php echo $this->baseUrl, '/storage/act-mount/act/umount/name/', $this->escape($storage['name']);?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
+                                 <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>">
+                              </a>
+                           <?php endif; ?>
+                           </td>
+                        </tr>
+                     <?php endforeach; ?>
+                     </tbody>
+                  </table>
+               </div><!-- end div table-responsive -->
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- fim div col-md-10 -->
+</div><!-- fim da div rows -->
+<!-- storage/storage.phtml -->
