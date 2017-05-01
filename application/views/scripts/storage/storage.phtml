@@ -1,20 +1,6 @@
 <!-- storage/storage.phtml -->
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jqModal.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/jqModal.css" media="screen" />
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#dialog<?php echo $this->escape($storage['storageid']); ?>').jqm({
-        trigger: '#trigger<?php echo $this->escape($storage['storageid']); ?>',
-        overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
-    });
-
-    $('#dialogU<?php echo $this->escape($storage['storageid']); ?>').jqm({
-        trigger: '#triggerU<?php echo $this->escape($storage['storageid']); ?>',
-        overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
-    });
-});
-</script>
-
 <div class="rows">
    <div class="col-md-4">
       <div class="panel panel-default panel-primary">
@@ -40,6 +26,14 @@ $(document).ready(function() {
                            <?php if ( $storage['autochanger'] > 0 ) : ?>
 
                               <!-- autochanger block begin -->
+                              <script type="text/javascript">
+                              $(document).ready(function(){
+                                  $('#dialog<?php echo $this->escape($storage['storageid']); ?>').jqm({
+                                      trigger: '#trigger<?php echo $this->escape($storage['storageid']); ?>',
+                                      overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
+                                  });
+                              });
+                              </script>                              
                               <a href="#" id="trigger<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
                                  <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>">
                               </a>
@@ -48,11 +42,19 @@ $(document).ready(function() {
                                     <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage['name']); ?></b>
                                  </div>
                                  <div class="dialog-close">
-                                     <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
+                                     <a href="#" class="jqmClose"><span class="glyphicon glyphicon-remove"></span></a>
                                  </div>
                                  <hr class="dialog-hr">
                         
                                  <!-- autochanger form begin -->
+                                 <script type="text/javascript">
+                                 $(document).ready(function(){
+                                     $('#dialogU<?php echo $this->escape($storage['storageid']); ?>').jqm({
+                                         trigger: '#triggerU<?php echo $this->escape($storage['storageid']); ?>',
+                                         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
+                                     });
+                                 });
+                                 </script>                                  
                                  <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
                                     <?php echo $this->formHidden('autochanger', '1', null); ?>
                                     <?php echo $this->formHidden('act', 'mount', null); ?>
@@ -110,7 +112,7 @@ $(document).ready(function() {
                                     <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage['name']); ?></b>
                                  </div>
                                  <div class="dialog-close">
-                                    <a href="#" class="jqmClose"><span class="ui-button-icon ui-icon ui-icon-closethick"></span></a>
+                                    <a href="#" class="jqmClose"><span class="glyphicon glyphicon-remove"></span></a>
                                  </div>
                                  <hr class="dialog-hr">
                         
