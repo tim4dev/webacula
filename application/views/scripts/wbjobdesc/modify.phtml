@@ -1,4 +1,4 @@
-<!-- views/scripts/wbjobdesc/modify.phtml -->
+<!-- wbjobdesc/modify.phtml -->
 <div class="rows">
    <div class="col-md-6">
       <div class="panel panel-default panel-primary">
@@ -7,27 +7,46 @@
          </div>
       	 <div class="panel-body">
             <p>
-               <?php if ( !empty($this->exception) ) : ?>         
-                  <div class="alert alert-warning">
+               <?php if ( !empty($this->exception) ) : ?>
+
+                  <div class="alert alert-danger">
                     <p>
-                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <span class="glyphicon glyphicon-alert"></span>
                     <?php print $this->exception; ?>
                     </p>
                   </div>
+
                <?php else: ?>
 
-               <fieldset>
-                   <!--<legend><?php echo $this->title; ?></legend>-->
-                    <?php
-                    $this->form->setAction( $this->url() );
-                    $this->form->setActionCancel( $this->view->baseUrl .'/wbjobdesc/index' );
-                    echo $this->form;
-                    ?>
-               </fieldset>
-<?php endif;?>
+                  <form  action="<?php echo $this->form->getAction();  ?>"
+                         method="<?php echo $this->form->getMethod();  ?>" >
+                    <?php echo $this->form->desc_id; ?>
+                    <?php echo $this->form->form1; ?>
+                    <?php echo $this->form->name_job; ?>
+                    <?php echo $this->form->short_desc; ?>
+                    <?php echo $this->form->description; ?>
+                    <?php echo $this->form->retention_period; ?>
+                    <table>
+                       <tr>
+                          <td>
+                              <?php echo $this->form->submit_button; ?>
+                          </form>
+                          </td>
+                          <td>&nbsp;&nbsp;&nbsp;</td>
+                          <td>
+                          <form  action="<?php echo $this->form->getActionCancel();  ?>"
+                                 method="<?php echo $this->form->getMethod();  ?>">
+                             <?php echo $this->form->cancel_button; ?>
+                          </form>
+                          </td>
+                       </tr>
+                    </table>
+
+               <?php endif;?>
+
             </p><!-- end p -->
          </div><!-- end div panel-body -->
       </div><!-- end div panel panel-default -->
    </div><!-- end div col-md-6 -->
 </div><!-- end div row -->
-<!-- end views/scripts/wbjobdesc/modify.phtml -->
+<!-- end wbjobdesc/modify.phtml -->

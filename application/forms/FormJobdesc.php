@@ -26,7 +26,7 @@ require_once 'Zend/Form/Element/Submit.php';
 class FormJobdesc extends Zend_Form
 {
     protected $translate;
-	protected $_action_cancel = '';
+	 protected $_action_cancel = '';
 
 
     public function init()
@@ -88,14 +88,14 @@ class FormJobdesc extends Zend_Form
         // submit button
         $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'id'    => 'ok_'.__CLASS__,
-			'class' => 'btn  btn-default',
+			   'class' => 'btn btn-default',
             'label' => $this->translate->_('Submit Form')
         ));
 		
         $cancel_button = new Zend_Form_Element_Submit('cancel_button', array(
             //'decorators' => $this->elDecorators,
             'id'    => 'cancel_'.__CLASS__,
-			'class' => 'btn  btn-default',
+			   'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
         ));		
 
@@ -108,7 +108,7 @@ class FormJobdesc extends Zend_Form
             $description,
             $retention_period,
             $submit_button,
-			$cancel_button
+			   $cancel_button
         ));
 	}
 	

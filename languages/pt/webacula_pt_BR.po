@@ -261,7 +261,7 @@ msgstr "Lista de arquivos do JobId"
 
 #: application/controllers/WbjobdescController.php:40
 msgid "Job Descriptions"
-msgstr "Descrições do job"
+msgstr "Descrições de jobs"
 
 #: application/controllers/WbjobdescController.php:49
 msgid "Add Job Description"
