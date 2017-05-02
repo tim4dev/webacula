@@ -42,7 +42,7 @@ class VolumeController extends MyClass_ControllerAclAction
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         $this->view->volname = $volname;
         if ($volname) {
-            $this->view->title = $this->view->translate->_("Volume") . " " . $volname;
+            $this->view->title = $this->view->translate->_("Volume") . ": " . $volname;
             $media = new Media();
             $this->view->result = $media->getByName($volname, $order);
         } else {
@@ -61,7 +61,7 @@ class VolumeController extends MyClass_ControllerAclAction
         $this->view->pool_id = $pool_id;
         $this->view->pool_name = $pool_name;
         if ($pool_id) {
-            $this->view->title = $this->view->translate->_("Pool");;
+            $this->view->title = $this->view->translate->_("Pool");
             $media = new Media();
             $this->view->result = $media->getById($pool_id, $order);
         } else {
