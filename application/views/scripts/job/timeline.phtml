@@ -1,8 +1,7 @@
 <!-- job/timeline.phtml -->
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
-
 <script type="text/javascript">
-$(function() {
+$(document).ready(function(){
     // http://docs.jquery.com/UI/Datepicker/formatDate
     $('#datetimeline').datepicker({
         dateFormat: 'yy-mm-dd',
@@ -13,157 +12,156 @@ $(function() {
 </script>
 
 <div class="rows">
-  <div class="col-md-8">
-
-<div class="table-responsive">
-<div class="panel panel-default panel-primary">
-	<div class="panel-heading">
-	   <?php echo $this->escape($this->title); ?>
-	</div>
-	<div class="panel-body">
-	   <p>
-
-
-<!--  date form -->
-<form action="<?php echo $this->baseUrl; ?>/job/timeline" method="POST">
-<table>
-<!--<caption style="font-weight: bold; font-size: 1.2em;"><?php echo $this->escape($this->title); ?></caption>-->
-<tr>
-    <td align="right" valign="top">
-        <b style="margin-right:1em;"><?php print $this->translate->_("Date"); ?></b>
-    </td><td>
-    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', strtotime($this->datetimeline)-86400 );?>"
-        title="<?php echo $this->translate->_("Previous day"); ?>">
-        <img src="<?php echo $this->baseUrl;?>/images/arrow-left.png"
-             alt="<?php echo $this->translate->_("Previous day"); ?>" border="0" hspace="0" align="absmiddle">
-    </a>
-    </td><td>
-    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time() );?>"
-        title="<?php echo $this->translate->_("Today"); ?>">
-        <img src="<?php echo $this->baseUrl;?>/images/user-online.png"
-             alt="<?php echo $this->translate->_("Today"); ?>" border="0" hspace="0" align="absmiddle">
-    </a>
-    </td><td>
-    <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', strtotime($this->datetimeline)+86400 );?>"
-        title="<?php echo $this->translate->_("Next day"); ?>"
-        style="margin-right:0.5em;">
-        <img src="<?php echo $this->baseUrl;?>/images/arrow-right.png"
-             alt="<?php echo $this->translate->_("Next day"); ?>" border="0" hspace="0" align="absmiddle">
-    </a>
-    </td><td>
-<?php echo $this->formText('datetimeline', $this->datetimeline, array('size' => 12)) ?>
-    </td><td valign="top">
-        <input type="submit" class="btn btn-default" name="ok" style="margin-left:1em;" value="<?php print $this->translate->_("Show Timeline"); ?>">
-    </td>
-</tr>
-<tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><div style="font-size:70%;"><?php print $this->translate->_("YYYY-MM-DD"); ?></div></td>
-    <td></td>
-</tr>
-</table>
-</form>
-
-<div class="table-responsive">
-<table class="table table-condensed">
-<tr>
-<td>
-<?php if ( $this->img_map ) : ?>
-<span style="font:60%;font-family: arial, verdana, sans-serif;">
-    <?php echo $this->translate->_("Point mouse cursor at image area and click to view Job detail"); ?>
-</span><br>
-<map name="map1">
-    <?php
-        $count = count($this->img_map);
-        for ($i = 0; $i < $count; $i++) :
-    ?>
-<area
-    <?php  
-        $title_alt = '';
-        switch ($this->show_job_description) {
-            case 0 :
-                // only show Bacula Job Name (behavior as in earlier versions)
-                $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
-                break;
-            case 1 :
-                // only show human readable short Job description instead of Bacula Job Name
-                if ( empty($this->img_map[$i]['short_desc']) ) 
-                    $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
-                else 
-                    $title_alt = $this->escape($this->img_map[$i]['short_desc']);
-                break;
-            case 2 :
-                // both
-                $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
-                if ( !empty($this->img_map[$i]['short_desc']) ) 
-                    $title_alt .= ' : '. $this->escape($this->img_map[$i]['short_desc']); 
-                break;
-            default :
-                $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
-                break;
-        }
-    ?>
-   href="<?php echo $this->baseUrl, '/job/detail/jobid/', $this->img_map[$i]['jobid'];?>"
-     alt="<?php echo $title_alt; ?>"
-   title="<?php echo $title_alt; ?>"
-   shape=rect coords="<?php echo $this->img_map[$i]['x1'], ',', $this->img_map[$i]['y1'], ',',
-        $this->img_map[$i]['x2'], ',', $this->img_map[$i]['y2'];?>">
-    <?php endfor; ?>
-</map>
-
-<?php
-// check GD lib (php-gd)
-if ( extension_loaded('gd') ) : ?>
-<?php
-    if ( $this->datetimeline )    {
-        // show image
-        echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->datetimeline, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
-    } else  {
-        // Did not pass validation; Conclusion of the reasons for this
-        foreach ($this->err_msg as $message) {
-                echo "<b>$message</b><br />";
-        }
-        echo $this->translate->_('No Jobs found.');
-    }
-?>
-
-
-</td>
-</tr>
-</table>
-</div><!-- end div table-responsive -->
-
-
-<?php  else : ?>
-<div class="ui-widget" style="width: 45%; margin-left: 2em;">
-    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-        <strong>
-        <?php echo $this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'); ?>
-        </strong></p>
-    </div>
-</div>
-<?php endif; ?>
-
-<?php else : ?>
-<div class="ui-widget" style="float: left;">
-    <div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-        <strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
-    </div>
-</div>
-<div style="clear: both;"><!--  --></div>
-<?php endif; ?>
-
-	   </p><!-- close p -->
-    </div><!-- close div panel-body -->
-</div><!-- close div panel panel-default -->
-
-</div><!-- end div table-responsive -->
-
-</div><!-- fim div col-md-8 -->
-</div><!-- fim da div row -->
-
+   <div class="col-md-8">
+      <div class="panel panel-default panel-primary">
+      <div class="panel-heading">
+         <?php echo $this->escape($this->title); ?>
+      </div>
+         <div class="panel-body">
+            <p>
+            
+            <!--  date form -->
+            <form action="<?php echo $this->baseUrl; ?>/job/timeline" method="POST">
+               <table>
+                  <tr>
+                     <td class="text-right">
+                        <b><?php print $this->translate->_("Date"); ?></b>
+                     </td>
+                     <td>
+                        <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', strtotime($this->datetimeline)-86400 );?>"
+                             title="<?php echo $this->translate->_("Previous day"); ?>">
+                             <img src="<?php echo $this->baseUrl;?>/images/arrow-left.png"
+                                  alt="<?php echo $this->translate->_("Previous day"); ?>" border="0" hspace="0" align="absmiddle">
+                        </a>
+                     </td>
+                     <td>
+                        <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', time() );?>"
+                             title="<?php echo $this->translate->_("Today"); ?>">
+                             <img src="<?php echo $this->baseUrl;?>/images/user-online.png"
+                                  alt="<?php echo $this->translate->_("Today"); ?>" border="0" hspace="0" align="absmiddle">
+                        </a>
+                     </td>
+                     <td>
+                        <a href="<?php echo $this->baseUrl; ?>/job/timeline/datetimeline/<?php echo date('Y-m-d', strtotime($this->datetimeline)+86400 );?>"
+                            title="<?php echo $this->translate->_("Next day"); ?>"
+                            style="margin-right:0.5em;">
+                            <img src="<?php echo $this->baseUrl;?>/images/arrow-right.png"
+                                 alt="<?php echo $this->translate->_("Next day"); ?>" border="0" hspace="0" align="absmiddle">
+                        </a>
+                     </td>
+                     <td>
+                        <?php echo $this->formText('datetimeline', $this->datetimeline, array('size' => 12)) ?>
+                     </td>
+                     <td>
+                        &nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-default" name="ok" value="<?php print $this->translate->_("Show Timeline"); ?>">
+                     </td>
+                  </tr>
+                  <tr>
+                      <td colspan="4"></td>
+                      <td>
+                         <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD"); ?></small>
+                      </td>
+                      <td></td>
+                  </tr>
+               </table>
+            </form>
+            
+            <div class="table-responsive">
+               <table class="table table-condensed">
+                  <tr>
+                     <td>
+                        <?php if ( $this->img_map ) : ?>
+                        <span style="font:60%;font-family: arial, verdana, sans-serif;">
+                            <?php echo $this->translate->_("Point mouse cursor at image area and click to view Job detail"); ?>
+                        </span><br/>
+                        <map name="map1">
+                            <?php
+                                $count = count($this->img_map);
+                                for ($i = 0; $i < $count; $i++) :
+                            ?>
+                        <area
+                            <?php  
+                                $title_alt = '';
+                                switch ($this->show_job_description) {
+                                    case 0 :
+                                        // only show Bacula Job Name (behavior as in earlier versions)
+                                        $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                                        break;
+                                    case 1 :
+                                        // only show human readable short Job description instead of Bacula Job Name
+                                        if ( empty($this->img_map[$i]['short_desc']) ) 
+                                            $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                                        else 
+                                            $title_alt = $this->escape($this->img_map[$i]['short_desc']);
+                                        break;
+                                    case 2 :
+                                        // both
+                                        $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                                        if ( !empty($this->img_map[$i]['short_desc']) ) 
+                                            $title_alt .= ' : '. $this->escape($this->img_map[$i]['short_desc']); 
+                                        break;
+                                    default :
+                                        $title_alt = '('. $this->img_map[$i]['jobid'] .') '. $this->img_map[$i]['name'];
+                                        break;
+                                }
+                            ?>
+                           href="<?php echo $this->baseUrl, '/job/detail/jobid/', $this->img_map[$i]['jobid'];?>"
+                             alt="<?php echo $title_alt; ?>"
+                           title="<?php echo $title_alt; ?>"
+                           shape=rect coords="<?php echo $this->img_map[$i]['x1'], ',', $this->img_map[$i]['y1'], ',',
+                                $this->img_map[$i]['x2'], ',', $this->img_map[$i]['y2'];?>">
+                            <?php endfor; ?>
+                        </map>
+                     
+                        <?php 
+                        // check GD lib (php-gd)
+                        if ( extension_loaded('gd') ) : ?>
+                        <?php
+                            if ( $this->datetimeline )    {
+                                // show image
+                                echo '<img src="', $this->baseUrl, '/chart/timeline/datetimeline/', $this->datetimeline, '"  alt="', $this->escape($this->title), '" usemap="#map1" border="0" />';
+                            } else  {
+                                // Did not pass validation; Conclusion of the reasons for this
+                                foreach ($this->err_msg as $message) {
+                                        echo "<b>$message</b><br />";
+                                }
+                                echo $this->translate->_('No Jobs found.');
+                            }
+                        ?>
+                     </td>
+                  </tr>
+               </table>
+            </div><!-- end div table-responsive -->
+            
+            <?php  else : ?>
+            
+            <!-- div alert -->
+            <div class="alert alert-danger">
+              <p>
+              <span class="glyphicon glyphicon-alert"></span>
+              <?php print $this->translate->_('ERROR: The GD extension isn`t loaded. Please install php-gd package.'); ?>
+              </p>
+            </div>
+            <!-- end alert -->
+            
+            <?php endif; ?>
+            
+            <?php else : ?>
+            
+                  <!-- div alert -->
+                  <div class="alert alert-danger">
+                    <p>
+                    <span class="glyphicon glyphicon-alert"></span>
+                    <?php print $this->translate->_("No Jobs found."); ?>
+                    </p>
+                  </div>
+                  <!-- end alert -->
+            
+            <?php endif; ?>
+            
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-8 -->
+</div><!-- end div row -->
+<!-- job/timeline.phtml -->

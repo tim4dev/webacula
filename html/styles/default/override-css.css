@@ -1,5 +1,7 @@
 body { font-size: 1.2em;}
 
+.select-overflow { height: auto; max-height: 200px;}
+
 .help-span-legend span{
     font-size: 1em;
     width: 100px;

@@ -3,94 +3,98 @@
         method="<?php echo $this->escape($this->form->getMethod()); ?>"
         name="form1" id="form1">
 
-<?php echo $this->form->from_form; ?>
-<?php $this->translate = Zend_Registry::get('translate'); ?>
-<div class="table-responsive">
-   <table>
-      <tr>
-	      <td>
-            <label for="jobname"><b><?php echo $this->translate->_("Job Name"); ?></b></label>
-         </td>
-	   	<td>
-            <?php echo $this->form->jobname;?>
-         </td>
-      </tr>
-      <tr>
-         <td>
-            <label for="client"><b><?php echo $this->translate->_("Client"); ?></b></label>
-         </td>
-      	<td>
-            <?php echo $this->form->client;?>
-         </td>
-   	</tr>
-   	<tr>
-   	   <td>
-            <label for="fileset"><b><?php echo $this->translate->_("Fileset"); ?></b></label>
-         </td>
-   		<td>
-            <?php echo $this->form->fileset;?>
-         </td>
-      </tr>
-   	<tr>
-   	   <td>
-            <label for="storage"><b><?php echo $this->translate->_("Storage"); ?></b></label>
-         </td>
-   		<td>
-            <?php echo $this->form->storage;?>
-         </td>
-   	</tr>
-   	<tr>
-   		<td>
-            <label for="level"><b><?php echo $this->translate->_("Level"); ?></b></label>
-         </td>
-   		<td>
-            <?php echo $this->form->level;?>
-         </td>
-   	</tr>
-   	<tr>
-   		<td>
-            <label for="pool"><b><?php echo $this->translate->_("Pool"); ?></b></label>
-         </td>
-   		<td>
-            <?php echo $this->form->pool;?>
-         </td>
-   	</tr>
-   	<tr>
-   		<td>
-            <label for="spool"><b><?php echo $this->translate->_("Spool"); ?></b></label>
-         </td>
-   		<td>
-            <?php echo $this->form->spool;?>
-         </td>
-   	</tr>
-   	<tr>
-   		<td>
-            <label for="date_when"><b><?php echo $this->translate->_("When"); ?></b></label>
-         </td>
-   		<td>
-             <?php echo $this->translate->_("Now"); ?>
-             <?php echo $this->form->checkbox_now;?>
-             <br/>
-             <?php echo $this->form->date_when;?>
-             <?php echo $this->form->time_when;?>
-             <br/>
-             <div style="font-size:0.6em;"><?php echo $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
-         </td>
-   	</tr>
-   	<tr>
-
-   		<td>
-            <?php echo $this->form->submit_button; ?>
-				</form>
-         </td>
-			<td>
-<form  action="<?php echo $this->form->getActionCancel();  ?>"
-       method="<?php echo $this->form->getMethod();  ?>">
-   <?php echo $this->form->cancel_button; ?>
-</form>
-			
-			</td>
-   	</tr>
-   </table>
-</div><!-- end div table-responsive -->
+   <?php echo $this->form->from_form; ?>
+   <?php $this->translate = Zend_Registry::get('translate'); ?>
+   <div class="table-responsive">
+      <table>
+         <tr>
+   	      <td>
+               <label for="jobname"><b><?php echo $this->translate->_("Job Name"); ?></b></label>
+            </td>
+   	   	<td>
+               <?php echo $this->form->jobname;?>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <label for="client"><b><?php echo $this->translate->_("Client"); ?></b></label>
+            </td>
+         	<td>
+               <?php echo $this->form->client;?>
+            </td>
+      	</tr>
+      	<tr>
+      	   <td>
+               <label for="fileset"><b><?php echo $this->translate->_("Fileset"); ?></b></label>
+            </td>
+      		<td>
+               <?php echo $this->form->fileset;?>
+            </td>
+         </tr>
+      	<tr>
+      	   <td>
+               <label for="storage"><b><?php echo $this->translate->_("Storage"); ?></b></label>
+            </td>
+      		<td>
+               <?php echo $this->form->storage;?>
+            </td>
+      	</tr>
+      	<tr>
+      		<td>
+               <label for="level"><b><?php echo $this->translate->_("Level"); ?></b></label>
+            </td>
+      		<td>
+               <?php echo $this->form->level;?>
+            </td>
+      	</tr>
+      	<tr>
+      		<td>
+               <label for="pool"><b><?php echo $this->translate->_("Pool"); ?></b></label>
+            </td>
+      		<td>
+               <?php echo $this->form->pool;?>
+            </td>
+      	</tr>
+      	<tr>
+      		<td>
+               <label for="spool"><b><?php echo $this->translate->_("Spool"); ?></b></label>
+            </td>
+      		<td>
+               <?php echo $this->form->spool;?>
+            </td>
+      	</tr>
+      	<tr>
+      		<td>
+               <label for="date_when"><b><?php echo $this->translate->_("When"); ?></b></label>
+            </td>
+      		<td>
+                <?php echo $this->translate->_("Now"); ?>
+                <?php echo $this->form->checkbox_now;?>
+                <?php echo $this->form->date_when;?>
+                <?php echo $this->form->time_when;?>
+                <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></small>
+            </td>
+      	</tr>
+      	<tr>
+            <!-- table align button -->
+            <table>
+                <br/>
+               <tr>
+                  <td>
+                      <?php echo $this->form->submit_button; ?>
+                  </form>
+                  </td>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td>
+                  <form  action="<?php echo $this->form->getActionCancel();  ?>"
+                         method="<?php echo $this->form->getMethod();  ?>">
+                     <?php echo $this->form->cancel_button; ?>
+                  </form>
+                  </td>
+               </tr>
+            </table>
+            <!-- end table align button -->
+      	</tr>
+      </table>
+   </div><!-- end div table-responsive -->
 </form>
