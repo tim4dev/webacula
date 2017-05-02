@@ -330,7 +330,7 @@ msgstr "Expressão regular"
 
 #: application/controllers/JobController.php:287
 msgid "Detail JobId"
-msgstr "Detalhar jobid"
+msgstr "Detalhes do jobid"
 
 #: application/controllers/JobController.php:311
 #: application/controllers/JobController.php:327
@@ -515,7 +515,7 @@ msgstr "Os volumes listados precisam ser trocados devido ao tempo de uso ou erro
 
 #: application/controllers/VolumeController.php:112
 msgid "Detail Volume"
-msgstr "Detalhar volume"
+msgstr "Detalhes do volume"
 
 #: application/controllers/VolumeController.php:170
 msgid "Webacula : Updated Volume parameters"
