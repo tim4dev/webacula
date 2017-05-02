@@ -105,7 +105,6 @@ endforeach;
                   </div>
                   
                   <!-- textarea -->
-                  <fieldset>
                   <div class="table-responsive">
                   
                   <!--Allowed to use tags-->
@@ -128,15 +127,23 @@ endforeach;
                   
                   <label><?php "<sup>*</sup>"  . print $this->translate->_("Text"); ?></label>
                   <?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "80", 'rows' => "10", 'class' => 'form-control')); ?>
-                  </fieldset>
-                  </div>
+                  <br/>
                   </div><!-- end div table-responsive -->
                   <!-- end textarea -->
-                  <?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'btn btn-default') ); ?>
+                  <table>
+                     <tr>
+                        <td>
+                        <?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'btn btn-default') ); ?>
                </form>
-               <form action="<?php  echo $this->baseUrl.'/wblogbook/index';?>" method="post">
-                  <?php echo $this->formSubmit('cancel', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
-               </form>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                        <form action="<?php  echo $this->baseUrl.'/wblogbook/index';?>" method="post">
+                           <?php echo $this->formSubmit('cancel', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
+                        </form>
+                        </td>
+                     </tr>
+                  </table>
             </p><!-- close p -->
          </div><!-- close div panel-body -->
       </div><!-- close div panel panel-default -->
