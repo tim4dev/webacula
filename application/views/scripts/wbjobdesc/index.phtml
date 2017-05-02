@@ -33,12 +33,6 @@ $(document).ready(function() {
          </div>
          <div class="panel-body">
             <p>
-               <div>
-                  <form method="POST" action="<?php echo $this->baseUrl ?>/wbjobdesc/add">
-                      <input type="submit" name="name1" value="<?php echo $this->translate->_("Add New Record"); ?>" class="btn btn-default">
-                  </form>
-                  <br />
-               </div>
                
                <?php if ($this->result): ?>
                
@@ -97,6 +91,13 @@ $(document).ready(function() {
                      </tbody>
                   </table>
                </div><!-- end div table-responsive -->
+
+               <div>
+                  <form method="POST" action="<?php echo $this->baseUrl ?>/wbjobdesc/add">
+                      <input type="submit" name="name1" value="<?php echo $this->translate->_("Add New Record"); ?>" class="btn btn-default">
+                  </form>
+                  <br />
+               </div>
                
                <?php else: ?>
                
