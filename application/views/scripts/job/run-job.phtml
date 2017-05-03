@@ -37,6 +37,12 @@ function whenNow(elm)
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
 $(function() {
+    function pad(n, width, z) {
+      z = z || '0';
+      n = n + '';
+      return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+    
     $('#date_when').datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
@@ -45,7 +51,7 @@ $(function() {
     
     $('#date_when').on('change',function(){
         var dt = new Date();
-        var currentTime = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
         $('#time_when').val(currentTime);
     });    
 });

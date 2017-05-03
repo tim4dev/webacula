@@ -201,11 +201,10 @@
                                  }
                               ?>
                            </td>
-                        
-                           <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
-                           <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
+                           <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
+                           <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
                            <td class="text-center">&nbsp;<?php echo $this->escape($line['durationtime']);?></td>
-                        
+
                            <!-- add to logbook button -->
                            <td><?php
                               if ( isset($line['poolid'], $line['poolname']) )    {

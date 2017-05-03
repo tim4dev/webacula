@@ -4,35 +4,75 @@
 <script type="text/javascript">
 $(document).ready(function(){
    $('select').each(function() {
-          $(this).addClass("select-overflow").addClass("form-control");
+      $(this).addClass("select-overflow").addClass("form-control");
    });
-  });
+});
 </script>
 
 <script type="text/javascript">
 $(document).ready(function(){
+   
+   function pad(n, width, z) {
+     z = z || '0';
+     n = n + '';
+     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+   }
 
-   var dates1 = $( "#date_begin, #date_end" ).datepicker({
-          dateFormat: 'yy-mm-dd',
-          changeMonth: true,
-          changeYear: true,
-          autoSize: true,
-          onSelect: function( selectedDate ) {
-          var option = this.id == "date_begin" ? "minDate" : "maxDate",
-              instance = $( this ).data( "datepicker" ),
-              date = $.datepicker.parseDate(
-                 instance.settings.dateFormat ||
-                 $.datepicker._defaults.dateFormat,
-                 selectedDate, instance.settings 
-              );
-          dates1.not( this ).datepicker( "option", option, date );
-          }
+   function getDate( element ){
+      var date;
+      try {
+         date = $.datepicker.parseDate(dateFormat, element.value );
+      }catch( error ){
+         date = null;
+      }
+      return date;
+   } 
+       
+   var dateFormat = 'yy-mm-dd', from = $( "#date_begin" )
+         .datepicker({
+            dateFormat: 'yy-mm-dd',
+            defaultDate: "-1d",
+            changeMonth: true,
+            changeYear: true,
+         })
+         .on( "change", function(){
+            to.datepicker( "option", "minDate", getDate( this ) );
+         }),
+         to = $( "#date_end" ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            defaultDate: "1d",
+            changeMonth: true,
+            changeYear: true,
+         })
+         .on( "change", function(){
+           from.datepicker( "option", "maxDate", getDate( this ) );
        });
-       $('#date_begin').datepicker('setDate', '-1d' );
-       $('#date_begin').datepicker('option', {dateFormat: $.datepicker.ISO_8601} );
-
+       
 });
 </script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+      function pad(n, width, z) {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+      }
+
+    $('#date_begin').on('change',function(){
+        var dt = new Date();
+        var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
+        $('#time_begin').val( currentTime );
+    });
+    
+    $('#date_end').on('change',function(){
+        var dt = new Date();
+        var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
+        $('#time_end').val( currentTime );
+    });
+});
+</script>
+
 
 <?php
 
@@ -94,17 +134,17 @@ $atype = array(
                <div class="panel-group" id="accordion">
                   <!-- Find by JobId -->
                   <div class="panel panel-default panel-default">
-                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse1">
                         <a class="accordion-toggle">
                            <?php print $this->translate->_("Job Id"); ?>
                         </a>
                      </div>
-                     <div id="collapseOne" class="panel-collapse collapse in">
+                     <div id="collapse1" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <!-- Find by JobId -->
-                            <div>
+                            <div class='form-inline'>
                                <form action="<?php  echo $this->baseUrl.'/job/find-job-id';?>" method="post">
-                                 <b><?php print $this->translate->_("Job Id"); ?></b>&nbsp;&nbsp;&nbsp; <?php echo $this->formText('jobid', "", array('size' => 10)) ?>
+                                 <b><?php print $this->translate->_("Job Id"); ?></b>&nbsp;&nbsp;&nbsp; <?php echo $this->formText('jobid', "", array('size' => 10, 'class' => 'form-control')) ?>
                                  <?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'btn btn-default') ); ?>
                                </form>
                             </div>
@@ -116,17 +156,17 @@ $atype = array(
                   
                   <!-- find by Job Name -->
                   <div class="panel panel-default panel-default">
-                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse2">
                         <a class="accordion-toggle">
                           <?php print $this->translate->_("Job Name"); ?>
                         </a>
                      </div>
-                     <div id="collapseTwo" class="panel-collapse collapse">
+                     <div id="collapse2" class="panel-collapse collapse">
                         <div class="panel-body">
                          <!-- find by Job Name -->
-                         <div>
+                         <div class='form-inline'>
                             <form action="<?php  echo $this->baseUrl.'/job/find-job-name';?>" method="post">
-                              <b><?php print $this->translate->_("Job Name"); ?></b> &nbsp;&nbsp;&nbsp;<?php echo $this->formText('jobname', "", array('size' => 40)) ?>
+                              <b><?php print $this->translate->_("Job Name"); ?></b> &nbsp;&nbsp;&nbsp;<?php echo $this->formText('jobname', "", array('size' => 40, 'class' => 'form-control')) ?>
                               <?php echo $this->formSubmit('ok1', $this->translate->_('Search'), array('class' => 'btn btn-default') ); ?>
                             </form>
                          </div>
@@ -138,35 +178,30 @@ $atype = array(
                   
                   <!-- find by many filters -->
                   <div class="panel panel-default panel-default">
-                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse3">
                         <a class="accordion-toggle">
                           <?php print $this->translate->_("Time, Client, Fileset, Level, Status, Type"); ?>
                         </a>
                      </div>
-                     <div id="collapseThree" class="panel-collapse collapse">
+                     <div id="collapse3" class="panel-collapse collapse">
                         <div class="panel-body">
                            <!-- find by many filters -->
                            <div>
                               <form action="<?php  echo $this->baseUrl.'/job/find-filters';?>" method="post">
                                  <table>
                                     <tr>
-                                       <td><b><?php print $this->translate->_("Time of start of the Jobs with"); ?></b></td>
-                                       <td>
-                                          <?php echo $this->formText('date_begin', date('Y-m-d', time()-86400), array('size' => 10, 'maxlength' => 10)) ?><br/>
-                                          <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD"); ?></small>
+                                       <td class="text-right">
+                                          <b><?php print $this->translate->_("Time of start of the Jobs with"); ?></b>&nbsp;&nbsp;&nbsp;
                                        </td>
                                        <td>
-                                          <?php echo $this->formText('time_begin', date('H:i:s', time()-86400), array('size' => 8, 'maxlength' => 8 )) ?><br/>
-                                          <small class="form-text text-muted"><?php print $this->translate->_("HH:MM:SS"); ?></small>
-                                       </td>
-                                       <td><b><?php print $this->translate->_("up to"); ?></b></td>
-                                       <td>
-                                          <?php echo $this->formText('date_end', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10)) ?><br/>
-                                          <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD"); ?></small>
-                                       </td>
-                                       <td>
-                                          <?php echo $this->formText('time_end', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8)) ?><br/>
-                                          <small class="form-text text-muted"><?php print $this->translate->_("HH:MM:SS"); ?></small>
+                                       <div class="form-inline">
+                                          <?php echo $this->formText('date_begin', date('Y-m-d', time()-86400), array('size' => 10, 'maxlength' => 10, 'class' => 'form-control form-inline')); ?>
+                                          <?php echo $this->formText('time_begin', date('H:i:s', time()-86400), array('size' => 8, 'maxlength' => 8, 'class' => 'form-control form-inline')); ?>
+                                          &nbsp;&nbsp;&nbsp;<b><?php print $this->translate->_("up to"); ?></b>&nbsp;&nbsp;&nbsp;
+                                          <?php echo $this->formText('date_end', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10, 'class' => 'form-control form-inline')); ?>
+                                          <?php echo $this->formText('time_end', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8, 'class' => 'form-control form-inline')); ?>
+                                          
+                                       </div>
                                        </td>
                                     </tr>
                                     <tr>
@@ -174,7 +209,7 @@ $atype = array(
                                        <label for="client"><b><?php print $this->translate->_("Client"); ?></b>&nbsp;&nbsp;&nbsp;</label>
                                        </td>
                                        <td colspan="5">
-                                          <?php echo $this->formSelect('client', null, array('style' => 'width: 60%;'), $aclients) ?>
+                                          <?php echo $this->formSelect('client', null, array('style' => 'width: 18em;'), $aclients) ?>
                                        </td>
                                     </tr>
                                     <tr>
@@ -182,7 +217,7 @@ $atype = array(
                                           <label for="fileset" class="ui-select"><b><?php print $this->translate->_("Fileset"); ?></b>&nbsp;&nbsp;&nbsp;</label>
                                        </td>
                                        <td colspan="5">
-                                          <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $afilesets) ?>
+                                          <?php echo $this->formSelect('fileset', null, array('style' => 'width: 18em;'), $afilesets) ?>
                                        </td>
                                     </tr>
                                     <tr>
@@ -190,7 +225,7 @@ $atype = array(
                                           <label for="jlevel" class="ui-select"><b><?php print $this->translate->_("Level"); ?></b>&nbsp;&nbsp;&nbsp;</label>
                                        </td>
                                        <td colspan="5">
-                                          <?php echo $this->formSelect('jlevel', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $alevels) ?>
+                                          <?php echo $this->formSelect('jlevel', null, array('style' => 'width: 18em;'), $alevels) ?>
                                        </td>
                                     </tr>
                                     <tr>
@@ -198,7 +233,7 @@ $atype = array(
                                           <label for="jstatus" class="ui-select"><b><?php print $this->translate->_("Status"); ?></b>&nbsp;&nbsp;&nbsp;</label>
                                        </td>
                                        <td colspan="5">
-                                          <?php echo $this->formSelect('jstatus', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $astatus) ?>
+                                          <?php echo $this->formSelect('jstatus', null, array('style' => 'width: 18em;'), $astatus) ?>
                                        </td>
                                     </tr>
                                     <tr>
@@ -206,7 +241,7 @@ $atype = array(
                                           <label for="jtype" class="ui-select"><b><?php print $this->translate->_("Type"); ?></b>&nbsp;&nbsp;&nbsp;</label>
                                        </td>
                                        <td colspan="5">
-                                          <?php echo $this->formSelect('jtype', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $atype) ?>
+                                          <?php echo $this->formSelect('jtype', null, array('style' => 'width: 18em;'), $atype) ?>
                                        </td>
                                     </tr>
                                     <tr>
@@ -226,18 +261,18 @@ $atype = array(
                   
                     <!-- Find by Volume Name -->  
                   <div class="panel panel-default panel-default">
-                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse4">
                         <a class="accordion-toggle">
                           <?php print $this->translate->_("Volume Name"); ?>
                         </a>
                      </div>
-                     <div id="collapseFour" class="panel-collapse collapse">
+                     <div id="collapse4" class="panel-collapse collapse">
                         <div class="panel-body">
                            <!-- Find by Volume Name -->
-                           <div>
+                           <div class='form-inline'>
                               <form action="<?php  echo $this->baseUrl.'/job/find-volume-name';?>" method="post">
                                  <b><?php print $this->translate->_("Volume Name"); ?></b>&nbsp;&nbsp;&nbsp;
-                                 <?php echo $this->formText('volname', "", array('size' => 40)) ?>
+                                 <?php echo $this->formText('volname', "", array('size' => 40, 'class' => 'form-control')) ?>
                                  <?php echo $this->formSubmit('ok3', $this->translate->_('Search'), array('class' => 'btn btn-default') ); ?>
                               </form>
                            </div>
@@ -249,18 +284,18 @@ $atype = array(
                   
                   <!-- List last 20 Jobs run -->
                   <div class="panel panel-default panel-default">
-                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFive">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">
                         <a class="accordion-toggle">
                           <?php echo $this->translate->_("List last"), ' ', $this->translate->_("Jobs run"); ?>
                         </a>
                      </div>
-                     <div id="collapseFive" class="panel-collapse collapse">
+                     <div id="collapse5" class="panel-collapse collapse">
                         <div class="panel-body">
                            <!-- List last 20 Jobs run -->
-                           <div>
+                           <div class='form-inline'>
                               <form action="<?php  echo $this->baseUrl.'/job/list-last-jobs-run';?>" method="post">
                                  <b><?php print $this->translate->_("List last"); ?></b>&nbsp;&nbsp;&nbsp;
-                                 <?php echo $this->formText('numjob', "20", array('size' => 5)) ?> &nbsp;&nbsp;&nbsp;<b><?php print $this->translate->_("Jobs run"); ?></b>
+                                 <?php echo $this->formText('numjob', "20", array('size' => 5, 'class' => 'form-control')) ?> &nbsp;&nbsp;&nbsp;<b><?php print $this->translate->_("Jobs run"); ?></b>
                                  <?php echo $this->formSubmit('ok4', $this->translate->_('Search'), array('class' => 'btn btn-default') ); ?>
                               </form>
                            </div>
@@ -272,12 +307,12 @@ $atype = array(
                   
                   <!-- List Jobs where a given File is saved -->
                   <div class="panel panel-default panel-default panel-default">
-                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseSix">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse6">
                          <a class="accordion-toggle">
                            <?php print $this->translate->_("File Name"); ?>
                          </a>
                      </div>
-                     <div id="collapseSix" class="panel-collapse collapse">
+                     <div id="collapse6" class="panel-collapse collapse">
                         <div class="panel-body">
                            <!-- List Jobs where a given File is saved -->
                            <div>
@@ -285,10 +320,13 @@ $atype = array(
                                  <table>
                                     <tr>
                                        <td class="text-right">
+                                       
                                           <b><?php print $this->translate->_("Enter path with trailing slash"); ?></b>&nbsp;&nbsp;&nbsp;
                                        </td>
                                        <td>
-                                          <?php echo $this->formText('path', "", array('size' => 35)) ?>
+                                       <div class='form-inline'>
+                                          <?php echo $this->formText('path', "", array('size' => 30, 'class' => 'form-control')) ?>
+                                       </div>
                                        </td>
                                     </tr>
                                     <tr>
@@ -296,15 +334,17 @@ $atype = array(
                                           <b><sup>*</sup><?php print $this->translate->_("Enter Filename (no path)"); ?></b>&nbsp;&nbsp;&nbsp;
                                        </td>
                                        <td>
-                                          <?php echo $this->formText('namefile', "", array('size' => 30)); ?>
+                                          <div class='form-inline'>
+                                          <?php echo $this->formText('namefile', "", array('size' => 30, 'class' => 'form-control')); ?>
+                                          </div>
                                        </td>
                                     </tr>
                                     <tr>
                                        <td class="text-right">
-                                          <b><?php print $this->translate->_("Type of search<br>(case sensitive)"); ?></b>&nbsp;&nbsp;&nbsp;
+                                          <b><?php print $this->translate->_("Type of search (case sensitive)"); ?></b>&nbsp;&nbsp;&nbsp;
                                        </td>
-                                       <td class="text-left">
-                                          <?php echo $this->formRadio('type_file_search', 'ordinary', null, $this->atype_file_search); ?>
+                                       <td>
+                                          <?php echo $this->formRadio('type_file_search', 'ordinary', array('style' => 'margin-left: 5px;'), $this->atype_file_search); ?>
                                        </td>
                                     </tr>
                                     <tr>
@@ -312,7 +352,7 @@ $atype = array(
                                           <label for="client_nf"><b><?php print $this->translate->_("Client"); ?></b></label>&nbsp;&nbsp;&nbsp;
                                        </td>
                                        <td>
-                                          <?php echo $this->formSelect('client_nf', null, array('class' => 'ui-select', 'style' => 'width: 60%;'), $aclients); ?>
+                                          <?php echo $this->formSelect('client_nf', null, array('style' => 'width: 18em;'), $aclients); ?>
                                        </td>
                                     </tr>
                                     <tr>
