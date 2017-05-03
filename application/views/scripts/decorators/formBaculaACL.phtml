@@ -1,4 +1,5 @@
 <!-- decorators/formBaculaACL.phtml -->
+
 <form  action="<?php echo $this->form->getAction(); ?>"
        method="<?php echo $this->form->getMethod(); ?>">
     <?php echo $this->form->role_id;   ?>
@@ -7,13 +8,14 @@
     <?php echo $this->form->order; ?>
     <?php echo $this->form->name;  ?>
     <?php echo $this->form->id;    ?>
-
+    <br/>
 <table>
 <tr>
 <td>
     <?php echo $this->form->submit_button; ?>
 </form>
 </td>
+<td>&nbsp;&nbsp;&nbsp;</td>
 <td>
 <!-- end decorators/formBaculaACL.phtml -->
 <form  action="<?php echo $this->form->getActionCancel();  ?>"

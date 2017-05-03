@@ -4,7 +4,20 @@
     <?php echo $this->form->role_id; ?>
     <?php echo $this->form->role_name; ?>
     <?php echo $this->form->bacula_fill; ?>
+    <br/><br/>
+<table>
+<tr>
+<td>
     <?php echo $this->form->submit_button; ?>
-	
 </form>
-<!-- end decorators/formBaculaFill.phtml -->
+</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td>
+<!-- end decorators/formWebaculaACL.phtml -->
+<form  action="<?php echo $this->form->getActionCancel();  ?>"
+       method="<?php echo $this->form->getMethod();  ?>">
+   <?php echo $this->form->cancel_button; ?>
+</form>
+</td>
+</tr>
+</table>

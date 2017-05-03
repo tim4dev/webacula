@@ -2282,12 +2282,12 @@ msgstr "Funções herdadas"
 #: application/views/scripts/admin/role-more-info.phtml:35
 #: application/views/scripts/admin/role-more-info.phtml:55
 #: application/views/scripts/admin/role-more-info.phtml:70
-msgid "none"
-msgstr "Não"
+msgid "None"
+msgstr "Nenhuma"
 
 #: application/views/scripts/admin/role-more-info.phtml:41
 msgid "Who use this role"
-msgstr "Quem utiliza estas funções"
+msgstr "Quem utiliza esta função"
 
 #~ msgid "%s<br>(%s dirs, %s files affected)"
 #~ msgstr "%s<br>(%s diretório(s), %s arquivo(s))"

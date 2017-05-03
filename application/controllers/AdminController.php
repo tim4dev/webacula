@@ -138,7 +138,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form = new FormRole(null, $role_id);
         $table = new Wbroles();
         if ( $this->_request->isPost() ) {
-            // Проверяем валидность данных формы
+            // We check the validity of the form data
             if ( $form->isValid($this->_getAllParams()) )
             {
                 // update data
@@ -217,7 +217,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form  = new FormWebaculaACL();
         $table = new Wbresources();
         if ( $this->_request->isPost() ) {
-            // Проверяем валидность данных формы
+            // We check the validity of the form data
             if ( $form->isValid($this->_getAllParams()) )
             {
                 // update data               
@@ -275,7 +275,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form  = new FormBaculaCommandACL();
         $table = new WbCommandACL();
         if ( $this->_request->isPost() ) {
-            // Проверяем валидность данных формы
+            // We check the validity of the form data
             if ( $form->isValid($this->_getAllParams()) )
             {
                 // update data
@@ -426,7 +426,7 @@ class AdminController extends MyClass_ControllerAclAction
             throw new Exception(__METHOD__.' : Empty input parameters');
         $form = new FormBaculaACL();
         if ( $this->_request->isPost() ) {
-            // Проверяем валидность данных формы
+            // We check the validity of the form data
             if ( $form->isValid($this->_getAllParams()) )
             {
                 // update data
@@ -461,8 +461,9 @@ class AdminController extends MyClass_ControllerAclAction
             'order'  => $row->order_acl,
             'role_id'=> $role_id
         ));
-        //$form->submit->setLabel($this->view->translate->_('Update'));
-        $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-update' );
+        $form->submit_button->setLabel($this->view->translate->_('Update'));
+        $form->setAction( $this->view->baseUrl . '/admin/'.$acl.'-update' )
+               ->setActionCancel( $this->view->baseUrl . '/admin/role-main-form/role_id/'.$role_id);
         $this->view->form = $form;
         $this->view->title = $this->view->translate->_(ucfirst($acl).' ACL update');
         $this->renderScript('admin/form-bacula-acl.phtml');
@@ -892,7 +893,7 @@ class AdminController extends MyClass_ControllerAclAction
          * view
          **********************************/
         // title
-        $this->view->title = $this->view->translate->_('Role') .' :: '. $role->name;
+        $this->view->title = $this->view->translate->_('Role') .': '. $role->name;
         $this->view->role_id = $role_id;
         // jQuery UI Tabs
         $tabs_selected = $this->_request->getParam('tabs_selected', 'role');
@@ -909,7 +910,7 @@ class AdminController extends MyClass_ControllerAclAction
         // get Role name
         $table = new Wbroles();
         $role  = $table->fetchRow($table->getAdapter()->quoteInto('id = ?', $role_id));
-        $this->view->title = $this->view->translate->_('Role') .' :: '. $role->name;
+        $this->view->title = $this->view->translate->_('Role') .': '. $role->name;
         // inherited roles
         $this->view->inherited_roles = $table->getParentNames( $role_id );
         // who use
@@ -942,7 +943,7 @@ class AdminController extends MyClass_ControllerAclAction
         $form = new FormUser(null, 'update');
         $table = new Wbusers();
         if ( $this->_request->isPost() ) {
-            // Проверяем валидность данных формы
+            // We check the validity of the form data
             if ( $form->isValid($this->_getAllParams()) )
             {
                 // update data
@@ -978,7 +979,7 @@ class AdminController extends MyClass_ControllerAclAction
             'active'  => $row->active,
             'role_id' => $row->role_id
         ));
-        //$form->submit->setLabel($this->view->translate->_('Update'));
+        $form->submit_button->setLabel($this->view->translate->_('Update'));
         $form->setAction( $this->view->baseUrl . '/admin/user-update' )
 		     ->setActionCancel( $this->view->baseUrl .'/admin/user-index' );
         $this->view->form = $form;
@@ -1017,7 +1018,7 @@ class AdminController extends MyClass_ControllerAclAction
             }
         }
         $form->populate( array('action_id' => 'add') );
-        //$form->submit->setLabel($this->view->translate->_('Add'));
+        $form->submit_button->setLabel($this->view->translate->_('Add'));
         $form->setAction( $this->view->baseUrl . '/admin/user-add' )
              ->setActionCancel( $this->view->baseUrl .'/admin/user-index' );
         $this->view->form = $form;
