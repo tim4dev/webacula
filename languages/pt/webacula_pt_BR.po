@@ -263,6 +263,9 @@ msgstr "Lista de arquivos do JobId"
 msgid "Job Descriptions"
 msgstr "Descrições de jobs"
 
+msgid "The name of job must be exact!"
+msgstr "O nome do job deve ser exato!"
+
 #: application/controllers/WbjobdescController.php:49
 msgid "Add Job Description"
 msgstr "Adicionar Descrições de Job"
@@ -1992,6 +1995,9 @@ msgstr "Você tem certeza que deseja excluir a descrição do job?"
 
 msgid "Are you sure you want to delete the role?"
 msgstr "Você tem certeza que deseja excluir a função?"
+
+msgid "Are you sure you want to delete the record?"
+msgstr "Você tem certeza de que deseja excluir o registro?"
 
 #: application/views/scripts/wbjobdesc/index.phtml:18
 msgid "Delete"
