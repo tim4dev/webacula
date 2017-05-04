@@ -4,10 +4,8 @@
 $(document).ready(function() {
    $('#ok').click(function() {
       $.blockUI({
-         message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
-         css: { backgroundColor: '#f3fcf2' },
-         centerX: true,
-         centerY: true
+         message: '<h4><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h4>',
+         css: {border: 'none', padding: '15px',  backgroundColor: '#000',  '-webkit-border-radius': '10px', '-moz-border-radius': '10px', opacity: .5,  color: '#fff' }
         });
     });
 });
