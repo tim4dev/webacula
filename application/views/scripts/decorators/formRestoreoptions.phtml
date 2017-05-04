@@ -8,27 +8,16 @@ $(function() {
 });
 </script>
 
-<style type="text/css">
-    #link_dialog {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
-    #link_dialog span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
-</style>
-
 <script type="text/javascript">
-$(function() {
-	// tabs
-    //$("#tabs").tabs();
-
+$(document).ready(function(){
     // Dialog
-    $('#info_dialog').dialog({
-        autoOpen: false,
-        width: 680,
-        height: 480
-    });
-
     // helps for advanced options
-    $('#link_dialog').click(function(){
-        $('#info_dialog').dialog('open');
-        return false;
+    $('#link_dialog').click(function(e){
+        $('#info_dialog').dialog({
+           width: 680,
+           height: 480
+        });
+        e.preventDefault();
     });
 });
 </script>
@@ -37,10 +26,8 @@ $(function() {
 $(document).ready(function() {
 	$('#ok1').click(function() {
     	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+        	message: '<h4><?php print $this->translate->_("Please wait"); ?>...</h4>',
+        	css: {border: 'none', padding: '15px',  backgroundColor: '#000',  '-webkit-border-radius': '10px', '-moz-border-radius': '10px', opacity: .5,  color: '#fff' }
         });
     });
 });
@@ -50,7 +37,7 @@ $(document).ready(function() {
   // select
   $(function(){
       $('select').each(function() {
-         $(this).addClass("select-overflow").addClass("form-control");
+         $(this).addClass("select-overflow").addClass("form-control").width('18em');
       });
   });
 </script>
@@ -95,13 +82,8 @@ $(document).ready(function() {
                <td class="text-left">
                   <?php echo $this->form->client_name;?>
                </td>
-               <td class="text-right">
-                   <label for="pool"><?php print $this->translate->_("Pool"); ?></label>
-               </td>
-               <td class="text-left">
-                   <?php echo $this->form->pool;?>
-               </td>
             </tr>
+            
             <tr>
                <!-- restoreclient -->
                <td class="text-right">
@@ -110,6 +92,18 @@ $(document).ready(function() {
                <td class="text-left">
                   <?php echo $this->form->client_name_to;?>
                </td>
+            </tr>
+            
+            <tr>
+               <!-- pool -->
+               <td class="text-right">
+                   <label for="pool"><?php print $this->translate->_("Pool"); ?></label>
+               </td>
+               <td class="text-left">
+                   <?php echo $this->form->pool;?>
+               </td>
+            </tr>
+            <tr>
                <!-- Fileset -->
                <td class="text-right">
                   <label for="fileset"><?php print $this->translate->_("Fileset"); ?></label>
@@ -119,17 +113,6 @@ $(document).ready(function() {
                </td>
             </tr>
             <tr>
-               <?php if ( $this->form->restore_job_select ) : ?>
-               <!-- if have multiple Restore Job resources -->
-               <td class="text-right">
-                   <label for="restore_job_select"><b><?php print $this->translate->_("Restore Job Resource"); ?></b></label>
-               </td>
-               <td class="text-left">
-                   <?php echo $this->form->restore_job_select;?>
-               </td>
-               <?php else: ?>
-                 <td colspan="2">&nbsp;</td>
-               <?php endif; ?>            
                <!-- Storage -->
                <td class="text-right">
                  <label for="storage"><?php print $this->translate->_("Storage"); ?></label>
@@ -138,6 +121,20 @@ $(document).ready(function() {
                  <?php echo $this->form->storage;?>
                </td>
             </tr>
+            <?php if ( $this->form->restore_job_select ) : ?>
+            <tr>               
+               <!-- if have multiple Restore Job resources -->
+               <td class="text-right">
+                   <label for="restore_job_select"><b><?php print $this->translate->_("Restore Job Resource"); ?></b></label>
+               </td>
+               <td class="text-left">
+                   <?php echo $this->form->restore_job_select;?>
+               </td>
+               <?php else: ?>
+                 <td colspan="2"></td>
+            </tr>
+            <?php endif; ?>
+            
          </table>
          </div><!-- end div tabs-standard-options -->
          <!-- end tabs-standard-options -->
@@ -213,7 +210,7 @@ $(document).ready(function() {
 
 
 <!-- From Bacula manuals main/Restore_Command.html -->
-<div id="info_dialog" title="<?php echo $this->translate->_("Help"); ?>">
+<div id="info_dialog" title="<?php echo $this->translate->_("Help"); ?>" style="display:none">
 
 <h3>Using File Relocation</h3>
 <p>For example, many users use OS snapshot features so that file
