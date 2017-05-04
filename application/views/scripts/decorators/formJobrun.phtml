@@ -6,9 +6,9 @@
    <?php echo $this->form->from_form; ?>
    <?php $this->translate = Zend_Registry::get('translate'); ?>
    <div class="table-responsive">
-      <table>
+      <table class="table table-condensed table-borderless">
          <tr>
-   	      <td>
+   	      <td class="text-right text-vcenter">
                <label for="jobname"><b><?php echo $this->translate->_("Job Name"); ?></b></label>
             </td>
    	   	<td>
@@ -16,7 +16,7 @@
             </td>
          </tr>
          <tr>
-            <td>
+            <td class="text-right text-vcenter">
                <label for="client"><b><?php echo $this->translate->_("Client"); ?></b></label>
             </td>
          	<td>
@@ -24,7 +24,7 @@
             </td>
       	</tr>
       	<tr>
-      	   <td>
+      	   <td class="text-right text-vcenter">
                <label for="fileset"><b><?php echo $this->translate->_("Fileset"); ?></b></label>
             </td>
       		<td>
@@ -32,7 +32,7 @@
             </td>
          </tr>
       	<tr>
-      	   <td>
+      	   <td class="text-right text-vcenter">
                <label for="storage"><b><?php echo $this->translate->_("Storage"); ?></b></label>
             </td>
       		<td>
@@ -40,7 +40,7 @@
             </td>
       	</tr>
       	<tr>
-      		<td>
+      		<td class="text-right text-vcenter">
                <label for="level"><b><?php echo $this->translate->_("Level"); ?></b></label>
             </td>
       		<td>
@@ -48,7 +48,7 @@
             </td>
       	</tr>
       	<tr>
-      		<td>
+      		<td class="text-right text-vcenter">
                <label for="pool"><b><?php echo $this->translate->_("Pool"); ?></b></label>
             </td>
       		<td>
@@ -56,7 +56,7 @@
             </td>
       	</tr>
       	<tr>
-      		<td>
+      		<td class="text-right text-vcenter">
                <label for="spool"><b><?php echo $this->translate->_("Spool"); ?></b></label>
             </td>
       		<td>
@@ -64,18 +64,32 @@
             </td>
       	</tr>
       	<tr>
-      		<td>
+      		<td class="text-right text-vcenter">
                <label for="date_when"><b><?php echo $this->translate->_("When"); ?></b></label>
             </td>
-      		<td>
-                <?php echo $this->translate->_("Now"); ?>
-                <?php echo $this->form->checkbox_now;?>
-                <?php echo $this->form->date_when;?>
-                <?php echo $this->form->time_when;?>
-                <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></small>
+            <td>
+            <?php echo $this->form->checkbox_now;?>
+            <?php echo $this->translate->_("Now"); ?>
             </td>
       	</tr>
+         
       	<tr>
+      		<td></td>
+      		<td>
+            <div class='form-inline'>
+                
+                
+                <?php echo $this->form->date_when;?>
+                <?php echo $this->form->time_when;?>
+                <br/>
+                <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></small>
+            </div>
+            </td>
+      	</tr>         
+         
+      	<tr>
+            <td></td>
+            <td>
             <!-- table align button -->
             <table>
                 <br/>
@@ -94,6 +108,7 @@
                </tr>
             </table>
             <!-- end table align button -->
+            </td>
       	</tr>
       </table>
    </div><!-- end div table-responsive -->
