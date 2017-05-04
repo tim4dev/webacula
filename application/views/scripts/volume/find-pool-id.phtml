@@ -42,26 +42,26 @@
                                  // http://www.bacula.org/developers/Catalog_Services.html
                                  // Status of media: Full, Archive, Append, Recycle, Read-Only, Disabled, Error, Busy
                                  if ( $this->escape($line['volstatus']) == 'Disabled' )
-                                    echo '<td class="warn" align="center">', $this->escape($line['volstatus']), '</td>';
+                                    echo '<td class="text-center warning"">', $this->escape($line['volstatus']), '</td>';
                                  elseif ( $this->escape($line['volstatus']) == 'Error' )
-                                    echo '<td class="err" align="center">', $this->escape($line['volstatus']), '</td>';
+                                    echo '<td class="text-center danger">', $this->escape($line['volstatus']), '</td>';
                                  else
-                                    echo '<td align="center">', $this->escape($line['volstatus']), '</td>';
+                                    echo '<td class="text-center">', $this->escape($line['volstatus']), '</td>';
                               ?>
                            
-                              <td align="center"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
+                              <td class="text-center"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
                                    <?php
                                    if ( $line['maxvolbytes'] <= 0 )
-                                       echo '<td align="center">'.$this->translate->_('unlimited').'</td>';
+                                       echo '<td class="text-center">'.$this->translate->_('unlimited').'</td>';
                                    else
-                                       echo '<td align="center">' . $this->convBytes($this->escape($line['maxvolbytes'])) . "</td>";
+                                       echo '<td class="text-center">' . $this->convBytes($this->escape($line['maxvolbytes'])) . "</td>";
                                    ?>
                            
                               <?php
                                  if ( ( isset($line['firstwritten'])) && ($this->escape($line['voljobs']) <= 0) )
-                                    echo '<td class="warn" align="center">', number_format($this->escape($line['voljobs'])), '</td>';
+                                    echo '<td class="text-center warning">', number_format($this->escape($line['voljobs'])), '</td>';
                                  else
-                                     echo '<td align="center"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
+                                     echo '<td class="text-center"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
                                            'title="', $this->translate->_("List Jobs by Volume Name"), '">',
                                            number_format($this->escape($line['voljobs'])), '</a></td>';
                               ?>

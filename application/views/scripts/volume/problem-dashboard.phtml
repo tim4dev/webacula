@@ -7,7 +7,7 @@
       <p>
          <?php if ($this->resultProblemVolumes): ?>
          <div class="table-responsive">
-            <table id="box-table-dashboard2" class="table table-striped table-hover table-condensed">
+            <table class="table table-striped table-hover table-condensed">
                <thead>
                   <tr>
                      <th> <?php print $this->translate->_("Volume Name"); ?> </th>
@@ -32,11 +32,11 @@
                         // http://www.bacula.org/developers/Catalog_Services.html
                         // Status of media: Full, Archive, Append, Recycle, Read-Only, Disabled, Error, Busy
                         if ( $this->escape($line['volstatus']) == 'Disabled' )
-                           echo '<td class="warning" align="center">', $this->escape($line['volstatus']), '</td>';
+                           echo '<td class="text-center warning">', $this->escape($line['volstatus']), '</td>';
                         elseif ( $this->escape($line['volstatus']) == 'Error' )
-                           echo '<td class="danger" align="center">', $this->escape($line['volstatus']), '</td>';
+                           echo '<td class="text-center danger">', $this->escape($line['volstatus']), '</td>';
                         else
-                           echo '<td align="center">', $this->escape($line['volstatus']), '</td>';
+                           echo '<td class="text-center">', $this->escape($line['volstatus']), '</td>';
                      ?>
                   
                      <td class="text-right"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
@@ -44,9 +44,9 @@
                   
                      <?php
                         if ( ( isset($line['firstwritten'])) && ($this->escape($line['voljobs']) <= 0) )
-                           echo '<td class="warning" align="right">', number_format($this->escape($line['voljobs'])), '</td>';
+                           echo '<td class="text-right warning">', number_format($this->escape($line['voljobs'])), '</td>';
                         else
-                            echo '<td align="right"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
+                            echo '<td class="text-right"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
                                 'title="', $this->translate->_("List Jobs by Volume Name"), '">',
                                   number_format($this->escape($line['voljobs'])), '</a></td>';
                      ?>
