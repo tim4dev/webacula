@@ -3,6 +3,12 @@
 <script type="text/javascript">
 $(document).ready(function(){
     // http://docs.jquery.com/UI/Datepicker/formatDate
+   function pad(n, width, z) {
+     z = z || '0';
+     n = n + '';
+     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+   }
+    
     $('#logDateCreate').datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
@@ -11,7 +17,7 @@ $(document).ready(function(){
     
     $('#logDateCreate').on('change',function(){
         var dt = new Date();
-        var currentTime = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
         $(this).val($(this).val() +' '+currentTime);
     });
 });

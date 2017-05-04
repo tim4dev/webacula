@@ -248,12 +248,12 @@ $(document).ready(function() {
                            <!-- Restore the most recent backup for a client -->
                            <div>
                               <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-                                 <table>
+                                 <table class="table table-condensed table-borderless">
                                     <tr>
-                                       <td>
+                                       <td class="text-right text-vcenter">
                                        <?php echo $this->formHidden('most_recent_form', '1', null); ?>
                                        <?php echo $this->formHidden('beginrecent', '1', null); ?>
-                                           <label for="client_name_from" class="ui-select">
+                                           <label for="client_name_from">
                                            <b><?php print $this->translate->_("Client"); ?></b>
                                            </label>
                                        </td>
@@ -262,7 +262,7 @@ $(document).ready(function() {
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td>
+                                       <td class="text-right text-vcenter">
                                            <label for="fileset">
                                            <b><?php print $this->translate->_("Fileset"); ?></b>
                                            </label>
@@ -272,13 +272,15 @@ $(document).ready(function() {
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td colspan="2">
+                                       <td></td>
+                                       <td>
                                           <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
                                                array('restore_recent_all'    => $this->translate->_('Restore All files'),
                                                      'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
                                        </td>
                                     </tr>
                                     <tr>
+                                       <td></td>
                                        <td>
                                           <?php echo $this->formSubmit('ok_recent', $this->translate->_('Next '), array('class' => 'btn btn-default') ); ?>
                                        </td>
@@ -305,21 +307,21 @@ $(document).ready(function() {
                            <!-- Restore backup for a client before a specified time -->
                            <div>
                               <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-                                 <table>
+                                 <table class="table table-condensed table-borderless">
                                  <tr>
-                                    <td>
+                                    <td class="text-right text-vcenter">
                                     <?php echo $this->formHidden('before_time_form', '1', null); ?>
                                     <?php echo $this->formHidden('beginrecent', '1', null); ?>
                                         <label for="client_name_from">
                                           <b><?php print $this->translate->_("Client"); ?></b>
-                                        </label>&nbsp;&nbsp;&nbsp;
+                                        </label>
                                     </td>
                                     <td>
                                         <?php echo $this->formSelect('client_name_from', null, array('style' => 'width: 18em;'), $aclients) ?>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td>
+                                    <td class="text-right text-vcenter">
                                        <label for="fileset">
                                           <b><?php print $this->translate->_("Fileset"); ?></b>
                                        </label>
@@ -329,14 +331,14 @@ $(document).ready(function() {
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td>
+                                    <td class="text-right text-vcenter">
                                         <b><?php print $this->translate->_("Date"); ?></b>
                                     </td>
                                     <td>
                                     <div class="form-inline">
                                         <?php
-                                            echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10, 'class' => 'form-control form-inline'));
-                                            echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8, 'class' => 'form-control form-inline'));
+                                            echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10, 'class' => 'form-control')) . "&nbsp;&nbsp;";
+                                            echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8, 'class' => 'form-control'));
                                         ?>
                                         <br/>
                                         <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></small>
@@ -344,13 +346,15 @@ $(document).ready(function() {
                                     </td>
                                     </tr>
                                  <tr>
-                                    <td colspan="2">
+                                    <td></td>
+                                    <td class="text-left text-vcenter">
                                     <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
                                             array('restore_recent_all'    => $this->translate->_('Restore All files'),
                                                   'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td></td>
                                     <td>
                                             <?php echo $this->formSubmit('ok_time', $this->translate->_('Next '), array('class' => 'btn btn-default')); ?>
                                     </td>

@@ -188,10 +188,10 @@ $atype = array(
                            <!-- find by many filters -->
                            <div>
                               <form action="<?php  echo $this->baseUrl.'/job/find-filters';?>" method="post">
-                                 <table>
+                                 <table class="table table-condensed table-borderless">
                                     <tr>
-                                       <td class="text-right">
-                                          <b><?php print $this->translate->_("Time of start of the Jobs with"); ?></b>&nbsp;&nbsp;&nbsp;
+                                       <td class="text-right text-vcenter">
+                                          <b><?php print $this->translate->_("Time of start of the Jobs with"); ?></b>
                                        </td>
                                        <td>
                                        <div class="form-inline">
@@ -205,40 +205,40 @@ $atype = array(
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                       <label for="client"><b><?php print $this->translate->_("Client"); ?></b>&nbsp;&nbsp;&nbsp;</label>
+                                       <td class="text-right text-vcenter">
+                                       <label for="client"><b><?php print $this->translate->_("Client"); ?></b></label>
                                        </td>
                                        <td colspan="5">
                                           <?php echo $this->formSelect('client', null, array('style' => 'width: 18em;'), $aclients) ?>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <label for="fileset" class="ui-select"><b><?php print $this->translate->_("Fileset"); ?></b>&nbsp;&nbsp;&nbsp;</label>
+                                       <td class="text-right text-vcenter">
+                                          <label for="fileset" class="ui-select"><b><?php print $this->translate->_("Fileset"); ?></b></label>
                                        </td>
                                        <td colspan="5">
                                           <?php echo $this->formSelect('fileset', null, array('style' => 'width: 18em;'), $afilesets) ?>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <label for="jlevel" class="ui-select"><b><?php print $this->translate->_("Level"); ?></b>&nbsp;&nbsp;&nbsp;</label>
+                                       <td class="text-right text-vcenter">
+                                          <label for="jlevel" class="ui-select"><b><?php print $this->translate->_("Level"); ?></b></label>
                                        </td>
                                        <td colspan="5">
                                           <?php echo $this->formSelect('jlevel', null, array('style' => 'width: 18em;'), $alevels) ?>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <label for="jstatus" class="ui-select"><b><?php print $this->translate->_("Status"); ?></b>&nbsp;&nbsp;&nbsp;</label>
+                                       <td class="text-right text-vcenter">
+                                          <label for="jstatus" class="ui-select"><b><?php print $this->translate->_("Status"); ?></b></label>
                                        </td>
                                        <td colspan="5">
                                           <?php echo $this->formSelect('jstatus', null, array('style' => 'width: 18em;'), $astatus) ?>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <label for="jtype" class="ui-select"><b><?php print $this->translate->_("Type"); ?></b>&nbsp;&nbsp;&nbsp;</label>
+                                       <td class="text-right text-vcenter">
+                                          <label for="jtype" class="ui-select"><b><?php print $this->translate->_("Type"); ?></b></label>
                                        </td>
                                        <td colspan="5">
                                           <?php echo $this->formSelect('jtype', null, array('style' => 'width: 18em;'), $atype) ?>
@@ -246,7 +246,6 @@ $atype = array(
                                     </tr>
                                     <tr>
                                        <td colspan="6">
-                                          <br/>
                                           <?php echo $this->formSubmit('ok2', $this->translate->_('Search'), array('class'=>'btn btn-default') ); ?>
                                        </td>
                                     </tr>
@@ -317,11 +316,11 @@ $atype = array(
                            <!-- List Jobs where a given File is saved -->
                            <div>
                               <form action="<?php  echo $this->baseUrl.'/job/find-file-name';?>" method="post">
-                                 <table>
+                                 <table class="table table-condensed table-borderless">
                                     <tr>
-                                       <td class="text-right">
+                                       <td class="text-right text-vcenter">
                                        
-                                          <b><?php print $this->translate->_("Enter path with trailing slash"); ?></b>&nbsp;&nbsp;&nbsp;
+                                          <b><?php print $this->translate->_("Enter path with trailing slash"); ?></b>
                                        </td>
                                        <td>
                                        <div class='form-inline'>
@@ -330,8 +329,8 @@ $atype = array(
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <b><sup>*</sup><?php print $this->translate->_("Enter Filename (no path)"); ?></b>&nbsp;&nbsp;&nbsp;
+                                       <td class="text-right text-vcenter">
+                                          <b><sup>*</sup><?php print $this->translate->_("Enter Filename (no path)"); ?></b>
                                        </td>
                                        <td>
                                           <div class='form-inline'>
@@ -340,16 +339,16 @@ $atype = array(
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <b><?php print $this->translate->_("Type of search (case sensitive)"); ?></b>&nbsp;&nbsp;&nbsp;
+                                       <td class="text-right text-vcenter">
+                                          <b><?php print $this->translate->_("Type of search (case sensitive)"); ?></b>
                                        </td>
                                        <td>
                                           <?php echo $this->formRadio('type_file_search', 'ordinary', array('style' => 'margin-left: 5px;'), $this->atype_file_search); ?>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td class="text-right">
-                                          <label for="client_nf"><b><?php print $this->translate->_("Client"); ?></b></label>&nbsp;&nbsp;&nbsp;
+                                       <td class="text-right text-vcenter">
+                                          <label for="client_nf"><b><?php print $this->translate->_("Client"); ?></b></label>
                                        </td>
                                        <td>
                                           <?php echo $this->formSelect('client_nf', null, array('style' => 'width: 18em;'), $aclients); ?>

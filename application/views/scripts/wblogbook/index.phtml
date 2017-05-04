@@ -100,12 +100,13 @@ $(document).ready(function(){
                         <div role="tabpanel" class="tab-pane active" id="tab1">
                         <div class="container-fluid">
                         <div class="rows">
+                           <div class='form-inline'>
                            <form name="filter_by_date" id="filter_by_date" method="POST"  action="<?php echo $this->baseUrl ?>/wblogbook/filterbydate">
                               <?php print $this->translate->_("Date range"); ?>:
                               <?php print $this->translate->_("from"); ?>
-                              <?php echo $this->formText('date_begin', $this->escape($this->date_begin), array('size' => 10));?>
+                              <?php echo $this->formText('date_begin', $this->escape($this->date_begin), array('size' => 10, 'class' => 'form-control'));?>
                               &nbsp;&nbsp;<?php print $this->translate->_("to"); ?>&nbsp;&nbsp;
-                              <?php echo $this->formText('date_end', $this->escape($this->date_end), array('size' => 10)) ?>
+                              <?php echo $this->formText('date_end', $this->escape($this->date_end), array('size' => 10, 'class' => 'form-control') ) ?>
                               <?php echo $this->formHidden('printable_by_date', '0', null); ?>
                               <?php echo $this->formHidden('sortorder_by_date', 'DESC', null); ?>                          
                                <?php
@@ -113,7 +114,8 @@ $(document).ready(function(){
                                       array('style' => 'margin-top: 15px; margin-bottom: 15px;',
                                           'class' => "btn btn-default") );
                                ?>
-                           </form>    
+                           </form>
+                           </div>
                         </div>
                         </div>
                         </div>
@@ -123,11 +125,12 @@ $(document).ready(function(){
                        <div role="tabpanel" class="tab-pane" id="tab2">
                        <div class="container-fluid">
                        <div class="rows">
+                          <div class='form-inline'>
                           <form name="filter_by_id" id="filter_by_id" method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/filterbyid/">
                            <?php print $this->translate->_("Id range: from"); ?>
-                           <?php echo $this->formText('id_begin', $this->escape($this->id_begin), array('size' => 5, 'maxlength' => 15)); ?>
+                           <?php echo $this->formText('id_begin', $this->escape($this->id_begin), array('size' => 5, 'maxlength' => 15, 'class' => 'form-control')); ?>
                            &nbsp;&nbsp;<?php print $this->translate->_("to"); ?>&nbsp;&nbsp;
-                           <?php echo $this->formText('id_end', $this->escape($this->id_end), array('size' => 5, 'maxlength' => 15)); ?>
+                           <?php echo $this->formText('id_end', $this->escape($this->id_end), array('size' => 5, 'maxlength' => 15, 'class' => 'form-control')); ?>
                            &nbsp;
                            <?php echo $this->formHidden('printable_by_id', '0', null); ?>
                            <?php echo $this->formHidden('sortorder_by_id', 'DESC', null); ?>
@@ -138,6 +141,7 @@ $(document).ready(function(){
                                           'class' => "btn btn-default") );
                               ?>
                           </form>
+                          </div>
                        </div>
                        </div>
                        </div>
@@ -147,10 +151,10 @@ $(document).ready(function(){
                        <div role="tabpanel" class="tab-pane" id="tab3">
                        <div class="container-fluid">
                        <div class="rows">
-                       
+                          <div class='form-inline'>
                           <form name="filter_by_text" id="search_text" method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/searchtext/">
                            <?php print $this->translate->_("Text"); ?>
-                           <?php echo $this->formText('id_text', $this->escape($this->id_text), array('size' => 50, 'maxlength' => 250)); ?>
+                           <?php echo $this->formText('id_text', $this->escape($this->id_text), array('size' => 50, 'maxlength' => 250, 'class' => 'form-control')); ?>
                            &nbsp;
                            <?php echo $this->formHidden('printable_by_text', '0', null); ?>
                            <?php echo $this->formHidden('sortorder_by_text', 'ASC', null); ?>
@@ -160,7 +164,8 @@ $(document).ready(function(){
                                       array('style' => 'margin-top: 15px; margin-bottom: 15px;',
                                           'class' => "btn btn-default") );
                               ?>
-                          </form>    
+                          </form>
+                          </div>
                        </div>
                        </div>
                        </div>
