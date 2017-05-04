@@ -6,6 +6,33 @@ $(function() {
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+   $('a.confirm').click(function(e){
+      var targetUrl = $(this).attr("href");
+      
+      $('#dialog-confirm').dialog({
+           buttons : {
+                  <?php echo $this->translate->_('Yes'); ?> : function() {
+                    window.location.href = targetUrl;
+                  },
+                  <?php echo $this->translate->_('No'); ?> : function() {
+                    $(this).dialog("close");
+                  }
+           }    
+      });
+      e.preventDefault();
+   });
+});
+</script>
+
+<!-- dialog confirm -->
+<div id="dialog-confirm" title="<?php echo $this->translate->_("Message"); ?>" style="display:none">
+  <p><span class="ui-icon ui-icon-alert"></span><?php echo $this->translate->_("Are you sure you want to delete the record?"); ?></p>
+</div>
+<!-- end dialog confirm -->
+
+
 <div class="rows">
 <div class="col-md-8">
 <div class="panel panel-default panel-primary">
