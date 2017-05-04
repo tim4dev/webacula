@@ -121,7 +121,7 @@ class RestorejobController extends MyClass_ControllerAclAction
 
 
     function mySessionStop() {
-        // close session / удаляем данные сессии
+        // close session / Delete session data
         $this->restoreNamespace->unsetAll();
     }
 
@@ -251,7 +251,7 @@ class RestorejobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("Restore Job");
         $this->view->jobid = intval( $this->_request->getParam('jobid', null) );
         /*
-         * перенаправления из др. форм (RestoreAll и т.п.)
+         * Redirects from other forms (RestoreAll, etc.)
          */
         // Issuing a message that such a joid does not exist
         $this->view->msgNoJobId1 = $this->_request->getParam('msgNoJobId1', null);
@@ -332,7 +332,7 @@ class RestorejobController extends MyClass_ControllerAclAction
         // get job record
         Zend_Loader::loadClass('Job');
         $job = new Job();
-        // существует ли такое jobid
+        // Does such jobid exist
         if ( !$job->isJobIdExists($jobid) ) {  // do Bacula ACLs
             $this->_forward('main-form', 'restorejob', null,
                     array(
@@ -513,6 +513,16 @@ EOF");
         /* Remember the "left" jobid in the session so that there are no errors when the restore completes */
         $this->restoreNamespace->JobHash = md5('fake_jobid');
         $this->view->title = $this->view->translate->_("Restore All files");
+        
+        //$this->client_name = addslashes($this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
+        //$this->fileset     = addslashes($this->_request->getParam('fileset', $this->restoreNamespace->FileSet));
+        //$this->restoreNamespace->ClientNameTo = $this->client_name_to;
+        
+        $this->view->client_from_restore = addslashes($this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
+        $this->view->fileset_restore = addslashes($this->_request->getParam('fileset', $this->restoreNamespace->FileSet ));
+        
+        
+        
         // bconsole available ?
         $director = new Director();
         if ( !$director->isFoundBconsole() )	{
@@ -539,6 +549,9 @@ EOF");
             $this->client_name = addslashes($this->_request->getParam('client_name', $this->restoreNamespace->ClientNameFrom ));
             $this->fileset     = addslashes($this->_request->getParam('fileset', $this->restoreNamespace->FileSet));
             $this->restoreNamespace->ClientNameTo = $this->client_name_to;
+            
+            $this->view->client_from_restore = $this->restoreNamespace->ClientNameFrom;
+            
             // validator "Where"
             if ( $validator_where->isValid( $this->where ) ) {
                 if ( empty($this->restoreNamespace->DateBefore) )
@@ -692,6 +705,7 @@ EOF"
                 $this->restoreNamespace->FileSet);  // with Bacula ACLs
         if ( !$ajobs ) {
             // Message that is not found Full backup: No Full backup before 2009-05-20 15:19:49 found.
+            $this->view->title = $this->view->translate->_("Error");
             $this->view->msg = sprintf($this->view->translate->_("No Full backup before %s found."), $this->restoreNamespace->DateBefore);
             echo $this->renderScript('msg-note.phtml');
             return;
@@ -706,6 +720,7 @@ EOF"
         $this->view->ajob_inc  = $ajobs['ajob_inc'];
         $this->view->ajob_all  = $ajobs['ajob_all'];
         $this->view->title = $this->view->translate->_("You have selected the following JobIds");
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         $this->view->beginrecent = 1;
         $this->render();
     }
@@ -997,7 +1012,7 @@ EOF"
             $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 1); // isMarked = 1
             if ( $res )
-                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br/>(%s dirs and files affected)"), $res['path'], $res['files']);
             else
                 $aout['msg'] =  $this->view->translate->_('internal program error !');
             // We obtain the summary statistics
@@ -1039,7 +1054,7 @@ EOF"
             $tmp_tables = new WbTmpTable($jobidhash, $this->ttl_restore_session);
             $res = $tmp_tables->markDir($path, 0); // isMarked = 0
             if ( $res )
-                $aout['msg'] = sprintf($this->view->translate->_("%s<br>(%s dirs and files affected)"), $res['path'], $res['files']);
+                $aout['msg'] = sprintf($this->view->translate->_("%s<br/>(%s dirs and files affected)"), $res['path'], $res['files']);
            else
                 $aout['msg'] =  $this->view->translate->_('internal program error !');
             // We obtain the summary statistics
@@ -1569,3 +1584,4 @@ EOF");
 
 
 }
+

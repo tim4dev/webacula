@@ -1,4 +1,30 @@
-<p><div class="noteclassic">
-	<?php echo $this->escape($this->msg);?>
-	<p align="center"><input type="button" value="<?php echo $this->translate->_('Back'); ?>" onClick="history.go(-1);"></p>
-</div></p>
+<!-- script/msg-note.phtml -->
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                  <p>
+                  <span class="glyphicon glyphicon-alert"></span>
+                  <?php print $this->escape($this->msg) ?>
+                  </p>
+               </div>
+               <!-- end div alert -->
+               
+               <br/>
+               <div class="text-left">
+                  <input type="button" value="<?php echo $this->translate->_('Back'); ?>" onClick="history.go(-1);" class="btn btn-default">
+               </div>
+
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-12 -->
+</div><!-- end div rows -->
+<!-- script/msg-note.phtml -->

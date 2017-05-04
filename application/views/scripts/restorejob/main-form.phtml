@@ -1,14 +1,4 @@
 <!-- restorejob/main-form.phtml -->
-<!--
-<pre>
-<?php
-echo "#1-". $this->msgNoJobId1 . "1#";
-echo "<br/>";
-echo "#2-".$this->msgNoJobId2 . "2#";
-?>
-<pre>
--->
-
 <script type="text/javascript">
 $(document).ready(function() {
     $('#ok_id').click(function() {
@@ -61,13 +51,10 @@ $(document).ready(function() {
 
 });
 </script>
-<style>
-  .select-overflow { height: auto; max-height: 200px;}
-</style>
 <script type="text/javascript">
-  $(function(){
+   $(document).ready(function() {
       $('select').each(function() {
-          $(this).selectmenu().selectmenu("menuWidget").addClass("select-overflow");
+          $(this).addClass("select-overflow").addClass("form-control");
       });
   });
 
@@ -75,286 +62,312 @@ $(document).ready(function() {
 
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
-$(function() {
-    $('#date_before').datepicker({
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        changeYear: true
-    });
-});
-</script>
-
-<script type="text/javascript">
-$(function() {
-    $("#accordion").accordion({
-            heightStyle: "content",
-            active : <?php echo $this->accordion_active; ?>
-        });
+$(document).ready(function() {
+      
+   function pad(n, width, z) {
+     z = z || '0';
+     n = n + '';
+     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+   }
+   
+   $('#date_before').datepicker({
+       dateFormat: 'yy-mm-dd',
+       changeMonth: true,
+       changeYear: true
+   });
+   
+   $('#date_before').on('change',function(){
+       var dt = new Date();
+       var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
+       $('#time_before').val( currentTime );
+   }); 
+    
 });
 </script>
 
 <?php
     // create array clients for Form
     if ( $this->clients ) {
-    	foreach($this->clients as $client) {
-			$aclients[$this->escape($client['name'])] = $this->escape($client['name']);
-    	}
+      foreach($this->clients as $client) {
+         $aclients[$this->escape($client['name'])] = $this->escape($client['name']);
+      }
     }
-	if ( empty($aclients) ) { $aclients[] = ''; }
+   if ( empty($aclients) ) { $aclients[] = ''; }
 
-	// create array filesets for Form
-	if ( $this->filesets ) {
-		foreach($this->filesets as $fileset) {
-			$afilesets[$this->escape($fileset['fileset'])] = $this->escape($fileset['fileset']);
-		}
-	}
-	if ( empty($afilesets) ) { $afilesets[] = ''; }
+   // create array filesets for Form
+   if ( $this->filesets ) {
+      foreach($this->filesets as $fileset) {
+         $afilesets[$this->escape($fileset['fileset'])] = $this->escape($fileset['fileset']);
+      }
+   }
+   if ( empty($afilesets) ) { $afilesets[] = ''; }
 ?>
 
-
-<!-- ########################################################################## -->
 <div class="rows">
-  <div class="col-md-6">
-
-
-<div class="panel-group" id="accordion2">
-  <!--    Restore files for JobId -->
-  <div class="panel panel-default panel-primary">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseOne">
-        <a class="accordion-toggle">
-           <?php print $this->translate->_("Restore to a specified JobId"); ?>
-        </a>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in">
-      <div class="panel-body">
-
-         <!--    Restore files for JobId -->
-         <div>
-         <?php if ( !empty($this->msgNoJobId1) ) : ?>
-         <!--
-         <div class="ui-widget">
-         	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-         		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-         		<strong><?php echo $this->msgNoJobId1; ?></strong></p>
-         	</div>
+   <div class="col-md-6">
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
          </div>
-         -->
-         
-        <div class="alert alert-danger">
-          <p>
-          <span class="glyphicon glyphicon-alert"></span>
-          <?php echo $this->msgNoJobId1; ?>
-          </p>
-        </div>
-         
-         <?php endif;?>
-         
-         <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
-             <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
-         <br>
-         
-         <form action="<?php  echo $this->baseUrl.'/restorejob/restore-choice';?>" method="post">
-         <?php echo $this->formHidden('beginr', '1', null); ?>
-         <div style="text-align: left; padding: 6px;">
-             <label>
-             <b><?php print $this->translate->_("Job Id"); ?></b>
-             <?php
-                 if ( $this->jobid ) {
-                     $val = $this->jobid;
-                 } else {
-                     $val = '';
-                 }
-                 echo $this->formText('jobid', $val, array('size' => 16));
-             ?>
-             </label>
-         </div>
-         <div style="text-align: left; padding: 6px;">
-         <?php echo $this->formRadio('choice', 'restore_all', null,
-                 array('restore_all'    => $this->translate->_('Restore All files'),
-                       'restore_select' => $this->translate->_('Select Files for Restore')
-          )); ?>
-         </div>
-         <br/>
-             <?php echo $this->formSubmit('ok_id', $this->translate->_('Next '), array('class' => 'btn btn-default') );
-             ?>
-         </form>
-             </div>
-         <!-- END    Restore files for JobId -->
-
-      </div>
-    </div>
-  </div>
-  
-  <!-- // find by Job Name -->
-  <div class="panel panel-default panel-primary">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseTwo">
-        <a class="accordion-toggle">
-          <?php print $this->translate->_("Full restore to a specified JobId"); ?>
-        </a>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-
-         <!--    full restore to a specified JobId  -->
-         <div>
-         <?php if ( !empty($this->msgNoJobId2) ) : ?>
-         <!--
-         <div class="ui-widget">
-             <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-                 <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-                 <strong><?php echo $this->msgNoJobId2; ?></strong></p>
-             </div>
-         </div> -->
-        <div class="alert alert-danger">
-          <p>
-          <span class="glyphicon glyphicon-alert"></span>
-          <?php echo $this->msgNoJobId2; ?>
-          </p>
-        </div>         
-         
-         <?php endif;?>
-         
-         <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
-             <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
-         <br>
-         <form action="<?php  echo $this->baseUrl.'/restorejob/restore-full-jobid-choice';?>" method="post">
-         <?php echo $this->formHidden('beginr', '1', null); ?>
-         <div style="text-align: left; padding: 6px;">
-             <label>
-             <b><?php print $this->translate->_("Job Id"); ?></b>
-             <?php
-                 if ( $this->jobid ) {
-                     $val = $this->jobid;
-                 } else {
-                     $val = '';
-                 }
-                 echo $this->formText('jobid', $val, array('size' => 16));
-             ?>
-             </label>
-         </div>
-         <div style="text-align: left; padding: 6px;">
-         <?php echo $this->formRadio('choice_full_jobid', 'restore_select_full_jobid', null,
-                 array('restore_select_full_jobid' => $this->translate->_('Select Files for Restore')
-          )); ?>
-         </div>
-         <br>
-             <?php echo $this->formSubmit('ok_id_full', $this->translate->_('Next '), array('class' => 'btn btn-default') ),
-                  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-             ?>
-         </form>
-             </div>
-         <!-- END    full restore to a specified JobId -->
-      
-      </div>
-    </div>
-  </div>
-  
-  <!--    Restore the most recent backup for a client -->
-  <div class="panel panel-default panel-primary">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseThree">
-        <a class="accordion-toggle">
-          <?php print $this->translate->_("Restore the most recent backup for a client"); ?>
-        </a>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse">
-      <div class="panel-body">
-      
-          <!--    Restore the most recent backup for a client -->
-          <div>
-          <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-          <table border="0" cellpadding="4" cellspacing="4" width="100%">
-          <tr><td align="right">
-          <?php echo $this->formHidden('most_recent_form', '1', null); ?>
-          <?php echo $this->formHidden('beginrecent', '1', null); ?>
-              <label for="client_name_from" class="ui-select">
-              <b><?php print $this->translate->_("Client"); ?></b>
-              </label>
-          </td><td>
-              <?php echo $this->formSelect('client_name_from', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
-          </td></tr>
-          <tr><td align="right">
-              <label for="fileset" class="ui-select">
-              <b><?php print $this->translate->_("Fileset"); ?></b>
-              </label>
-          </td><td>
-              <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $afilesets) ?>
-          </td></tr>
-          <tr><td colspan="2">
-          	<?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
-                  array('restore_recent_all'    => $this->translate->_('Restore All files'),
-                        'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
-          </p>
-          </td></tr>
-          <tr><td>
-              <?php echo $this->formSubmit('ok_recent', $this->translate->_('Next '), array('class' => 'btn btn-default') ); ?>
-          </td></tr>
-          </table>
-          </form>
-              </div>
-          <!-- END    Restore the most recent backup for a client -->
-        
-      </div>
-    </div>
-  </div>
-
-    <!-- Restore backup for a client before a specified time -->
-    <div class="panel panel-default panel-primary">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseFour">
-        <a class="accordion-toggle">
-          <?php print $this->translate->_("Restore backup for a client before a specified time"); ?>
-        </a>
-    </div>
-    <div id="collapseFour" class="panel-collapse collapse">
-      <div class="panel-body">
-
-         <!-- Restore backup for a client before a specified time -->
-         <div>
-         <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
-         <table border="0" cellpadding="4" cellspacing="4" width="100%">
-         <tr><td align="right">
-         <?php echo $this->formHidden('before_time_form', '1', null); ?>
-         <?php echo $this->formHidden('beginrecent', '1', null); ?>
-             <label for="client_name_from" class="ui-select">
-             	<b><?php print $this->translate->_("Client"); ?></b>
-             </label>
-         </td><td>
-             <?php echo $this->formSelect('client_name_from', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $aclients) ?>
-         </td></tr>
-         <tr><td align="right">
-             <label for="fileset" class="ui-select">
-             	<b><?php print $this->translate->_("Fileset"); ?></b>
-             </label>
-         </td><td>
-             <?php echo $this->formSelect('fileset', null, array('class' => 'ui-select', 'style' => 'width: 18em;'), $afilesets) ?>
-         </td></tr>
-         <tr><td align="right">
-             <b><?php print $this->translate->_("Date before"); ?></b>
-         </td><td>
-             <?php
-                 echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10));
-                 echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8));
-             ?>
-             <br><div style="font-size:0.6em;"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></div>
-         </td></tr>
-         <tr><td colspan="2">
-         <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
-                 array('restore_recent_all'    => $this->translate->_('Restore All files'),
-                       'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
-         </td></tr>
-         <tr><td>
-                 <?php echo $this->formSubmit('ok_time', $this->translate->_('Next '), array('class' => 'btn btn-default')); ?>
-         </td></tr>
-         </table>
-         </form>
-             </div>
-         <!-- END   Restore backup for a client before a specified time -->
-      
-      </div>
-    </div>
-  </div>
-  
-  
-</div>
-</div><!-- fim div col-md-6 -->
-</div><!-- fim da div row -->
-<!-- ########################################################################## -->
+         <div class="panel-body">
+            <p>  
+               <div class="panel-group" id="accordion">
+                  <!--    Restore files for JobId -->
+                  <div class="panel panel-primary">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse1">
+                         <a class="accordion-toggle">
+                            <?php print $this->translate->_("Restore to a specified JobId"); ?>
+                         </a>
+                     </div>
+                     <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                        
+                           <!--    Restore files for JobId -->
+                           <div>
+                              <?php if ( !empty($this->msgNoJobId1) ) : ?>
+                              
+                              <!-- div  alert -->
+                              <div class="alert alert-danger">
+                                 <p>
+                                 <span class="glyphicon glyphicon-alert"></span>
+                                 <?php echo $this->msgNoJobId1; ?>
+                                 </p>
+                              </div>
+                              <!-- end div  alert -->
+                              
+                              <?php endif;?>
+                              
+                              <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
+                                  <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
+                              <br/>
+                              
+                              <form action="<?php  echo $this->baseUrl.'/restorejob/restore-choice';?>" method="post">
+                              <?php echo $this->formHidden('beginr', '1', null); ?>
+                              <div class='form-inline'>
+                                  <label>
+                                  <b><?php print $this->translate->_("Job Id"); ?></b>&nbsp;&nbsp;&nbsp;
+                                  <?php
+                                      if ( $this->jobid ) {
+                                          $val = $this->jobid;
+                                      } else {
+                                          $val = '';
+                                      }
+                                      echo $this->formText('jobid', $val, array('size' => 10,'class' => 'form-control'));
+                                  ?>
+                                  </label>
+                              </div>
+                              <div>
+                              <?php 
+                                 echo $this->formRadio('choice', 'restore_all', array('class' => ''),
+                                    array('restore_all'    => $this->translate->_('Restore All files'),
+                                          'restore_select' => $this->translate->_('Select Files for Restore')
+                                    )
+                                 ); 
+                               ?>
+                              </div>
+                              <br/>
+                                  <?php echo $this->formSubmit('ok_id', $this->translate->_('Next '), array('class' => 'btn btn-default') );
+                                  ?>
+                              </form>
+                           </div>
+                           <!-- end Restore files for JobId -->
+                        
+                        </div>
+                     </div>
+                  </div>
+                  <!--    Restore files for JobId -->
+                 
+                  <!-- Find by Job Name -->
+                  <div class="panel panel-primary">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse2">
+                        <a class="accordion-toggle">
+                          <?php print $this->translate->_("Full restore to a specified JobId"); ?>
+                        </a>
+                     </div>
+                     <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                        
+                           <!-- Full restore to a specified JobId -->
+                           <div>
+                              <?php if ( !empty($this->msgNoJobId2) ) : ?>
+                              
+                              <!-- div  alert -->
+                              <div class="alert alert-danger">
+                                 <p>
+                                 <span class="glyphicon glyphicon-alert"></span>
+                                 <?php echo $this->msgNoJobId2; ?>
+                                 </p>
+                              </div>
+                              <!-- end div  alert -->        
+                              
+                              <?php endif;?>
+                              
+                              <a href="<?php echo $this->baseUrl, '/job/list-last-jobs-run/numjob/20'; ?>">
+                                  <?php print $this->translate->_("See List last 20 Jobs run"); ?></a>
+                              <br/>
+                              <form action="<?php  echo $this->baseUrl.'/restorejob/restore-full-jobid-choice';?>" method="post">
+                              <?php echo $this->formHidden('beginr', '1', null); ?>
+                              <div class='form-inline'>
+                                  <label>
+                                  <b><?php print $this->translate->_("Job Id"); ?></b>&nbsp;&nbsp;&nbsp;
+                                  <?php
+                                      if ( $this->jobid ) {
+                                          $val = $this->jobid;
+                                      } else {
+                                          $val = '';
+                                      }
+                                      echo $this->formText('jobid', $val, array('size' => 10,'class' => 'form-control'));
+                                  ?>
+                                  </label>
+                              </div>
+                              <div>
+                              <?php echo $this->formRadio('choice_full_jobid', 'restore_select_full_jobid', null,
+                                      array('restore_select_full_jobid' => $this->translate->_('Select Files for Restore')
+                               )); ?>
+                              </div>
+                              <br/>
+                                  <?php echo $this->formSubmit('ok_id_full', $this->translate->_('Next '), array('class' => 'btn btn-default') );
+                                  ?>
+                              </form>
+                           </div>
+                           <!-- end Full restore to a specified JobId -->
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end Find by Job Name -->
+                 
+                  <!-- Restore the most recent backup for a client -->
+                  <div class="panel panel-primary">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse3">
+                        <a class="accordion-toggle">
+                          <?php print $this->translate->_("Restore the most recent backup for a client"); ?>
+                        </a>
+                     </div>
+                     <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body">
+                           <!-- Restore the most recent backup for a client -->
+                           <div>
+                              <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
+                                 <table>
+                                    <tr>
+                                       <td>
+                                       <?php echo $this->formHidden('most_recent_form', '1', null); ?>
+                                       <?php echo $this->formHidden('beginrecent', '1', null); ?>
+                                           <label for="client_name_from" class="ui-select">
+                                           <b><?php print $this->translate->_("Client"); ?></b>
+                                           </label>
+                                       </td>
+                                       <td>
+                                           <?php echo $this->formSelect('client_name_from', null, array('style' => 'width: 18em;'), $aclients) ?>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                           <label for="fileset">
+                                           <b><?php print $this->translate->_("Fileset"); ?></b>
+                                           </label>
+                                       </td>
+                                       <td>
+                                           <?php echo $this->formSelect('fileset', null, array('style' => 'width: 18em;'), $afilesets) ?>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td colspan="2">
+                                          <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
+                                               array('restore_recent_all'    => $this->translate->_('Restore All files'),
+                                                     'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <?php echo $this->formSubmit('ok_recent', $this->translate->_('Next '), array('class' => 'btn btn-default') ); ?>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </form>
+                           </div>
+                           <!-- end Restore the most recent backup for a client -->
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end Restore the most recent backup for a client -->
+               
+                  <!-- Restore backup for a client before a specified time -->
+                  <div class="panel panel-primary">
+                     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapse4">
+                        <a class="accordion-toggle">
+                          <?php print $this->translate->_("Restore backup for a client before a specified time"); ?>
+                        </a>
+                     </div>
+                     <div id="collapse4" class="panel-collapse collapse">
+                        <div class="panel-body">
+                        
+                           <!-- Restore backup for a client before a specified time -->
+                           <div>
+                              <form action="<?php  echo $this->baseUrl.'/restorejob/restore-recent-choice';?>" method="post">
+                                 <table>
+                                 <tr>
+                                    <td>
+                                    <?php echo $this->formHidden('before_time_form', '1', null); ?>
+                                    <?php echo $this->formHidden('beginrecent', '1', null); ?>
+                                        <label for="client_name_from">
+                                          <b><?php print $this->translate->_("Client"); ?></b>
+                                        </label>&nbsp;&nbsp;&nbsp;
+                                    </td>
+                                    <td>
+                                        <?php echo $this->formSelect('client_name_from', null, array('style' => 'width: 18em;'), $aclients) ?>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                       <label for="fileset">
+                                          <b><?php print $this->translate->_("Fileset"); ?></b>
+                                       </label>
+                                    </td>
+                                    <td>
+                                        <?php echo $this->formSelect('fileset', null, array('style' => 'width: 18em;'), $afilesets) ?>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                        <b><?php print $this->translate->_("Date"); ?></b>
+                                    </td>
+                                    <td>
+                                    <div class="form-inline">
+                                        <?php
+                                            echo $this->formText('date_before', date('Y-m-d', time()), array('size' => 10, 'maxlength' => 10, 'class' => 'form-control form-inline'));
+                                            echo $this->formText('time_before', date('H:i:s', time()), array('size' => 8, 'maxlength' => 8, 'class' => 'form-control form-inline'));
+                                        ?>
+                                        <br/>
+                                        <small class="form-text text-muted"><?php print $this->translate->_("YYYY-MM-DD HH:MM:SS"); ?></small>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                 <tr>
+                                    <td colspan="2">
+                                    <?php echo $this->formRadio('choice_recent', 'restore_recent_all', null,
+                                            array('restore_recent_all'    => $this->translate->_('Restore All files'),
+                                                  'restore_recent_select' => $this->translate->_('Select Files for Restore') )); ?>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                            <?php echo $this->formSubmit('ok_time', $this->translate->_('Next '), array('class' => 'btn btn-default')); ?>
+                                    </td>
+                                 </tr>
+                                 </table>
+                              </form>
+                           </div>
+                           <!-- end Restore backup for a client before a specified time -->
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Restore backup for a client before a specified time -->
+                 
+               </div><!-- end div accordion -->
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-6 -->
+</div><!-- end div rows -->
+<!-- job/find-form.phtml -->

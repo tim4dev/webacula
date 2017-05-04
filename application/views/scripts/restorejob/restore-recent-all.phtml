@@ -1,16 +1,34 @@
 <!-- restorejob/restore-recent-all.phtml -->
+<div class="rows">
+   <div class="col-md-8">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+             <label><?php echo $this->translate->_("client"). ': ' ?></label>
+             <?php echo $this->client_from_restore; ?><br/>
+             <label><?php echo $this->translate->_("fileset"). ': '; ?></label>
+             <?php echo $this->fileset_restore; ?>
+               <?php if ( !empty($this->msgNoValid) ) : ?>
+               
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                  <p>
+                  <span class="glyphicon glyphicon-alert"></span>
+                  <?php print $this->msgNoValid; ?>
+                  </p>
+               </div>
+               <!-- end div alert -->
+               
+               <?php endif;?>
+               
+               <?php echo $this->form;?>
 
-<h1><?php echo $this->escape($this->title), ' ', $this->client_from_restore, ' ', $this->fileset_restore; ?></h1>
-
-<?php if ( !empty($this->msgNoValid) ) : ?>
-<div class="ui-widget" style="float: left;">
-	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php echo $this->msgNoValid; ?></strong></p>
-	</div>
-</div>
-<div style="clear: both;"><!--  --></div>
-<?php endif;?>
-
-<?php echo $this->form;?>
-<br style="clear: both;" />
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-12 -->
+</div><!-- end div rows -->
+<!-- end file/list.phtml -->
