@@ -24,50 +24,25 @@ header("Pragma: no-cache");                                     // HTTP/1.0
         ?>
     </title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/site.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/wblogbook.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/wbjobdesc.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/admin.css" />
-	<!--<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/jquery-confirm.css" />-->
-	
 	<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/bootstrap/css/bootstrap.css");</style>
 	<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/bootstrap/css/bootstrap-theme.css");</style>
 	<style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/bootstrap/css/font-awesome.css");</style>
-    <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/jquery-ui.css");</style>
-    
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/override-css.css" />
-    
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
+   <style type="text/css">@import url("<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/jquery-ui.css");</style>
+   <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/override-css.css" />
+   
+   <meta http-equiv="Pragma" content="no-cache" />
+   <meta http-equiv="expires" content="0" />
+   <link rel="alternate" type="application/rss+xml" title="webacula feed" href="<?php echo $this->baseUrl; ?>/feed/feed" />
 
-<!-- main menu -->
-<!-- http://users.tpg.com.au/j_birch/plugins/superfish/ -->
-<!--<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/superfish.css" media="screen" />-->
-<!--<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/superfish-navbar.css" media="screen" />-->
-<!--<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/<?php echo $this->config->layout->path; ?>/ui.selectmenu.css" media="screen" />-->
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-3.2.1.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/bootstrap.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui.js"></script>
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/hoverIntent.js"></script>-->
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/superfish.js"></script>-->
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.corner.js"></script>-->
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/ui.selectmenu.js"></script>-->
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-confirm.js"></script>-->
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.tooltip.min.js"></script>-->
+   <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-3.2.1.js"></script>
+   <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/bootstrap.js"></script>
+   <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-ui.js"></script>
+   <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery-blockUI.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-/*
-    $('ul.sf-menu').superfish({
-            delay:       500,                            // second delay on mouseout
-            animation:   {opacity:'show',height:'show'}, // fade-in and slide-down animation
-            speed:       'fast',                         // faster animation speed
-            autoArrows:  true,                           // disable generation of arrow mark-up
-            dropShadows: true                            // disable drop shadows
-        });
-	*/	
-    });
+$(document).ready(function() {
+
+});
 </script>
 <!-- END main menu -->
 
@@ -75,24 +50,24 @@ header("Pragma: no-cache");                                     // HTTP/1.0
 
 <style type="text/css">
 
-
+/*
 .float_panel
 {
 width: 48%;
 float: left;
 
 padding: 0px 5px;
-/*
+
 margin: 10px 10px 0px 0px;
 
 border: 1px solid #DDD;
 background-color: #F2F8FF;
 background-color: #F2F8FF;
-*/
-
 }
 
-.clear_both { /*clear: both;*/ }
+.clear_both { clear: both; }
+
+*/
 
 </style>
 

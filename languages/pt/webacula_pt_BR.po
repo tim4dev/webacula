@@ -87,8 +87,8 @@ msgstr "Você selecionou os seguintes JobIds"
 #: application/controllers/RestorejobController.php:999
 #: application/controllers/RestorejobController.php:1041
 #, php-format
-msgid "%s<br>(%s dirs and files affected)"
-msgstr "%s<br>(%s diretório(s) e arquivo(s)) afetados"
+msgid "%s<br/>(%s dirs and files affected)"
+msgstr "%s<br/>(%s diretório(s) e arquivo(s)) afetados"
 
 #: application/controllers/RestorejobController.php:1001
 #: application/controllers/RestorejobController.php:1043
@@ -1688,8 +1688,8 @@ msgid "Enter Filename (no path)"
 msgstr "Arquivo (sem caminho)"
 
 #: application/views/scripts/job/find-form.phtml:195
-msgid "Type of search<br>(case sensitive)"
-msgstr "Tipo de busca<br>(case sensitive)"
+msgid "Type of search (case sensitive)"
+msgstr "Tipo de busca (case sensitive)"
 
 #: application/views/scripts/job/run-job-output.phtml:59
 msgid "View Running Jobs"

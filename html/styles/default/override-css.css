@@ -10,11 +10,6 @@ body { font-size: 1.2em;}
     margin: 5px;
 }   
 
-.text-vcenter{
-    display:flex;
-    align-items:center;
-}
-
 .table-hover tbody tr:hover td {
     background: #f8efc0;
 }
@@ -106,7 +101,27 @@ a:hover img{ text-decoration: none; outline:6px; border-bottom: 0px;}
    color: #fff;
 }
 
+.table > thead > tr > th.text-vcenter,
+.table > tbody > tr > th.text-vcenter,
+.table > tfoot > tr > th.text-vcenter,
+.table > thead > tr > td.text-vcenter,
+.table > tbody > tr > td.text-vcenter,
+.table > tfoot > tr > td.text-vcenter{
+  vertical-align: middle;
+}
 
-.table tbody>tr>td.vertical-center{
+
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
+/*
+.table tr > td.text-vcenter{
     vertical-align: middle;
 }
+*/

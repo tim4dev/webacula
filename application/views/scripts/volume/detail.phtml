@@ -13,9 +13,18 @@ $(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+   $(document).ready(function() {
+      $('select').each(function() {
+          $(this).addClass("select-overflow").addClass("form-control");
+      });
+  });
+
+</script>
+
 <div class="rows">
    <div class="col-md-8">
-      <div class="panel panel-default panel-primary">
+      <div class="panel panel-primary">
          <div class="panel-heading">
             <?php echo $this->escape($this->title); ?>
          </div>
@@ -74,11 +83,11 @@ $(document).ready(function() {
                            <td><?php echo $this->escape($line['volumename']);?></td>
                         </tr>
                         <tr>
-                           <td><b><?php print $this->translate->_("Pool"); ?></b></td>
+                           <td class="text-vcenter"><b><?php print $this->translate->_("Pool"); ?></b></td>
                            <td><?php echo $this->formSelect('poolid', $this->escape($line['poolid']), null, $apool); ?></td>
                         </tr>
                         <tr>
-                           <td><?php print $this->translate->_("Status"); ?></td>
+                           <td class="text-vcenter"><?php print $this->translate->_("Status"); ?></td>
                            <td><?php echo $this->formSelect('volstatus', $this->escape($line['volstatus']), null, $astatus); ?></td>
                         </tr>
                         <tr>
@@ -97,29 +106,27 @@ $(document).ready(function() {
                            </td>
                         </tr>
                         <tr>
-                            <td><?php echo $this->translate->_("Retention")," (",$this->translate->_("days"), ")"; ?> </td>
+                            <td class="text-vcenter"><?php echo $this->translate->_("Retention")," (",$this->translate->_("days"), ")"; ?> </td>
                             <td>
-                            <?php echo $this->formText('volretention', $this->ConvSecondsToDays( $this->escape($line['volretention']) ),
-                                array('size' => 5)) ?>
+                            <?php echo $this->formText('volretention', $this->ConvSecondsToDays( $this->escape($line['volretention'])),array('size' => 5, 'class' => 'form-control')) ?>
                             </td>
                         </tr>
                         <tr>
-                           <td><?php echo $this->translate->_("Use Duration")," (",$this->translate->_("seconds"), ")"; ?> </td>
+                           <td class="text-vcenter"><?php echo $this->translate->_("Use Duration")," (",$this->translate->_("seconds"), ")"; ?> </td>
                            <td>
-                           <?php echo $this->formText('voluseduration', $this->escape($line['voluseduration'] ),
-                               array('size' => 10)) ?>
+                           <?php echo $this->formText('voluseduration', $this->escape($line['voluseduration'] ), array('size' => 10, 'class' => 'form-control')) ?>
                            </td>
                         </tr>
                         <tr>
-                           <td><?php print $this->translate->_("Recycle "); ?> </td>
+                           <td class="text-vcenter"><?php print $this->translate->_("Recycle "); ?> </td>
                            <td><?php echo $this->formSelect('recycle', $this->escape($line['recycle']), null, $arecycle); ?></td>
                         </tr>
                         <tr>
-                           <td><?php print $this->translate->_("Autochanger<br />Slot<br />Number"); ?> </td>
-                           <td><?php echo $this->formText('slot', $this->escape($line['slot']), array('size' => 5)) ?></td>
+                           <td class="text-vcenter"><?php print $this->translate->_("Autochanger<br />Slot<br />Number"); ?> </td>
+                           <td><?php echo $this->formText('slot', $this->escape($line['slot']), array('size' => 5, 'class' => 'form-control')) ?></td>
                         </tr>
                         <tr>
-                           <td><?php print $this->translate->_("In Changer"); ?> </td>
+                           <td class="text-vcenter"><?php print $this->translate->_("In Changer"); ?> </td>
                            <td><?php echo $this->formSelect('inchanger', $this->escape($line['inchanger']), null, $ainchanger); ?></td>
                         </tr>
                         <tr>
@@ -134,7 +141,7 @@ $(document).ready(function() {
                            <td><?php print $this->translate->_("Last Written"); ?> </td>
                            <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['lastwritten'])));?></td>
                         </tr>
-                     <tbody>
+                     </tbody>
                   </table>
                </div><!-- end div col-mds-6 -->
                <!-- end column 1 -->
@@ -167,7 +174,7 @@ $(document).ready(function() {
                             if ( $this->escape($line['volerrors']) == 0 )
                                 echo '<td></td>';
                             else
-                                echo '<td class="err">' . $this->escape($line['volerrors']) . '</td>';
+                                echo '<td class="danger">' . $this->escape($line['volerrors']) . '</td>';
                         ?>
                      </tr>
                      <tr>
@@ -178,18 +185,18 @@ $(document).ready(function() {
                         <td><?php print $this->translate->_("Enabled"); ?> </td>
                         <?php
                             if ( $this->escape($line['enabled']) == 0 )
-                                echo '<td class="err">'.$this->translate->_("no").'</td>';
+                                echo '<td class="danger">'.$this->translate->_("no").'</td>';
                             else
                                 echo '<td>'.$this->translate->_("yes").'</td>';
                         ?>
                      </tr>
                      <tr>
-                        <td><?php print $this->translate->_("Max Volume Jobs"); ?> </td>
-                        <td><?php echo $this->formText('maxvoljobs', $this->escape($line['maxvoljobs']), array('size' => 9)) ?> </td>
+                        <td class="text-vcenter"><?php print $this->translate->_("Max Volume Jobs"); ?> </td>
+                        <td><?php echo $this->formText('maxvoljobs', $this->escape($line['maxvoljobs']), array('size' => 10, 'class' => 'form-control')) ?> </td>
                      </tr>
                      <tr>
-                        <td><?php print $this->translate->_("Max Volume Files"); ?> </td>
-                        <td><?php echo $this->formText('maxvolfiles', $this->escape($line['maxvolfiles']), array('size' => 9)) ?> </td>
+                        <td class="text-vcenter"><?php print $this->translate->_("Max Volume Files"); ?> </td>
+                        <td><?php echo $this->formText('maxvolfiles', $this->escape($line['maxvolfiles']), array('size' => 10, 'class' => 'form-control')) ?> </td>
                      </tr>
                      <tr>
                         <td><?php print $this->translate->_("Read Time"); ?> </td>
@@ -219,10 +226,10 @@ $(document).ready(function() {
                      </tr>
                      <tr>
                         <td><?php print $this->translate->_("Comment"); ?> </td>
-                        <td><?php echo $this->formTextarea('comment', $this->escape($line['comment']), array('cols' => "25", 'rows' => "2")); ?></td>
+                        <td><?php echo $this->formTextarea('comment', $this->escape($line['comment']), array('cols' => "25", 'rows' => "2", 'class' => 'form-control')); ?></td>
                      </tr>
                      <?php endforeach; ?>
-                     <tbody>
+                     </tbody>
                   </table>
                </div><!-- end div col-mds-6 -->
                <!-- end column 2 -->
