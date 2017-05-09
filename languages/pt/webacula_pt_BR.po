@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-30 17:18+0300\n"
-"PO-Revision-Date: 2016-08-04 19:30+0300\n"
-"Last-Translator: Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>\n"
+"PO-Revision-Date: 2017-05-08 19:30+0300\n"
+"Last-Translator: Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
 "Language-Team: Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>, Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
 "Language: Portuguese\n"
 "MIME-Version: 1.0\n"
@@ -36,6 +36,18 @@ msgstr ""
 
 msgid "You try to run Bacula Console with command \"%s\"."
 msgstr "Você tentou executar o seguinte comando no bconsole \"%s\""
+
+msgid "All command will be send to Bacula Console (bconsole)"
+msgstr "Todos os comandos serão enviados para o console do Bacula (bconsole)"
+
+msgid "Only commands with a single line are working, commands with prompt doesn't work."
+msgstr "Apenas comandos com uma única linha estão funcionando, comandos com prompt não."
+
+msgid "See Bacula documentation 'Running the Console from a Shell Script' for details."
+msgstr "Consulte a documentação do Bacula 'Running the Console from a Shell Script' para obter detalhes."
+
+msgid "clear - clear the screen"
+msgstr "clear - limpa a tela"
 
 #: application/controllers/BconsoleController.php:51
 msgid "Access denied."

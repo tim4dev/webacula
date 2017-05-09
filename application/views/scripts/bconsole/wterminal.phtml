@@ -6,70 +6,42 @@
 <script type="text/javascript">
 
 $(function() {
-    var cmd = {
-        'add':null,
-        'autodisplay':null,
-        'automount':null,
-        'cancel':null,
-        'create':null,
-        'disable':null,
-        'enable':null,
-        'estimate':null,
-        'help':null,
-        'label':null,
-        'list':null,
-        'llist':null,
-        'messages':null,
-        'memory':null,
-        'mount':null,
-        'prune':null,
-        'purge':null,
-        'python':null,
-        'query':null,
-        'restore':null,
-        'relabel':null,
-        'release':null,
-        'reload':null,
-        'run':null,
-        'status':null,
-        'stop':null,
-        'setdebug':null,
-        'setbandwidth':null,
-        'show':null,
-        'time':null,
-        'trace':null,
-        'unmount':null,
-        'umount':null,
-        'use':null,
-        'version':null,
-        'wait':null
-    };
-    
-   var welcome = '[[b;#337AB7;]All command will be send to Bacula Console (bconsole).\n' +
-                 'Bacula Console commands will be written like command line style.\n' +
-                 'See Bacula documentation "Running the Console from a Shell Script" for details.\n' +
-                 'clear - clear the screen\n]'
+   var cmd = new Array( 'add','autodisplay','automount','cancel','create','delete','disable','enable','estimate','help','label','list','llist','memory','messages','mount','prune','purge','query','relabel','release','reload','restore','run','setbandwidth','setdebug','setip','show','sqlquery','status','stop','time','trace','truncate','umount','unmount','update','use','version','wait' );
+   var welcome = "[[b;#337AB7;]" + 
 
-    $('#wterm').terminal(function(command, term) {
-        term.pause();
-        if(command != ""){
-           $.post('<?php echo $this->baseUrl, '/bconsole/cmd' ?>', {'bcommand': command, 'command': cmd }).then(function(response) {
-               term.echo(response,{raw:true}).resume();
-           });
-        } else{
-          term.exec('clear').resume();  
-        } //end if
-      }, 
-      {
-        greetings: welcome,
-        prompt: 'bconsole> ',
-        height: 400,
-        onBlur: function(){
-           return false;
-        }
-        
-      }
+         <?php 
+         echo '"', $this->translate->_("All command will be send to Bacula Console (bconsole)"), '\n' ,
+              $this->translate->_("Only commands with a single line are working, commands with prompt doesn't work."),'\n' ,
+              $this->translate->_("See Bacula documentation 'Running the Console from a Shell Script' for details."), '\n',
+              $this->translate->_("clear - clear the screen"), '"';
+         ?>
+         + "\n]"
+                  
+   var available = Object(cmd);
+   
+   $('#wterm').terminal(function(command, term) {
+       term.pause();
+       var name = $.terminal.parse_command(command).name;
+       // run only commands that are on the list
+       if (available.indexOf(name) >= 0) {
+          $.post('<?php echo $this->baseUrl, '/bconsole/cmd' ?>', {'bcommand': command, 'command': cmd }).then(function(response) {
+              term.echo(response,{raw:true}).resume();
+          });
+       } else{
+         //term.exec('clear').resume();
+         term.echo("Command not found!").resume();
+       } //end if
+     }, 
+     {
+       greetings: welcome,
+       prompt: 'bconsole> ',
+       height: 400,
+       onBlur: function(){
+          return false;
+       }
+     }
    );
+   
 });
 
 </script>
