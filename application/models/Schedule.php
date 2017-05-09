@@ -42,11 +42,11 @@ class Schedule
     public function __construct()
     {
         $this->config      = Zend_Registry::get('config');
-        $this->sudo 	   = $this->config->general->bacula->sudo;
+        $this->sudo     = $this->config->general->bacula->sudo;
         $this->bconsole    = $this->config->general->bacula->bconsole;
         $this->bconsolecmd = $this->config->general->bacula->bconsolecmd;
         $cmd = '';
-        if ( isset($this->sudo))	{
+        if ( isset($this->sudo)) {
             // run with sudo
            $cmd = $this->sudo . ' ' . $this->bconsole . ' ' . $this->bconsolecmd;
         } else {
@@ -118,7 +118,7 @@ class Schedule
      */
      public function getSchedule()
      {
-    	$config = Zend_Registry::get('config');
+      $config = Zend_Registry::get('config');
         $array_month_short = array(0=>'Jan',1=>'Feb',2=>'Mar',3=>'Apr',4=>'May',5=>'Jun',6=>'Jul',7=>'Aug',8=>'Sep',9=>'Oct',10=>'Nov',11=>'Dec',);
         $array_month_long = array(0=>'January',1=>'February',2=>'March',3=>'April',4=>'May',5=>'June',6=>'July',7=>'August',8=>'September',9=>'October',10=>'November',11=>'December',);
         $array_weekday_short = array(0=>'Sun',1=>'Mon',2=>'Tue',3=>'Wed',4=>'Thu',5=>'Fri',6=>'Sat',);
@@ -127,14 +127,14 @@ class Schedule
         $array_weekyear_short = array(0=>1,1=>2,2=>3,3=>4,4=>5,5=>6,6=>7,7=>8,8=>9,9=>10,10=>11,11=>12,12=>13,13=>14,14=>15,15=>16,16=>17,17=>18,18=>19,19=>20,20=>21,21=>22,22=>23,23=>24,24=>25,25=>26,26=>27,27=>28,28=>29,29=>30,30=>31,31=>32,32=>33,33=>34,34=>35,35=>36,36=>37,37=>38,38=>39,39=>40,40=>41,41=>42,42=>43,43=>44,44=>45,45=>46,46=>47,47=>48,48=>49,49=>50,50=>51,51=>52,52=>53,53=>54);
         $array_day_short = array(0=>1,1=>2,2=>3,3=>4,4=>5,5=>6,6=>7,7=>8,8=>9,9=>10,10=>11,11=>12,12=>13,13=>14,14=>15,15=>16,16=>17,17=>18,18=>19,19=>20,20=>21,21=>22,22=>23,23=>24,24=>25,25=>26,26=>27,27=>28,28=>29,29=>30,30=>31);
 
-    	// check access to bconsole
-    	if ( !file_exists($config->general->bacula->bconsole))	{
-    		$aresult[] = 'NOFOUND';
-    		return $aresult;
-    	}
+      // check access to bconsole
+      if ( !file_exists($config->general->bacula->bconsole))   {
+         $aresult[] = 'NOFOUND';
+         return $aresult;
+      }
 
-    	$bconsolecmd = '';
-        if ( isset($config->general->bacula->sudo))	{
+      $bconsolecmd = '';
+        if ( isset($config->general->bacula->sudo))   {
             // run with sudo
             $bconsolecmd = $config->general->bacula->sudo . ' ' . $config->general->bacula->bconsole . ' ' .
                     $config->general->bacula->bconsolecmd;
@@ -144,7 +144,7 @@ class Schedule
 
         //===========================================================================
         // Get schedules names from bconsole
-        //===========================================================================	
+        //===========================================================================  
         $command_output = "";
         $return_var = 0;
         exec($bconsolecmd . 
@@ -152,7 +152,7 @@ class Schedule
         .schedule
         quit 
         EOF', $command_output, $return_var);
-	
+   
         foreach ($command_output as $line){
             $line = trim($line);
             $pattern = "((^Connecting|^1000 OK|^Enter a period|^\.|quit|^You have messages))";
@@ -161,7 +161,7 @@ class Schedule
             }
             if($line=="quit"){
                 break;
-            }		   
+            }        
         } //end for each
         //echo "<pre>"; print_r($array_schedule_name); echo "</pre>";;// !!! DEBUG !!!
 
@@ -169,51 +169,50 @@ class Schedule
         //===========================================================================
         //#  Get information about of all schedules from bconsole and separate
         //#  information of schedules in an key in array
-        //===========================================================================	   
-        $array_2 = array();
-	$command_output = "";
-        $return_var = 0;
-        exec($bconsolecmd . 
-        '<<EOF
-        show schedule
-        quit 
-        EOF', $command_output, $return_var);
-	$key=-1;
-        foreach ($command_output as $line){
-	    $line = trim($line);
-            if ( preg_match("((^Schedule))", $line)){
-                foreach ($array_schedule_name as $value){
-                    if ( preg_match("((".$value."))", $line)){
-                       $status_schedule = str_replace("Schedule: Name=$value Enabled=","",$line);
-                       $line = "Schedule: ". $value;
-                       break;
-                    }
-                } // end foreach
-                $key++;
-                $array_schedule_options[$key]['name'] = $value;
-                $array_schedule_options[$key]['status'] = $status_schedule;
-                $array_schedule_options[$key]['schedule'] = null;
-            } //end if
-        
-	    // Get just important information to identify options from schedules and ignore other  pattern negative
-            $pattern = "((^Connecting|^1000 OK|^Enter a period|^\.|quit|^You have messages|^show schedule|^use_cat=|^max_vols=|^VolUse=|^CleaningPrefix=|^RecyleOldest=|^MaxVolJobs=|^MigTime=|^JobRetention=))";
-            if ( !preg_match($pattern, $line)) {
-                $array_schedule[$key][] = str_replace("--> ","",$line);
-            }
-            if($line=="quit"){
-                break;
-            }		   
+        //===========================================================================     
+        foreach($array_schedule_name as $key => $value1){
+           $command_output = "";
+           $return_var = 0;
+           exec($bconsolecmd . 
+           '<<EOF
+           show schedule="' .$value1.'"
+           quit 
+           EOF', $command_output, $return_var);
+           foreach ($command_output as $line){
+           $line = trim($line);
+               if ( preg_match("((^Schedule))", $line)){
+                   foreach ($array_schedule_name as $value2){
+                       if ( preg_match("/\b".$value2."\b/i", $line)){
+                          $status_schedule = str_replace("Schedule: Name=$value2 Enabled=","",$line);
+                          $line = "Schedule: ". $value2;
+                          break;
+                       }
+                   } // end foreach
+                   $array_schedule_options[$key]['name'] = $value1;
+                   $array_schedule_options[$key]['status'] = $status_schedule;
+                   $array_schedule_options[$key]['schedule'] = null;
+               } //end if
+           
+               // Get just important information to identify options from schedules and ignore other  pattern negative
+               $pattern = "((^Connecting|^1000 OK|^Enter a period|^\.|quit|^You have messages|^show schedule|^use_cat=|^max_vols=|^VolUse=|^CleaningPrefix=|^RecyleOldest=|^MaxVolJobs=|^MigTime=|^JobRetention=))";
+               if ( !preg_match($pattern, $line)) {
+                   $array_schedule[$key][] = str_replace("--> ","",$line);
+               }
+               if($line=="quit"){
+                   break;
+               }        
+           } //end for each
         } //end for each  
         //echo "<pre>"; print_r($array_schedule); echo "</pre>"; // !!! DEBUG !!! 
     
         //===========================================================================
         //#  Create secondary array with the options of everything schedule
-        //===========================================================================	   
+        //===========================================================================     
         // get the all lines from bconsole and separate groups lines per schedule names
         for($i=0;$i<count($array_schedule);$i++){
             $key = -1;
             for($j=0;$j<count($array_schedule[$i]);$j++){
-	        $line = $array_schedule[$i][$j];
+           $line = $array_schedule[$i][$j];
             
                 //If find a schedule put all of the following lines in a one key array
                 if ( preg_match("((^Schedule:))", $line)){
@@ -288,7 +287,7 @@ class Schedule
             $array_schedule_options[$i]['schedule'] = $v;
             unset($v);
         }//end for i
-        //echo "<pre>"; print_r($array_schedule_options); echo "</pre>"; // !!! DEBUG !!!
+        echo "<pre>"; print_r($array_schedule_options); echo "</pre>"; // !!! DEBUG !!!
         //exit;
 
         return $array_schedule_options;
