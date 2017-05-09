@@ -67,7 +67,7 @@ $(document).ready(function() {
                            <td>
                            <?php
                               if ( isset($line['name_job']) && ($line['exists'] == 1) ){
-                                 echo '<a href="<?php echo $this->baseUrl . "/job/show-job/jobname/"' . $this->escape($line['name_job']) . '" title="' . $this->translate->_("Show Job resource") .'">';
+                                 echo '<a href="' , $this->baseUrl , '/job/show-job/jobname/' , $this->escape($line['name_job']) , '" title="' , $this->translate->_("Show Job resource") , '">';
                                  echo $line['name_job'] . '</a>';
                               } else {
                                  echo $line['name_job'];
