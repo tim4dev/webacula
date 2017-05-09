@@ -287,7 +287,7 @@ class Schedule
             $array_schedule_options[$i]['schedule'] = $v;
             unset($v);
         }//end for i
-        echo "<pre>"; print_r($array_schedule_options); echo "</pre>"; // !!! DEBUG !!!
+        //echo "<pre>"; print_r($array_schedule_options); echo "</pre>"; // !!! DEBUG !!!
         //exit;
 
         return $array_schedule_options;
