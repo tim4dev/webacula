@@ -34,6 +34,7 @@ class BconsoleController extends MyClass_ControllerAclAction
 
     function wterminalAction()
     {
+      $this->view->title = "Webacula Bconsole";
     }
 
 
@@ -62,8 +63,7 @@ class BconsoleController extends MyClass_ControllerAclAction
 "<<EOF
 $bcommand
 @quit
-EOF"
-        );
+EOF");
         $this->view->command_output = $astatusdir['command_output'];
         // check return status of the executed command
         $this->view->return_var = $astatusdir['return_var'];

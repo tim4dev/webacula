@@ -1,34 +1,12 @@
 <!-- bconsole/wterminal.phtml -->
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/wterm.jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/wterm.css" media="screen" />
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.terminal.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.mousewheel-min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/jquery.terminal.min.css" media="screen" />
 
-<script>
-String.prototype.reverse = function() {
-    return this.split('').reverse().join('');
-};
-</script>
+<script type="text/javascript">
 
-<script>
-var welcome='<div style="color: #0f0;">Welcome to <b>webacula terminal.</b></div>'
-$( document ).ready( function() {
-    $('#wterm').wterm({
-        WIDTH:  '70%',
-        HEIGHT: '100%',
-        WELCOME_MESSAGE: welcome+'<div  style="color: #0f0;">'+
-        'All command will be send to Bacula Console (bconsole).<br>'+
-        '<div style="color: #fff;">Bacula Console commands will be written like command line style.<br>'+
-        'See Bacula documentation "Running the Console from a Shell Script" for details.</div><br>'+
-        '<b>clear</b> - clear the screen<br></div>',
-        PS1: '*',
-        NOT_FOUND: '<div> CMD: command not found.</div>',
-        AJAX_METHOD: 'POST',
-        HISTORY: true,
-		DEFAULT_THEME: '_white_on_black',
-        AJAX_PARAM: 'bcommand'
-    });
-});
-
-    var arr_cmds = {
+$(function() {
+    var cmd = {
         'add':null,
         'autodisplay':null,
         'automount':null,
@@ -66,17 +44,48 @@ $( document ).ready( function() {
         'version':null,
         'wait':null
     };
+    
+   var welcome = '[[b;#337AB7;]All command will be send to Bacula Console (bconsole).\n' +
+                 'Bacula Console commands will be written like command line style.\n' +
+                 'See Bacula documentation "Running the Console from a Shell Script" for details.\n' +
+                 'clear - clear the screen\n]'
 
-    for( var cmd in arr_cmds ) {
-        $.register_command( cmd, 'cmd' );
-    }
+    $('#wterm').terminal(function(command, term) {
+        term.pause();
+        if(command != ""){
+           $.post('<?php echo $this->baseUrl, '/bconsole/cmd' ?>', {'bcommand': command, 'command': cmd }).then(function(response) {
+               term.echo(response,{raw:true}).resume();
+           });
+        } else{
+          term.exec('clear').resume();  
+        } //end if
+      }, 
+      {
+        greetings: welcome,
+        prompt: 'bconsole> ',
+        height: 400,
+        onBlur: function(){
+           return false;
+        }
+        
+      }
+   );
+});
+
 </script>
 
-
-<title>Webacula bconsole</title>
-</head>
-
-<body>
-
-<div id='wterm'>
-</div>
+<div class="rows">
+   <div class="col-md-12">
+      <div class="panel panel-default panel-primary panel-logoutput">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <div class="table-responsive">
+               <pre id='wterm'></pre>
+            </div><!-- end div table-responsive -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-8 -->
+</div><!-- end div row -->
+<!-- bconsole/wterminal.phtml -->

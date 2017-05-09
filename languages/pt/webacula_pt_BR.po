@@ -35,7 +35,7 @@ msgstr ""
 #: msgfmt -o webacula_pt_BR.mo webacula_pt_BR.po
 
 msgid "You try to run Bacula Console with command \"%s\"."
-msgstr ""
+msgstr "Você tentou executar o seguinte comando no bconsole \"%s\""
 
 #: application/controllers/BconsoleController.php:51
 msgid "Access denied."
