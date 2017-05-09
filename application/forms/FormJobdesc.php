@@ -28,7 +28,6 @@ class FormJobdesc extends Zend_Form
     protected $translate;
 	 protected $_action_cancel = '';
 
-
     public function init()
     {
         $this->translate = Zend_Registry::get('translate');
@@ -42,14 +41,20 @@ class FormJobdesc extends Zend_Form
         $hidden_desc_id = $this->createElement('hidden', 'desc_id');
         $hidden_desc_id->removeDecorator('Label');
 
-
-        $name_job = $this->createElement('text', 'name_job', array(
-            'label'      => $this->translate->_('Job Name'),
+        Zend_Loader::loadClass('Director');
+        Zend_Loader::loadClass('Job');
+        $table_job = new Job();
+        $jobs = $table_job->getListJobs();
+        // select
+        $name_job = $this->createElement('select', 'name_job', array(
             'required'   => true,
-            'size' => 35,
-            'class' => 'form-control',
-            'maxlength' => 64
+            'label'    => $this->translate->_('Job Name'),
+            'class' => 'form-control'
         ));
+        foreach( $jobs as $v) {
+            $name_job->addMultiOption($v, $v);
+        }        
+        
         $name_job->addValidator('NotEmpty', false, null );
         $name_job->addValidator('StringLength', false, array(0, 64) );
         //$name_job->addDecorator('HtmlTag',  array('tag' => 'div', 'style'=>'margin-bottom:20px;'));
@@ -93,7 +98,6 @@ class FormJobdesc extends Zend_Form
         ));
 		
         $cancel_button = new Zend_Form_Element_Submit('cancel_button', array(
-            //'decorators' => $this->elDecorators,
             'id'    => 'cancel_'.__CLASS__,
 			   'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
