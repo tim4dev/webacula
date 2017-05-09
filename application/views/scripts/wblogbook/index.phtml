@@ -76,13 +76,7 @@ $(document).ready(function(){
             <?php echo $this->escape($this->title); ?>
          </div>
          <div class="panel-body">
-            <p>
-               <div>
-                  <form method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/add">
-                     <input type="submit" name="name1" value="<?php print $this->translate->_("Add New Record"); ?>" class="btn btn-default">
-                  </form>
-               </div>
-               <br/>
+
             
                <div class="filter-form">
                <!-- ######################################################################### -->
@@ -303,8 +297,13 @@ $(document).ready(function(){
                <!-- end div alert -->
             
                <?php endif; ?>
+               
+               <div>
+                  <form method="POST" action="<?php echo $this->baseUrl ?>/wblogbook/add">
+                     <input type="submit" name="name1" value="<?php print $this->translate->_("Add New Record"); ?>" class="btn btn-default">
+                  </form>
+               </div>               
             
-            </p><!-- close p -->
          </div><!-- close div panel-body -->
       </div><!-- close div panel panel-default -->
    </div><!-- fim div col-md-8 -->
