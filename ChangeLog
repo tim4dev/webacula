@@ -1,6 +1,33 @@
 Webacula ChangeLog
 ------------------
 
+=== 7.5.1
+   - Bugfixes
+   - Modify library JS and CSS from scripts/bconsole
+   - Fix bconsole command execution and add translations
+   - Change position of buttons wbjobdesc/wblogbook and fix button wblogbook that was not showing correct
+   - Fix the schedules when their names are similar and didn't show correctly
+   - Modified wbjobdesc and add option to select jobs instead to write
+
+=== 7.5.0
+   - The main change is that the interface was updated to use Boostrap CSS themes
+   - All libraries CSS and JavaScript was updated
+   - Some libraries CSS and JS were removed
+   - New show outputs from bconsole (schedule, pool)
+
+=== 7.4.0 (It was not released as version, just in the git Branch-7.4
+   - Huge speed improvement in restore file selection (https://github.com/tim4dev/webacula/pull/4 and https://github.com/bareos/contrib-webacula/commit/cecacf944c57a3f4a966a3d6a9aab20d57ba6149)
+   - Minor changes in styles CSS
+   - A small changes in layout of volume/pools
+   - Better method to convert bytes to humanreadable
+   - Added new setting days_to_show_jobs_terminated feature (Terminated jobs can show more than 1 day) (https://github.com/tim4dev/webacula/pull/8)
+   - Added new setting date_format and and datetime_format (Option to modify date/time format)
+   - Better translation for Brazilian Portuguese (pt_BR)
+   - New field to show when volumes will expire in Volumes
+   - Set default password for root: bacula (just leave 'webacula_root_pwd' empty in db.conf)
+   - New feature. Menu option to show the schedules
+
+
 === 7.0.0 (Sat Oct  4 2014)
     WARNING! Webacula 7.x incompatible with prior versions!
     Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
