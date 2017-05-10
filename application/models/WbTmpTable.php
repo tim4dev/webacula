@@ -350,7 +350,8 @@ class WbTmpTable extends Zend_Db_Table
                     FileIndex INTEGER UNSIGNED DEFAULT 0,
                     isMarked INTEGER  UNSIGNED DEFAULT 0,
                     FileSize BIGINT  UNSIGNED DEFAULT 0,
-                    PRIMARY KEY(FileId)
+                    PRIMARY KEY(FileId),  
+                    KEY idx_fileindex (FileIndex)
                 )");
                 break;
             case 'PDO_PGSQL':
@@ -361,7 +362,8 @@ class WbTmpTable extends Zend_Db_Table
                     fileindex integer not null  default 0,
                     isMarked SMALLINT  DEFAULT 0,
                     FileSize BIGINT  DEFAULT 0,
-                    PRIMARY KEY(FileId)
+                    PRIMARY KEY(FileId),
+                    KEY idx_fileindex (FileIndex)
                 )");
                 break;
             case 'PDO_SQLITE':
