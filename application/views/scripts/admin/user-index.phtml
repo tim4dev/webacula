@@ -1,23 +1,32 @@
 <script type="text/javascript">
 
-$(document).ready(
-	function() {
+$(document).ready(function() {
 
-	$('a.confirm').click(function(e) {
-		var targetUrl = $(this).attr("href");
-		$('#dialog-confirm').dialog({
-           buttons : {
-                  <?php echo $this->translate->_('Yes'); ?> : function() {
-                    window.location.href = targetUrl;
-                  },
-                  <?php echo $this->translate->_('No'); ?> : function() {
-                    $(this).dialog("close");
-                  }
-                }		
-		});
-		e.preventDefault();
-	});	
-	
+   $('a.confirm').click(function(e){
+      var targetUrl = $(this).attr("href");
+      $('#dialog-confirm').dialog({
+           modal: true,
+           buttons : [
+              {  
+               'text' : '<?php echo $this->translate->_('Yes'); ?>',
+               'class' : 'btn btn-default',
+               'width' : '75px',
+               click: function(){ window.location.href = targetUrl; }
+              },
+              {
+               'text' : '<?php echo $this->translate->_('No'); ?>',
+               'class' : 'btn btn-default',
+               'width' : '75px',
+               click: function(){ $(this).dialog("close"); }
+              }  
+           ],
+           open: function(event){
+              $('.ui-dialog-buttonpane').find('button').removeClass('ui-button ui-corner-all ui-widget');
+           }
+      });
+      e.preventDefault();
+   });
+
 });
 </script>
 

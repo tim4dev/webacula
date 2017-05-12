@@ -2,6 +2,24 @@ body { font-size: 1.2em;}
 
 .select-overflow { height: auto; max-height: 200px;}
 
+/*  Dialogs */
+.ui-widget-overlay {
+   background: #000;
+   opacity: 0.5
+}
+.ui-dialog-titlebar{
+   background: #337ab7; 
+   color: #fff;  
+}
+.ui-widget-header, .ui-widget.ui-widget-content  {
+   border: 0px ;
+}
+.ui-dialog {
+   padding: 0px;  
+}
+
+
+
 .help-span-legend span{
     font-size: 1em;
     width: 100px;

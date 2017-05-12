@@ -1184,8 +1184,14 @@ msgstr "Status dos Storage não encontrado."
 #: application/views/scripts/storage/storage.phtml:64
 #: application/views/scripts/storage/storage.phtml:75
 #: application/views/scripts/storage/storage.phtml:76
+msgid "Mount"
+msgstr "Montar"
+
 msgid "Mount Storage"
-msgstr "Montar storage"
+msgstr "Montar Storage"
+
+msgid "Unmount Storage"
+msgstr "Desmontar Storage"
 
 #: application/views/scripts/storage/storage.phtml:13
 msgid "Name Storage"
@@ -1202,17 +1208,17 @@ msgstr "Autochanger"
 #: application/views/scripts/storage/storage.phtml:138
 #: application/views/scripts/storage/storage.phtml:150
 #: application/views/scripts/storage/storage.phtml:151
-msgid "Unmount Storage"
-msgstr "Desmontar storage"
+msgid "Unmount"
+msgstr "Desmontar"
 
 #: application/views/scripts/storage/storage.phtml:54
 #: application/views/scripts/storage/storage.phtml:133
 msgid "Enter autochanger drive"
-msgstr "Inserir autochanger drive"
+msgstr "Informe o drive do autochanger"
 
 #: application/views/scripts/storage/storage.phtml:59
 msgid "Enter autochanger slot"
-msgstr "Inserir autochanger slot"
+msgstr "Informe o slot do autochanger"
 
 #: application/views/scripts/storage/storage.phtml:83
 msgid "Storage Status"

@@ -1,6 +1,4 @@
 <!-- storage/storage.phtml -->
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jqModal.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/jqModal.css" media="screen" />
 <div class="rows">
    <div class="col-md-4">
       <div class="panel panel-default panel-primary">
@@ -13,10 +11,10 @@
                   <table class="table table-striped table-hover table-condensed">
                      <thead>
                         <tr>
-                           <th><?php print $this->translate->_("Mount Storage"); ?></th>
-                           <th><?php print $this->translate->_("Name Storage"); ?></th>
-                           <th><?php print $this->translate->_("AutoChanger"); ?></th>
-                           <th><?php print $this->translate->_("Unmount Storage"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Mount"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Name Storage"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("AutoChanger"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Unmount"); ?></th>
                         </tr>
                      </thead>
                      <tbody>
@@ -28,52 +26,46 @@
                               <!-- autochanger block begin -->
                               <script type="text/javascript">
                               $(document).ready(function(){
-                                  $('#dialog<?php echo $this->escape($storage['storageid']); ?>').jqm({
-                                      trigger: '#trigger<?php echo $this->escape($storage['storageid']); ?>',
-                                      overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
-                                  });
+	                                 $('#trigger-mount<?php echo $this->escape($storage['storageid']); ?>').click(function(e){
+                                       $('#mount<?php echo $this->escape($storage['storageid']); ?>').dialog({
+                                            modal: true,
+                                            buttons : [{
+                                                 'text' : '<?php echo $this->translate->_('Mount Storage'); ?>',
+                                                 'class' : 'btn btn-default',
+                                                 'type' : 'submit',
+                                                 click: function(){ $(this).find('form').submit(); }
+                                            }],
+                                            'title' : '<?php echo $this->translate->_('Mount Storage'); ?>',
+                                            open: function(event) {
+                                                 $('.ui-dialog-buttonpane').find('button:contains("<?php echo $this->translate->_('Mount Storage'); ?>")').removeClass('ui-button ui-corner-all ui-widget');
+                                            }
+	                                 	});
+	                                 	e.preventDefault();
+	                                 });                                  
                               });
                               </script>                              
-                              <a href="#" id="trigger<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
+                              <a href="#" id="trigger-mount<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Mount Storage"); ?>">
                                  <img src="<?php echo $this->baseUrl; ?>/images/connected.png" alt="<?php echo $this->translate->_("Mount Storage"); ?>">
                               </a>
-                              <div class="jqmWindow" id="dialog<?php echo $this->escape($storage['storageid']); ?>">
-                                 <div class="dialog-header">
-                                    <b><?php echo $this->translate->_("Mount Storage"), ' ', $this->escape($storage['name']); ?></b>
-                                 </div>
-                                 <div class="dialog-close">
-                                     <a href="#" class="jqmClose"><span class="glyphicon glyphicon-remove"></span></a>
-                                 </div>
-                                 <hr class="dialog-hr">
-                        
-                                 <!-- autochanger form begin -->
-                                 <script type="text/javascript">
-                                 $(document).ready(function(){
-                                     $('#dialogU<?php echo $this->escape($storage['storageid']); ?>').jqm({
-                                         trigger: '#triggerU<?php echo $this->escape($storage['storageid']); ?>',
-                                         overlay: 40  /* 0-100 (int) : 0 is off/transparent, 100 is opaque */
-                                     });
-                                 });
-                                 </script>                                  
-                                 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
-                                    <?php echo $this->formHidden('autochanger', '1', null); ?>
-                                    <?php echo $this->formHidden('act', 'mount', null); ?>
-                                    <?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
-                                    <div style="text-align: left; padding: 6px;">
-                                       <label>
-                                       <?php print $this->translate->_("Enter autochanger drive"); ?>
-                                       <?php echo $this->formText('drive', null, array('size' => 3)); ?>
-                                       </label>
-                                       <label>
+                              <div id="mount<?php echo $this->escape($storage['storageid']); ?>" style="display:none;">
+                                 <br/>
+                                 <b><?php echo $this->escape($storage['name']); ?></b>
+                                
+                                 <div class="form-control-inline">
+                                    <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
+                                       <?php echo $this->formHidden('autochanger', '1', null); ?>
+                                       <?php echo $this->formHidden('act', 'mount', null); ?>
+                                       <?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
+                                       
                                        <br/>
-                                       <sup>*</sup><?php print $this->translate->_("Enter autochanger slot"); ?>
-                                       <?php echo $this->formText('slot', null, array('size' => 3)); ?>
-                                       </label>
-                                    </div>
-                                    <br/>
-                                    <?php echo $this->formSubmit('ok1', $this->translate->_('Mount Storage'), array('class' => 'btn btn-default') ); ?>
-                                 </form>
-                                 <!-- autochanger form end -->
+                                       <?php print $this->translate->_("Enter autochanger drive"); ?>
+                                       <?php echo $this->formText('drive', null, array('size' => 3, 'class' => 'form-control')); ?>
+                                       
+                                       <br/>
+                                       <b>*</b><?php print $this->translate->_("Enter autochanger slot"); ?>
+                                       <?php echo $this->formText('slot', null, array('size' => 3, 'class' => 'form-control')); ?>
+                                    </form>
+                                 </div>
                               </div>
                               <!-- autochanger block end -->
                         
@@ -104,34 +96,43 @@
                               <?php if ( $storage['autochanger'] > 0 ) : ?>
                               
                               <!-- autochanger block begin -->
-                              <a href="#" id="triggerU<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
+                              <script type="text/javascript">
+                              $(document).ready(function(){
+	                                 $('#trigger-umount<?php echo $this->escape($storage['storageid']); ?>').click(function(e){
+                                       $('#umount<?php echo $this->escape($storage['storageid']); ?>').dialog({
+                                            modal: true,
+                                            buttons : [{
+                                                 'text' : '<?php echo $this->translate->_('Unmount Storage'); ?>',
+                                                 'class' : 'btn btn-default',
+                                                 'type' : 'submit',
+                                                 click: function(){ $(this).find('form').submit(); }
+                                            }],
+                                            'title' : '<?php echo $this->translate->_('Unmount Storage'); ?>',
+                                            open: function(event) {
+                                                 $('.ui-dialog-buttonpane').find('button').removeClass('ui-button ui-corner-all ui-widget');
+                                            }
+	                                 	});
+	                                 	e.preventDefault();
+	                                 });                                  
+                              });
+                              </script>                              
+                              <a href="#" id="trigger-umount<?php echo $this->escape($storage['storageid']); ?>" title="<?php print $this->translate->_("Unmount Storage"); ?>">
                                   <img src="<?php echo $this->baseUrl; ?>/images/disconnected.png" alt="<?php echo $this->translate->_("Unmount Storage"); ?>" border="0" hspace="5">
                               </a>
-                              <div class="jqmWindow" id="dialogU<?php echo $this->escape($storage['storageid']); ?>">
-                                 <div class="dialog-header">
-                                    <b><?php echo $this->translate->_("Unmount Storage"), ' ', $this->escape($storage['name']); ?></b>
-                                 </div>
-                                 <div class="dialog-close">
-                                    <a href="#" class="jqmClose"><span class="glyphicon glyphicon-remove"></span></a>
-                                 </div>
-                                 <hr class="dialog-hr">
-                        
-                                 <!-- autochanger form begin -->
-                                 <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
-                                    <?php echo $this->formHidden('autochanger', '1', null); ?>
-                                    <?php echo $this->formHidden('act', 'umount', null); ?>
-                                    <?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
-                                    <div style="text-align: left; padding: 6px;">
-                                       <label>
+                              <div id="umount<?php echo $this->escape($storage['storageid']); ?>" style="display:none;">
+                                 <br/>
+                                 <b><?php echo $this->escape($storage['name']); ?></b>
+                                 <div class="form-control-inline">
+                                    <form action="<?php  echo $this->baseUrl.'/storage/act-mount';?>" method="post">
+                                       <?php echo $this->formHidden('autochanger', '1', null); ?>
+                                       <?php echo $this->formHidden('act', 'umount', null); ?>
+                                       <?php echo $this->formHidden('name', $this->escape($storage['name']), null); ?>
+                                       <br/>
                                        <?php print $this->translate->_("Enter autochanger drive"); ?>
-                                       <?php echo $this->formText('drive', null, array('size' => 3)); ?>
-                                       </label>
-                                    </div>
-                                    <br/>
-                                    <?php echo $this->formSubmit('ok1', $this->translate->_('Unmount Storage'), array('class' => 'btn btn-default') ); ?>
-                                 </form>
-                                 <!-- autochanger form end -->
-                        
+                                       <?php echo $this->formText('drive', null, array('size' => 3,'class' => 'form-control')); ?>
+                                       <br/>
+                                    </form>
+                                 </div>
                               </div>
                               <!-- autochanger block end -->
                         
