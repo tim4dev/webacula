@@ -1372,6 +1372,9 @@ msgstr "Catálogo Bacula"
 msgid "Version for Bacula Catalog database"
 msgstr "Versão do Catálogo"
 
+msgid "Version for Webacula Application"
+msgstr "Versão do Webacula"
+
 #: application/views/scripts/help/index.phtml:33
 msgid "Bconsole"
 msgstr "Bacula Console"
