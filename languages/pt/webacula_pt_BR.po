@@ -1375,6 +1375,12 @@ msgstr "Versão do Catálogo"
 msgid "Version for Webacula Application"
 msgstr "Versão do Webacula"
 
+msgid "Select catalog"
+msgstr "Selecionar catálogo"
+
+msgid "The catalog %s was selected"
+msgstr "O catálogo %s foi selecionado"
+
 #: application/views/scripts/help/index.phtml:33
 msgid "Bconsole"
 msgstr "Bacula Console"
