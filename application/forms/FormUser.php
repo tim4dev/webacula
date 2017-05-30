@@ -71,8 +71,8 @@ class FormUser extends Zend_Form
             'size'      => 30,
             'maxlength' => 50
         ));
-        $login_validator = new Zend_Validate_Regex('/^[a-zA-Z0-9_]+$/');
-        $login_validator->setMessage( $this->translate->_('Login incorrect. Login contains only english alphabetical characters, digits and underscore.'));
+        $login_validator = new Zend_Validate_Regex('/^[a-zA-Z0-9_.]+$/');
+        $login_validator->setMessage( $this->translate->_('Login incorrect. Login must contains only english alphabetical characters, digits, dots and underscore.'));
         $login->addValidator('StringLength', false, array(2, 50))
               ->addValidator($login_validator)
               ->setRequired(true);

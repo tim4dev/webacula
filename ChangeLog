@@ -14,6 +14,7 @@ Webacula ChangeLog
    - Modify dialog confirm, add new CSS and new translations
    - Add CSS for menu multilevel
    - Include configuration of catalog version in config.ini
+   - Allow dots in login
 
 === 7.5.0 (Fri May 05, 2017)
    - The main change is that the interface was updated to use Boostrap CSS themes
