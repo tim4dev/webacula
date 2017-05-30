@@ -18,8 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.6.0' . ' build 18May2017');
-define('BACULA_VERSION', 15); // Bacula Catalog version
+define('WEBACULA_VERSION', '7.5.1' . ' build 30May2017');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
@@ -89,7 +88,14 @@ else {
 }
 
 // set self version
-Zend_Registry::set('bacula_version',   BACULA_VERSION);
+if( isset($config->general->catalog->version) ){
+   define('BACULA_VERSION', $config->general->catalog->version);
+   Zend_Registry::set('bacula_version', $config->general->catalog->version);
+}
+else{
+	echo '<pre>';
+	throw new Zend_Exception("Fatal error: Catalog version is not defined in config.ini");
+}
 Zend_Registry::set('webacula_version', WEBACULA_VERSION);
 
 // set global const
@@ -207,7 +213,7 @@ try {
 } catch (Zend_Db_Adapter_Exception $e) {
     echo '<pre>';
     // possible database is not running
-    throw new Zend_Exception("Fatal error: Can't connect to SQL server");
+    throw new Zend_Exception("Fatal error: Can't connect to SQL server.");
 }
 /*
  * Check Bacula Catalog version
@@ -215,7 +221,7 @@ try {
 $ver = new Version();
 if ( !$ver->checkVersion(BACULA_VERSION) )   {
     echo '<pre>';
-    throw new Zend_Exception("Bacula version mismatch for the Catalog database. ". 
+    throw new Zend_Exception("Bacula version mismatch for the Catalog database.". 
             "Wanted ".BACULA_VERSION.", got ". $ver->getVersion().". ");
 }
 /*
@@ -247,7 +253,7 @@ Zend_Session::setSaveHandler(new MyClass_Session_SaveHandler_DbTable($config_ses
 Zend_Session::start();
 
 if ( APPLICATION_ENV == 'production') {
-    //Zend_Session::regenerateId();
+    Zend_Session::regenerateId();
 }
 
 /*
@@ -266,7 +272,7 @@ $frontendOptions = array(
     'automatic_serialization' => true
 );
 $backendOptions = array(
-    'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
+    'cache_dir' => CACHE_DIR.'/'      // Directory where the cache files are located
 );
 // obtaining object Zend_Cache_Core
 $cache = Zend_Cache::factory(
