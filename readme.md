@@ -1,9 +1,11 @@
-Webacula - Interface Web para o Sistema de Backup Bacula http://www.bacula.org
+### Webacula - Interface Web para o Sistema de Backup <a href="http://www.bacula.org">Bacula</a>
+
+Clique <a href="https://github.com/wanderleihuttel/webacula/releases" title="Download Webacula 7.4.5">aqui</a> para efetuar o download da nova versão!
 
 Este é um fork do webacula (cópia) com diversas modificações que não foram efetuadas na versão original e muitas outras:
 
 - Melhoria de velocidade na seleção de arquivos de restauração
-- Alterações nos estilos (arquivos CSS)
+- Alterações nas bibliotecas CSS e JavaScript (agora utilizando o Bootstrap)
 - Alteração no layout das pool/volumes
 - Método mais eficiente para converter número em bytes para um formato human readable. (Ex: 1024 para 1MB)
 - Adicionada opção "setting days_to_show_jobs_terminated" para mostrar os jobs finalizados pelo número XXX de dias.
@@ -14,7 +16,7 @@ Este é um fork do webacula (cópia) com diversas modificações que não foram 
 - Possibilidade de alterar a senha do usuário root do bacula na interface gráfica.
 - Adicionado nova tela que mostra os agendamentos.
 
-Version: 7.4.0
+Version atual: 7.4.5
 Esta versão é somente compatível com as versões 7.X do Bacula
 
 Para atualizar, leia  o "Upgrade from prior version" em docs/txt/upgrade.txt
