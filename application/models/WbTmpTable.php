@@ -362,8 +362,7 @@ class WbTmpTable extends Zend_Db_Table
                     fileindex integer not null  default 0,
                     isMarked SMALLINT  DEFAULT 0,
                     FileSize BIGINT  DEFAULT 0,
-                    PRIMARY KEY(FileId),
-                    KEY idx_fileindex (FileIndex)
+                    PRIMARY KEY(FileId)
                 )");
                 break;
             case 'PDO_SQLITE':
