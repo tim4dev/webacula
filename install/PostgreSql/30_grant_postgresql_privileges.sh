@@ -6,7 +6,8 @@
 # License: BSD 2-Clause; see file LICENSE-FOSS
 #
 db_user=${db_user:-bacula}
-bindir=/usr/lib/postgresql/9.5/bin
+bindir=/usr/bin
+PATH="$bindir:$PATH"
 db_name=${db_name:-bacula}
 db_password=bacula
 if [ "$db_password" != "" ]; then
@@ -14,7 +15,7 @@ if [ "$db_password" != "" ]; then
 fi
 
 
-$bindir/psql -f - -d ${db_name} $* <<END-OF-DATA
+psql -f - -d ${db_name} $* <<END-OF-DATA
 
 create user ${db_user} ${pass};
 
@@ -41,6 +42,7 @@ grant all on webacula_tmp_tablelist   to ${db_user};
 grant all on webacula_users           to ${db_user};
 grant all on webacula_version         to ${db_user};
 grant all on webacula_where_acl       to ${db_user};
+grant all on webacula_schedule_acl    to ${db_user};
 
 
 -- for sequences on those tables
@@ -60,6 +62,7 @@ GRANT select, update on webacula_storage_acl_id_seq to ${db_user};
 GRANT select, update on webacula_tmp_tablelist_tmpid_seq to ${db_user};
 GRANT select, update on webacula_users_id_seq to ${db_user};
 GRANT select, update on webacula_where_acl_id_seq to ${db_user};
+GRANT select, update on webacula_schedule_acl_id_seq to ${db_user};
 
 END-OF-DATA
 if [ $? -eq 0 ]
