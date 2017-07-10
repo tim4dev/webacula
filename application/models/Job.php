@@ -653,84 +653,51 @@ EOF', $command_output, $return_var);
 
 
    /**
-	 * Get Listing All Jobs
-	 *
-    TODO: Need refactoring for use command ".jobs"
-	 */
+    * Get Listing All Jobs
+    *
+    */
     function getListJobs()
     {
-    	$director = new Director();
-    	// check access to bconsole
-		if ( !$director->isFoundBconsole() )	{
-			$aresult[] = 'ERROR: bconsole not found.';
-    		return $aresult;
-   	    }
-		$astatusdir = $director->execDirector(
+      $director = new Director();
+      // check access to bconsole
+      if ( !$director->isFoundBconsole() )   {
+         $aresult[] = 'ERROR: bconsole not found.';
+         return $aresult;
+          }
+      $astatusdir = $director->execDirector(
 "<<EOF
-run
-.
+.jobs
 @quit
 EOF"
-		);
+);
         // check return status of the executed command
-        if ( $astatusdir['return_var'] != 0 )	{
-			$aresult[] = 'ERROR';
-			$aresult[] = 'bconsole output:<b>';
-			foreach ($astatusdir['command_output'] as $line) {
-				$aresult[] = $line;
-			}
-			$aresult[] = '</b>';
-    		return $aresult;
-		}
+        if ( $astatusdir['return_var'] != 0 )   {
+         $aresult[] = 'ERROR';
+         $aresult[] = 'bconsole output:<b>';
+         foreach ($astatusdir['command_output'] as $line) {
+            $aresult[] = $line;
+         }
+         $aresult[] = '</b>';
+         return $aresult;
+   }
 
-    	/* Parsing Director's output.
-         * Example :
-The defined Job resources are:
-     1: restore.files
-     2: job.name.test.1
-     3: job name test 2
-Select Job resource (1-3):
-    	 */
-    	$strs = 'The defined Job resources are:';
-    	$str_end = 'Select Job resource'; // a sign of the end of the list
-    	$start = 0;
-    	$aresult = array();
-    	foreach ($astatusdir['command_output'] as $line) {
-			if ( strlen($line) == 0 )
-				continue;
+      /* Parsing Director's output. */
+      $aresult = array();
+      foreach ($astatusdir['command_output'] as $line) {
+            $line = trim($line);
+            $pattern = "((^#|^Connecting|^1000 OK|^Enter a period|^use|^Automatically selected|^Using|^\.|quit|^You have messages))";
+            if ( !preg_match($pattern, $line)) {
+                $aresult[] = $line;
+            }
+            if($line=="quit"){
+                break;
+            }
 
-			if ( ($start == 0) && (!(strpos($line, $strs) === FALSE)) )  {
-				$start = 1;
-				// parsing
-				list($number, $name_job) = preg_split("/:+/", $line, 2);
-				if ( !empty($name_job))
-                    $aresult[]['jobname']  = trim($name_job);
-				continue;
-			}
-			// job finished
-			if ( ($start == 1) && ( !(strpos($line, $str_end) === FALSE) ) )
-				break;
-
-			if ( $start == 1 ) {
-			    // parsing
-                list($number, $name_job) = preg_split("/:+/", $line, 2);
-                if ( !empty($name_job))
-                    $aresult[]['jobname']  = trim($name_job);
-			}
-			else
-				continue;
-		}
+   }
+        sort($aresult);
         // do Bacula ACLs
-        $res2dim = $this->bacula_acl->doBaculaAcl( $aresult, 'jobname', 'job');
-        /*
-         * convert two dimensional $res2dim to one dimension array $res1dim
-         * for correct display in the form of needed single array
-         */
-        $res1dim = array();
-        foreach($res2dim as $res2) {
-            $res1dim[] = $res2['jobname'];
-        }
-    	return $res1dim;
+        $res1dim = $this->bacula_acl->doBaculaAcl( $aresult, 'jobname', 'job');
+      return $res1dim;
     }
 
     
