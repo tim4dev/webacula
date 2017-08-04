@@ -43,6 +43,7 @@ include "Zend/Loader.php";
 
 Zend_Loader::loadClass('Zend_Auth');
 Zend_Loader::loadClass('Zend_Controller_Front');
+Zend_Loader::loadClass('Zend_Controller_Exception');
 Zend_Loader::loadClass('Zend_Cache');
 Zend_Loader::loadClass('Zend_Session');
 Zend_Loader::loadClass('MyClass_Session_SaveHandler_DbTable'); // PHP session storage
