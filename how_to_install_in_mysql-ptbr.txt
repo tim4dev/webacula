@@ -31,9 +31,13 @@ date.timezone = America/Sao_Paulo
 max_execution_time = 3600
 
 
->>> Efetuar um clone do respositório Webacula <<<
+>>> Efetuar o download da última versão do Webacula <<<
+Verificar qual é a última versão do Webacula em: https://github.com/wanderleihuttel/webacula/releases
+* A última versão na instalação do tutorial é a 7.5.2
 cd /usr/src/
-git clone https://github.com/wanderleihuttel/webacula webacula
+wget -c https://github.com/wanderleihuttel/webacula/archive/7.5.2.tar.gz
+tar xvzf 7.5.2.tar.gz
+mv webacula-7.5.2 webacula
 
 
 >>> Gerar o password para acessar o Webacula<<<
@@ -100,7 +104,7 @@ service apache2 restart
 
 >>> Conceder permissão para o usuário www-data executar o bconsole <<<
 vim /etc/sudoers
-www-data ALL=NOPASSWD: /sbin/bconsole
+www-data ALL=NOPASSWD: /usr/sbin/bconsole
 
 
 >>> Mover o diretório /usr/src/webacula para o diretório root do Apache <<<
