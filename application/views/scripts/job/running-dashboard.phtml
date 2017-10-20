@@ -51,7 +51,7 @@
                <?php foreach($this->resultDirRunningJobs as $line) : ?>
                   <tr>
                      <td class="text-center"> 
-                         <i class="fa fa-spinner fa-spin"></i>
+                         <i class="fa fa-refresh fa-spin"></i>
                          <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['id']). '/jobname/' . $this->escape($line['name']); ?>" title="<?php echo $this->translate->_("The Job is Running"); ?>">
                              &nbsp;<?php echo $this->escape($line['id']);?>
                         </a>
@@ -132,7 +132,7 @@
                   <?php foreach($this->resultRunningJobs as $line) : ?>
                   <tr>
                      <td class="text-center">
-                        <i class="fa fa-spinner fa-spin"></i>
+                        <i class="fa fa-refresh fa-spin"></i>
                         <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->escape($line['jobid']). '/jobname/' . $this->escape($line['jobname']); ?>" title="<?php echo $this->translate->_("The Job is Running"); ?>">
                             &nbsp;<?php echo $this->escape($line['jobid']);?>
                         </a>

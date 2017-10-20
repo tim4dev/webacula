@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-30 17:18+0300\n"
-"PO-Revision-Date: 2017-05-08 19:30+0300\n"
+"PO-Revision-Date: 2017-10-18 19:30+0300\n"
 "Last-Translator: Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
 "Language-Team: Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>, Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
 "Language: Portuguese\n"
@@ -788,7 +788,7 @@ msgstr "Entrar"
 
 #: application/forms/FormRestoreOptions.php:88
 msgid "Restore client"
-msgstr "Restaurar no cliente"
+msgstr "Cliente de restauração"
 
 #: application/forms/FormRestoreOptions.php:158
 msgid "Restore Job Resource"
@@ -796,23 +796,23 @@ msgstr "Restaurar Job Resource"
 
 #: application/forms/FormRestoreOptions.php:180
 msgid "Where"
-msgstr "Where"
+msgstr "Onde"
 
 #: application/forms/FormRestoreOptions.php:192
 msgid "Strip&nbsp;prefix"
-msgstr ""
+msgstr "Tirar parte do prefixo"
 
 #: application/forms/FormRestoreOptions.php:204
 msgid "Add&nbsp;prefix"
-msgstr ""
+msgstr "Adicionar prefixo"
 
 #: application/forms/FormRestoreOptions.php:216
 msgid "Add&nbsp;suffix"
-msgstr ""
+msgstr "Adicionar sufixo"
 
 #: application/forms/FormRestoreOptions.php:228
 msgid "RegexWhere"
-msgstr "RegexWhere"
+msgstr "Onde regexp"
 
 #: application/forms/FormRestoreOptions.php:242
 msgid "Run Restore Job"
@@ -1422,8 +1422,12 @@ msgid "Remove a part of the filename when restoring."
 msgstr "Remover parte do nome do arquivo quando restaurar"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:161
+msgid "Help"
+msgstr "Ajuda"
+
+#: application/views/scripts/decorators/formRestoreoptions.phtml:161
 msgid "Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."
-msgstr "Adicionar prefixo em todos os arquivos quando restaurar (não pode ser usado com o campo <b>where</b>)"
+msgstr "Adicionar prefixo em todos os arquivos quando restaurar (não pode ser usado com o campo <b>onde</b>)"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:166
 msgid "Add a suffix to all your files."

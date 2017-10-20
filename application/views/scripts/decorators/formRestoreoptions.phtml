@@ -14,8 +14,9 @@ $(document).ready(function(){
     // helps for advanced options
     $('#link_dialog').click(function(e){
         $('#info_dialog').dialog({
+           modal: true,
            width: 680,
-           height: 480
+           height: 620
         });
         e.preventDefault();
     });

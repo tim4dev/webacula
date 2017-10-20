@@ -901,7 +901,7 @@ msgid "RSS"
 msgstr ""
 
 #: application/layouts/default/main-menu.phtml:96
-msgid "Help"
+msgid "About"
 msgstr ""
 
 #: application/layouts/default/main-menu.phtml:101
@@ -1168,6 +1168,10 @@ msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:156
 msgid "Remove a part of the filename when restoring."
+msgstr ""
+
+#: application/views/scripts/decorators/formRestoreoptions.phtml:161
+msgid "Help"
 msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:161
