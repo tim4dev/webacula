@@ -52,6 +52,9 @@ class HelpController extends MyClass_ControllerAclAction
         $dir = new Director();
         $this->view->director_version = $dir->getDirectorVersion();
         $this->view->bconsole_version = $dir->getBconsoleVersion();
+
+
+        $this->view->db_size = $ver->getDatabaseSize();
     }
 
     function myPhpInfoAction ()    
