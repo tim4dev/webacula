@@ -50,6 +50,10 @@
                         	<td class="text-center"> &nbsp; <?php echo $this->escape($this->translate->_($line['status'])) ?> &nbsp;</td>
                         </tr>
                      <?php endforeach; ?>
+                     <?php 
+                         // only to keep translation in file .po
+                         $deleted = $this->translate->_('deleted'); 
+                     ?>
                      </tbody>
                   </table>
                </div><!-- end div table-responsive -->
