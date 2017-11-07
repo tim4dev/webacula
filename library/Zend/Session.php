@@ -729,7 +729,7 @@ class Zend_Session extends Zend_Session_Abstract
             parent::$_writable = false;
         }
 
-        session_write_close();
+        @session_write_close();
         self::$_writeClosed = true;
     }
 
