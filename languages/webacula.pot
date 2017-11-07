@@ -1,19 +1,18 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-07 09:29-0200\n"
-"PO-Revision-Date: 2017-11-07 09:35-0200\n"
+"POT-Creation-Date: 2017-11-07 09:38-0200\n"
+"PO-Revision-Date: 2017-10-18 19:30+0300\n"
 "Last-Translator: Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
-"Language-Team: Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>, "
-"Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
+"Language-Team: Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>, Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: $this->translate->_;$this_view->translate->_;$this-"
-">view->translate->_\n"
+"X-Poedit-KeywordsList: $this->translate->_;$this_view->translate->_;$this->view->translate->_\n"
 "X-Poedit-Basepath: Y:/webacula\n"
 "X-Generator: Poedit 2.0.4\n"
 "X-Poedit-SearchPath-0: application\n"
@@ -24,7 +23,7 @@ msgstr ""
 #: application/layouts/default/main-menu.phtml:61
 #: application/views/scripts/admin/role-more-info.phtml:36
 msgid "Roles"
-msgstr "Funções"
+msgstr ""
 
 #: application/controllers/AdminController.php:112
 #: application/controllers/AdminController.php:155
@@ -35,29 +34,29 @@ msgstr "Funções"
 #: application/controllers/AdminController.php:1011
 #: application/controllers/AdminController.php:1045
 msgid "Exception"
-msgstr "Exceção"
+msgstr ""
 
 #: application/controllers/AdminController.php:127
 msgid "Role add"
-msgstr "Adicionar funções"
+msgstr ""
 
 #: application/controllers/AdminController.php:178
 #: application/controllers/AdminController.php:464
 #: application/controllers/AdminController.php:982
 msgid "Update"
-msgstr "Atualizar"
+msgstr ""
 
 #: application/controllers/AdminController.php:182
 msgid "Role update"
-msgstr "Atualizar permissão"
+msgstr ""
 
 #: application/controllers/AdminController.php:380
 msgid " ACL add"
-msgstr "Adicionar ACL"
+msgstr ""
 
 #: application/controllers/AdminController.php:468
 msgid " ACL update"
-msgstr "Atualizar ACL"
+msgstr ""
 
 #: application/controllers/AdminController.php:896
 #: application/controllers/AdminController.php:913
@@ -65,39 +64,39 @@ msgstr "Atualizar ACL"
 #: application/views/scripts/admin/role-main-form.phtml:60
 #: application/views/scripts/admin/user-index.phtml:70
 msgid "Role"
-msgstr "Função"
+msgstr ""
 
 #: application/controllers/AdminController.php:931
 #: application/layouts/default/main-menu.phtml:62
 #: application/views/scripts/admin/role-more-info.phtml:53
 msgid "Users"
-msgstr "Usuários"
+msgstr ""
 
 #: application/controllers/AdminController.php:986
 msgid "User update"
-msgstr "Atualizar usuário"
+msgstr ""
 
 #: application/controllers/AdminController.php:1021
 #: application/forms/FormBaculaACL.php:90
 #: application/forms/FormBaculaFill.php:95
 msgid "Add"
-msgstr "Adicionar"
+msgstr ""
 
 #: application/controllers/AdminController.php:1025
 msgid "User add"
-msgstr "Adicionar usuário"
+msgstr ""
 
 #: application/controllers/AuthController.php:110
 msgid "Username or password is incorrect"
-msgstr "Usuário ou senha incorretos"
+msgstr ""
 
 #: application/controllers/AuthController.php:119
 msgid "Log in"
-msgstr "Efetuar login"
+msgstr ""
 
 #: application/controllers/AuthController.php:120
 msgid "Login with your Webacula account"
-msgstr "Webacula"
+msgstr ""
 
 #: application/controllers/AuthController.php:155
 #, php-format
@@ -106,8 +105,7 @@ msgid ""
 "\n"
 "This is an automated message from site %s, please do not reply!\n"
 "\n"
-"You have or someone impersonating you has requested to change your "
-"password\n"
+"You have or someone impersonating you has requested to change your password\n"
 "from IP : %s\n"
 "\n"
 "New Password: %s\n"
@@ -119,47 +117,31 @@ msgid ""
 "\n"
 "Thanks! \n"
 msgstr ""
-"Olá,\n"
-"\n"
-"Esta é uma mensagem automatizada do Webacula %s, não responda!\n"
-"\n"
-"Você ou alguém solicitou a alteração da sua senha\n"
-"\n"
-"IP Origem: %s\n"
-"\n"
-"Nova senha: %s\n"
-"\n"
-"Uma vez conectado, você pode alterar sua senha.\n"
-"\n"
-"Se você não efetuou este pedido, envie um e-mail para o administrador do "
-"sistema: %s\n"
-"\n"
-"Obrigado!\n"
 
 #: application/controllers/AuthController.php:177
 msgid "Webacula password manager"
-msgstr "Gerenciador de senha do Webacula"
+msgstr ""
 
 #: application/controllers/AuthController.php:180
 msgid "New Webacula password"
-msgstr "Nova senha do Webacula"
+msgstr ""
 
 #: application/controllers/AuthController.php:218
 msgid "New password set"
-msgstr "Nova senha configurada"
+msgstr ""
 
 #: application/controllers/AuthController.php:221
 msgid "Error while sending email. Email not send"
-msgstr "Ocorreu um erro ao enviar o email!"
+msgstr ""
 
 #: application/controllers/AuthController.php:225
 msgid "Username or email is incorrect"
-msgstr "Usuário ou email incorretos"
+msgstr ""
 
 #: application/controllers/AuthController.php:230
 #: application/controllers/AuthController.php:231
 msgid "Reset password"
-msgstr "Resetar senha"
+msgstr ""
 
 #: application/controllers/BconsoleController.php:51
 #: application/controllers/ClientController.php:55
@@ -180,13 +162,13 @@ msgstr "Resetar senha"
 #: application/controllers/StorageController.php:186
 #, php-format
 msgid "You try to run Bacula Console with command \"%s\"."
-msgstr "Você tentou executar o seguinte comando no bconsole \"%s\""
+msgstr ""
 
 #: application/controllers/BconsoleController.php:52
 #: application/views/scripts/error/bacula-access-denied.phtml:6
 #: application/views/scripts/error/webacula-access-denied.phtml:7
 msgid "Access denied."
-msgstr "Acesso negado"
+msgstr ""
 
 #: application/controllers/BconsoleController.php:58
 #: application/views/scripts/client/status-client-id.phtml:22
@@ -202,32 +184,30 @@ msgstr "Acesso negado"
 #: application/views/scripts/storage/act-mount.phtml:23
 #: application/views/scripts/storage/status-id.phtml:23
 msgid "ERROR: bconsole not found."
-msgstr "ERRO: bconsole não encontrado"
+msgstr ""
 
 #: application/controllers/ChartController.php:77
 #: application/controllers/JobController.php:381
 #: application/views/scripts/job/timeline.phtml:142
 msgid "ERROR: The GD extension isn`t loaded. Please install php-gd package."
 msgstr ""
-"ERRO: A extensão GD do PHP não foi carregada. Por favor, instale o pacote "
-"php-gd."
 
 #: application/controllers/ClientController.php:39
 msgid "Clients"
-msgstr "Clientes"
+msgstr ""
 
 #: application/controllers/ClientController.php:51
 msgid "Status Client"
-msgstr "Status do cliente"
+msgstr ""
 
 #: application/controllers/DirectorController.php:37
 #: application/layouts/default/main-menu.phtml:75
 msgid "Status Director"
-msgstr "Status do diretor"
+msgstr ""
 
 #: application/controllers/DirectorController.php:70
 msgid "List of Job Totals"
-msgstr "Totalizador dos jobs"
+msgstr ""
 
 #: application/controllers/FeedController.php:60
 #: application/controllers/WblogbookController.php:310
@@ -248,7 +228,7 @@ msgstr "Totalizador dos jobs"
 #: application/views/scripts/restorejob/restore-single-file.phtml:42
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:50
 msgid "Job Id"
-msgstr "JobId"
+msgstr ""
 
 #: application/controllers/FeedController.php:61
 #: application/forms/FormJobdesc.php:51 application/forms/FormJobrun.php:64
@@ -291,7 +271,7 @@ msgstr "JobId"
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:51
 #: application/views/scripts/wbjobdesc/index.phtml:52
 msgid "Job Name"
-msgstr "Nome"
+msgstr ""
 
 #: application/controllers/FeedController.php:62
 #: application/views/scripts/file/list.phtml:21
@@ -309,7 +289,7 @@ msgstr "Nome"
 #: application/views/scripts/job/terminated.phtml:38
 #: application/views/scripts/volume/detail.phtml:88
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: application/controllers/FeedController.php:63
 #: application/forms/FormJobrun.php:129
@@ -331,7 +311,7 @@ msgstr "Status"
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:52
 #: application/views/scripts/schedule/all.phtml:17
 msgid "Level"
-msgstr "Nível"
+msgstr ""
 
 #: application/controllers/FeedController.php:64
 #: application/forms/FormJobrun.php:81
@@ -351,7 +331,7 @@ msgstr "Nível"
 #: application/views/scripts/restorejob/main-form.phtml:261
 #: application/views/scripts/restorejob/main-form.phtml:320
 msgid "Client"
-msgstr "Cliente"
+msgstr ""
 
 #: application/controllers/FeedController.php:65
 #: application/controllers/VolumeController.php:64
@@ -369,7 +349,7 @@ msgstr "Cliente"
 #: application/views/scripts/schedule/all.phtml:24
 #: application/views/scripts/volume/detail.phtml:84
 msgid "Pool"
-msgstr "Pool"
+msgstr ""
 
 #: application/controllers/FeedController.php:66
 #: application/views/scripts/job/detail.phtml:112
@@ -381,7 +361,7 @@ msgstr "Pool"
 #: application/views/scripts/job/terminated.phtml:45
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:55
 msgid "Start Time"
-msgstr "Início"
+msgstr ""
 
 #: application/controllers/FeedController.php:67
 #: application/views/scripts/job/detail.phtml:116
@@ -390,7 +370,7 @@ msgstr "Início"
 #: application/views/scripts/job/problem.phtml:44
 #: application/views/scripts/job/terminated.phtml:46
 msgid "End Time"
-msgstr "Fim"
+msgstr ""
 
 #: application/controllers/FeedController.php:68
 #: application/views/scripts/job/detail.phtml:120
@@ -399,7 +379,7 @@ msgstr "Fim"
 #: application/views/scripts/job/running.phtml:130
 #: application/views/scripts/job/terminated.phtml:47
 msgid "Duration"
-msgstr "Duração"
+msgstr ""
 
 #: application/controllers/FeedController.php:69
 #: application/views/scripts/job/find-file-name.phtml:58
@@ -411,7 +391,7 @@ msgstr "Duração"
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:53
 #: application/views/scripts/volume/detail.phtml:158
 msgid "Files"
-msgstr "Arquivos"
+msgstr ""
 
 #: application/controllers/FeedController.php:70
 #: application/views/scripts/job/detail.phtml:168
@@ -424,7 +404,7 @@ msgstr "Arquivos"
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:54
 #: application/views/scripts/volume/detail.phtml:92
 msgid "Bytes"
-msgstr "Bytes"
+msgstr ""
 
 #: application/controllers/FeedController.php:71
 #: application/views/scripts/job/detail.phtml:205
@@ -439,7 +419,7 @@ msgstr "Bytes"
 #: application/views/scripts/volume/detail.phtml:170
 #: application/views/scripts/volume/problem.phtml:104
 msgid "Errors"
-msgstr "Erros"
+msgstr ""
 
 #: application/controllers/FeedController.php:84
 #: application/controllers/VolumeController.php:185
@@ -453,7 +433,7 @@ msgstr "Erros"
 #: application/views/scripts/volume/problem.phtml:15
 #: application/views/scripts/volume/problem.phtml:97
 msgid "Volume Name"
-msgstr "Nome do volume"
+msgstr ""
 
 #: application/controllers/FeedController.php:84
 #: application/views/scripts/volume/find-name.phtml:16
@@ -462,63 +442,63 @@ msgstr "Nome do volume"
 #: application/views/scripts/volume/problem.phtml:16
 #: application/views/scripts/volume/problem.phtml:98
 msgid "Volume Status"
-msgstr "Status"
+msgstr ""
 
 #: application/controllers/FeedController.php:86
 #: application/controllers/VolumeController.php:80
 #: application/controllers/VolumeController.php:100
 msgid "Volumes with errors"
-msgstr "Volumes com erros"
+msgstr ""
 
 #: application/controllers/FileController.php:57
 msgid "List Files of JobId"
-msgstr "Lista de arquivos do JobId"
+msgstr ""
 
 #: application/controllers/HelpController.php:40
 msgid "Webacula about"
-msgstr "Sobre o Webacula"
+msgstr ""
 
 #: application/controllers/IndexController.php:42
 msgid "Webacula Main Page"
-msgstr "Webacula Página Principal"
+msgstr ""
 
 #: application/controllers/JobController.php:46
 #, php-format
 msgid "Terminated Jobs (executed in last %s days)"
-msgstr "Jobs finalizados (executados nos últimos %s dias)"
+msgstr ""
 
 #: application/controllers/JobController.php:63
 #: application/controllers/JobController.php:84
 msgid "Information from DB Catalog : List of Running Jobs"
-msgstr "Informações do Catálogo: Lista de jobs em execução"
+msgstr ""
 
 #: application/controllers/JobController.php:64
 msgid "List of Running Jobs"
-msgstr "Lista de jobs em execução"
+msgstr ""
 
 #: application/controllers/JobController.php:69
 #: application/controllers/JobController.php:89
 msgid "Information from Director : List of Running Jobs"
-msgstr "Informações do Diretor: Lista de jobs em execução"
+msgstr ""
 
 #: application/controllers/JobController.php:108
 #: application/controllers/JobController.php:130
 msgid "Scheduled Jobs (at 24 hours forward)"
-msgstr "Jobs programados (próximas 24 horas)"
+msgstr ""
 
 #: application/controllers/JobController.php:156
 msgid "List Jobs with filters"
-msgstr "Lista filtrada de Jobs"
+msgstr ""
 
 #: application/controllers/JobController.php:215
 #: application/controllers/JobController.php:217
 msgid "List Jobs by JobId"
-msgstr "Lista de Jobs por Id"
+msgstr ""
 
 #: application/controllers/JobController.php:235
 #: application/controllers/JobController.php:237
 msgid "List Jobs by Job Name"
-msgstr "Listar Jobs pelo Nome"
+msgstr ""
 
 #: application/controllers/JobController.php:255
 #: application/views/scripts/volume/detail.phtml:102
@@ -528,93 +508,92 @@ msgstr "Listar Jobs pelo Nome"
 #: application/views/scripts/volume/problem.phtml:57
 #: application/views/scripts/volume/problem.phtml:134
 msgid "List Jobs by Volume Name"
-msgstr "Lista de jobs do volume"
+msgstr ""
 
 #: application/controllers/JobController.php:272
 msgid "Search Jobs"
-msgstr "Pesquisar jobs"
+msgstr ""
 
 #: application/controllers/JobController.php:287
 #: application/controllers/JobController.php:292
 msgid "Ordinary"
-msgstr "Comum"
+msgstr ""
 
 #: application/controllers/JobController.php:288
 #: application/controllers/JobController.php:293
 msgid "LIKE operator"
-msgstr "COMO operador"
+msgstr ""
 
 #: application/controllers/JobController.php:294
 msgid "Regular expression"
-msgstr "Expressão regular"
+msgstr ""
 
 #: application/controllers/JobController.php:305
 msgid "Detail JobId"
-msgstr "Detalhes do JobId"
+msgstr ""
 
 #: application/controllers/JobController.php:331
 #: application/controllers/JobController.php:349
 #, php-format
 msgid "Jobs with errors (last %s days)"
-msgstr "Jobs com erros (últimos %s dias)"
+msgstr ""
 
 #: application/controllers/JobController.php:384
 #: application/controllers/JobController.php:410
 msgid "Timeline for date"
-msgstr "Histórico por data"
+msgstr ""
 
 #: application/controllers/JobController.php:515
 #: application/forms/FormJobrun.php:215
 #: application/views/scripts/wbjobdesc/index.phtml:68
 #: application/views/scripts/wbjobdesc/index.phtml:69
 msgid "Run Job"
-msgstr "Executar job"
+msgstr ""
 
 #: application/controllers/JobController.php:544
 #, php-format
 msgid "List last %s Jobs run"
-msgstr "Lista dos últimos %s jobs executados"
+msgstr ""
 
 #: application/controllers/JobController.php:562
 msgid "Terminated Jobs (executed in last 24 hours)"
-msgstr "Jobs finalizados (executados nas últimas 24 horas)"
+msgstr ""
 
 #: application/controllers/JobController.php:582
 msgid "Filename is required field."
-msgstr "O nome do arquivo é requerido."
+msgstr ""
 
 #: application/controllers/JobController.php:588
 msgid "Path must have a trailing slash."
-msgstr "O caminho deve conter caracter de escape"
+msgstr ""
 
 #: application/controllers/JobController.php:596
 #, php-format
 msgid "List Jobs where file '%s' is saved (%s found) (limit %s)"
 msgstr ""
-"Listar jobs onde o arquivo '%s' está salvo. (Encontrado(s): %s - limite: %s)"
 
 #: application/controllers/JobController.php:618
 msgid "Cancel Job"
-msgstr "Cancelar Job"
+msgstr ""
 
 #: application/controllers/JobController.php:661
 #: application/layouts/default/main-menu.phtml:84
 #: application/views/scripts/admin/role-main-form.phtml:65
 msgid "Job"
-msgstr "Job"
+msgstr ""
 
 #: application/controllers/LogController.php:41
 #, php-format
 msgid "Console messages for Job %s, JobId %u"
-msgstr "Log de mensagens: %s (JobId %u)"
+msgstr ""
 
 #: application/controllers/PoolController.php:40
 msgid "Pools"
-msgstr "Pools"
+msgstr ""
 
 #: application/controllers/PoolController.php:62
 msgid "Show Pool"
-msgstr "Mostrar volumes"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:251
 #: application/controllers/RestorejobController.php:663
@@ -631,101 +610,98 @@ msgstr "Mostrar volumes"
 #: application/views/scripts/job/terminated.phtml:61
 #: application/views/scripts/restorejob/draw-file-tree.phtml:181
 msgid "Restore Job"
-msgstr "Restaurar Job"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:340
 #: application/controllers/RestorejobController.php:403
 #: application/controllers/RestorejobController.php:637
 #, php-format
 msgid "JobId %u does not exist."
-msgstr "JobId %u não existe."
+msgstr ""
 
 #: application/controllers/RestorejobController.php:395
 msgid "Restore All files for JobId"
-msgstr "Recuperar todos arquivos do JobId"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:515
 #: application/views/scripts/restorejob/main-form.phtml:166
 #: application/views/scripts/restorejob/main-form.phtml:282
 #: application/views/scripts/restorejob/main-form.phtml:356
 msgid "Restore All files"
-msgstr "Recuperar todos arquivos"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:708
 #: application/views/scripts/volume/detail.phtml:41
 msgid "Error"
-msgstr "Erro"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:709
 #, php-format
 msgid "No Full backup before %s found."
-msgstr "Nenhum backup Full antes de %s encontrado."
+msgstr ""
 
 #: application/controllers/RestorejobController.php:722
 msgid "You have selected the following JobIds"
-msgstr "Você selecionou os seguintes JobIds"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:1015
 #: application/controllers/RestorejobController.php:1057
 #, php-format
 msgid "%s<br/>(%s dirs and files affected)"
-msgstr "%s<br/>(%s diretório(s) e arquivo(s)) afetados"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:1017
 #: application/controllers/RestorejobController.php:1059
 msgid "internal program error !"
-msgstr "Erro interno !"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:1148
 msgid "List of Files to Restore for JobId"
-msgstr "Lista de arquivos para restaurar do JobId"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:1220
 msgid "List of Files to Restore"
-msgstr "Lista de arquivos para restaurar"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:1317
 msgid "Restore JobId"
-msgstr "Restaurar JobId"
+msgstr ""
 
 #: application/controllers/RestorejobController.php:1398
-msgid ""
-"Restore the most recent backup (or before a specified time) for a client"
+msgid "Restore the most recent backup (or before a specified time) for a client"
 msgstr ""
-"Restaurar o backup mais recente (ou antes de uma data específica) de um "
-"cliente"
 
 #: application/controllers/RestorejobController.php:1484
 #: application/controllers/RestorejobController.php:1534
 msgid "Restore Single File"
-msgstr "Recuperar um único arquivo"
+msgstr ""
 
 #: application/controllers/ScheduleController.php:42
 #: application/layouts/default/main-menu.phtml:117
 msgid "Schedule"
-msgstr "Agenda"
+msgstr ""
 
 #: application/controllers/ScheduleController.php:60
 #: application/views/scripts/schedule/all.phtml:38
 msgid "Show Schedule"
-msgstr "Mostrar agenda"
+msgstr ""
 
 #: application/controllers/StorageController.php:43
 msgid "Storages"
-msgstr "Storages"
+msgstr ""
 
 #: application/controllers/StorageController.php:65
 #, php-format
 msgid "Storage %s status"
-msgstr "Storage status: %s"
+msgstr ""
 
 #: application/controllers/StorageController.php:138
 msgid "mount"
-msgstr "Montar"
+msgstr ""
 
 #: application/controllers/StorageController.php:141
 msgid "umount"
-msgstr "Desmontar"
+msgstr ""
 
 #: application/controllers/StorageController.php:148
 #: application/controllers/StorageController.php:198
@@ -737,22 +713,21 @@ msgstr "Desmontar"
 #: application/views/scripts/decorators/formRestoreoptions.phtml:119
 #: application/views/scripts/schedule/all.phtml:25
 msgid "Storage"
-msgstr "Storage"
+msgstr ""
 
 #: application/controllers/StorageController.php:199
 msgid "autochanger content"
-msgstr "Conteúdo do autochanger"
+msgstr ""
 
 #: application/controllers/VolumeController.php:45
 #: application/views/scripts/job/next-dashboard.phtml:68
 #: application/views/scripts/job/next.phtml:70
 msgid "Volume"
-msgstr "Volume"
+msgstr ""
 
 #: application/controllers/VolumeController.php:81
 msgid "List Volumes likely to need replacement from age or errors"
 msgstr ""
-"Os volumes listados precisam ser trocados devido ao tempo de uso ou erros"
 
 #: application/controllers/VolumeController.php:122
 #: application/views/scripts/job/detail.phtml:230
@@ -765,25 +740,25 @@ msgstr ""
 #: application/views/scripts/volume/problem.phtml:33
 #: application/views/scripts/volume/problem.phtml:112
 msgid "Detail Volume"
-msgstr "Detalhes do volume"
+msgstr ""
 
 #: application/controllers/VolumeController.php:183
 msgid "Webacula : Updated Volume parameters"
-msgstr "Webacula: Parâmetros de volume atualizados"
+msgstr ""
 
 #: application/controllers/VolumeController.php:184
 #: application/views/scripts/volume/detail.phtml:76
 msgid "Media Id"
-msgstr "Media Id"
+msgstr ""
 
 #: application/controllers/WbjobdescController.php:40
 #: application/layouts/default/main-menu.phtml:92
 msgid "Job Descriptions"
-msgstr "Registrar"
+msgstr ""
 
 #: application/controllers/WbjobdescController.php:63
 msgid "Add Job Description"
-msgstr "Adicionar Registro do Job"
+msgstr ""
 
 #: application/controllers/WbjobdescController.php:99
 #: application/views/scripts/admin/role-index.phtml:108
@@ -798,15 +773,15 @@ msgstr "Adicionar Registro do Job"
 #: application/views/scripts/wbjobdesc/index.phtml:90
 #: application/views/scripts/wblogbook/index.phtml:278
 msgid "Modify record"
-msgstr "Modificar registro"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:77
 msgid "in ascending order"
-msgstr "em ordem crescente"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:79
 msgid "in descending order"
-msgstr "em ordem decrescente"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:90
 #: application/controllers/WblogbookController.php:118
@@ -814,22 +789,22 @@ msgstr "em ordem decrescente"
 #: application/layouts/default/main-menu.phtml:126
 #: application/layouts/default/main-menu.phtml:128
 msgid "Logbook"
-msgstr "Logbook"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:99
 #: application/controllers/WblogbookController.php:128
 #, php-format
 msgid " %s (from %s to %s)"
-msgstr " %s (de %s até %s)"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:175
 #, php-format
 msgid "Logbook by Id %s (from %u to %u)"
-msgstr "Logbook por Id %s (de %u até %u)"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:209
 msgid "Search text"
-msgstr "Procurar texto"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:261
 #: application/controllers/WblogbookController.php:306
@@ -837,7 +812,7 @@ msgstr "Procurar texto"
 #: application/controllers/WblogbookController.php:531
 #: application/controllers/WblogbookController.php:559
 msgid "Webacula Logbook"
-msgstr "Webacula Logbook"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:263
 #: application/controllers/WblogbookController.php:308
@@ -845,30 +820,30 @@ msgstr "Webacula Logbook"
 #: application/controllers/WblogbookController.php:533
 #: application/controllers/WblogbookController.php:561
 msgid "Webacula admin"
-msgstr "Webacula admin"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:264
 msgid "Webacula Logbook Add record"
-msgstr "Adicionar registro ao Webacula Logbook"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:265
 #: application/controllers/WblogbookController.php:499
 msgid "Create record :"
-msgstr "Registro criado em :"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:266
 #: application/controllers/WblogbookController.php:501
 msgid "Type record :"
-msgstr "Tipo de registro :"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:267
 #: application/controllers/WblogbookController.php:502
 msgid "Text :"
-msgstr "Texto: "
+msgstr ""
 
 #: application/controllers/WblogbookController.php:285
 msgid "Bacula Job Reviewed. See Webacula LOGBOOK_ID="
-msgstr "Job revisado. Veja no Webacula pelo LOGBOOK_ID="
+msgstr ""
 
 #: application/controllers/WblogbookController.php:309
 #: application/views/scripts/job/detail.phtml:213
@@ -878,41 +853,41 @@ msgstr "Job revisado. Veja no Webacula pelo LOGBOOK_ID="
 #: application/views/scripts/job/terminated.phtml:170
 #: application/views/scripts/job/terminated.phtml:171
 msgid "Bacula Job Reviewed"
-msgstr "Job revisado"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:332
 #: application/controllers/WblogbookController.php:614
 msgid "Logbook: add new record"
-msgstr "Logbook: Novo registro"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:388
 msgid "See also Webacula LOGBOOK_ID="
-msgstr "Veja também no Webacula o LOGBOOK_ID="
+msgstr ""
 
 #: application/controllers/WblogbookController.php:425
 msgid "Logbook: modify record"
-msgstr "Logbook: Alteração de registro"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:498
 msgid "Webacula Logbook Update record"
-msgstr "Atualizar registro ao Webacula Logook"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:500
 msgid "Update record :"
-msgstr "Registro atualizado :"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:534
 msgid "Webacula Logbook Delete record"
-msgstr "Excluir registro do Webacula Logbook"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:535
 #: application/controllers/WblogbookController.php:563
 msgid "LogId record :"
-msgstr "LogId"
+msgstr ""
 
 #: application/controllers/WblogbookController.php:562
 msgid "Webacula Logbook UnDelete record"
-msgstr "Restaurar registro excluído do Webacula Logbook"
+msgstr ""
 
 #: application/forms/FormBaculaACL.php:62 application/forms/FormRole.php:66
 #: application/views/scripts/admin/role-index.phtml:71
@@ -923,7 +898,7 @@ msgstr "Restaurar registro excluído do Webacula Logbook"
 #: application/views/scripts/admin/role-main-form.phtml:566
 #: application/views/scripts/admin/role-main-form.phtml:652
 msgid "Order"
-msgstr "Ordem"
+msgstr ""
 
 #: application/forms/FormBaculaACL.php:75 application/forms/FormRole.php:79
 #: application/forms/FormUser.php:98
@@ -938,7 +913,7 @@ msgstr "Ordem"
 #: application/views/scripts/client/all.phtml:15
 #: application/views/scripts/schedule/all.phtml:16
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #: application/forms/FormBaculaACL.php:99
 #: application/forms/FormBaculaCommandACL.php:85
@@ -954,11 +929,11 @@ msgstr "Nome"
 #: application/views/scripts/wblogbook/add.phtml:129
 #: application/views/scripts/wblogbook/modify.phtml:142
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #: application/forms/FormBaculaCommandACL.php:61
 msgid "Bacula commands"
-msgstr "Bacula Console"
+msgstr ""
 
 #: application/forms/FormBaculaCommandACL.php:76
 #: application/forms/FormJobdesc.php:97 application/forms/FormRole.php:130
@@ -967,27 +942,23 @@ msgstr "Bacula Console"
 #: application/views/scripts/wblogbook/add.phtml:123
 #: application/views/scripts/wblogbook/modify.phtml:136
 msgid "Submit Form"
-msgstr "Salvar"
+msgstr ""
 
 #: application/forms/FormBaculaFill.php:79
 msgid "From Bacula database"
-msgstr "Catálogo Bacula"
+msgstr ""
 
 #: application/forms/FormForgotPassword.php:50
 #: application/forms/FormForgotPassword.php:52
 #: application/forms/FormLogin.php:50 application/forms/FormLogin.php:52
 #: application/views/scripts/auth/forgot-password.phtml:56
 msgid "Username"
-msgstr "Usuário"
+msgstr ""
 
 #: application/forms/FormForgotPassword.php:61
 #: application/forms/FormLogin.php:61
-msgid ""
-"Login characters incorrect. Allowed: alphabetical characters, digits, and "
-"\"- . _ @\" characters."
+msgid "Login characters incorrect. Allowed: alphabetical characters, digits, and \"- . _ @\" characters."
 msgstr ""
-"Existem caracteres incorretos. Somente caracteres alfabéticos, dígitos e os "
-"seguintes caracteres \"-. _ @\" são permitidos."
 
 #: application/forms/FormForgotPassword.php:72
 #: application/forms/FormForgotPassword.php:74
@@ -995,20 +966,20 @@ msgstr ""
 #: application/views/scripts/admin/user-index.phtml:69
 #: application/views/scripts/auth/forgot-password.phtml:67
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: application/forms/FormForgotPassword.php:82
 msgid "Email address incorrect."
-msgstr "O endereço de email está incorreto"
+msgstr ""
 
 #: application/forms/FormForgotPassword.php:92
 msgid "Submit new password"
-msgstr "Enviar nova senha"
+msgstr ""
 
 #: application/forms/FormForgotPassword.php:98
 #: application/forms/FormLogin.php:105
 msgid "Type the characters:"
-msgstr "Digite os caracteres abaixo:"
+msgstr ""
 
 #: application/forms/FormJobdesc.php:64
 #: application/views/scripts/job/detail.phtml:83
@@ -1034,17 +1005,17 @@ msgstr "Digite os caracteres abaixo:"
 #: application/views/scripts/job/terminated.phtml:30
 #: application/views/scripts/wbjobdesc/index.phtml:53
 msgid "Short Job Description"
-msgstr "Descrição resumida do job"
+msgstr ""
 
 #: application/forms/FormJobdesc.php:75
 #: application/views/scripts/wbjobdesc/index.phtml:54
 msgid "Job Description"
-msgstr "Descrição do job"
+msgstr ""
 
 #: application/forms/FormJobdesc.php:85
 #: application/views/scripts/wbjobdesc/index.phtml:55
 msgid "Retention period"
-msgstr "Retenção"
+msgstr ""
 
 #: application/forms/FormJobrun.php:85 application/forms/FormJobrun.php:102
 #: application/forms/FormJobrun.php:119 application/forms/FormJobrun.php:134
@@ -1056,7 +1027,7 @@ msgstr "Retenção"
 #: application/forms/FormRestoreOptions.php:141
 #: application/forms/FormRestoreOptions.php:158
 msgid "Default"
-msgstr "Padrão"
+msgstr ""
 
 #: application/forms/FormJobrun.php:98
 #: application/forms/FormRestoreOptions.php:121
@@ -1067,27 +1038,27 @@ msgstr "Padrão"
 #: application/views/scripts/restorejob/main-form.phtml:271
 #: application/views/scripts/restorejob/main-form.phtml:330
 msgid "Fileset"
-msgstr "Fileset"
+msgstr ""
 
 #: application/forms/FormJobrun.php:135
 #: application/views/scripts/job/find-form.phtml:96
 msgid "Full level"
-msgstr "Completo"
+msgstr ""
 
 #: application/forms/FormJobrun.php:136
 #: application/views/scripts/job/find-form.phtml:97
 msgid "Incremental level"
-msgstr "Incremental"
+msgstr ""
 
 #: application/forms/FormJobrun.php:137
 #: application/views/scripts/job/find-form.phtml:98
 msgid "Differential level"
-msgstr "Diferencial"
+msgstr ""
 
 #: application/forms/FormJobrun.php:162
 #: application/views/scripts/decorators/formJobrun.phtml:60
 msgid "Spool"
-msgstr "Spool"
+msgstr ""
 
 #: application/forms/FormJobrun.php:168
 #: application/views/scripts/admin/role-index.phtml:11
@@ -1095,7 +1066,7 @@ msgstr "Spool"
 #: application/views/scripts/admin/user-index.phtml:11
 #: application/views/scripts/wbjobdesc/index.phtml:10
 msgid "Yes"
-msgstr "Sim"
+msgstr ""
 
 #: application/forms/FormJobrun.php:169
 #: application/views/scripts/admin/role-index.phtml:17
@@ -1103,255 +1074,245 @@ msgstr "Sim"
 #: application/views/scripts/admin/user-index.phtml:17
 #: application/views/scripts/wbjobdesc/index.phtml:16
 msgid "No"
-msgstr "Não"
+msgstr ""
 
 #: application/forms/FormLogin.php:71 application/forms/FormLogin.php:73
 #: application/forms/FormUser.php:82
 msgid "Password"
-msgstr "Senha"
+msgstr ""
 
 #: application/forms/FormLogin.php:83
 #: application/views/scripts/auth/login.phtml:37
 msgid "Remember me"
-msgstr "Lembrar-me"
+msgstr ""
 
 #: application/forms/FormLogin.php:93
 #: application/views/scripts/auth/forgot-password.phtml:27
 #: application/views/scripts/auth/login.phtml:42
 msgid "Log In"
-msgstr "Entrar"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:87
 #: application/views/scripts/decorators/formRestoreoptions.phtml:91
 msgid "Restore client"
-msgstr "Cliente de restauração"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:153
 #: application/views/scripts/decorators/formRestoreoptions.phtml:129
 msgid "Restore Job Resource"
-msgstr "Restaurar Job Resource"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:174
 #: application/views/scripts/admin/role-main-form.phtml:68
 #: application/views/scripts/decorators/formRestoreoptions.phtml:169
 msgid "Where"
-msgstr "Onde"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:187
 #: application/views/scripts/decorators/formRestoreoptions.phtml:175
 msgid "Strip&nbsp;prefix"
-msgstr "Tirar parte do prefixo"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:200
 #: application/views/scripts/decorators/formRestoreoptions.phtml:181
 msgid "Add&nbsp;prefix"
-msgstr "Adicionar prefixo"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:213
 #: application/views/scripts/decorators/formRestoreoptions.phtml:187
 msgid "Add&nbsp;suffix"
-msgstr "Adicionar sufixo"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:226
 #: application/views/scripts/decorators/formRestoreoptions.phtml:193
 msgid "RegexWhere"
-msgstr "Onde regexp"
+msgstr ""
 
 #: application/forms/FormRestoreOptions.php:241
 #: application/views/scripts/restorejob/msg02session.phtml:6
 msgid "Run Restore Job"
-msgstr "Restaurar"
+msgstr ""
 
 #: application/forms/FormRole.php:86
-msgid ""
-"Role name incorrect. This contains only english alphabetical characters, "
-"digits and underscore."
+msgid "Role name incorrect. This contains only english alphabetical characters, digits and underscore."
 msgstr ""
-"Nome da função incorreta. Deve conter apenas caracteres alfabéticos sem "
-"acento, dígitos ou underline."
 
 #: application/forms/FormRole.php:95
 #: application/views/scripts/admin/role-index.phtml:69
 msgid "Description"
-msgstr "Descrição"
+msgstr ""
 
 #: application/forms/FormRole.php:114
 #: application/views/scripts/admin/role-index.phtml:70
 msgid "Inherited role"
-msgstr "Herdar de"
+msgstr ""
 
 #: application/forms/FormUser.php:68
 #: application/views/scripts/admin/user-index.phtml:67
 msgid "Login"
-msgstr "Usuário"
+msgstr ""
 
 #: application/forms/FormUser.php:75
-msgid ""
-"Login incorrect. Login must contains only english alphabetical characters, "
-"digits, dots and underscore."
+msgid "Login incorrect. Login must contains only english alphabetical characters, digits, dots and underscore."
 msgstr ""
-"Usuário incorreto! O nome do usuário deve conter apenas caracteres "
-"alfabéticos, números ou underline."
 
 #: application/forms/FormUser.php:116
 msgid "Email incorrect."
-msgstr "Email incorreto"
+msgstr ""
 
 #: application/forms/FormUser.php:123
 msgid "Active"
-msgstr "Ativo"
+msgstr ""
 
 #: application/forms/FormWebaculaACL.php:62
 msgid "Webacula resources"
-msgstr "Recursos"
+msgstr ""
 
 #: application/models/Schedule.php:121
 msgid "January"
-msgstr "Janeiro"
+msgstr ""
 
 #: application/models/Schedule.php:121
 msgid "February"
-msgstr "Fevereiro"
+msgstr ""
 
 #: application/models/Schedule.php:121
 msgid "March"
-msgstr "Março"
+msgstr ""
 
 #: application/models/Schedule.php:121
 msgid "April"
-msgstr "Abril"
+msgstr ""
 
 #: application/models/Schedule.php:121
 msgid "May"
-msgstr "Maio"
+msgstr ""
 
 #: application/models/Schedule.php:121
 msgid "June"
-msgstr "Junho"
+msgstr ""
 
 #: application/models/Schedule.php:122
 msgid "July"
-msgstr "Julho"
+msgstr ""
 
 #: application/models/Schedule.php:122
 msgid "August"
-msgstr "Agosto"
+msgstr ""
 
 #: application/models/Schedule.php:122
 msgid "September"
-msgstr "Setembro"
+msgstr ""
 
 #: application/models/Schedule.php:122
 msgid "October"
-msgstr "Outubro"
+msgstr ""
 
 #: application/models/Schedule.php:122
 msgid "November"
-msgstr "Novembro"
+msgstr ""
 
 #: application/models/Schedule.php:122
 msgid "December"
-msgstr "Dezembro"
+msgstr ""
 
 #: application/models/Schedule.php:123
 msgid "Sunday"
-msgstr "Domingo"
+msgstr ""
 
 #: application/models/Schedule.php:123
 msgid "Monday"
-msgstr "Segunda"
+msgstr ""
 
 #: application/models/Schedule.php:123
 msgid "Tuesday"
-msgstr "Terça"
+msgstr ""
 
 #: application/models/Schedule.php:123
 msgid "Wednesday"
-msgstr "Quarta"
+msgstr ""
 
 #: application/models/Schedule.php:123
 msgid "Thursday"
-msgstr "Quinta"
+msgstr ""
 
 #: application/models/Schedule.php:124
 msgid "Friday"
-msgstr "Sexta"
+msgstr ""
 
 #: application/models/Schedule.php:124
 msgid "Saturday"
-msgstr "Sábado"
+msgstr ""
 
 #: application/models/Schedule.php:125
 msgid "1st"
-msgstr "1ª"
+msgstr ""
 
 #: application/models/Schedule.php:125
 msgid "2nd"
-msgstr "2ª"
+msgstr ""
 
 #: application/models/Schedule.php:125
 msgid "3rd"
-msgstr "3ª"
+msgstr ""
 
 #: application/models/Schedule.php:125
 msgid "4th"
-msgstr "4ª"
+msgstr ""
 
 #: application/models/Schedule.php:125
 msgid "5th"
-msgstr "5ª"
+msgstr ""
 
 #: application/models/Schedule.php:125
 msgid "6th"
-msgstr "6ª"
+msgstr ""
 
 #: application/models/Timeline.php:549
 msgid "Hours"
-msgstr "Horas"
+msgstr ""
 
 #: application/models/Wbroles.php:108
 msgid "Role Id and Inherited Role Id must not be identical"
-msgstr "A Id da função e a Id da função herdada não devem ser iguais"
+msgstr ""
 
 #: application/models/Wbroles.php:133
 msgid "Can not delete. Role is used."
-msgstr "Não pode ser excluído. A função está sendo utilizada."
+msgstr ""
 
 #: library/MyClass/ControllerAclAction.php:78
 msgid "Webacula error. Role mechanism is broken. Check Webacula tables."
 msgstr ""
-"Erro do Webacula. O mecanismo de funções está com problemas. Verifique as "
-"tabelas do Webacula."
 
 #: library/MyClass/ControllerAclAction.php:84
 #, php-format
 msgid "You try to use Webacula menu \"%s\"."
-msgstr "Você tentou usar o menu \"%s\" do Webacula."
+msgstr ""
 
 #: library/MyClass/Validate/BaculaAclWhere.php:51
 #, php-format
 msgid "Bacula ACLs : access denied for Where '%s'"
-msgstr "ACLs do Bacula: acesso negado para Onde '%s'"
+msgstr ""
 
 #: library/MyClass/Validate/BaculaJobId.php:54
 #, php-format
 msgid "JobId %u is not found in Bacula database"
-msgstr "JobId %u não encontrado no banco de dados"
+msgstr ""
 
 #: library/MyClass/Validate/Datetime.php:56
 #, php-format
 msgid "'%s' is not of the format YYYY-MM-DD HH:MM:SS"
-msgstr "'%s' não está no formato AAAA-MM-DD HH:MM:SS"
+msgstr ""
 
 #: library/MyClass/Validate/Datetime.php:63
 #, php-format
 msgid "'%s' does not appear to be a valid date"
-msgstr "'%s' parece não ser uma data válida"
+msgstr ""
 
 #: library/MyClass/Validate/LogBookId.php:55
 #, php-format
 msgid "Logbook %u is not found in Webacula database"
-msgstr "Logbook %u não foi encontrado no banco de dados."
+msgstr ""
 
 #: application/layouts/default/dashboard.phtml:12
 #: application/layouts/default/dashboard.phtml:19
@@ -1359,59 +1320,59 @@ msgstr "Logbook %u não foi encontrado no banco de dados."
 #: application/layouts/default/main.phtml:18
 #, php-format
 msgid "Last Updated: %s"
-msgstr "Última atualização: %s"
+msgstr ""
 
 #: application/layouts/default/dashboard.phtml:13
 #: application/layouts/default/main.phtml:12
 #, php-format
 msgid "Updated every %s seconds"
-msgstr "Atualizado a cada %s segundos"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:59
 msgid "Administrator"
-msgstr "Administração"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:68
 msgid "Desktop"
-msgstr "Desktop"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:73
 #: application/views/scripts/help/index.phtml:77
 msgid "Director"
-msgstr "Diretor"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:76
 msgid "Job Totals"
-msgstr "Totalizador dos jobs"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:77
 msgid "Bacula Console"
-msgstr "Bconsole"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:86
 msgid "Terminated"
-msgstr "Finalizados"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:87
 #: application/views/scripts/job/find-form.phtml:104
 msgid "Running"
-msgstr "Em execução"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:88
 msgid "Next"
-msgstr "Agendados"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:89
 msgid "Problem"
-msgstr "Com problemas"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:90
 msgid "Run"
-msgstr "Executar"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:91
 msgid "Timeline"
-msgstr "Histórico"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:95
 #: application/views/scripts/job/find-form.phtml:148
@@ -1424,56 +1385,56 @@ msgstr "Histórico"
 #: application/views/scripts/wblogbook/index.phtml:133
 #: application/views/scripts/wblogbook/index.phtml:157
 msgid "Search"
-msgstr "Pesquisar"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:99
 msgid "Restore"
-msgstr "Restaurar"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:104
 msgid "Pool/Volume"
-msgstr "Pool/Volume"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:106
 msgid "Overview"
-msgstr "Visão geral"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:107
 msgid "Problem Volumes"
-msgstr "Volumes com erros"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:129
 msgid "RSS"
-msgstr "RSS"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:135
 msgid "About"
-msgstr "Sobre"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:138
 #: application/layouts/default/main-menu.phtml:145
 msgid "Logout"
-msgstr "Sair"
+msgstr ""
 
 #: application/layouts/default/main-menu.phtml:152
 msgid "Enable JavaScript please..."
-msgstr "Habilite JavaScript por favor..."
+msgstr ""
 
 #: application/views/scripts/admin/role-index.phtml:34
 #: application/views/scripts/admin/role-main-form.phtml:41
 #: application/views/scripts/admin/user-index.phtml:34
 #: application/views/scripts/wbjobdesc/index.phtml:32
 msgid "Message"
-msgstr "Mensagem"
+msgstr ""
 
 #: application/views/scripts/admin/role-index.phtml:35
 msgid "Are you sure you want to delete the role?"
-msgstr "Você tem certeza que deseja excluir a função?"
+msgstr ""
 
 #: application/views/scripts/admin/role-index.phtml:105
 #: application/views/scripts/admin/role-more-info.phtml:10
 msgid "More info"
-msgstr "Mais informações"
+msgstr ""
 
 #: application/views/scripts/admin/role-index.phtml:110
 #: application/views/scripts/admin/role-index.phtml:111
@@ -1494,31 +1455,31 @@ msgstr "Mais informações"
 #: application/views/scripts/wbjobdesc/index.phtml:93
 #: application/views/scripts/wbjobdesc/index.phtml:94
 msgid "Delete record"
-msgstr "Excluir registro"
+msgstr ""
 
 #: application/views/scripts/admin/role-index.phtml:123
 msgid "Create new role"
-msgstr "Nova função"
+msgstr ""
 
 #: application/views/scripts/admin/role-index.phtml:134
 msgid "No Roles found."
-msgstr "Nenhuma função encontrada"
+msgstr ""
 
 #: application/views/scripts/admin/role-main-form.phtml:42
 msgid "Are you sure you want to delete the record?"
-msgstr "Você tem certeza de que deseja excluir o registro?"
+msgstr ""
 
 #: application/views/scripts/admin/role-main-form.phtml:61
 msgid "Webacula ACL"
-msgstr "Webacula ACL"
+msgstr ""
 
 #: application/views/scripts/admin/role-main-form.phtml:63
 msgid "Command"
-msgstr "Comando"
+msgstr ""
 
 #: application/views/scripts/admin/role-main-form.phtml:64
 msgid "FileSet"
-msgstr "Fileset"
+msgstr ""
 
 #: application/views/scripts/admin/role-main-form.phtml:186
 #: application/views/scripts/admin/role-main-form.phtml:306
@@ -1527,98 +1488,90 @@ msgstr "Fileset"
 #: application/views/scripts/admin/role-main-form.phtml:564
 #: application/views/scripts/admin/role-main-form.phtml:650
 msgid "Id"
-msgstr "Id"
+msgstr ""
 
 #: application/views/scripts/admin/role-more-info.phtml:18
 msgid "Inherited roles"
-msgstr "Funções herdadas"
+msgstr ""
 
 #: application/views/scripts/admin/role-more-info.phtml:29
 #: application/views/scripts/admin/role-more-info.phtml:48
 #: application/views/scripts/admin/role-more-info.phtml:63
 msgid "None"
-msgstr "Nenhuma"
+msgstr ""
 
 #: application/views/scripts/admin/role-more-info.phtml:33
 msgid "Who use this role"
-msgstr "Quem utiliza esta função"
+msgstr ""
 
 #: application/views/scripts/admin/user-index.phtml:35
 msgid "Are you sure you want to delete the user?"
-msgstr "Você tem certeza que deseja excluir o usuário?"
+msgstr ""
 
 #: application/views/scripts/admin/user-index.phtml:71
 msgid "Created"
-msgstr "Data de criação"
+msgstr ""
 
 #: application/views/scripts/admin/user-index.phtml:72
 msgid "Last login"
-msgstr "Último acesso"
+msgstr ""
 
 #: application/views/scripts/admin/user-index.phtml:73
 msgid "Last IP"
-msgstr "Acessado de"
+msgstr ""
 
 #: application/views/scripts/admin/user-index.phtml:134
 msgid "Create new user"
-msgstr "Novo usuário"
+msgstr ""
 
 #: application/views/scripts/admin/user-index.phtml:144
 msgid "No Users found."
-msgstr "Registros não encontrados"
+msgstr ""
 
 #: application/views/scripts/auth/forgot-password.phtml:40
 msgid "Forgot your password? Enter your user name and email below."
-msgstr "Esqueceu a senha? Digite o nome do usuário e o email"
+msgstr ""
 
 #: application/views/scripts/auth/login.phtml:46
 msgid "Forgot?"
-msgstr "Esqueci a senha"
+msgstr ""
 
 #: application/views/scripts/bconsole/wterminal.phtml:13
 msgid "All command will be send to Bacula Console (bconsole)"
-msgstr "Todos os comandos serão enviados para o console do Bacula (bconsole)"
+msgstr ""
 
 #: application/views/scripts/bconsole/wterminal.phtml:14
-msgid ""
-"Only commands with a single line are working, commands with prompt doesn't "
-"work."
+msgid "Only commands with a single line are working, commands with prompt doesn't work."
 msgstr ""
-"Apenas comandos com uma única linha estão funcionando, comandos com prompt "
-"não."
 
 #: application/views/scripts/bconsole/wterminal.phtml:15
-msgid ""
-"See Bacula documentation 'Running the Console from a Shell Script' for "
-"details."
+msgid "See Bacula documentation 'Running the Console from a Shell Script' for details."
 msgstr ""
-"Consulte a documentação do Bacula 'Running the Console from a Shell Script' "
-"para obter detalhes."
 
 #: application/views/scripts/bconsole/wterminal.phtml:16
 msgid "clear - clear the screen"
-msgstr "clear - limpa a tela"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:16
 msgid "Client Version"
-msgstr "Versão"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:17
 #: application/views/scripts/pool/all.phtml:21
 msgid "Auto Prune"
-msgstr "Auto prune"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:18
 msgid "Files Retention<br />days"
-msgstr "Retenção de</br/>arquivos"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:19
 msgid "Jobs Retention<br />days"
-msgstr "Retenção de<br/>jobs"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:27
 msgid "Client Detail"
-msgstr "Detalhar cliente"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:33
 #: application/views/scripts/client/all.phtml:34
@@ -1628,11 +1581,11 @@ msgstr "Detalhar cliente"
 #: application/views/scripts/volume/find-pool-id.phtml:68
 #: application/views/scripts/volume/problem.phtml:61
 msgid "days"
-msgstr "dias"
+msgstr ""
 
 #: application/views/scripts/client/all.phtml:47
 msgid "No Clients found."
-msgstr "Nenhum cliente encontrado."
+msgstr ""
 
 #: application/views/scripts/client/status-client-id.phtml:19
 #: application/views/scripts/director/listjobtotals.phtml:19
@@ -1647,7 +1600,7 @@ msgstr "Nenhum cliente encontrado."
 #: application/views/scripts/storage/act-mount.phtml:20
 #: application/views/scripts/storage/status-id.phtml:20
 msgid "ERROR: There was a problem executing bconsole."
-msgstr "ERRO: Problema durante execução do bconsole"
+msgstr ""
 
 #: application/views/scripts/client/status-client-id.phtml:39
 #: application/views/scripts/director/listjobtotals.phtml:39
@@ -1661,20 +1614,20 @@ msgstr "ERRO: Problema durante execução do bconsole"
 #: application/views/scripts/storage/act-mount.phtml:45
 #: application/views/scripts/storage/status-id.phtml:41
 msgid "Director output:"
-msgstr "Output do Diretor"
+msgstr ""
 
 #: application/views/scripts/decorators/formJobrun.phtml:68
 msgid "When"
-msgstr "Quando"
+msgstr ""
 
 #: application/views/scripts/decorators/formJobrun.phtml:72
 msgid "Now"
-msgstr "Agora"
+msgstr ""
 
 #: application/views/scripts/decorators/formJobrun.phtml:85
 #: application/views/scripts/restorejob/main-form.phtml:348
 msgid "YYYY-MM-DD HH:MM:SS"
-msgstr "AAAA-MM-DD HH:MM:SS"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:30
 #: application/views/scripts/job/run-job.phtml:6
@@ -1687,67 +1640,58 @@ msgstr "AAAA-MM-DD HH:MM:SS"
 #: application/views/scripts/restorejob/restore-single-file.phtml:6
 #: application/views/scripts/volume/detail.phtml:7
 msgid "Please wait"
-msgstr "Aguarde..."
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:50
 msgid "Standard options"
-msgstr "Opção Padrão"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:51
 msgid "Advanced options"
-msgstr "Opção Avançada"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:162
 #: application/views/scripts/decorators/formRestoreoptions.phtml:214
 msgid "Help"
-msgstr "Ajuda"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:171
 msgid "Restore files in <b>where</b> directory."
-msgstr "Restaurar arquivo no diretório especificado"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:177
 msgid "Remove a part of the filename when restoring."
-msgstr "Remover parte do nome do arquivo quando restaurar"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:183
-msgid ""
-"Add a prefix to all files when restoring (like where) (can't be used with "
-"<b>where</b>)."
+msgid "Add a prefix to all files when restoring (like where) (can't be used with <b>where</b>)."
 msgstr ""
-"Adicionar prefixo em todos os arquivos quando restaurar (não pode ser usado "
-"com o campo <b>onde</b>)"
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:189
 msgid "Add a suffix to all your files."
-msgstr "Adicionar um sufixo em todos os arquivos"
+msgstr ""
 
 #: application/views/scripts/decorators/formRestoreoptions.phtml:195
-msgid ""
-"Do complex filename manipulation like with sed unix command. Will overwrite "
-"other filename manipulation."
+msgid "Do complex filename manipulation like with sed unix command. Will overwrite other filename manipulation."
 msgstr ""
-"Fazer uma manipulação complexa dos nomes de arquivos com o comando <b>sed</"
-"b> do linux. Irá sobrescrever qualquer outra manipulação do nome dos "
-"arquivos."
 
 #: application/views/scripts/error/bacula-access-denied.phtml:7
 #: application/views/scripts/error/webacula-access-denied.phtml:8
 #: application/views/scripts/msg-note.phtml:22
 #: application/views/scripts/wblogbook/index-printable.phtml:24
 msgid "Back"
-msgstr "Voltar"
+msgstr ""
 
 #: application/views/scripts/error/error.phtml:29
 msgid "What to do next?"
-msgstr "O que fazer em seguida?"
+msgstr ""
 
 #: application/views/scripts/file/list.phtml:18
 #: application/views/scripts/restorejob/list-recent-restore.phtml:38
 #: application/views/scripts/restorejob/list-restore.phtml:38
 #: application/views/scripts/restorejob/restore-single-file.phtml:39
 msgid "Attribute"
-msgstr "Atributo"
+msgstr ""
 
 #: application/views/scripts/file/list.phtml:19
 #: application/views/scripts/job/find-file-name.phtml:33
@@ -1755,18 +1699,18 @@ msgstr "Atributo"
 #: application/views/scripts/restorejob/list-restore.phtml:39
 #: application/views/scripts/restorejob/restore-single-file.phtml:40
 msgid "Name File"
-msgstr "Arquivo"
+msgstr ""
 
 #: application/views/scripts/file/list.phtml:20
 #: application/views/scripts/restorejob/list-recent-restore.phtml:40
 #: application/views/scripts/restorejob/list-restore.phtml:40
 #: application/views/scripts/restorejob/restore-single-file.phtml:41
 msgid "File Id"
-msgstr "File Id"
+msgstr ""
 
 #: application/views/scripts/file/list.phtml:55
 msgid "deleted"
-msgstr "excluído"
+msgstr ""
 
 #: application/views/scripts/file/list.phtml:71
 #: application/views/scripts/job/find-file-name.phtml:226
@@ -1774,150 +1718,142 @@ msgstr "excluído"
 #: application/views/scripts/restorejob/list-restore.phtml:100
 #: application/views/scripts/restorejob/restore-single-file.phtml:82
 msgid "No Files found."
-msgstr "Arquivos não encontrados"
+msgstr ""
 
 #: application/views/scripts/file/list_pagination_ctrl.phtml:9
 #: application/views/scripts/pagination_ctrl.phtml:10
 msgid "Showing"
-msgstr "Mostrando"
+msgstr ""
 
 #: application/views/scripts/file/list_pagination_ctrl.phtml:9
 #: application/views/scripts/pagination_ctrl.phtml:10
 msgid "of"
-msgstr "de"
+msgstr ""
 
 #: application/views/scripts/file/list_pagination_ctrl.phtml:19
 #: application/views/scripts/job/find_filters_pagination_ctrl.phtml:25
 #: application/views/scripts/pagination_ctrl.phtml:21
 msgid "First page"
-msgstr "Primeira"
+msgstr ""
 
 #: application/views/scripts/file/list_pagination_ctrl.phtml:24
 #: application/views/scripts/job/find_filters_pagination_ctrl.phtml:30
 #: application/views/scripts/pagination_ctrl.phtml:26
 msgid "Previous page"
-msgstr "Anterior"
+msgstr ""
 
 #: application/views/scripts/file/list_pagination_ctrl.phtml:38
 #: application/views/scripts/job/find_filters_pagination_ctrl.phtml:46
 #: application/views/scripts/pagination_ctrl.phtml:40
 msgid "Next page"
-msgstr "Próxima"
+msgstr ""
 
 #: application/views/scripts/file/list_pagination_ctrl.phtml:43
 #: application/views/scripts/job/find_filters_pagination_ctrl.phtml:51
 #: application/views/scripts/pagination_ctrl.phtml:45
 msgid "Last page"
-msgstr "Última"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:12
 msgid "This is a fork from original project"
-msgstr "Este é um fork do projeto original"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:14
-msgid ""
-"Webacula is a opensource web interface for manage one the most popular "
-"backup software of the world, the"
+msgid "Webacula is a opensource web interface for manage one the most popular backup software of the world, the"
 msgstr ""
-"O Webacula é uma interface web utilizada para gerenciar um dos mais "
-"populares softwares de backup do mundo, o"
 
 #: application/views/scripts/help/index.phtml:16
-msgid ""
-"The original developer seems to have abandoned the project as there have "
-"been no updates since October 2014"
+msgid "The original developer seems to have abandoned the project as there have been no updates since October 2014"
 msgstr ""
-"O desenvolvedor original parece ter abandonado o projeto, pois não houve "
-"atualizações desde Outubro de 2014"
 
 #: application/views/scripts/help/index.phtml:18
 msgid "Original Repository"
-msgstr "Repositório Original"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:20
 msgid "Current Repository"
-msgstr "Repositório Atual"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:27
 msgid "Legend"
-msgstr "Legenda"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:29
 msgid "warnings"
-msgstr "Avisos"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:32
 msgid "errors"
-msgstr "Erros"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:37
 msgid "Screens"
-msgstr "Telas"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:39
 msgid "default"
-msgstr "Padrão"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:42
 msgid "running"
-msgstr "Em execução"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:45
 msgid "with errors"
-msgstr "Com erros"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:50
 msgid "Informations"
-msgstr "Informações"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:57
 msgid "You successfully logged in as"
-msgstr "Logado como"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:61
 msgid "Version for Webacula Application"
-msgstr "Versão do Webacula"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:65
 msgid "DB Bacula"
-msgstr "Banco de Dados"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:69
 msgid "DB Size"
-msgstr "Tamanho do Banco de Dados"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:73
 msgid "Version for Bacula Catalog database"
-msgstr "Versão do Catálogo"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:81
 msgid "Bconsole"
-msgstr "Bacula Console"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:85
 msgid "Zend Framework"
-msgstr "Zend Framework"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:89
 msgid "Locale"
-msgstr "Idioma"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:93
 msgid "PHP info"
-msgstr "Informação do PHP"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:94
 msgid "in separate window"
-msgstr "mostrar em uma janela separada"
+msgstr ""
 
 #: application/views/scripts/help/index.phtml:97
 msgid "PHP system id"
-msgstr "Grupos/Usuários"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:22
 #: application/views/scripts/job/detail.phtml:23
 msgid "Console Messages"
-msgstr "Mensagens do console"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:40
 #: application/views/scripts/job/detail.phtml:41
@@ -1930,7 +1866,7 @@ msgstr "Mensagens do console"
 #: application/views/scripts/job/terminated.phtml:72
 #: application/views/scripts/job/terminated.phtml:73
 msgid "Re-run Job"
-msgstr "Re-executar Job"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:54
 #: application/views/scripts/job/detail.phtml:55
@@ -1939,35 +1875,35 @@ msgstr "Re-executar Job"
 #: application/views/scripts/job/terminated.phtml:216
 #: application/views/scripts/job/terminated.phtml:217
 msgid "Written in Logbook"
-msgstr "Escrever no logbook"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:66
 msgid "Prior Job"
-msgstr "Job anterior"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:71
 msgid "Unique Job Name"
-msgstr "Nome único do job"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:77
 msgid "Show Job Resource"
-msgstr "Detalhar job"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:87
 msgid "Purged Files"
-msgstr "Arquivos descartados"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:91
 msgid "Job Type"
-msgstr "Tipo do job"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:99
 msgid "Client/Version"
-msgstr "Cliente/Versão"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:108
 msgid "Schedule Time"
-msgstr "Agendado"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:131
 #: application/views/scripts/job/find-file-name.phtml:170
@@ -1975,46 +1911,46 @@ msgstr "Agendado"
 #: application/views/scripts/job/running.phtml:194
 #: application/views/scripts/job/terminated.phtml:191
 msgid "Detail Pool"
-msgstr "Detalhar pool"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:147
 msgid "Number of files"
-msgstr "Número de arquivos"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:150
 msgid "Listing files"
-msgstr "Arquivos"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:161
 msgid "All File records purged"
-msgstr "Todos arquivos de registros descartados"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:166
 msgid "Bytes Stored"
-msgstr "Bytes armazenados"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:180
 msgid "Bytes Copied"
-msgstr "Bytes copiados"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:190
 msgid "Software Compression"
-msgstr "Taxa de compressão"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:224
 msgid "Volumes"
-msgstr "Volumes"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:234
 #: application/views/scripts/volume/detail.phtml:248
 #: application/views/scripts/volume/find-pool-id.phtml:90
 msgid "No Volumes found."
-msgstr "Nenhum volume encontrado"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:241
 #: application/views/scripts/volume/detail.phtml:226
 msgid "Comment"
-msgstr "Comentário"
+msgstr ""
 
 #: application/views/scripts/job/detail.phtml:265
 #: application/views/scripts/job/find-filters.phtml:235
@@ -2026,7 +1962,7 @@ msgstr "Comentário"
 #: application/views/scripts/job/timeline.phtml:155
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:107
 msgid "No Jobs found."
-msgstr "Nenhum job encontrado!"
+msgstr ""
 
 #: application/views/scripts/job/find-file-name.phtml:82
 #: application/views/scripts/job/find-filters.phtml:84
@@ -2036,12 +1972,12 @@ msgstr "Nenhum job encontrado!"
 #: application/views/scripts/job/terminated-dashboard.phtml:71
 #: application/views/scripts/job/terminated.phtml:80
 msgid "Detail Job"
-msgstr "Detalhar job"
+msgstr ""
 
 #: application/views/scripts/job/find-file-name.phtml:97
 #: application/views/scripts/job/find-file-name.phtml:99
 msgid "Restore File"
-msgstr "Restaurar arquivo"
+msgstr ""
 
 #: application/views/scripts/job/find-file-name.phtml:210
 #: application/views/scripts/job/find-filters.phtml:173
@@ -2050,20 +1986,18 @@ msgstr "Restaurar arquivo"
 #: application/views/scripts/job/terminated-dashboard.phtml:168
 #: application/views/scripts/job/terminated.phtml:177
 msgid "View Messages"
-msgstr "Ver mensagens"
+msgstr ""
 
 #: application/views/scripts/job/find-filters.phtml:72
-#, fuzzy
-#| msgid "Restore Job"
 msgid "Restore Job 2"
-msgstr "Restaurar Job"
+msgstr ""
 
 #: application/views/scripts/job/find-filters.phtml:239
 #: application/views/scripts/job/terminated.phtml:238
 #: application/views/scripts/restorejob/main-form.phtml:145
 #: application/views/scripts/restorejob/main-form.phtml:210
 msgid "See List last 20 Jobs run"
-msgstr "Ver lista dos últimos 20 Jobs"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:80
 #: application/views/scripts/job/find-form.phtml:84
@@ -2073,59 +2007,59 @@ msgstr "Ver lista dos últimos 20 Jobs"
 #: application/views/scripts/job/find-form.phtml:103
 #: application/views/scripts/job/find-form.phtml:113
 msgid "ANY"
-msgstr "Qualquer"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:105
 msgid "Completed successfully"
-msgstr "Completado com sucesso"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:106
 msgid "Terminated with errors"
-msgstr "Finalizado com erros"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:107
 msgid "Canceled by user"
-msgstr "Cancelado pelo usuário"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:108
 msgid "Waiting anything"
-msgstr "Aguardando"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:114
 msgid "Backup type"
-msgstr "backup"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:115
 msgid "Restore type"
-msgstr "restore"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:116
 msgid "Verify type"
-msgstr "verify"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:117
 msgid "Admin Job type"
-msgstr "admin"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:118
 msgid "Copy of a Job"
-msgstr "cópia do job"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:119
 msgid "Copy Job"
-msgstr "cópia"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:183
 msgid "Time, Client, Fileset, Level, Status, Type"
-msgstr "Hora, Cliente, Fileset, Nível, Status, Tipo"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:194
 msgid "Time of start of the Jobs with"
-msgstr "De"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:200
 msgid "up to"
-msgstr "até"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:241
 #: application/views/scripts/job/next-dashboard.phtml:65
@@ -2138,104 +2072,104 @@ msgstr "até"
 #: application/views/scripts/wblogbook/index.phtml:196
 #: application/views/scripts/wblogbook/modify.phtml:101
 msgid "Type"
-msgstr "Tipo"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:288
 #: application/views/scripts/job/find-form.phtml:296
 msgid "List last"
-msgstr "Listar últimos"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:288
 #: application/views/scripts/job/find-form.phtml:297
 msgid "Jobs run"
-msgstr "jobs executados"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:311
 msgid "File Name"
-msgstr "Nome do arquivo"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:323
 msgid "Enter path with trailing slash"
-msgstr "Digite o caminho com a barra no final"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:333
 msgid "Enter Filename (no path)"
-msgstr "Arquivo (sem caminho)"
+msgstr ""
 
 #: application/views/scripts/job/find-form.phtml:343
 msgid "Type of search (case sensitive)"
-msgstr "Tipo de busca (case sensitive)"
+msgstr ""
 
 #: application/views/scripts/job/next-dashboard.phtml:17
 #: application/views/scripts/job/next.phtml:18
 #: application/views/scripts/job/running-dashboard.phtml:17
 #: application/views/scripts/job/running.phtml:19
 msgid "ERROR: Cannot execute bconsole. File not found."
-msgstr "ERRO: bconsole não pode ser iniciado. Arquivo não encontrado"
+msgstr ""
 
 #: application/views/scripts/job/next-dashboard.phtml:30
 #: application/views/scripts/job/next.phtml:30
 #: application/views/scripts/job/running-dashboard.phtml:29
 #: application/views/scripts/job/running.phtml:31
 msgid "ERROR: There was a problem executing bconsole. See below."
-msgstr "ERRO: Problema durante execução do bconsole. Veja abaixo"
+msgstr ""
 
 #: application/views/scripts/job/next-dashboard.phtml:66
 #: application/views/scripts/job/next.phtml:68
 msgid "Priority"
-msgstr "Prioridade"
+msgstr ""
 
 #: application/views/scripts/job/next-dashboard.phtml:67
 #: application/views/scripts/job/next.phtml:69
 msgid "Scheduled"
-msgstr "Agendado"
+msgstr ""
 
 #: application/views/scripts/job/next-dashboard.phtml:126
 #: application/views/scripts/job/next.phtml:159
 msgid "No Scheduled Jobs found."
-msgstr "Nenhum job agendado"
+msgstr ""
 
 #: application/views/scripts/job/next.phtml:71
 msgid "% Free space<br /> on Volume"
-msgstr "Espaço livre<br />no volume"
+msgstr ""
 
 #: application/views/scripts/job/next.phtml:122
 msgid "Unknown"
-msgstr "Desconhecido"
+msgstr ""
 
 #: application/views/scripts/job/next.phtml:126
 msgid "Volume with Errors"
-msgstr "Volume com erros"
+msgstr ""
 
 #: application/views/scripts/job/next.phtml:129
 msgid "New Volume"
-msgstr "Novo volume"
+msgstr ""
 
 #: application/views/scripts/job/problem-dashboard.phtml:14
 msgid "JobId"
-msgstr "JobId"
+msgstr ""
 
 #: application/views/scripts/job/run-job-output.phtml:59
 #: application/views/scripts/restorejob/run-restore.phtml:59
 msgid "View Running Jobs"
-msgstr "Ver Jobs em execução"
+msgstr ""
 
 #: application/views/scripts/job/running-dashboard.phtml:55
 #: application/views/scripts/job/running-dashboard.phtml:136
 #: application/views/scripts/job/running.phtml:57
 #: application/views/scripts/job/running.phtml:139
 msgid "The Job is Running"
-msgstr "O Job está em execução"
+msgstr ""
 
 #: application/views/scripts/job/running-dashboard.phtml:79
 #: application/views/scripts/job/running.phtml:82
 msgid "Information from Director : No Running Jobs found."
-msgstr "Informações do Diretor: Não foram encontrados jobs em execução"
+msgstr ""
 
 #: application/views/scripts/job/running-dashboard.phtml:201
 #: application/views/scripts/job/running.phtml:223
 msgid "Information from DB Catalog : No Running Jobs found."
-msgstr "Informações do Catálogo: Não foram encontrados jobs em execução"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:28
 #: application/views/scripts/restorejob/main-form.phtml:339
@@ -2246,55 +2180,54 @@ msgstr "Informações do Catálogo: Não foram encontrados jobs em execução"
 #: application/views/scripts/wblogbook/modify.phtml:65
 #: application/views/scripts/wblogbook/modify.phtml:73
 msgid "Date"
-msgstr "Data"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:32
 #: application/views/scripts/job/timeline.phtml:34
 msgid "Previous day"
-msgstr "Dia anterior"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:39
 #: application/views/scripts/job/timeline.phtml:41
 msgid "Today"
-msgstr "Hoje"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:46
 #: application/views/scripts/job/timeline.phtml:49
 msgid "Next day"
-msgstr "Próximo dia"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:56
 msgid "Show Timeline"
-msgstr "Mostrar histórico"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:62
 msgid "YYYY-MM-DD"
-msgstr "AAAA-MM-DD"
+msgstr ""
 
 #: application/views/scripts/job/timeline.phtml:75
 msgid "Point mouse cursor at image area and click to view Job detail"
 msgstr ""
-"Coloque o cursor do mouse sobre a imagem e clique para ver detalhes do Job"
 
 #: application/views/scripts/log/view-log-id.phtml:43
 msgid "No Console messages found."
-msgstr "Mensagens de console não encontrada"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:15
 msgid "Name Pool"
-msgstr "Nome da pool"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:16
 msgid "Label Format"
-msgstr "Formato do label"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:17
 msgid "Number<br />Volumes"
-msgstr "Nº de<br/> volumes"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:18
 msgid "Max<br />Volumes"
-msgstr "Nº máximo<br/>de volumes"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:19
 #: application/views/scripts/volume/find-name.phtml:20
@@ -2302,87 +2235,87 @@ msgstr "Nº máximo<br/>de volumes"
 #: application/views/scripts/volume/problem-dashboard.phtml:18
 #: application/views/scripts/volume/problem.phtml:20
 msgid "Volume<br />Retention<br />(days)"
-msgstr "Retenção"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:20
 msgid "Max<br />Volume<br />(Bytes)"
-msgstr "Capacidade<br />por volume"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:22
 msgid "Auto Recycle"
-msgstr "Reciclar"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:31
 msgid "Show Volumes"
-msgstr "Mostrar volumes"
+msgstr ""
 
 #: application/views/scripts/pool/all.phtml:45
 #: application/views/scripts/pool/all.phtml:53
 #: application/views/scripts/volume/find-name.phtml:45
 #: application/views/scripts/volume/find-pool-id.phtml:55
 msgid "unlimited"
-msgstr "ilimitado"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:28
 #: application/views/scripts/restorejob/draw-file-tree.phtml:95
 msgid "Last action: please wait..."
-msgstr "Histórico: Aguarde..."
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:44
 #: application/views/scripts/restorejob/draw-file-tree.phtml:89
 #: application/views/scripts/restorejob/draw-file-tree.phtml:111
 msgid "The system was a problem. Please try again after some time."
-msgstr "Ocorreu um erro! Por favor tente novamente!"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:55
 msgid "Last action: mark"
-msgstr "Histórico: marcado"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:74
 msgid "Last action: unmark"
-msgstr "Histórico: desmarcado"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:121
 msgid "Last action: mark directory tree"
-msgstr "Histórico: diretório marcado"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:140
 msgid "Last action: unmark directory tree"
-msgstr "Histórico: diretório desmarcado"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:167
 msgid "For restore"
-msgstr "Para restaurar"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:168
 msgid "Size:"
-msgstr "Tamanho:"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:169
 msgid "Count:"
-msgstr "Quantidade:"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:213
 msgid "Last action:"
-msgstr "Histórico:"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:218
 msgid "Change dir"
-msgstr "Ir"
+msgstr ""
 
 #: application/views/scripts/restorejob/draw-file-tree.phtml:241
 msgid "[Parent Directory]"
-msgstr "[Diretório anterior]"
+msgstr ""
 
 #: application/views/scripts/restorejob/list-recent-restore.phtml:15
 #: application/views/scripts/restorejob/list-restore.phtml:15
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #: application/views/scripts/restorejob/list-recent-restore.phtml:16
 #: application/views/scripts/restorejob/list-restore.phtml:16
 msgid "file(s)"
-msgstr "arquivo(s)"
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:7
 #: application/views/scripts/restorejob/main-form.phtml:20
@@ -2390,18 +2323,18 @@ msgstr "arquivo(s)"
 #: application/views/scripts/restorejob/main-form.phtml:46
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:7
 msgid "Please wait. Create temporary tables..."
-msgstr "Aguarde. Criando tabela temporária..."
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:123
 msgid "Restore to a specified JobId"
-msgstr "Restaurar um JobId específico"
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:167
 #: application/views/scripts/restorejob/main-form.phtml:229
 #: application/views/scripts/restorejob/main-form.phtml:283
 #: application/views/scripts/restorejob/main-form.phtml:357
 msgid "Select Files for Restore"
-msgstr "Selecione os arquivo para restauração"
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:173
 #: application/views/scripts/restorejob/main-form.phtml:233
@@ -2409,139 +2342,125 @@ msgstr "Selecione os arquivo para restauração"
 #: application/views/scripts/restorejob/main-form.phtml:363
 #: application/views/scripts/restorejob/select-backups-before-date.phtml:31
 msgid "Next "
-msgstr "Mais"
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:188
 msgid "Full restore to a specified JobId"
-msgstr "Restauração completa de um JobId"
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:247
 msgid "Restore the most recent backup for a client"
-msgstr "Restaurar o backup mais recente de um cliente"
+msgstr ""
 
 #: application/views/scripts/restorejob/main-form.phtml:305
 msgid "Restore backup for a client before a specified time"
-msgstr "Restaurar o backup de um cliente antes de uma data especificada"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg01.phtml:24
 msgid "An error occurred while restoring!"
-msgstr "Ocorreu um erro durante a restauração!"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg01.phtml:27
 msgid "Found existing temporary tables for the Restore Job with JobId"
 msgstr ""
-"Foram encontrado tabelas temporárias existentes na restauração do JobId"
 
 #: application/views/scripts/restorejob/msg01.phtml:30
-msgid ""
-"Probably someone already works above a choice of files for restoration, or "
-"these tables have not been removed since time of your last task for "
-"restoration for this JobId."
+msgid "Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."
 msgstr ""
-"Provavelmente alguém já está efetuando esta restauração ou a tabela não foi "
-"removida na última restauração."
 
 #: application/views/scripts/restorejob/msg01.phtml:32
 msgid "Choose the action:"
-msgstr "Escolha uma opção:"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg01.phtml:36
 msgid "Recreate temporary tables (recommended)"
-msgstr "Recriar a tabela temporária (recomendado)"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg01.phtml:37
 msgid "Continue with the old temporary tables"
-msgstr "Continuar com a tabela temporária antiga"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg01.phtml:38
 msgid "Exit"
-msgstr "Sair"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg01.phtml:42
 #: application/views/scripts/restorejob/msg02session.phtml:17
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: application/views/scripts/restorejob/msg02session.phtml:13
-msgid ""
-"Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</"
-"b> in your config.ini."
+msgid "Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini."
 msgstr ""
-"A sessão de restauração do backup expirou.<br />Aumente o valor de "
-"<b>ttl_restore_session</b> no arquivo de configuração 'config.ini'."
 
 #: application/views/scripts/restorejob/restore-recent-all.phtml:10
-#, fuzzy
-#| msgid "Client"
 msgid "client"
-msgstr "Cliente"
+msgstr ""
 
 #: application/views/scripts/restorejob/restore-recent-all.phtml:12
-#, fuzzy
-#| msgid "Fileset"
 msgid "fileset"
-msgstr "Fileset"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:18
 msgid "Time"
-msgstr "Horário"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:19
 msgid "Week Day"
-msgstr "Dia da semana"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:20
 msgid "Day"
-msgstr "Dia"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:21
 msgid "Month"
-msgstr "Mês"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:22
 msgid "Week Month"
-msgstr "Semana do mês"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:23
 msgid "Week Year"
-msgstr "Semana do ano"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:26
 msgid "Device"
-msgstr "Device"
+msgstr ""
 
 #: application/views/scripts/schedule/all.phtml:27
 #: application/views/scripts/volume/detail.phtml:183
 msgid "Enabled"
-msgstr "Habilitado"
+msgstr ""
 
 #: application/views/scripts/storage/act-mount.phtml:26
 msgid "Bacula ACLs : Access denied."
-msgstr "Bacula ACLs: Acesso negado."
+msgstr ""
 
 #: application/views/scripts/storage/act-mount.phtml:58
 msgid "No Storage [un]mount."
-msgstr "Sem Storage [un]mount."
+msgstr ""
 
 #: application/views/scripts/storage/status-id.phtml:54
 msgid "No Storage status found."
-msgstr "Status dos Storage não encontrado."
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:14
 msgid "Mount"
-msgstr "Montar"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:15
 msgid "Name Storage"
-msgstr "Nome"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:16
 msgid "AutoChanger"
-msgstr "Autochanger"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:17
 msgid "Unmount"
-msgstr "Desmontar"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:33
 #: application/views/scripts/storage/storage.phtml:38
@@ -2551,24 +2470,24 @@ msgstr "Desmontar"
 #: application/views/scripts/storage/storage.phtml:73
 #: application/views/scripts/storage/storage.phtml:74
 msgid "Mount Storage"
-msgstr "Montar Storage"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:61
 #: application/views/scripts/storage/storage.phtml:131
 msgid "Enter autochanger drive"
-msgstr "Informe o drive do autochanger"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:65
 msgid "Enter autochanger slot"
-msgstr "Informe o slot do autochanger"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:80
 msgid "Storage Status"
-msgstr "Status do storage"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:87
 msgid "Display autochanger content"
-msgstr "Exibir conteúdo do autochanger"
+msgstr ""
 
 #: application/views/scripts/storage/storage.phtml:105
 #: application/views/scripts/storage/storage.phtml:110
@@ -2577,148 +2496,148 @@ msgstr "Exibir conteúdo do autochanger"
 #: application/views/scripts/storage/storage.phtml:140
 #: application/views/scripts/storage/storage.phtml:141
 msgid "Unmount Storage"
-msgstr "Desmontar Storage"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:35
 msgid "Append"
-msgstr "Append"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:36
 msgid "Full"
-msgstr "Completo"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:37
 msgid "Recycle"
-msgstr "Reciclar"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:38
 msgid "Purged"
-msgstr "Purgado"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:39
 msgid "Read-Only"
-msgstr "Somente leitura"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:40
 msgid "Disabled"
-msgstr "Desabilitado"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:42
 msgid "Busy"
-msgstr "Ocupado"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:43
 msgid "Used"
-msgstr "Usado"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:44
 msgid "Cleaning"
-msgstr "Limpando"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:45
 msgid "Archive"
-msgstr "Arquivado"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:53
 #: application/views/scripts/volume/detail.phtml:58
 #: application/views/scripts/volume/detail.phtml:186
 msgid "no"
-msgstr "não"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:54
 #: application/views/scripts/volume/detail.phtml:59
 #: application/views/scripts/volume/detail.phtml:188
 msgid "yes"
-msgstr "sim"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:96
 msgid "Max Bytes"
-msgstr "Capacidade"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:100
 msgid "Jobs"
-msgstr "Jobs"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:107
 msgid "Retention"
-msgstr "Retenção"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:113
 msgid "Use Duration"
-msgstr "Duração de uso"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:113
 msgid "seconds"
-msgstr "segundos"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:119
 msgid "Recycle "
-msgstr "Reciclar"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:123
 #: application/views/scripts/volume/find-name.phtml:23
 #: application/views/scripts/volume/find-pool-id.phtml:26
 #: application/views/scripts/volume/problem.phtml:23
 msgid "Autochanger<br />Slot<br />Number"
-msgstr "Nº slot"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:127
 msgid "In Changer"
-msgstr "Está no autochanger"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:131
 msgid "Media Type"
-msgstr "Tipo de mídia"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:135
 msgid "First Written"
-msgstr "Primeira gravação"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:139
 msgid "Last Written"
-msgstr "Última alteração"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:154
 msgid "Label Date"
-msgstr "Data do label"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:162
 msgid "Blocks"
-msgstr "Blocos"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:166
 #: application/views/scripts/volume/problem.phtml:102
 msgid "Mounts"
-msgstr "Montagem"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:179
 #: application/views/scripts/volume/problem.phtml:103
 msgid "Number of writes"
-msgstr "Número de gravações"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:192
 msgid "Max Volume Jobs"
-msgstr "Nº máximo de jobs"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:196
 msgid "Max Volume Files"
-msgstr "Nº máximo de arquivos"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:200
 msgid "Read Time"
-msgstr "Duração da leitura"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:211
 msgid "Write Time"
-msgstr "Duração da escrita"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:222
 msgid "Recycle Count"
-msgstr "Número de reciclagens"
+msgstr ""
 
 #: application/views/scripts/volume/detail.phtml:238
 msgid "Reset Form"
-msgstr "Limpar"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:17
 #: application/views/scripts/volume/find-pool-id.phtml:20
@@ -2726,14 +2645,14 @@ msgstr "Limpar"
 #: application/views/scripts/volume/problem.phtml:17
 #: application/views/scripts/volume/problem.phtml:99
 msgid "Volume Bytes"
-msgstr "Utilizado"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:18
 #: application/views/scripts/volume/find-pool-id.phtml:21
 #: application/views/scripts/volume/problem-dashboard.phtml:16
 #: application/views/scripts/volume/problem.phtml:18
 msgid "Max Volume<br />Bytes"
-msgstr "Capacidade"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:19
 #: application/views/scripts/volume/find-pool-id.phtml:22
@@ -2741,7 +2660,7 @@ msgstr "Capacidade"
 #: application/views/scripts/volume/problem.phtml:19
 #: application/views/scripts/volume/problem.phtml:101
 msgid "Volume Jobs"
-msgstr "Nº jobs"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:21
 #: application/views/scripts/volume/find-pool-id.phtml:24
@@ -2749,75 +2668,75 @@ msgstr "Nº jobs"
 #: application/views/scripts/volume/problem.phtml:21
 #: application/views/scripts/volume/problem.phtml:100
 msgid "Media<br />Type"
-msgstr "Tipo de mídia"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:22
 #: application/views/scripts/volume/find-pool-id.phtml:25
 #: application/views/scripts/volume/problem.phtml:22
 msgid "Last<br />Written"
-msgstr "Última gravação"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:24
 #: application/views/scripts/volume/find-pool-id.phtml:27
 #: application/views/scripts/volume/problem.phtml:24
 msgid "Can Recycle<br />Volume"
-msgstr "Reciclar"
+msgstr ""
 
 #: application/views/scripts/volume/find-name.phtml:25
 #: application/views/scripts/volume/find-pool-id.phtml:28
 #: application/views/scripts/volume/problem.phtml:25
 msgid "Expires In"
-msgstr "Data de</br/>expiração"
+msgstr ""
 
 #: application/views/scripts/volume/problem-dashboard.phtml:68
 #: application/views/scripts/volume/problem.phtml:83
 msgid "Information from DB Catalog : All Volumes are OK."
-msgstr "Informações do Catálogo: Todos os volumes estão ok."
+msgstr ""
 
 #: application/views/scripts/wbjobdesc/index.phtml:33
 msgid "Are you sure you want to delete the jobdesc?"
-msgstr "Você tem certeza que deseja excluir a descrição do job?"
+msgstr ""
 
 #: application/views/scripts/wbjobdesc/index.phtml:78
 msgid "Show Job resource"
-msgstr "Detalhar job"
+msgstr ""
 
 #: application/views/scripts/wbjobdesc/index.phtml:110
 #: application/views/scripts/wblogbook/index.phtml:294
 msgid "No records found!"
-msgstr "Nenhum registro encontrado!"
+msgstr ""
 
 #: application/views/scripts/wbjobdesc/index.phtml:119
 #: application/views/scripts/wblogbook/index.phtml:303
 msgid "Add New Record"
-msgstr "Novo registro"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:50
 msgid "ERROR: Record has not been added. Reason :"
-msgstr "ERRO: Registro não foi adicionado. Motivo :"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:63
 #: application/views/scripts/wblogbook/modify.phtml:53
 msgid "Field is required to process this form"
-msgstr "Campos com preenchimento obrigatório"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:89
 msgid "Reviewed"
-msgstr "Revisado"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:92
 msgid "Don't show this Job in 'Jobs with errors' list in future"
-msgstr "Não mostrar este Job em 'Jobs com erros' no futuro"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:99
 #: application/views/scripts/wblogbook/modify.phtml:111
 msgid "Allowed to use tags"
-msgstr "Tags permitidas"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:108
 #: application/views/scripts/wblogbook/modify.phtml:121
 msgid "Allowed to use pseudo-tags"
-msgstr "Pseudo-tags permitidas"
+msgstr ""
 
 #: application/views/scripts/wblogbook/add.phtml:115
 #: application/views/scripts/wblogbook/index-printable.phtml:41
@@ -2825,89 +2744,155 @@ msgstr "Pseudo-tags permitidas"
 #: application/views/scripts/wblogbook/index.phtml:195
 #: application/views/scripts/wblogbook/modify.phtml:128
 msgid "Text"
-msgstr "Texto"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index-printable.phtml:30
 msgid "Printable version."
-msgstr "Versão impressa."
+msgstr ""
 
 #: application/views/scripts/wblogbook/index-printable.phtml:90
 #: application/views/scripts/wblogbook/index.phtml:251
 msgid "Deleted"
-msgstr "Excluído"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index-printable.phtml:116
 msgid "No records found."
-msgstr "Nenhum registro encontrado."
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:86
 msgid "Filter by date"
-msgstr "Filtro por data"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:87
 msgid "Filter by Id"
-msgstr "Filtro por Id"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:88
 msgid "Text Search"
-msgstr "Pesquisar texto"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:99
 msgid "Date range"
-msgstr "Período"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:100
 msgid "from"
-msgstr "de"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:102
 #: application/views/scripts/wblogbook/index.phtml:126
 msgid "to"
-msgstr "até"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:124
 msgid "Id range: from"
-msgstr "Intervalo: de"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:174
 #: application/views/scripts/wblogbook/index.phtml:175
 #: application/views/scripts/wblogbook/index.phtml:177
 msgid "View a printable version"
-msgstr "Versão para impressão"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:180
 #: application/views/scripts/wblogbook/index.phtml:181
 msgid "To sort in ascending/descending order"
-msgstr "Ordem crescente/decrescente"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:183
 msgid "Sort in ascending order"
-msgstr "Ordem crescente"
+msgstr ""
 
 #: application/views/scripts/wblogbook/index.phtml:197
 msgid "Last modified"
-msgstr "Alterado em"
+msgstr ""
 
 #: application/views/scripts/wblogbook/modify.phtml:27
 msgid "Record has not been modified. Reason :"
-msgstr "O registro não foi modificado. Motivo:"
+msgstr ""
 
 #: application/views/scripts/wblogbook/modify.phtml:45
 msgid "This record has been deleted."
-msgstr "O registro foi excluído"
+msgstr ""
 
 #: application/views/scripts/wblogbook/modify.phtml:81
 msgid "Select action "
-msgstr "Selecione ação"
+msgstr ""
 
 #: application/views/scripts/wblogbook/modify.phtml:85
 msgid "Modify this record"
-msgstr "Alterar este registro"
+msgstr ""
 
 #: application/views/scripts/wblogbook/modify.phtml:87
 msgid "Delete this record (physically record will not be removed)"
-msgstr "Excluir este registro (não será removido fisicamente)"
+msgstr ""
 
 #: application/views/scripts/wblogbook/modify.phtml:89
 msgid "Undelete this record"
-msgstr "Recuperar este registro"
+msgstr ""
+
+#~ msgid "%s<br>(%s dirs, %s files affected)"
+#~ msgstr "%s<br>(%s diretório(s), %s arquivo(s))"
+
+#~ msgid "Running Jobs"
+#~ msgstr "Em execução"
+
+#~ msgid "This feature is not available."
+#~ msgstr "Esta opção não está disponível."
+
+#~ msgid "ERROR: Action for file failed !"
+#~ msgstr "ERRO: Falha ao selecionar arquivo !"
+
+#~ msgid "ERROR: Action for directory failed !"
+#~ msgstr "ERRO: Falha ao selecionar diretório !"
+
+#~ msgid "Run Restore"
+#~ msgstr "Restaurar"
+
+#~ msgid "Where to Restore"
+#~ msgstr "Local para o restore"
+
+#~ msgid "Path"
+#~ msgstr "Caminho"
+
+#~ msgid "Most recent backup"
+#~ msgstr "Backup mais recente"
+
+#~ msgid "Before a time"
+#~ msgstr "Antes da data"
+
+#~ msgid "No Client status found."
+#~ msgstr "Cliente não encontrado"
+
+#~ msgid "Invalid input parameters."
+#~ msgstr "Parâmetro de entrada inválido"
+
+#~ msgid "ERROR: There was a problem executing bconsole. Check permissions."
+#~ msgstr "ERRO:  Problema durante execução do bconsole. Verifique permissões"
+
+#~ msgid "<b>Enter Job Name</b> (listed below) :"
+#~ msgstr "<b>Entre com o nome</b> (listado abaixo) :"
+
+#~ msgid "ERROR: Problem with write in file which contains the list of files which will be restored."
+#~ msgstr "ERRO: Problema com escrita no arquivo que contém a lista dos arquivos para restauração."
+
+#~ msgid "View Desktop"
+#~ msgstr "Ver Desktop"
+
+#~ msgid "All Volumes are OK."
+#~ msgstr "Todos Volumes estão OK"
+
+#~ msgid "Files:"
+#~ msgstr "Arquivos:"
+
+#~ msgid "ERROR: No Jobs resources found."
+#~ msgstr "ERRO: Jobs não encontrado"
+
+#~ msgid "Next ->"
+#~ msgstr "Próximo ->"
+
+#~ msgid "or"
+#~ msgstr "ou"
+
+#~ msgid "Clear filters"
+#~ msgstr "Limpar filtro"
