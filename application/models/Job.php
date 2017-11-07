@@ -171,6 +171,7 @@ class Job extends Zend_Db_Table
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
         $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+        $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
         /*
          * developers/Database_Tables.html
 C   Created but not yet running
