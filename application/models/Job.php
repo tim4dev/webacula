@@ -1041,6 +1041,7 @@ EOF"
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', 
                     array('FileSetName' => 'FileSet', 'FileSetCreateTime' => 'CreateTime'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
         	$select->where("j.JobId = ?", $jobid);
     		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 

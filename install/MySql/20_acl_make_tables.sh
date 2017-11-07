@@ -2,27 +2,13 @@
 #
 # Script to create Webacula ACLs tables in Bacula database
 #
+db_name=${db_name:-bacula}
+# The default password is 'bacula'
+# Do not modify the string below
+wb_pwd='$P$BWvNstbpxxsvvnFkE90C6OfZxFS61P1'
 
-.   ../db.conf
-
-# Check db.conf db_pwd
-if [ -n "$db_pwd" ]
-then
-    pwd="-p$db_pwd"
-else
-    pwd=""
-fi
-
-# Check db.conf webacula_db_pwd
-if [ -n "$webacula_root_pwd" ]
-then
-    root_pwd=$webacula_root_pwd
-else
-    root_pwd='$P$BWvNstbpxxsvvnFkE90C6OfZxFS61P1' # default: bacula
-fi
-
-if mysql $* -u $db_user $pwd  $db_name -f <<END-OF-DATA
-
+mysql $* -f <<END-OF-DATA
+use ${db_name};
 
 CREATE TABLE IF NOT EXISTS webacula_users (
     id              int(11) NOT NULL AUTO_INCREMENT,
@@ -40,6 +26,7 @@ CREATE TABLE IF NOT EXISTS webacula_users (
 );
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_roles (
     id              int(11) NOT NULL AUTO_INCREMENT,
     order_role      int(11) NOT NULL DEFAULT '1',
@@ -51,12 +38,14 @@ CREATE TABLE IF NOT EXISTS webacula_roles (
 );
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_resources (
     id              int(11) NOT NULL AUTO_INCREMENT,
     dt_id           int(11) DEFAULT NULL,
     role_id         int(11) DEFAULT NULL,
     PRIMARY KEY (id)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS webacula_dt_resources (
@@ -68,14 +57,10 @@ CREATE TABLE IF NOT EXISTS webacula_dt_resources (
 );
 
 
+
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
-INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', '$root_pwd', 'root', 1, NOW(), 1);
-
-
+INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id) VALUES (1000, 'root', '$wb_pwd', 'root', 1, NOW(), 1);
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
-
-
 INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (10,2),
     (20,2),
@@ -95,6 +80,7 @@ INSERT INTO webacula_resources (dt_id, role_id) VALUES
     (150,2),
     (160,2),
     (500,2);
+
 
 
 -- Controller names only
@@ -119,6 +105,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
     (500,'admin',     'Menu Administrator');
 
 
+
 -- Bacula ACLs
 CREATE TABLE IF NOT EXISTS webacula_client_acl (
     id              int(11) NOT NULL AUTO_INCREMENT,
@@ -131,6 +118,7 @@ CREATE TABLE IF NOT EXISTS webacula_client_acl (
 );
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_command_acl (
     id              int(11) NOT NULL AUTO_INCREMENT,
     dt_id           int(11) DEFAULT NULL,
@@ -140,6 +128,7 @@ CREATE TABLE IF NOT EXISTS webacula_command_acl (
 );
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_dt_commands (
     id              int(11) NOT NULL AUTO_INCREMENT,
     name            varchar(127) NOT NULL,
@@ -147,6 +136,7 @@ CREATE TABLE IF NOT EXISTS webacula_dt_commands (
     PRIMARY KEY (id),
     UNIQUE KEY idx_name (name)
 );
+
 
 
 -- see src/dird/ua_cmds.c
@@ -199,6 +189,7 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (420, 'wait',        'Wait until no jobs are running');
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
     id              int(11) NOT NULL AUTO_INCREMENT,
     name            varchar(127) DEFAULT NULL,
@@ -208,6 +199,7 @@ CREATE TABLE IF NOT EXISTS webacula_fileset_acl (
     UNIQUE KEY idx_name (name,role_id),
     KEY idx_id (id,order_acl)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS webacula_job_acl (
@@ -221,6 +213,7 @@ CREATE TABLE IF NOT EXISTS webacula_job_acl (
 );
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     id              int(11) NOT NULL AUTO_INCREMENT,
     name            varchar(127) DEFAULT NULL,
@@ -230,6 +223,7 @@ CREATE TABLE IF NOT EXISTS webacula_pool_acl (
     UNIQUE KEY idx_name (name,role_id),
     KEY idx_id (id,order_acl)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS webacula_storage_acl (
@@ -243,6 +237,7 @@ CREATE TABLE IF NOT EXISTS webacula_storage_acl (
 );
 
 
+
 CREATE TABLE IF NOT EXISTS webacula_where_acl (
     id              int(11) NOT NULL AUTO_INCREMENT,
     name            text NOT NULL,
@@ -254,16 +249,6 @@ CREATE TABLE IF NOT EXISTS webacula_where_acl (
 );
 
 
-CREATE TABLE IF NOT EXISTS webacula_schedule_acl (
-    id              int(11) NOT NULL AUTO_INCREMENT,
-    name            varchar(127) DEFAULT NULL,
-    order_acl       int(11) DEFAULT NULL,
-    role_id         int(11) DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY (name,role_id),
-    KEY idx_id (id,order_acl)
-);
-
 
 -- 'root_role' Bacula ACLs
 INSERT INTO webacula_storage_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
@@ -273,7 +258,7 @@ INSERT INTO webacula_fileset_acl   (name, order_acl, role_id)  VALUES ('*all*', 
 INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
 INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 1);
 INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+
 
 
 -- 'operator_role' Bacula ACLs
@@ -284,7 +269,7 @@ INSERT INTO webacula_fileset_acl   (name, order_acl, role_id)  VALUES ('*all*', 
 INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
 INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 2);
 INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_schedule_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+
 
 
 -- PHP session storage
@@ -297,11 +282,13 @@ CREATE TABLE IF NOT EXISTS webacula_php_session (
     PRIMARY KEY (id)
 );
 
-
 END-OF-DATA
+
+if [ $? -eq 0 ]
 then
-   echo "Creation of Webacula ACLs MySQL tables succeeded."
+   echo "MySQL: creation of Webacula ACL tables succeeded."
 else
-   echo "Creation of Webacula ACLs MySQL tables failed."
+   echo "MySQL: creation of Webacula ACL tables failed!"
+   exit 1
 fi
 exit 0

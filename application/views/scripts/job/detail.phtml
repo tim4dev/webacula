@@ -162,15 +162,45 @@
                            </td>
                         </tr>
                         <tr>
+                           <?php if($line['type']=='B'): ?>
+                           <td> <?php print $this->translate->_("Bytes Stored"); ?></td>
+                           <?php else: ?>
                            <td> <?php print $this->translate->_("Bytes"); ?></td>
+                           <?php endif; ?>
                            <?php
-                               if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') )
+                               if ( ($line['jobbytes'] == 0) && ($line['type'] == 'B') )
                                  $class = 'class="warning"';
                                else
                                  $class = '';
                              echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
                            ?>
                         </tr>
+                        <?php if($line['type']=='B'): ?>
+                        <tr>
+                           <td> <?php print $this->translate->_("Bytes Copied"); ?></td>
+                           <?php
+                               if ( ($line['filesize'] == 0) && ($line['type'] == 'B') )
+                                 $class = 'class="warning"';
+                               else
+                                 $class = '';
+                             echo '<td ', $class, '>', $this->convBytes($this->escape($line['filesize'])), '</td>';
+                           ?>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Software Compression"); ?></td>
+                           <?php
+                              $jobbytes=$line['jobbytes'];
+                              $filesize=$line['filesize'];
+                              if (( $jobbytes != 0) && ($filesize != 0) ){
+                                 $filesize == 0 ? 1 : $filesize;
+                                 $class = '';
+                         echo '<td>', $this->escape( number_format((1-($jobbytes/$filesize))*100,2) ), ' %</td>';
+                               } else {
+                                  echo '<td>-</td>';
+                               }
+                           ?>
+                        </tr>
+                        <?php endif; ?>
                         <tr>
                            <td> <?php print $this->translate->_("Errors"); ?> </td>
                            <?php
