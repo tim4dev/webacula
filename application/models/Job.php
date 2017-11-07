@@ -171,6 +171,7 @@ class Job extends Zend_Db_Table
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
         $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+        $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
         /*
          * developers/Database_Tables.html
 C   Created but not yet running
@@ -1041,6 +1042,7 @@ EOF"
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', 
                     array('FileSetName' => 'FileSet', 'FileSetCreateTime' => 'CreateTime'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
         	$select->where("j.JobId = ?", $jobid);
     		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 

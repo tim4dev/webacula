@@ -47,25 +47,47 @@ class Version extends Zend_Db_Table
     }
 
     function getVersion()
-	{
+    {
    	$select = new Zend_Db_Select($this->db);
     	$select->from($this->_name, 'VersionId');
     	$select->limit(1);
     	$res = $this->db->fetchOne($select);
-		return $res;
-	}
+	return $res;
+    }
 
-	/**
-	 * Check Catalog DB version
-	 * Compare the version of the Bacula Catalog DB
-	 *
+    /**
+     * Check Catalog DB version
+     * Compare the version of the Bacula Catalog DB
+     *
      * @param $ver  valid version
-	 * @return TRUE if correct
-	 */
-	function checkVersion($ver)
-	{
+     * @return TRUE if correct
+     */
+     function checkVersion($ver)
+     {
     	$res = $this->getVersion();
-		return ( $res == $ver );
-	}
+	return ( $res == $ver );
+     }
 
+     function getDatabaseSize()
+     {
+        $config = new Zend_Config_Ini('../application/config.ini');
+        $db_name = $config->general->db->config->dbname;
+        if($this->db_adapter == 'PDO_MYSQL'){
+            if (version_compare($this->db->getServerVersion(), '5.0.0') >= 0) {
+               $query = "select sum(data_length + index_length) as db_size from information_schema.tables where table_schema = '$db_name'";
+               $stmt   = $this->_db->query($query);
+               $db_size = $stmt->fetch();
+               return $db_size['db_size'];
+            } else {
+               return 0;
+            }
+        } else if($this->db_adapter == 'PDO_PGSQL'){
+            $query = "SELECT pg_database_size('$db_name') AS db_size";
+            $stmt   = $this->_db->query($query);
+            $db_size = $stmt->fetch();
+            return $db_size['db_size'];
+        } else {
+             return 0;
+        }
+     }
 }

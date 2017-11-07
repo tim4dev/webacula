@@ -1,6 +1,14 @@
 Webacula ChangeLog
 ------------------
 
+=== 7.5.3 (Tue Nov 07, 2017)
+   - New feature added to get File size before compression (need run scripts)
+   - Included the database size in the About Page
+   - Updated webacula tables
+   - Update translations
+   - Minor bugfixes
+
+
 === 7.5.2 (Mon July 10, 2017)
    - Fix Model method "getListJobs" to work with Bacula 9.0
    - Fix bacula logo href 

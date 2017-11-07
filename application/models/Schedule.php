@@ -66,10 +66,8 @@ class Schedule
     *      or: $month = January-December);
     *
     */
-    public function sequenceShorten( $array_value, $start=0, $size=0, $array_label=null){
-
-
-        $translate = Zend_Registry::get('translate');
+    public function sequenceShorten( $array_value, $start=0, $size=0, $array_label=null)
+    {
 
         //create a new array
         $array_full = range(0,$size-1);
@@ -99,11 +97,11 @@ class Schedule
         foreach($arr3 as $row){
             $count = count($row);
             if( $count == 1 ){
-               $text .= $translate->_($array_label[$row[0]]). ",";
+               $text .= $array_label[$row[0]]. ",";
             } else if( $count == 2 ){
-               $text .= $translate->_($array_label[$row[0]]).",". $translate->_($array_label[$row[1]]).",";
+               $text .= $array_label[$row[0]].",". $array_label[$row[1]].",";
             } else if( $count > 2 ){
-                $text .= $translate->_($array_label[$row[0]])."-". $translate->_($array_label[$row[$count-1]]).",";
+                $text .= $array_label[$row[0]]."-". $array_label[$row[$count-1]].",";
             }
         } // end foreach
         return substr($text,0,strlen($text)-1);
@@ -119,11 +117,12 @@ class Schedule
      public function getSchedule()
      {
       $config = Zend_Registry::get('config');
-        $array_month_short = array(0=>'Jan',1=>'Feb',2=>'Mar',3=>'Apr',4=>'May',5=>'Jun',6=>'Jul',7=>'Aug',8=>'Sep',9=>'Oct',10=>'Nov',11=>'Dec',);
-        $array_month_long = array(0=>'January',1=>'February',2=>'March',3=>'April',4=>'May',5=>'June',6=>'July',7=>'August',8=>'September',9=>'October',10=>'November',11=>'December',);
-        $array_weekday_short = array(0=>'Sun',1=>'Mon',2=>'Tue',3=>'Wed',4=>'Thu',5=>'Fri',6=>'Sat',);
-        $array_weekday_long = array(0=>'Sunday',1=>'Monday',2=>'Tuesday',3=>'Wednesday',4=>'Thursday',5=>'Friday',6=>'Saturday');
-        $array_weekmonth_short = array(0=>'1st',1=>'2nd',2=>'3rd',3=>'4th',4=>'5th',5=>'6th');
+      $translate = Zend_Registry::get('translate');
+        $array_month_long = array(0=>$translate->_('January'),1=>$translate->_('February'),2=>$translate->_('March'),3=>$translate->_('April'),4=>$translate->_('May'),5=>$translate->_('June'),
+        6=>$translate->_('July'),7=>$translate->_('August'),8=>$translate->_('September'),9=>$translate->_('October'),10=>$translate->_('November'),11=>$translate->_('December'));
+        $array_weekday_long = array(0=>$translate->_('Sunday'),1=>$translate->_('Monday'),2=>$translate->_('Tuesday'),3=>$translate->_('Wednesday'),4=>$translate->_('Thursday'),
+        5=>$translate->_('Friday'),6=>$translate->_('Saturday'));
+        $array_weekmonth_short = array(0=>$translate->_('1st'),1=>$translate->_('2nd'),2=>$translate->_('3rd'),3=>$translate->_('4th'),4=>$translate->_('5th'),5=>$translate->_('6th'));
         $array_weekyear_short = array(0=>1,1=>2,2=>3,3=>4,4=>5,5=>6,6=>7,7=>8,8=>9,9=>10,10=>11,11=>12,12=>13,13=>14,14=>15,15=>16,16=>17,17=>18,18=>19,19=>20,20=>21,21=>22,22=>23,23=>24,24=>25,25=>26,26=>27,27=>28,28=>29,29=>30,30=>31,31=>32,32=>33,33=>34,34=>35,35=>36,36=>37,37=>38,38=>39,39=>40,40=>41,41=>42,42=>43,43=>44,44=>45,45=>46,46=>47,47=>48,48=>49,49=>50,50=>51,51=>52,52=>53,53=>54);
         $array_day_short = array(0=>1,1=>2,2=>3,3=>4,4=>5,5=>6,6=>7,7=>8,8=>9,9=>10,10=>11,11=>12,12=>13,13=>14,14=>15,15=>16,16=>17,17=>18,18=>19,19=>20,20=>21,21=>22,22=>23,23=>24,24=>25,25=>26,26=>27,27=>28,28=>29,29=>30,30=>31);
 

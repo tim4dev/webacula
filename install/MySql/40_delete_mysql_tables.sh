@@ -1,19 +1,11 @@
 #!/bin/bash
 #
-# Script to create webacula tables
+# Script to grant privileges 
 #
+db_name=bacula
 
-.   ../db.conf
-
-if [ -n "$db_pwd" ]
-then
-    pwd="-p$db_pwd"
-else
-    pwd=""
-fi
-
-
-if mysql $* -u $db_user $pwd  $db_name -f <<END-OF-DATA
+mysql $* -f <<END-OF-DATA
+USE ${db_name};
 
 DROP TABLE IF EXISTS webacula_client_acl;
 DROP TABLE IF EXISTS webacula_command_acl;
@@ -21,6 +13,7 @@ DROP TABLE IF EXISTS webacula_dt_commands;
 DROP TABLE IF EXISTS webacula_dt_resources;
 DROP TABLE IF EXISTS webacula_fileset_acl;
 DROP TABLE IF EXISTS webacula_job_acl;
+DROP TABLE IF EXISTS webacula_job_size;
 DROP TABLE IF EXISTS webacula_jobdesc;
 DROP TABLE IF EXISTS webacula_logbook;
 DROP TABLE IF EXISTS webacula_logtype;
@@ -34,11 +27,16 @@ DROP TABLE IF EXISTS webacula_tmp_tablelist;
 DROP TABLE IF EXISTS webacula_users;
 DROP TABLE IF EXISTS webacula_version;
 DROP TABLE IF EXISTS webacula_where_acl;
+DROP FUNCTION IF EXISTS base64_decode_lstat;
+DROP FUNCTION IF EXISTS human_size;
 
 END-OF-DATA
+
+if [ $? -eq 0 ]
 then
-   echo "Exclusion of webacula MySQL tables succeeded."
+   echo "MySQL: Exclusion of Webacula tables were successful."
 else
-   echo "Exclusion of webacula MySQL tables failed."
+   echo "MySQL: Exclusion of Webacula tables were failed!"
+   exit 1
 fi
 exit 0
