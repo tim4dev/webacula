@@ -1,7 +1,7 @@
 SetEnv APPLICATION_ENV development
 
-php_flag magic_quotes_gpc off
-php_flag register_globals off
+#php_flag magic_quotes_gpc off
+#php_flag register_globals off
 
 RewriteEngine On
 
