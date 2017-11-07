@@ -37,7 +37,7 @@
                      <th class="text-center"> <?php print $this->translate->_("Level"); ?></th>
                      <th class="text-right"> <?php print $this->translate->_("Files"); ?></th>
                      <th class="text-right"> <?php print $this->translate->_("Bytes"); ?></th>
-                     <th class="text-center"> <?php print $this->translate->_("Errors"); ?></th>
+                     <th class="text-center"> <?php print $this->translate->_("Log"); ?></th>
                   </tr>
                </thead>
                <tbody>
@@ -152,7 +152,7 @@
                      <!-- Errors -->
                      <?php
                       if ( $line['joberrors'] == 0 )
-                          echo '<td class="text-center">-</td>';
+                          echo '<td class="text-center"><a href="'. $this->baseUrl .'/log/view-log-id/jobid/'. $line['jobid'] . '/jobname/' . $line['jobname'] .'" title="' . $this->translate->_("View Messages") . '"><img src="' .  $this->baseUrl .'/images/logviewer-small.png' . '"/></a></td>';
                       else  {
                           if ( $line['reviewed'] > 0 )  {
                               // reviewed icon
@@ -168,7 +168,7 @@
                               $this->translate->_("View Messages"), '"';
                           if ( $line['reviewed'] == 0 )
                               echo ' class="text-center danger" ';
-                          echo '>', $this->escape($line['joberrors']), '</a></td>';
+                          echo '><img src="' .  $this->baseUrl .'/images/logviewer-small.png' . '"/></a></td>';
                       }
                      ?>
                   </tr>

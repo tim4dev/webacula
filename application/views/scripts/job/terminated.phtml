@@ -228,7 +228,9 @@
                            <td class="text-center">&nbsp;<?php echo $this->escape($line['durationtime']);?></td>
 
                            <!-- add to logbook button -->
-                           <td><?php
+                           <td>
+                              <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $line['jobid'] . '/jobname/' . $line['jobname']; ?>" title="<?php echo $this->translate->_("Console Messages"); ?>"><img src="<?php echo $this->baseUrl .'/images/logviewer.png'?>"/></a>
+                              <?php
                               if ( isset($line['poolid'], $line['poolname']) )    {
                                    echo '<a href="';
                                    echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($line['jobname']),

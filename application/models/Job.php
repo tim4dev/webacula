@@ -746,8 +746,8 @@ EOF"
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'c.Name'));
 			$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'p.Name'));
 			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
-            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
-
+                        $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+                        $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
 			$select->where( "('" . $date_begin . ' ' . $time_begin . "' <= j.StartTime) AND (j.StartTime <= '" .
 				$date_end . ' ' . $time_end . "')" );
 
@@ -857,6 +857,7 @@ EOF"
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
             $select->where("j.JobId = '$jobid'");
             $select->order(array("StartTime", "JobId"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -917,6 +918,7 @@ EOF"
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
             $select->where("j.Name = '$jobname'");
             $select->order(array("StartTime desc", "JobId desc"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -974,6 +976,7 @@ EOF"
             $select->joinLeft(array('o' => 'JobMedia'), 'j.JobId = o.JobId', array('JobId'));
             $select->joinLeft(array('m' => 'Media'), 'm.MediaId = o.MediaId', array('MediaId'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
 
 			$select->where("m.VolumeName = '$volname'");
    			$select->order(array("StartTime", "j.JobId"));
@@ -1139,6 +1142,7 @@ EOF"
 				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('jobstatuslong'=>'JobStatusLong'));
 			break;
         }
+                $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
 		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W', 'D')");
 		$select->where("j.Type = 'B'");
    		$select->order(array("sortStartTime DESC"));
@@ -1396,6 +1400,7 @@ EOF"
                 " ORDER BY Job.StartTime ASC";
                 break;
         }
+        //echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $this->db->query($sql);
         $ajob_inc = $stmt->fetchAll();
         unset($stmt);

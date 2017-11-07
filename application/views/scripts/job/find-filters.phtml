@@ -13,7 +13,7 @@
 ?>
 
 <div class="rows">
-   <div class="col-md-10">
+   <div class="col-md-12">
       <div class="panel panel-default panel-primary">
          <div class="panel-heading">
             <?php echo $this->escape($this->title); ?>
@@ -51,7 +51,9 @@
                              <th class="text-center"><a href="<?php echo $urlp; ?>/order/j.JobStatus"><?php echo $this->translate->_("Status"); ?></a></th>
                              <th class="text-center"><a href="<?php echo $urlp; ?>/order/j.Level">    <?php echo $this->translate->_("Level"); ?></a></th>
                              <th class="text-right"><a href="<?php echo $urlp; ?>/order/j.JobFiles"> <?php echo $this->translate->_("Files"); ?></a></th>
-                             <th class="text-right"><a href="<?php echo $urlp; ?>/order/j.JobBytes"> <?php echo $this->translate->_("Bytes"); ?></a></th>
+                             <th class="text-right"><a href="<?php echo $urlp; ?>/order/j.JobBytes"> <?php echo $this->translate->_("Bytes Stored"); ?></a></th>
+                             <th class="text-right"><?php echo $this->translate->_("Bytes Copied"); ?></th>
+                             <th class="text-right"><?php echo $this->translate->_("Software Compression"); ?></th>
                              <th class="text-center"><a href="<?php echo $urlp; ?>/order/j.JobErrors"><?php echo $this->translate->_("Errors"); ?></a></th>
                              <th class="text-left"><a href="<?php echo $urlp; ?>/order/c.Name">     <?php echo $this->translate->_("Client"); ?></a></th>
                              <th class="text-left"><a href="<?php echo $urlp; ?>/order/p.Name">     <?php echo $this->translate->_("Pool"); ?></a></th>
@@ -147,7 +149,7 @@
                         
                         	<td class="text-center"><?php echo $this->escape($line['level']);?></td>
                         	<?php
-                                if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') )
+                                if ( ($line['jobfiles'] == 0) && ($line['type'] != 'B') )
                                     $class = 'class="warning"';
                                 else
                                     $class = '';
@@ -155,13 +157,34 @@
                         	?>
                         
                         	<?php
-                                if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') )
+                                if ( ($line['jobbytes'] == 0) && ($line['type'] != 'B') )
                                     $class = 'class="warning"';
                                 else
                                     $class = '';
                          		echo '<td ', $class, ' class="text-right">', $this->convBytes($line['jobbytes']), '</td>';
                         	?>
-                        
+                       
+                                <?php
+                                   if ( ($line['filesize'] == 0) && ($line['type'] != 'B') ) {
+                                      $class = 'class="text-right warning"';
+                                   } else {
+                                      $class = 'class="text-right"';
+                                   }
+                                   echo '<td ', $class, '>', $this->convBytes($line['filesize']), '</td>';
+                                ?>
+                                
+                                <?php
+                                   $jobbytes=$line['jobbytes'];
+                                   $filesize=$line['filesize'];
+                                   if (( $jobbytes != 0) && ($filesize != 0) ){
+                                      $filesize == 0 ? 1 : $filesize;
+                                      $class = '';
+                                      echo '<td class="text-center">', $this->escape( number_format((1-($jobbytes/$filesize))*100,2) ), ' %</td>';
+                                    } else {
+                                       echo '<td class="text-center">-</td>';
+                                    }
+                                ?>
+ 
                         	<!-- Errors -->
                         	<?php
                         		if ( $line['joberrors'] == 0 )
