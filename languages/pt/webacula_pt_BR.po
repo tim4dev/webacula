@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webacula\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-07 09:29-0200\n"
-"PO-Revision-Date: 2017-11-07 09:35-0200\n"
+"POT-Creation-Date: 2018-12-05 14:15-0200\n"
+"PO-Revision-Date: 2018-12-05 14:15-0200\n"
 "Last-Translator: Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
 "Language-Team: Samuel Rios Carvalho <samuel.rios.carvalho@gmail.com>, "
 "Wanderlei Hüttel <wanderlei.huttel@gmail.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-KeywordsList: $this->translate->_;$this_view->translate->_;$this-"
 ">view->translate->_\n"
 "X-Poedit-Basepath: Y:/webacula\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.8\n"
 "X-Poedit-SearchPath-0: application\n"
 "X-Poedit-SearchPath-1: html\n"
 "X-Poedit-SearchPath-2: library/MyClass\n"
@@ -1129,7 +1129,7 @@ msgstr "Cliente de restauração"
 #: application/forms/FormRestoreOptions.php:153
 #: application/views/scripts/decorators/formRestoreoptions.phtml:129
 msgid "Restore Job Resource"
-msgstr "Restaurar Job Resource"
+msgstr "Job de Restauração"
 
 #: application/forms/FormRestoreOptions.php:174
 #: application/views/scripts/admin/role-main-form.phtml:68

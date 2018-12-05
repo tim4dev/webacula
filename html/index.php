@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.5.3' . ' build 07Nov2017');
+define('WEBACULA_VERSION', '7.5.4' . ' build 05Dec2018');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
@@ -113,6 +113,12 @@ Zend_Registry::set('ERR_VOLUME', -1);
 
 // setup database bacula
 Zend_Registry::set('DB_ADAPTER', strtoupper($config->general->db->adapter) );
+if($config->general->db->adapter == "PDO_PGSQL"){
+ $db_name = "PostgreSQL";  
+} else {
+ $db_name = "MySQL/MariaDB";
+}
+
 $params = $config->general->db->config->toArray();
 // for cross database compatibility with PDO, MySQL, PostgreSQL
 $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB::AUTO_QUOTE_IDENTIFIERS => FALSE);
@@ -214,7 +220,7 @@ try {
 } catch (Zend_Db_Adapter_Exception $e) {
     echo '<pre>';
     // possible database is not running
-    throw new Zend_Exception("Fatal error: Can't connect to SQL server.");
+    throw new Zend_Exception("Fatal error: Can't connect to Database " . $db_name. "\n" . $e);
 }
 /*
  * Check Bacula Catalog version
@@ -222,8 +228,8 @@ try {
 $ver = new Version();
 if ( !$ver->checkVersion(BACULA_VERSION) )   {
     echo '<pre>';
-    throw new Zend_Exception("Bacula version mismatch for the Catalog database.". 
-            "Wanted ".BACULA_VERSION.", got ". $ver->getVersion().". ");
+    throw new Zend_Exception("Bacula version mismatch for the Catalog database. ". "Wanted ".BACULA_VERSION." got ". $ver->getVersion().".\n" .
+    "Update your webacula tables and modify the 'catalog.version' in application/config.ini.");
 }
 /*
  * Check CACHE_DIR is writable
