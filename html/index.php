@@ -18,7 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.5.3' . ' build 07Nov2017');
+define('WEBACULA_VERSION', '7.5.4' . ' build 05Dec2018');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );

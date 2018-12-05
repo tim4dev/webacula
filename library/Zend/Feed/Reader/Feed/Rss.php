@@ -151,7 +151,7 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
             );
         }
 
-        if (count($authors) == 0) {
+        if ($authors !== null && count($authors) == 0) {
             $authors = null;
         }
 
