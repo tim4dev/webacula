@@ -17,8 +17,8 @@ Este é um fork do webacula (cópia) com diversas modificações que não foram 
 - Possibilidade de alterar a senha do usuário root do bacula na interface gráfica.
 - Adicionado nova tela que mostra os agendamentos.
 
-Version: 7.5.3
-Esta versão é compatível com as versões 7.X e 9.X do Bacula
+Version: 7.5.4
+Esta versão é compatível com as versões 7.X e 9.X do Bacula e com PHP >= 5.6 e PHP <= 7.3.0
 
 Para atualizar, leia  o "Upgrade from prior version" em docs/txt/upgrade.txt
 
