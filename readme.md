@@ -1,4 +1,7 @@
-Webacula - Interface Web para o Sistema de Backup Bacula http://www.bacula.org
+### Webacula - Interface Web para o Sistema de Backup Bacula http://www.bacula.org
+
+Clique no link para abrir o tutorial de instalação:
+[tutorial de instalação](https://github.com/wanderleihuttel/bacula-utils/blob/master/tutorial/tutorial_de_instalacao_do_webacula_debian9.txt)
 
 Este é um fork do webacula (cópia) com diversas modificações que não foram efetuadas na versão original e muitas outras:
 
@@ -14,8 +17,8 @@ Este é um fork do webacula (cópia) com diversas modificações que não foram 
 - Possibilidade de alterar a senha do usuário root do bacula na interface gráfica.
 - Adicionado nova tela que mostra os agendamentos.
 
-Version: 7.4.0
-Esta versão é somente compatível com as versões 7.X do Bacula
+Version: 7.5.3
+Esta versão é compatível com as versões 7.X e 9.X do Bacula
 
 Para atualizar, leia  o "Upgrade from prior version" em docs/txt/upgrade.txt
 
