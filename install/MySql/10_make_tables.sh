@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS webacula_version (
 
 
 
-INSERT INTO webacula_version (versionId) VALUES (16);
+INSERT INTO webacula_version (versionId) VALUES (1022);
 
 
 

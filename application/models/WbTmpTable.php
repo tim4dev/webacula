@@ -185,9 +185,9 @@ class WbTmpTable extends Zend_Db_Table
      */
     function getFileName($fileid)
     {
-        $stmt = $this->_db->query('SELECT n.Name AS name
-            FROM Filename AS n, File AS f
-            WHERE (f.FilenameId = n.FilenameId) AND (f.FileId = ' . $fileid . ') LIMIT 1');
+        $stmt = $this->_db->query('SELECT f.Filename AS name
+            FROM File f
+            WHERE (f.FileId = ' . $fileid . ') LIMIT 1');
         $res  = $stmt->fetchAll();
         return $res[0]['name'];
     }
@@ -563,20 +563,20 @@ class WbTmpTable extends Zend_Db_Table
         // dird/ua_restore.c :: build_directory_tree
         $sql = "SELECT File.JobId, File.FileId, File.FileIndex, File.LStat
                 FROM (
-                    SELECT max(FileId) as FileId, PathId, FilenameId
+                    SELECT max(FileId) as FileId, PathId
                     FROM (
-                        SELECT FileId, PathId, FilenameId
+                        SELECT FileId, PathId
                         FROM File
                         WHERE JobId IN ( $sjobids )
                         ORDER BY JobId DESC
                     ) AS F
-                    GROUP BY PathId, FilenameId )
+                    GROUP BY PathId, FileId )
                 AS Temp
-                JOIN Filename ON (Filename.FilenameId = Temp.FilenameId)
                 JOIN Path ON (Path.PathId = Temp.PathId)
                 JOIN File ON (File.FileId = Temp.FileId)
                 WHERE File.FileIndex > 0
                 ORDER BY JobId, FileIndex ASC";
+       // $sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $bacula->query($sql);
         $bacula->beginTransaction();
         while ($line = $stmt->fetch()) {
@@ -605,29 +605,25 @@ class WbTmpTable extends Zend_Db_Table
         switch ($this->db_adapter) {
         case 'PDO_SQLITE':
             // bug http://framework.zend.com/issues/browse/ZF-884
-            $sql = 'SELECT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, n.Name as name
+            $sql = 'SELECT f.FileId as fileid, f.LStat as lstat, f.MD5 as md5, p.Path as path, f.Filename as name
                 FROM  ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . ' AS t
                 LEFT JOIN File AS f
                     ON f.FileId=t.FileId
                 LEFT JOIN Path AS p
                     ON f.PathId=p.PathId
-                LEFT JOIN Filename AS n
-                    ON f.FilenameId=n.FilenameId
                 WHERE (t.isMarked = 1)
-                ORDER BY p.Path ASC, n.Name ASC
+                ORDER BY p.Path ASC, f.Filename ASC
                 LIMIT '. self::ROW_LIMIT_FILES .' OFFSET '. $offset;
             break;
         default: // mysql, postgresql
-            $sql = 'SELECT f.FileId, f.LStat, f.MD5, p.Path, n.Name
+            $sql = 'SELECT f.FileId, f.LStat, f.MD5, p.Path, f.Filename as name
                 FROM  ' . $this->_db->quoteIdentifier($this->getTableNameFile()) . ' AS t
                 LEFT JOIN File AS f
                     ON f.FileId=t.FileId
                 LEFT JOIN Path AS p
                     ON f.PathId=p.PathId
-                LEFT JOIN Filename AS n
-                    ON f.FilenameId=n.FilenameId
                 WHERE (t.isMarked = 1)
-                ORDER BY p.Path ASC, n.Name ASC
+                ORDER BY p.Path ASC, f.Filename ASC
                 LIMIT '. self::ROW_LIMIT_FILES .' OFFSET '. $offset;
             break;
         }

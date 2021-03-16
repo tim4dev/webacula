@@ -71,7 +71,7 @@ CREATE TABLE webacula_tmp_tablelist (
 CREATE TABLE webacula_version (
    versionId INTEGER NOT NULL
 );
-INSERT INTO webacula_version (versionId) VALUES (16);
+INSERT INTO webacula_version (versionId) VALUES (1022);
 
 
 
