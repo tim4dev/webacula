@@ -1224,8 +1224,7 @@ EOF"
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
-                $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId', 'File.Filename'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
@@ -1242,8 +1241,7 @@ EOF"
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
-                $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId', 'File.Filename'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
@@ -1262,8 +1260,7 @@ EOF"
                     'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
-                $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId', 'File.Filename'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('jobstatuslong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('clientname' => 'Client.Name'));
@@ -1281,7 +1278,7 @@ EOF"
             }
 
             $select->where(
-                $this->myMakeWhere('Filename.Name', $namefile, $type_search));
+                $this->myMakeWhere('File.Filename', $namefile, $type_search));
 
             if ( !empty($client) )    {
                 $select->where($this->db->quoteInto("Client.Name = ?", $client));
@@ -1431,10 +1428,9 @@ EOF"
         if ( empty($fileid) )
             return;
         $select = new Zend_Db_Select($this->db);
-        $select->from(array('f' => 'File'), array('FileId', 'LStat'));
+        $select->from(array('f' => 'File'), array('FileId', 'Filename', 'LStat'));
         $select->joinLeft(array('j' => 'Job'),  'j.JobId  = f.JobId',  array('JobId', 'jobname' => 'Name') );
         $select->joinLeft(array('p' => 'Path'), 'p.PathId = f.PathId', array('PathId', 'Path') );
-        $select->joinLeft(array('n' => 'Filename'), 'n.FilenameId = f.FilenameId', array('Filename' => 'Name') );
         $select->where("f.FileId = ?", $fileid);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();

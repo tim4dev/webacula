@@ -43,10 +43,9 @@ class Files
                 return FALSE;
         // !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
         $select = new Zend_Db_Select($this->db);
-        $select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat'));
+        $select->from(array('f' => 'File'), array('FileId', 'FileIndex', 'LStat', 'Name' => 'Filename'));
         $select->columns(array(new Zend_Db_Expr("CASE WHEN FileIndex = 0 THEN 'deleted' ELSE 'OK' END AS status")));
         $select->joinLeft(array('p' => 'Path'), 'f.PathId = p.PathId' ,array('Path'));
-        $select->joinLeft(array('n' => 'Filename'), 'f.FileNameId = n.FileNameId',array('Name'));
         $select->where("f.JobId = ?", $jobid);
         $select->order(array('f.FileIndex', 'f.FileId'));
 

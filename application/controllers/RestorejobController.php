@@ -863,21 +863,19 @@ EOF"
                 $select = $db->select();
                 switch ($this->db_adapter) {
                     case 'PDO_SQLITE':
-                        $sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, t.isMarked as ismarked, n.Name as name, p.Path as path
+                        $sql = 'SELECT DISTINCT f.FileId as fileid, f.LStat as lstat, f.PathId as pathid, t.isMarked as ismarked, f.Filename as name, p.Path as path
                             FROM ' . $tmp_tables->getTableNameFile() .' AS t,
-                            Filename AS n, Path AS p, File AS f
-                            WHERE (t.FileId = f.FileId) AND
-                            (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')".
+                            Path AS p, File AS f
+                            WHERE (t.FileId = f.FileId) AND (f.PathId = p.PathId) AND
+                            (p.Path = '. $db->quote($curdir) .')'."AND (f.Filename != '')".
                             ' ORDER BY Name ASC';
                         break;
                     default: // include mysql, postgresql
-                        $sql = 'SELECT DISTINCT f.FileId, f.LStat, f.PathId, t.isMarked, n.Name, p.Path
+                        $sql = 'SELECT DISTINCT f.FileId, f.LStat, f.PathId, t.isMarked, f.FileName as Name, p.Path
                             FROM ' . $tmp_tables->getTableNameFile() .' AS t,
-                            Filename AS n, Path AS p, File AS f
-                            WHERE (t.FileId = f.FileId) AND
-                            (f.FileNameId = n.FileNameId) AND (f.PathId = p.PathId) AND
-                            (p.Path = '. $db->quote($curdir) .')'."AND (n.Name != '')".
+                            Path AS p, File AS f
+                            WHERE (t.FileId = f.FileId) AND (f.PathId = p.PathId) AND
+                            (p.Path = '. $db->quote($curdir) .')'."AND (f.FileName != '')".
                             ' ORDER BY Name ASC';
                         break;
                 }
