@@ -167,11 +167,11 @@
                       
                       <?php
                           if ( $this->escape($line['joberrors']) != 0 ) {
-                              echo '<td class="text-center danger"> ',
+                              echo '<td class="text-left danger"> ',
                                   $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
                           }
                           else
-                              echo '<td class="text-center">',
+                              echo '<td class="text-left">',
                                   $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
                       ?>
                   
