@@ -537,12 +537,12 @@ msgstr "Pesquisar jobs"
 #: application/controllers/JobController.php:287
 #: application/controllers/JobController.php:292
 msgid "Ordinary"
-msgstr "Comum"
+msgstr "Normal"
 
 #: application/controllers/JobController.php:288
 #: application/controllers/JobController.php:293
 msgid "LIKE operator"
-msgstr "COMO operador"
+msgstr "Operador Like"
 
 #: application/controllers/JobController.php:294
 msgid "Regular expression"
@@ -1396,6 +1396,10 @@ msgstr "Finalizados"
 #: application/views/scripts/job/find-form.phtml:104
 msgid "Running"
 msgstr "Em execução"
+
+
+msgid "Created, not yet running"
+msgstr "Criado, ainda não está em execução"
 
 #: application/layouts/default/main-menu.phtml:88
 msgid "Next"
