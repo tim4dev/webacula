@@ -148,6 +148,10 @@ class Zend_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Abstract
      */
     public function describeTable($tableName, $schemaName = null)
     {
+
+        // Fix to work in PostgreSQL 12
+        // https://stackoverflow.com/questions/58789024/postgres-error-column-d-adsrc-does-not-exist
+        // d.adsrc AS default_value,
         $sql = "SELECT
                 a.attnum,
                 n.nspname,
@@ -156,7 +160,7 @@ class Zend_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Abstract
                 t.typname AS type,
                 a.atttypmod,
                 FORMAT_TYPE(a.atttypid, a.atttypmod) AS complete_type,
-                d.adsrc AS default_value,
+                pg_get_expr(d.adbin, d.adrelid) AS default_value,
                 a.attnotnull AS notnull,
                 a.attlen AS length,
                 co.contype,
