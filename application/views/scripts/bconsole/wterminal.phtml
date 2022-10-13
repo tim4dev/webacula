@@ -1,81 +1,63 @@
 <!-- bconsole/wterminal.phtml -->
-<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/wterm.jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/wterm.css" media="screen" />
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.terminal.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/jquery.mousewheel-min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl; ?>/styles/default/jquery.terminal.min.css" media="screen" />
 
-<script>
-String.prototype.reverse = function() {
-    return this.split('').reverse().join('');
-};
-</script>
+<script type="text/javascript">
 
-<script>
-var welcome='<div style="color: #0f0;">Welcome to <b>webacula terminal.</b></div>'
-$( document ).ready( function() {
-    $('#wterm').wterm({
-        WIDTH:  '70%',
-        HEIGHT: '100%',
-        WELCOME_MESSAGE: welcome+'<div  style="color: #0f0;">'+
-        'All command will be send to Bacula Console (bconsole).<br>'+
-        '<div style="color: #fff;">Bacula Console commands will be written like command line style.<br>'+
-        'See Bacula documentation "Running the Console from a Shell Script" for details.</div><br>'+
-        '<b>clear</b> - clear the screen<br></div>',
-        PS1: '*',
-        NOT_FOUND: '<div> CMD: command not found.</div>',
-        AJAX_METHOD: 'POST',
-        HISTORY: true,
-        AJAX_PARAM: 'bcommand'
-    });
+$(function() {
+   var cmd = new Array( 'add','autodisplay','automount','cancel','create','delete','disable','enable','estimate','help','label','list','llist','memory','messages','mount','prune','purge','query','relabel','release','reload','restore','run','setbandwidth','setdebug','setip','show','sqlquery','status','stop','time','trace','truncate','umount','unmount','update','use','version','wait' );
+   var welcome = "[[b;#337AB7;]" + 
+
+         <?php 
+         echo '"', $this->translate->_("All command will be send to Bacula Console (bconsole)"), '\n' ,
+              $this->translate->_("Only commands with a single line are working, commands with prompt doesn't work."),'\n' ,
+              $this->translate->_("See Bacula documentation 'Running the Console from a Shell Script' for details."), '\n',
+              $this->translate->_("clear - clear the screen"), '"';
+         ?>
+         + "\n]"
+                  
+   var available = Object(cmd);
+   
+   $('#wterm').terminal(function(command, term) {
+       term.pause();
+       var name = $.terminal.parse_command(command).name;
+       // run only commands that are on the list
+       if (available.indexOf(name) >= 0) {
+          $.post('<?php echo $this->baseUrl, '/bconsole/cmd' ?>', {'bcommand': command, 'command': cmd }).then(function(response) {
+              term.echo(response,{raw:true}).resume();
+          });
+       } else{
+         //term.exec('clear').resume();
+         term.echo("Command not found!").resume();
+       } //end if
+     }, 
+     {
+       greetings: welcome,
+       prompt: 'bconsole> ',
+       height: 400,
+       onBlur: function(){
+          return false;
+       }
+     }
+   );
+   
 });
 
-    var arr_cmds = {
-        'add':null,
-        'autodisplay':null,
-        'automount':null,
-        'cancel':null,
-        'create':null,
-        'disable':null,
-        'enable':null,
-        'estimate':null,
-        'help':null,
-        'label':null,
-        'list':null,
-        'llist':null,
-        'messages':null,
-        'memory':null,
-        'mount':null,
-        'prune':null,
-        'purge':null,
-        'python':null,
-        'query':null,
-        'restore':null,
-        'relabel':null,
-        'release':null,
-        'reload':null,
-        'run':null,
-        'status':null,
-        'stop':null,
-        'setdebug':null,
-        'setbandwidth':null,
-        'show':null,
-        'time':null,
-        'trace':null,
-        'unmount':null,
-        'umount':null,
-        'use':null,
-        'version':null,
-        'wait':null
-    };
-
-    for( var cmd in arr_cmds ) {
-        $.register_command( cmd, 'cmd' );
-    }
 </script>
 
-
-<title>Webacula bconsole</title>
-</head>
-
-<body>
-
-<div id='wterm'>
-</div>
+<div class="rows">
+   <div class="col-md-12">
+      <div class="panel panel-default panel-primary panel-logoutput">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <div class="table-responsive">
+               <pre id='wterm'></pre>
+            </div><!-- end div table-responsive -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-8 -->
+</div><!-- end div row -->
+<!-- bconsole/wterminal.phtml -->

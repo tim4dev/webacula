@@ -1,24 +1,19 @@
 <!-- job/run-job.phtml -->
-
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#ok1').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+$(document).ready(function(){
+   $('#ok1').click(function() {
+      $.blockUI({
+         message: '<h4><?php print $this->translate->_("Please wait"); ?>...</h4>',
+         css: {border: 'none', padding: '15px',  backgroundColor: '#000',  '-webkit-border-radius': '10px', '-moz-border-radius': '10px', opacity: .5,  color: '#fff' }
         });
     });
 });
 </script>
 <script type="text/javascript">
-  //select
-  $(function(){
-      $('select').each(function() {
-          var t = $(this).selectmenu({maxHeight: 300});
-	          eval(t);
-	  });
+$(document).ready(function(){
+   $('select').each(function() {
+      $(this).addClass("select-overflow").addClass("form-control").width('18em');
+   });
   });
 </script>
 <script type="text/javascript">
@@ -40,43 +35,76 @@ function whenNow(elm)
 <script type="text/javascript" src="<?php echo $this->baseUrl , '/scripts/jquery-ui.datepicker-', $this->language, '.js';?>"></script>
 <script type="text/javascript">
 $(function() {
+    function pad(n, width, z) {
+      z = z || '0';
+      n = n + '';
+      return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+    
     $('#date_when').datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true
     });
+    
+    $('#date_when').on('change',function(){
+        var dt = new Date();
+        var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
+        $('#time_when').val(currentTime);
+    });    
 });
 </script>
 
-<div class="ui-state-hover ui-corner-all" style="width: 46em; text-align: left;">
-<?php
-    if ( $this->result_error )
-    {
-        switch ( $this->result_error )
-        {
-            case 'ERROR_BCONSOLE': // ошибка при запуске bconsole
-                $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
-                break;
-            case 'NOFOUND_BCONSOLE': // bconsole не найден
-                $msg = $this->translate->_('ERROR: bconsole not found.');
-                break;
-            default: $msg = '';
-        }
-        echo '<font color="red"><div align="center"><p>' . $msg . '</p></div></font>';
-        echo '<font color="red">';
-        if ( $this->command_output )
-        {
-            foreach ($this->command_output as $line) {
-             echo $line . '<br>';
-          }
-        }
-        echo '</font>';
-    }
-?>
-
 <?php
     $this->form->setAction( $this->url());
-    echo $this->form;
+    $this->form->setActionCancel( $this->baseUrl . "/index/index" );
 ?>
 
-</div>
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+            
+               <?php if ( $this->result_error ): ?>
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                  <p>
+                     <span class="glyphicon glyphicon-alert"></span>
+                     <?php
+                     echo $this->escape($this->title), '<br>';
+                        switch ( $this->result_error ) {
+                           case 'ERROR_BCONSOLE': // Error when bconsole starts
+                              $msg = $this->translate->_('ERROR: There was a problem executing bconsole.');
+                              break;
+                           case 'NOFOUND_BCONSOLE': // Bconsole not found
+                              $msg = $this->translate->_('ERROR: bconsole not found.');
+                              break;
+                           default: $msg = '';
+                        }
+                        echo $msg;
+                        if ( $this->command_output ) {
+                           foreach ($this->command_output as $line) {
+                              echo '<br/>', $line, '<br/>';
+                           }
+                        }
+                     ?>
+                  </p>
+               </div>
+               <!-- end div alert -->
+                               
+               <?php endif; ?>    
+
+               <!-- form -->
+               <?php echo $this->form; ?>
+               <!-- end form -->
+            
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-8 -->
+</div><!-- end div row -->
+<!-- job/run-job.phtml -->

@@ -22,7 +22,7 @@
  */
 require_once 'Zend/Form.php';
 require_once 'Zend/Form/Element/Submit.php';
-require_once 'Zend/Form/Element/Reset.php';
+
 
 
 class FormWebaculaACL extends Zend_Form
@@ -30,6 +30,7 @@ class FormWebaculaACL extends Zend_Form
 
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
+	protected $_action_cancel = '';
 
 
     public function init()
@@ -59,7 +60,7 @@ class FormWebaculaACL extends Zend_Form
         // create element
         $webacula_resources = $this->createElement('multiselect', 'webacula_resources', array(
             'label'    => $this->translate->_('Webacula resources'),
-            'class' => 'ui-select',
+            'class' => 'form-control',
             'size' => 18
         ));
         foreach( $wbDtResources as $v ) {
@@ -69,18 +70,19 @@ class FormWebaculaACL extends Zend_Form
         /*
          * submit button
          */
-        $submit = new Zend_Form_Element_Submit('submit',array(
+        $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'prefer_btn',
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Submit Form')
         ));
         /*
-         * reset button
+         * cancel button
          */
-        $reset = new Zend_Form_Element_Reset('reset',array(
+        $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
             'decorators' => $this->elDecorators,
-            'id'    => 'reset_'.__CLASS__,
+            'id'    => 'cancel_'.__CLASS__,
+            'class' => 'btn btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*
@@ -88,11 +90,21 @@ class FormWebaculaACL extends Zend_Form
          */
         $this->addElements( array(
             $webacula_resources,
-            $submit,
-            $reset
+            $submit_button,
+            $cancel_button
         ));
     }
 
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
 
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }
 
 }

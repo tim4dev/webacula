@@ -1,15 +1,26 @@
 <!-- restorejob/msg02session.phtml -->
-<div class="ui-widget" style="width: 30%; margin-top: 3em;">
-    <div class="ui-state-highlight ui-corner-all">
-        <p class="dashboard"><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-        <?php
-            print $this->translate->_("Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini.");
-        ?>
-        </p>
-    </div>
-    <div align="center" style="margin-top: 1em;">
-        <form action="<?php  echo $this->baseUrl.'/restorejob/main-form';?>" method="post">
-            <?php echo $this->formSubmit('ok1', 'OK'); ?>
-        </form>
-    </div>
-</div>
+<div class="rows">
+   <div class="col-md-8">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->translate->_('Run Restore Job'); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <div class="alert alert-danger">
+                 <p>
+                 <span class="glyphicon glyphicon-alert"></span>
+                 <?php print $this->translate->_("Session of Restore backup is expired.<br />Increase <b>ttl_restore_session</b> in your config.ini."); ?>
+                 </p>
+                  <div>
+                     <form action="<?php  echo $this->baseUrl.'/restorejob/main-form';?>" method="post">
+                         <?php echo $this->formSubmit('ok1', $this->translate->_('OK'), array('class' => 'btn btn-default') ); ?>
+                     </form>
+                  </div>  
+               </div>
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- fim div col-md-8 -->
+</div><!-- fim da div rows -->
+<!-- restorejob/msg02session.phtml -->

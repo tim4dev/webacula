@@ -85,6 +85,7 @@ class Media extends Zend_Db_Table
             'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
             'InChanger', 'MediaType', 'FirstWritten', 'LastWritten'
         ));
+        $select->columns(array(new Zend_Db_Expr("(SELECT count(DISTINCT JobId)  FROM JobMedia WHERE JobMedia.MediaId = Media.MediaId) AS VolJobs")));
         $select->where('VolumeName = ?', $volname);
         $select->order($order);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; // for !!!debug!!!
@@ -96,17 +97,19 @@ class Media extends Zend_Db_Table
     {
         $select = new Zend_Db_Select($this->db);
         $select->from('Media',
-            array('MediaId', 'PoolId', 'StorageId',
-            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention',
-            'Recycle', 'Slot', 'InChanger', 'MediaType',
+            array('MediaId', 'PoolId', 'StorageId','DeviceId', 'MediaAddressing',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolRetention',
+            'Recycle', 'Slot', 'InChanger', 'MediaType', 'LabelType', 
             'FirstWritten', 'LastWritten',
             'LabelDate', 'VolFiles', 'VolBlocks', 'VolMounts',
             'VolParts', 'VolErrors', 'VolWrites', 'VolCapacityBytes', 'Enabled',
             'ActionOnPurge', 'VolUseDuration', 'MaxVolJobs', 'MaxVolFiles',
-            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock',
-            'RecycleCount', 'InitialWrite','Comment'
+            'VolReadTime', 'VolWriteTime', 'EndFile', 'EndBlock', 'LocationId',
+            'RecycleCount', 'InitialWrite', 'ScratchPoolId', 'RecyclePoolId', 'Comment', 
+            'VolABytes', 'VolAPadding', 'VolHoleBytes', 'VolHoles'
         ));
-        $select->where('MediaId = ?', $media_id);
+        $select->columns(array(new Zend_Db_Expr("(SELECT count(DISTINCT JobId)  FROM JobMedia WHERE JobMedia.MediaId = Media.MediaId) AS VolJobs")));
+        $select->where('Media.MediaId = ?', $media_id);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!
         $stmt = $select->query();
         return $stmt->fetchAll();
@@ -117,10 +120,11 @@ class Media extends Zend_Db_Table
         $select = new Zend_Db_Select($this->db);
         $select->from('Media',
             array('MediaId', 'PoolId', 'StorageId',
-            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolJobs', 'VolRetention', 'Recycle', 'Slot',
+            'VolumeName', 'VolStatus', 'VolBytes', 'MaxVolBytes', 'VolRetention', 'Recycle', 'Slot',
             'InChanger', 'MediaType',
             'FirstWritten',	'LastWritten'
         ));
+        $select->columns(array(new Zend_Db_Expr("(SELECT count(DISTINCT JobId)  FROM JobMedia WHERE JobMedia.MediaId = Media.MediaId) AS VolJobs")));
         $select->where('PoolId = ?', $pool_id);
         $select->order($order);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>";exit; // for !!!debug!!!

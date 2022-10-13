@@ -1,0 +1,69 @@
+### Webacula - Interface Web para o Sistema de Backup Bacula http://www.bacula.org
+
+Click the link below to open the installation tutorial:
+[tutorial to install](https://github.com/wanderleihuttel/bacula-utils/blob/master/tutorial/tutorial_de_instalacao_do_webacula_debian9.txt)
+This is a fork of webacula with some modifications that were not commited in original repository and some others:
+
+- Huge speed improvement in restore file selection (https://github.com/tim4dev/webacula/pull/4 and https://github.com/bareos/contrib-webacula/commit/cecacf944c57a3f4a966a3d6a9aab20d57ba6149)
+- Minor changes in styles CSS
+- A small changes in layout of volume/pools
+- Better method to convert bytes to humanreadable
+- Added new setting days_to_show_jobs_terminated feature (Terminated jobs can show more than 1 day) (https://github.com/tim4dev/webacula/pull/8)
+- Added new setting date_format and and datetime_format (Option to modify date/time format)
+- Better translation for Brazilian Portuguese (pt_BR)
+- New field to show when volumes will expire.
+- Set default password for root: bacula (just leave 'webacula_root_pwd' empty in db.conf)
+- New feature. Menu option to show the schedules
+
+Version: 7.4.0
+Major version number of Webacula will match the major version number of Bacula.
+
+WARNING! Webacula 7.x incompatible with prior versions!
+Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
+
+http://webacula.tim4dev.com/
+
+Webacula basic features:
+  * Bacula and Webacula ACLs (Access Control Lists) implemented. ACLs stored in Bacula database in Webacula tables
+  * Full supported MySQL, PostgreSQL and Sqlite databases
+  * Run Job
+  * Restore all files or selected files from Job by JobId
+  * Restore the most recent backup for a client
+  * Restore backup for a client before a specified time
+  * Show Timeline for Jobs
+  * Mount, umount Storages
+  * Show Jobs which executed with errors
+  * Show a condition of your Volumes
+  * Show scheduled Jobs (at 24 hours forward)
+  * Show all running Jobs
+  * Show terminated Jobs (executed in last 24 hours)
+  * Search Jobs on several conditions
+  * Web (ajax) terminal to Bacula Console
+  * The detailed information on Pools, Volumes, Storages and Clients
+  * Logbook. Logbook - is simple electronic journal of backups. 
+    Records in logbook are insert, modify, delete manually by the operator. 
+    Records can contain links (usual web-links on which it is possible to click) to Bacula Jobs or 
+    links to other records of this logbook. 
+    In logbook insert records, for example, about Jobs, failures of the equipment, supernumerary situations, etc. 
+    Logbook stored in a separate database "webacula", now it is supported MySQL, PostgreSQL and Sqlite.
+  * RSS feed
+  * Multilingual support - standard gettext (*.mo) files. Currently supported languages: English, Czech, French, German, Italian, Portuguese Brazil, Russian, Spanish.
+  * For web designers : now very easy to create new skins
+  * Major version number of Webacula will match the version number of Bacula
+
+
+
+-------
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014 Yuriy Timofeev <tim4dev@gmail.com>
+
+This program is free software: you can redistribute it and/or modify it under the terms of
+the GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
+or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.
+If not, see http://www.gnu.org/licenses/

@@ -39,7 +39,7 @@ class IndexController extends MyClass_ControllerAclAction
         $this->_helper->actionStack('terminated-dashboard', 'job');
         $this->_helper->actionStack('timeline-dashboard', 'job');
         if (empty($this->view->config->general->head_title)) {
-            $this->view->titleDashboard = $this->view->translate('Webacula Main Page');
+            $this->view->titleDashboard = $this->view->translate->_('Webacula Main Page');
         } else {
             $this->view->titleDashboard = $this->view->config->general->head_title;
         }

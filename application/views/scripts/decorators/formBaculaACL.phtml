@@ -7,7 +7,20 @@
     <?php echo $this->form->order; ?>
     <?php echo $this->form->name;  ?>
     <?php echo $this->form->id;    ?>
-    <?php echo $this->form->submit;?>
-    <?php echo $this->form->reset; ?>
+    <br/>
+<table>
+<tr>
+<td>
+    <?php echo $this->form->submit_button; ?>
 </form>
-<!-- end decorators/formBaculaACL.phtml -->
+</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td>
+<form  action="<?php echo $this->form->getActionCancel();  ?>"
+       method="<?php echo $this->form->getMethod();  ?>">
+   <?php echo $this->form->cancel_button; ?>
+</form>
+</td>
+</tr>
+</table>
+<!-- decorators/formBaculaACL.phtml -->

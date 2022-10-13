@@ -14,9 +14,14 @@ db.config.password =
 db.config.dbname   = bacula
 ;; for Sqlite db.config.dbname = "/opt/bacula/working/bacula.db"
 
+
+;; Version of Bacula Catalog
+catalog.version = 15
+
+
 ;; see http://www.php.net/timezones
 ; def.timezone = "UTC"
-def.timezone = "Europe/Minsk"
+def.timezone = "America/Sao_Paulo"
 
 ;; if locale undefined, webacula use autodetect
 ;; avaliable locales : en, cs, de, fr, pt_BR, ru, it, es
@@ -24,8 +29,8 @@ def.timezone = "Europe/Minsk"
 
 ;; see INSTALL file for details
 bacula.sudo        = "/usr/bin/sudo"
-bacula.bconsole    = "/opt/bacula/sbin/bconsole"
-bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
+bacula.bconsole    = "/usr/sbin/bconsole"
+bacula.bconsolecmd = "-n -c /etc/bacula/bconsole.conf"
 
 ;; time to live data (session and temporary data tables) for restore files (sec)
 ; default = 1h
@@ -34,14 +39,13 @@ bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 ;; the text, which will be placed in the header of the page
 ; head_title = "webacula :: domain.tld"
 
-;; Main menu floating (default = 0)
-;; A floating menu stays visible even if you scroll down a web page.
-;; They're animated, so they move up and down as you scroll the browser window up or down.
-; mainmenu_floating = 1
-
 ;; As many days to show those Jobs that are completed with errors (default = 7)
 ;; Jobs with errors (last NN day(s)
-; days_to_show_jobs_with_errors = 7
+days_to_show_jobs_with_errors = 1
+
+;; As many days to show those Jobs that are terminated (default = 1)
+;; Jobs terminated (last NN day(s)
+days_to_show_jobs_terminated = 7
 
 ;; Show human readable short Job description instead of Bacula Job names (default = 0)
 ; avaliable optins : 0 | 1 | 2
@@ -59,6 +63,10 @@ bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 ; bacula_restore_job[] = "Restore_Files_2"
 ; and so on.
 
+; Option to set date and time format
+; Default values
+; date_format = "Y-m-d" 
+; datetime_format = "Y-m-d H:i:s"
 
 
 [timeline]
@@ -68,17 +76,14 @@ bacula.bconsolecmd = "-n -c /opt/bacula/etc/bconsole.conf"
 fontsize   = 10
 
 
-
 [webacula]
 email.to_admin = root@localhost
 email.from = webacula@localhost
 
 
-
 [feed]
 feed_title = "My Bacula backup server #1"
 feed_desc  = "Description feed here"
-
 
 
 [layout]

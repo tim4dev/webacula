@@ -17,6 +17,8 @@ class MyClass_SendEmail {
      * @param <type> $body
      * @param <type> $subj
      */
+
+    // https://framework.zend.com/manual/1.10/en/zend.mail.smtp-authentication.html
     public function mySendEmail(
             $from_email,
             $from_name = 'Webacula',
@@ -25,13 +27,23 @@ class MyClass_SendEmail {
             $subj,
             $body )
     {
+
         Zend_Loader::loadClass('Zend_Mail');
+        Zend_Loader::loadClass('Zend_Mail_Transport_Smtp');
+        $config = array('auth'     => 'login', 
+                        'username' => 'username@domain.com', 
+                        'password' => 'password',
+                        'port'     => 587 );
+        $transport = new Zend_Mail_Transport_Smtp('smtp.domain.com', $config);
+
         $mail = new Zend_Mail('utf-8');
         $mail->addHeader('X-MailGenerator', 'webacula');
         $mail->setBodyText($body, 'UTF-8');
-        $mail->setFrom($from_email, $from_name);
+        $mail->setFrom('mail@domain.com', $from_name);
+        //$mail->setFrom($from_email, $from_name);
         $mail->addTo($to_email,     $to_name);
         $mail->setSubject($subj);
         return $mail->send();
+        //return $mail->send($transport);
     }
 }

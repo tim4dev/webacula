@@ -88,14 +88,20 @@ class WbjobdescController extends MyClass_ControllerAclAction
                 }
             }
         }
+        $form->setAction( $this->view->baseUrl . '/wbjobdesc/add' )
+		     ->setActionCancel( $this->view->baseUrl .'/wbjobdesc/index' );
         $this->view->form = $form;
     }
 
 
     public function modifyAction()
     {
-        $this->view->title = "Modify record";
+        $this->view->title =  $this->view->translate->_("Modify record");
         $form = new formJobdesc();
+        $form->setAction( $this->view->baseUrl . '/wbjobdesc/modify' )
+		     ->setActionCancel( $this->view->baseUrl .'/wbjobdesc/index' );
+        
+
         if ( $this->_request->isPost() &&  ($this->_request->getParam('form1') == '1') ) {
             // get modified data
             if ( $form->isValid($this->_getAllParams()) ) {

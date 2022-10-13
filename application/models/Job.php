@@ -23,16 +23,16 @@
 
 class Job extends Zend_Db_Table
 {
-    const BEGIN_LIST = '/^======.*/'; // признак начала списка (не всегда есть)
-    const END_LIST   = '/^====$/';   // признак конца списка (присутствует всегда)
+    const BEGIN_LIST = '/^======.*/'; // a sign of the beginning of the list (not always)
+    const END_LIST   = '/^====$/';   // a sign of the end of the list (always present)
 
-    const RINNING_JOBS    = '/Running Jobs:/';        // начало списка запущенных заданий
-    const NO_JOBS_RUNNING =  '/No Jobs running\./';   // нет запущенных заданий
+    const RUNNING_JOBS    = '/Running Jobs:/';        // top of the list of running jobs
+    const NO_JOBS_RUNNING =  '/No Jobs running\./';   // no running jobs
 
-    const SCHEDULED_JOBS    = '/Scheduled Jobs:/';     // начало списка запланированных заданий
-    const NO_SCHEDULED_JOBS = '/No Scheduled Jobs\./';  // нет запланированных заданий
+    const SCHEDULED_JOBS    = '/Scheduled Jobs:/';     // top of the list of scheduled tasks
+    const NO_SCHEDULED_JOBS = '/No Scheduled Jobs\./';  // No scheduled tasks
 
-    const EMPTY_RESULT = 'EMPTY_RESULT';     // если ничего не найдено
+    const EMPTY_RESULT = 'EMPTY_RESULT';     // if nothing found
 
     public $db;
     public $db_adapter;
@@ -73,7 +73,6 @@ class Job extends Zend_Db_Table
     
 	/**
 	 * If there JobId exist in the database Bacula ...
-	 * Существует ли JobId в БД Bacula
 	 *
 	 * @return TRUE if exist
 	 * @param integer $jobid
@@ -91,9 +90,8 @@ class Job extends Zend_Db_Table
 	}
 
     
-    /**
+        /**
 	 * If there Job Name exist in the database Bacula ...
-	 * Существует ли Job Name в БД Bacula
 	 *
 	 * @return TRUE if exist
 	 * @param string $jobname
@@ -116,11 +114,13 @@ class Job extends Zend_Db_Table
 	 * See also http://www.bacula.org/manuals/en/developers/developers/Database_Tables.html
 	 *
 	 */
-    function getTerminatedJobs()
-    {
+        function getTerminatedJobs($days, $orderp=null)
+        {
+        if ( empty($days) ) 
+             $days = 1;
         $select = new Zend_Db_Select($this->db);
         //$select->distinct();
-        $last1day = date('Y-m-d H:i:s', time() - 86400); // для совместимости со старыми версиями mysql: NOW() - INTERVAL 1 DAY
+        $last1day = date('Y-m-d H:i:s', time() - ($days * 86400)); // for compatibility with older versions of mysql: NOW() - INTERVAL $days
 
         switch ($this->db_adapter) {
         	case 'PDO_MYSQL':
@@ -171,6 +171,7 @@ class Job extends Zend_Db_Table
         $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId');
         $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+        $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
         /*
          * developers/Database_Tables.html
 C   Created but not yet running
@@ -201,7 +202,12 @@ L   Committing data (last despool)
          */
         $select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W', 'D')");
         $select->where("j.EndTime > ?", $last1day);
-        $select->order(array("StartTime", "JobId"));
+        if ( empty($orderp) ) {
+	   $order = array('StartTime', 'JobId');
+        } else {
+           $order = $orderp;
+        }
+        $select->order($order);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();
         // do Bacula ACLs
@@ -317,12 +323,12 @@ L   Committing data (last despool)
     
     /**
 	 * Running Jobs (from Director)
-	 * Для дополнительной информации. Т.к. информация из БД Каталога не всегда корректна.
+	 * For more information. Because Information from the Catalog database is not always correct.
      *
-     * === Замеченные баги ===
-     * 1. Running Jobs - вместо (разделитель м/д полями - пробел) :
+     * === Known bugs ===
+     * 1. Running Jobs - instead of (delimiter m / d fields - space) :
      *          24 Increme  job.name.test.4  2010-11-08_21.56.48_39 running
-     *      Bacula может выдать (разделитель м/д полями - точка) :
+     *      Bacula may issue (delimiter m / d fields - point) :
      *          24 Increme  job.name.test.4.2010-11-08_21.56.48_39 running
 	 */
     function getDirRunningJobs()
@@ -376,16 +382,16 @@ EOF', $command_output, $return_var);
         $i = 0;
         foreach ($command_output as $line) {
             $line = trim($line);
-            // пустая строка
+            // empty line
             if ( $line == '' )
                 continue;
-            // нет запланированных заданий - выход в любом случае
+            // No scheduled tasks - out anyway
             if ( preg_match(self::NO_JOBS_RUNNING, $line) === 1 )  {
                 $aresult = null;
                 break;
             }
-            // начало списка запланированных заданий
-            if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::RINNING_JOBS, $line) === 1) )  {
+            // top of the list of scheduled tasks
+            if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::RUNNING_JOBS, $line) === 1) )  {
                 $begin1 = TRUE;
                 continue;
             }
@@ -397,11 +403,11 @@ EOF', $command_output, $return_var);
                 $begin3 = TRUE;
                 continue;
             }
-            // конец списка
+            // end of list
             if ( $begin1 && $begin2 && $begin3 && ( preg_match(self::END_LIST, $line) == 1) )
                 break;
 
-            // парсим - разделитель - пробел :
+            // parse - separator - space
             // 0=JobId  1=Level  2=Name  3=Status
             if ( $begin1 && $begin2 && $begin3 )  {
                 // парсим
@@ -413,7 +419,7 @@ EOF', $command_output, $return_var);
                     $aresult[$i]['name']   = $acols[2];
                     $aresult[$i]['status'] = $acols[3];
                 } else {
-                    // неверно пропарсилось (изменения в bacula ?)
+                    // incorrectly parse (changes in bacula?)
                     $aresult = null;
                     break;
                 }
@@ -427,7 +433,7 @@ EOF', $command_output, $return_var);
 
 
 
-    /**
+       /**
 	 * Return % free space in VolumeName
 	 *
 	 * @param string $name
@@ -435,20 +441,19 @@ EOF', $command_output, $return_var);
 	 */
 	function getFreeVolumeCapacity($name)
 	{
-		Zend_Loader::loadClass('Media');
-		$table = new Media();
-		$where  = $table->getAdapter()->quoteInto('VolumeName = ?', trim($name));
-		$row = $table->fetchRow($where);
-
-    	if ( !isset($row) )
-				return Zend_Registry::get('NEW_VOLUME');
-			else	{
-				if ( $row->maxvolbytes != 0 )
-					return( floor(100 - ($row->volbytes * 100 / $row->maxvolbytes)) );
-				else
-				    // tape storage may be maxvolbytes == 0
-					return Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
-			}
+	    Zend_Loader::loadClass('Media');
+	    $table = new Media();
+	    $where  = $table->getAdapter()->quoteInto('VolumeName = ?', trim($name));
+	    $row = $table->fetchRow($where);
+            if ( !isset($row) )
+	        return Zend_Registry::get('NEW_VOLUME');
+	    else {
+	       if ( $row->maxvolbytes != 0 )
+	           return( floor(100 - ($row->volbytes * 100 / $row->maxvolbytes)) );
+	       else
+	           // tape storage may be maxvolbytes == 0
+	           return Zend_Registry::get('UNKNOWN_VOLUME_CAPACITY');
+	    }
 	}
 
 
@@ -506,15 +511,15 @@ EOF', $command_output, $return_var);
         $i = 0;
         foreach ($command_output as $line) {
             $line = trim($line);
-            // пустая строка
+            // empty line
             if ( $line == '' )
                 continue;
-            // нет запланированных заданий - выход в любом случае
+            // No scheduled tasks - out anyway
             if ( preg_match(self::NO_SCHEDULED_JOBS, $line) === 1 )  {
                 $aresult = null;
                 break;
             }
-            // начало списка запланированных заданий
+            // top of the list of scheduled tasks
             if ( (!$begin1) && (!$begin2) && (!$begin3) && ( preg_match(self::SCHEDULED_JOBS, $line) === 1) )  {
                 $begin1 = TRUE;
                 continue;
@@ -527,30 +532,30 @@ EOF', $command_output, $return_var);
                 $begin3 = TRUE;
                 continue;
             }
-            // конец списка
+            // end of list
             if ( $begin1 && $begin2 && $begin3 && ( preg_match(self::END_LIST, $line) == 1) )
                 break;
 
-            // парсим - разделитель - пробел :
+            // parse - separator - space
             // 0=Level    1=Type   2=Pri  3=Scheduled(date) 4=(time)   5=Name  6=Volume
             if ( $begin1 && $begin2 && $begin3 )  {
-                // пробуем парсить
+                // we try to parse
                 $acols = preg_split("/[\s]+/", $line, -1, PREG_SPLIT_NO_EMPTY);
                 $count = count($acols);
                 $aresult[$i]['level'] = $acols[0][0];  // first letter F(ull), I(nc), D(iff)
                 $aresult[$i]['type']  = $acols[1];
                 $aresult[$i]['pri']   = $acols[2];
                 $aresult[$i]['date']  = $acols[3] . ' ' . $acols[4];
-                $aresult[$i]['vol']   = $acols[ $count-1 ];  // в имени Volume пробелов быть не может, поэтому последнее поле - точно Volume
+                $aresult[$i]['vol']   = $acols[ $count-1 ];  // Volume in the name spaces can not be, so the last field - exactly Volume
                 if ( $aresult[$i]['vol'] == '*unknown*')
                     $aresult[$i]['volfree'] = 'UNKNOWN_VOLUME_CAPACITY';
                 else
                     $aresult[$i]['volfree'] = $this->getFreeVolumeCapacity($aresult[$i]['vol']);
                 if ( $count == 7 ) {
-                    // в имени Job нет пробелов
+                    // in the name of Job are no gaps
                     $aresult[$i]['name']  = $acols[5];
                 } else {
-                    // в имени Job есть пробелы (в имени Volume пробелов быть не может)
+                    // in the name of Job there are gaps (in the name of Volume gaps can not be)
                     $aresult[$i]['name']  = $acols[5];
                     for ($j = 6; $j <= $count-2; $j++) {
                         $aresult[$i]['name']  .= ' ' . $acols[$j];
@@ -575,7 +580,7 @@ EOF', $command_output, $return_var);
                 }
                 unset($where, $row);
             }
-            unset($line); /* чтобы последующие записи в $line не меняли последний элемент массива */            
+            unset($line); /* to the next entry in the $ line did not change the last element of the array */
         }
         return $aresult_acl;
     }
@@ -635,7 +640,7 @@ EOF', $command_output, $return_var);
         $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('fileset'=>'FileSet'));
         $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
 
-        $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // для совместимости
+        $last7day = date('Y-m-d H:i:s', time() - $last_days * 86400); // for compatibility
         $select->where("((j.JobErrors > 0) OR (j.JobStatus IN ('E','e','f','I','D')))");
         $select->where("j.EndTime > ?", $last7day);
         $select->where("j.Reviewed = 0");
@@ -649,83 +654,51 @@ EOF', $command_output, $return_var);
 
 
    /**
-	 * Get Listing All Jobs
-	 *
-	 */
+    * Get Listing All Jobs
+    *
+    */
     function getListJobs()
     {
-    	$director = new Director();
-    	// check access to bconsole
-		if ( !$director->isFoundBconsole() )	{
-			$aresult[] = 'ERROR: bconsole not found.';
-    		return $aresult;
-   	    }
-		$astatusdir = $director->execDirector(
+      $director = new Director();
+      // check access to bconsole
+      if ( !$director->isFoundBconsole() )   {
+         $aresult[] = 'ERROR: bconsole not found.';
+         return $aresult;
+          }
+      $astatusdir = $director->execDirector(
 "<<EOF
-run
-.
+.jobs
 @quit
 EOF"
-		);
+);
         // check return status of the executed command
-        if ( $astatusdir['return_var'] != 0 )	{
-			$aresult[] = 'ERROR';
-			$aresult[] = 'bconsole output:<b>';
-			foreach ($astatusdir['command_output'] as $line) {
-				$aresult[] = $line;
-			}
-			$aresult[] = '</b>';
-    		return $aresult;
-		}
+        if ( $astatusdir['return_var'] != 0 )   {
+         $aresult[] = 'ERROR';
+         $aresult[] = 'bconsole output:<b>';
+         foreach ($astatusdir['command_output'] as $line) {
+            $aresult[] = $line;
+         }
+         $aresult[] = '</b>';
+         return $aresult;
+   }
 
-    	/* Parsing Director's output.
-         * Example :
-The defined Job resources are:
-     1: restore.files
-     2: job.name.test.1
-     3: job name test 2
-Select Job resource (1-3):
-    	 */
-    	$strs = 'The defined Job resources are:';
-    	$str_end = 'Select Job resource'; // признак конца списка
-    	$start = 0;
-    	$aresult = array();
-    	foreach ($astatusdir['command_output'] as $line) {
-			if ( strlen($line) == 0 )
-				continue;
+      /* Parsing Director's output. */
+      $aresult = array();
+      foreach ($astatusdir['command_output'] as $line) {
+            $line = trim($line);
+            $pattern = "((^#|^Connecting|^1000 OK|^Enter a period|^use|^Automatically selected|^Using|^\.|quit|^You have messages))";
+            if ( !preg_match($pattern, $line)) {
+                $aresult[] = $line;
+            }
+            if($line=="quit"){
+                break;
+            }
 
-			if ( ($start == 0) && (!(strpos($line, $strs) === FALSE)) )  {
-				$start = 1;
-				// parsing
-				list($number, $name_job) = preg_split("/:+/", $line, 2);
-				if ( !empty($name_job))
-                    $aresult[]['jobname']  = trim($name_job);
-				continue;
-			}
-			// задания закончились
-			if ( ($start == 1) && ( !(strpos($line, $str_end) === FALSE) ) )
-				break;
-
-			if ( $start == 1 ) {
-			    // parsing
-                list($number, $name_job) = preg_split("/:+/", $line, 2);
-                if ( !empty($name_job))
-                    $aresult[]['jobname']  = trim($name_job);
-			}
-			else
-				continue;
-		}
+   }
+        sort($aresult);
         // do Bacula ACLs
-        $res2dim = $this->bacula_acl->doBaculaAcl( $aresult, 'jobname', 'job');
-        /*
-         * convert two dimensional $res2dim to one dimension array $res1dim
-         * для корректного отображения в форме нужен ординарный массив
-         */
-        $res1dim = array();
-        foreach($res2dim as $res2) {
-            $res1dim[] = $res2['jobname'];
-        }
-    	return $res1dim;
+        $res1dim = $this->bacula_acl->doBaculaAcl( $aresult, 'jobname', 'job');
+      return $res1dim;
     }
 
     
@@ -737,14 +710,13 @@ Select Job resource (1-3):
 		if ( isset($date_begin, $time_begin, $date_end, $time_end, $client, $fileset) )	{
    			$select = new Zend_Db_Select($this->db);
 
-   			// !!! IMPORTANT !!! с Zend Paginator нельзя использовать DISTINCT иначе не работает в PDO_PGSQL
+   			// !!! IMPORTANT !!! Zend_paginator not use DISTINCT somehow does not work in PDO_PGSQL
    			switch ($this->db_adapter) {
             case 'PDO_MYSQL':
             	//$select->distinct();
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-   				    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-   				    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+   				    'StartTime', 'EndTime',
    				    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
        			    'FileSetId', 'PurgedFiles', 'JobStatus',
        			    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
@@ -774,8 +746,8 @@ Select Job resource (1-3):
    			$select->joinLeft(array('c' => 'Client'), 'j.ClientId = c.ClientId', array('ClientName' => 'c.Name'));
 			$select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'p.Name'));
 			$select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
-            $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
-
+                        $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+                        $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
 			$select->where( "('" . $date_begin . ' ' . $time_begin . "' <= j.StartTime) AND (j.StartTime <= '" .
 				$date_end . ' ' . $time_end . "')" );
 
@@ -851,8 +823,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime',
                     'StartTimeRaw' => 'j.StartTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
@@ -886,6 +857,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
             $select->where("j.JobId = '$jobid'");
             $select->order(array("StartTime", "JobId"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
@@ -912,8 +884,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime',
                     'StartTimeRaw' => 'j.StartTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
@@ -947,8 +918,9 @@ Select Job resource (1-3):
             $select->joinLeft(array('p' => 'Pool'),	'j.PoolId = p.PoolId', array('PoolName' => 'Name'));
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', array('FileSet'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
             $select->where("j.Name = '$jobname'");
-            $select->order(array("StartTime", "JobId"));
+            $select->order(array("StartTime desc", "JobId desc"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
             $stmt = $select->query();
             // do Bacula ACLs
@@ -968,8 +940,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
     			array('j.JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
            			'FileSetId', 'PurgedFiles', 'JobStatus',
            			'DurationTime' => 'TIMEDIFF(EndTime, StartTime)' ));
@@ -1005,6 +976,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('o' => 'JobMedia'), 'j.JobId = o.JobId', array('JobId'));
             $select->joinLeft(array('m' => 'Media'), 'm.MediaId = o.MediaId', array('MediaId'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
 
 			$select->where("m.VolumeName = '$volname'");
    			$select->order(array("StartTime", "j.JobId"));
@@ -1027,9 +999,7 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                     array('JobId', 'Job', 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-    			    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
-    			    'SchedTime' => "DATE_FORMAT(j.SchedTime,   '%y-%b-%d %H:%i')",
+                    'StartTime', 'EndTime', 'SchedTime',
     			    'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'PoolId',
         		    'FileSetId', 'PurgedFiles', 'JobStatus', 'Type',
         		    'DurationTime' => 'TIMEDIFF(EndTime, StartTime)', 'PriorJobId',
@@ -1075,6 +1045,7 @@ Select Job resource (1-3):
             $select->joinLeft(array('f' => 'FileSet'), 'j.FileSetId = f.FileSetId', 
                     array('FileSetName' => 'FileSet', 'FileSetCreateTime' => 'CreateTime'));
             $select->joinLeft(array('sd'=> 'webacula_jobdesc'), 'j.Name = sd.name_job');
+            $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
         	$select->where("j.JobId = ?", $jobid);
     		//$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
 
@@ -1171,6 +1142,7 @@ Select Job resource (1-3):
 				$select->joinInner(array('s' => 'Status'), "j.JobStatus = s.JobStatus" , array('jobstatuslong'=>'JobStatusLong'));
 			break;
         }
+                $select->joinLeft(array('wjs'=> 'webacula_job_size'), 'j.JobId = wjs.JobId', array('FileSize' => 'FileSize'));
 		$select->where("j.JobStatus IN ('T', 'E', 'e', 'f', 'A', 'W', 'D')");
 		$select->where("j.Type = 'B'");
    		$select->order(array("sortStartTime DESC"));
@@ -1248,13 +1220,11 @@ Select Job resource (1-3):
             case 'PDO_MYSQL':
                 $select->from(array('j' => 'Job'),
                 array('JobId', 'Type', 'JobName' => 'Name', 'Level', 'ClientId',
-                    'StartTime' => "DATE_FORMAT(j.StartTime, '%y-%b-%d %H:%i')",
-                    'EndTime'   => "DATE_FORMAT(j.EndTime,   '%y-%b-%d %H:%i')",
+                    'StartTime' =>  'EndTime',
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => 'TIMEDIFF(EndTime, StartTime)'));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
-                $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId', 'File.Filename'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
@@ -1271,8 +1241,7 @@ Select Job resource (1-3):
                     'VolSessionId', 'VolSessionTime', 'JobFiles', 'JobBytes', 'JobErrors', 'Reviewed', 'PoolId',
                     'FileSetId', 'PurgedFiles', 'JobStatus',
                     'DurationTime' => '(EndTime - StartTime)'));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
-                $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId', 'File.Filename'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('Path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('JobStatusLong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('ClientName' => 'Client.Name'));
@@ -1291,8 +1260,7 @@ Select Job resource (1-3):
                     'jobbytes'=>'JobBytes', 'joberrors'=>'JobErrors', 'reviewed'=>'Reviewed', 'poolid'=>'PoolId',
                     'filesetid'=>'FileSetId', 'purgedfiles'=>'PurgedFiles', 'jobstatus'=>'JobStatus',
                     'DurationTime' => "(strftime('%H:%M:%S',strftime('%s',EndTime) - strftime('%s',StartTime),'unixepoch'))"));
-                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId'));
-                $select->joinLeft('Filename', 'File.FilenameId = Filename.FilenameId', array('FileName' => 'Filename.Name'));
+                $select->joinLeft('File', 'j.JobId = File.JobId', array('File.JobId', 'File.FileId', 'File.Filename'));
                 $select->joinLeft('Path', 'File.PathId = Path.PathId', array('path' => 'Path.Path'));
                 $select->joinLeft('Status', 'j.JobStatus = Status.JobStatus', array('jobstatuslong' => 'Status.JobStatusLong'));
                 $select->joinLeft('Client', 'j.ClientId = Client.ClientId',   array('clientname' => 'Client.Name'));
@@ -1310,12 +1278,12 @@ Select Job resource (1-3):
             }
 
             $select->where(
-                $this->myMakeWhere('Filename.Name', $namefile, $type_search));
+                $this->myMakeWhere('File.Filename', $namefile, $type_search));
 
             if ( !empty($client) )    {
                 $select->where($this->db->quoteInto("Client.Name = ?", $client));
             }
-            $select->order(array("StartTime"));
+            $select->order(array("StartTime DESC"));
             //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         }
         $stmt = $select->query();
@@ -1330,7 +1298,7 @@ Select Job resource (1-3):
      */
     function getJobBeforeDate($date_before, $client_id_from, $file_set)
     {
-        /* Поиск JobId последнего Full бэкапа для заданных Client, Fileset, Date
+        /* Search Job Id last Full backup for the given Client, File Set, Date
          * cats/sql_cmds.c :: uar_last_full
          */
         $ajob_all = array();
@@ -1360,7 +1328,7 @@ Select Job resource (1-3):
             return;
 
         $ajob_all[] = $ajob_full[0]['jobid'];
-        /* Поиск свежего Differential бэкапа, после Full бэкапа, если есть
+        /* Search fresh Differential backup after the Full backup, if there is
          * cats/sql_cmds.c :: uar_dif
          */
         $sql = "SELECT Job.JobId,Job.JobTDate,Job.ClientId, Job.Level,Job.JobFiles,Job.JobBytes," .
@@ -1385,7 +1353,7 @@ Select Job resource (1-3):
         if ( $ajob_diff ) {
             $ajob_all[] .= $ajob_diff[0]['jobid'];
         }
-        /* Поиск свежих Incremental бэкапов, после Full или Differential бэкапов, если есть
+        /* Search fresh Incremental backups after the Full or Differential backups if there
          * cats/sql_cmds.c :: uar_inc
          */
         if ( !empty($ajob_diff[0]['jobtdate']) ) {
@@ -1429,11 +1397,12 @@ Select Job resource (1-3):
                 " ORDER BY Job.StartTime ASC";
                 break;
         }
+        //echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $this->db->query($sql);
         $ajob_inc = $stmt->fetchAll();
         unset($stmt);
 
-        // формируем хэш из jobids
+        // forming a hash of jobids
         if ( empty($ajob_diff) ) {
             $hash = '' . $ajob_full[0]['jobid'];
         } else {
@@ -1459,10 +1428,9 @@ Select Job resource (1-3):
         if ( empty($fileid) )
             return;
         $select = new Zend_Db_Select($this->db);
-        $select->from(array('f' => 'File'), array('FileId', 'LStat'));
+        $select->from(array('f' => 'File'), array('FileId', 'Filename', 'LStat'));
         $select->joinLeft(array('j' => 'Job'),  'j.JobId  = f.JobId',  array('JobId', 'jobname' => 'Name') );
         $select->joinLeft(array('p' => 'Path'), 'p.PathId = f.PathId', array('PathId', 'Path') );
-        $select->joinLeft(array('n' => 'Filename'), 'n.FilenameId = f.FilenameId', array('Filename' => 'Name') );
         $select->where("f.FileId = ?", $fileid);
         //$sql = $select->__toString(); echo "<pre>$sql</pre>"; exit; // for !!!debug!!!
         $stmt = $select->query();

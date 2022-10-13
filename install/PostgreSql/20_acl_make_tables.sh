@@ -1,13 +1,18 @@
 #!/bin/bash
 #
-# Script to create webacula tables
+# Script to create Webacula ACLs tables in Bacula database
 #
+db_user=${db_user:-bacula}
+db_name=${db_name:-bacula}
+pg_config=`which pg_config`
+bindir=`pg_config --bindir`
+PATH="$bindir:$PATH"
+# The default password is 'bacula'
+# Do not modify the string below
+wb_pwd='$P$BWvNstbpxxsvvnFkE90C6OfZxFS61P1'
 
-.   ../db.conf
 
-
-psql -q -f - -d $db_name $*  <<END-OF-DATA
-
+psql -q -f - -d ${db_name} $* <<END-OF-DATA
 
 SET client_min_messages=WARNING;
 
@@ -27,6 +32,7 @@ CREATE TABLE webacula_users (
 CREATE INDEX webacula_users_idx1 ON webacula_users (login);
 
 
+
 CREATE TABLE webacula_roles (
     id      SERIAL NOT NULL,
     order_role  integer not null DEFAULT 1,
@@ -37,12 +43,14 @@ CREATE TABLE webacula_roles (
 );
 
 
+
 CREATE TABLE webacula_resources (
     id       SERIAL NOT NULL,
     dt_id    integer,
     role_id  integer,
     primary key (id)
 );
+
 
 
 CREATE TABLE webacula_dt_resources (
@@ -55,28 +63,28 @@ CREATE TABLE webacula_dt_resources (
 
 
 INSERT INTO webacula_roles (id, name, description) VALUES (1, 'root_role', 'Default built-in superuser role');
-INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id)
-    VALUES (1000, 'root', '$webacula_root_pwd', 'root', 1, NOW(), 1);
-
+INSERT INTO webacula_users (id, login, pwd, name, active, create_login, role_id) VALUES (1000, 'root', '$wb_pwd', 'root', 1, NOW(), 1);
 INSERT INTO webacula_roles (id, name, description) VALUES (2, 'operator_role', 'Typical built-in role for backup operator');
-
 INSERT INTO webacula_resources (dt_id, role_id) VALUES
-    (10,2),
-    (20,2),
-    (30,2),
-    (40,2),
-    (50,2),
-    (60,2),
-    (70,2),
-    (80,2),
-    (90,2),
-    (100,2),
-    (110,2),
-    (120,2),
-    (130,2),
-    (140,2),
-    (150,2),
-    (160,2);
+   (10,2),
+   (20,2),
+   (30,2),
+   (40,2),
+   (50,2),
+   (60,2),
+   (70,2),
+   (80,2),
+   (90,2),
+   (100,2),
+   (105,2),
+   (110,2),
+   (120,2),
+   (130,2),
+   (140,2),
+   (150,2),
+   (160,2);
+
+
 
 -- Controller names only
 INSERT INTO webacula_dt_resources (id, name, description) VALUES
@@ -90,6 +98,7 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
     (80, 'pool',      'Menu Pool'),
     (90, 'restorejob','Menu Restore Job'),
     (100,'storage',   'Menu Storage'),
+    (105,'schedule',  'Menu Schedule'),
     (110,'volume',    'Menu Volume'),
     (120,'wbjobdesc', 'Menu Job Descriptions'),
     (130,'wblogbook', 'Menu Logbook'),
@@ -101,8 +110,6 @@ INSERT INTO webacula_dt_resources (id, name, description) VALUES
 
 
 -- Bacula ACLs
-
-
 CREATE TABLE webacula_client_acl (
     id        SERIAL NOT NULL,
     name      varchar(127),
@@ -184,6 +191,7 @@ INSERT INTO webacula_dt_commands (id, name, description) VALUES
     (420, 'wait',        'Wait until no jobs are running');
 
 
+
 CREATE TABLE webacula_fileset_acl (
     id        SERIAL NOT NULL,
     name      varchar(127),
@@ -245,22 +253,25 @@ CREATE        INDEX webacula_where_acl_idx2 ON webacula_where_acl (id, order_acl
 
 
 -- 'root_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
-INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 1);
-INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_storage_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_pool_acl      (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_client_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_fileset_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 1);
+INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 1);
+
+
 
 -- 'operator_role' Bacula ACLs
-INSERT INTO webacula_storage_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_pool_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_client_acl  (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_fileset_acl (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_where_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
-INSERT INTO webacula_command_acl (dt_id,role_id) VALUES (1, 2);
-INSERT INTO webacula_job_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_storage_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_pool_acl      (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_client_acl    (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_fileset_acl   (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_where_acl     (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+INSERT INTO webacula_command_acl   (dt_id,role_id) VALUES (1, 2);
+INSERT INTO webacula_job_acl       (name, order_acl, role_id)  VALUES ('*all*', 1, 2);
+
 
 
 -- PHP session storage
@@ -273,17 +284,13 @@ CREATE TABLE webacula_php_session (
     PRIMARY KEY (id)
 );
 
-
 END-OF-DATA
 
-
-res=$?
-if test $res = 0;
+if [ $? -eq 0 ]
 then
-   echo "PostgreSql : create of Webacula ACL tables succeeded."
+   echo "PostgreSQL: creation of Webacula ACL tables succeeded."
 else
-   echo "PostgreSql : create of Webacula ACL tables failed!"
+   echo "PostgreSQL: creation of Webacula ACL tables failed!"
    exit 1
 fi
-
 exit 0

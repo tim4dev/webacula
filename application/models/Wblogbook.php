@@ -167,7 +167,7 @@ class Wblogbook extends Zend_Db_Table
                 $select->distinct();
                 $select->from(array('l' => 'webacula_logbook'), array('logId' , 'logDateCreate' , 'logDateLast' , 'logTxt' , 'logTypeId' , 'logIsDel'));
                 $select->joinLeft(array('t' => 'webacula_logtype'), 'l.logTypeId = t.typeId', array('typeId' , 'typeDesc'));
-                $select->where(' MATCH(logTxt) AGAINST ("' . $id_text . '" WITH QUERY EXPANSION)');
+                $select->where(' logTxt LIKE  "%' . $id_text . '%"');
                 break;
             case 'PDO_PGSQL':
                 $select->distinct();

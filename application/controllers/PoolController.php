@@ -31,6 +31,7 @@ class PoolController extends MyClass_ControllerAclAction
     {
         parent::init();
         Zend_Loader::loadClass('Pool');
+		Zend_Loader::loadClass('Director');
     }
 
    function allAction()
@@ -43,5 +44,40 @@ class PoolController extends MyClass_ControllerAclAction
       $this->view->pools = $pools->fetchAll(null, $order);
    }
 
+   
+    /**
+     * show pool
+     * http://www.bacula.org/3.0.x-manuals/en/console/console/Bacula_Console.html
+     * show pool=<xxx>
+     */
+    function showAction()
+    {
+        // do Bacula ACLs
+        $command = 'show';
+        if ( !$this->bacula_acl->doOneBaculaAcl($command, 'command') ) {
+        	$msg = sprintf( $this->view->translate->_('You try to run Bacula Console with command "%s".'), $command );
+            $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
+            return;
+        }
+        $this->view->title = $this->view->translate->_("Show Pool");
+        $poolname = trim( $this->_request->getParam('name') );
+        $this->view->poolname = $poolname;
+        $director = new Director();
+        if ( !$director->isFoundBconsole() )    {
+            $this->view->result_error = 'NOFOUND_BCONSOLE';
+            $this->render();
+            return;
+        }
+        $astatusdir = $director->execDirector(
+" <<EOF
+show pool=\"$poolname\"
+EOF"
+        );
+        $this->view->command_output = $astatusdir['command_output'];
+        // check return status of the executed command
+        if ( $astatusdir['return_var'] != 0 )   {
+            $this->view->result_error = $astatusdir['result_error'];
+        }
+    }
 
 }

@@ -1,25 +1,50 @@
 <!-- log/view-log-id.phtml -->
-<h1><?php echo $this->escape($this->title); ?></h1>
+<!--<h1><?php echo $this->escape($this->title); ?></h1>-->
+
+<div class="rows">
+  <div class="col-md-10">
+
+
+<div class="panel panel-default panel-primary panel-logoutput">
+	<div class="panel-heading">
+	   <?php echo $this->escape($this->title); ?>
+	</div>
+	<div class="panel-body">
+
+<b><?php print $this->translate->_("Director output:"); ?></b>
 
 <?php if ($this->result): ?>
-
-<table class="t1" border="0" cellspacing="0">
+<!--
+<div class="table-responsive">
+<table class="t12">
 <tr>
-<td class="t3"><pre>
+<td>
+-->
+<pre>
 <?php
     foreach($this->result as $line) {
         //echo $this->escape($line['logtime']) . "   " . rtrim( $this->escape($line['logtext']) , "\r\n\t \0") . "<br>";
         $line = $this->escape($line['logtime']) . "   " . rtrim($line['logtext'] , "\r\n\t \0");
         if(preg_match ("/ERR/", $line)) {
-            echo '<div style="color: white; background-color: red;">' . $line . ' </div><br />';
+            echo '<div style="color: white; background-color: red;">' . $line . ' </div>';
         } else {
             echo $line, '<br />';
         }
     }
 ?>
-</pre></td>
+</pre>
+<!--
+</td>
+</tr>
 </table>
+</div>--><!-- end div table-responsive -->
 
 <?php else: ?>
 	<p><b><?php print $this->translate->_("No Console messages found."); ?></b></p>
 <?php endif; ?>
+
+    </div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div row -->

@@ -1,21 +1,22 @@
 <!-- bconsole/cmd.phtml -->
-
-<div  style="color: #0f0;">OK : <?php echo $this->bcommand; ?></div><br>
-<pre>
-<?php
-    echo $this->msg;
-    if ( $this->command_output )
-        foreach ($this->command_output as $line) {
-            echo '<br>', $line;
-        }
+ <?php
+   echo $this->msg;
+   if ( !$this->return_var ){
+      //echo "<pre>";
+      foreach ($this->command_output as $line){
+           echo '<br/>', $line;
+       }
+       //echo "</pre>";
+       echo '<br/>';
+   } else {
+      echo $this->bcommand,": ", "is a invalid command!";
+   }
+   
 ?>
-<br>
-</pre>
-<div  style="color: #0f0;">return :
 <?php 
-    if ( $this->return_var )
-            echo $this->return_var;
-    else
-        echo 'null';
+   if ($this->return_var )
+      echo $this->return_var;
+   else
+      echo 'null';
 ?>
-</div><br>
+<!-- end bconsole/cmd.phtml -->

@@ -88,6 +88,7 @@ class WblogbookController extends MyClass_ControllerAclAction
     function indexAction()
     {
         $this->view->title = $this->view->translate->_("Logbook");
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         //print_r($this->_request->getParams()); exit; //debug !!!
         $date_begin  = date('Y-m-d', time()-2678400);
         $date_end    = date('Y-m-d', time());
@@ -105,6 +106,7 @@ class WblogbookController extends MyClass_ControllerAclAction
         if ($ret)	{
             $this->view->result = $ret->fetchAll();
         }
+        
     }
 
 
@@ -114,6 +116,7 @@ class WblogbookController extends MyClass_ControllerAclAction
     function filterbydateAction()
     {
         $this->view->title = $this->view->translate->_("Logbook");
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         //print_r($this->_request->getParams()); exit; //debug !!!
         $date_begin  = trim( $this->_request->getParam('date_begin', date('Y-m-d', time()-2678400)) );
         $date_end    = trim( $this->_request->getParam('date_end', date('Y-m-d', time())) );
@@ -162,6 +165,7 @@ class WblogbookController extends MyClass_ControllerAclAction
 		if ( $id_end == 0 ) {
 			 $id_end = $id_begin;
 		}
+      $this->view->datetime_format = Zend_Registry::get('datetime_format');
     	//echo '<pre>id_begin = ' . $id_begin . '<br>id_end = ' . $id_end . '</pre>'; exit();
 
     	// порядок сортировки
@@ -197,6 +201,7 @@ class WblogbookController extends MyClass_ControllerAclAction
     function searchtextAction()
     {
         $id_text = addslashes( substr( $this->_request->getParam('id_text'), 0, 250 ) );
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         // порядок сортировки
         $sort_order     = $this->defSortOrder( trim($this->_request->getParam('sortorder_by_text')) );
         // unused ? $str_sort_order = $this->defStrSortOrder($sort_order);
@@ -420,6 +425,7 @@ class WblogbookController extends MyClass_ControllerAclAction
     	$this->view->title = $this->view->translate->_("Logbook: modify record");
     	$this->view->wblogbook = new Wblogbook();
     	$this->view->amessages = array();
+        
 
     	// ****************************** UPDATE record **********************************
     	if ( $this->_request->isPost() && $this->_request->getPost('hiddenModify') &&
@@ -562,15 +568,19 @@ class WblogbookController extends MyClass_ControllerAclAction
     		return;
     	}
     	// ********************* READ ORIGINAL RECORD from database ****************
-    	if ( $this->_request->isPost() )
+        if ( $this->_request->isGet() )
+    	//else
     	{
-	    	$logid = trim($this->_request->getPost('logid'));
+	    	$logid = $this->_request->getParam('logid');
+            if ( empty($logid) )
+               throw new Exception(__METHOD__.' : Empty input parameters');            
+            //$logid = trim($this->_request->getPost('logid'));
 			// get data from table
 			$logs = new wbLogBook();
 			$where = $logs->getAdapter()->quoteInto('logId = ?', $logid);
 			$row = $logs->fetchRow($where);
 
-   			if ($row)	{
+   			if ($row){
     			$this->view->wblogbook->logId	  = $row->logid;
     			$this->view->wblogbook->logDateCreate = $row->logdatecreate;
 				$this->view->wblogbook->logTxt    = $row->logtxt;
@@ -587,6 +597,7 @@ class WblogbookController extends MyClass_ControllerAclAction
         $this->view->wblogbook->logDateLast = date('Y-m-d H:i:s', time());
         $this->view->hiddenModify = 1;
         $this->view->aAllowedTags = $this->aAllowedTags;
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 

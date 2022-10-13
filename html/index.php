@@ -18,8 +18,7 @@
  *
  */
 
-define('WEBACULA_VERSION', '7.0.0' . ', build 2014.10.01');
-define('BACULA_VERSION', 14); // Bacula Catalog version
+define('WEBACULA_VERSION', '11.0.0' . ' build 16Mar2021');
 
 define('ROOT_DIR', dirname(dirname(__FILE__)) );
 define('CACHE_DIR',  ROOT_DIR.'/data/cache' );
@@ -44,6 +43,7 @@ include "Zend/Loader.php";
 
 Zend_Loader::loadClass('Zend_Auth');
 Zend_Loader::loadClass('Zend_Controller_Front');
+Zend_Loader::loadClass('Zend_Controller_Exception');
 Zend_Loader::loadClass('Zend_Cache');
 Zend_Loader::loadClass('Zend_Session');
 Zend_Loader::loadClass('MyClass_Session_SaveHandler_DbTable'); // PHP session storage
@@ -89,7 +89,14 @@ else {
 }
 
 // set self version
-Zend_Registry::set('bacula_version',   BACULA_VERSION);
+if( isset($config->general->catalog->version) ){
+   define('BACULA_VERSION', $config->general->catalog->version);
+   Zend_Registry::set('bacula_version', $config->general->catalog->version);
+}
+else{
+	echo '<pre>';
+	throw new Zend_Exception("Fatal error: Catalog version is not defined in config.ini");
+}
 Zend_Registry::set('webacula_version', WEBACULA_VERSION);
 
 // set global const
@@ -106,6 +113,12 @@ Zend_Registry::set('ERR_VOLUME', -1);
 
 // setup database bacula
 Zend_Registry::set('DB_ADAPTER', strtoupper($config->general->db->adapter) );
+if($config->general->db->adapter == "PDO_PGSQL"){
+ $db_name = "PostgreSQL";  
+} else {
+ $db_name = "MySQL/MariaDB";
+}
+
 $params = $config->general->db->config->toArray();
 // for cross database compatibility with PDO, MySQL, PostgreSQL
 $params['options'] = array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_LOWER, Zend_DB::AUTO_QUOTE_IDENTIFIERS => FALSE);
@@ -173,6 +186,29 @@ if ( isset($config->general->show_job_description) )    {
     $show_job_description = 0;
 $registry->set('show_job_description', $show_job_description);
 
+// Show jobs terminated
+if ( !isset($config->general->days_to_show_jobs_terminated) ) {
+    $days_to_show_jobs_terminated = 1;
+} else {
+    $days_to_show_jobs_terminated = $config->general->days_to_show_jobs_terminated;
+}
+$registry->set('days_to_show_jobs_terminated', $days_to_show_jobs_terminated);
+
+// Show date format in different format
+if ( !isset($config->general->date_format) ) {
+   $date_format = "Y-m-d";
+} else {
+   $date_format = $config->general->date_format;
+}
+$registry->set('date_format', $date_format);
+
+if ( !isset($config->general->datetime_format) ) {
+   $datetime_format = "Y-m-d H:i:s";
+} else {
+   $datetime_format = $config->general->datetime_format;
+}
+$registry->set('datetime_format', $datetime_format);
+
 Zend_Layout::startMvc(array(
     'layoutPath' => '../application/layouts/' . $config->layout->path,
     'layout' => 'main'
@@ -183,17 +219,17 @@ try {
     $db->getConnection();
 } catch (Zend_Db_Adapter_Exception $e) {
     echo '<pre>';
-    // возможно СУБД не запущена
-    throw new Zend_Exception("Fatal error: Can't connect to SQL server");
+    // possible database is not running
+    throw new Zend_Exception("Fatal error: Can't connect to Database " . $db_name. "\n" . $e);
 }
 /*
  * Check Bacula Catalog version
  */
 $ver = new Version();
-if ( !$ver->checkVesion(BACULA_VERSION) )   {
+if ( !$ver->checkVersion(BACULA_VERSION) )   {
     echo '<pre>';
-    throw new Zend_Exception("Bacula version mismatch for the Catalog database. ". 
-            "Wanted ".BACULA_VERSION.", got ". $ver->getVesion().". ");
+    throw new Zend_Exception("Bacula version mismatch for the Catalog database. ". "Wanted ".BACULA_VERSION." got ". $ver->getVersion().".\n" .
+    "Update your webacula tables and modify the 'catalog.version' in application/config.ini.");
 }
 /*
  * Check CACHE_DIR is writable
@@ -228,7 +264,7 @@ if ( APPLICATION_ENV == 'production') {
 }
 
 /*
- * для подсчета кол-ва неудачных логинов для вывода капчи
+ * for counting of number of failed logins to enter a captcha
  */
 $defNamespace = new Zend_Session_Namespace('Default');
 if (!isset($defNamespace->numLoginFails))
@@ -243,9 +279,9 @@ $frontendOptions = array(
     'automatic_serialization' => true
 );
 $backendOptions = array(
-    'cache_dir' => CACHE_DIR.'/'      // директория, в которой размещаются файлы кэша
+    'cache_dir' => CACHE_DIR.'/'      // Directory where the cache files are located
 );
-// получение объекта Zend_Cache_Core
+// obtaining object Zend_Cache_Core
 $cache = Zend_Cache::factory(
     'Core',
     'File',

@@ -1,40 +1,51 @@
 <!-- restorejob/msg01.phtml -->
-
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#ok1').click(function() {
     	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+        	message: '<h4><?php print $this->translate->_("Please wait"); ?>...</h4>',
+        	css: {border: 'none', padding: '15px',  backgroundColor: '#000',  '-webkit-border-radius': '10px', '-moz-border-radius': '10px', opacity: .5,  color: '#fff' }
         });
     });
 });
 </script>
 
-<h1><?php echo $this->escape($this->title . ' ' . $this->jobid); ?></h1>
-
-<div class="ui-state-error ui-corner-all" style="width: 42em; text-align: left;">
-
-<form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post" style="margin: 2em;">
-<p><?php print $this->translate->_("Found existing temporary tables for the Restore Job with JobId"); ?>
-    <?php echo $this->jobid; ?>.</p>
-<p>
-<?php print $this->translate->_("Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."); ?>
-</p>
-<p><b><?php print $this->translate->_("Choose the action:"); ?> </b></p>
-
-<?php echo $this->formRadio('choice', 'recreate_tmp', null,
-    array(
-        'recreate_tmp'  => $this->translate->_('Recreate temporary tables (recommended)'),
-	    'continue_tmp'  => $this->translate->_('Continue with the old temporary tables'),
-		'goto_homepage' => $this->translate->_('Exit')
-    ));
-?>
-    <div style="text-align: center; margin: 5px;">
-		<br /><br /><?php echo $this->formSubmit('ok1', 'OK'); ?>
-	</div>
-</form>
-
-</div>
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title . ' ' . $this->jobid); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <div class="alert alert-danger">
+                  <p>
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <b><?php print $this->translate->_("An error occurred while restoring!"); ?></b>  
+                    <br /><br />
+                    <form action="<?php  echo $this->baseUrl.'/restorejob/old-tmp-table';?>" method="post">
+                    <?php print $this->translate->_("Found existing temporary tables for the Restore Job with JobId"); ?>
+                    <?php echo " " .$this->jobid; ?>.
+                    <br />
+                    <?php print $this->translate->_("Probably someone already works above a choice of files for restoration, or these tables have not been removed since time of your last task for restoration for this JobId."); ?>
+                    <br /><br />
+                    <b><?php print $this->translate->_("Choose the action:"); ?> </b>
+                    <br />
+                    <?php echo $this->formRadio('choice', 'recreate_tmp', null,
+                        array(
+                            'recreate_tmp'  => $this->translate->_('Recreate temporary tables (recommended)'),
+                    	    'continue_tmp'  => $this->translate->_('Continue with the old temporary tables'),
+                    		'goto_homepage' => $this->translate->_('Exit')
+                        ));
+                    ?>
+                    <br />
+                    <?php echo $this->formSubmit('ok1', $this->translate->_('OK'), array('class' => 'btn btn-default') ); ?>
+                    </form>
+                  </p>
+               </div>
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- fim div col-md-6 -->
+</div><!-- fim da div rows -->
+<!-- restorejob/msg01.phtml -->

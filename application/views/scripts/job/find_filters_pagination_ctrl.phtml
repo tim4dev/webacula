@@ -1,9 +1,8 @@
 <!-- job/find_filters_pagination_ctrl.phtml -->
-
 <?php $this->translate = Zend_Registry::get('translate'); ?>
-
+<div class="rows">
 <?php if ($this->pageCount): ?>
-<p>
+
 <?php
     //echo $this->firstItemNumber, ' -- ', $this->lastItemNumber, ' ', $this->translate->_('of'), ' ', $this->totalItemCount;
     $opt = array();
@@ -18,41 +17,43 @@
     empty($this->options['jtype'])      ? true : $opt['jtype']      = rawurlencode($this->options['jtype']);
     empty($this->options['volname'])    ? true : $opt['volname']    = rawurlencode($this->options['volname']);
 ?>
-</p>
+   <div>
+      <ul class="pagination">
 
-<!-- Ссылка на первую страницу -->
-<?php if (isset($this->previous)): ?>
-  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->first), $opt) ),'">',
-  $this->translate->_('First</a>'), ' &nbsp;'; ?>
-<?php endif; ?>
+         <!-- Link to the first page -->
+         <?php if (isset($this->previous)): ?>
+           <?php echo '<li class="page-item"><a href="', $this->url( array_merge(array('page' => $this->first), $opt) ),'">', $this->translate->_('First page'), '</a></li>'; ?>
+         <?php endif; ?>
+         
+         <!-- Link to the previous page -->
+         <?php if (isset($this->previous)): ?>
+           <?php echo '<li class="page-item"><a href="', $this->url( array_merge(array('page' => $this->previous), $opt) ), '">', $this->translate->_('Previous page'), '</a></li>'; ?>
+         <?php endif; ?>
+         
+         <!-- Numbered links to pages -->
+         <?php if ( sizeof($this->pagesInRange) > 1 ):?>
+             <?php foreach ($this->pagesInRange as $page): ?>
+                 <?php if ($page != $this->current): ?>
+                    <?php echo '<li class="page-item"><a href="', $this->url( array_merge(array('page' => $page), $opt) ), '">', $page, '</a></li>'; ?>
+                 <?php else: ?>
+                    <?php echo '<li class="page-item active"><a href="', $this->url( array_merge(array('page' => $page), $opt) ), '">', $page, '</a></li>'; ?>
+                 <?php endif; ?>
+             <?php endforeach; ?>
+         <?php endif; ?>
+         
+         <!-- Link to the next page -->
+         <?php if (isset($this->next)): ?>
+           <?php echo '<li class="page-item"><a href="', $this->url( array_merge(array('page' => $this->next), $opt) ), '">', $this->translate->_('Next page'), '</a></li>'; ?>
+         <?php endif; ?>
+         
+         <!-- Link to the last page -->
+         <?php if (isset($this->next)): ?>
+           <?php echo '<li class="page-item"><a href="', $this->url( array_merge(array('page' => $this->last), $opt) ), '">', $this->translate->_('Last page'), '</a></li>'; ?>
+         <?php endif; ?>
 
-<!-- Ссылка на предыдущую страницу -->
-<?php if (isset($this->previous)): ?>
-  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->previous), $opt) ),
-  '">&lt; ', $this->translate->_('Previous</a>'), ' &nbsp;'; ?>
-<?php endif; ?>
-
-<!-- Нумерованные ссылки на страницы -->
-<?php if ( sizeof($this->pagesInRange) > 1 ):?>
-    <?php foreach ($this->pagesInRange as $page): ?>
-        <?php if ($page != $this->current): ?>
-            <a href="<?php echo $this->url( array_merge(array('page' => $page), $opt) ); ?>"> <?php echo $page;?></a> &nbsp;
-        <?php else: ?>
-            <?php echo $page; ?> &nbsp;
-        <?php endif; ?>
-    <?php endforeach; ?>
-<?php endif; ?>
-
-<!-- Ссылка на следующую страницу -->
-<?php if (isset($this->next)): ?>
-  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->next), $opt) ),
-  '">', $this->translate->_('Next &gt;'), '</a> &nbsp;'; ?>
-<?php endif; ?>
-
-<!-- Ссылка на последнюю страницу -->
-<?php if (isset($this->next)): ?>
-  <?php echo '<a href="', $this->url( array_merge(array('page' => $this->last), $opt) ),
-  '">', $this->translate->_('Last</a>'); ?>
-<?php endif; ?>
+      </ul>
+   </div>
 
 <?php endif; ?>
+</div><!-- end div rows -->
+<!-- job/find_filters_pagination_ctrl.phtml -->

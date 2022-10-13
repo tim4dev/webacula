@@ -42,9 +42,9 @@ class AuthController extends Zend_Controller_Action
             $this->_helper->layout->setLayout('login');
         // translate
         $this->view->translate = Zend_Registry::get('translate');
-        // для переадресаций
+        // For redirects
         $this->_redirector = $this->_helper->getHelper('Redirector');
-        // для подсчета кол-ва неудачных логинов для вывода капчи
+        // To count the number of failed logins for captcha output
         $this->defNamespace = new Zend_Session_Namespace('Default');
         // Get current role_id, role_name
         $auth    = Zend_Auth::getInstance();
@@ -54,10 +54,10 @@ class AuthController extends Zend_Controller_Action
 
 
     /*
-     * @return true если юзер залогинился
+     * @return true If the user is logged in
      */
-    /* Использование :
-     * // это действие недоступно без регистрации
+    /* Using :
+     * // This action is not available without registration
 		if ( !$this->isAuth() ) {
             $this->_redirect('auth/login');
         }
@@ -73,12 +73,12 @@ class AuthController extends Zend_Controller_Action
     public function loginAction()
     {
         if ( $this->isAuth() ) {
-            $this->_forward('index', 'index'); // если уже залогинен: action, controller
+            $this->_forward('index', 'index'); // If already logged in: action, controller
             return;
         }                    
         $form = new formLogin();
         if ( $this->_request->isPost() ) {
-            /* Проверяем валидность данных формы */
+            /* We check the validity of the form data */
             if ( $form->isValid($this->_getAllParams()) )
             {
                 $users = new Wbusers();
@@ -86,14 +86,14 @@ class AuthController extends Zend_Controller_Action
                 if( $users->checkPassword( $login, $form->getValue('pwd') ) )
                 {
                     $user = $users->fetchUser($login);
-                    $user[0]['pwd'] = ''; // пароль обнуляем
+                    $user[0]['pwd'] = ''; // Password reset to zero
                     $user = (object)$user[0];
-                    /* Пишем в сессию (default) необходимые нам данные */
+                    /* We write to the session (default) the data we need */
                     $auth = Zend_Auth::getInstance();
                     $storage = $auth->getStorage();
                     // find role name
                     $storage->write( $user );
-                    // обнуляем счетчик неудачных логинов
+                    // Reset the counter of failed login
                     if (isset($this->defNamespace->numLoginFails))
                         $this->defNamespace->numLoginFails = 0;
                     // remember me
@@ -108,15 +108,16 @@ class AuthController extends Zend_Controller_Action
                 } else {
                     sleep(7);
                     $this->view->msg = $this->view->translate->_("Username or password is incorrect");
-                    // включаем счетчик, если кол-во неудачных логинов большое то включаем капчу
+                    // Turn on the counter, if the number of unsuccessful logins is large, then we include captcha
                     $this->defNamespace->numLoginFails++;
                 }
            }
         }
-        /* Если данные не передавались или неверный логин, то выводим форму для авторизации */
-        $this->view->caption = sprintf( $this->view->translate->_("Login with your %sWe%sbacula%s account"),
-                        '<font color="#00008B">', '</font><font color="#A80000">', '</font>');
-        $this->view->title   = $this->view->translate->_('Login with your Webacula account');
+        /* If the data was not transmitted or the login was incorrect, we print the form for authorization */
+        //$this->view->caption = sprintf( $this->view->translate->_("Login with your %sWe%sbacula%s account"),
+        //                '<font color="#00008B">', '</font><font color="#A80000">', '</font>');
+        $this->view->caption = $this->view->translate->_('Log in');
+		$this->view->title   = $this->view->translate->_('Login with your Webacula account');
         $this->view->form = $form;
 
         // workaround for unit tests 'Action Helper by name Layout not found'
@@ -127,7 +128,7 @@ class AuthController extends Zend_Controller_Action
 
 
     /**
-     * "Выход" пользователя
+     * "Exit" of the user
      **/
 	public function logoutAction()
 	{
@@ -136,10 +137,10 @@ class AuthController extends Zend_Controller_Action
         /*
          * Final
          */
-    	/* "Очищаем" данные об идентификации пользоваля */
+    	/* "Clear" user authentication data */
 		Zend_Auth::getInstance()->clearIdentity();
 		Zend_Session::forgetMe();
-		/*	Перебрасываем его на главную */
+		/*	We throw it on the main */
 		$this->_redirect('/');
 	}
 
@@ -189,25 +190,25 @@ Thanks! \n"),
         Zend_Loader::loadClass('FormForgotPassword');
         $form = new formForgotPassword();
         if( $this->_request->isPost() ) {
-            /* Проверяем валидность данных формы */
+            /* We check the validity of the form data */
             if ( $form->isValid($this->_getAllParams()) )
             {
                 $db = Zend_Registry::get('db_bacula');
                 Zend_Loader::loadClass('Wbusers');
                 $table = new Wbusers();
-                // ищем email
+                // Looking for email
                 $select  = $table->select()->where('login = ?', $this->_getParam('login'))
                                 ->where('email = ?', $this->_getParam('email'));
                 $row = $table->fetchRow($select);
-                /* login + email найдены ? */
+                /* login + email found ? */
                 if( $row )
                 {
-                    // генерируем новый пароль
+                    // Generate a new password
                     $new_password = md5( uniqid( rand() ) );                   
-                    // высылаем пароль
+                    // Send password
                     $res = $this->emailForgotPassword($row->email, $row->name, $new_password);
                     if ( $res ) {
-                        // сохраняем пароль в БД
+                        // Save password in database
                         $data = array(
                             'pwd' => $new_password  // password hash
                         );
@@ -225,7 +226,8 @@ Thanks! \n"),
                 }
            }
         }
-        /* Если данные не передавались или неверный логин, то выводим форму для авторизации */
+        /* If the data was not transmitted or the login was incorrect, we print the form for authorization */
+		$this->view->caption = $this->view->translate->_('Reset password');
         $this->view->title = $this->view->translate->_('Reset password');
         $this->view->form  = $form;
     }

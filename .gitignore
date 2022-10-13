@@ -1,19 +1,16 @@
 *~
 *.tmp
 *.swp
-.buildpath
-.project
-.settings/
-nbproject/
-library/Zend/
-library/Zend.arc/
 tests/report/*
+html/styles/default/old
+html/scripts/old
 #
 # data : cache, tmp, session
 #
 data/cache/*
 data/tmp/*
 data/session/*
+!.gitignore
 #
 # latex
 #

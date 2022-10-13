@@ -27,6 +27,7 @@ class FormJobrun extends Zend_Form
 {
 
     protected $translate;
+	 protected $_action_cancel = '';
 
 
 
@@ -51,6 +52,7 @@ class FormJobrun extends Zend_Form
         Zend_Loader::loadClass('Client');
         Zend_Loader::loadClass('FileSet');
         Zend_Loader::loadClass('Storage');
+        Zend_Loader::loadClass('Pool');
         /*
          *  Job Name
          */
@@ -61,8 +63,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Job Name'),
             'required' => true,
-            'class' => 'ui-select',
-            'style' => 'width: 25em;'
+            'class' => 'form-control'
         ));
         foreach( $jobs as $v) {
             $jobname->addMultiOption($v, $v);
@@ -79,8 +80,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Client'),
             'required' => false,
-            'class' => 'ui-select',
-            'style' => 'width: 25em;'
+            'class' => 'form-control'
         ));
         $client->addMultiOption('', $this->translate->_("Default"));
         foreach( $clients as $v) {
@@ -97,8 +97,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Fileset'),
             'required' => false,
-            'class' => 'ui-select',
-            'style' => 'width: 25em;'
+            'class' => 'form-control'
         ));
         $fileset->addMultiOption('', $this->translate->_("Default"));
         foreach( $filesets as $v) {
@@ -115,8 +114,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Storage'),
             'required' => false,
-            'class' => 'ui-select',
-            'style' => 'width: 25em;'
+            'class' => 'form-control'
         ));
         $storage->addMultiOption('', $this->translate->_("Default"));
         foreach( $storages as $v) {
@@ -130,8 +128,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Level'),
             'required' => false,
-            'class' => 'ui-select',
-            'style' => 'width: 20em;'
+            'class' => 'form-control'
         ));
         $level->addMultiOptions(array(
             ''             => $this->translate->_("Default"),
@@ -140,6 +137,23 @@ class FormJobrun extends Zend_Form
             "Differential" => $this->translate->_("Differential level")
         ));
         /*
+         * Pool
+         */
+        $table_pool = new Pool();
+        $order  = array('Name');
+        $pools = $table_pool->fetchAll(null, $order);
+        // select
+        $pool = $this->createElement('select', 'pool', array(
+            'decorators' => $this->elDecorators,
+            'label'    => $this->translate->_('Pool'),
+            'required' => false,
+            'class' => 'form-control'
+        ));
+        $pool->addMultiOption('', $this->translate->_("Default"));
+        foreach( $pools as $v) {
+            $pool->addMultiOption($v['name'], $v['name']);
+        }
+        /*
          * Spool
          */
         // select
@@ -147,8 +161,7 @@ class FormJobrun extends Zend_Form
             'decorators' => $this->elDecorators,
             'label'    => $this->translate->_('Spool'),
             'required' => false,
-            'class' => 'ui-select',
-            'style' => 'width: 15em;'
+            'class' => 'form-control'
         ));
         $spool->addMultiOptions(array(
             ''    => $this->translate->_("Default"),
@@ -161,6 +174,7 @@ class FormJobrun extends Zend_Form
         $checkbox_now = $this->createElement('checkbox', 'checkbox_now', array(
             'decorators' => $this->elDecorators,
             'label'    => 'Now',
+            'class' => 'form-check-input',
             'onclick'  => 'whenNow(this)',
             'checked'  => 1
         ));
@@ -174,7 +188,8 @@ class FormJobrun extends Zend_Form
             'required'  => false,
             'size'      => 10,
             'maxlength' => 10,
-            'disabled'  =>'true',
+            'disabled'  => 'true',
+            'class'     => 'form-control',
             'value'     => date('Y-m-d', time())
         ));
         $date_when->addValidator('StringLength', false, array(1, 10) );
@@ -186,18 +201,30 @@ class FormJobrun extends Zend_Form
             'size'      => 8,
             'maxlength' => 8,
             'disabled'  =>'true',
+            'class'     => 'form-control',
             'value'     => date('H:i:s', time())
         ));
         $time_when->addValidator('StringLength', false, array(1, 8) );
         /*
          * submit button
          */
-        $submit = new Zend_Form_Element_Submit('submit',array(
+        $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok1',
-            'class' => 'prefer_btn',
+            'class' => 'btn  btn-default',
             'label' => $this->translate->_('Run Job')
         ));
+		  
+        /*
+         * cancel button
+         */
+        $cancel_button = new Zend_Form_Element_Submit('cancel_button',array(
+            'decorators' => $this->elDecorators,
+            'id'    => 'reset_'.__CLASS__,
+            'class' => 'btn btn-default',
+            'label' => $this->translate->_('Cancel')
+        ));
+		  
         /*
          *  add elements to form
          */
@@ -207,12 +234,27 @@ class FormJobrun extends Zend_Form
             $fileset,
             $storage,
             $level,
+            $pool,
             $spool,
             $checkbox_now,
             $date_when,
             $time_when,
-            $submit
+            $submit_button,
+				$cancel_button
         ));
     }
+	 
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
+
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }
+	 
 
 }

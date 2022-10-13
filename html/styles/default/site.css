@@ -1,161 +1,41 @@
-
-h1 {
-    font-size:1.2em;
-    font-family: sans-serif;
-}
-
-#content {
-     margin: 0 auto;
-}
-
-/* messages output */
-table.t1 {
-    border-bottom: 1px solid #7EBFFF;
-    border-left: 1px solid #7EBFFF
-}
-
-/* for Director output */
-#table-dir-output {
-   font-size: 1em;
-   background: #FFFFB4;
-   border-top:    1px solid #CDCA66;
-   border-bottom: 1px solid #CDCA66;
-   font-family: sans-serif;
-   margin-top: 1em;
-   margin-bottom: 2em;
-}
-#table-dir-output caption
-{
-	margin-left: 0em;
-    text-align: left;
-    font-weight: bold;
-    font-size: 1.2em;
-}	
-#table-dir-output td {
-   padding: 1em;
-}
-
-
-
-td.terr {
-    padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    background-color:#FF0000;
-    color:white;
-    font-family: sans-serif;
-    font-size: 80%;
-}
-
-a.lerr {
-    color:#FFFF77;
-}
-
-td.twarn {
-    padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    background-color:#F6FF4B;
-    color:black;
-    font-family: sans-serif;
-    font-size: 80%;
-}
-
-td.search1 {
-    background-color:#C3D9FF;
-    color:black;
-}
-
-td.search2 {
-    background-color:#7DFFCC;
-    color:black;
-}
-
-td.search3 {
-    background-color:#FFC5DE;
-    color:black;
-}
-
-td.search4 {
-    background-color:#f7f7f7;
-    color:black;
-}
-
-td.logbook1 {
-    background-color:#bbffff;
-    color:black;
-}
-
-td.t2 {
-    font-size: 8px;
-}
-
-td.t3 {
-    padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-}
-
-td.tfiles {
-    padding: 1px 1px 1px 1px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    font-family: monospace;
-    font-size: 100%;
-}
-
-td.mono1 {
-    padding: 3px 3px 3px 3px;
-    border-top: 1px solid #7EBFFF;
-    border-right: 1px solid #7EBFFF;
-    font-family: monospace;
-}
-
-.prefer_btn {
-   background-color:#FFbf4e; 
-   color:#000; 
-   border:outset 2px #FFbf4e; 
-   font-weight : bold;
-   margin-top: 10px;
-   margin-bottom: 10px;
-}
-
 /* HTML and CSS Table Border Style Wizard: http://www.somacon.com/p141.php
 ----------------------------------------------------------------------------------*/
 
 table.fmark {
-	width: 80em;
-	border-width: 0px 0px 0px 0px;
-	border-spacing: 0px;
-	border-style: none none none none;
-	border-collapse: collapse;
+	/*width: 80em;/*/
+	/*border-width: 0px 0px 0px 0px;*/
+	/*border-spacing: 0px;*/
+	/*border-style: none none none none;*/
+	/*border-collapse: collapse;*/
 	background-color: #F5F5F5;
 	font-family: monospace;
 }
-table.fmark td.cl1 {
-	border-width: 0px 0px 0px 0px;
+table.fmark td.odd {
+	/*border-width: 0px 0px 0px 0px;
 	padding: 1px 1px 1px 1px;
 	border-style: none none none none;
-	background-color: #F7EEFF;
+	background-color: #F7EEFF;*/
+   background-color: #f9f9f9;
 	font-family: monospace;
 }
-table.fmark td.cl2 {
-	border-width: 0px 0px 0px 0px;
+table.fmark td.even {
+	/*border-width: 0px 0px 0px 0px;
 	padding: 1px 1px 1px 1px;
 	border-style: none none none none;
-	background-color: #C8E7FF;
+	background-color: #C8E7FF;*/
+   background-color: #FFF;
 	font-family: monospace;
 }
 table.fmark td.pwd {
-	border-width: 0px 0px 0px 0px;
+	/*border-width: 0px 0px 0px 0px;
 	padding: 1px 1px 1px 1px;
-	border-style: none none none none;
+	border-style: none none none none;*/
 	background-color: #FFFFFF;
 	font-family: monospace;
 }
 table.fmark tr:hover td {
-   background: #FFD500;
-   color: #000080;
+   background: #f8efc0;
+   
 }
 
 
@@ -188,265 +68,3 @@ span.mark{
 	color:#FFFFFF;
 	cursor: pointer; }
 
-/* notes, warnings, etc
-------------------------------------------------------*/
-
-.noteclassic {
-  margin-bottom: 2em;
-  width: 45% !important;
-  min-height: 40px;
-  clear: both;
-  text-align: justify;
-  vertical-align: middle;
-  border-collapse: collapse;
-  padding: 15px 20px 15px 20px;
-  background-position: 20px 50%;
-  background-repeat: no-repeat;
-  -moz-border-radius: 20px;
-  -khtml-border-radius: 20px;
-  border-radius: 20px;
-  background-color: #DEDEED;
-}
-
-
-/* tables
-----------------------------------------------------------------------------------*/
-
-#box-table
-{
-   font-family: "Lucida Sans Unicode", Sans-Serif;
-   font-size: 1em;
-   font-weight: normal;
-   margin-top: 1em;
-   margin-bottom: 2em;
-   text-align: left;
-   border-collapse: collapse;
-}
-#box-table caption
-{
-	margin-left: 0em;
-	text-align: left;
-	font-weight: bold;
-	font-size: 1.2em;
-}
-#box-table th
-{
-   padding: 7px;
-   background: #b9c9fe;
-   border-top: 4px solid #aabcfe;
-   border-bottom: 1px solid #fff;
-   color: #039;
-}
-#box-table td
-{
-   font-size: 0.9em;
-   padding: 4px;
-   background: #e8edff;
-   border-bottom: 1px solid #fff;
-   color: #669;
-   border-top: 1px solid transparent;
-}
-#box-table tr:hover td
-{
-   background: #d0dafd;
-   color: #339;
-}
-#box-table .warn
-{
-   background: #FAFF63;
-}
-#box-table .err
-{
-   color:white;
-   background: #FF5050;
-}
-#box-table .linkerr
-{
-   color:#FFFF77;
-}
-
-
-#box-table-minimalist
-{
-   font-family: Sans-Serif;
-   font-size: 12px;
-   background: #fff;
-   text-align: left;
-   border-collapse: collapse;
-   margin-top: 0px;
-   margin-bottom: 30px;   
-}
-#box-table-minimalist caption
-{
-    margin-left: 0em;
-    text-align: left;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-#box-table-minimalist th
-{
-   font-size: 14px;
-   font-weight: normal;
-   color: #039;
-   padding: 10px 8px;
-   border-bottom: 2px solid #6678b1;
-}
-#box-table-minimalist td
-{
-   color: #669;
-   padding: 9px 8px 0px 8px;
-}
-#box-table-minimalist tbody tr:hover td
-{
-   color: #009;
-}
-#box-table-minimalist .warn
-{
-   background: #FAFF63;
-}
-#box-table-minimalist .err
-{
-   color:white;
-   background: #FF5050;
-}
-
-
-#box-table-one-column
-{
-   font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-   font-size: 1em;
-   margin-top: 1em;
-   margin-bottom: 2em;
-   text-align: left;
-   border-collapse: collapse;
-}
-#box-table-one-column caption
-{
-	margin-left: 0em;
-    text-align: left;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-#box-table-one-column th
-{
-   font-size: 1em;
-   font-weight: normal;
-   padding: 6px 6px;
-   color: #039;
-}
-#box-table-one-column td
-{
-   padding: 6px 6px;
-   color: #669;
-   border-top: 1px solid #e8edff;
-}
-.col-first
-{
-   background: #d0dafd;
-   border-right: 1px solid transparent;
-   border-left: 1px solid transparent;
-   width: 11em;
-}
-#box-table-one-column tr:hover td
-{
-   color: #339;
-   background: #eff2ff;
-}
-#box-table-one-column .warn
-{
-   background: #FAFF63;
-}
-#box-table-one-column .err
-{
-   color:white;
-   background: #FF5050;
-}
-
-
-
-/* dashboard
-----------------------------------------------------------------------------------*/
-
-h1.dashboard {
-    font-size: 0.9em;
-    font-family: sans-serif;
-}
-
-p.dashboard {
-  font-family: arial, verdana, sans-serif;
-  font-size: 0.8em;
-}
-
-a#dashboard {
-  text-decoration: none;
-}
-a#dashboard:hover {
-  text-decoration: underline;
-}
-
-#box-table-dashboard
-{
-   font-family: "Lucida Sans Unicode", Sans-Serif;
-   font-size: 0.8em;
-   margin-top: 0px;
-   margin-bottom: 0.8em;
-   text-align: left;
-   border-collapse: collapse;
-}
-#box-table-dashboard th
-{
-   font-weight: normal;
-   padding: 2px;
-   background: #b9c9fe;
-   border-top: 2px solid #aabcfe;
-   border-bottom: 1px solid #fff;
-   color: #039;
-}
-#box-table-dashboard td
-{
-   padding: 2px;
-   background: #e8edff;
-   border-bottom: 1px solid #fff;
-   color: #669;
-   border-top: 1px solid transparent;
-}
-#box-table-dashboard tr:hover td
-{
-   background: #d0dafd;
-   color: #339;
-}
-#box-table-dashboard .warn
-{
-   background: #FAFF63;
-}
-#box-table-dashboard .err
-{
-   color:white;
-   background: #FF5050;
-}
-#box-table-dashboard .linkerr
-{
-  text-decoration: underline;
-  color:#FFFF77;
-}
-
-#tooltip {
-    position: absolute;
-    z-index: 3000;
-    color:#222;
-    border:1px solid #FFD62F;
-    background-color: #FBF6CB;
-    padding: 5px;
-    opacity: 0.85;
-    font-family: arial, verdana, sans-serif;
-    font-size: 0.9em;
-/*    width: 11em;*/
-}
-#tooltip h3, #tooltip div { margin: 0; }
-
-.update-info {
-    font-family: arial, verdana, sans-serif;
-    font-size: 0.8em;
-    margin-top: 40px;
-    margin-bottom: 2em;
-}

@@ -1,204 +1,222 @@
 <!-- job/problem.phtml -->
-
-<?php if ($this->result): ?>
-
-<table id="box-table">
-<caption><?php echo $this->escape($this->title); ?></caption>
-<thead>
-<tr>
-     <th scope="col">&nbsp;</th>
-     <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
-     <th scope="col"> 
-     <?php 
-        switch ($this->show_job_description) {
-            case 0 :
-                echo $this->translate->_("Job Name"); 
-                break;
-            case 1 :
-                echo $this->translate->_("Short Job Description"); 
-                break;
-            case 2 :
-                echo $this->translate->_("Job Name"), ' /<br>',
-                     $this->translate->_("Short Job Description"); 
-                break;
-            default :
-                echo $this->translate->_("Job Name"); 
-                break;
-        }
-     ?> 
-     </th>
-     <th scope="col"> <?php print $this->translate->_("Status"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Errors"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Client"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Pool"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("End Time"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Duration"); ?> <br /> <?php print $this->translate->_("hh-mm-ss"); ?> </th>
-     <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->result as $line) : ?>
-<tr>
-    <td style="padding: 0px;">
-        <?php
-            if ( isset($line['jobname']) && ($line['type'] != 'R') )    {
-                // re-run button
-                echo '<a href="';
-                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['jobname']);
-                echo '" title="', $this->translate->_("Re-run Job"), '">';
-                echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Re-run Job"), '" border="0" hspace="2">';
-                echo '</a>';
-            }
-        ?>
-    </td>
-	<td>
-		<?php
-			if ( isset($line['poolid']) && isset($line['poolname']) )	{
-				echo '<a href="';
-				echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
-				echo '" title="', $this->translate->_("Detail Job"), '">';
-			}
-			echo $line['jobid'];
-			if ( isset($line['poolid']) && isset($line['poolname']) )	{
-				echo '</a>';
-			}
-		?>
-	</td>
-
-	<!-- Job.Name -->
-    <td>
-        <?php  
-        switch ($this->show_job_description) {
-            case 0 :
-                // only show Bacula Job Name (behavior as in earlier versions)
-                echo $this->escape($line['jobname']);
-                break;
-            case 1 :
-                // only show human readable short Job description instead of Bacula Job Name
-                if ( empty($line['short_desc']) ) 
-                    echo '<i>', $this->escape($line['jobname']), '</i>';
-                else 
-                    echo $this->escape($line['short_desc']);
-                break;
-            case 2 :
-                // both
-                echo $this->escape($line['jobname']);
-                if ( !empty($line['short_desc']) ) 
-                    echo '<br><i>', $this->escape($line['short_desc']), '</i>'; 
-                break;
-            default :
-                echo $this->escape($line['jobname']);
-                break;
-        }
-        ?>
-    </td>
-
-	<!-- Status -->
-	<?php
-		$class_td = '';
-		if ( $line['joberrors'] != 0 )	{
-		    if ( $line['jobstatus'] == 'T' )	{
-		        $class_td = 'class="warn"';
-		    } else {
-		        // 100% что была какая-то ошибка
-		        $class_td = 'class="err"';
-		    }
-			echo '<td ', $class_td, ' align="center"> ',
-			     $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
-		}
-		elseif	( $line['jobstatus'] == 'T' )	{
-			echo '<td align="center">OK</td>';
-		} else {
-		    // ошибок вроде нет, но что-то не в порядке
-		    if ( ($line['jobstatus'] == 'f') OR ($line['jobstatus'] == 'E') )	{
-		        // fatal error
-		        $class_td = 'class="err"';
-		    } else {
-		    	$class_td = 'class="warn"';
-		    }
-			echo '<td ', $class_td, ' align="center">',
-			     $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
-		}
-	?>
-
-	<td align="center"><?php echo $this->escape($line['level']);?></td>
-
-	<?php
-		$class = '';
-		if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warn"';
-		echo '<td ', $class, ' align="right">', number_format($line['jobfiles']), '</td>';
-		if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warn"';
-		echo '<td ', $class, ' align="right">', $this->convBytes($line['jobbytes']), '</td>';
-	?>
-
-	<!-- Errors -->
-	<?php
-		if ( $line['joberrors'] == 0 )
-			echo '<td align="right">-</td>';
-		else {
-		    echo '<td class="err" align="right">';
-		    echo '<a href="';
-			echo $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
-			     $this->translate->_("View Messages"), '" class="linkerr">';
-			echo $this->escape($line['joberrors']), '</a></td>';
-		}
-	?>
-
-	<td><?php echo $line['clientname'];?></td>
-
-	<td>
-		<?php
-			if ( isset($line['poolid']) && isset($line['poolname']) )	{
-				echo '<a href="';
-				echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']) .
-				"/name/", $this->escape($line['poolname']);
-				echo '" title="', $this->translate->_("Detail Volume"), '">';
-			}	else 	{
-				echo "&nbsp;";
-			}
-
-			if ( isset($line['poolid']) && isset($line['poolname']) )	{
-				echo $this->escape($line['poolname']);
-				echo '</a>';
-			}	else {
-				echo '&nbsp;';
-			}
-		?>
-	</td>
-
-	<td><?php echo $this->escape($line['starttime']);?></td>
-	<td><?php echo $this->escape($line['endtime']);?></td>
-	<td align="right"><?php echo $this->escape($line['durationtime']);?></td>
-
-        <!-- add to logbook button -->
-        <td style="padding: 0px; width:16px;"><?php
-        if ( isset($line['poolid'], $line['poolname']) )    {
-                echo '<a href="';
-                echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($line['jobname']),
-                    '/endtime/', $this->escape($line['endtime']),
-                    '/jobid/', $this->escape($line['jobid']),
-                    '/joberrors/', $this->escape($line['joberrors']);
-                echo '" title="', $this->translate->_("Written in Logbook"), '">';
-                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), '" border="0" hspace="2">';
-                echo '</a>';
-        }
-        ?>
-        </td>
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-<?php else: ?>
-<div class="ui-widget" style="float: left;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
-	</div>
-</div>
-<div style="clear: both;"><!--  --></div>
-<?php endif; ?>
+<div class="rows">
+   <div class="col-md-10">
+      <div class="panel panel-default panel-danger">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <?php if ($this->result): ?>
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover table-condensed">
+                     <thead>
+                        <tr>
+                           <th class="text-center">&nbsp;</th>
+                           <th class="text-center"> <?php print $this->translate->_("Job Id"); ?> </th>
+                           <th> 
+                           <?php 
+                              switch ($this->show_job_description) {
+                                  case 0 :
+                                      echo $this->translate->_("Job Name"); 
+                                      break;
+                                  case 1 :
+                                      echo $this->translate->_("Short Job Description"); 
+                                      break;
+                                  case 2 :
+                                      echo $this->translate->_("Job Name"), ' /<br>',
+                                           $this->translate->_("Short Job Description"); 
+                                      break;
+                                  default :
+                                      echo $this->translate->_("Job Name"); 
+                                      break;
+                              }
+                           ?> 
+                           </th>
+                           <th class="text-center"><?php print $this->translate->_("Status"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Level"); ?></th>
+                           <th class="text-right"><?php print $this->translate->_("Files"); ?></th>
+                           <th class="text-right"> <?php print $this->translate->_("Bytes"); ?> </th>
+                           <th class="text-center"><?php print $this->translate->_("Errors"); ?></th>
+                           <th class="text-left"><?php print $this->translate->_("Client"); ?></th>
+                           <th class="left-center"><?php print $this->translate->_("Pool"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Start Time"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("End Time"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Duration"); ?></th>
+                           <th class="text-center">&nbsp;</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                     <?php foreach($this->result as $line) : ?>
+                     <tr>
+                        <td>
+                            <?php
+                                if ( isset($line['jobname']) && ($line['type'] != 'R') )    {
+                                    // re-run button
+                                    echo '<a href="';
+                                    echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['jobname']);
+                                    echo '" title="', $this->translate->_("Re-run Job"), '">';
+                                    echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Re-run Job"), '">';
+                                    echo '</a>';
+                                }
+                            ?>
+                        </td>
+                        <td class="text-center">
+                           <?php
+                              if ( isset($line['poolid']) && isset($line['poolname']) )   {
+                                 echo '<a href="';
+                                 echo $this->baseUrl, '/job/detail/jobid/', $this->escape($line['jobid']);
+                                 echo '" title="', $this->translate->_("Detail Job"), '">';
+                              }
+                              echo $line['jobid'];
+                              if ( isset($line['poolid']) && isset($line['poolname']) )   {
+                                 echo '</a>';
+                              }
+                           ?>
+                        </td>
+                     
+                        <!-- Job.Name -->
+                        <td>
+                            <?php  
+                            switch ($this->show_job_description) {
+                                case 0 :
+                                    // only show Bacula Job Name (behavior as in earlier versions)
+                                    echo $this->escape($line['jobname']);
+                                    break;
+                                case 1 :
+                                    // only show human readable short Job description instead of Bacula Job Name
+                                    if ( empty($line['short_desc']) ) 
+                                        echo '<i>', $this->escape($line['jobname']), '</i>';
+                                    else 
+                                        echo $this->escape($line['short_desc']);
+                                    break;
+                                case 2 :
+                                    // both
+                                    echo $this->escape($line['jobname']);
+                                    if ( !empty($line['short_desc']) ) 
+                                        echo '<br/><i>', $this->escape($line['short_desc']), '</i>';
+                                    break;
+                                default :
+                                    echo $this->escape($line['jobname']);
+                                    break;
+                            }
+                            ?>
+                        </td>
+                     
+                        <!-- Status -->
+                        <?php
+                           $class_td = 'class="text-center"';
+                           if ( $line['joberrors'] != 0 ){
+                               if ( $line['jobstatus'] == 'T' ){
+                                   $class_td = 'class="text-center warning"';
+                               } else {
+                                   // 100% That there was some mistake
+                                   $class_td = 'class="text-center danger"';
+                               }
+                              echo '<td ', $class_td, '> ',
+                                   $this->translate->_( $this->escape($line['jobstatuslong']) ), ' </td>';
+                           }
+                           elseif   ( $line['jobstatus'] == 'T' ) {
+                              echo '<td class="text-center">OK</td>';
+                           } else {
+                               // Errors like no, but something is wrong
+                               if ( ($line['jobstatus'] == 'f') OR ($line['jobstatus'] == 'E') ){
+                                   // fatal error
+                                   $class_td = 'class="text-center danger"';
+                               } else {
+                                 $class_td = 'class="text-center warning"';
+                               }
+                              echo '<td ', $class_td, '>',
+                                   $this->translate->_( $this->escape($line['jobstatuslong']) ), '</td>';
+                           }
+                        ?>
+                     
+                        <td class="text-center"><?php echo $this->escape($line['level']);?></td>
+                     
+                        <?php
+                           $class = '';
+                           if ( ($line['jobfiles'] == 0) && ($line['type'] != 'D') ) $class = 'class="warning"';
+                           echo '<td ', $class, '>', number_format($line['jobfiles']), '</td>';
+                           if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') ) $class_td = 'class="warning"';
+                           echo '<td ', $class, '">', $this->convBytes($line['jobbytes']), '</td>';
+                        ?>
+                     
+                        <!-- Errors -->
+                        <?php
+                           if ( $line['joberrors'] == 0 )
+                              echo '<td class="text-center">-</td>';
+                           else {
+                               echo '<td class="text-center danger">';
+                               echo '<a href="';
+                              echo $this->baseUrl, '/log/view-log-id/jobid/', $this->escape($line['jobid']), '" title="',
+                                   $this->translate->_("View Messages"), '" class="danger">';
+                              echo $this->escape($line['joberrors']), '</a></td>';
+                           }
+                        ?>
+                     
+                        <td><?php echo $line['clientname'];?></td>
+                     
+                        <td>
+                           <?php
+                              if ( isset($line['poolid']) && isset($line['poolname']) )   {
+                                 echo '<a href="';
+                                 echo $this->baseUrl, "/volume/find-pool-id/id/", $this->escape($line['poolid']) .
+                                 "/name/", $this->escape($line['poolname']);
+                                 echo '" title="', $this->translate->_("Detail Volume"), '">';
+                              }  else  {
+                                 echo "";
+                              }
+                     
+                              if ( isset($line['poolid']) && isset($line['poolname']) )   {
+                                 echo $this->escape($line['poolname']);
+                                 echo '</a>';
+                              }  else {
+                                 echo '';
+                              }
+                           ?>
+                        </td>
+                     
+                        <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
+                        <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
+                        <td class="text-center"><?php echo $this->escape($line['durationtime']);?></td>
+                     
+                        <!-- add to logbook button -->
+                        <td>
+                           <?php
+                           if ( isset($line['poolid'], $line['poolname']) )    {
+                              echo '<a href="';
+                              echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($line['jobname']),
+                                  '/endtime/', $this->escape($line['endtime']),
+                                  '/jobid/', $this->escape($line['jobid']),
+                                  '/joberrors/', $this->escape($line['joberrors']);
+                              echo '" title="', $this->translate->_("Written in Logbook"), '">';
+                              echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"), '">';
+                              echo '</a>';
+                           }
+                           ?>
+                        </td>
+                     </tr>
+                     <?php endforeach; ?>
+                     </tbody>
+                  </table>
+               </div><!-- end div table-responsive -->
+               
+               <?php else: ?>
+               
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                 <p>
+                 <span class="glyphicon glyphicon-alert"></span>
+                 <?php print $this->translate->_("No Jobs found."); ?>
+                 </p>
+               </div>
+               <!-- end div alert -->
+               
+               <?php endif; ?>
+               
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-10 -->
+</div><!-- end div rows -->
+<!-- job/problem.phtml -->

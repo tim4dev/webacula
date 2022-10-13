@@ -2,97 +2,118 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#ok').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+   $('#ok').click(function() {
+      $.blockUI({
+         message: '<h4><?php print $this->translate->_("Please wait. Create temporary tables..."); ?></h4>',
+         css: {border: 'none', padding: '15px',  backgroundColor: '#000',  '-webkit-border-radius': '10px', '-moz-border-radius': '10px', opacity: .5,  color: '#fff' }
         });
     });
 });
 </script>
 
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>  
+               <div class="table-responsive">
+                  <table>
+                     <tr>
+                        <td colspan="3"></td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <form action="<?php  echo $this->baseUrl.'/restorejob/select-recent-files';?>" method="post">
+                              <input type="hidden" name="beginrecent"  id="beginrecent"  value="<?php echo $this->beginrecent; ?>">
+                               <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'btn btn-default')); ?>
+                           </form>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                           <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore-recent'; ?>">
+                              <?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
+                           </form>
+                        </td>
+                     </tr>
+                  </table>
+                  <br/>
+               </div><!-- end div table-responsive -->
+               
+               <?php if ($this->ajob_full): ?>
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover table-condensed">
+                     <thead>
+                        <tr>
+                           <th class="text-center"><?php print $this->translate->_("Job Id"); ?></th>
+                           <th class="text-left"><?php print $this->translate->_("Job Name"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Level"); ?></th>
+                           <th class="text-right"><?php print $this->translate->_("Files"); ?></th>
+                           <th class="text-right"><?php print $this->translate->_("Bytes"); ?></th>
+                           <th class="text-center"><?php print $this->translate->_("Start Time"); ?></th>
+                           <th class="text-left"><?php print $this->translate->_("Volume Name"); ?></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td class="text-center"><?php echo $this->ajob_full[0]['jobid']; ?></td>
+                           <td class="text-left"><?php echo $this->ajob_full[0]['jobname']; ?></td>
+                           <td class="text-center"><?php echo $this->ajob_full[0]['level']; ?></td>
+                           <td class="text-right"><?php echo $this->ajob_full[0]['jobfiles']; ?></td>
+                           <td class="text-right"><?php echo $this->convBytes($this->ajob_full[0]['jobbytes']); ?></td>
+                           <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($this->ajob_full[0]['starttime'])));?></td>
+                           <td class="text-left"><?php echo $this->ajob_full[0]['volumename']; ?></td>
+                        </tr>
+                        
+                        <?php if ($this->ajob_diff): ?>
+                           <?php foreach($this->ajob_diff as $line) : ?>
+                           <tr>
+                              <td class="text-center"><?php echo $line['jobid']; ?></td>
+                              <td class="text-left"><?php echo $line['jobname']; ?></td>
+                              <td class="text-center"><?php echo $line['level']; ?></td>
+                              <td class="text-right"><?php echo $line['jobfiles']; ?></td>
+                              <td class="text-right"><?php echo $this->convBytes($line['jobbytes']); ?></td>
+                              <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
+                              <td class="text-left"><?php echo $line['volumename']; ?></td>
+                           </tr>
+                           <?php endforeach; ?>
+                        <?php endif; ?>
+                        
+                        <?php if ($this->ajob_inc): ?>
+                           <?php foreach($this->ajob_inc as $line) : ?>
+                           <tr>
+                              <td class="text-center"><?php echo $line['jobid']; ?></td>
+                              <td class="text-left"><?php echo $line['jobname']; ?></td>
+                              <td class="text-center"><?php echo $line['level']; ?></td>
+                              <td class="text-right"><?php echo $line['jobfiles']; ?></td>
+                              <td class="text-right"><?php echo $this->convBytes($line['jobbytes']); ?></td>
+                              <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
+                              <td class="text-left"><?php echo $line['volumename']; ?></td>
+                           </tr>
+                           <?php endforeach; ?>
+                        <?php endif; ?>
+                     </tbody>
+                  </table>
+               </div><!-- end div table-responsive -->
+               
+               <?php else: ?>
+               
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                  <p>
+                  <span class="glyphicon glyphicon-alert"></span>
+                  <?php print $this->translate->_("No Jobs found.");; ?>
+                  </p>
+               </div>
+               <!-- end div alert -->
+               
+               <?php endif; ?>
 
-<table border="0" cellpadding="0" cellspacing="0">
-<tr><td colspan="3">
-<h1><?php echo $this->escape($this->title); ?></h1>
-</td></tr>
-<tr><td>
-<form action="<?php  echo $this->baseUrl.'/restorejob/select-recent-files';?>" method="post">
-	<input type="hidden" name="beginrecent"  id="beginrecent"  value="<?php echo $this->beginrecent; ?>">
-    <?php echo $this->formSubmit('ok', $this->translate->_('Next '), array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
-</form>
-</td>
-<td></td>
-<td>
-<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/cancel-restore-recent'; ?>">
-	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
-</form>
-</td></tr>
-</table>
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-6 -->
+</div><!-- end div rows -->
 
-<?php if ($this->ajob_full): ?>
-
-<table id="box-table">
-<thead>
-<tr>
-     <th scope="col"> <?php print $this->translate->_("Job Id"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Job Name"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Level"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Files"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Bytes"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Start Time"); ?> </th>
-     <th scope="col"> <?php print $this->translate->_("Volume Name"); ?> </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><?php echo $this->ajob_full[0]['jobid']; ?></td>
-<td><?php echo $this->ajob_full[0]['jobname']; ?></td>
-<td><?php echo $this->ajob_full[0]['level']; ?></td>
-<td><?php echo $this->ajob_full[0]['jobfiles']; ?></td>
-<td><?php echo $this->convBytes($this->ajob_full[0]['jobbytes']); ?></td>
-<td><?php echo $this->ajob_full[0]['starttime']; ?></td>
-<td><?php echo $this->ajob_full[0]['volumename']; ?></td>
-</tr>
-
-<?php if ($this->ajob_diff): ?>
-	<?php foreach($this->ajob_diff as $line) : ?>
-	<tr>
-	<td><?php echo $line['jobid']; ?></td>
-    <td><?php echo $line['jobname']; ?></td>
-	<td><?php echo $line['level']; ?></td>
-	<td><?php echo $line['jobfiles']; ?></td>
-	<td><?php echo $this->convBytes($line['jobbytes']); ?></td>
-	<td><?php echo $line['starttime']; ?></td>
-	<td><?php echo $line['volumename']; ?></td>
-	</tr>
-	<?php endforeach; ?>
-<?php endif; ?>
-
-<?php if ($this->ajob_inc): ?>
-	<?php foreach($this->ajob_inc as $line) : ?>
-	<tr>
-	<td><?php echo $line['jobid']; ?></td>
-    <td><?php echo $line['jobname']; ?></td>
-	<td><?php echo $line['level']; ?></td>
-	<td><?php echo $line['jobfiles']; ?></td>
-	<td><?php echo $this->convBytes($line['jobbytes']); ?></td>
-	<td><?php echo $line['starttime']; ?></td>
-	<td><?php echo $line['volumename']; ?></td>
-	</tr>
-	<?php endforeach; ?>
-<?php endif; ?>
-</tbody>
-</table>
-
-<?php else: ?>
-<div class="ui-widget" style="float: left;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
-	</div>
-</div>
-<div style="clear: both;"><!--  --></div>
-<?php endif; ?>

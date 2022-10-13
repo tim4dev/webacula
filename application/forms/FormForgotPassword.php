@@ -48,6 +48,8 @@ class FormForgotPassword extends Zend_Form
             'decorators' => $this->elDecorators,
             'required'   => true,
             'label' => $this->translate->_('Username'),
+			'class' => 'form-control',
+			'placeholder' => $this->translate->_('Username'),		
             'size' => 25,
             'maxlength' => 50
             ));
@@ -68,6 +70,8 @@ class FormForgotPassword extends Zend_Form
             'decorators' => $this->elDecorators,
             'required'   => true,
             'label' => $this->translate->_('Email'),
+			'class' => 'form-control',
+			'placeholder' => $this->translate->_('Email'),				
             'size' => 25,
             'maxlength' => 50
             ));
@@ -83,7 +87,7 @@ class FormForgotPassword extends Zend_Form
          */
         $submit = $this->createElement('submit', 'submit', array(
             'decorators' => array('ViewHelper', 'Errors'),
-            'class' => 'forgot-btn',
+            'class' => 'btn  btn-default',
             'id'    => 'submit',
             'label' => $this->translate->_('Submit new password')
         ));
@@ -108,7 +112,7 @@ class FormForgotPassword extends Zend_Form
         $this->addElement($login)
             ->addElement($email)
             ->addElement($submit)
-            ->addElement($captcha)
+            //->addElement($captcha)
             ->addElement($csrf);
     }
 

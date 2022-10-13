@@ -1,75 +1,74 @@
 <!-- admin/role-more-info.phtml -->
-<script type="text/javascript">
-$(function() {
-	$("#accordion").accordion({
-			autoHeight: false
-		});
-});
-</script>
-
-
-<div class="ui-widget">
-	<h3><?php echo $this->escape($this->title); ?></h3>
-</div>
-
-<div id="accordion" style="text-align: left; width: 58em;">
-<h3><a href="#"><?php print $this->translate->_("More info"); ?></a></h3>
-<div>
-
-<p>
-    <b>id :</b> <?php echo $this->escape($this->role_id); ?>
-</p>
-
-<p>
-    <b><?php echo $this->translate->_('Inherited roles'); ?> :</b>
-<?php if ($this->inherited_roles) : ?>
-    <?php
-        $str = '';
-        foreach($this->inherited_roles as  $role_id => $role_name) {
-            $str .= '<a href="' . $this->baseUrl . '/admin/role-main-form/role_id/' . $role_id . '">';
-            $str .= $this->escape($role_name) . '</a>, ';
-        }
-        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
-    ?>
-<?php else : ?>
-    <?php echo $this->translate->_('none'); ?>
-<?php endif; ?>
-</p>
-
-<br>
-<div class="ui-widget">
-    <h3><?php echo $this->translate->_('Who use this role'); ?> </h3>
-</div>
-
-<p>
-    <b><?php echo $this->translate->_('Roles'); ?> :</b>
-<?php
-    // roles
-    if ( $this->roles->count() > 0 ) {
-        $str = '';
-        foreach( $this->roles as $v) {
-            $str .= $v->name. ', ';
-        }
-        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
-    } else
-        echo $this->translate->_('none');
-?>
-</p>
-
-<p>
-    <b><?php echo $this->translate->_('Users'); ?> :</b>
-<?php
-    // users
-    if ( $this->users->count() > 0 )  {
-        $str = '';
-        foreach( $this->users as $v) {
-            $str .= $v->login. ', ';
-        }
-        echo substr_replace($str, '', -2); // удалить оставшийся разделитель
-    } else
-        echo $this->translate->_('none');
-?>
-</p>
-
-</div>
-</div>
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <h4><?php print $this->translate->_("More info"); ?></h4>
+               <!-- Id -->
+               <p>
+                  <b>Id: </b>
+                  <?php echo $this->escape($this->role_id); ?>
+               </p>
+               <!-- Inherited roles -->
+               <p>
+                  <b><?php echo $this->translate->_('Inherited roles');?>: </b>&nbsp;
+                     <?php if ($this->inherited_roles) : ?>
+                     <?php
+                         $str = '';
+                         foreach($this->inherited_roles as  $role_id => $role_name) {
+                             $str .= '<a href="' . $this->baseUrl . '/admin/role-main-form/role_id/' . $role_id . '">';
+                             $str .= $this->escape($role_name) . '</a>, ';
+                         }
+                         echo substr_replace($str, '', -2); // Remove the remaining separator
+                     ?>
+                     <?php else : ?>
+                     <?php echo $this->translate->_('None'); ?>
+                     <?php endif; ?>
+               </p>
+               <br/>
+               <h4><?php echo $this->translate->_('Who use this role'); ?> </h4>
+               <!-- Roles -->
+               <p>
+                  <b><?php echo $this->translate->_('Roles'); ?> :</b>
+                  <?php
+                   // roles
+                   if ( $this->roles->count() > 0 ) {
+                       $str = '';
+                       foreach( $this->roles as $v) {
+                           $str .= '<a href="' . $this->baseUrl . '/admin/role-main-form/role_id/' . $v->id . '">';
+                           $str .= $this->escape($v->name) . '</a>, ';
+                           
+                       }
+                       echo substr_replace($str, '', -2); // Remove the remaining separator
+                   } else
+                       echo $this->translate->_('None');
+                  ?>
+               </p>
+               <!-- Users -->
+               <p>
+                  <b><?php echo $this->translate->_('Users'); ?> :</b>
+                  <?php
+                  // users
+                  if ( $this->users->count() > 0 )  {
+                      $str = '';
+                      foreach( $this->users as $v) {
+                          $str .= $v->login. ', ';
+                      }
+                      echo substr_replace($str, '', -2); // Remove the remaining separator
+                  } else
+                      echo $this->translate->_('None');
+                  ?>
+               </p>
+               <form action="/webacula/admin/role-index" method="post">
+                  <input type="submit" name="back_button" id="voltar_FormRole" value="Voltar" class="btn btn-default">
+               </form>
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-6 -->
+</div><!-- end div rows -->
+<!-- admin/role-more-info.phtml -->

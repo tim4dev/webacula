@@ -45,7 +45,7 @@ class ErrorController extends Zend_Controller_Action
         $this->view->db_server_version_bacula = $db->getServerVersion();
 
         $ver = new Version();
-        $this->view->catalog_version_bacula = $ver->getVesion();
+        $this->view->catalog_version_bacula = $ver->getVersion();
         Zend_Loader::loadClass('Director');
         $dir = new Director();
         $this->view->director_version = $dir->getDirectorVersion();

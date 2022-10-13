@@ -42,11 +42,14 @@ class VolumeController extends MyClass_ControllerAclAction
         $order = addslashes(trim($this->_request->getParam('order', 'VolumeName')));
         $this->view->volname = $volname;
         if ($volname) {
-            $this->view->title = $this->view->translate->_("Volume") . " " . $volname;
+            $this->view->title = $this->view->translate->_("Volume") . ": " . $volname;
             $media = new Media();
             $this->view->result = $media->getByName($volname, $order);
-        } else
+        } else {
             $this->view->result = null;
+        }
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     function findPoolIdAction ()
@@ -58,12 +61,15 @@ class VolumeController extends MyClass_ControllerAclAction
         $this->view->pool_id = $pool_id;
         $this->view->pool_name = $pool_name;
         if ($pool_id) {
-            $this->view->title = $this->view->translate->_("Pool") . " " . $pool_name;
+            $this->view->title = $this->view->translate->_("Pool");
             $media = new Media();
             $this->view->result = $media->getById($pool_id, $order);
-        } else
+        } else {
             $this->view->result = null;
+        }
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -80,6 +86,8 @@ class VolumeController extends MyClass_ControllerAclAction
         // fix http://sourceforge.net/apps/trac/webacula/ticket/81
         //$this->view->resultVolumesNeedReplacement = $media->getVolumesNeedReplacement();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -99,6 +107,8 @@ class VolumeController extends MyClass_ControllerAclAction
         } else {
             $this->_helper->viewRenderer->setResponseSegment('volume_problem');
         }
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /*
@@ -114,8 +124,11 @@ class VolumeController extends MyClass_ControllerAclAction
             $this->view->result = $media->detail($media_id);
             $pools = new Pool();
             $this->view->pools = $pools->fetchAll();
-        } else
+        } else {
             $this->view->result = null;
+        }
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     function updateAction ()

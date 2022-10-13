@@ -52,7 +52,7 @@ class FeedController extends MyClass_ControllerAclAction
         );
         // terminated Jobs
         $jobs = new Job();
-        $result = $jobs->getTerminatedJobs();
+        $result = $jobs->getTerminatedJobs(1);
         foreach ($result as $item) {
             // convert date to timestamp format
             $date = new Zend_Date($item['starttime'], 'YYYY-MM-dd HH:mm:ss');

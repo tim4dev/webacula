@@ -1,463 +1,709 @@
 <!-- admin/role-main-form.phtml -->
 <script type="text/javascript">
 $(function() {
-	// tabs
-    $("#tabs").tabs(
-<?php
-    if ($this->tabs_selected)
-        echo '{ selected: ', $this->tabs_selected, ' }';
-?>
-    );
+   var current_tab = <?php echo (int)($this->tabs_selected + 1); ?>;
+   $('.nav-tabs a[href="#tab' + current_tab + '"]').tab('show');
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
 
+   $('a.confirm').click(function(e){
+      var targetUrl = $(this).attr("href");
+      $('#dialog-confirm').dialog({
+           modal: true,
+           buttons : [
+              {  
+               'text' : '<?php echo $this->translate->_('Yes'); ?>',
+               'class' : 'btn btn-default',
+               'width' : '75px',
+               click: function(){ window.location.href = targetUrl; }
+              },
+              {
+               'text' : '<?php echo $this->translate->_('No'); ?>',
+               'class' : 'btn btn-default',
+               'width' : '75px',
+               click: function(){ $(this).dialog("close"); }
+              }  
+           ],
+           open: function(event){
+              $('.ui-dialog-buttonpane').find('button').removeClass('ui-button ui-corner-all ui-widget');
+           }
+      });
+      e.preventDefault();
+   });
+   
+});
+</script>
 
-<div class="ui-widget">
-	<h3>
-        <?php echo $this->escape($this->title);?>
-    </h3>
-    <form method="POST" action="<?php echo $this->baseUrl;?>/admin/role-more-info/role_id/<?php echo $this->role_id; ?>" style="margin-bottom: 1em;">
-        <input type="submit" name="name1" value="<?php echo $this->translate->_('More info') ?>" class="ui-button ui-state-default ui-corner-all" />
-    </form>    
+<!-- dialog confirm -->
+<div id="dialog-confirm" title="<?php echo $this->translate->_("Message"); ?>" style="display:none">
+  <p><span class="ui-icon ui-icon-alert"></span><?php echo $this->translate->_("Are you sure you want to delete the record?"); ?></p>
 </div>
+<!-- end dialog confirm -->
 
 
-<?php if ( !empty($this->exception) ) : ?>
-<!-- database, and other errors-->
-<div class="ui-widget" style="width: 58em;">
-    <div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-        <strong><?php echo $this->exception; ?></strong></p>
-    </div>
+<div class="rows">
+<div class="col-md-8">
+<div class="panel panel-default panel-primary">
+<div class="panel-heading">
+   <?php echo $this->escape($this->title); ?>
 </div>
-<?php endif;?>
+<div class="panel-body">
+<p>
 
+<div>
 
-<div id="tabs" style="width: 62em;">
-<ul>
-    <li><a href="#tab-role">     <?php echo $this->translate->_('Role'); ?>          </a></li>
-    <li><a href="#tab-webacula"> <?php echo $this->translate->_('Webacula ACL'); ?>  </a></li>
-    <li><a href="#tab-client">   <?php echo $this->translate->_('Client'); ?>        </a></li>
-    <li><a href="#tab-command">  <?php echo $this->translate->_('Command'); ?>       </a></li>
-    <li><a href="#tab-fileset">  <?php echo $this->translate->_('FileSet'); ?>       </a></li>
-    <li><a href="#tab-job">      <?php echo $this->translate->_('Job'); ?>           </a></li>
-    <li><a href="#tab-pool">     <?php echo $this->translate->_('Pool'); ?>          </a></li>
-    <li><a href="#tab-storage">  <?php echo $this->translate->_('Storage'); ?>       </a></li>
-    <li><a href="#tab-where">    <?php echo $this->translate->_('Where'); ?>         </a></li>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation"><a href="#tab1" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Role'); ?></a></li>
+  <li role="presentation"><a href="#tab2" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Webacula ACL'); ?></a></li>
+  <li role="presentation"><a href="#tab3" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Client'); ?></a></li>
+  <li role="presentation"><a href="#tab4" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Command'); ?></a></li>
+  <li role="presentation"><a href="#tab5" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('FileSet'); ?></a></li>
+  <li role="presentation"><a href="#tab6" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Job'); ?></a></li>
+  <li role="presentation"><a href="#tab7" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Pool'); ?></a></li>
+  <li role="presentation"><a href="#tab8" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Storage'); ?></a></li>
+  <li role="presentation"><a href="#tab9" aria-controls="tab" role="tab" data-toggle="tab"><?php echo $this->translate->_('Where'); ?></a></li>
 </ul>
 
+<!-- Tab panes -->
+<div class="tab-content">
+   
+   <!-- tab1 Role -->
+   <div role="tabpanel" class="tab-pane" id="tab1">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- role form -->
+      <div class="col-md-6">
+      <form  action="<?php echo $this->form_role->getAction();  ?>"
+             method="<?php echo $this->form_role->getMethod();  ?>">
+          <?php echo $this->form_role->role_id; ?>
+          <?php echo $this->form_role->acl; ?>
+          <?php echo $this->form_role->order; ?>
+          <?php echo $this->form_role->role_name; ?>
+          <?php echo $this->form_role->description; ?>
+          <?php echo $this->form_role->inherit_id; ?>
+      <br/>
+      <table>
+         <tr>
+            <td>
+                <?php echo $this->form_role->submit_button; ?>
+            </form>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+               <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                      method="<?php echo $this->form_role->getMethod();  ?>">
+                  <?php echo $this->form_role->cancel_button; ?>
+               </form>
+            </td>
+         </tr>
+      </table>
+      </div><!-- end div col-md-6 -->
+      <!-- end role form -->   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab1 -->
+   <!-- end tab1 Role -->
+   
+   <!-- tab2 Webacula ACL -->
+   <div role="tabpanel" class="tab-pane" id="tab2">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- webacula ACLs form -->
+      <div class="col-md-6">
+      <form  action="<?php echo $this->form_webacula->getAction();  ?>"
+             method="<?php echo $this->form_webacula->getMethod();  ?>">
+          <?php echo $this->form_webacula->role_id; ?>
+          <?php echo $this->form_webacula->role_name; ?>
+          <?php echo $this->form_webacula->acl; ?>
+      
+          <?php echo $this->form_webacula->webacula_resources; ?>
+      <br/>
+      <table>
+         <tr>
+            <td>
+                <?php echo $this->form_role->submit_button; ?>
+            </form>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+            <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                   method="<?php echo $this->form_role->getMethod();  ?>">
+               <?php echo $this->form_role->cancel_button; ?>
+            </form>
+            </td>
+         </tr>
+      </table>
+      </div><!-- end div col-md-6 -->
+      <!-- end webacula ACLs form -->
+   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab2 -->
+   <!-- end tab2 Webacula ACL -->
+   
+   <!-- tab3 Client -->
+   <div role="tabpanel" class="tab-pane" id="tab3">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Client ACL form -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_client->getAction(); ?>"
+                method="<?php echo $this->form_client->getMethod(); ?>">
+             <?php echo $this->form_client->role_id;   ?>
+             <?php echo $this->form_client->role_name; ?>
+             <?php echo $this->form_client->acl; ?>
+             <?php echo $this->form_client->order; ?>
+             <?php echo $this->form_client->name;  ?>
+             <?php echo $this->form_client->id;    ?>
+         <br/>
+         <table>
+            <tr>
+               <td>
+                   <?php echo $this->form_client->submit_button; ?>
+               </form>
+               </td>
+               <td>&nbsp;&nbsp;&nbsp;</td>
+               <td>
+               <form  action="<?php echo $this->form_client->getActionCancel();  ?>"
+                      method="<?php echo $this->form_client->getMethod();  ?>">
+                  <?php echo $this->form_client->cancel_button; ?>
+               </form>
+               </td>
+            </tr>
+         </table>
+         <br/>
+      </div><!-- end div col-md-6 -->
+      <br/><br/>
+      
+      <div class="col-md-6">
+         <table class="table table-striped table-hover table-condensed table-bordered">
+            <thead>
+            <tr>
+                <th class="text-center"><?php echo $this->translate->_('Id'); ?> </th>
+                <th> <?php echo $this->translate->_('Name'); ?> </th>
+                <th class="text-center"> <?php echo $this->translate->_('Order'); ?> </th>
+                <th>&nbsp;</th>
+            </tr>
+            
+            </thead>
+            <tbody>
+            <?php foreach($this->rows_client as $line) : ?>
+               <tr>
+                  <td class="text-center">
+                      &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
+                  </td>
+                  <td>
+                      &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
+                  </td>
+                  <td class="text-center">
+                      &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
+                  </td>
+                  <td>
+                      <a href="<?php echo $this->baseUrl;?>/admin/client-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
+                          <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                      </a>
+                      <a href="<?php echo $this->baseUrl;?>/admin/client-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                          <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                      </a>
+                  </td>
+               </tr>
+            <?php endforeach; ?>
+            </tbody>
+         </table>
+      </div><!-- end div class col-md-6 -->
+      
+      <div class="col-md-6">
+          <form  action="<?php echo $this->form_bacula_fill_client->getAction();  ?>"
+                  method="<?php echo $this->form_bacula_fill_client->getMethod();  ?>">
+              <?php echo $this->form_bacula_fill_client->role_id; ?>
+              <?php echo $this->form_bacula_fill_client->role_name; ?>
+              <?php echo $this->form_bacula_fill_client->bacula_fill; ?>
+              <br/>
+              <?php echo $this->form_bacula_fill_client->submit_button; ?>
+          </form>
+      </div><!-- end div class col-md-6 -->
+      <!-- end Client ACL form -->
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab3 -->
+   <!-- end tab3 Client -->
+   
+   <!-- tab4 Command -->
+   <div role="tabpanel" class="tab-pane" id="tab4">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Command ACLs -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_commands->getAction();  ?>"
+                method="<?php echo $this->form_commands->getMethod();  ?>">
+             <?php echo $this->form_commands->role_id; ?>
+             <?php echo $this->form_commands->role_name; ?>
+             <?php echo $this->form_commands->acl; ?>
+             <?php echo $this->form_commands->bacula_commands; ?>
+             <br/>
+         <table>
+         <tr>
+         <td>
+             <?php echo $this->form_role->submit_button; ?>
+         </form>
+         </td>
+         <td>&nbsp;&nbsp;&nbsp;</td>
+         <td>
+         <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                method="<?php echo $this->form_role->getMethod();  ?>">
+            <?php echo $this->form_role->cancel_button; ?>
+         </form>
+         </td>
+         </tr>
+         </table>
+      </div><!-- end div class col-md-6 -->
+      <!-- end Clent ACLs -->   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab4 -->
+   <!-- end tab4 Command -->
+   
+   <!-- tab5 FileSet -->
+   <div role="tabpanel" class="tab-pane" id="tab5">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Fileset ACL form -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_fileset->getAction(); ?>"
+                method="<?php echo $this->form_fileset->getMethod(); ?>">
+             <?php echo $this->form_fileset->role_id;   ?>
+             <?php echo $this->form_fileset->role_name; ?>
+             <?php echo $this->form_fileset->acl; ?>
+             <?php echo $this->form_fileset->order; ?>
+             <?php echo $this->form_fileset->name;  ?>
+             <?php echo $this->form_fileset->id;    ?>
+         <br/>
+         <table>
+         <tr>
+         <td>
+             <?php echo $this->form_role->submit_button; ?>
+         </form>
+         </td>
+         <td>&nbsp;&nbsp;&nbsp;</td>
+         <td>
+         <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                method="<?php echo $this->form_role->getMethod();  ?>">
+            <?php echo $this->form_role->cancel_button; ?>
+         </form>
+         </td>
+         </tr>
+         </table>
+      </div><!-- end div col-md-6 -->
+      <br/><br/>
+      <div class="col-md-6">
+         <table class="table table-striped table-hover table-condensed table-bordered">
+         <thead>
+         <tr>
+             <th class="text-center"><?php echo $this->translate->_('Id'); ?> </th>
+             <th><?php echo $this->translate->_('Name'); ?> </th>
+             <th class="text-center"> <?php echo $this->translate->_('Order'); ?> </th>
+             <th>&nbsp;</th>
+         </tr>
+         </thead>
+         <tbody>
+         <?php foreach($this->rows_fileset as $line) : ?>
+             <tr>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['id']);?>
+                 </td>
+                 <td>
+                     <?php echo $this->escape($line['name']);?>
+                 </td>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['order_acl']);?>
+                 </td>
+                 <td>
+                     <a href="<?php echo $this->baseUrl;?>/admin/fileset-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                     <a href="<?php echo $this->baseUrl;?>/admin/fileset-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                 </td>
+             </tr>
+         <?php endforeach; ?>
+         </tbody>
+         </table>
+      </div><!-- end div col-md-6 -->
+      
+      <div class="col-md-6">
+          <form  action="<?php echo $this->form_bacula_fill_fileset->getAction();  ?>"
+                  method="<?php echo $this->form_bacula_fill_fileset->getMethod();  ?>">
+              <?php echo $this->form_bacula_fill_fileset->role_id; ?>
+              <?php echo $this->form_bacula_fill_fileset->role_name; ?>
+              <?php echo $this->form_bacula_fill_fileset->bacula_fill; ?>
+              <br/>
+              <?php echo $this->form_bacula_fill_fileset->submit_button; ?>
+          </form>
+      </div><!-- end div col-md-6 -->
+      <!-- end Fileset ACL form -->
+   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab5 -->
+   <!-- end tab5 FileSet -->
 
+   <!-- tab6 Job -->
+   <div role="tabpanel" class="tab-pane" id="tab6">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Job ACLs -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_job->getAction(); ?>"
+                method="<?php echo $this->form_job->getMethod(); ?>">
+             <?php echo $this->form_job->role_id;   ?>
+             <?php echo $this->form_job->role_name; ?>
+             <?php echo $this->form_job->acl; ?>
+             <?php echo $this->form_job->order; ?>
+             <?php echo $this->form_job->name;  ?>
+             <?php echo $this->form_job->id;    ?>
+             <br/>
+         <table>
+         <tr>
+         <td>
+             <?php echo $this->form_role->submit_button; ?>
+         </form>
+         </td>
+         <td>&nbsp;&nbsp;&nbsp;</td>
+         <td>
+         <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                method="<?php echo $this->form_role->getMethod();  ?>">
+            <?php echo $this->form_role->cancel_button; ?>
+         </form>
+         </td>
+         </tr>
+         </table>
+      </div><!-- end div col-md-6 -->
+      <br/><br/>
+      
+      <div class="col-md-6">
+         <table class="table table-striped table-hover table-condensed table-bordered">
+         <thead>
+         <tr>
+             <th class="text-center"><?php echo $this->translate->_('Id'); ?> </th>
+             <th> <?php echo $this->translate->_('Name'); ?> </th>
+             <th class="text-center"> <?php echo $this->translate->_('Order'); ?> </th>
+             <th>&nbsp;</th>
+         </tr>
+         </thead>
+         <tbody>
+         <?php foreach($this->rows_job as $line) : ?>
+             <tr>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['id']);?>
+                 </td>
+                 <td>
+                     <?php echo $this->escape($line['name']);?>
+                 </td>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['order_acl']);?>
+                 </td>
+                 <td>
+                     <a href="<?php echo $this->baseUrl;?>/admin/job-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                     <a href="<?php echo $this->baseUrl;?>/admin/job-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                 </td>
+             </tr>
+         <?php endforeach; ?>
+         </tbody>
+         </table>
+      </div><!-- end div col-md-6 -->
+      
+      <div class="col-md-6">
+          <form  action="<?php echo $this->form_bacula_fill_job->getAction();  ?>"
+                 method="<?php echo $this->form_bacula_fill_job->getMethod();  ?>">
+              <?php echo $this->form_bacula_fill_job->role_id; ?>
+              <?php echo $this->form_bacula_fill_job->role_name; ?>
+              <?php echo $this->form_bacula_fill_job->bacula_fill; ?>
+              <br/>
+              <?php echo $this->form_bacula_fill_job->submit_button; ?>
+          </form>
+      </div><!-- end div col-md-6 -->
+      <!-- end Job ACLs -->
+   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab6 -->
+   <!-- end tab6 Job -->
+   
+   <!-- tab7 Pool -->
+   <div role="tabpanel" class="tab-pane" id="tab7">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Pool ACL form -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_pool->getAction(); ?>"
+                method="<?php echo $this->form_pool->getMethod(); ?>">
+             <?php echo $this->form_pool->role_id;   ?>
+             <?php echo $this->form_pool->role_name; ?>
+             <?php echo $this->form_pool->acl; ?>
+             <?php echo $this->form_pool->order; ?>
+             <?php echo $this->form_pool->name;  ?>
+             <?php echo $this->form_pool->id;    ?>
+             <br/>
+         <table>
+         <tr>
+         <td>
+             <?php echo $this->form_role->submit_button; ?>
+         </form>
+         </td>
+         <td>&nbsp;&nbsp;&nbsp;</td>
+         <td>
+         <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                method="<?php echo $this->form_role->getMethod();  ?>">
+            <?php echo $this->form_role->cancel_button; ?>
+         </form>
+         </td>
+         </tr>
+         </table>
+      </div><!-- end div col-md-6 -->
+      <br/><br/>
+      
+      <div class="col-md-6">
+         <table class="table table-striped table-hover table-condensed table-bordered">
+         <thead>
+         <tr>
+             <th class="text-center"><?php echo $this->translate->_('Id'); ?> </th>
+             <th> <?php echo $this->translate->_('Name'); ?> </th>
+             <th class="text-center"> <?php echo $this->translate->_('Order'); ?> </th>
+             <th>&nbsp;</th>
+         </tr>
+         </thead>
+         <tbody>
+         <?php foreach($this->rows_pool as $line) : ?>
+             <tr>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['id']);?>
+                 </td>
+                 <td>
+                     <?php echo $this->escape($line['name']);?>
+                 </td>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['order_acl']);?>
+                 </td>
+                 <td>
+                     <a href="<?php echo $this->baseUrl;?>/admin/pool-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                     <a href="<?php echo $this->baseUrl;?>/admin/pool-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                 </td>
+             </tr>
+         <?php endforeach; ?>
+         </tbody>
+         </table>
+      </div><!-- end div col-md-6 -->
+      
+      <div class="col-md-6">
+          <form  action="<?php echo $this->form_bacula_fill_pool->getAction();  ?>"
+                 method="<?php echo $this->form_bacula_fill_pool->getMethod();  ?>">
+              <?php echo $this->form_bacula_fill_pool->role_id; ?>
+              <?php echo $this->form_bacula_fill_pool->role_name; ?>
+              <?php echo $this->form_bacula_fill_pool->bacula_fill; ?>
+              <br/>
+              <?php echo $this->form_bacula_fill_pool->submit_button; ?>
+          </form>
+      </div><!-- end div col-md-6 -->
+      <!-- end Pool ACL form -->
+   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab7 -->
+   <!-- end tab7 Pool-->
+   
+   <!-- tab8 Storage -->
+   <div role="tabpanel" class="tab-pane" id="tab8">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Storage ACL form -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_storage->getAction(); ?>"
+                method="<?php echo $this->form_storage->getMethod(); ?>">
+             <?php echo $this->form_storage->role_id;   ?>
+             <?php echo $this->form_storage->role_name; ?>
+             <?php echo $this->form_storage->acl; ?>
+             <?php echo $this->form_storage->order; ?>
+             <?php echo $this->form_storage->name;  ?>
+             <?php echo $this->form_storage->id;    ?>
+             <br/>
+         <table>
+         <tr>
+         <td>
+             <?php echo $this->form_role->submit_button; ?>
+         </form>
+         </td>
+         <td>&nbsp;&nbsp;&nbsp;</td>
+         <td>
+         <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                method="<?php echo $this->form_role->getMethod();  ?>">
+            <?php echo $this->form_role->cancel_button; ?>
+         </form>
+         </td>
+         </tr>
+         </table>
+      </div><!-- end div col-md-6 -->
+      <br/><br/>
+      
+      <div class="col-md-6">
+         <table class="table table-striped table-hover table-condensed table-bordered">
+         <thead>
+         <tr>
+             <th class="text-center"><?php echo $this->translate->_('Id'); ?> </th>
+             <th> <?php echo $this->translate->_('Name'); ?> </th>
+             <th class="text-center"> <?php echo $this->translate->_('Order'); ?> </th>
+             <th>&nbsp;</th>
+         </tr>
+         </thead>
+         <tbody>
+         <?php foreach($this->rows_storage as $line) : ?>
+             <tr>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['id']);?>
+                 </td>
+                 <td>
+                     <?php echo $this->escape($line['name']);?>
+                 </td>
+                 <td class="text-center">
+                     <?php echo $this->escape($line['order_acl']);?>
+                 </td>
+                 <td>
+                     <a href="<?php echo $this->baseUrl;?>/admin/storage-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                     <a href="<?php echo $this->baseUrl;?>/admin/storage-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                         <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                     </a>
+                 </td>
+             </tr>
+         <?php endforeach; ?>
+         </tbody>
+         </table>
+      </div><!-- end div col-md-6 -->
+      
+      <div class="col-md-6">
+          <form  action="<?php echo $this->form_bacula_fill_storage->getAction();  ?>"
+                 method="<?php echo $this->form_bacula_fill_storage->getMethod();  ?>">
+              <?php echo $this->form_bacula_fill_storage->role_id; ?>
+              <?php echo $this->form_bacula_fill_storage->role_name; ?>
+              <?php echo $this->form_bacula_fill_storage->bacula_fill; ?>
+              <br/>
+              <?php echo $this->form_bacula_fill_storage->submit_button; ?>
+          </form>
+      </div><!-- end div col-md-6 -->
+      <!-- end Storage ACL form -->
 
-<!-- role form -->
-<div id="tab-role">
-<form  action="<?php echo $this->form_role->getAction();  ?>"
-       method="<?php echo $this->form_role->getMethod();  ?>">
-    <?php echo $this->form_role->role_id; ?>
-    <?php echo $this->form_role->acl; ?>
-    <?php echo $this->form_role->order; ?>
-    <?php echo $this->form_role->role_name; ?>
-    <?php echo $this->form_role->description; ?>
-    <?php echo $this->form_role->inherit_id; ?>
-    <?php echo $this->form_role->submit; ?>
-    <?php echo $this->form_role->reset; ?>
-</form>
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab8 -->
+   <!-- end tab8 Storage -->
+   
+   <!-- tab9 Where -->
+   <div role="tabpanel" class="tab-pane" id="tab9">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- Where ACLs -->
+      <div class="col-md-6">
+         <form  action="<?php echo $this->form_where->getAction(); ?>"
+                method="<?php echo $this->form_where->getMethod(); ?>">
+             <?php echo $this->form_where->role_id;   ?>
+             <?php echo $this->form_where->role_name; ?>
+             <?php echo $this->form_where->acl; ?>
+             <?php echo $this->form_where->order; ?>
+             <?php echo $this->form_where->name;  ?>
+             <?php echo $this->form_where->id;    ?>
+             <br/>
+         <table>
+         <tr>
+         <td>
+             <?php echo $this->form_role->submit_button; ?>
+         </form>
+         </td>
+         <td>&nbsp;&nbsp;&nbsp;</td>
+         <td>
+         <form  action="<?php echo $this->form_role->getActionCancel();  ?>"
+                method="<?php echo $this->form_role->getMethod();  ?>">
+            <?php echo $this->form_role->cancel_button; ?>
+         </form>
+         </td>
+         </tr>
+         </table>
+      </div><!-- end div col-md-6 -->
+      <br/><br/>
+      
+      <div class="col-md-6">
+      <table class="table table-striped table-hover table-condensed table-bordered">
+      <thead>
+      <tr>
+          <th class="text-center"><?php echo $this->translate->_('Id'); ?> </th>
+          <th> <?php echo $this->translate->_('Name'); ?> </th>
+          <th class="text-center"> <?php echo $this->translate->_('Order'); ?> </th>
+          <th>&nbsp;</th>
+      </tr>
+      </thead>
+      <tbody>
+      <?php foreach($this->rows_where as $line) : ?>
+          <tr>
+              <td class="text-center">
+                  <?php echo $this->escape($line['id']);?>
+              </td>
+              <td>
+                  <?php echo $this->escape($line['name']);?>
+              </td>
+              <td class="text-center">
+                  <?php echo $this->escape($line['order_acl']);?>
+              </td>
+              <td>
+                  <a href="<?php echo $this->baseUrl;?>/admin/where-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
+                      <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
+                  </a>
+                  <a href="<?php echo $this->baseUrl;?>/admin/where-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
+                      <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
+                  </a>
+              </td>
+          </tr>
+      <?php endforeach; ?>
+      </tbody>
+      </table>
+      </div><!-- end div col-md-6 -->
+      <!-- end Where ACLs -->
+   
+   </div><!-- end div row -->
+   </div><!-- end div container-fluid -->
+   </div><!-- end div tab9 -->
+   <!-- end tab9 Where -->
+   
+</div><!-- end div tabcontent -->
+</div><!-- end div nav -->
+
+<?php if ( !empty($this->exception) ) : ?>
+
+<!-- div alert -->
+<div class="alert alert-danger">
+   <p>
+   <span class="glyphicon glyphicon-alert"></span>
+   <?php echo $this->exception; ?>
+   </p>
 </div>
-<!-- end role form -->
+<!-- end div alert -->
 
+<?php endif;?>
 
-
-<!-- webacula ACLs -->
-<div id="tab-webacula">
-<form  action="<?php echo $this->form_webacula->getAction();  ?>"
-       method="<?php echo $this->form_webacula->getMethod();  ?>">
-    <?php echo $this->form_webacula->role_id; ?>
-    <?php echo $this->form_webacula->role_name; ?>
-    <?php echo $this->form_webacula->acl; ?>
-    <?php echo $this->form_webacula->webacula_resources; ?>
-    <?php echo $this->form_webacula->submit; ?>
-    <?php echo $this->form_webacula->reset; ?>
-</form>
-</div>
-<!-- end webacula ACLs -->
-
-
-
-<!-- Client ACL form -->
-<div id="tab-client">
-<form  action="<?php echo $this->form_client->getAction(); ?>"
-       method="<?php echo $this->form_client->getMethod(); ?>">
-    <?php echo $this->form_client->role_id;   ?>
-    <?php echo $this->form_client->role_name; ?>
-    <?php echo $this->form_client->acl; ?>
-    <?php echo $this->form_client->order; ?>
-    <?php echo $this->form_client->name;  ?>
-    <?php echo $this->form_client->id;    ?>
-    <?php echo $this->form_client->submit;?>
-    <?php echo $this->form_client->reset; ?>
-</form>
-
-<table id="box-table-admin" border="0">
-<thead>
-<tr>
-    <th scope="col">id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->rows_client as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/client-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/client-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-    <div class="div-bacula-fill">
-        <form  action="<?php echo $this->form_bacula_fill_client->getAction();  ?>"
-                method="<?php echo $this->form_bacula_fill_client->getMethod();  ?>">
-            <?php echo $this->form_bacula_fill_client->role_id; ?>
-            <?php echo $this->form_bacula_fill_client->role_name; ?>
-            <?php echo $this->form_bacula_fill_client->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_client->submit; ?>
-        </form>
-    </div>
-</div>
-<!-- end Client ACL form -->
-
-
-
-<!-- Command ACLs -->
-<div id="tab-command">
-<form  action="<?php echo $this->form_commands->getAction();  ?>"
-       method="<?php echo $this->form_commands->getMethod();  ?>">
-    <?php echo $this->form_commands->role_id; ?>
-    <?php echo $this->form_commands->role_name; ?>
-    <?php echo $this->form_commands->acl; ?>
-    <?php echo $this->form_commands->bacula_commands; ?>
-    <?php echo $this->form_commands->submit; ?>
-    <?php echo $this->form_commands->reset; ?>
-</form>
-</div>
-<!-- end Clent ACLs -->
-
-
-
-<!-- Fileset ACL form -->
-<div id="tab-fileset">
-<form  action="<?php echo $this->form_fileset->getAction(); ?>"
-       method="<?php echo $this->form_fileset->getMethod(); ?>">
-    <?php echo $this->form_fileset->role_id;   ?>
-    <?php echo $this->form_fileset->role_name; ?>
-    <?php echo $this->form_fileset->acl; ?>
-    <?php echo $this->form_fileset->order; ?>
-    <?php echo $this->form_fileset->name;  ?>
-    <?php echo $this->form_fileset->id;    ?>
-    <?php echo $this->form_fileset->submit;?>
-    <?php echo $this->form_fileset->reset; ?>
-</form>
-    
-<table id="box-table-admin" border="0">
-<thead>
-<tr>
-    <th scope="col">id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->rows_fileset as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/fileset-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/fileset-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-    <div class="div-bacula-fill">
-        <form  action="<?php echo $this->form_bacula_fill_fileset->getAction();  ?>"
-                method="<?php echo $this->form_bacula_fill_fileset->getMethod();  ?>">
-            <?php echo $this->form_bacula_fill_fileset->role_id; ?>
-            <?php echo $this->form_bacula_fill_fileset->role_name; ?>
-            <?php echo $this->form_bacula_fill_fileset->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_fileset->submit; ?>
-        </form>
-    </div>
-</div>
-<!-- end Fileset ACL form -->
-
-
-
-<!-- Job ACLs -->
-<div id="tab-job">
-<form  action="<?php echo $this->form_job->getAction(); ?>"
-       method="<?php echo $this->form_job->getMethod(); ?>">
-    <?php echo $this->form_job->role_id;   ?>
-    <?php echo $this->form_job->role_name; ?>
-    <?php echo $this->form_job->acl; ?>
-    <?php echo $this->form_job->order; ?>
-    <?php echo $this->form_job->name;  ?>
-    <?php echo $this->form_job->id;    ?>
-    <?php echo $this->form_job->submit;?>
-    <?php echo $this->form_job->reset; ?>
-</form>
-
-<table id="box-table-admin" border="0">
-<thead>
-<tr>
-    <th scope="col">id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->rows_job as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/job-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/job-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-    <div class="div-bacula-fill">
-        <form  action="<?php echo $this->form_bacula_fill_job->getAction();  ?>"
-               method="<?php echo $this->form_bacula_fill_job->getMethod();  ?>">
-            <?php echo $this->form_bacula_fill_job->role_id; ?>
-            <?php echo $this->form_bacula_fill_job->role_name; ?>
-            <?php echo $this->form_bacula_fill_job->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_job->submit; ?>
-        </form>
-    </div>
-</div>
-<!-- end Job ACLs -->
-
-
-
-<!-- Pool ACL form -->
-<div id="tab-pool">
-<form  action="<?php echo $this->form_pool->getAction(); ?>"
-       method="<?php echo $this->form_pool->getMethod(); ?>">
-    <?php echo $this->form_pool->role_id;   ?>
-    <?php echo $this->form_pool->role_name; ?>
-    <?php echo $this->form_pool->acl; ?>
-    <?php echo $this->form_pool->order; ?>
-    <?php echo $this->form_pool->name;  ?>
-    <?php echo $this->form_pool->id;    ?>
-    <?php echo $this->form_pool->submit;?>
-    <?php echo $this->form_pool->reset; ?>
-</form>
-
-<table id="box-table-admin" border="0">
-<thead>
-<tr>
-    <th scope="col">id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->rows_pool as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/pool-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/pool-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-    <div class="div-bacula-fill">
-        <form  action="<?php echo $this->form_bacula_fill_pool->getAction();  ?>"
-               method="<?php echo $this->form_bacula_fill_pool->getMethod();  ?>">
-            <?php echo $this->form_bacula_fill_pool->role_id; ?>
-            <?php echo $this->form_bacula_fill_pool->role_name; ?>
-            <?php echo $this->form_bacula_fill_pool->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_pool->submit; ?>
-        </form>
-    </div>
-</div>
-<!-- end Pool ACL form -->
-
-
-
-<!-- Storage ACL form -->
-<div id="tab-storage">
-<form  action="<?php echo $this->form_storage->getAction(); ?>"
-       method="<?php echo $this->form_storage->getMethod(); ?>">
-    <?php echo $this->form_storage->role_id;   ?>
-    <?php echo $this->form_storage->role_name; ?>
-    <?php echo $this->form_storage->acl; ?>
-    <?php echo $this->form_storage->order; ?>
-    <?php echo $this->form_storage->name;  ?>
-    <?php echo $this->form_storage->id;    ?>
-    <?php echo $this->form_storage->submit;?>
-    <?php echo $this->form_storage->reset; ?>
-</form>
-
-<table id="box-table-admin" border="0">
-<thead>
-<tr>
-    <th scope="col">id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->rows_storage as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/storage-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/storage-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-
-    <div class="div-bacula-fill">
-        <form  action="<?php echo $this->form_bacula_fill_storage->getAction();  ?>"
-               method="<?php echo $this->form_bacula_fill_storage->getMethod();  ?>">
-            <?php echo $this->form_bacula_fill_storage->role_id; ?>
-            <?php echo $this->form_bacula_fill_storage->role_name; ?>
-            <?php echo $this->form_bacula_fill_storage->bacula_fill; ?>
-            <?php echo $this->form_bacula_fill_storage->submit; ?>
-        </form>
-    </div>
-</div>
-<!-- end Storage ACL form -->
-
-
-
-<!-- Where ACLs -->
-<div id="tab-where">
-<form  action="<?php echo $this->form_where->getAction(); ?>"
-       method="<?php echo $this->form_where->getMethod(); ?>">
-    <?php echo $this->form_where->role_id;   ?>
-    <?php echo $this->form_where->role_name; ?>
-    <?php echo $this->form_where->acl; ?>
-    <?php echo $this->form_where->order; ?>
-    <?php echo $this->form_where->name;  ?>
-    <?php echo $this->form_where->id;    ?>
-    <?php echo $this->form_where->submit;?>
-    <?php echo $this->form_where->reset; ?>
-</form>
-
-<table id="box-table-admin" border="0">
-<thead>
-<tr>
-    <th scope="col">id</th>
-    <th scope="col"> <?php echo $this->translate->_('Name'); ?> </th>
-    <th scope="col"> <?php echo $this->translate->_('Order'); ?> </th>
-    <th scope="col">&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->rows_where as $line) : ?>
-    <tr>
-        <td>
-            &nbsp;<?php echo $this->escape($line['id']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['name']);?>&nbsp;
-        </td>
-        <td>
-            &nbsp;<?php echo $this->escape($line['order_acl']);?>&nbsp;
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl;?>/admin/where-update/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/document-edit.png" alt="<?php echo $this->translate->_("Modify record") ?>" title="<?php echo $this->translate->_("Modify record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-            <a href="<?php echo $this->baseUrl;?>/admin/where-delete/role_id/<?php echo $this->role_id ?>/id/<?php echo $line['id'] ?>" id="confirm" class="confirm" title="<?php echo $this->translate->_("Delete record") ?>">
-                <img src="<?php echo $this->baseUrl ?>/images/edit-delete.png" alt="<?php echo $this->translate->_("Delete record") ?>" title="<?php echo $this->translate->_("Delete record") ?>" border="0" hspace="2" align="absmiddle" />
-            </a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-</div>
-<!-- end Where ACLs -->
-
-
-</div>
+</p><!-- close p -->
+</div><!-- close div panel-body -->
+</div><!-- close div panel panel-default -->
+</div><!-- fim div col-md-8 -->
+</div><!-- fim da div rows -->
+<!-- admin/role-main-form.phtml -->

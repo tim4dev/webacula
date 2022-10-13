@@ -42,12 +42,15 @@ class JobController extends MyClass_ControllerAclAction
      */
     function terminatedAction()
     {
-        $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
+        $terminatedDays = Zend_Registry::get('days_to_show_jobs_terminated');
+        $this->view->title = sprintf($this->view->translate->_("Terminated Jobs (executed in last %s days)"), $terminatedDays );
         // get data from model
         $jobs = new Job();
-        $this->view->result = $jobs->getTerminatedJobs();
+        $this->view->result = $jobs->getTerminatedJobs($terminatedDays,array('JobId DESC'));
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -62,11 +65,13 @@ class JobController extends MyClass_ControllerAclAction
         // get data from model
         $jobs = new Job();
         $this->view->resultRunningJobs = $jobs->getRunningJobs();
-        // получаем информацию от Директора
+        // Receive information from Director
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -80,7 +85,7 @@ class JobController extends MyClass_ControllerAclAction
         // get data from model
         $jobs = new Job();
         $this->view->resultRunningJobs = $jobs->getRunningJobs();
-        // получаем информацию от Директора
+        // Receive information from Director
         $this->view->titleDirRunningJobs  = $this->view->translate->_("Information from Director : List of Running Jobs");
         $this->view->resultDirRunningJobs = $jobs->getDirRunningJobs();
         if ( empty($this->view->resultRunningJobs) && empty($this->view->resultDirRunningJobs) ) {
@@ -89,6 +94,8 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setResponseSegment('job_running');
         }
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -108,6 +115,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->result = $jobs->getScheduledJobs();
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -132,6 +141,8 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setResponseSegment('job_next');
         }
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -145,13 +156,13 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->title = $this->view->translate->_("List Jobs with filters");
 
         if ( $this->_request->isPost() ) {
-            // данные из формы поиска
+            // Search form data
             $date_begin  = addslashes( trim( $this->_request->getPost('date_begin') ));
             $time_begin  = addslashes( trim( $this->_request->getPost('time_begin') ));
             $date_end    = addslashes( trim( $this->_request->getPost('date_end') ));
             $time_end    = addslashes( trim( $this->_request->getPost('time_end') ));
         } else {
-            // данные от Paginator
+            // Paginator data
             $date_begin  = date('Y-m-d', intval($this->_request->getParam('date_begin')) );
             $time_begin  = date('H:i:s', intval($this->_request->getParam('time_begin')) );
             $date_end    = date('Y-m-d', intval($this->_request->getParam('date_end')) );
@@ -180,6 +191,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->jtype      = $jtype;
         $this->view->volname    = $volname;
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         
         if ($jobs) {
             $paginator = Zend_Paginator::factory($jobs);
@@ -206,6 +219,8 @@ class JobController extends MyClass_ControllerAclAction
         $job = new Job();
         $this->view->result = $job->getByJobId($jobid);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -224,6 +239,8 @@ class JobController extends MyClass_ControllerAclAction
         $job = new Job();
         $this->view->result = $job->getByJobName($jobname);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -236,12 +253,13 @@ class JobController extends MyClass_ControllerAclAction
     function findVolumeNameAction()
     {
         $this->view->title = $this->view->translate->_("List Jobs by Volume Name") .
-            ' : ' . $this->_request->getParam('volname');
-        $this->view->title = $this->view->translate->_("List Jobs by Volume Name");
+            ': ' . $this->_request->getParam('volname');
         $volname = addslashes(trim( $this->_request->getParam('volname') ));
         $job = new Job();
         $this->view->result = $job->getByVolumeName($volname);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -292,6 +310,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->resultJob = $adetail['job'];
         $this->view->resultVol = $adetail['volume'];
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -314,6 +334,8 @@ class JobController extends MyClass_ControllerAclAction
         $this->view->result = $jobs->getProblemJobs($last_days);
         $this->view->meta_refresh = 300; // meta http-equiv="refresh"
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
     /**
@@ -329,6 +351,8 @@ class JobController extends MyClass_ControllerAclAction
         $jobs = new Job();
         $this->view->result = $jobs->getProblemJobs($last_days);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         if ( empty($this->view->result) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -361,6 +385,8 @@ class JobController extends MyClass_ControllerAclAction
         $timeline = new Timeline;
         $this->view->datetimeline = $datetimeline;
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         // for image map
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'normal');
     }
@@ -377,11 +403,13 @@ class JobController extends MyClass_ControllerAclAction
             $this->_helper->viewRenderer->setNoRender();
             return;
         }
-        $datetimeline = date('Y-m-d', time());
-        $this->view->title = $this->view->translate->_("Timeline for date") . " " . $datetimeline;
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
+        $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $datetimeline = date("Y-m-d", time());
+        $this->view->title = $this->view->translate->_("Timeline for date") . " " . date($this->view->date_format, strtotime($datetimeline));
         $timeline = new Timeline;
         $this->view->img_map = $timeline->createTimelineImage($datetimeline, false, null, 'small');
-        $this->view->show_job_description = Zend_Registry::get('show_job_description');
         if ( empty($this->view->img_map) ) {
             $this->_helper->viewRenderer->setNoRender();
         } else {
@@ -418,12 +446,13 @@ class JobController extends MyClass_ControllerAclAction
         $from_form = intval( $this->_request->getParam('from_form', 0) );
         if ($from_form == 1) { //if( $this->_request->isPost() ) {
             if ( $form->isValid($this->_getAllParams()) )  {
-                // данные из формы
+                // Form data
                 $jobname = trim( $this->_request->getParam('jobname') );
                 $client  = addslashes(trim( $this->_request->getParam('client', '') ));
                 $fileset = addslashes(trim( $this->_request->getParam('fileset', '') ));
                 $storage = addslashes(trim( $this->_request->getParam('storage', '') ));
                 $level   = addslashes(trim( $this->_request->getParam('level', '') ));
+                $pool    = addslashes(trim( $this->_request->getParam('pool', '') ));
                 $spool   = addslashes(trim( $this->_request->getParam('spool', 'yes') ));
                 $checkbox_now = addslashes(trim( $this->_request->getParam('checkbox_now') ));
                 if ($checkbox_now) {
@@ -447,6 +476,7 @@ class JobController extends MyClass_ControllerAclAction
                 if ( !empty($client) )  $cmdrun .= 'client="'.$client.'" ';
                 if ( !empty($fileset) ) $cmdrun .= 'fileset="'.$fileset.'" ';
                 if ( !empty($level) )   $cmdrun .= 'level="'.$level.'" ';
+                if ( !empty($pool) )    $cmdrun .= 'pool="'.$pool.'" ';
                 if ( !empty($storage) ) $cmdrun .= 'storage="'.$storage.'" ';
                 if ( !empty($when) )    $cmdrun .= 'when="'.$when.'" ';
                 if ( !empty($spool) )   $cmdrun .= 'spooldata="'.$spool.'" ';
@@ -455,6 +485,7 @@ class JobController extends MyClass_ControllerAclAction
                  *     client=<client-name>
                  *     fileset=<FileSet-name>
                  *     level=<level-keyword Full, Incremental, Differential>
+                 *     pool=<Pool-name>
                  *     storage=<storage-name>
                  *     where=<directory-prefix>
                  *     when=<universal-time-specification YYYY-MM-DD HH:MM:SS>
@@ -475,12 +506,13 @@ EOF"
                 if ( $astatusdir['return_var'] != 0 )	{
                     $this->view->result_error = $astatusdir['result_error'];
                 }
-                // показываем вывод Director
+                // Show the output of director
                 echo $this->renderScript('/job/run-job-output.phtml');
                 return;
             }
         } else {
             $form->init();
+				$this->view->title  = $this->view->translate->_('Run Job');
         }
         /*
          * fill form
@@ -508,11 +540,13 @@ EOF"
         $num_max = 200;
         if ( $numjob <= 0 ) { $numjob = 20;	}
         if ( $numjob > $num_max ) { $numjob = $num_max;	}
-
+        $datetimeline = date("Y-m-d", time());
         $this->view->title = sprintf($this->view->translate->_("List last %s Jobs run"), $numjob);
         $job = new Job();
         $this->view->result = $job->getLastJobRun($numjob);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
         echo $this->renderScript('job/terminated.phtml');
     }
 
@@ -527,7 +561,7 @@ EOF"
             $this->_helper->layout->setLayout('dashboard');
         $this->view->title = $this->view->translate->_("Terminated Jobs (executed in last 24 hours)");
         $job = new Job();
-        $this->view->result = $job->getTerminatedJobs();
+        $this->view->result = $job->getTerminatedJobs(1);
         if ( empty($this->view->result) ) 
             $this->_helper->viewRenderer->setNoRender();
         else
@@ -559,9 +593,11 @@ EOF"
         $type_search = addslashes( $this->_request->getParam('type_file_search') );
         $job = new Job();
         $this->view->result = $job->getByFileName($path, $namefile, $client, $limit, $type_search);
-        $this->view->title = sprintf($this->view->translate->_("List Jobs (%s found) where '%s' is saved (limit %s)"),
-            sizeof($this->view->result), $namefile, $limit);
+        $this->view->title = sprintf($this->view->translate->_("List Jobs where file '%s' is saved (%s found) (limit %s)"),
+            $namefile, sizeof($this->view->result), $limit);
         $this->view->show_job_description = Zend_Registry::get('show_job_description');
+        $this->view->date_format = Zend_Registry::get('date_format');
+        $this->view->datetime_format = Zend_Registry::get('datetime_format');
     }
 
 
@@ -622,7 +658,7 @@ EOF"
             $this->_forward('bacula-access-denied', 'error', null, array('msg' => $msg ) ); // action, controller
             return;
         }
-        $this->view->title = $this->view->translate->_("Show Job resource");
+        $this->view->title = $this->view->translate->_("Job");
         $jobname = trim( $this->_request->getParam('jobname') );
         $this->view->jobname = $jobname;
         $director = new Director();

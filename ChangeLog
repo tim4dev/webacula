@@ -1,18 +1,65 @@
 Webacula ChangeLog
 ------------------
 
-=== 7.0.0 (Sat Oct  4 2014)
+=== 7.5.3 (Tue Nov 07, 2017)
+   - New feature added to get File size before compression (need run scripts)
+   - Included the database size in the About Page
+   - Updated webacula tables
+   - Update translations
+   - Minor bugfixes
+
+
+=== 7.5.2 (Mon July 10, 2017)
+   - Fix Model method "getListJobs" to work with Bacula 9.0
+   - Fix bacula logo href 
+   - Update version
+
+=== 7.5.1 (Tue May 30, 2017)
+   - Bugfixes
+   - Modify library JS and CSS from scripts/bconsole
+   - Fix bconsole command execution and add translations
+   - Change position of buttons wbjobdesc/wblogbook and fix button wblogbook that was not showing correct
+   - Fix the schedules when their names are similar and didn't show correctly
+   - Modified wbjobdesc and add option to select jobs instead to write
+   - Add an index (FileIndex) in table WbTmpTable
+   - Change WBLogBook query to use LIKE
+   - Fix wrong number of jobs in the volumes
+   - Modify dialog confirm, add new CSS and new translations
+   - Add CSS for menu multilevel
+   - Include configuration of catalog version in config.ini
+   - Allow dots in login
+
+=== 7.5.0 (Fri May 05, 2017)
+   - The main change is that the interface was updated to use Boostrap CSS themes
+   - All libraries CSS and JavaScript was updated
+   - Some libraries CSS and JS were removed
+   - New show outputs from bconsole (schedule, pool)
+
+=== 7.4.0 (It was not released as version, just in the git Branch-7.4
+   - Huge speed improvement in restore file selection (https://github.com/tim4dev/webacula/pull/4 and https://github.com/bareos/contrib-webacula/commit/cecacf944c57a3f4a966a3d6a9aab20d57ba6149)
+   - Minor changes in styles CSS
+   - A small changes in layout of volume/pools
+   - Better method to convert bytes to humanreadable
+   - Added new setting days_to_show_jobs_terminated feature (Terminated jobs can show more than 1 day) (https://github.com/tim4dev/webacula/pull/8)
+   - Added new setting date_format and and datetime_format (Option to modify date/time format)
+   - Better translation for Brazilian Portuguese (pt_BR)
+   - New field to show when volumes will expire in Volumes
+   - Set default password for root: bacula (just leave 'webacula_root_pwd' empty in db.conf)
+   - New feature. Menu option to show the schedules
+
+
+=== 7.0.0 (Sat Oct 04, 2014)
     WARNING! Webacula 7.x incompatible with prior versions!
     Please see the "Upgrade from prior version" chapter of file docs/txt/install.txt
     The Webacula Users password hasher implements the Portable PHP password hashing framework http://www.openwall.com/phpass/, which is used in WordPress, Drupal and other.
     Now encrypted Webacula users passwords on all supported databases: MySQL, PostgreSQL, Sqlite3.
 
-=== 5.5.2 (Sun Oct 30 2011)
+=== 5.5.2 (Sun Oct 30, 2011)
     Show human readable short Job description instead (or both) of Bacula Job names (see config.ini for details).
     Show Bacula Job resource record (bconsole> show job="xxx").
     Small bugfixes.
 
-=== 5.5.1 (Sat Sep 10 2011)
+=== 5.5.1 (Sat Sep 10, 2011)
     Small bugfixes.
 
 === 5.5.0
@@ -25,23 +72,23 @@ Webacula ChangeLog
     Documentation to install Webacula on Ubuntu/Debian based.
     PHP session is stored in the table.
 
-=== 5.0.3 (Mon Jan 24 2011)
+=== 5.0.3 (Mon Jan 24, 2011)
     Fix bug #3151906 -- "Single" files missing from "Select Files for Restore" 
 
-=== 5.0.2 (Wed Aug 11 2010)
+=== 5.0.2 (Wed Aug 11, 2010)
     Fresh Portuguese Brazil translation by Samuel Rios Carvalho
 
-=== 5.0.1 (Thu May 12 2010)
+=== 5.0.1 (Thu May 12, 2010)
     fix bug #3000461 Restore selected files
 
-=== 5.0 (Thu Feb 20 2010)
+=== 5.0 (Thu Feb 20, 2010)
     Important : required Bacula 5.0 or later.
     Important : now database 'webacula' NOT required for Restore Jobs. Now create a tree of files to Job Restore is faster at 30%--50%
     Add few options into restore pages.
     Add Spanish translation by Efren Bravo <efrenba@yahoo.es>
     Implements "Reviewed" feature: if the Job completed with an error, then you can click on the link "Written in Logbook" and "Reviewed" this Job. Then don't show this Job in list "Jobs with errors" in future. See also trac ticket #43.
 
-=== 3.5 (Tue Feb 16 2010)
+=== 3.5 (Tue Feb 16, 2010)
    Job->Search->File name (LIKE, REGEX) and restore single file.
    Support mount/unmount Autochanger.
    Display Autochanger content.
@@ -56,7 +103,7 @@ PurgedFiles (set when all File records purged). See 'developers/Database_Tables.
 === 3.4.1
    Fix bug #545471 in bugzilla RedHat.
 
-=== 3.4  (Wed Dec  2  2009)
+=== 3.4  (Wed Dec 2, 2009)
    Add "Select full restore to a specified JobId".
    Add web/ajax terminal to Bacula Console.
    Add on "List of Running Jobs" the view of "joblog", so is possible to check the running session.

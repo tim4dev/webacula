@@ -1,61 +1,78 @@
 <!-- volume/find-name.phtml -->
-
-<h1><?php echo $this->escape($this->title); ?></h1>
-
-<?php $urlp = $this->baseUrl . "/volume/find-name/volname/" . $this->escape($this->volname); ?>
-
-<table id="box-table">
-<thead>
-<tr>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/VolumeName"><?php echo $this->translate->_("Volume Name"); ?></a></th>
-    <th scope="col"> <a href="<?php echo $urlp;?>/order/VolStatus"><?php echo $this->translate->_("Volume Status"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/VolBytes"><?php echo $this->translate->_("Volume Bytes"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/MaxVolBytes"><?php echo $this->translate->_("Max Volume<br />Bytes"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/VolJobs"><?php echo $this->translate->_("Volume Jobs"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/VolRetention"><?php echo $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/MediaType"><?php echo $this->translate->_("Media<br />Type"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/FirstWritten"><?php echo $this->translate->_("First<br />Written"); ?></a></th>
-	<th scope="col"> <a href="<?php echo $urlp;?>/order/LastWritten"><?php echo $this->translate->_("Last<br />Written"); ?></a></th>
-	<th scope="col"> <?php print $this->translate->_("Autochanger<br />Slot<br />number"); ?> </th>
-	<th scope="col"> <?php print $this->translate->_("Can Recycle<br />Volume"); ?> </th>
-</tr>
-</thead>
-<tbody>
-<?php foreach($this->result as $line) : ?>
-<tr>
-	<td>
-	<a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']);?>"
-	   title="<?php echo $this->translate->_("Detail Volume");?>"><?php echo $this->escape($line['volumename']);?>
-    </a>
-	</td>
-
-	<?php
-		$aErrorVolStatus = array('Disabled', 'Error');
-		if ( in_array($this->escape($line['volstatus']), $aErrorVolStatus) )
-			echo '<td class="warn" align="center">' . $this->escape($line['volstatus']) . '</td>';
-		else
-			echo '<td align="center">' . $this->escape($line['volstatus']) . '</td>';
-	?>
-
-	<td align="right"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
-	<td align="right"><?php echo $this->ConvBytes($this->escape($line['maxvolbytes']));?></td>
-
-	<?php
-		if ( $this->escape($line['voljobs']) <= 0 )
-			echo '<td class="warn" align="right">' . number_format($this->escape($line['voljobs'])) . '</td>';
-		else
-    		echo '<td align="right"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
-                'title="', $this->translate->_("List Jobs by Volume Name"), '">',
-                number_format($this->escape($line['voljobs'])), '</a></td>';
-	?>
-
-	<td align="center"><?php echo $this->ConvSecondsToDays($this->escape($line['volretention']));?></td>
-	<td><?php echo $this->escape($line['mediatype']);?></td>
-	<td><?php echo $this->escape($line['firstwritten']);?></td>
-	<td><?php echo $this->escape($line['lastwritten']);?></td>
-	<td align="right"><?php echo $this->escape($line['slot']);?></td>
-	<td align="right"><?php echo $this->Int2Char($this->escape($line['recycle']));?></td>
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
+<div class="rows">
+   <div class="col-md-8">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <?php $urlp = $this->baseUrl . "/volume/find-name/volname/" . $this->escape($this->volname); ?>
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover table-condensed">
+                     <thead>
+                        <tr>
+                           <th><a href="<?php echo $urlp;?>/order/VolumeName"><?php echo $this->translate->_("Volume Name"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/VolStatus"><?php echo $this->translate->_("Volume Status"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/VolBytes"><?php echo $this->translate->_("Volume Bytes"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/MaxVolBytes"><?php echo $this->translate->_("Max Volume<br />Bytes"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/VolJobs"><?php echo $this->translate->_("Volume Jobs"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/VolRetention"><?php echo $this->translate->_("Volume<br />Retention<br />(days)"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/MediaType"><?php echo $this->translate->_("Media<br />Type"); ?></a></th>
+                           <th class="text-center"> <a href="<?php echo $urlp;?>/order/LastWritten"><?php echo $this->translate->_("Last<br />Written"); ?></a></th>
+                           <th class="text-center"> <?php print $this->translate->_("Autochanger<br />Slot<br />Number"); ?> </th>
+                           <th class="text-center"> <?php print $this->translate->_("Can Recycle<br />Volume"); ?> </th>
+                           <th class="text-center"> <?php echo $this->translate->_("Expires In"); ?></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                     <?php foreach($this->result as $line) : ?>
+                        <tr>
+                           <td><a href="<?php echo $this->baseUrl, '/volume/detail/mediaid/'.$this->escape($line['mediaid']);?>"
+                             title="<?php echo $this->translate->_("Detail Volume");?>"><?php echo $this->escape($line['volumename']);?>
+                           </a>
+                           </td>
+                           <?php
+                              $aErrorVolStatus = array('Disabled', 'Error');
+                              if ( in_array($this->escape($line['volstatus']), $aErrorVolStatus) )
+                                 echo '<td class="text-center danger">' . $this->escape($line['volstatus']) . '</td>';
+                              else
+                                 echo '<td class="text-center">' . $this->escape($line['volstatus']) . '</td>';
+                           ?>
+                           <td class="text-center"><?php echo $this->ConvBytes($this->escape($line['volbytes']));?></td>
+                           <?php
+                              if ( $line['maxvolbytes'] <= 0 )
+                                 echo '<td class="text-center">'.$this->translate->_('unlimited').'</td>';
+                              else
+                                 echo '<td class="text-center">' . $this->convBytes($this->escape($line['maxvolbytes'])) . "</td>";
+                            ?>
+                        
+                           <?php
+                              if ( $this->escape($line['voljobs']) <= 0 )
+                                 echo '<td class="text-center warning">' . number_format($this->escape($line['voljobs'])) . '</td>';
+                              else
+                                 echo '<td class="text-center"> <a href="', $this->baseUrl, '/job/find-volume-name/volname/', $this->escape($line['volumename']), '" ',
+                                      'title="', $this->translate->_("List Jobs by Volume Name"), '">',
+                                      number_format($this->escape($line['voljobs'])), '</a></td>';
+                           ?>
+                           <td class="text-center"><?php echo $this->translate->_($this->ConvSecondsToDays($this->escape($line['volretention']))).' '. $this->translate->_("days");?></td>
+                           <td class="text-center"><?php echo $this->escape($line['mediatype']);?></td>
+                           <td class="text-center"><?php echo $this->escape(date($this->datetime_format, strtotime($line['lastwritten'])));?></td>
+                           <td class="text-center"><?php echo $this->escape($line['slot']);?></td>
+                           <td class="text-center"><?php echo $this->translate->_($this->Int2Char($this->escape($line['recycle'])));?></td>
+                           <?php
+                              $expiresin = strtotime($line['lastwritten']) + $line['volretention'];
+                              $line['expiresin'] = strftime("%Y-%m-%d %H:%M:%S", $expiresin);
+                           ?>
+                           <td class="text-center"><?php echo $this->escape(date($this->date_format, strtotime($line['expiresin'])));?></td>
+                        </tr>
+                     <?php endforeach; ?>
+                     </tbody>
+                  </table>
+               </div><!-- end div table-responsive -->
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- fim div col-md-8 -->
+</div><!-- fim da div rows -->
+<!-- volume/find-name.phtml -->

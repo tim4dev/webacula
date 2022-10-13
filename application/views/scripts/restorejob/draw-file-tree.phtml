@@ -1,99 +1,82 @@
 <!-- restorejob/draw-file-tree.phtml -->
-
 <?php $decode = new MyClass_HomebrewBase64; ?>
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#ok1').click(function() {
-    	$.blockUI({
-        	message: '<h2><?php print $this->translate->_("Please wait"); ?>...</h2>',
-        	css: { backgroundColor: '#f3fcf2' },
-        	centerX: true,
-        	centerY: true
+   $('#ok1').click(function() {
+      $.blockUI({
+         message: '<h4><?php print $this->translate->_("Please wait"); ?>...</h>',
+         css: { border: 'none', padding: '15px',  backgroundColor: '#000',  '-webkit-border-radius': '10px', '-moz-border-radius': '10px', opacity: .5,  color: '#fff' }
         });
     });
 });
 </script>
-
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/json2.js"></script>
 
 <script type="text/javascript">
 
+// renderSummaryStat
 function renderSummaryStat(vsize, vfiles) {
     // summary for restore
-    renderDiv = document.getElementById('totalSize');
-    renderDiv.innerHTML = vsize;
-    renderDiv = document.getElementById('totalFiles');
-    renderDiv.innerHTML = vfiles;
+    $('#totalSize').html(vsize);
+    $('#totalFiles').html(vfiles);
 }
 
 // files handle
 function markFile(elm, vfileid){
     // wait
-    var renderDiv = document.getElementById('responseResults');
-    renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: please wait...")); ?><br />&nbsp;';
+    $('#responseResults').html( '<?php print addslashes($this->translate->_("Last action: please wait...")); ?><br/>' );
     // encoding to json
-	var data = {fileid: vfileid, jobidhash: '<?php echo $this->jobidhash; ?>'};
-	var dataStr = JSON.stringify(data);
-	//console.log('markFile : ' + dataStr); // for debug firebug
-	if ( elm.checked == true  ) {
-		var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-file";
-  		$.post(url,
-  			{ data: dataStr },
-  			renderMark,
-  			"text"
-  		);
-		elm.checked = true;
-	}	else {
-		var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-file";
-		$.post(url,
-  			{ data: dataStr },
-  			renderUnMark,
-  			"text"
-  		);
-		elm.checked = false;
-	}
-	// ajax post error handler
-	$("#responseResults").ajaxError(function(event, request, settings){
-		$(this).text('<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?> ' +
-			'Error requesting page ' + settings.url);
-	});
+   var data = {fileid: vfileid, jobidhash: '<?php echo $this->jobidhash; ?>'};
+   var dataStr = JSON.stringify(data);
+   //console.log('markFile : ' + dataStr); // for debug
+   if ( elm.checked == true  ) {
+      var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-file";
+      $.post(url, { data: dataStr }, renderMark, "text");
+      elm.checked = true;
+   }  else {
+      var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-file";
+      $.post(url, { data: dataStr }, renderUnMark, "text" );
+      elm.checked = false;
+   }
+   // ajax post error handler
+   $("#responseResults").ajaxError(function(event, request, settings){
+      $(this).html('<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?> ' + 'Error requesting page ' + settings.url);
+   });
 }
 
+// renderMark
 function renderMark(response){
-    //console.log('renderMark : ' + response); // for debug firebug
-	try {
-	    var data = JSON.parse(response);
-	    if ( data.allok == 1 )	{
-	        //  console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
-	    	var renderDiv = document.getElementById('responseResults');
-	    	renderDiv.style.backgroundColor = '#FAF294';
-	    	renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: mark")); ?> ' + data.filename + '<br />&nbsp;';
-	    	// summary for restore
-    	    renderSummaryStat(data.total_size, data.total_files);
+    //console.log('renderMark : ' + response); // for debug
+   try {
+       var data = JSON.parse(response);
+       if ( data.allok == 1 ) {
+          //console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug
+         $('#responseResults').html( '<?php print addslashes($this->translate->_("Last action: mark")); ?> ' + data.filename + '<br/>' );
+         // summary for restore
+          renderSummaryStat(data.total_size, data.total_files);
        } else {
             var response = { responseText : 'mark file : ' };
             failResults(response);
        }
-	}  catch(e) {
-		var response = { responseText : 'Ajax JSON.parse : ' };
+   }  catch(e) {
+      var response = { responseText : 'Ajax JSON.parse : ' };
         failResults(response);
-	}
+   }
 }
 
+// renderUnMark
 function renderUnMark(response){
-	try {
-	    var data = JSON.parse(response);
-	    if ( data.allok == 1 )	{
-	    	  //console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug
-	    	  var renderDiv = document.getElementById('responseResults');
-	    	  renderDiv.style.backgroundColor = '#FAF294';
-	    	  renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: unmark")); ?> ' + data.filename + '<br />&nbsp;';
-	    	  // summary for restore
-	    	  renderSummaryStat(data.total_size, data.total_files);
+   try {
+       var data = JSON.parse(response);
+       if ( data.allok == 1 ) {
+           //console.log('renderMark : ' + data.filename + ' ' + data.total_size + ' ' + data.total_files); // for debug
+           $('#responseResults').html( '<?php print addslashes($this->translate->_("Last action: unmark")); ?> ' + data.filename + '<br/>' );
+           // summary for restore
+           renderSummaryStat(data.total_size, data.total_files);
         } else {
-    	    var response = { responseText : 'unmark file : ' };
-    	    failResults(response);
+          var response = { responseText : 'unmark file : ' };
+          failResults(response);
         }
     }  catch(e) {
         var response = { responseText : 'Ajax JSON.parse : ' };
@@ -101,79 +84,66 @@ function renderUnMark(response){
     }
 }
 
+// failResults
 function failResults(response){
-	var renderDiv = document.getElementById('responseResults');
-	renderDiv.style.backgroundColor = '#FFB1B1';
-    renderDiv.innerHTML = response.responseText + ' ' + '<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?>' + '<br />&nbsp;';
+   $('#responseResults').html( response.responseText + ' ' + '<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?>' + '<br/>' );
 }
-
 
 
 // directories handle
 function markDir(elm, vpath){
-    var renderDiv = document.getElementById('responseResults');
-    renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: please wait...")); ?><br />&nbsp;';
+    $('#responseResults').html( '<?php print addslashes($this->translate->_("Last action: please wait...")); ?><br/>' );
     var data = {path: vpath, jobidhash: '<?php echo $this->jobidhash; ?>'};
     var dataStr = JSON.stringify(data);
-    //console.log(dataStr);
-	if ( elm.checked == true  ) {
-		var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-dir";
-  		$.post(url,
-  			{ data: dataStr },
-  			renderDirMark,
-  			"text"
-  		);
-		elm.checked = true;
-	}	else {
-		var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-dir";
-		$.post(url,
-  			{ data: dataStr },
-  			renderDirUnMark,
-  			"text"
-  		);
-		elm.checked = false;
-	}
-	// ajax post error handler
-	$("#responseResults").ajaxError(function(event, request, settings){
-		$(this).text('<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?> ' +
-			'Error requesting page ' + settings.url);
-	});
+    //console.log(dataStr); //for debug
+   if ( elm.checked == true  ) {
+      var url = "<?php echo $this->baseUrl; ?>/restorejob/mark-dir";
+      $.post(url, { data: dataStr }, renderDirMark, "text" );
+      elm.checked = true;
+   } else {
+      var url = "<?php echo $this->baseUrl; ?>/restorejob/unmark-dir";
+      $.post(url, { data: dataStr }, renderDirUnMark, "text"
+      );
+      elm.checked = false;
+   }
+   // ajax post error handler
+   $("#responseResults").ajaxError(function(event, request, settings){
+      $(this).html( '<?php print addslashes($this->translate->_("The system was a problem. Please try again after some time.")); ?> ' + 'Error requesting page ' + settings.url );
+   });
 }
 
+// renderDirMark
 function renderDirMark(response){
-	try {
-	    var data = JSON.parse(response);
-	    var renderDiv = document.getElementById('responseResults');
-	    if ( data.allok == 1 )	{
-		    //console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
-	    	renderDiv.style.backgroundColor = '#FAF294';
-    	    renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: mark directory tree")); ?> ' + data.msg;
-    	    // summary for restore
-    	    renderSummaryStat(data.total_size, data.total_files);
-    	} 	else {
-    	    var response = { responseText : 'mark dir : ' };
-    	    failResults(response);
-    	}
+   try {
+       var data = JSON.parse(response);
+       if ( data.allok == 1 ) {
+          //console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug
+          $('#responseResults').html( '<?php print addslashes($this->translate->_("Last action: mark directory tree")); ?> ' + data.msg );
+          // summary for restore
+          renderSummaryStat(data.total_size, data.total_files);
+      }  else {
+          var response = { responseText : 'mark dir : ' };
+          failResults(response);
+      }
     }  catch(e) {
         var response = { responseText : 'Ajax JSON.parse : ' };
         failResults(response);
     }
 }
 
+// renderDirUnMark
 function renderDirUnMark(response){
-	try {
-	    var data = JSON.parse(response);
-	    var renderDiv = document.getElementById('responseResults');
-	    if ( data.allok == 1 )	{
-	        //console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug firebug
-	    	renderDiv.style.backgroundColor = '#FAF294';
-	        renderDiv.innerHTML = '<?php print addslashes($this->translate->_("Last action: unmark directory tree")); ?> ' + data.msg;
-	        // summary for restore
-	        renderSummaryStat(data.total_size, data.total_files);
-	    }  	else {
-	        var response = { responseText : 'unmark dir : ' };
-	        failDirResults(response);
-	    }
+   try {
+       var data = JSON.parse(response);
+       if ( data.allok == 1 ) {
+           //console.log('renderDirMark : ' + data.msg + ' ' + data.total_size + ' ' + data.total_files); // for debug
+           $('#responseResults').html( '<?php print addslashes($this->translate->_("Last action: unmark directory tree")); ?> ' + data.msg );
+           // summary for restore
+           renderSummaryStat(data.total_size, data.total_files);
+       }    else {
+           var response = { responseText : 'unmark dir : ' };
+           failDirResults(response);
+       }
     }  catch(e) {
         var response = { responseText : 'Ajax JSON.parse : ' };
         failResults(response);
@@ -182,207 +152,224 @@ function renderDirUnMark(response){
 
 </script>
 
-<table border="0" align="left" cellpadding="0" cellspacing="0">
-<tr><td style="font-size: 1.2em;">
-
-   <!-- Summary for restore -->
-   <b><?php print $this->translate->_("For restore"); ?></b><br>
-   <b><?php print $this->translate->_("Size:"); ?></b>  <span id="totalSize"><?php echo $this->convBytes($this->total_size); ?></span>,
-   <b><?php print $this->translate->_("Count:"); ?></b> <span id="totalFiles"><?php echo $this->total_files; ?></span>
-   <!-- END Summary for restore -->
-
-</td></tr><tr><td>
-
-<table border="0" cellpadding="0" cellspacing="0" align="left" style="margin-top: 2em; margin-bottom: 2.5em;">
-<tr><td valign="top">
-<form method="POST" action="<?php echo $this->baseUrl, $this->action_form; ?>">
-    <?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job') . '...', array('class' => 'prefer_btn', 'style'=>'margin-top: 0px; margin-bottom: 0px;')); ?>
-</form>
-</td>
-<td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td valign="top">
-<form method="POST" action="<?php
-if ($this->type_restore == 'restore_recent') {
-	echo $this->baseUrl .'/restorejob/cancel-restore-recent';
-} else {
-	echo $this->baseUrl .'/restorejob/cancel-restore';
-}
-?>">
-	<?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel') ); ?>
-</form>
-</td></tr>
-</table>
-
-
-</td></tr><tr><td>
-
-
-<!-- ******************************* draw file tree ******************************* -->
-<!-- pwd -->
-<table class="fmark" border="0" cellspacing="0" align="left">
-<tr>
-	<td colspan="3" class="pwd" style="font-size: 1em; background-color: #F3F7FF;">
-
-		<div id="responseResults" style="background-color: #FAF294;"><?php print $this->translate->_("Last action:"); ?><br />&nbsp;
-		</div>
-		<br>
-
-		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
-			<b>cd</b> <?php echo $this->formText('curdir', $this->curdir, array('size' => 70)) ?>
-			<?php echo $this->formSubmit('ok1', $this->translate->_('Change dir') ); ?>
-		</form>
-		<br>&nbsp;
-     </td>
-</tr>
-
-
-<!-- Directories -->
-<?php if ( !empty($this->curdir) && ($this->curdir != '/') ): ?>
-<tr>
-	<td colspan="3" class="pwd" style="background-color: #F3F7FF;">
-		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
-			<input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/up.png">
-			<input type="hidden" name="curdir" id="curdir" value="<?php
-     			// get parent dir (получаем родительский каталог)
-     			// любые символы (кроме /) между / и / заменить на /
-				$prevdir = preg_replace('/\/[^\/]+\/$/', '/', $this->curdir);
-				if ( $this->curdir == $prevdir ) {
-					$prevdir = ''; // самый корень
-				}
-     			echo trim($prevdir);
-     		?>">
-			.. <?php print $this->translate->_("[Parent Directory]"); ?>
-		</form>
-	</td>
-</tr>
-<?php else:?>
-    <tr>
-        <td colspan="3" class="pwd" style="background-color: #F3F7FF;">&nbsp;</td>
-    </tr>
-<?php endif; ?>
-
-<?php
-$i = 0;
-
-// striped table / полосатая таблица
-foreach($this->adir as $key=>$line) :
-    if ( empty($line['dir']) ) continue;
-
-	$i++;
-	if ($i & 1)
-    	$cl = 'cl1'; // odd / нечет
-	else
-    	$cl = 'cl2'; // even / чет
-?>
-
-
-<tr>
-    <td class="<?php echo $cl; ?>" style="width: 24px;">
-        <?php
-            if ( $line['ismarked'] == 0 ) {
-                echo '<input type="checkbox" onclick="markDir(this, ' . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
-            } else {
-                echo '<input type="checkbox" checked onclick="markDir(this, '   . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
-            }
-            ?>
-    </td>
-	<td class="<?php echo $cl; ?>">
-		<form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
-			<input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/folder.png">
-			<input type="hidden" name="curdir" id="curdir" value="<?php echo $this->curdir . $line['dir'] . '/'; ?>">
-			<?php
-				echo $line['dir'];
-			?>
-		</form>
-	</td>
-	<td class="<?php echo $cl; ?>">
-		<?php
-			/*
-			Информация LStat о каталогах просто нигде не сохранилась,
-			если бэкап делался по FileSet, где были указаны только конкретные файлы.
-			*/
-
-			if ( !empty($line['lstat']) ) {
-				// LStat example:
-				// MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
-				list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
-					$st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
-
-				if ( $decode->homebrewBase64($st_dev) == 0 )     {
-					// OS : windows
-					echo date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime));
-				}
-				else {
-					// OS : linux/unix
-					echo $this->permissionOctal2String(($decode->homebrewBase64($st_mode))) . " &nbsp;" .
-				 		$decode->homebrewBase64($st_uid) . " &nbsp;" .
-			 			$decode->homebrewBase64($st_gid) . " &nbsp;" .
-			 			date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime));
-				}
-		}
-
-		?>
-	</td>
-</tr>
-<?php endforeach; ?>
-
-
-
-
-<!-- Files -->
-<?php
-// striped table / полосатая таблица
-foreach($this->afile as $key=>$line) :
-	if ( !empty($key) ) :
-		$i++;
-		if ($i & 1)
-    		$cl = 'cl1'; // odd / нечет
-		else
-    		$cl = 'cl2'; // even / чет
-?>
-<tr>
-	<td class="<?php echo $cl; ?>" style="width: 24px;">
-	   <?php
-		if ( $line['ismarked'] == 0 ) {
-			echo '<input type="checkbox" onclick="markFile(this, '  . "'" .  addslashes($line['fileid'])  . "'" .  ')">';
-		} else {
-		    echo '<input type="checkbox" checked onclick="markFile(this, '  . "'" .  addslashes($line['fileid'])  . "'" .  ')">';
-		}
-		?>
-	</td>
-
-	<td class="<?php echo $cl; ?>">
-        <!-- Name file -->
-        <?php echo $key; ?>
-    </td>
-
-	<td class="<?php echo $cl; ?>">
-	<?php
-	// LStat example:
-	// MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
-	list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
-		$st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
-
-	if ( $decode->homebrewBase64($st_dev) == 0 )     {
-		// OS : windows
-		echo date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)) . " &nbsp;" .
-			 $this->convBytes($decode->homebrewBase64($st_size));
-	}
-	else {
-		// OS : linux/unix
-		echo $this->permissionOctal2String(($decode->homebrewBase64($st_mode))) . " &nbsp;" .
-			 $decode->homebrewBase64($st_uid) . " &nbsp;" .
-			 $decode->homebrewBase64($st_gid) . " &nbsp;" .
-			 date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)) . " &nbsp;" .
-			 $this->convBytes($decode->homebrewBase64($st_size));
-	}
-	?>
-
-	</td>
-</tr>
-<?php 	endif;
-	endforeach; ?>
-
-</table>
-
-</td></tr></table>
+<div class="rows">
+   <div class="col-md-12">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <div class="table-responsive">
+               <table class="table table-condensed table-borderless">
+                  <tr>
+                     <td>
+                        <!-- Summary for restore -->
+                        <b><?php print $this->translate->_("For restore"); ?></b><br>
+                        <b><?php print $this->translate->_("Size:"); ?></b>  <span id="totalSize"><?php echo $this->convBytes($this->total_size); ?></span>,
+                        <b><?php print $this->translate->_("Count:"); ?></b> <span id="totalFiles"><?php echo $this->total_files; ?></span>
+                        <!-- END Summary for restore -->
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                     
+                     <!-- table buttons -->
+                     <table>
+                        <tr>
+                           <td>
+                              <form method="POST" action="<?php echo $this->baseUrl, $this->action_form; ?>">
+                                 <?php echo $this->formSubmit('ok1', $this->translate->_('Restore Job'), array('class' => 'btn btn-default')); ?>
+                              </form>
+                           </td>
+                           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                           <td>
+                              <form method="POST" action="<?php
+                              if ($this->type_restore == 'restore_recent') {
+                                 echo $this->baseUrl .'/restorejob/cancel-restore-recent';
+                              } else {
+                                 echo $this->baseUrl .'/restorejob/cancel-restore';
+                              }
+                              ?>">
+                                 <?php echo $this->formSubmit('cancel1', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
+                              </form>
+                           </td>
+                        </tr>
+                     </table>
+                     <!-- end table buttons -->
+                     
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                     
+                        <!-- ******************************* draw file tree ******************************* -->
+                        <!-- pwd -->
+                        <div class="table-responsive">
+                           <!--<table class="fmark" border="0" cellspacing="0" class="table table-condensed table-borderless fmark">-->
+                           <table border="0" cellspacing="0" class="table table-condensed table-striped fmark">
+                              <tr>
+                                 <td colspan="3" class="pwd" style="background-color: #FFFFFF;">
+                              
+                                    <div class="alert alert-info" id="responseResults"><?php print $this->translate->_("Last action:"); ?></div>
+                              
+                                    <div class="form-inline">
+                                    <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
+                                       <b>cd</b> <?php echo $this->formText('curdir', $this->curdir, array('size' => 70, 'class' => 'form-control', 'style' => 'width:30em;')) ?>
+                                       <?php echo $this->formSubmit('ok1', $this->translate->_('Change dir'), array('class' => 'btn btn-default') ); ?>
+                                    </form>
+                                    </div>
+                                    <br/>
+                                   </td>
+                              </tr>
+                              
+                              
+                              <!-- Directories -->
+                              <?php if ( !empty($this->curdir) && ($this->curdir != '/') ): ?>
+                              <tr>
+                                 <td colspan="3" class="pwd">
+                                    <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
+                                       <input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/up.png">
+                                       <input type="hidden" name="curdir" id="curdir" value="<?php
+                                          // get parent dir (Get parent directory)
+                                          // Any symbols (except /) between / and / are replaced by /
+                                          $prevdir = preg_replace('/\/[^\/]+\/$/', '/', $this->curdir);
+                                          if ( $this->curdir == $prevdir ) {
+                                             $prevdir = ''; // The root
+                                          }
+                                          echo trim($prevdir);
+                                       ?>">
+                                       .. <?php print $this->translate->_("[Parent Directory]"); ?>
+                                    </form>
+                                 </td>
+                              </tr>
+                              <?php else:?>
+                              <tr>
+                                  <td colspan="3" class="pwd">&nbsp;</td>
+                              </tr>
+                              <?php endif; ?>
+                              
+                              <?php
+                              $i = 0;
+                              
+                              // striped table
+                              foreach($this->adir as $key=>$line) :
+                                 if ( empty($line['dir']) ) continue;
+                              
+                                 $i++;
+                                 if ($i & 1)
+                                    $cl = 'odd'; // odd
+                                 else
+                                    $cl = 'even'; // even
+                              ?>
+                              
+                              <tr>
+                                 <td class="<?php echo $cl; ?>" style="width: 24px;">
+                                    <?php
+                                       if ( $line['ismarked'] == 0 ) {
+                                           echo '<input type="checkbox" onclick="markDir(this, ' . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
+                                       } else {
+                                           echo '<input type="checkbox" checked onclick="markDir(this, '   . "'" . addslashes($this->curdir . $line['dir']) . "/'" . ')">';
+                                       }
+                                    ?>
+                                 </td>
+                                 <td class="<?php echo $cl; ?>">
+                                    <form method="POST" action="<?php echo $this->baseUrl .'/restorejob/draw-file-tree'; ?>">
+                                       <input type="image" src="<?php echo $this->baseUrl .'/images'; ?>/folder.png">
+                                       <input type="hidden" name="curdir" id="curdir" value="<?php echo $this->curdir . $line['dir'] . '/'; ?>">
+                                       <?php
+                                          echo $line['dir'];
+                                       ?>
+                                    </form>
+                                 </td>
+                                 <td class="<?php echo $cl; ?>">
+                                    <?php
+                                    /*
+                                    Information LStat about the catalogs just nowhere is not preserved,
+                                      If a backup was made by FileSet, where only specific files were specified.
+                                    */
+                                    if ( !empty($line['lstat']) ) {
+                                       // LStat example:
+                                       // MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
+                                       list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
+                                          $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
+                              
+                                       if ( $decode->homebrewBase64($st_dev) == 0 ) {
+                                          // OS : windows
+                                          echo date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime));
+                                       } else {
+                                          // OS : linux/unix
+                                          echo $this->permissionOctal2String(($decode->homebrewBase64($st_mode))) . " &nbsp;" .
+                                             $decode->homebrewBase64($st_uid) . " &nbsp;" .
+                                             $decode->homebrewBase64($st_gid) . " &nbsp;" .
+                                             date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime));
+                                       }
+                                    }
+                                    ?>
+                                 </td>
+                              </tr>
+                              <?php endforeach; ?>
+                              
+                              
+                              <!-- Files -->
+                              <?php
+                              // striped table
+                              foreach($this->afile as $key=>$line) :
+                                 if ( !empty($key) ) :
+                                    $i++;
+                                    if ($i & 1)
+                                       $cl = 'odd'; // odd
+                                    else
+                                       $cl = 'even'; // even
+                              ?>
+                              <tr>
+                                 <td class="<?php echo $cl; ?>" style="width: 24px;">
+                                    <?php
+                                    if ( $line['ismarked'] == 0 ) {
+                                       echo '<input type="checkbox" onclick="markFile(this, '  . "'" .  addslashes($line['fileid'])  . "'" .  ')">';
+                                    } else {
+                                        echo '<input type="checkbox" checked onclick="markFile(this, '  . "'" .  addslashes($line['fileid'])  . "'" .  ')">';
+                                    }
+                                    ?>
+                                 </td>
+                              
+                                 <td class="<?php echo $cl; ?>">
+                                      <!-- Name file -->
+                                      <?php echo $key; ?>
+                                 </td>
+                              
+                                 <td class="<?php echo $cl; ?>">
+                                    <?php
+                                    // LStat example:
+                                    // MI OfON IGk B Bk Bl A e BAA I BGkZWg BGkZWg BGkZWg A A E
+                                    list($st_dev, $st_ino, $st_mode, $st_nlink, $st_uid, $st_gid, $st_rdev, $st_size, $st_blksize,
+                                       $st_blocks, $st_atime, $st_mtime, $st_ctime) = preg_split("/[\s]+/", $line['lstat']);
+                                    
+                                    if ( $decode->homebrewBase64($st_dev) == 0 ) {
+                                       // OS : windows
+                                       echo date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)) . " &nbsp;" .
+                                           $this->convBytes($decode->homebrewBase64($st_size));
+                                    }
+                                    else {
+                                       // OS : linux/unix
+                                       echo $this->permissionOctal2String(($decode->homebrewBase64($st_mode))) . " &nbsp;" .
+                                            $decode->homebrewBase64($st_uid) . " &nbsp;" .
+                                            $decode->homebrewBase64($st_gid) . " &nbsp;" .
+                                            date("d-M-y H:i:s", $decode->homebrewBase64($st_mtime)) . " &nbsp;" .
+                                            $this->convBytes($decode->homebrewBase64($st_size));
+                                    }
+                                    ?>
+                                 </td>
+                              </tr>
+                              <?php    endif;
+                                 endforeach; ?>
+                              
+                           </table>
+                        </div><!-- end div table-responsive -->
+                     </td>
+                  </tr>
+               </table>
+            </div><!-- end div table-responsive -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-10 -->
+</div><!-- end da div rows -->

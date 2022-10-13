@@ -1,221 +1,276 @@
 <!-- job/detail.phtml -->
-
-<?php if ( $this->resultJob ): ?>
-<table id="box-table-one-column">
-<caption><?php echo $this->escape($this->titleJob); ?></caption>
-<colgroup>
-	<col class="col-first">
-</colgroup>
-<thead>
-</thead>
-<tbody>
-<?php foreach($this->resultJob as $line) : ?>
-<tr>
-	<td> <?php print $this->translate->_("Job Id"); ?> </td>
-    <td style="padding: 0px;">
-        &nbsp;<?php echo $this->escape($line['jobid']);?>&nbsp;&nbsp;
-        <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->jobid . '/jobname/' . $this->resultJob[0]['name']; ?>" title="<?php
-            echo $this->translate->_("Console Messages"); ?>">
-            <?php print $this->translate->_("Console Messages"); ?></a>&nbsp;&nbsp;
-        <?php
-            if ( isset($line['poolid'], $line['poolname']) )    {
-                // restore button
-                echo '<a href="';
-                echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
-                echo '" title="', $this->translate->_("Restore Job"), '">';
-                echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '"',
-                    ' border="0" hspace="1" align="absmiddle">';
-                echo '</a>';
-            }
-        ?>
-        <?php
-            if ( isset($line['name']) )    {
-                // re-run button
-                echo '<a href="';
-                echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['name']);
-                echo '" title="', $this->translate->_("Re-run Job"), '">';
-                echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Re-run Job"), '"',
-                    ' border="0" hspace="1" align="absmiddle">';
-                echo '</a>';
-            }
-        ?>
-        <?php
-            if ( isset($line['poolid'], $line['poolname']) )    {
-                // add to logbook button
-                echo '<a href="';
-                echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($this->resultJob[0]['name']),
-                    '/endtime/', $this->escape($line['endtime']),
-                    '/jobid/', $this->escape($line['jobid']),
-                    '/joberrors/', $this->escape($line['joberrors']);
-                echo '" title="', $this->translate->_("Written in Logbook"), '">';
-                echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"),
-                    '" border="0" hspace="1" align="absmiddle">';
-                echo '</a>';
-            }
-        ?>
-
-    </td>
-
-<?php if ($line['priorjobid']) : ?>
-<!-- Link to prior Job Record when migrated -->
-</tr><tr>
-    <td> <?php print $this->translate->_("Prior Job"); ?> </td>
-    <td><?php echo $this->escape($line['priorjobid']);?></td>
-</tr><tr>
-<?php endif; ?>
-
-</tr><tr>
-    <td> <?php print $this->translate->_("Unique Job Name"); ?> </td>
-    <td><?php echo $this->escape($line['job']);?></td>
-</tr><tr>
-    <td> <?php print $this->translate->_("Job Name"); ?> </td>
-    <td>
-        <a href="<?php echo $this->baseUrl . "/job/show-job/jobname/" . $this->escape($line['name']);?>" title="<?php echo $this->translate->_("Show Job resource") ?>"> 
-            <?php echo $this->escape($line['name']);?>
-        </a>
-    </td>
-</tr><tr>
-    <td> <?php print $this->translate->_("Short Job Description"); ?> </td>
-    <td><?php echo $this->escape($line['short_desc']);?></td>
-</tr><tr>    
-	<td> <?php print $this->translate->_("Purged Files"); ?> </td>
-	<td><?php echo $this->Int2Char($this->escape($line['purgedfiles']));?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Job Type"); ?> </td>
-	<td><?php echo $this->DecodeJobType($this->escape($line['type'])); ?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Level"); ?> </td>
-	<td><?php echo $this->escape($line['level']);?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Client/Version"); ?> </td>
-	<td><?php echo $this->escape($line['clientname']);?><br>
-	<?php echo $this->escape($line['clientuname']);?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Status"); ?> </td>
-	<td><?php echo $this->translate->_( $this->escape($line['jobstatuslong']) ); ?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Schedule Time"); ?> </td>
-	<td><?php echo $this->escape($line['schedtime']);?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Start Time"); ?> </td>
-	<td><?php echo $this->escape($line['starttime']);?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("End Time"); ?> </td>
-	<td><?php echo $this->escape($line['endtime']);?></td>
-</tr><tr>
-	<td> <?php print $this->translate->_("Duration"); ?> </td>
-	<td><?php echo $this->escape($line['durationtime']);?></td>
-</tr>
-
-<?php if (!empty($line['poolname']) && ($line['poolid'] > 0) ) : ?>
-<tr>
-    <td> <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
-        "/name/" . $this->escape($line['poolname']);?>"> <?php print $this->translate->_("Pool"); ?> </a>
-    </td>
-    <td>
-    <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
-        "/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Pool"); ?>">
-        <?php echo $this->escape($line['poolname']);?></a>
-    </td>
-</tr>
-<?php endif; ?>
-
-<?php if (!empty($line['filesetname']) ) : ?>
-    <tr>
-        <td> <?php print $this->translate->_("Fileset"); ?> </td>
-        <td><?php echo $this->escape($line['filesetname']);?> (<?php echo $this->escape($line['filesetcreatetime']);?>)</td>
-    </tr>
-<?php endif; ?>
-    
-<tr>
-    <td>
-    <?php if ($line['purgedfiles'] || ($line['type'] == 'R')) : ?>
-        <?php print $this->translate->_("Number of files"); ?>
-    <?php else : ?>
-        <a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
-        <?php print $this->translate->_("Listing files"); ?></a>
-    <?php endif; ?>
-    </td>
-    <?php
-        $class = '';
-        if ( !$line['jobfiles'] )
-            if ($line['type'] != 'D')
-                $class = 'class="warn"';
-        echo '<td ', $class, '>', number_format($this->escape($line['jobfiles']));
-    ?>
-    <?php if ($line['purgedfiles'])
-        echo '(', $this->translate->_("All File records purged"), ')'; ?>
-    </td>
-</tr><tr>
-    <td> <?php print $this->translate->_("Bytes"); ?> </td>
-    <?php
-        if ( ($line['jobbytes'] == 0) && ($line['type'] != 'D') )
-            $class = 'class="warn"';
-        else
-            $class = '';
-		echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
-	?>
-</tr><tr>
-    <td> <?php print $this->translate->_("Errors"); ?> </td>
-    <?php
-    if ( $this->escape($line['joberrors']) == 0 )
-        echo '<td>-';
-    else
-        if ( $line['reviewed'] > 0 )  {
-            echo '<td>';
-            echo '<img src="', $this->baseUrl, '/images/dialog-ok-apply.png" align="absmiddle" ',
-                ' alt="', $this->translate->_("Bacula Job Reviewed"),'"',
-                ' title="', $this->translate->_("Bacula Job Reviewed"),'"',
-                ' border="0" hspace="4">';
-            echo $this->escape($line['joberrors']);
-        } else
-            echo '<td class="err">' . $this->escape($line['joberrors']);
-    ?>
-    </td>
-</tr>
-
-<?php if ($line['poolid'] > 0) : ?>
-<tr>
-<td> <?php print $this->translate->_("Volumes"); ?> </td>
-<td>
-    <?php
-        if ($this->resultVol)   {
-            foreach($this->resultVol as $line2)     {
-                echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '" ',
-                    ' title="', $this->translate->_("Detail Volume"), '">',
-                    $this->escape($line2['volumename']), '</a><br>';
-            }
-        } else
-            echo $this->translate->_("No Volumes found.");
-    ?>
-</td>
-</tr>
-<?php endif; ?>
-
-<tr>
-<td> <?php echo $this->translate->_("Comment"); ?> </td>
-<td>
-<?php
-    $pattern = "/(LOGBOOK_ID=)([0-9]*)/i";
-    $replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
-    $str = preg_replace($pattern, $replacement, $line['comment']);
-    // linebreak
-    $str = str_replace(array("\r\n", "\r", "\n"), "<br>", $str);
-    echo $str;
-?>
-</td>
-</tr>
-
-<?php endforeach; ?>
-<tbody>
-</table>
-
-<?php else: ?>
-<div class="ui-widget" style="float: left;">
-	<div class="ui-state-highlight ui-corner-all" style="padding: 0pt 0.7em; margin-top: 20px;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.3em;"></span>
-		<strong><?php print $this->translate->_("No Jobs found."); ?></strong></p>
-	</div>
-</div>
-<div style="clear: both;"><!--  --></div>
-<?php endif; ?>
+<div class="rows">
+   <div class="col-md-8">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->titleJob); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               <?php if ( $this->resultJob ): ?>
+               <div class="col-md-12">
+                  <table class="table table-striped table-hover table-condensed">
+                     <thead>
+                     </thead>
+                     <tbody>
+                        <?php foreach($this->resultJob as $line) : ?>
+                        <tr>
+                           <td><?php print $this->translate->_("Job Id"); ?></td>
+                           <td>
+                                &nbsp;<?php echo $this->escape($line['jobid']);?>&nbsp;&nbsp;
+                                <a href="<?php echo $this->baseUrl .'/log/view-log-id/jobid/'. $this->jobid . '/jobname/' . $this->resultJob[0]['name']; ?>" title="<?php
+                                    echo $this->translate->_("Console Messages"); ?>">
+                                    <?php print $this->translate->_("Console Messages"); ?></a>&nbsp;&nbsp;
+                                <?php
+                                    if ( isset($line['poolid'], $line['poolname']) )    {
+                                        // restore button
+                                        echo '<a href="';
+                                        echo $this->baseUrl, '/restorejob/main-form/jobid/', $this->escape($line['jobid']);
+                                        echo '" title="', $this->translate->_("Restore Job"), '">';
+                                        echo '<img src="', $this->baseUrl, '/images/restore.png" alt="', $this->translate->_("Restore Job"), '"',
+                                            ' border="0" hspace="1" align="absmiddle">';
+                                        echo '</a>';
+                                    }
+                                ?>
+                                <?php
+                                    if ( isset($line['name']) )    {
+                                        // re-run button
+                                        echo '<a href="';
+                                        echo $this->baseUrl, '/job/run-job/jobname/', $this->escape($line['name']);
+                                        echo '" title="', $this->translate->_("Re-run Job"), '">';
+                                        echo '<img src="', $this->baseUrl, '/images/re-run-job.png" alt="', $this->translate->_("Re-run Job"), '"',
+                                            ' border="0" hspace="1" align="absmiddle">';
+                                        echo '</a>';
+                                    }
+                                ?>
+                                <?php
+                                    if ( isset($line['poolid'], $line['poolname']) )    {
+                                        // add to logbook button
+                                        echo '<a href="';
+                                        echo $this->baseUrl, '/wblogbook/writelogbook/name_job/', $this->escape($this->resultJob[0]['name']),
+                                            '/endtime/', $this->escape($line['endtime']),
+                                            '/jobid/', $this->escape($line['jobid']),
+                                            '/joberrors/', $this->escape($line['joberrors']);
+                                        echo '" title="', $this->translate->_("Written in Logbook"), '">';
+                                        echo '<img src="', $this->baseUrl, '/images/bookmark-new.png" alt="', $this->translate->_("Written in Logbook"),
+                                            '" border="0" hspace="1" align="absmiddle">';
+                                        echo '</a>';
+                                    }
+                                ?>
+                        
+                           </td>
+                        </tr>
+                        <?php if ($line['priorjobid']) : ?>
+                        <!-- Link to prior Job Record when migrated -->
+                        <tr>
+                           <td> <?php print $this->translate->_("Prior Job"); ?></td>
+                           <td><?php echo $this->escape($line['priorjobid']);?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                           <td> <?php print $this->translate->_("Unique Job Name"); ?> </td>
+                           <td><?php echo $this->escape($line['job']);?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Job Name"); ?> </td>
+                           <td>
+                              <a href="<?php echo $this->baseUrl . "/job/show-job/jobname/" . $this->escape($line['name']);?>" title="<?php echo $this->translate->_("Show Job Resource") ?>"> 
+                                  <?php echo $this->escape($line['name']);?>
+                              </a>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Short Job Description"); ?> </td>
+                           <td><?php echo $this->escape($line['short_desc']);?></td>
+                        </tr>
+                        <tr>    
+                           <td> <?php print $this->translate->_("Purged Files"); ?> </td>
+                           <td><?php echo $this->translate->_($this->Int2Char($this->escape($line['purgedfiles'])));?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Job Type"); ?> </td>
+                           <td><?php echo $this->DecodeJobType($this->escape($line['type'])); ?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Level"); ?> </td>
+                           <td><?php echo $this->DecodeJobLevel($this->escape($line['level'])); ?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Client/Version"); ?> </td>
+                           <td><?php echo $this->escape($line['clientname']);?><br/>
+                           <?php echo $this->escape($line['clientuname']);?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Status"); ?> </td>
+                           <td><?php echo $this->translate->_( $this->escape($line['jobstatuslong']) ); ?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Schedule Time"); ?> </td>
+                           <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['schedtime'])));?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Start Time"); ?> </td>
+                           <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['starttime'])));?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("End Time"); ?> </td>
+                           <td><?php echo $this->escape(date($this->datetime_format, strtotime($line['endtime'])));?></td>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Duration"); ?> </td>
+                           <td><?php echo $this->escape($line['durationtime']);?></td>
+                        </tr>
+                        
+                        <?php if (!empty($line['poolname']) && ($line['poolid'] > 0) ) : ?>
+                        <tr>
+                           <td><a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
+                              "/name/" . $this->escape($line['poolname']);?>"> <?php print $this->translate->_("Pool"); ?> </a>
+                           </td>
+                           <td>
+                           <a href="<?php echo $this->baseUrl . "/volume/find-pool-id/id/" . $this->escape($line['poolid']) .
+                               "/name/" . $this->escape($line['poolname']);?>" title="<?php print $this->translate->_("Detail Pool"); ?>">
+                               <?php echo $this->escape($line['poolname']);?></a>
+                           </td>
+                        </tr>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($line['filesetname']) ) : ?>
+                        <tr>
+                           <td> <?php print $this->translate->_("Fileset"); ?> </td>
+                           <td><?php echo $this->escape($line['filesetname']);?> (<?php echo $this->escape($line['filesetcreatetime']);?>)</td>
+                        </tr>
+                        <?php endif; ?>
+                            
+                        <tr>
+                           <td>
+                           <?php if ($line['purgedfiles'] || ($line['type'] == 'R')) : ?>
+                               <?php print $this->translate->_("Number of files"); ?>
+                           <?php else : ?>
+                               <a href="<?php echo $this->baseUrl .'/file/list/jobid/'. $this->jobid . '/page/1'; ?>">
+                               <?php print $this->translate->_("Listing files"); ?></a>
+                           <?php endif; ?>
+                           </td>
+                           <?php
+                               $class = '';
+                               if ( !$line['jobfiles'] )
+                                   if ($line['type'] != 'D')
+                                       $class = 'class="warning"';
+                               echo '<td ', $class, '>', number_format($this->escape($line['jobfiles']));
+                           ?>
+                           <?php if ($line['purgedfiles'])
+                               echo '(', $this->translate->_("All File records purged"), ')'; ?>
+                           </td>
+                        </tr>
+                        <tr>
+                           <?php if($line['type']=='B'): ?>
+                           <td> <?php print $this->translate->_("Bytes Stored"); ?></td>
+                           <?php else: ?>
+                           <td> <?php print $this->translate->_("Bytes"); ?></td>
+                           <?php endif; ?>
+                           <?php
+                               if ( ($line['jobbytes'] == 0) && ($line['type'] == 'B') )
+                                 $class = 'class="warning"';
+                               else
+                                 $class = '';
+                             echo '<td ', $class, '>', $this->convBytes($this->escape($line['jobbytes'])), '</td>';
+                           ?>
+                        </tr>
+                        <?php if($line['type']=='B'): ?>
+                        <tr>
+                           <td> <?php print $this->translate->_("Bytes Copied"); ?></td>
+                           <?php
+                               if ( ($line['filesize'] == 0) && ($line['type'] == 'B') )
+                                 $class = 'class="warning"';
+                               else
+                                 $class = '';
+                             echo '<td ', $class, '>', $this->convBytes($this->escape($line['filesize'])), '</td>';
+                           ?>
+                        </tr>
+                        <tr>
+                           <td> <?php print $this->translate->_("Software Compression"); ?></td>
+                           <?php
+                              $jobbytes=$line['jobbytes'];
+                              $filesize=$line['filesize'];
+                              if (( $jobbytes != 0) && ($filesize != 0) ){
+                                 $filesize == 0 ? 1 : $filesize;
+                                 $class = '';
+                         echo '<td>', $this->escape( number_format((1-($jobbytes/$filesize))*100,2) ), ' %</td>';
+                               } else {
+                                  echo '<td>-</td>';
+                               }
+                           ?>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                           <td> <?php print $this->translate->_("Errors"); ?> </td>
+                           <?php
+                           if ( $this->escape($line['joberrors']) == 0 )
+                               echo '<td>-';
+                           else
+                               if ( $line['reviewed'] > 0 )  {
+                                   echo '<td>';
+                                   echo '<img src="', $this->baseUrl, '/images/dialog-ok-apply.png" align="absmiddle" ',
+                                       ' alt="', $this->translate->_("Bacula Job Reviewed"),'"',
+                                       ' title="', $this->translate->_("Bacula Job Reviewed"),'"';
+                                   echo $this->escape($line['joberrors']);
+                               } else
+                                   echo '<td class="danger">' . $this->escape($line['joberrors']);
+                           ?>
+                           </td>
+                        </tr>
+                        
+                        <?php if ($line['poolid'] > 0) : ?>
+                        <tr>
+                           <td> <?php print $this->translate->_("Volumes"); ?> </td>
+                           <td>
+                               <?php
+                                   if ($this->resultVol)   {
+                                       foreach($this->resultVol as $line2)     {
+                                           echo '<a href="', $this->baseUrl, '/volume/detail/mediaid/', $this->escape($line2['mediaid']), '" ',
+                                               ' title="', $this->translate->_("Detail Volume"), '">',
+                                               $this->escape($line2['volumename']), '</a><br>';
+                                       }
+                                   } else
+                                       echo $this->translate->_("No Volumes found.");
+                               ?>
+                           </td>
+                        </tr>
+                        <?php endif; ?>
+                        
+                        <tr>
+                           <td> <?php echo $this->translate->_("Comment"); ?> </td>
+                           <td>
+                           <?php
+                               $pattern = "/(LOGBOOK_ID=)([0-9]*)/i";
+                               $replacement = "<a href=\"" . $this->baseUrl . "/wblogbook/filterbyid/id_begin/\\2\">Logbook Id \\2</a>";
+                               $str = preg_replace($pattern, $replacement, $line['comment']);
+                               // linebreak
+                               $str = str_replace(array("\r\n", "\r", "\n"), "<br>", $str);
+                               echo $str;
+                           ?>
+                           </td>
+                        </tr>
+                        
+                        <?php endforeach; ?>
+                     <tbody>
+                  </table>
+               </div><!-- end div col-md-12 -->
+               
+               <?php else: ?>
+               
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                 <p>
+                 <span class="glyphicon glyphicon-alert"></span>
+                 <?php print $this->translate->_("No Jobs found."); ?>
+                 </p>
+               </div>
+               <!-- end div alert -->               
+               
+               <?php endif; ?>
+            </p><!-- end p -->
+         </div><!-- end div panel-body -->
+      </div><!-- end div panel panel-default -->
+   </div><!-- end div col-md-8 -->
+</div><!-- end div rows -->
+<!-- job/detail.phtml -->

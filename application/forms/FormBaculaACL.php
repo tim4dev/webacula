@@ -22,7 +22,6 @@
  */
 require_once 'Zend/Form.php';
 require_once 'Zend/Form/Element/Submit.php';
-require_once 'Zend/Form/Element/Reset.php';
 
 
 class FormBaculaACL extends Zend_Form
@@ -30,6 +29,7 @@ class FormBaculaACL extends Zend_Form
 
     protected $translate;
     protected $elDecorators = array('ViewHelper', 'Errors'); // , 'Label'
+	protected $_action_cancel = '';
 
     
 
@@ -61,6 +61,7 @@ class FormBaculaACL extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Order').'*',
             'required'  => true,
+				'class'     => 'form-control',
             'size'      => 3,
             'maxlength' => 5
         ));
@@ -73,6 +74,7 @@ class FormBaculaACL extends Zend_Form
             //'decorators' => $this->elDecorators,
             'label'     => $this->translate->_('Name').'*',
             'required'  => true,
+				'class'     => 'form-control',
             'size'      => 50,
             'maxlength' => 127
         ));
@@ -81,18 +83,19 @@ class FormBaculaACL extends Zend_Form
         /*
          * submit button
          */
-        $submit = new Zend_Form_Element_Submit('submit',array(
+        $submit_button = new Zend_Form_Element_Submit('submit_button',array(
             'decorators' => $this->elDecorators,
             'id'    => 'ok_'.__CLASS__,
-            'class' => 'prefer_btn',
+            'class' => 'btn  btn-default',
             'label' => $this->translate->_('Add')
         ));
         /*
-         * reset button
+         * cancel button
          */
-        $reset = new Zend_Form_Element_Reset('reset', array(
+        $cancel_button = new Zend_Form_Element_Submit('cancel_button', array(
             'decorators' => $this->elDecorators,
-            'id'    => 'reset_'.__CLASS__,
+            'id'    => 'cancel_'.__CLASS__,
+			   'class' => 'btn  btn-default',
             'label' => $this->translate->_('Cancel')
         ));
         /*
@@ -101,11 +104,21 @@ class FormBaculaACL extends Zend_Form
         $this->addElements( array(
             $order,
             $name,
-            $submit,
-            $reset
+            $submit_button,
+            $cancel_button
         ));
     }
 
+    public function setActionCancel($url = '')
+    {
+        $this->_action_cancel = $url;
+    }
 
+
+
+    public function getActionCancel()
+    {
+        return $this->_action_cancel;
+    }
 
 }

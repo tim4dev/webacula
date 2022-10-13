@@ -1,10 +1,17 @@
 <!-- admin/form-acl.phtml -->
-<div class="ui-widget">
-	<h3><?php echo $this->escape($this->title); ?></h3>
-</div>
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+         <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
 
-<!-- ACL form -->
-<div class="ui-widget-content ui-corner-all" style="padding: 2em; width: 42em;">
-    <?php echo $this->render('decorators/formBaculaACL.phtml'); ?>
-</div>
-<!-- end admin/form-acl.phtml -->
+               <?php echo $this->render('decorators/formBaculaACL.phtml'); ?>
+               
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- end div col-md-6 -->
+</div><!-- end da div rows -->

@@ -1,107 +1,139 @@
 <!-- wblogbook/add.phtml -->
-
 <script type="text/javascript" src="<?php echo $this->baseUrl; ?>/scripts/insert_tags.js"></script>
 <script type="text/javascript">
-  // round corners
-  $(function(){
-      $('div.roundcorner-wlb').corner();
-  });
+$(document).ready(function(){
+    // http://docs.jquery.com/UI/Datepicker/formatDate
+   function pad(n, width, z) {
+     z = z || '0';
+     n = n + '';
+     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+   }
+    
+    $('#logDateCreate').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
+    });
+    
+    $('#logDateCreate').on('change',function(){
+        var dt = new Date();
+        var currentTime = pad(dt.getHours(),2) + ":" + pad(dt.getMinutes(),2) + ":" + pad(dt.getSeconds(),2);
+        $(this).val($(this).val() +' '+currentTime);
+    });
+});
 </script>
-
-<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php
 // create array type record
 foreach($this->typs as $t) :
-	$atyps[$t->typeid] = $this->translate->_( $t->typedesc );
+   $atyps[$t->typeid] = $this->translate->_( $t->typedesc );
 endforeach;
 ?>
 
-<div class="roundcorner-wlb">
+<div class="rows">
+   <div class="col-md-6">
+      <div class="panel panel-default panel-primary">
+         <div class="panel-heading">
+            <?php echo $this->escape($this->title); ?>
+         </div>
+         <div class="panel-body">
+            <p>
+               
+               <?php if ($this->amessages): ?>
 
-<div id="logbook-form">
+               <!-- display ERRORS -->
+               <!-- div alert -->
+               <div class="alert alert-danger">
+                 <p>
+                 <span class="glyphicon glyphicon-alert"></span>
+                     <?php
+                        echo '<b>', $this->translate->_("ERROR: Record has not been added. Reason :"), ' </b><br><ol>';
+                        foreach ($this->amessages as $msg) {
+                           echo '<li>' . $msg . '</li>';
+                        }
+                        echo '</ol>';
+                     ?>  
+                  </p>
+               </div>
+               <!-- end div alert -->
 
-<?php if ($this->amessages): ?>
-<!-- display ERRORS -->
-<div class="ui-widget" style="float: left;">
-	<div class="ui-state-error ui-corner-all" style="padding: 0pt 0.7em;">
-		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
-		<strong>
-		<?php
-			echo '<b>', $this->translate->_("ERROR: Record has not been added. Reason :"), ' </b><br><ol>';
-			foreach ($this->amessages as $msg) {
-				echo '<li>' . $msg . '</li>';
-			}
-			echo '</ol>';
-		?>
-		</strong></p>
-	</div>
-</div>
-<div style="clear: both;"><!--  --></div>
-<?php endif; ?>
-
-<form id="logbook" name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/add';?>" method="post">
-
-<p><?php print $this->translate->_("(<b>*</b>) Field is required to process this form"); ?></p>
-
-<label for="logDateCreate"><?php print $this->translate->_("<sup>*</sup>Date "); ?></label>&nbsp;
-<?php echo $this->formText('logDateCreate', $this->wblogbook->logDateCreate, array('size' => 20)) ?>
-<br>
-
-<?php echo $this->formHidden('logDateLast', $this->wblogbook->logDateLast, null); ?>
-<?php echo $this->formHidden('hiddenNew',   $this->hiddenNew, null); ?>
-<?php echo $this->formHidden('jobid',   $this->jobid, null); ?>
-<?php echo $this->formHidden('joberrors',  $this->joberrors, null); ?>
-
-<label for="logTypeId"><?php print $this->translate->_("<sup>*</sup>Type "); ?></label>&nbsp;
-<?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, null, $atyps); ?>
-
-<?php if ($this->joberrors > 0) : ?>
-    &nbsp;&nbsp;
-    <label for="reviewed"><?php print $this->translate->_("Reviewed "); ?></label>
-    <?php echo $this->formCheckbox('reviewed', null, array('checked' => 1)) ?>
-    (<?php print $this->translate->_("Don't show this Job in 'Jobs with errors' list in future"); ?>)
-<?php endif; ?>
-
-<br><br>
-
-<!-- textarea -->
-
-<fieldset>
-	<legend><b><?php print $this->translate->_("<sup>*</sup>Text"); ?></legend>
-<?php print $this->translate->_("Allowed to use tags :"); ?> <br>
-<?php
-foreach($this->aAllowedTags as $key=>$value) {
-	echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
-		"\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\"> ";
-}
-?>
-
-<noscript>
-<?php
-foreach($this->aAllowedTags as $key=>$value) {
-	echo ' &lt;' . $value . '&gt;';
-}
-?>
-</noscript>
-<br>
-<?php print $this->translate->_("Allowed to use pseudo-tags :"); ?>
-<input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=')">
-<input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=')">
-<noscript>
-BACULA_JOBID=&lt;id&gt;, LOGBOOK_ID=&lt;id&gt;
-</noscript>
-<br>
-
-<?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => "90", 'rows' => "10")); ?>
-</fieldset>
-<!-- END textarea -->
-
-<br>
-<center>
-<?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'prefer_btn') ); ?>
-</center>
-</form>
-
-</div> <!-- logbook-form -->
-</div>
+               <?php endif; ?>
+               
+               <form id="logbook" name="logbook" action="<?php  echo $this->baseUrl.'/wblogbook/add';?>" method="post">
+                  <p><b><?php print "(<b>*</b>) " . $this->translate->_("Field is required to process this form"); ?></b></p>
+                  
+                  <!-- logDateCreate -->
+                  <div class="form-group row">
+                     <label class="col-md-1 col-form-label" for="logDateCreate"><?php "<sup>*</sup>"  . print $this->translate->_("Date"); ?></label>&nbsp;
+                     <div class="col-md-4">
+                     <?php echo $this->formText('logDateCreate', $this->wblogbook->logDateCreate, array('size' => 20, 'class' => 'form-control')) ?>
+                     </div>
+                  </div>
+                  
+                  <?php echo $this->formHidden('logDateLast', $this->wblogbook->logDateLast, null); ?>
+                  <?php echo $this->formHidden('hiddenNew',   $this->hiddenNew, null); ?>
+                  <?php echo $this->formHidden('jobid',   $this->jobid, null); ?>
+                  <?php echo $this->formHidden('joberrors',  $this->joberrors, null); ?>
+                  
+                  <!-- logTypeId -->
+                  <div class="form-group row">
+                     <label class="col-md-1 col-form-label" for="logTypeId"><?php print "<sup>*</sup>"  . $this->translate->_("Type"); ?></label>
+                     <div class="col-md-3">
+                     <?php echo $this->formSelect('logTypeId', $this->wblogbook->logTypeId, array('class' => 'form-control'), $atyps); ?>
+                     </div>
+                  </div>
+                  
+                  <!-- reviewed -->
+                  <?php if ($this->joberrors > 0) : ?>
+                  <div class="form-group row">
+                     <label class="col-md-1 col-form-label" for="reviewed"><?php print $this->translate->_("Reviewed"); ?></label>
+                     <div class="col-md-4">
+                         <?php echo $this->formCheckbox('reviewed', null, array('checked' => 1)) ?>
+                         (<?php print $this->translate->_("Don't show this Job in 'Jobs with errors' list in future");?>)
+                     </div>
+                  </div>
+                  <?php endif;?>
+                  
+                  <!-- textarea -->
+                  <div class="table-responsive">
+                  <label><?php print $this->translate->_("Allowed to use tags"); ?> </label><br/>
+                  <?php
+                  foreach($this->aAllowedTags as $key=>$value) {
+                     echo '<input type="button" name="bt' . $value . '" value="' . trim($value) .
+                        "\" onclick=\"insert_tag(document.getElementById('logTxt'), '" . $value . "')\" class='btn btn-default' > ";
+                  }
+                  ?>
+                  
+                  <br/><br/>
+                  <label><?php print $this->translate->_("Allowed to use pseudo-tags"); ?></label>
+                  <br/>
+                  <input type="button" name="btjobid" value="Bacula JobId" onclick="insert_tag(document.getElementById('logTxt'), 'BACULA_JOBID=')" class='btn btn-default'>
+                  <input type="button" name="btlogid" value="Logbook Id" onclick="insert_tag(document.getElementById('logTxt'), 'LOGBOOK_ID=')" class='btn btn-default'>
+                  <br/>              
+                  <br/>
+                  
+                  <label><?php "<sup>*</sup>"  . print $this->translate->_("Text"); ?></label>
+                  <?php echo $this->formTextarea('logTxt', $this->wblogbook->logTxt, array('cols' => '80', 'rows' => '10', 'class' => 'form-control')); ?>
+                  <br/>
+                  </div><!-- end div table-responsive -->
+                  <!-- end textarea -->
+                  <table>
+                     <tr>
+                        <td>
+                        <?php echo $this->formSubmit('ok', $this->translate->_('Submit Form'), array('class' => 'btn btn-default') ); ?>
+               </form>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                        <form action="<?php  echo $this->baseUrl.'/wblogbook/index';?>" method="post">
+                           <?php echo $this->formSubmit('cancel', $this->translate->_('Cancel'), array('class' => 'btn btn-default') ); ?>
+                        </form>
+                        </td>
+                     </tr>
+                  </table>
+            </p><!-- close p -->
+         </div><!-- close div panel-body -->
+      </div><!-- close div panel panel-default -->
+   </div><!-- fim div col-md-8 -->
+</div><!-- fim da div rows -->
+<!-- wblogbook/add.phtml -->
